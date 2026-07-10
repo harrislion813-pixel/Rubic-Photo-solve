@@ -214,7 +214,7 @@ def permutation_parity(values: Iterable[int]) -> int:
     return inversions
 
 
-def should_skip_move(last_face: int | None, face: int) -> bool:
+def should_skip_move(last_face: int, face: int) -> bool:
     if last_face is None:
         return False
     if last_face == face:

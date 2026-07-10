@@ -81,7 +81,7 @@ class FastTwoPhaseSolver:
                 edge_pack,
                 lower,
                 phase1_depth,
-                None,
+                6,
                 [],
                 deadline,
                 tables,
@@ -116,7 +116,7 @@ class FastTwoPhaseSolver:
         edge_pack: int,
         heuristic: int,
         depth_left: int,
-        last_face: int | None,
+        last_face: int,
         path: list[int],
         deadline: float | None,
         tables: SolverTables,
@@ -153,7 +153,7 @@ class FastTwoPhaseSolver:
         slice_move = tables.slice_comb_move
         corner_move = tables.corner_perm_all_move
         next_depth = depth_left - 1
-        for move_idx, face in _ALLOWED_MOVES[6 if last_face is None else last_face]:
+        for move_idx, face in _ALLOWED_MOVES[last_face]:
             ntwist = twist_move[twist][move_idx]
             nflip = flip_move[flip][move_idx]
             nslice = slice_move[slice_comb][move_idx]
@@ -187,7 +187,7 @@ class FastTwoPhaseSolver:
         slice_perm: int,
         heuristic: int,
         depth_left: int,
-        last_face: int | None,
+        last_face: int,
         path: list[int],
         deadline: float | None,
         tables: SolverTables,
@@ -201,7 +201,7 @@ class FastTwoPhaseSolver:
             return None
 
         next_depth = depth_left - 1
-        for phase2_col, move_idx, face in _ALLOWED_PHASE2_MOVES[6 if last_face is None else last_face]:
+        for phase2_col, move_idx, face in _ALLOWED_PHASE2_MOVES[last_face]:
             ncp = tables.corner_perm_move[cp][phase2_col]
             nep8 = tables.edge8_perm_move[ep8][phase2_col]
             nslice = tables.slice_perm_move[slice_perm][phase2_col]

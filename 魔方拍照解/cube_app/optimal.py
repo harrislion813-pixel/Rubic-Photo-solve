@@ -114,7 +114,7 @@ _ALLOWED_PHASE2_MOVES = tuple(
     tuple((_PHASE2_COLUMN[move_idx], move_idx, face) for move_idx, face in moves if move_idx in _PHASE2_COLUMN)
     for moves in _ALLOWED_MOVES
 )
-_TRANSPOSITION_LIMIT = 500_000
+_TRANSPOSITION_LIMIT = 2_000_000
 _PARALLEL_MIN_DEPTH = 12
 
 
@@ -155,12 +155,11 @@ def _transposition_key(
     corner_perm: int,
     twist: int,
     flip: int,
-    last_face: int | None,
+    last_face: int,
 ) -> int:
-    face_code = 6 if last_face is None else last_face
     packed = (((edge_pack << 16) | corner_perm) << 12) | twist
     packed = (packed << 11) | flip
-    return (packed << 3) | face_code
+    return (packed << 3) | last_face
 
 
 class SearchTimeout(TimeoutError):
@@ -204,15 +203,17 @@ class OptimalSolver:
         facelets: str,
         max_depth: int = 20,
         timeout_seconds: float | None = 120.0,
+        upper_bound: int | None = None,
     ) -> SolveResult:
         cube = from_facelets(facelets)
-        return self.solve_cube(cube, max_depth=max_depth, timeout_seconds=timeout_seconds)
+        return self.solve_cube(cube, max_depth=max_depth, timeout_seconds=timeout_seconds, upper_bound=upper_bound)
 
     def solve_cube(
         self,
         cube: CubieCube,
         max_depth: int = 20,
         timeout_seconds: float | None = 120.0,
+        upper_bound: int | None = None,
     ) -> SolveResult:
         start = time.monotonic()
         deadline = None if timeout_seconds is None else start + timeout_seconds
@@ -220,13 +221,17 @@ class OptimalSolver:
         if cube.is_solved():
             return SolveResult([], 0, "HTM", time.monotonic() - start, True)
 
+        effective_max = max_depth
+        if upper_bound is not None:
+            effective_max = min(max_depth, upper_bound - 1)
+
         tables = self.tables
         state = self._prepare_phase1_state(cube, tables)
         *coords, lower = state
         transposition: dict[int, int] = {}
         pool: Pool | None = None
         try:
-            for depth in range(lower, max_depth + 1):
+            for depth in range(lower, effective_max + 1):
                 if self.parallel and self.max_workers > 1 and depth >= _PARALLEL_MIN_DEPTH:
                     if pool is None:
                         context = multiprocessing.get_context("spawn")
@@ -241,7 +246,7 @@ class OptimalSolver:
                         *coords,
                         lower,
                         depth,
-                        None,
+                        6,
                         [],
                         deadline,
                         tables,
@@ -381,7 +386,7 @@ class OptimalSolver:
         z_corner_perm: int,
         heuristic: int,
         depth_left: int,
-        last_face: int | None,
+        last_face: int,
         path: list[int],
         deadline: float | None,
         tables: SolverTables,
@@ -430,7 +435,10 @@ class OptimalSolver:
         x_move_map, z_move_map = _rotation_move_maps()
         next_depth = depth_left - 1
 
-        for move_idx, face in _ALLOWED_MOVES[6 if last_face is None else last_face]:
+        # Collect children with their heuristics, then sort by heuristic ascending
+        # so the most promising branches are explored first.
+        children: list[tuple[int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int]] = []
+        for move_idx, face in _ALLOWED_MOVES[last_face]:
             ntwist = twist_move[twist][move_idx]
             nflip = flip_move[flip][move_idx]
             nslice = slice_move[slice_comb][move_idx]
@@ -489,6 +497,23 @@ class OptimalSolver:
                 continue
 
             next_edge_pack = _move_edge_pack(edge_pack, move_idx)
+            children.append((
+                child_heuristic, move_idx, face,
+                ntwist, nflip, nslice, ncorner_perm, next_edge_pack,
+                nx_twist, nx_flip, nx_slice, nx_corner_perm,
+                nz_twist, nz_flip, nz_slice, nz_corner_perm,
+            ))
+
+        children.sort(key=lambda c: (c[0], c[1]))
+
+        for child_data in children:
+            child_heuristic = child_data[0]
+            move_idx = child_data[1]
+            face = child_data[2]
+            ntwist, nflip, nslice, ncorner_perm = child_data[3:7]
+            next_edge_pack = child_data[7]
+            nx_twist, nx_flip, nx_slice, nx_corner_perm = child_data[8:12]
+            nz_twist, nz_flip, nz_slice, nz_corner_perm = child_data[12:16]
 
             path.append(move_idx)
             result = self._search_phase1(
@@ -529,7 +554,7 @@ class OptimalSolver:
         ep8: int,
         slice_perm: int,
         depth_left: int,
-        last_face: int | None,
+        last_face: int,
         path: list[int],
         deadline: float | None,
         tables: SolverTables,
@@ -544,7 +569,7 @@ class OptimalSolver:
         slice_perm: int,
         heuristic: int,
         depth_left: int,
-        last_face: int | None,
+        last_face: int,
         path: list[int],
         deadline: float | None,
         tables: SolverTables,
@@ -558,7 +583,7 @@ class OptimalSolver:
             return None
 
         next_depth = depth_left - 1
-        for phase2_col, move_idx, face in _ALLOWED_PHASE2_MOVES[6 if last_face is None else last_face]:
+        for phase2_col, move_idx, face in _ALLOWED_PHASE2_MOVES[last_face]:
             ncp = tables.corner_perm_move[cp][phase2_col]
             nep8 = tables.edge8_perm_move[ep8][phase2_col]
             nslice = tables.slice_perm_move[slice_perm][phase2_col]

@@ -72,9 +72,10 @@ def prepare_optimal_job(
         }
 
     proof_max_depth = min(max_depth, quick_result.depth) if quick_result is not None else max_depth
+    upper_bound = quick_result.depth if quick_result is not None else None
     thread = threading.Thread(
         target=run_optimal_job,
-        args=(job_id, cube, proof_max_depth, timeout_seconds),
+        args=(job_id, cube, proof_max_depth, timeout_seconds, upper_bound),
         name=f"cube-optimal-{job_id[:8]}",
         daemon=True,
     )
@@ -95,20 +96,21 @@ def run_optimal_job(
     cube: CubieCube,
     max_depth: int,
     timeout_seconds: float | None,
+    upper_bound: int | None = None,
 ) -> None:
     with OPTIMAL_SEARCH_LOCK:
         update_job(job_id, status="running")
         started = time.monotonic()
         try:
             try:
-                result = SOLVER.solve_cube(cube, max_depth=max_depth, timeout_seconds=timeout_seconds)
+                result = SOLVER.solve_cube(cube, max_depth=max_depth, timeout_seconds=timeout_seconds, upper_bound=upper_bound)
             except PermissionError:
                 remaining = None
                 if timeout_seconds is not None:
                     remaining = max(0.0, timeout_seconds - (time.monotonic() - started))
                     if remaining == 0.0:
                         raise SearchTimeout("搜索超时。")
-                result = PROBE_SOLVER.solve_cube(cube, max_depth=max_depth, timeout_seconds=remaining)
+                result = PROBE_SOLVER.solve_cube(cube, max_depth=max_depth, timeout_seconds=remaining, upper_bound=upper_bound)
             update_job(job_id, status="complete", result=result_payload(result))
         except SearchTimeout as exc:
             update_job(job_id, status="timeout", message=str(exc))

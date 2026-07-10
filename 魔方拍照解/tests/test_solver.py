@@ -3,6 +3,7 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 import sys
+import threading
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -57,11 +58,30 @@ class OptimalSolverTests(unittest.TestCase):
         self.assertEqual(result.depth, 3)
         self.assertTrue(apply_solution(cube, result.moves).is_solved())
 
+    def test_incumbent_is_returned_when_no_shorter_solution_exists(self) -> None:
+        cube = scrambled("R")
+        result = self.solver.solve_cube(
+            cube,
+            timeout_seconds=5,
+            upper_bound=1,
+            incumbent_moves=["R'"],
+        )
+        self.assertEqual(result.moves, ["R'"])
+        self.assertEqual(result.depth, 1)
+        self.assertTrue(result.optimal)
+
+    def test_pre_cancelled_search_stops_before_work_begins(self) -> None:
+        cancel_event = threading.Event()
+        cancel_event.set()
+        with self.assertRaises(optimal.SearchCancelled):
+            self.solver.solve_cube(scrambled("R"), timeout_seconds=5, cancel_event=cancel_event)
+
 
 class FastTwoPhaseSolverTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.solver = FastTwoPhaseSolver(ROOT / ".cache")
+        _ = cls.solver.tables
 
     def test_returns_valid_non_optimal_solution_for_deep_state(self) -> None:
         cube = scrambled("B' U' L' U2 F L' F2 U2 R' U L D2 F2 D' L D'")

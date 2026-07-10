@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 import mimetypes
 import errno
 import socket
@@ -13,7 +14,13 @@ from urllib.parse import urlparse
 
 from cube_app.cubie import CubeStateError, CubieCube, from_facelets
 from cube_app.fast import FastTwoPhaseSolver
-from cube_app.optimal import OptimalSolver, SearchTimeout
+from cube_app.native import (
+    NativeSolverCancelled,
+    NativeSolverError,
+    NativeSolverTimeout,
+    solve_native,
+)
+from cube_app.optimal import OptimalSolver, SearchCancelled, SearchTimeout
 
 try:
     from cube_app.vision import detect_face_data_url
@@ -25,16 +32,21 @@ ROOT = Path(__file__).resolve().parent
 WEB_ROOT = ROOT / "web"
 HOST = "127.0.0.1"
 PORT = 8765
-APP_VERSION = "2026.07.10.4"
+APP_VERSION = "2026.07.11.1"
 
 SOLVER = OptimalSolver(ROOT / ".cache", parallel=True)
 PROBE_SOLVER = OptimalSolver(ROOT / ".cache", parallel=False)
 FAST_SOLVER = FastTwoPhaseSolver(ROOT / ".cache")
 QUICK_OPTIMAL_PROBE_SECONDS = 0.75
-QUICK_SOLVE_SECONDS = 5.0
+QUICK_SOLVE_SECONDS = 1.5
 JOBS: dict[str, dict] = {}
 JOBS_LOCK = threading.Lock()
 OPTIMAL_SEARCH_LOCK = threading.Lock()
+MAX_JOBS = 100
+
+
+class JobCapacityError(RuntimeError):
+    """Raised when no more background proof jobs can be retained."""
 
 
 def result_payload(result) -> dict:
@@ -55,27 +67,33 @@ def prepare_optimal_job(
     timeout_seconds: float | None,
 ) -> tuple[str, threading.Thread]:
     job_id = uuid.uuid4().hex
+    cancel_event = threading.Event()
     with JOBS_LOCK:
-        if len(JOBS) >= 100:
+        if len(JOBS) >= MAX_JOBS:
             terminal = [
                 (key, value.get("updated_at", 0.0))
                 for key, value in JOBS.items()
-                if value.get("status") in {"complete", "timeout", "error"}
+                if value.get("status") in {"complete", "timeout", "error", "cancelled"}
             ]
-            for key, _ in sorted(terminal, key=lambda item: item[1])[: max(1, len(JOBS) - 99)]:
+            remove_count = len(JOBS) - MAX_JOBS + 1
+            for key, _ in sorted(terminal, key=lambda item: item[1])[:remove_count]:
                 JOBS.pop(key, None)
+        if len(JOBS) >= MAX_JOBS:
+            raise JobCapacityError("后台求解任务过多，请取消旧任务后重试。")
         JOBS[job_id] = {
             "job_id": job_id,
             "status": "queued",
             "created_at": time.time(),
             "updated_at": time.time(),
+            "_cancel_event": cancel_event,
         }
 
     proof_max_depth = min(max_depth, quick_result.depth) if quick_result is not None else max_depth
     upper_bound = quick_result.depth if quick_result is not None else None
+    incumbent_moves = quick_result.moves if quick_result is not None else None
     thread = threading.Thread(
         target=run_optimal_job,
-        args=(job_id, cube, proof_max_depth, timeout_seconds, upper_bound),
+        args=(job_id, cube, proof_max_depth, timeout_seconds, upper_bound, incumbent_moves, cancel_event),
         name=f"cube-optimal-{job_id[:8]}",
         daemon=True,
     )
@@ -97,21 +115,65 @@ def run_optimal_job(
     max_depth: int,
     timeout_seconds: float | None,
     upper_bound: int | None = None,
+    incumbent_moves: list[str] | None = None,
+    cancel_event: threading.Event | None = None,
 ) -> None:
     with OPTIMAL_SEARCH_LOCK:
+        if cancel_event is not None and cancel_event.is_set():
+            update_job(job_id, status="cancelled", message="搜索已取消。")
+            return
         update_job(job_id, status="running")
         started = time.monotonic()
         try:
+            if timeout_seconds is not None:
+                try:
+                    native_result = solve_native(
+                        cube,
+                        max_depth=max_depth,
+                        timeout_seconds=timeout_seconds,
+                        incumbent_moves=incumbent_moves,
+                        cancel_event=cancel_event,
+                    )
+                except NativeSolverCancelled as exc:
+                    raise SearchCancelled(str(exc)) from exc
+                except NativeSolverTimeout as exc:
+                    raise SearchTimeout(str(exc)) from exc
+                except NativeSolverError:
+                    native_result = None
+                if native_result is not None:
+                    if cancel_event is not None and cancel_event.is_set():
+                        raise SearchCancelled("搜索已取消。")
+                    update_job(job_id, status="complete", result=native_result)
+                    return
+
             try:
-                result = SOLVER.solve_cube(cube, max_depth=max_depth, timeout_seconds=timeout_seconds, upper_bound=upper_bound)
+                result = SOLVER.solve_cube(
+                    cube,
+                    max_depth=max_depth,
+                    timeout_seconds=timeout_seconds,
+                    upper_bound=upper_bound,
+                    incumbent_moves=incumbent_moves,
+                    cancel_event=cancel_event,
+                )
             except PermissionError:
                 remaining = None
                 if timeout_seconds is not None:
                     remaining = max(0.0, timeout_seconds - (time.monotonic() - started))
                     if remaining == 0.0:
                         raise SearchTimeout("搜索超时。")
-                result = PROBE_SOLVER.solve_cube(cube, max_depth=max_depth, timeout_seconds=remaining, upper_bound=upper_bound)
+                result = PROBE_SOLVER.solve_cube(
+                    cube,
+                    max_depth=max_depth,
+                    timeout_seconds=remaining,
+                    upper_bound=upper_bound,
+                    incumbent_moves=incumbent_moves,
+                    cancel_event=cancel_event,
+                )
+            if cancel_event is not None and cancel_event.is_set():
+                raise SearchCancelled("搜索已取消。")
             update_job(job_id, status="complete", result=result_payload(result))
+        except SearchCancelled as exc:
+            update_job(job_id, status="cancelled", message=str(exc))
         except SearchTimeout as exc:
             update_job(job_id, status="timeout", message=str(exc))
         except Exception as exc:  # pragma: no cover - background safety net.
@@ -140,7 +202,7 @@ class AppHandler(BaseHTTPRequestHandler):
                 snapshot = None if job is None else {
                     key: value
                     for key, value in job.items()
-                    if key not in {"created_at", "updated_at"}
+                    if key not in {"created_at", "updated_at"} and not key.startswith("_")
                 }
             if snapshot is None:
                 self._send_json({"ok": False, "error": "求解任务不存在或已过期"}, status=404)
@@ -161,6 +223,27 @@ class AppHandler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         parsed = urlparse(self.path)
+        if parsed.path.startswith("/api/solve/") and parsed.path.endswith("/cancel"):
+            job_id = parsed.path.removeprefix("/api/solve/").removesuffix("/cancel").strip("/")
+            with JOBS_LOCK:
+                job = JOBS.get(job_id)
+                if job is None:
+                    status = None
+                else:
+                    status = str(job.get("status", "queued"))
+                    if status not in {"complete", "timeout", "error", "cancelled"}:
+                        cancel_event = job.get("_cancel_event")
+                        if isinstance(cancel_event, threading.Event):
+                            cancel_event.set()
+                        status = "cancelled"
+                        job["status"] = status
+                        job["message"] = "搜索已取消。"
+                        job["updated_at"] = time.time()
+            if status is None:
+                self._send_json({"ok": False, "error": "求解任务不存在或已过期"}, status=404)
+            else:
+                self._send_json({"ok": True, "job_id": job_id, "status": status})
+            return
         if parsed.path == "/api/detect":
             try:
                 if detect_face_data_url is None:
@@ -193,8 +276,14 @@ class AppHandler(BaseHTTPRequestHandler):
             payload = self._read_json()
             facelets = str(payload.get("facelets", ""))
             max_depth = int(payload.get("max_depth", 20))
+            if not 0 <= max_depth <= 20:
+                raise ValueError("max_depth 必须在 0 到 20 之间。")
             timeout = payload.get("timeout_seconds", 180)
             timeout_seconds = None if timeout in (None, 0, "0", "none") else float(timeout)
+            if timeout_seconds is not None and (
+                not math.isfinite(timeout_seconds) or not 0.1 <= timeout_seconds <= 3600
+            ):
+                raise ValueError("timeout_seconds 必须在 0.1 到 3600 秒之间。")
             cube = from_facelets(facelets)
 
             shared_tables = PROBE_SOLVER.tables
@@ -245,6 +334,8 @@ class AppHandler(BaseHTTPRequestHandler):
                     }
                 )
             self._send_json(response)
+        except JobCapacityError as exc:
+            self._send_json({"ok": False, "error": str(exc)}, status=503)
         except (CubeStateError, SearchTimeout, ValueError) as exc:
             self._send_json({"ok": False, "error": str(exc)}, status=400)
         except Exception as exc:  # pragma: no cover - keeps the local app friendly.
@@ -255,20 +346,28 @@ class AppHandler(BaseHTTPRequestHandler):
 
     def _read_json(self) -> dict:
         length = int(self.headers.get("Content-Length", "0"))
+        if length < 0:
+            raise ValueError("Content-Length 不能为负数")
         if length > 25 * 1024 * 1024:
             raise ValueError("请求内容超过 25 MB")
         raw = self.rfile.read(length)
         if not raw:
             return {}
-        return json.loads(raw.decode("utf-8"))
+        payload = json.loads(raw.decode("utf-8"))
+        if not isinstance(payload, dict):
+            raise ValueError("请求 JSON 必须是对象")
+        return payload
 
     def _send_json(self, payload: dict, status: int = 200) -> None:
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
-        self.send_response(status)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Content-Length", str(len(body)))
-        self.end_headers()
-        self.wfile.write(body)
+        try:
+            self.send_response(status)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+        except (BrokenPipeError, ConnectionAbortedError, ConnectionResetError):
+            return
 
     def _send_file(self, path: Path) -> None:
         body = path.read_bytes()
@@ -277,13 +376,16 @@ class AppHandler(BaseHTTPRequestHandler):
             content_type = "text/javascript; charset=utf-8"
         elif path.suffix in (".html", ".css"):
             content_type = f"{content_type}; charset=utf-8"
-        self.send_response(200)
-        self.send_header("Content-Type", content_type)
-        self.send_header("Cache-Control", "no-store, max-age=0")
-        self.send_header("X-Cube-App-Version", APP_VERSION)
-        self.send_header("Content-Length", str(len(body)))
-        self.end_headers()
-        self.wfile.write(body)
+        try:
+            self.send_response(200)
+            self.send_header("Content-Type", content_type)
+            self.send_header("Cache-Control", "no-store, max-age=0")
+            self.send_header("X-Cube-App-Version", APP_VERSION)
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+        except (BrokenPipeError, ConnectionAbortedError, ConnectionResetError):
+            return
 
 
 def main() -> None:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import base64
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -15,6 +16,11 @@ from cube_app.vision import detect_cube_face
 
 
 FACE_ORDER = "URFDLB"
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--group", choices=("1", "2"), default=None)
+args = parser.parse_args()
 
 
 def read_frontend_image(path: Path) -> np.ndarray:
@@ -34,7 +40,8 @@ def read_frontend_image(path: Path) -> np.ndarray:
 
 
 def extract_patches(face: str) -> list[str]:
-    image = read_frontend_image(ROOT / "initial" / f"{face}.jpg")
+    suffix = args.group or ""
+    image = read_frontend_image(ROOT / "initial" / f"{face}{suffix}.jpg")
     detection = detect_cube_face(image)
     if detection is None:
         raise RuntimeError(f"cannot detect {face}")
@@ -48,11 +55,16 @@ def extract_patches(face: str) -> list[str]:
     warped = cv2.warpPerspective(image, transform, (240, 240), flags=cv2.INTER_LINEAR)
     rgba = cv2.cvtColor(warped, cv2.COLOR_BGR2RGBA)
     patches = []
-    for y_ratio in (1 / 6, 1 / 2, 5 / 6):
-        for x_ratio in (1 / 6, 1 / 2, 5 / 6):
+    for row, y_ratio in enumerate((1 / 6, 1 / 2, 5 / 6)):
+        for column, x_ratio in enumerate((1 / 6, 1 / 2, 5 / 6)):
             center_x = round(240 * x_ratio)
             center_y = round(240 * y_ratio)
-            patch = rgba[center_y - 22 : center_y + 23, center_x - 22 : center_x + 23]
+            if row == 1 and column == 1:
+                patch = rgba[center_y - 33 : center_y + 34, center_x - 33 : center_x + 34]
+                yy, xx = np.ogrid[-33:34, -33:34]
+                patch = patch[np.maximum(np.abs(xx), np.abs(yy)) >= 21]
+            else:
+                patch = rgba[center_y - 35 : center_y + 36, center_x - 35 : center_x + 36]
             patches.append(base64.b64encode(patch.tobytes()).decode("ascii"))
     return patches
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import multiprocessing
 import os
+import threading
 import time
 from dataclasses import dataclass
 from functools import lru_cache
@@ -23,6 +24,7 @@ from .cubie import (
     CubeStateError,
     CubieCube,
     MOVE_FACE_INDEX,
+    MOVE_INDEX,
     MOVE_NAMES,
     PHASE2_MOVES,
     all_move_cubes,
@@ -166,6 +168,10 @@ class SearchTimeout(TimeoutError):
     """Raised when optimal search exceeds the requested time limit."""
 
 
+class SearchCancelled(RuntimeError):
+    """Raised when a caller cancels an in-progress optimal search."""
+
+
 @dataclass(slots=True)
 class SolveResult:
     moves: list[str]
@@ -204,9 +210,18 @@ class OptimalSolver:
         max_depth: int = 20,
         timeout_seconds: float | None = 120.0,
         upper_bound: int | None = None,
+        incumbent_moves: list[str] | None = None,
+        cancel_event: threading.Event | None = None,
     ) -> SolveResult:
         cube = from_facelets(facelets)
-        return self.solve_cube(cube, max_depth=max_depth, timeout_seconds=timeout_seconds, upper_bound=upper_bound)
+        return self.solve_cube(
+            cube,
+            max_depth=max_depth,
+            timeout_seconds=timeout_seconds,
+            upper_bound=upper_bound,
+            incumbent_moves=incumbent_moves,
+            cancel_event=cancel_event,
+        )
 
     def solve_cube(
         self,
@@ -214,15 +229,36 @@ class OptimalSolver:
         max_depth: int = 20,
         timeout_seconds: float | None = 120.0,
         upper_bound: int | None = None,
+        incumbent_moves: list[str] | None = None,
+        cancel_event: threading.Event | None = None,
     ) -> SolveResult:
         start = time.monotonic()
         deadline = None if timeout_seconds is None else start + timeout_seconds
+        self._check_deadline(deadline, cancel_event)
 
         if cube.is_solved():
             return SolveResult([], 0, "HTM", time.monotonic() - start, True)
 
+        incumbent: list[str] | None = None
+        if incumbent_moves is not None:
+            incumbent = list(incumbent_moves)
+            candidate = cube
+            try:
+                for move in incumbent:
+                    candidate = candidate.apply_move_index(MOVE_INDEX[move])
+            except KeyError as exc:
+                raise ValueError(f"候选解包含未知转动：{exc.args[0]}") from exc
+            if not candidate.is_solved():
+                raise ValueError("候选解不能复原当前魔方状态。")
+            if upper_bound is None:
+                upper_bound = len(incumbent)
+            elif upper_bound != len(incumbent):
+                raise ValueError("候选解长度与 upper_bound 不一致。")
+
         effective_max = max_depth
         if upper_bound is not None:
+            if upper_bound < 1:
+                raise ValueError("upper_bound 必须为正整数。")
             effective_max = min(max_depth, upper_bound - 1)
 
         tables = self.tables
@@ -240,7 +276,7 @@ class OptimalSolver:
                             initializer=_initialize_search_worker,
                             initargs=(str(self.cache_dir),),
                         )
-                    result = self._search_parallel_depth(cube, depth, deadline, pool)
+                    result = self._search_parallel_depth(cube, depth, deadline, pool, cancel_event)
                 else:
                     result = self._search_phase1(
                         *coords,
@@ -251,6 +287,7 @@ class OptimalSolver:
                         deadline,
                         tables,
                         transposition,
+                        cancel_event,
                     )
                 if result is not None:
                     moves = [MOVE_NAMES[idx] for idx in result]
@@ -260,7 +297,11 @@ class OptimalSolver:
                 pool.terminate()
                 pool.join()
 
-        raise CubeStateError(f"在 HTM {max_depth} 步内未找到解法。请检查输入状态是否合法。")
+        if incumbent is not None and max_depth >= len(incumbent) - 1:
+            self._check_deadline(deadline, cancel_event)
+            return SolveResult(incumbent, len(incumbent), "HTM", time.monotonic() - start, True)
+
+        raise CubeStateError(f"在 HTM {effective_max} 步内未找到解法。请检查输入状态是否合法。")
 
     def _prepare_phase1_state(self, cube: CubieCube, tables: SolverTables) -> tuple[int, ...]:
         twist = get_twist(cube)
@@ -302,23 +343,24 @@ class OptimalSolver:
         depth: int,
         deadline: float | None,
         pool: Pool,
+        cancel_event: threading.Event | None,
     ) -> list[int] | None:
         remaining_timeout = None if deadline is None else max(0.0, deadline - time.monotonic())
         if remaining_timeout == 0.0:
-            self._check_deadline(deadline)
+            self._check_deadline(deadline, cancel_event)
         tasks = ((cube, depth, move_idx, remaining_timeout) for move_idx in range(18))
         results = pool.imap_unordered(_search_worker_branch, tasks, chunksize=1)
         for _ in range(18):
-            try:
-                if deadline is None:
-                    status, result = next(results)
-                else:
-                    wait_seconds = deadline - time.monotonic()
-                    if wait_seconds <= 0:
-                        raise multiprocessing.TimeoutError
+            while True:
+                self._check_deadline(deadline, cancel_event)
+                wait_seconds = 0.2
+                if deadline is not None:
+                    wait_seconds = min(wait_seconds, max(0.0, deadline - time.monotonic()))
+                try:
                     status, result = results.next(wait_seconds)
-            except multiprocessing.TimeoutError as exc:
-                raise SearchTimeout("搜索超时；可以增加超时时间或先检查色块识别是否准确。") from exc
+                    break
+                except multiprocessing.TimeoutError:
+                    continue
             if status == "timeout":
                 raise SearchTimeout("搜索超时；可以增加超时时间或先检查色块识别是否准确。")
             if result is not None:
@@ -346,6 +388,7 @@ class OptimalSolver:
             deadline,
             tables,
             {},
+            None,
         )
 
     def _phase1_heuristic(
@@ -391,8 +434,9 @@ class OptimalSolver:
         deadline: float | None,
         tables: SolverTables,
         transposition: dict[int, int],
+        cancel_event: threading.Event | None,
     ) -> list[int] | None:
-        self._check_deadline(deadline)
+        self._check_deadline(deadline, cancel_event)
         if heuristic > depth_left:
             return None
 
@@ -415,6 +459,7 @@ class OptimalSolver:
                 path,
                 deadline,
                 tables,
+                cancel_event,
             )
             if phase2_result is not None:
                 return phase2_result
@@ -537,6 +582,7 @@ class OptimalSolver:
                 deadline,
                 tables,
                 transposition,
+                cancel_event,
             )
             if result is not None:
                 return result
@@ -558,9 +604,21 @@ class OptimalSolver:
         path: list[int],
         deadline: float | None,
         tables: SolverTables,
+        cancel_event: threading.Event | None,
     ) -> list[int] | None:
         heuristic = self._phase2_heuristic(tables, cp, ep8, slice_perm)
-        return self._search_phase2(cp, ep8, slice_perm, heuristic, depth_left, last_face, path, deadline, tables)
+        return self._search_phase2(
+            cp,
+            ep8,
+            slice_perm,
+            heuristic,
+            depth_left,
+            last_face,
+            path,
+            deadline,
+            tables,
+            cancel_event,
+        )
 
     def _search_phase2(
         self,
@@ -573,8 +631,9 @@ class OptimalSolver:
         path: list[int],
         deadline: float | None,
         tables: SolverTables,
+        cancel_event: threading.Event | None,
     ) -> list[int] | None:
-        self._check_deadline(deadline)
+        self._check_deadline(deadline, cancel_event)
         if heuristic > depth_left:
             return None
         if cp == 0 and ep8 == 0 and slice_perm == 0:
@@ -592,13 +651,26 @@ class OptimalSolver:
                 continue
 
             path.append(move_idx)
-            result = self._search_phase2(ncp, nep8, nslice, child_heuristic, next_depth, face, path, deadline, tables)
+            result = self._search_phase2(
+                ncp,
+                nep8,
+                nslice,
+                child_heuristic,
+                next_depth,
+                face,
+                path,
+                deadline,
+                tables,
+                cancel_event,
+            )
             if result is not None:
                 return result
             path.pop()
         return None
 
-    def _check_deadline(self, deadline: float | None) -> None:
+    def _check_deadline(self, deadline: float | None, cancel_event: threading.Event | None = None) -> None:
+        if cancel_event is not None and cancel_event.is_set():
+            raise SearchCancelled("搜索已取消。")
         if deadline is not None and time.monotonic() > deadline:
             raise SearchTimeout("搜索超时；可以重试或先检查色块识别是否准确。")
 

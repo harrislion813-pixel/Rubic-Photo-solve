@@ -21,6 +21,7 @@ from .optimal import (
     _ALLOWED_PHASE2_MOVES,
     _move_edge_pack,
     _pack_edges,
+    _transposition_key,
 )
 from .tables import SolverTables, load_or_build_tables
 
@@ -72,8 +73,10 @@ class FastTwoPhaseSolver:
         edge_pack = _pack_edges(cube)
         lower = self._phase1_heuristic(tables, twist, flip, slice_comb)
 
+        best: list[int] | None = None
+        first_phase1_depth: int | None = None
         for phase1_depth in range(lower, self.max_phase1_depth + 1):
-            result = self._search_phase1(
+            best = self._search_phase1(
                 twist,
                 flip,
                 slice_comb,
@@ -86,11 +89,139 @@ class FastTwoPhaseSolver:
                 deadline,
                 tables,
             )
-            if result is not None:
-                moves = [MOVE_NAMES[move_idx] for move_idx in result]
-                return SolveResult(moves, len(moves), "HTM", time.monotonic() - started, False)
+            if best is not None:
+                first_phase1_depth = phase1_depth
+                break
+
+        if best is not None and deadline is not None and first_phase1_depth is not None:
+            best_holder = [best]
+            transposition: dict[int, int] = {}
+            try:
+                for phase1_depth in range(first_phase1_depth, self.max_phase1_depth + 1):
+                    self._improve_phase1(
+                        twist,
+                        flip,
+                        slice_comb,
+                        corner_perm,
+                        edge_pack,
+                        lower,
+                        phase1_depth,
+                        6,
+                        [],
+                        deadline,
+                        tables,
+                        best_holder,
+                        transposition,
+                    )
+            except SearchTimeout:
+                pass
+            best = best_holder[0]
+
+        if best is not None:
+            moves = [MOVE_NAMES[move_idx] for move_idx in best]
+            return SolveResult(moves, len(moves), "HTM", time.monotonic() - started, False)
 
         raise SearchTimeout("快速两阶段搜索未在限制内找到解法；严格搜索仍可继续。")
+
+    def _improve_phase1(
+        self,
+        twist: int,
+        flip: int,
+        slice_comb: int,
+        corner_perm: int,
+        edge_pack: int,
+        heuristic: int,
+        depth_left: int,
+        last_face: int,
+        path: list[int],
+        deadline: float,
+        tables: SolverTables,
+        best_holder: list[list[int]],
+        transposition: dict[int, int],
+    ) -> None:
+        self._check_deadline(deadline)
+        if heuristic > depth_left:
+            return
+
+        key = _transposition_key(edge_pack, corner_perm, twist, flip, last_face)
+        cached_depth = transposition.get(key)
+        if cached_depth is not None and cached_depth >= depth_left:
+            return
+
+        if depth_left == 0:
+            if twist == 0 and flip == 0 and slice_comb == tables.slice_solved:
+                ep8 = perm_to_rank([(edge_pack >> (position * 4)) & 0xF for position in range(8)])
+                slice_perm = perm_to_rank(
+                    [((edge_pack >> (position * 4)) & 0xF) - 8 for position in range(8, 12)]
+                )
+                phase2_lower = self._phase2_heuristic(tables, corner_perm, ep8, slice_perm)
+                phase2_limit = min(self.max_phase2_depth, len(best_holder[0]) - len(path) - 1)
+                for phase2_depth in range(phase2_lower, phase2_limit + 1):
+                    result = self._search_phase2(
+                        corner_perm,
+                        ep8,
+                        slice_perm,
+                        phase2_lower,
+                        phase2_depth,
+                        last_face,
+                        path,
+                        deadline,
+                        tables,
+                    )
+                    if result is not None:
+                        best_holder[0] = result
+                        break
+            if len(transposition) < 2_000_000:
+                transposition[key] = depth_left
+            return
+
+        next_depth = depth_left - 1
+        children: list[tuple[int, int, int, int, int, int, int, int]] = []
+        for move_idx, face in _ALLOWED_MOVES[last_face]:
+            ntwist = tables.twist_move[twist][move_idx]
+            nflip = tables.flip_move[flip][move_idx]
+            nslice = tables.slice_comb_move[slice_comb][move_idx]
+            child_heuristic = self._phase1_heuristic(tables, ntwist, nflip, nslice)
+            if child_heuristic > next_depth:
+                continue
+            children.append(
+                (
+                    child_heuristic,
+                    move_idx,
+                    face,
+                    ntwist,
+                    nflip,
+                    nslice,
+                    tables.corner_perm_all_move[corner_perm][move_idx],
+                    _move_edge_pack(edge_pack, move_idx),
+                )
+            )
+        children.sort(key=lambda child: (child[0], child[1]))
+
+        for child in children:
+            child_heuristic, move_idx, face, ntwist, nflip, nslice, ncorner, nedge_pack = child
+            path.append(move_idx)
+            self._improve_phase1(
+                ntwist,
+                nflip,
+                nslice,
+                ncorner,
+                nedge_pack,
+                child_heuristic,
+                next_depth,
+                face,
+                path,
+                deadline,
+                tables,
+                best_holder,
+                transposition,
+            )
+            path.pop()
+
+        if len(transposition) < 2_000_000:
+            previous = transposition.get(key)
+            if previous is None or depth_left > previous:
+                transposition[key] = depth_left
 
     @staticmethod
     def _phase1_heuristic(tables: SolverTables, twist: int, flip: int, slice_comb: int) -> int:

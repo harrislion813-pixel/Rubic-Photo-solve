@@ -13,7 +13,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from cube_app.cubie import CubieCube, MOVE_INDEX, to_facelets
-from server import AppHandler, ExclusiveThreadingHTTPServer, HOST
+from cube_app.native import native_solver_available
+from cube_app.optimal import SolveResult, invert_moves
+from server import AppHandler, ExclusiveThreadingHTTPServer, HOST, JOBS, JOBS_LOCK, PROBE_SOLVER, prepare_optimal_job
 
 
 def request_json(url: str, payload: dict | None = None) -> dict:
@@ -28,6 +30,53 @@ def request_json(url: str, payload: dict | None = None) -> dict:
 
 
 class HybridSolveApiTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        # The latency assertion measures search/API time, not one-off table generation.
+        _ = PROBE_SOLVER.tables
+
+    def test_queued_job_can_be_cancelled(self) -> None:
+        server = ExclusiveThreadingHTTPServer((HOST, 0), AppHandler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        job_id, _ = prepare_optimal_job(CubieCube(), None, 20, 3)
+        try:
+            port = server.server_address[1]
+            response = request_json(f"http://{HOST}:{port}/api/solve/{job_id}/cancel", {})
+            self.assertTrue(response["ok"])
+            self.assertEqual(response["status"], "cancelled")
+
+            job = request_json(f"http://{HOST}:{port}/api/solve/{job_id}")
+            self.assertEqual(job["status"], "cancelled")
+        finally:
+            with JOBS_LOCK:
+                JOBS.pop(job_id, None)
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=2)
+
+    @unittest.skipUnless(native_solver_available(), "原生求解器或模式数据库尚未构建")
+    def test_native_job_proves_an_incumbent_solution(self) -> None:
+        cube = CubieCube()
+        scramble = "R U F2 L D"
+        for move in scramble.split():
+            cube = cube.apply_move_index(MOVE_INDEX[move])
+        incumbent = invert_moves(scramble.split())
+        quick_result = SolveResult(incumbent, len(incumbent), "HTM", 0.0, False)
+        job_id, worker = prepare_optimal_job(cube, quick_result, 20, 10)
+        try:
+            worker.start()
+            worker.join(timeout=15)
+            self.assertFalse(worker.is_alive())
+            with JOBS_LOCK:
+                job = dict(JOBS[job_id])
+            self.assertEqual(job["status"], "complete")
+            self.assertTrue(job["result"]["optimal"])
+            self.assertEqual(job["result"]["engine"], "native-cpp")
+        finally:
+            with JOBS_LOCK:
+                JOBS.pop(job_id, None)
+
     def test_quick_result_arrives_before_optimal_job_finishes(self) -> None:
         server = ExclusiveThreadingHTTPServer((HOST, 0), AppHandler)
         thread = threading.Thread(target=server.serve_forever, daemon=True)

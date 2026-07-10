@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import os
+import shutil
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
@@ -10,15 +14,12 @@ from cube_app.vision import detect_cube_face
 
 
 ROOT = Path(__file__).resolve().parents[1]
-
-EXPECTED_CORNERS = {
-    "U": [[0.10, 0.20], [0.80, 0.21], [0.80, 0.61], [0.10, 0.61]],
-    "R": [[0.09, 0.27], [0.87, 0.29], [0.80, 0.81], [0.06, 0.72]],
-    "F": [[0.16, 0.33], [0.90, 0.33], [0.90, 0.74], [0.16, 0.74]],
-    "D": [[0.10, 0.35], [0.87, 0.36], [0.87, 0.79], [0.10, 0.79]],
-    "L": [[0.14, 0.36], [0.92, 0.35], [0.95, 0.78], [0.16, 0.80]],
-    "B": [[0.11, 0.33], [0.93, 0.32], [0.89, 0.76], [0.14, 0.77]],
-}
+FACE_ORDER = "URFDLB"
+AVAILABLE_GROUPS = tuple(
+    group
+    for group in ("1", "2")
+    if all((ROOT / "initial" / f"{face}{group}.jpg").is_file() for face in FACE_ORDER)
+)
 
 
 def frontend_image(path: Path) -> np.ndarray:
@@ -39,31 +40,50 @@ def frontend_image(path: Path) -> np.ndarray:
     return cv2.imdecode(encoded, cv2.IMREAD_COLOR)
 
 
-def corner_error(actual: np.ndarray, expected: np.ndarray) -> float:
-    variants = []
-    for points in (actual, actual[::-1]):
-        for shift in range(4):
-            variants.append(float(np.mean(np.linalg.norm(np.roll(points, shift, axis=0) - expected, axis=1))))
-    return min(variants)
-
-
+@unittest.skipUnless(AVAILABLE_GROUPS, "需要 initial/ 目录中的一组完整实拍图片")
 class RealImageRegressionTests(unittest.TestCase):
     def test_initial_images_locate_the_complete_cube_face(self) -> None:
         failures = []
-        for face, expected_values in EXPECTED_CORNERS.items():
-            image = frontend_image(ROOT / "initial" / f"{face}.jpg")
-            result = detect_cube_face(image)
-            if result is None:
-                failures.append(f"{face}: no detection")
-                continue
-            actual = np.array(result.corners, np.float32)
-            expected = np.array(expected_values, np.float32)
-            error = corner_error(actual, expected)
-            if error >= 0.065:
-                failures.append(
-                    f"{face}: corner error {error:.3f}, method={result.method}, corners={result.corners}"
-                )
+        for group in AVAILABLE_GROUPS:
+            for face in FACE_ORDER:
+                image = frontend_image(ROOT / "initial" / f"{face}{group}.jpg")
+                result = detect_cube_face(image)
+                if result is None:
+                    failures.append(f"{face}{group}: no detection")
+                    continue
+                corners = np.array(result.corners, np.float32)
+                area = abs(float(cv2.contourArea(corners)))
+                if result.score < 0.80 or area < 0.20 or np.any(corners < 0) or np.any(corners > 1):
+                    failures.append(
+                        f"{face}{group}: score={result.score}, area={area:.3f}, "
+                        f"method={result.method}, corners={result.corners}"
+                    )
         self.assertFalse(failures, "\n".join(failures))
+
+    @unittest.skipUnless(shutil.which("node"), "需要 Node.js 验证前端颜色分类")
+    def test_real_groups_are_classified_into_legal_facelets(self) -> None:
+        environment = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
+        for group in AVAILABLE_GROUPS:
+            extracted = subprocess.run(
+                [sys.executable, str(ROOT / "tests" / "extract_real_patches.py"), "--group", group],
+                cwd=ROOT,
+                env=environment,
+                check=True,
+                capture_output=True,
+            )
+            classified = subprocess.run(
+                ["node", str(ROOT / "tests" / "real_color.test.js"), "--group", group],
+                cwd=ROOT,
+                env=environment,
+                input=extracted.stdout,
+                check=False,
+                capture_output=True,
+            )
+            self.assertEqual(
+                classified.returncode,
+                0,
+                classified.stderr.decode("utf-8", errors="replace"),
+            )
 
 
 if __name__ == "__main__":

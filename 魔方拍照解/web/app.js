@@ -35,6 +35,7 @@ const solveBtn = document.querySelector("#solveBtn");
 const timeoutInput = document.querySelector("#timeoutInput");
 let solveGeneration = 0;
 let solvePollTimer = null;
+let activeJobId = null;
 const cropDialog = document.querySelector("#cropDialog");
 const cropCanvas = document.querySelector("#cropCanvas");
 const cropCtx = cropCanvas.getContext("2d");
@@ -49,12 +50,20 @@ const cropEditor = {
   dragging: -1,
 };
 
+function showError(element, message) {
+  const span = document.createElement("span");
+  span.className = "error";
+  span.textContent = message;
+  element.replaceChildren(span);
+}
+
 initFaces();
 renderAll();
 
 solveBtn.addEventListener("click", solveCube);
 faceletsText.addEventListener("input", () => {
   solveGeneration += 1;
+  cancelActiveJob();
   if (solvePollTimer !== null) {
     clearTimeout(solvePollTimer);
     solvePollTimer = null;
@@ -152,13 +161,13 @@ function loadImageForFace(face, file) {
       classifyAllFaces();
       renderAll();
     } catch (error) {
-      statusText.innerHTML = `<span class="error">图像识别失败：${error.message}</span>`;
+      showError(statusText, `图像识别失败：${error.message}`);
     } finally {
       URL.revokeObjectURL(image.src);
     }
   };
   image.onerror = () => {
-    statusText.innerHTML = '<span class="error">图片无法读取，请换一张照片</span>';
+    showError(statusText, "图片无法读取，请换一张照片");
     URL.revokeObjectURL(image.src);
   };
   image.src = URL.createObjectURL(file);
@@ -628,17 +637,33 @@ function sampleFace(face) {
   for (const yRatio of points) {
     for (const xRatio of points) {
       samples.push(
-        samplePatch(
-          ctx,
-          canvas.width * xRatio,
-          canvas.height * yRatio,
-          22,
-          samples.length === 4,
-        ),
+        samples.length === 4
+          ? sampleCenterRing(ctx, canvas.width * xRatio, canvas.height * yRatio)
+          : samplePatch(ctx, canvas.width * xRatio, canvas.height * yRatio, 35),
       );
     }
   }
   return samples;
+}
+
+function sampleCenterRing(ctx, x, y) {
+  const outerRadius = 33;
+  const innerRadius = 21;
+  const left = Math.max(0, Math.round(x - outerRadius));
+  const top = Math.max(0, Math.round(y - outerRadius));
+  const size = outerRadius * 2 + 1;
+  const source = ctx.getImageData(left, top, size, size).data;
+  const ring = [];
+  for (let row = 0; row < size; row += 1) {
+    for (let column = 0; column < size; column += 1) {
+      const dx = Math.abs(column - outerRadius);
+      const dy = Math.abs(row - outerRadius);
+      if (Math.max(dx, dy) < innerRadius) continue;
+      const offset = (row * size + column) * 4;
+      ring.push(source[offset], source[offset + 1], source[offset + 2], source[offset + 3]);
+    }
+  }
+  return summarizePatchPixels(Uint8ClampedArray.from(ring), true);
 }
 
 function samplePatch(ctx, x, y, radius, preferMajority = false) {
@@ -811,7 +836,7 @@ function applyCrop() {
     y: point.y / cropEditor.scale,
   }));
   if (!isValidQuad(corners)) {
-    cropConfidence.innerHTML = '<span class="error">四个角发生交叉，请重新调整</span>';
+    showError(cropConfidence, "四个角发生交叉，请重新调整");
     return;
   }
   state[face].corners = corners;
@@ -885,7 +910,7 @@ function updateFacelets() {
   );
   const wrong = Object.entries(counts).filter(([, count]) => count !== 9);
   if (wrong.length) {
-    statusText.innerHTML = `<span class="error">色块数量需要校正：${wrong.map(([f, c]) => `${f}=${c}`).join("，")}</span>`;
+    showError(statusText, `色块数量需要校正：${wrong.map(([f, c]) => `${f}=${c}`).join("，")}`);
   } else if (reviewFaces.length) {
     statusText.textContent = `${reviewFaces.join("、")} 面的识别区域需要确认`;
   } else if (loadedCount < 6) {
@@ -907,6 +932,7 @@ function applyFacelets(facelets) {
 
 async function solveCube() {
   const facelets = faceletsText.value.toUpperCase().replace(/[^URFDLB]/g, "");
+  cancelActiveJob();
   const generation = ++solveGeneration;
   if (solvePollTimer !== null) {
     clearTimeout(solvePollTimer);
@@ -930,6 +956,10 @@ async function solveCube() {
     if (!response.ok || !data.ok) {
       throw new Error(data.error || "求解失败");
     }
+    if (generation !== solveGeneration) {
+      if (data.job_id) cancelJob(data.job_id);
+      return;
+    }
     if (data.depth === 0) {
       solutionText.textContent = "已复原，无需转动";
     } else if (data.solution) {
@@ -950,11 +980,12 @@ async function solveCube() {
     }
 
     if (data.job_id) {
+      activeJobId = data.job_id;
       pollOptimalJob(data.job_id, generation);
     }
   } catch (error) {
-    solutionText.innerHTML = `<span class="error">${error.message}</span>`;
-    statusText.innerHTML = '<span class="error">求解失败</span>';
+    showError(solutionText, error.message);
+    showError(statusText, "求解失败");
   } finally {
     solveBtn.disabled = false;
   }
@@ -976,18 +1007,27 @@ async function pollOptimalJob(jobId, generation) {
       depthText.textContent = `${result.depth} 步，${result.metric}，严格最短：是，验证耗时 ${result.elapsed_seconds}s`;
       statusText.textContent = "严格最短解已确认";
       solvePollTimer = null;
+      if (activeJobId === jobId) activeJobId = null;
       return;
     }
     if (data.status === "timeout") {
       depthText.textContent += "；最短性验证已超时，当前快速解仍可使用";
       statusText.textContent = "快速解可用，但严格最短性尚未证明";
       solvePollTimer = null;
+      if (activeJobId === jobId) activeJobId = null;
       return;
     }
     if (data.status === "error") {
       depthText.textContent += `；后台验证失败：${data.message || "未知错误"}`;
       statusText.textContent = "快速解可用，后台验证失败";
       solvePollTimer = null;
+      if (activeJobId === jobId) activeJobId = null;
+      return;
+    }
+    if (data.status === "cancelled") {
+      statusText.textContent = "后台最短性验证已取消";
+      solvePollTimer = null;
+      if (activeJobId === jobId) activeJobId = null;
       return;
     }
 
@@ -998,6 +1038,17 @@ async function pollOptimalJob(jobId, generation) {
     statusText.textContent = `快速解可用，后台状态暂时不可用：${error.message}`;
     solvePollTimer = setTimeout(() => pollOptimalJob(jobId, generation), 2000);
   }
+}
+
+function cancelJob(jobId) {
+  fetch(`/api/solve/${encodeURIComponent(jobId)}/cancel`, { method: "POST" }).catch(() => {});
+}
+
+function cancelActiveJob() {
+  if (!activeJobId) return;
+  const jobId = activeJobId;
+  activeJobId = null;
+  cancelJob(jobId);
 }
 
 function rgbToLab(rgb) {
@@ -1049,7 +1100,12 @@ function summarizePatchPixels(data, preferMajority = false) {
     pixels.map((pixel) => pixel.saturation),
     preferMajority ? 0.55 : 0.78,
   );
-  const colorful = saturationSignal > 0.15;
+  const glareFraction =
+    pixels.filter((pixel) => pixel.value > 0.86 && pixel.saturation < 0.12).length / pixels.length;
+  const saturatedFraction =
+    pixels.filter((pixel) => pixel.value > 0.16 && pixel.saturation > 0.24).length / pixels.length;
+  const colorful =
+    saturationSignal > 0.15 || (!preferMajority && glareFraction > 0.45 && saturatedFraction > 0.04);
   const saturationFloor = colorful
     ? Math.max(0.10, quantile(pixels.map((pixel) => pixel.saturation), 0.42))
     : 0;
@@ -1079,8 +1135,6 @@ function summarizePatchPixels(data, preferMajority = false) {
   rgb[1] /= weightTotal;
   rgb[2] /= weightTotal;
 
-  const glareFraction =
-    pixels.filter((pixel) => pixel.value > 0.86 && pixel.saturation < 0.12).length / pixels.length;
   return makeColorDescriptor(
     rgb,
     quantile(selected.map((pixel) => pixel.saturation), 0.65),

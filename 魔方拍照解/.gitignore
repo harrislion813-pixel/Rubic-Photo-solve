@@ -1,0 +1,11 @@
+.cache/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+node_modules/
+native/build/
+initial/
+result/

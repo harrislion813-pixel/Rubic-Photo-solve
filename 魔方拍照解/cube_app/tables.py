@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import os
 import pickle
+import threading
 from array import array
 from collections import deque
 from dataclasses import dataclass
@@ -31,6 +33,7 @@ from .cubie import CubieCube, PHASE2_MOVES, all_move_cubes
 
 
 CACHE_VERSION = 3
+_TABLE_BUILD_LOCK = threading.Lock()
 
 
 @dataclass(slots=True)
@@ -53,17 +56,49 @@ class SolverTables:
 
 def load_or_build_tables(cache_dir: str | Path = ".cache") -> SolverTables:
     cache_path = Path(cache_dir) / f"solver_tables_v{CACHE_VERSION}.pkl"
-    if cache_path.exists():
+    cached = _load_cached_tables(cache_path)
+    if cached is not None:
+        return cached
+
+    with _TABLE_BUILD_LOCK:
+        cached = _load_cached_tables(cache_path)
+        if cached is not None:
+            return cached
+
+        cache_path.parent.mkdir(parents=True, exist_ok=True)
+        tables = build_tables()
+        temporary_path = cache_path.with_name(
+            f".{cache_path.name}.{os.getpid()}.{threading.get_ident()}.tmp"
+        )
+        try:
+            with temporary_path.open("wb") as handle:
+                pickle.dump(
+                    {"version": CACHE_VERSION, "tables": tables},
+                    handle,
+                    protocol=pickle.HIGHEST_PROTOCOL,
+                )
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.replace(temporary_path, cache_path)
+        finally:
+            temporary_path.unlink(missing_ok=True)
+        return tables
+
+
+def _load_cached_tables(cache_path: Path) -> SolverTables | None:
+    if not cache_path.exists():
+        return None
+    try:
         with cache_path.open("rb") as handle:
             payload = pickle.load(handle)
-        if payload.get("version") == CACHE_VERSION:
-            return payload["tables"]
-
-    cache_path.parent.mkdir(parents=True, exist_ok=True)
-    tables = build_tables()
-    with cache_path.open("wb") as handle:
-        pickle.dump({"version": CACHE_VERSION, "tables": tables}, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    return tables
+        if not isinstance(payload, dict) or payload.get("version") != CACHE_VERSION:
+            return None
+        tables = payload.get("tables")
+        if not isinstance(tables, SolverTables):
+            return None
+        return tables
+    except (OSError, EOFError, pickle.UnpicklingError, AttributeError, ImportError, TypeError, ValueError):
+        return None
 
 
 def build_tables() -> SolverTables:

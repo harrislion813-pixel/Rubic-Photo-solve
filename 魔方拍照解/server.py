@@ -1,0 +1,317 @@
+from __future__ import annotations
+
+import json
+import mimetypes
+import errno
+import socket
+import threading
+import time
+import uuid
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+from urllib.parse import urlparse
+
+from cube_app.cubie import CubeStateError, CubieCube, from_facelets
+from cube_app.fast import FastTwoPhaseSolver
+from cube_app.optimal import OptimalSolver, SearchTimeout
+
+try:
+    from cube_app.vision import detect_face_data_url
+except ImportError:  # The browser detector remains available without OpenCV.
+    detect_face_data_url = None
+
+
+ROOT = Path(__file__).resolve().parent
+WEB_ROOT = ROOT / "web"
+HOST = "127.0.0.1"
+PORT = 8765
+APP_VERSION = "2026.07.10.4"
+
+SOLVER = OptimalSolver(ROOT / ".cache", parallel=True)
+PROBE_SOLVER = OptimalSolver(ROOT / ".cache", parallel=False)
+FAST_SOLVER = FastTwoPhaseSolver(ROOT / ".cache")
+QUICK_OPTIMAL_PROBE_SECONDS = 0.75
+QUICK_SOLVE_SECONDS = 5.0
+JOBS: dict[str, dict] = {}
+JOBS_LOCK = threading.Lock()
+OPTIMAL_SEARCH_LOCK = threading.Lock()
+
+
+def result_payload(result) -> dict:
+    return {
+        "moves": result.moves,
+        "solution": result.text,
+        "depth": result.depth,
+        "metric": result.metric,
+        "optimal": result.optimal,
+        "elapsed_seconds": round(result.elapsed_seconds, 3),
+    }
+
+
+def prepare_optimal_job(
+    cube: CubieCube,
+    quick_result,
+    max_depth: int,
+    timeout_seconds: float | None,
+) -> tuple[str, threading.Thread]:
+    job_id = uuid.uuid4().hex
+    with JOBS_LOCK:
+        if len(JOBS) >= 100:
+            terminal = [
+                (key, value.get("updated_at", 0.0))
+                for key, value in JOBS.items()
+                if value.get("status") in {"complete", "timeout", "error"}
+            ]
+            for key, _ in sorted(terminal, key=lambda item: item[1])[: max(1, len(JOBS) - 99)]:
+                JOBS.pop(key, None)
+        JOBS[job_id] = {
+            "job_id": job_id,
+            "status": "queued",
+            "created_at": time.time(),
+            "updated_at": time.time(),
+        }
+
+    proof_max_depth = min(max_depth, quick_result.depth) if quick_result is not None else max_depth
+    thread = threading.Thread(
+        target=run_optimal_job,
+        args=(job_id, cube, proof_max_depth, timeout_seconds),
+        name=f"cube-optimal-{job_id[:8]}",
+        daemon=True,
+    )
+    return job_id, thread
+
+
+def update_job(job_id: str, **values: object) -> None:
+    with JOBS_LOCK:
+        job = JOBS.get(job_id)
+        if job is None:
+            return
+        job.update(values)
+        job["updated_at"] = time.time()
+
+
+def run_optimal_job(
+    job_id: str,
+    cube: CubieCube,
+    max_depth: int,
+    timeout_seconds: float | None,
+) -> None:
+    with OPTIMAL_SEARCH_LOCK:
+        update_job(job_id, status="running")
+        started = time.monotonic()
+        try:
+            try:
+                result = SOLVER.solve_cube(cube, max_depth=max_depth, timeout_seconds=timeout_seconds)
+            except PermissionError:
+                remaining = None
+                if timeout_seconds is not None:
+                    remaining = max(0.0, timeout_seconds - (time.monotonic() - started))
+                    if remaining == 0.0:
+                        raise SearchTimeout("搜索超时。")
+                result = PROBE_SOLVER.solve_cube(cube, max_depth=max_depth, timeout_seconds=remaining)
+            update_job(job_id, status="complete", result=result_payload(result))
+        except SearchTimeout as exc:
+            update_job(job_id, status="timeout", message=str(exc))
+        except Exception as exc:  # pragma: no cover - background safety net.
+            update_job(job_id, status="error", message=str(exc))
+
+
+class ExclusiveThreadingHTTPServer(ThreadingHTTPServer):
+    allow_reuse_address = False
+
+    def server_bind(self) -> None:
+        if hasattr(socket, "SO_EXCLUSIVEADDRUSE"):
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        super().server_bind()
+
+
+class AppHandler(BaseHTTPRequestHandler):
+    server_version = "CubeOptimalApp/0.1"
+
+    def do_GET(self) -> None:
+        parsed = urlparse(self.path)
+        path = parsed.path
+        if path.startswith("/api/solve/"):
+            job_id = path.removeprefix("/api/solve/").strip("/")
+            with JOBS_LOCK:
+                job = JOBS.get(job_id)
+                snapshot = None if job is None else {
+                    key: value
+                    for key, value in job.items()
+                    if key not in {"created_at", "updated_at"}
+                }
+            if snapshot is None:
+                self._send_json({"ok": False, "error": "求解任务不存在或已过期"}, status=404)
+            else:
+                self._send_json({"ok": True, **snapshot})
+            return
+        if path in ("", "/"):
+            self._send_file(WEB_ROOT / "index.html")
+            return
+        candidate = (WEB_ROOT / path.lstrip("/")).resolve()
+        if WEB_ROOT.resolve() not in candidate.parents and candidate != WEB_ROOT.resolve():
+            self._send_json({"error": "Forbidden"}, status=403)
+            return
+        if candidate.exists() and candidate.is_file():
+            self._send_file(candidate)
+            return
+        self._send_json({"error": "Not found"}, status=404)
+
+    def do_POST(self) -> None:
+        parsed = urlparse(self.path)
+        if parsed.path == "/api/detect":
+            try:
+                if detect_face_data_url is None:
+                    self._send_json({"ok": False, "error": "OpenCV 检测器不可用"}, status=503)
+                    return
+                payload = self._read_json()
+                result = detect_face_data_url(str(payload.get("image", "")))
+                if result is None:
+                    self._send_json({"ok": True, "detected": False})
+                else:
+                    self._send_json(
+                        {
+                            "ok": True,
+                            "detected": True,
+                            "corners": result.corners,
+                            "confidence": result.confidence,
+                            "method": result.method,
+                            "score": result.score,
+                        }
+                    )
+            except ValueError as exc:
+                self._send_json({"ok": False, "error": str(exc)}, status=400)
+            except Exception as exc:  # pragma: no cover - keeps the local app friendly.
+                self._send_json({"ok": False, "error": f"图像检测失败：{exc}"}, status=500)
+            return
+        if parsed.path != "/api/solve":
+            self._send_json({"error": "Not found"}, status=404)
+            return
+        try:
+            payload = self._read_json()
+            facelets = str(payload.get("facelets", ""))
+            max_depth = int(payload.get("max_depth", 20))
+            timeout = payload.get("timeout_seconds", 180)
+            timeout_seconds = None if timeout in (None, 0, "0", "none") else float(timeout)
+            cube = from_facelets(facelets)
+
+            shared_tables = PROBE_SOLVER.tables
+            if SOLVER._tables is None:
+                SOLVER._tables = shared_tables
+            if FAST_SOLVER._tables is None:
+                FAST_SOLVER._tables = shared_tables
+
+            probe_seconds = QUICK_OPTIMAL_PROBE_SECONDS
+            if timeout_seconds is not None:
+                probe_seconds = min(probe_seconds, timeout_seconds)
+            try:
+                result = PROBE_SOLVER.solve_cube(cube, max_depth=max_depth, timeout_seconds=probe_seconds)
+            except SearchTimeout:
+                result = None
+
+            if result is not None:
+                self._send_json({"ok": True, **result_payload(result), "proof_status": "complete"})
+                return
+
+            quick_seconds = QUICK_SOLVE_SECONDS
+            if timeout_seconds is not None:
+                quick_seconds = min(quick_seconds, max(0.1, timeout_seconds - probe_seconds))
+            try:
+                quick_result = FAST_SOLVER.solve_cube(cube, timeout_seconds=quick_seconds)
+            except SearchTimeout:
+                quick_result = None
+
+            job_id, thread = prepare_optimal_job(cube, quick_result, max_depth, timeout_seconds)
+            thread.start()
+            response = {
+                "ok": True,
+                "job_id": job_id,
+                "proof_status": "queued",
+                "optimal": False,
+            }
+            if quick_result is not None:
+                response.update(result_payload(quick_result))
+            else:
+                response.update(
+                    {
+                        "moves": [],
+                        "solution": "",
+                        "depth": None,
+                        "metric": "HTM",
+                        "elapsed_seconds": round(probe_seconds + quick_seconds, 3),
+                        "message": "快速搜索暂未找到解法，正在后台继续严格搜索。",
+                    }
+                )
+            self._send_json(response)
+        except (CubeStateError, SearchTimeout, ValueError) as exc:
+            self._send_json({"ok": False, "error": str(exc)}, status=400)
+        except Exception as exc:  # pragma: no cover - keeps the local app friendly.
+            self._send_json({"ok": False, "error": f"服务器内部错误：{exc}"}, status=500)
+
+    def log_message(self, format: str, *args: object) -> None:
+        print(f"{self.address_string()} - {format % args}")
+
+    def _read_json(self) -> dict:
+        length = int(self.headers.get("Content-Length", "0"))
+        if length > 25 * 1024 * 1024:
+            raise ValueError("请求内容超过 25 MB")
+        raw = self.rfile.read(length)
+        if not raw:
+            return {}
+        return json.loads(raw.decode("utf-8"))
+
+    def _send_json(self, payload: dict, status: int = 200) -> None:
+        body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _send_file(self, path: Path) -> None:
+        body = path.read_bytes()
+        content_type = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
+        if path.suffix == ".js":
+            content_type = "text/javascript; charset=utf-8"
+        elif path.suffix in (".html", ".css"):
+            content_type = f"{content_type}; charset=utf-8"
+        self.send_response(200)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Cache-Control", "no-store, max-age=0")
+        self.send_header("X-Cube-App-Version", APP_VERSION)
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+
+def main() -> None:
+    server, port = create_server()
+    write_port_file(port)
+    print(f"三阶魔方最短解应用已启动: http://{HOST}:{port}/", flush=True)
+    print("首次求解会生成 HTM 剪枝表，请耐心等待。按 Ctrl+C 停止。", flush=True)
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print("\n已停止。")
+    finally:
+        server.server_close()
+
+
+def create_server() -> tuple[ExclusiveThreadingHTTPServer, int]:
+    for port in range(PORT, PORT + 20):
+        try:
+            return ExclusiveThreadingHTTPServer((HOST, port), AppHandler), port
+        except OSError as exc:
+            if exc.errno not in (errno.EADDRINUSE, 10048):
+                raise
+    raise OSError("没有找到可用端口。")
+
+
+def write_port_file(port: int) -> None:
+    cache_dir = ROOT / ".cache"
+    cache_dir.mkdir(exist_ok=True)
+    (cache_dir / "server_port.txt").write_text(f"http://{HOST}:{port}/", encoding="utf-8")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>三阶魔方 HTM 最短解</title>
+    <link rel="stylesheet" href="/styles.css?v=20260710-4" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="topbar">
+        <div>
+          <h1>三阶魔方 HTM 最短解</h1>
+          <p>上传六个面照片，先返回可用快速解，再在后台验证以 F 面为前基准的 HTM 严格最短解。</p>
+        </div>
+        <button id="solveBtn" class="primary-btn" type="button">求解并验证最短</button>
+      </section>
+
+      <section class="workspace">
+        <div id="faces" class="faces-grid"></div>
+
+        <aside class="result-panel">
+          <div class="status-block">
+            <span class="label">状态</span>
+            <strong id="statusText">等待上传六面图片</strong>
+          </div>
+
+          <div class="facelets-block">
+            <span class="label">Facelets</span>
+            <textarea id="faceletsText" spellcheck="false"></textarea>
+          </div>
+
+          <div class="metric-row">
+            <span>度量</span>
+            <strong>HTM</strong>
+          </div>
+          <div class="metric-row">
+            <span>基准</span>
+            <strong>F 为前，U 为上</strong>
+          </div>
+          <div class="metric-row">
+            <label for="timeoutInput">最短验证超时</label>
+            <input id="timeoutInput" class="small-input" type="number" min="10" step="10" value="180" />
+          </div>
+
+          <div class="solution-block">
+            <span class="label">解法</span>
+            <div id="solutionText" class="solution-text">-</div>
+            <div id="depthText" class="depth-text"></div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <template id="faceTemplate">
+      <article class="face-card">
+        <header>
+          <div>
+            <span class="face-name"></span>
+            <small class="face-hint"></small>
+          </div>
+          <div class="icon-actions">
+            <button class="icon-btn adjust-region" type="button" title="调整识别区域" disabled>⌗</button>
+            <button class="icon-btn rotate-left" type="button" title="逆时针旋转">↺</button>
+            <button class="icon-btn rotate-right" type="button" title="顺时针旋转">↻</button>
+          </div>
+        </header>
+        <label class="upload-zone">
+          <input class="file-input" type="file" accept="image/*" />
+          <canvas class="preview" width="240" height="240"></canvas>
+          <strong class="detection-badge" hidden></strong>
+          <span>选择图片</span>
+        </label>
+        <div class="stickers"></div>
+      </article>
+    </template>
+
+    <dialog id="cropDialog" class="crop-dialog">
+      <form method="dialog" class="crop-shell">
+        <header class="crop-header">
+          <div>
+            <strong id="cropTitle">调整识别区域</strong>
+            <small>拖动四个角，使边框贴合当前魔方面</small>
+          </div>
+          <button class="icon-btn" type="submit" value="cancel" title="关闭">×</button>
+        </header>
+        <div class="crop-stage">
+          <canvas id="cropCanvas"></canvas>
+        </div>
+        <footer class="crop-actions">
+          <button id="redetectBtn" class="secondary-btn" type="button">重新识别</button>
+          <span id="cropConfidence" class="crop-confidence"></span>
+          <button class="secondary-btn" type="submit" value="cancel">取消</button>
+          <button id="applyCropBtn" class="primary-btn" type="button">应用区域</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <script src="/app.js?v=20260710-4"></script>
+  </body>
+</html>

@@ -24,16 +24,19 @@ from cube_app.optimal import OptimalSolver, SearchCancelled, SearchTimeout
 from cube_app.two_by_two import TwoByTwoSolver
 
 try:
-    from cube_app.vision import detect_face_data_url
+    from cube_app.detection import DetectionPipeline
+    from cube_app.vision import assess_detected_face_quality, decode_data_url
 except ImportError:  # The browser detector remains available without OpenCV.
-    detect_face_data_url = None
+    DetectionPipeline = None
+    assess_detected_face_quality = None
+    decode_data_url = None
 
 
 ROOT = Path(__file__).resolve().parent
 WEB_ROOT = ROOT / "web"
 HOST = "127.0.0.1"
 PORT = 8765
-APP_VERSION = "2026.07.11.7"
+APP_VERSION = "2026.07.11.8"
 
 SOLVER = OptimalSolver(ROOT / ".cache", parallel=True)
 PROBE_SOLVER = OptimalSolver(ROOT / ".cache", parallel=False)
@@ -45,6 +48,7 @@ JOBS: dict[str, dict] = {}
 JOBS_LOCK = threading.Lock()
 OPTIMAL_SEARCH_LOCK = threading.Lock()
 MAX_JOBS = 100
+DETECTION_PIPELINE = DetectionPipeline() if DetectionPipeline is not None else None
 
 
 class JobCapacityError(RuntimeError):
@@ -88,6 +92,7 @@ def prepare_optimal_job(
             "created_at": time.time(),
             "updated_at": time.time(),
             "_cancel_event": cancel_event,
+            "incumbent_depth": quick_result.depth if quick_result is not None else None,
         }
 
     proof_max_depth = min(max_depth, quick_result.depth) if quick_result is not None else max_depth
@@ -127,6 +132,9 @@ def run_optimal_job(
         update_job(job_id, status="running")
         started = time.monotonic()
         try:
+            def report_progress(progress: dict) -> None:
+                update_job(job_id, progress=progress)
+
             if timeout_seconds is not None:
                 try:
                     native_result = solve_native(
@@ -135,6 +143,7 @@ def run_optimal_job(
                         timeout_seconds=timeout_seconds,
                         incumbent_moves=incumbent_moves,
                         cancel_event=cancel_event,
+                        progress_callback=report_progress,
                     )
                 except NativeSolverCancelled as exc:
                     raise SearchCancelled(str(exc)) from exc
@@ -156,6 +165,7 @@ def run_optimal_job(
                     upper_bound=upper_bound,
                     incumbent_moves=incumbent_moves,
                     cancel_event=cancel_event,
+                    progress_callback=report_progress,
                 )
             except PermissionError:
                 remaining = None
@@ -170,6 +180,7 @@ def run_optimal_job(
                     upper_bound=upper_bound,
                     incumbent_moves=incumbent_moves,
                     cancel_event=cancel_event,
+                    progress_callback=report_progress,
                 )
             if cancel_event is not None and cancel_event.is_set():
                 raise SearchCancelled("搜索已取消。")
@@ -206,6 +217,16 @@ class AppHandler(BaseHTTPRequestHandler):
                     for key, value in job.items()
                     if key not in {"created_at", "updated_at"} and not key.startswith("_")
                 }
+                if snapshot is not None and snapshot.get("status") == "queued":
+                    queued = sorted(
+                        (value.get("created_at", 0.0), key)
+                        for key, value in JOBS.items()
+                        if value.get("status") == "queued"
+                    )
+                    snapshot["queue_position"] = next(
+                        (index + 1 for index, (_, key) in enumerate(queued) if key == job_id),
+                        1,
+                    )
             if snapshot is None:
                 self._send_json({"ok": False, "error": "求解任务不存在或已过期"}, status=404)
             else:
@@ -248,26 +269,44 @@ class AppHandler(BaseHTTPRequestHandler):
             return
         if parsed.path == "/api/detect":
             try:
-                if detect_face_data_url is None:
+                if (
+                    decode_data_url is None
+                    or DETECTION_PIPELINE is None
+                    or assess_detected_face_quality is None
+                ):
                     self._send_json({"ok": False, "error": "OpenCV 检测器不可用"}, status=503)
                     return
                 payload = self._read_json()
                 grid_size = int(payload.get("cube_size", 3))
                 if grid_size not in (2, 3):
                     raise ValueError("cube_size 只能是 2 或 3。")
-                result = detect_face_data_url(str(payload.get("image", "")), grid_size=grid_size)
-                if result is None:
+                image = decode_data_url(str(payload.get("image", "")))
+                detection_batch = DETECTION_PIPELINE.detect(image, grid_size=grid_size, limit=3)
+                candidates = detection_batch.candidates
+                if not candidates:
                     self._send_json({"ok": True, "detected": False, "app_version": APP_VERSION})
                 else:
                     self._send_json(
                         {
                             "ok": True,
                             "detected": True,
-                            "corners": result.corners,
-                            "confidence": result.confidence,
-                            "method": result.method,
-                            "score": result.score,
+                            "corners": candidates[0].corners,
+                            "confidence": candidates[0].confidence,
+                            "method": candidates[0].method,
+                            "score": candidates[0].score,
+                            "quality": assess_detected_face_quality(image, candidates[0]),
+                            "candidates": [
+                                {
+                                    "corners": candidate.corners,
+                                    "confidence": candidate.confidence,
+                                    "method": candidate.method,
+                                    "score": candidate.score,
+                                    "quality": assess_detected_face_quality(image, candidate),
+                                }
+                                for candidate in candidates
+                            ],
                             "app_version": APP_VERSION,
+                            "fallback_used": detection_batch.fallback_used,
                         }
                     )
             except ValueError as exc:

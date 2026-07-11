@@ -637,6 +637,22 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube& cube, const Solver
     control.deadline = started + std::chrono::duration_cast<std::chrono::steady_clock::duration>(
         std::chrono::duration<double>(options.timeout_seconds));
 
+    if (options.progress_callback) {
+        options.progress_callback(NativeSearchProgress{
+            lower_bound,
+            effective_max,
+            lower_bound,
+            lower_bound - 1,
+            0,
+            0,
+            0,
+            0.0,
+            0.0,
+            false,
+            false,
+        });
+    }
+
     for (int depth = lower_bound; depth <= effective_max; ++depth) {
         const auto iteration_started = std::chrono::steady_clock::now();
         const std::uint64_t nodes_before = control.nodes.load(std::memory_order_relaxed);
@@ -660,17 +676,35 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube& cube, const Solver
             control.transposition_hits.load(std::memory_order_relaxed) - hits_before;
         const double iteration_seconds = std::chrono::duration<double>(
             std::chrono::steady_clock::now() - iteration_started).count();
-        std::cerr << "ida depth=" << depth << " nodes=" << iteration_nodes
-                  << " tt_hits=" << iteration_hits
-                  << " elapsed=" << iteration_seconds << "s"
-                  << " found=" << solution.has_value() << "\n";
+        const bool timed_out = control.timed_out.load(std::memory_order_relaxed);
+        const int completed_depth = solution.has_value() || timed_out ? depth - 1 : depth;
+        if (options.progress_callback) {
+            options.progress_callback(NativeSearchProgress{
+                lower_bound,
+                effective_max,
+                depth,
+                completed_depth,
+                iteration_nodes,
+                control.nodes.load(std::memory_order_relaxed),
+                iteration_hits,
+                iteration_seconds,
+                std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count(),
+                solution.has_value(),
+                timed_out,
+            });
+        } else {
+            std::cerr << "ida depth=" << depth << " nodes=" << iteration_nodes
+                      << " tt_hits=" << iteration_hits
+                      << " elapsed=" << iteration_seconds << "s"
+                      << " found=" << solution.has_value() << "\n";
+        }
         if (solution.has_value()) {
             result.moves = *solution;
             result.depth = static_cast<int>(result.moves.size());
             result.optimal = true;
             break;
         }
-        if (control.timed_out.load(std::memory_order_relaxed)) {
+        if (timed_out) {
             result.timed_out = true;
             break;
         }

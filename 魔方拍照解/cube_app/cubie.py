@@ -222,10 +222,6 @@ def should_skip_move(last_face: int, face: int) -> bool:
     return OPPOSITE_FACE[last_face] == face and last_face > face
 
 
-def solution_to_string(path: Iterable[int]) -> str:
-    return " ".join(MOVE_NAMES[idx] for idx in path)
-
-
 @lru_cache(maxsize=1)
 def all_move_cubes() -> tuple[CubieCube, ...]:
     base = single_turn_cubes()

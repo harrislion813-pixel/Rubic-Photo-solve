@@ -212,6 +212,7 @@ class OptimalSolver:
         upper_bound: int | None = None,
         incumbent_moves: list[str] | None = None,
         cancel_event: threading.Event | None = None,
+        progress_callback: Callable[[dict], None] | None = None,
     ) -> SolveResult:
         cube = from_facelets(facelets)
         return self.solve_cube(
@@ -221,6 +222,7 @@ class OptimalSolver:
             upper_bound=upper_bound,
             incumbent_moves=incumbent_moves,
             cancel_event=cancel_event,
+            progress_callback=progress_callback,
         )
 
     def solve_cube(
@@ -231,6 +233,7 @@ class OptimalSolver:
         upper_bound: int | None = None,
         incumbent_moves: list[str] | None = None,
         cancel_event: threading.Event | None = None,
+        progress_callback: Callable[[dict], None] | None = None,
     ) -> SolveResult:
         start = time.monotonic()
         deadline = None if timeout_seconds is None else start + timeout_seconds
@@ -266,6 +269,19 @@ class OptimalSolver:
         *coords, lower = state
         transposition: dict[int, int] = {}
         pool: Pool | None = None
+        if progress_callback is not None:
+            progress_callback(
+                {
+                    "type": "progress",
+                    "engine": "python",
+                    "lower_bound": lower,
+                    "upper_bound": effective_max,
+                    "current_depth": lower,
+                    "completed_depth": lower - 1,
+                    "nodes": 0,
+                    "elapsed_seconds": 0.0,
+                }
+            )
         try:
             for depth in range(lower, effective_max + 1):
                 if self.parallel and self.max_workers > 1 and depth >= _PARALLEL_MIN_DEPTH:
@@ -290,8 +306,36 @@ class OptimalSolver:
                         cancel_event,
                     )
                 if result is not None:
+                    if progress_callback is not None:
+                        progress_callback(
+                            {
+                                "type": "progress",
+                                "engine": "python",
+                                "lower_bound": lower,
+                                "upper_bound": effective_max,
+                                "current_depth": depth,
+                                "completed_depth": depth - 1,
+                                "nodes": 0,
+                                "elapsed_seconds": time.monotonic() - start,
+                                "found": True,
+                            }
+                        )
                     moves = [MOVE_NAMES[idx] for idx in result]
                     return SolveResult(moves, len(moves), "HTM", time.monotonic() - start, True)
+                if progress_callback is not None:
+                    progress_callback(
+                        {
+                            "type": "progress",
+                            "engine": "python",
+                            "lower_bound": lower,
+                            "upper_bound": effective_max,
+                            "current_depth": depth,
+                            "completed_depth": depth,
+                            "nodes": 0,
+                            "elapsed_seconds": time.monotonic() - start,
+                            "found": False,
+                        }
+                    )
         finally:
             if pool is not None:
                 pool.terminate()

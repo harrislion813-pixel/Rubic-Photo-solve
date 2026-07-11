@@ -7,6 +7,7 @@ import unittest
 
 from cube_app.coords import get_corner_perm, get_flip, get_slice_comb, get_twist
 from cube_app.cubie import CubieCube, MOVE_INDEX, to_facelets
+from cube_app.native import solve_native
 from cube_app.native import NATIVE_EXE, native_solver_available
 
 
@@ -59,6 +60,26 @@ class NativeSolverTests(unittest.TestCase):
         for move in result["moves"]:
             cube = cube.apply_move_index(MOVE_INDEX[move])
         self.assertTrue(cube.is_solved())
+
+    def test_python_bridge_streams_structured_progress(self) -> None:
+        cube = CubieCube()
+        for move in "R U F2 L D".split():
+            cube = cube.apply_move_index(MOVE_INDEX[move])
+        events = []
+        result = solve_native(
+            cube,
+            max_depth=5,
+            timeout_seconds=5,
+            incumbent_moves=None,
+            cancel_event=None,
+            threads=2,
+            progress_callback=events.append,
+        )
+        self.assertIsNotNone(result)
+        self.assertTrue(events)
+        self.assertTrue(all(event.get("type") == "progress" for event in events))
+        self.assertEqual(events[-1]["current_depth"], 5)
+        self.assertTrue(events[-1]["found"])
 
 
 if __name__ == "__main__":

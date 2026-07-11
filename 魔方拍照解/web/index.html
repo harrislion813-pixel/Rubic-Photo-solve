@@ -3,75 +3,181 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>三阶魔方 HTM 最短解</title>
-    <link rel="stylesheet" href="/styles.css?v=20260711-1" />
+    <meta name="theme-color" content="#f3f2ed" />
+    <title>Cube Lens · 魔方拍照求解</title>
+    <link rel="stylesheet" href="/styles.css?v=20260711-7" />
   </head>
   <body>
+    <div class="page-glow page-glow-left" aria-hidden="true"></div>
+    <div class="page-glow page-glow-right" aria-hidden="true"></div>
+
     <main class="app-shell">
-      <section class="topbar">
-        <div>
-          <h1>三阶魔方 HTM 最短解</h1>
-          <p>上传六个面照片，先返回可用快速解，再在后台验证以 F 面为前基准的 HTM 严格最短解。</p>
+      <header class="app-header">
+        <a class="brand" href="/" aria-label="Cube Lens 首页">
+          <span class="brand-mark" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </span>
+          <span>
+            <strong>CUBE LENS</strong>
+            <small>PHOTO SOLVER</small>
+          </span>
+        </a>
+        <div class="privacy-note">
+          <span class="privacy-dot" aria-hidden="true"></span>
+          本地运行 · 照片无需上传云端
         </div>
-        <button id="solveBtn" class="primary-btn" type="button">求解并验证最短</button>
+      </header>
+
+      <section class="hero" aria-labelledby="pageTitle">
+        <div class="hero-copy">
+          <span class="eyebrow">PHOTO TO SOLUTION</span>
+          <h1 id="pageTitle">三阶魔方<br /><em>拍照即解</em></h1>
+          <p id="pageSubtitle">依次录入六个面，自动识别色块并校验状态，生成以 F 面为前基准的 HTM 最短解。</p>
+        </div>
+        <div class="cube-size-control">
+          <label for="cubeSizeSelect">选择魔方阶数</label>
+          <div class="select-wrap">
+            <select id="cubeSizeSelect">
+              <option value="2">2 × 2 二阶魔方</option>
+              <option value="3" selected>3 × 3 三阶魔方</option>
+            </select>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4" /></svg>
+          </div>
+          <small>应用版本 v2026.07.11.7</small>
+        </div>
       </section>
+
+      <nav class="workflow" aria-label="操作流程">
+        <div class="workflow-step is-complete">
+          <span class="step-index">01</span>
+          <span><strong>选择阶数</strong><small id="selectedSizeText">已选择 3 × 3</small></span>
+        </div>
+        <span class="workflow-line" aria-hidden="true"></span>
+        <div class="workflow-step is-active">
+          <span class="step-index">02</span>
+          <span><strong>录入六面</strong><small id="uploadProgressText">还需上传 6 面</small></span>
+        </div>
+        <span class="workflow-line" aria-hidden="true"></span>
+        <div class="workflow-step">
+          <span class="step-index">03</span>
+          <span><strong>检查并求解</strong><small>校对颜色与方向</small></span>
+        </div>
+      </nav>
 
       <section class="workspace">
-        <div id="faces" class="faces-grid"></div>
+        <section class="capture-panel" aria-labelledby="captureTitle">
+          <header class="section-heading">
+            <div>
+              <span class="section-kicker">SCAN FACES</span>
+              <h2 id="captureTitle">录入魔方六面</h2>
+            </div>
+            <div class="upload-meter" aria-label="六面上传进度">
+              <span><strong id="uploadCount">0</strong> / 6</span>
+              <div class="meter-track"><i id="uploadMeterBar"></i></div>
+            </div>
+          </header>
+          <div class="capture-tip">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v4m0 4h.01M10.3 3.8 2.7 17a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z" /></svg>
+            <span>正对每一面拍摄，保持画面清晰；侧面以 <strong>U 边朝上</strong>，点击色块可手动修正识别结果。</span>
+          </div>
+          <div id="faces" class="faces-grid"></div>
+        </section>
 
-        <aside class="result-panel">
+        <aside class="result-panel" aria-labelledby="resultTitle">
+          <header class="result-header">
+            <span class="section-kicker">SOLUTION</span>
+            <h2 id="resultTitle">求解控制台</h2>
+          </header>
+
           <div class="status-block">
-            <span class="label">状态</span>
-            <strong id="statusText">等待上传六面图片</strong>
+            <div class="status-icon" aria-hidden="true"><span></span></div>
+            <div>
+              <span class="label">当前状态</span>
+              <strong id="statusText" aria-live="polite">等待上传六面图片</strong>
+            </div>
           </div>
 
-          <div class="facelets-block">
-            <span class="label">Facelets</span>
-            <textarea id="faceletsText" spellcheck="false"></textarea>
-          </div>
-
-          <div class="metric-row">
-            <span>度量</span>
-            <strong>HTM</strong>
-          </div>
-          <div class="metric-row">
-            <span>基准</span>
-            <strong>F 为前，U 为上</strong>
-          </div>
-          <div class="metric-row">
-            <label for="timeoutInput">最短验证超时</label>
-            <input id="timeoutInput" class="small-input" type="number" min="10" step="10" value="180" />
-          </div>
+          <button id="solveBtn" class="primary-btn" type="button">
+            <span>开始求解</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" /></svg>
+          </button>
 
           <div class="solution-block">
-            <span class="label">解法</span>
-            <div id="solutionText" class="solution-text">-</div>
+            <div class="solution-heading">
+              <span class="label">还原步骤</span>
+              <span class="metric-chip">HTM</span>
+            </div>
+            <div id="solutionText" class="solution-text" aria-live="polite">
+              <span class="empty-solution">完成六面录入后，解法会显示在这里</span>
+            </div>
             <div id="depthText" class="depth-text"></div>
           </div>
+
+          <details class="advanced-panel">
+            <summary>
+              <span>高级设置与 Facelets</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4" /></svg>
+            </summary>
+            <div class="advanced-content">
+              <div class="metric-row">
+                <span>观察基准</span>
+                <strong>F 为前 · U 为上</strong>
+              </div>
+              <div class="metric-row">
+                <label for="timeoutInput">最短验证超时</label>
+                <div class="input-unit"><input id="timeoutInput" class="small-input" type="number" min="10" step="10" value="180" /><span>秒</span></div>
+              </div>
+              <label class="facelets-block" for="faceletsText">
+                <span class="label">Facelets 字符串</span>
+                <textarea id="faceletsText" spellcheck="false" aria-label="Facelets 字符串"></textarea>
+              </label>
+            </div>
+          </details>
+
+          <footer class="result-footer">
+            <span class="shield-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.8 2.9 8 7 10 4.1-2 7-5.2 7-10V6l-7-3Z" /></svg>
+            </span>
+            <span><strong>严格最短验证</strong><small>快速解生成后，后台会继续验证最短性</small></span>
+          </footer>
         </aside>
       </section>
+
+      <footer class="app-footer">
+        <span>Cube Lens</span>
+        <span>U · R · F · D · L · B</span>
+      </footer>
     </main>
 
     <template id="faceTemplate">
       <article class="face-card">
         <header>
-          <div>
-            <span class="face-name"></span>
-            <small class="face-hint"></small>
+          <div class="face-identity">
+            <span class="face-symbol"></span>
+            <span><strong class="face-name"></strong><small class="face-hint"></small></span>
           </div>
           <div class="icon-actions">
-            <button class="icon-btn adjust-region" type="button" title="调整识别区域" disabled>⌗</button>
-            <button class="icon-btn rotate-left" type="button" title="逆时针旋转">↺</button>
-            <button class="icon-btn rotate-right" type="button" title="顺时针旋转">↻</button>
+            <button class="icon-btn adjust-region" type="button" title="调整识别区域" aria-label="调整识别区域" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m13-5h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3m13 5h3a2 2 0 0 0 2-2v-3" /></svg>
+            </button>
+            <button class="icon-btn rotate-left" type="button" title="逆时针旋转" aria-label="逆时针旋转">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v6h6M5.6 15a7 7 0 1 0 .7-7.8L4 10" /></svg>
+            </button>
+            <button class="icon-btn rotate-right" type="button" title="顺时针旋转" aria-label="顺时针旋转">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4v6h-6m4.4 5a7 7 0 1 1-.7-7.8L20 10" /></svg>
+            </button>
           </div>
         </header>
         <label class="upload-zone">
           <input class="file-input" type="file" accept="image/*" />
           <canvas class="preview" width="240" height="240"></canvas>
+          <span class="upload-prompt"><b>+</b><em>添加照片</em></span>
           <strong class="detection-badge" hidden></strong>
-          <span>选择图片</span>
         </label>
-        <div class="stickers"></div>
+        <div class="sticker-panel">
+          <div class="sticker-label"><span>识别结果</span><small>点击可改色</small></div>
+          <div class="stickers"></div>
+        </div>
       </article>
     </template>
 
@@ -79,23 +185,22 @@
       <form method="dialog" class="crop-shell">
         <header class="crop-header">
           <div>
+            <span class="section-kicker">DETECTION AREA</span>
             <strong id="cropTitle">调整识别区域</strong>
             <small>拖动四个角，使边框贴合当前魔方面</small>
           </div>
-          <button class="icon-btn" type="submit" value="cancel" title="关闭">×</button>
+          <button class="icon-btn" type="submit" value="cancel" title="关闭" aria-label="关闭">×</button>
         </header>
-        <div class="crop-stage">
-          <canvas id="cropCanvas"></canvas>
-        </div>
+        <div class="crop-stage"><canvas id="cropCanvas"></canvas></div>
         <footer class="crop-actions">
-          <button id="redetectBtn" class="secondary-btn" type="button">重新识别</button>
+          <button id="redetectBtn" class="secondary-btn" type="button">自动重新识别</button>
           <span id="cropConfidence" class="crop-confidence"></span>
           <button class="secondary-btn" type="submit" value="cancel">取消</button>
-          <button id="applyCropBtn" class="primary-btn" type="button">应用区域</button>
+          <button id="applyCropBtn" class="primary-btn compact" type="button">应用区域</button>
         </footer>
       </form>
     </dialog>
 
-    <script src="/app.js?v=20260711-1"></script>
+    <script src="/app.js?v=20260711-7"></script>
   </body>
 </html>

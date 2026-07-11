@@ -19,7 +19,7 @@ FACE_ORDER = "URFDLB"
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--group", choices=("1", "2"), default=None)
+parser.add_argument("--group", choices=("1", "2", "3", "4", "5", "6", "7"), default=None)
 args = parser.parse_args()
 
 
@@ -41,8 +41,9 @@ def read_frontend_image(path: Path) -> np.ndarray:
 
 def extract_patches(face: str) -> list[str]:
     suffix = args.group or ""
+    grid_size = 2 if args.group in {"3", "4", "6", "7"} else 3
     image = read_frontend_image(ROOT / "initial" / f"{face}{suffix}.jpg")
-    detection = detect_cube_face(image)
+    detection = detect_cube_face(image, grid_size=grid_size)
     if detection is None:
         raise RuntimeError(f"cannot detect {face}")
     height, width = image.shape[:2]
@@ -55,11 +56,12 @@ def extract_patches(face: str) -> list[str]:
     warped = cv2.warpPerspective(image, transform, (240, 240), flags=cv2.INTER_LINEAR)
     rgba = cv2.cvtColor(warped, cv2.COLOR_BGR2RGBA)
     patches = []
-    for row, y_ratio in enumerate((1 / 6, 1 / 2, 5 / 6)):
-        for column, x_ratio in enumerate((1 / 6, 1 / 2, 5 / 6)):
+    points = tuple((index + 0.5) / grid_size for index in range(grid_size))
+    for row, y_ratio in enumerate(points):
+        for column, x_ratio in enumerate(points):
             center_x = round(240 * x_ratio)
             center_y = round(240 * y_ratio)
-            if row == 1 and column == 1:
+            if grid_size == 3 and row == 1 and column == 1:
                 patch = rgba[center_y - 33 : center_y + 34, center_x - 33 : center_x + 34]
                 yy, xx = np.ogrid[-33:34, -33:34]
                 patch = patch[np.maximum(np.abs(xx), np.abs(yy)) >= 21]

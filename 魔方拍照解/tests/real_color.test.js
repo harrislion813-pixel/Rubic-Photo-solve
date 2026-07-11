@@ -7,6 +7,7 @@ const root = path.join(__dirname, "..");
 const appSource = fs.readFileSync(path.join(root, "web", "app.js"), "utf8");
 const colorStart = appSource.indexOf("function rgbToLab");
 assert(colorStart >= 0, "color functions must remain extractable");
+globalThis.twoByTwoColorMappingValid = true;
 vm.runInThisContext(appSource.slice(colorStart));
 
 const payload = JSON.parse(fs.readFileSync(0, "utf8"));
@@ -37,10 +38,19 @@ const expectedByGroup = {
     L: "LUFLLLFDB",
     B: "BBFFBFDUD",
   },
+  5: {
+    U: "UFBFURRBU",
+    R: "RDUBRDDRL",
+    F: "DUFBFLDUB",
+    D: "LLRDDFUDB",
+    L: "FLFRLRBLF",
+    B: "RULBBUDFL",
+  },
 };
 const groupIndex = process.argv.indexOf("--group");
 const group = groupIndex >= 0 ? process.argv[groupIndex + 1] : "legacy";
-const expected = Object.fromEntries(
+const isTwoByTwo = ["3", "4", "6", "7"].includes(group);
+const expected = isTwoByTwo ? null : Object.fromEntries(
   Object.entries(expectedByGroup[group]).map(([face, labels]) => [face, [...labels]]),
 );
 
@@ -48,11 +58,30 @@ const samples = Object.fromEntries(
   faceOrder.map((face) => [
     face,
     payload[face].map((encoded, index) =>
-      summarizePatchPixels(Uint8ClampedArray.from(Buffer.from(encoded, "base64")), index === 4),
+      summarizePatchPixels(Uint8ClampedArray.from(Buffer.from(encoded, "base64")), !isTwoByTwo && index === 4),
     ),
   ]),
 );
-const actual = assignBalancedColors(samples, faceOrder);
+const actual = isTwoByTwo ? assignBalancedColors2x2(samples, faceOrder) : assignBalancedColors(samples, faceOrder);
+
+if (isTwoByTwo) {
+  const physicalByGroup = {
+    3: { U: "OYWO", R: "WBBR", F: "RGBY", D: "ROOG", L: "BGYW", B: "RWYG" },
+    4: { U: "RYWO", R: "WOYO", F: "RGWB", D: "BRYW", L: "YGGR", B: "BGBO" },
+    6: { U: "RGWY", R: "OWOG", F: "RGYW", D: "RBYY", L: "WGOB", B: "OBRB" },
+    7: { U: "RRWW", R: "OBOO", F: "RBBB", D: "YYOY", L: "YGGR", B: "WGGW" },
+  };
+  const physicalToLabel = { W: "U", R: "R", G: "F", Y: "D", O: "L", B: "B" };
+  const physical = physicalByGroup[group];
+  const semanticExpected = Object.fromEntries(
+    faceOrder.map((face) => [face, [...physical[face]].map((color) => physicalToLabel[color])]),
+  );
+  assert.deepEqual(actual, semanticExpected);
+  assert.equal(isLegalTwoByTwoFacelets(faceOrder.flatMap((face) => actual[face])), true);
+  assert.equal(twoByTwoColorMappingValid, true);
+  console.log("real 2x2 image color tests passed");
+  process.exit(0);
+}
 
 if (process.env.COLOR_DEBUG === "1") {
   const brief = (descriptor) => ({

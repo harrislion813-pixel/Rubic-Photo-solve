@@ -1,4 +1,5 @@
 const FACE_ORDER = ["U", "R", "F", "D", "L", "B"];
+const APP_VERSION = "2026.07.11.7";
 const FACE_HINTS = {
   U: "上面",
   R: "右面",
@@ -9,6 +10,8 @@ const FACE_HINTS = {
 };
 
 const STICKER_COLORS = ["U", "R", "F", "D", "L", "B"];
+let cubeSize = 3;
+let twoByTwoColorMappingValid = true;
 const state = Object.fromEntries(
   FACE_ORDER.map((face) => [
     face,
@@ -33,6 +36,13 @@ const solutionText = document.querySelector("#solutionText");
 const depthText = document.querySelector("#depthText");
 const solveBtn = document.querySelector("#solveBtn");
 const timeoutInput = document.querySelector("#timeoutInput");
+const cubeSizeSelect = document.querySelector("#cubeSizeSelect");
+const pageTitle = document.querySelector("#pageTitle");
+const pageSubtitle = document.querySelector("#pageSubtitle");
+const selectedSizeText = document.querySelector("#selectedSizeText");
+const uploadProgressText = document.querySelector("#uploadProgressText");
+const uploadCount = document.querySelector("#uploadCount");
+const uploadMeterBar = document.querySelector("#uploadMeterBar");
 let solveGeneration = 0;
 let solvePollTimer = null;
 let activeJobId = null;
@@ -61,6 +71,7 @@ initFaces();
 renderAll();
 
 solveBtn.addEventListener("click", solveCube);
+cubeSizeSelect.addEventListener("change", () => setCubeSize(Number(cubeSizeSelect.value)));
 faceletsText.addEventListener("input", () => {
   solveGeneration += 1;
   cancelActiveJob();
@@ -69,7 +80,7 @@ faceletsText.addEventListener("input", () => {
     solvePollTimer = null;
   }
   const compact = faceletsText.value.toUpperCase().replace(/[^URFDLB]/g, "");
-  if (compact.length === 54) {
+  if (compact.length === 6 * cubeSize * cubeSize) {
     applyFacelets(compact);
   }
 });
@@ -84,6 +95,7 @@ function initFaces() {
   for (const face of FACE_ORDER) {
     const node = template.content.firstElementChild.cloneNode(true);
     node.dataset.face = face;
+    node.querySelector(".face-symbol").textContent = face;
     node.querySelector(".face-name").textContent = `${face} 面`;
     node.querySelector(".face-hint").textContent = FACE_HINTS[face];
 
@@ -100,18 +112,72 @@ function initFaces() {
     node.querySelector(".rotate-left").addEventListener("click", () => rotateFace(face, false));
     node.querySelector(".rotate-right").addEventListener("click", () => rotateFace(face, true));
     node.querySelector(".adjust-region").addEventListener("click", () => openCropEditor(face));
+    setupDropZone(node, face);
 
-    const stickerRoot = node.querySelector(".stickers");
-    for (let idx = 0; idx < 9; idx += 1) {
-      const sticker = document.createElement("button");
-      sticker.type = "button";
-      sticker.className = "sticker";
-      sticker.dataset.index = String(idx);
-      sticker.addEventListener("click", () => cycleSticker(face, idx));
-      stickerRoot.append(sticker);
-    }
+    buildStickerButtons(node.querySelector(".stickers"), face);
     facesRoot.append(node);
   }
+}
+
+function setupDropZone(node, face) {
+  const uploadZone = node.querySelector(".upload-zone");
+  for (const eventName of ["dragenter", "dragover"]) {
+    uploadZone.addEventListener(eventName, (event) => {
+      event.preventDefault();
+      uploadZone.classList.add("is-dragging");
+    });
+  }
+  for (const eventName of ["dragleave", "drop"]) {
+    uploadZone.addEventListener(eventName, (event) => {
+      event.preventDefault();
+      uploadZone.classList.remove("is-dragging");
+    });
+  }
+  uploadZone.addEventListener("drop", (event) => {
+    const file = [...(event.dataTransfer?.files || [])].find((item) => item.type.startsWith("image/"));
+    if (file) loadImageForFace(face, file);
+  });
+}
+
+function buildStickerButtons(stickerRoot, face) {
+  stickerRoot.replaceChildren();
+  stickerRoot.classList.toggle("size-2", cubeSize === 2);
+  for (let idx = 0; idx < cubeSize * cubeSize; idx += 1) {
+    const sticker = document.createElement("button");
+    sticker.type = "button";
+    sticker.className = "sticker";
+    sticker.dataset.index = String(idx);
+    sticker.addEventListener("click", () => cycleSticker(face, idx));
+    stickerRoot.append(sticker);
+  }
+}
+
+function setCubeSize(size) {
+  if (![2, 3].includes(size) || size === cubeSize) return;
+  cancelActiveJob();
+  cubeSize = size;
+  twoByTwoColorMappingValid = true;
+  for (const face of FACE_ORDER) {
+    state[face].stickers = Array(size * size).fill(face);
+    state[face].samples = null;
+    state[face].imageLoaded = false;
+    state[face].sourceCanvas = null;
+    state[face].corners = null;
+    state[face].detection = null;
+    drawEmptyPreview(face);
+    const card = facesRoot.querySelector(`[data-face="${face}"]`);
+    buildStickerButtons(card.querySelector(".stickers"), face);
+    card.querySelector(".file-input").value = "";
+  }
+  pageTitle.innerHTML = `${size === 2 ? "二阶" : "三阶"}魔方<br><em>拍照即解</em>`;
+  pageSubtitle.textContent = size === 2
+    ? "上传六个面照片；无中心色聚类会结合角块约束自动定色，并直接返回 HTM 严格最短解。"
+    : "上传六个面照片，先返回可用快速解，再在后台验证以 F 面为前基准的 HTM 严格最短解。";
+  timeoutInput.value = size === 2 ? "10" : "180";
+  selectedSizeText.textContent = `已选择 ${size} × ${size}`;
+  solutionText.innerHTML = '<span class="empty-solution">完成六面录入后，解法会显示在这里</span>';
+  depthText.textContent = "";
+  renderAll();
 }
 
 function drawEmptyPreview(face) {
@@ -120,8 +186,8 @@ function drawEmptyPreview(face) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.strokeStyle = "#d8e0e6";
   ctx.lineWidth = 2;
-  for (let i = 1; i < 3; i += 1) {
-    const p = (canvas.width / 3) * i;
+  for (let i = 1; i < cubeSize; i += 1) {
+    const p = (canvas.width / cubeSize) * i;
     ctx.beginPath();
     ctx.moveTo(p, 0);
     ctx.lineTo(p, canvas.height);
@@ -178,10 +244,17 @@ async function detectCubeFaceWithBackend(sourceCanvas) {
     const response = await fetch("/api/detect", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ image: sourceCanvas.toDataURL("image/jpeg", 0.9) }),
+      body: JSON.stringify({ image: sourceCanvas.toDataURL("image/jpeg", 0.9), cube_size: cubeSize }),
     });
     const data = await response.json();
     if (!response.ok || !data.ok) throw new Error(data.error || "检测服务不可用");
+    if (data.app_version !== APP_VERSION) {
+      const error = new Error(
+        `识别后端仍是旧版本（${data.app_version || "未知"}），请停止并重新运行 server.py，然后刷新页面。`,
+      );
+      error.noBrowserFallback = true;
+      throw error;
+    }
     if (!data.detected) return fallbackFaceDetection(sourceCanvas, "opencv");
     return {
       corners: data.corners.map(([x, y]) => ({
@@ -194,6 +267,7 @@ async function detectCubeFaceWithBackend(sourceCanvas) {
       method: data.method,
     };
   } catch (error) {
+    if (error.noBrowserFallback) throw error;
     const fallback = detectCubeFace(sourceCanvas);
     fallback.engine = "browser";
     return fallback;
@@ -493,6 +567,7 @@ function expandQuad(corners, factor, width, height) {
 }
 
 function scoreQuad(corners, mask, width, height, fillRatio) {
+  const gridSize = typeof cubeSize === "undefined" ? 3 : cubeSize;
   const sideLengths = corners.map((point, index) => distance(point, corners[(index + 1) % 4]));
   const shortest = Math.min(...sideLengths);
   const longest = Math.max(...sideLengths);
@@ -501,15 +576,17 @@ function scoreQuad(corners, mask, width, height, fillRatio) {
   const areaRatio = Math.abs(signedPolygonArea(corners)) / (width * height);
   const areaScore = clamp(areaRatio / 0.045, 0, 1) * clamp((0.82 - areaRatio) / 0.22, 0, 1);
 
+  const centers = Array.from({ length: gridSize }, (_, index) => (index + 0.5) / gridSize);
   const centerValues = [];
-  for (const v of [1 / 6, 1 / 2, 5 / 6]) {
-    for (const u of [1 / 6, 1 / 2, 5 / 6]) {
+  for (const v of centers) {
+    for (const u of centers) {
       centerValues.push(sampleMask(mask, width, height, bilinearQuad(corners, u, v), 2));
     }
   }
   const lineValues = [];
-  for (const line of [1 / 3, 2 / 3]) {
-    for (const along of [1 / 6, 1 / 2, 5 / 6]) {
+  for (let index = 1; index < gridSize; index += 1) {
+    const line = index / gridSize;
+    for (const along of centers) {
       lineValues.push(sampleMask(mask, width, height, bilinearQuad(corners, line, along), 1));
       lineValues.push(sampleMask(mask, width, height, bilinearQuad(corners, along, line), 1));
     }
@@ -619,8 +696,8 @@ function clamp(value, minimum, maximum) {
 function drawSampleGrid(ctx, width, height) {
   ctx.strokeStyle = "rgba(255,255,255,0.9)";
   ctx.lineWidth = 2;
-  for (let i = 1; i < 3; i += 1) {
-    const p = (width / 3) * i;
+  for (let i = 1; i < cubeSize; i += 1) {
+    const p = (width / cubeSize) * i;
     ctx.beginPath();
     ctx.moveTo(p, 0);
     ctx.lineTo(p, height);
@@ -632,12 +709,12 @@ function drawSampleGrid(ctx, width, height) {
 
 function sampleFace(face) {
   const { canvas, ctx } = state[face];
-  const points = [1 / 6, 1 / 2, 5 / 6];
+  const points = Array.from({ length: cubeSize }, (_, index) => (index + 0.5) / cubeSize);
   const samples = [];
   for (const yRatio of points) {
     for (const xRatio of points) {
       samples.push(
-        samples.length === 4
+        cubeSize === 3 && samples.length === 4
           ? sampleCenterRing(ctx, canvas.width * xRatio, canvas.height * yRatio)
           : samplePatch(ctx, canvas.width * xRatio, canvas.height * yRatio, 35),
       );
@@ -678,17 +755,15 @@ function classifyAllFaces() {
   for (const face of FACE_ORDER) {
     if (!state[face].samples) return;
   }
-  const labels = assignBalancedColors(
-    Object.fromEntries(FACE_ORDER.map((face) => [face, state[face].samples])),
-    FACE_ORDER,
-  );
+  const samples = Object.fromEntries(FACE_ORDER.map((face) => [face, state[face].samples]));
+  const labels = cubeSize === 2 ? assignBalancedColors2x2(samples, FACE_ORDER) : assignBalancedColors(samples, FACE_ORDER);
   for (const face of FACE_ORDER) {
     state[face].stickers = labels[face];
   }
 }
 
 function cycleSticker(face, idx) {
-  if (idx === 4) return;
+  if (cubeSize === 3 && idx === 4) return;
   const current = state[face].stickers[idx];
   const next = STICKER_COLORS[(STICKER_COLORS.indexOf(current) + 1) % STICKER_COLORS.length];
   state[face].stickers[idx] = next;
@@ -697,10 +772,12 @@ function cycleSticker(face, idx) {
 
 function rotateFace(face, clockwise) {
   const current = state[face].stickers;
-  const rotated = clockwise
-    ? [current[6], current[3], current[0], current[7], current[4], current[1], current[8], current[5], current[2]]
-    : [current[2], current[5], current[8], current[1], current[4], current[7], current[0], current[3], current[6]];
-  rotated[4] = face;
+  const rotated = cubeSize === 2
+    ? (clockwise ? [current[2], current[0], current[3], current[1]] : [current[1], current[3], current[0], current[2]])
+    : (clockwise
+      ? [current[6], current[3], current[0], current[7], current[4], current[1], current[8], current[5], current[2]]
+      : [current[2], current[5], current[8], current[1], current[4], current[7], current[0], current[3], current[6]]);
+  if (cubeSize === 3) rotated[4] = face;
   state[face].stickers = rotated;
   renderAll();
 }
@@ -875,6 +952,7 @@ function renderAll() {
     const card = facesRoot.querySelector(`[data-face="${face}"]`);
     const adjustButton = card.querySelector(".adjust-region");
     const badge = card.querySelector(".detection-badge");
+    card.classList.toggle("is-loaded", state[face].imageLoaded);
     adjustButton.disabled = !state[face].imageLoaded;
     if (state[face].imageLoaded) {
       const detection = state[face].detection;
@@ -894,10 +972,23 @@ function renderAll() {
       const sticker = stickers[idx];
       sticker.dataset.color = color;
       sticker.textContent = color;
-      sticker.classList.toggle("center", idx === 4);
+      sticker.classList.toggle("center", cubeSize === 3 && idx === 4);
     });
   }
   updateFacelets();
+  updateWorkflow();
+}
+
+function updateWorkflow() {
+  const loadedCount = FACE_ORDER.filter((face) => state[face].imageLoaded).length;
+  uploadCount.textContent = String(loadedCount);
+  uploadMeterBar.style.width = `${(loadedCount / FACE_ORDER.length) * 100}%`;
+  uploadProgressText.textContent = loadedCount === 6 ? "六面录入完成" : `还需上传 ${6 - loadedCount} 面`;
+
+  const steps = document.querySelectorAll(".workflow-step");
+  steps[1].classList.toggle("is-complete", loadedCount === 6);
+  steps[1].classList.toggle("is-active", loadedCount < 6);
+  steps[2].classList.toggle("is-active", loadedCount === 6);
 }
 
 function updateFacelets() {
@@ -908,24 +999,28 @@ function updateFacelets() {
   const reviewFaces = FACE_ORDER.filter(
     (face) => state[face].imageLoaded && (state[face].detection.mode === "fallback" || state[face].detection.confidence < 55),
   );
-  const wrong = Object.entries(counts).filter(([, count]) => count !== 9);
+  const expectedPerColor = cubeSize * cubeSize;
+  const wrong = Object.entries(counts).filter(([, count]) => count !== expectedPerColor);
   if (wrong.length) {
     showError(statusText, `色块数量需要校正：${wrong.map(([f, c]) => `${f}=${c}`).join("，")}`);
+  } else if (cubeSize === 2 && loadedCount === 6 && !twoByTwoColorMappingValid) {
+    showError(statusText, "颜色聚类无法组成合法的 8 个角块，请检查照片方向或手动校正色块");
   } else if (reviewFaces.length) {
     statusText.textContent = `${reviewFaces.join("、")} 面的识别区域需要确认`;
   } else if (loadedCount < 6) {
     statusText.textContent = `已上传 ${loadedCount}/6 面，可先校正或继续上传`;
   } else {
-    statusText.textContent = "54 个色块数量正确，可以求解";
+    statusText.textContent = `${6 * expectedPerColor} 个色块数量正确，可以求解`;
   }
 }
 
 function applyFacelets(facelets) {
   let offset = 0;
   for (const face of FACE_ORDER) {
-    state[face].stickers = facelets.slice(offset, offset + 9).split("");
-    state[face].stickers[4] = face;
-    offset += 9;
+    const faceSize = cubeSize * cubeSize;
+    state[face].stickers = facelets.slice(offset, offset + faceSize).split("");
+    if (cubeSize === 3) state[face].stickers[4] = face;
+    offset += faceSize;
   }
   renderAll();
 }
@@ -939,7 +1034,9 @@ async function solveCube() {
     solvePollTimer = null;
   }
   solveBtn.disabled = true;
-  solutionText.textContent = "正在生成快速解；随后会在后台继续验证严格最短解。";
+  solutionText.textContent = cubeSize === 2
+    ? "正在搜索二阶 HTM 严格最短解。首次求解会先构建角块剪枝表。"
+    : "正在生成快速解；随后会在后台继续验证严格最短解。";
   depthText.textContent = "";
   statusText.textContent = "求解中...";
   try {
@@ -948,7 +1045,8 @@ async function solveCube() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         facelets,
-        max_depth: 20,
+        cube_size: cubeSize,
+        max_depth: cubeSize === 2 ? 11 : 20,
         timeout_seconds: Math.max(10, Number(timeoutInput.value) || 180),
       }),
     });
@@ -1278,6 +1376,115 @@ function assignBalancedColors(samplesByFace, faceOrder) {
     labels[item.face][item.index] = slots[assignment[row]];
   });
   return labels;
+}
+
+function assignBalancedColors2x2(samplesByFace, faceOrder) {
+  const items = faceOrder.flatMap((face) =>
+    samplesByFace[face].map((sample, index) => ({ face, index, sample })),
+  );
+  const prototypes = [items[0].sample];
+  while (prototypes.length < 6) {
+    let best = items[0].sample;
+    let bestDistance = -1;
+    for (const item of items) {
+      const nearest = Math.min(...prototypes.map((prototype) => robustColorDistance(item.sample, prototype)));
+      if (nearest > bestDistance) {
+        best = item.sample;
+        bestDistance = nearest;
+      }
+    }
+    prototypes.push(best);
+  }
+
+  const slots = Array.from({ length: 6 }, (_, cluster) => Array(4).fill(cluster)).flat();
+  let assignment = [];
+  for (let iteration = 0; iteration < 5; iteration += 1) {
+    assignment = minimumCostAssignment(
+      items.map((item) => slots.map((cluster) => robustColorDistance(item.sample, prototypes[cluster]))),
+    );
+    for (let cluster = 0; cluster < 6; cluster += 1) {
+      const group = items
+        .filter((_, row) => slots[assignment[row]] === cluster)
+        .map((item) => item.sample);
+      prototypes[cluster] = colorDescriptorMedoid(group);
+    }
+  }
+
+  const clusters = Object.fromEntries(faceOrder.map((face) => [face, Array(4).fill(-1)]));
+  items.forEach((item, row) => {
+    clusters[item.face][item.index] = slots[assignment[row]];
+  });
+  const colorMap = inferPhysicalTwoByTwoColorMap(prototypes, clusters, faceOrder)
+    || inferTwoByTwoColorMap(clusters, faceOrder);
+  twoByTwoColorMappingValid = colorMap !== null;
+  const effectiveMap = colorMap || faceOrder;
+  return Object.fromEntries(
+    faceOrder.map((face) => [face, clusters[face].map((cluster) => effectiveMap[cluster])]),
+  );
+}
+
+function inferPhysicalTwoByTwoColorMap(prototypes, clusters, faceOrder) {
+  // U/R/F/D/L/B correspond to the conventional physical palette
+  // white/red/green/yellow/orange/blue. A 2x2 has no centers, but preserving
+  // these visible color semantics makes manual review possible. The mapping
+  // is accepted only if it also forms a legal corner state.
+  const canonical = [
+    makeColorDescriptor([238, 238, 232], 0.03, 0.93),
+    makeColorDescriptor([215, 45, 35], 0.84, 0.84),
+    makeColorDescriptor([42, 166, 72], 0.75, 0.65),
+    makeColorDescriptor([242, 213, 55], 0.77, 0.95),
+    makeColorDescriptor([240, 115, 27], 0.89, 0.94),
+    makeColorDescriptor([43, 101, 201], 0.79, 0.79),
+  ];
+  const assignment = minimumCostAssignment(
+    prototypes.map((prototype) => canonical.map((reference) => robustColorDistance(prototype, reference))),
+  );
+  const mapping = assignment.map((labelIndex) => faceOrder[labelIndex]);
+  const facelets = faceOrder.flatMap((face) => clusters[face].map((cluster) => mapping[cluster]));
+  return isLegalTwoByTwoFacelets(facelets) ? mapping : null;
+}
+
+function inferTwoByTwoColorMap(clusters, faceOrder) {
+  const remainingLabels = ["R", "F", "D", "L", "B"];
+  let result = null;
+  function visit(prefix, unused) {
+    if (result) return;
+    if (!unused.length) {
+      const mapping = ["U", ...prefix];
+      const facelets = faceOrder.flatMap((face) => clusters[face].map((cluster) => mapping[cluster]));
+      if (isLegalTwoByTwoFacelets(facelets)) result = mapping;
+      return;
+    }
+    unused.forEach((label, index) => {
+      visit([...prefix, label], [...unused.slice(0, index), ...unused.slice(index + 1)]);
+    });
+  }
+  visit([], remainingLabels);
+  return result;
+}
+
+function isLegalTwoByTwoFacelets(facelets) {
+  const cornerIndices = [
+    [3, 4, 9], [2, 8, 17], [0, 16, 21], [1, 20, 5],
+    [13, 11, 6], [12, 19, 10], [14, 23, 18], [15, 7, 22],
+  ];
+  const cornerColors = [
+    ["U", "R", "F"], ["U", "F", "L"], ["U", "L", "B"], ["U", "B", "R"],
+    ["D", "F", "R"], ["D", "L", "F"], ["D", "B", "L"], ["D", "R", "B"],
+  ];
+  const cubies = [];
+  let orientationSum = 0;
+  for (const indices of cornerIndices) {
+    const orientation = indices.findIndex((index) => facelets[index] === "U" || facelets[index] === "D");
+    if (orientation < 0) return false;
+    const color1 = facelets[indices[(orientation + 1) % 3]];
+    const color2 = facelets[indices[(orientation + 2) % 3]];
+    const cubie = cornerColors.findIndex((colors) => colors[1] === color1 && colors[2] === color2);
+    if (cubie < 0) return false;
+    cubies.push(cubie);
+    orientationSum += orientation;
+  }
+  return new Set(cubies).size === 8 && orientationSum % 3 === 0;
 }
 
 function colorDescriptorMedoid(descriptors) {

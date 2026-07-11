@@ -1,0 +1,14 @@
+[
+  {
+    "image": "../initial/U1.jpg",
+    "grid_size": 3,
+    "corners": [[0.1, 0.1], [0.9, 0.1], [0.9, 0.9], [0.1, 0.9]],
+    "tags": ["example", "replace-corners-before-use"]
+  },
+  {
+    "image": "path/to/a/negative.jpg",
+    "grid_size": 3,
+    "reject": true,
+    "tags": ["negative", "complex-background"]
+  }
+]

@@ -19,6 +19,42 @@ class FaceDetection:
     score: float
 
 
+def assess_detected_face_quality(image: np.ndarray, detection: FaceDetection) -> dict:
+    """Measure recoverable capture problems inside the detected face."""
+    height, width = image.shape[:2]
+    source = np.array(
+        [[x * width, y * height] for x, y in detection.corners],
+        dtype=np.float32,
+    )
+    target = np.array([[0, 0], [239, 0], [239, 239], [0, 239]], dtype=np.float32)
+    transform = cv2.getPerspectiveTransform(source, target)
+    rectified = cv2.warpPerspective(image, transform, (240, 240), flags=cv2.INTER_LINEAR)
+    gray = cv2.cvtColor(rectified, cv2.COLOR_BGR2GRAY)
+    blur_score = float(cv2.Laplacian(gray, cv2.CV_64F).var())
+    mean_brightness = float(gray.mean())
+    contrast = float(gray.std())
+    dark_fraction = float(np.mean(gray < 20))
+    bright_fraction = float(np.mean(gray > 245))
+    reasons: list[str] = []
+    if blur_score < 18:
+        reasons.append("画面可能失焦或抖动")
+    if mean_brightness < 22 or dark_fraction > 0.90:
+        reasons.append("魔方面过暗")
+    if mean_brightness > 242 or bright_fraction > 0.90:
+        reasons.append("魔方面过曝")
+    if contrast < 9:
+        reasons.append("魔方面缺少可辨识细节")
+    return {
+        "valid": not reasons,
+        "reasons": reasons,
+        "blur_score": round(blur_score, 2),
+        "mean_brightness": round(mean_brightness, 2),
+        "contrast": round(contrast, 2),
+        "dark_fraction": round(dark_fraction, 4),
+        "bright_fraction": round(bright_fraction, 4),
+    }
+
+
 def decode_data_url(data_url: str) -> np.ndarray:
     if not isinstance(data_url, str) or "," not in data_url:
         raise ImageDetectionError("图片数据格式不正确")
@@ -37,11 +73,17 @@ def decode_data_url(data_url: str) -> np.ndarray:
     return image
 
 
-def detect_face_data_url(data_url: str, grid_size: int = 3) -> FaceDetection | None:
-    return detect_cube_face(decode_data_url(data_url), grid_size=grid_size)
-
-
 def detect_cube_face(image: np.ndarray, grid_size: int = 3) -> FaceDetection | None:
+    candidates = detect_cube_face_candidates(image, grid_size=grid_size, limit=1)
+    return candidates[0] if candidates else None
+
+
+def detect_cube_face_candidates(
+    image: np.ndarray,
+    grid_size: int = 3,
+    *,
+    limit: int = 3,
+) -> list[FaceDetection]:
     if image.ndim != 3 or image.shape[2] != 3:
         raise ImageDetectionError("图片必须是彩色图像")
     if grid_size not in (2, 3):
@@ -167,36 +209,50 @@ def detect_cube_face(image: np.ndarray, grid_size: int = 3) -> FaceDetection | N
 
     scored_candidates.sort(key=lambda item: item[0], reverse=True)
     if not scored_candidates:
-        return None
-    best_score, best_quad, best_method = scored_candidates[0]
+        return []
 
-    if best_score < 0.50:
-        return None
-
-    normalized = [[float(point[0] / width), float(point[1] / height)] for point in best_quad]
-    distinct_score = None
-    for candidate_score, candidate_quad, _ in scored_candidates[1:]:
-        if _quad_iou(best_quad, candidate_quad) < 0.62:
-            distinct_score = candidate_score
+    selected: list[tuple[float, np.ndarray, str]] = []
+    for candidate in scored_candidates:
+        candidate_score, candidate_quad, _ = candidate
+        if candidate_score < 0.50:
             break
-    score_floor, score_ceiling = ((0.72, 1.25) if grid_size == 2 else (0.62, 1.08))
-    quality_score = float(
-        np.clip((best_score - score_floor) / (score_ceiling - score_floor), 0.0, 1.0)
-    )
-    if distinct_score is None:
-        margin_score = 1.0
-    else:
-        margin_score = float(np.clip((best_score - distinct_score) / 0.12, 0.0, 1.0))
-    area_ratio = abs(cv2.contourArea(best_quad)) / image_area
-    area_floor, area_ceiling = ((0.055, 0.18) if grid_size == 2 else (0.045, 0.24))
-    area_score = float(np.clip((area_ratio - area_floor) / (area_ceiling - area_floor), 0.0, 1.0))
-    confidence = round((quality_score * 0.55 + margin_score * 0.25 + area_score * 0.20) * 100)
-    return FaceDetection(
-        corners=normalized,
-        confidence=int(confidence),
-        method=best_method,
-        score=round(quality_score, 4),
-    )
+        if any(_quad_iou(candidate_quad, existing_quad) >= 0.72 for _, existing_quad, _ in selected):
+            continue
+        selected.append(candidate)
+        if len(selected) >= max(1, min(limit, 5)):
+            break
+
+    detections: list[FaceDetection] = []
+    for candidate_score, candidate_quad, method in selected:
+        distinct_scores = [
+            other_score
+            for other_score, other_quad, _ in scored_candidates
+            if other_quad is not candidate_quad and _quad_iou(candidate_quad, other_quad) < 0.62
+        ]
+        distinct_score = max(distinct_scores, default=None)
+        score_floor, score_ceiling = ((0.72, 1.25) if grid_size == 2 else (0.62, 1.08))
+        quality_score = float(
+            np.clip((candidate_score - score_floor) / (score_ceiling - score_floor), 0.0, 1.0)
+        )
+        margin_score = 1.0 if distinct_score is None else float(
+            np.clip((candidate_score - distinct_score) / 0.12, 0.0, 1.0)
+        )
+        area_ratio = abs(cv2.contourArea(candidate_quad)) / image_area
+        area_floor, area_ceiling = ((0.055, 0.18) if grid_size == 2 else (0.045, 0.24))
+        area_score = float(np.clip((area_ratio - area_floor) / (area_ceiling - area_floor), 0.0, 1.0))
+        confidence = round((quality_score * 0.55 + margin_score * 0.25 + area_score * 0.20) * 100)
+        detections.append(
+            FaceDetection(
+                corners=[
+                    [float(point[0] / width), float(point[1] / height)]
+                    for point in candidate_quad
+                ],
+                confidence=int(confidence),
+                method=method,
+                score=round(quality_score, 4),
+            )
+        )
+    return detections
 
 
 def _remove_border_component(mask: np.ndarray) -> np.ndarray:

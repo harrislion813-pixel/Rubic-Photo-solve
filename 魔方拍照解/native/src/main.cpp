@@ -174,6 +174,21 @@ int main(int argc, char** argv) {
         cube::CubieCube state = cube::from_facelets(argv[2]);
         if (command == "solve") {
             cube::SolverOptions options;
+            options.progress_callback = [](const cube::NativeSearchProgress& progress) {
+                std::cerr << "{\"type\":\"progress\",\"lower_bound\":" << progress.lower_bound
+                          << ",\"upper_bound\":" << progress.upper_bound
+                          << ",\"current_depth\":" << progress.current_depth
+                          << ",\"completed_depth\":" << progress.completed_depth
+                          << ",\"iteration_nodes\":" << progress.iteration_nodes
+                          << ",\"nodes\":" << progress.total_nodes
+                          << ",\"transposition_hits\":" << progress.transposition_hits
+                          << ",\"iteration_seconds\":" << std::fixed << std::setprecision(6)
+                          << progress.iteration_seconds
+                          << ",\"elapsed_seconds\":" << progress.elapsed_seconds
+                          << ",\"found\":" << (progress.found ? "true" : "false")
+                          << ",\"timed_out\":" << (progress.timed_out ? "true" : "false")
+                          << "}\n" << std::flush;
+            };
             std::filesystem::path pdb_path;
             std::filesystem::path phase1_pdb_path;
             std::filesystem::path edge_pdb_a_path;

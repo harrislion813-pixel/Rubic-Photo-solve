@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <filesystem>
+#include <functional>
 #include <memory>
 #include <optional>
 #include <span>
@@ -61,12 +62,27 @@ private:
     std::vector<std::uint8_t> corner_prune_;
 };
 
+struct NativeSearchProgress {
+    int lower_bound{};
+    int upper_bound{};
+    int current_depth{};
+    int completed_depth{};
+    std::uint64_t iteration_nodes{};
+    std::uint64_t total_nodes{};
+    std::uint64_t transposition_hits{};
+    double iteration_seconds{};
+    double elapsed_seconds{};
+    bool found{};
+    bool timed_out{};
+};
+
 struct SolverOptions {
     int max_depth{20};
     double timeout_seconds{180.0};
     int threads{0};
     std::size_t transposition_limit_per_thread{500'000};
     std::vector<int> incumbent_moves;
+    std::function<void(const NativeSearchProgress&)> progress_callback;
 };
 
 struct NativeSolveResult {

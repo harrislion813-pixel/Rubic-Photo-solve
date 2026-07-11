@@ -92,9 +92,26 @@ python server.py
 ```powershell
 node tests\recognition.test.js
 node tests\color.test.js
+node tests\two_by_two_color.test.js
+node tests\solver_ui.test.js
 python -m unittest discover -s tests -v
 python -m compileall cube_app server.py
 ```
+
+也可以一次运行全部检查：
+
+```powershell
+.\tests\check.ps1
+```
+
+视觉检测器的调参应使用人工标注且冻结的测试集。复制
+`tests/vision_annotations.example.json`，将四角改为图片宽高归一化坐标，并运行：
+
+```powershell
+python tests\benchmark_vision.py tests\vision_annotations.json
+```
+
+报告会分别给出漏检、负样本误检、角点误差、关键失败率、延迟和各场景标签的失败数。
 
 实拍回归测试按文件名末尾的组号读取图片，例如第一组为 `initial/U1.jpg`、`R1.jpg`、`F1.jpg`、`D1.jpg`、`L1.jpg`、`B1.jpg`，第二组使用数字 `2`。未提供一组完整图片时，`test_real_images.py` 会自动跳过该组。
 

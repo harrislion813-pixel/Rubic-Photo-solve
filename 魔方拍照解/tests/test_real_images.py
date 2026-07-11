@@ -10,7 +10,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from cube_app.vision import _score_face_candidate, detect_cube_face
+from cube_app.vision import _score_face_candidate, assess_detected_face_quality, detect_cube_face
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -55,6 +55,9 @@ class RealImageRegressionTests(unittest.TestCase):
                     continue
                 corners = np.array(result.corners, np.float32)
                 confidences.append(result.confidence)
+                quality = assess_detected_face_quality(image, result)
+                if not quality["valid"]:
+                    failures.append(f"{face}{group}: capture quality rejected: {quality}")
                 area = abs(float(cv2.contourArea(corners)))
                 minimum_area = 0.08 if grid_size == 2 else 0.10
                 if result.score < 0.50 or area < minimum_area or np.any(corners < 0) or np.any(corners > 1):

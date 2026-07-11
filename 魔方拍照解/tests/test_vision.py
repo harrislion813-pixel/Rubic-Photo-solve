@@ -5,7 +5,7 @@ import unittest
 import cv2
 import numpy as np
 
-from cube_app.vision import detect_cube_face
+from cube_app.vision import detect_cube_face, detect_cube_face_candidates
 
 
 COLORS = [
@@ -99,6 +99,17 @@ class VisionDetectionTests(unittest.TestCase):
     def test_blank_photo_returns_no_detection(self) -> None:
         image = np.full((420, 720, 3), 62, np.uint8)
         self.assertIsNone(detect_cube_face(image))
+        self.assertEqual(detect_cube_face_candidates(image), [])
+
+    def test_candidate_api_keeps_best_detection_first(self) -> None:
+        corners = np.array([[280, 105], [745, 142], [790, 568], [235, 535]], np.float32)
+        image = make_photo(1050, 680, corners, light=False)
+        best = detect_cube_face(image)
+        candidates = detect_cube_face_candidates(image, limit=3)
+        self.assertIsNotNone(best)
+        self.assertTrue(candidates)
+        self.assertEqual(candidates[0], best)
+        self.assertLessEqual(len(candidates), 3)
 
 
 if __name__ == "__main__":

@@ -1,14 +1,18 @@
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
-const vm = require("node:vm");
+const { pathToFileURL } = require("node:url");
 
 const root = path.join(__dirname, "..");
-const appSource = fs.readFileSync(path.join(root, "web", "app.js"), "utf8");
-const colorStart = appSource.indexOf("function rgbToLab");
-assert(colorStart >= 0, "color functions must remain extractable");
-globalThis.twoByTwoColorMappingValid = true;
-vm.runInThisContext(appSource.slice(colorStart));
+
+async function main() {
+const {
+  classifyBalancedColors,
+  classifyBalancedColors2x2,
+  isLegalTwoByTwoFacelets,
+  robustColorDistance,
+  summarizePatchPixels,
+} = await import(pathToFileURL(path.join(root, "web", "color.js")).href);
 
 const payload = JSON.parse(fs.readFileSync(0, "utf8"));
 
@@ -62,7 +66,11 @@ const samples = Object.fromEntries(
     ),
   ]),
 );
-const actual = isTwoByTwo ? assignBalancedColors2x2(samples, faceOrder) : assignBalancedColors(samples, faceOrder);
+const classified = isTwoByTwo
+  ? classifyBalancedColors2x2(samples, faceOrder)
+  : classifyBalancedColors(samples, faceOrder);
+const actual = classified.labels;
+assert.equal(classified.quality.valid, true, classified.quality.reasons.join("；"));
 
 if (isTwoByTwo) {
   const physicalByGroup = {
@@ -78,7 +86,7 @@ if (isTwoByTwo) {
   );
   assert.deepEqual(actual, semanticExpected);
   assert.equal(isLegalTwoByTwoFacelets(faceOrder.flatMap((face) => actual[face])), true);
-  assert.equal(twoByTwoColorMappingValid, true);
+  assert.equal(classified.quality.mappingValid, true);
   console.log("real 2x2 image color tests passed");
   process.exit(0);
 }
@@ -111,3 +119,9 @@ if (process.env.COLOR_DEBUG === "1") {
 
 assert.deepEqual(actual, expected);
 console.log("real image color tests passed");
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

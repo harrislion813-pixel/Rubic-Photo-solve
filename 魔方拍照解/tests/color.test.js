@@ -1,12 +1,15 @@
 const assert = require("node:assert/strict");
-const fs = require("node:fs");
 const path = require("node:path");
-const vm = require("node:vm");
+const { pathToFileURL } = require("node:url");
 
-const appSource = fs.readFileSync(path.join(__dirname, "..", "web", "app.js"), "utf8");
-const colorStart = appSource.indexOf("function rgbToLab");
-assert(colorStart >= 0, "color functions must remain extractable");
-vm.runInThisContext(appSource.slice(colorStart));
+async function main() {
+const {
+  classifyBalancedColors,
+  makeColorDescriptor,
+  minimumCostAssignment,
+  robustColorDistance,
+  summarizePatchPixels,
+} = await import(pathToFileURL(path.join(__dirname, "..", "web", "color.js")).href);
 
 function patchPixels(parts) {
   const pixels = [];
@@ -77,4 +80,19 @@ assignment.forEach((column) => {
 });
 assert.deepEqual(counts, [8, 8, 8, 8, 8, 8]);
 
+const faces = ["U", "R", "F", "D", "L", "B"];
+const identical = makeColorDescriptor([220, 220, 220], 0, 0.86);
+const unsafe = classifyBalancedColors(
+  Object.fromEntries(faces.map((face) => [face, Array(9).fill(identical)])),
+  faces,
+);
+assert.equal(unsafe.quality.valid, false, "indistinguishable colors must block automatic solving");
+assert(unsafe.quality.reasons.some((reason) => reason.includes("无法可靠区分")));
+
 console.log("color tests passed");
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

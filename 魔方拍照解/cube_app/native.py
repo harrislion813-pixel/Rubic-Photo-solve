@@ -4,6 +4,7 @@ import json
 import os
 import subprocess
 import threading
+from collections.abc import Callable
 from pathlib import Path
 
 from .cubie import CubieCube, MOVE_INDEX, to_facelets
@@ -50,6 +51,7 @@ def solve_native(
     incumbent_moves: list[str] | None,
     cancel_event: threading.Event | None,
     threads: int | None = None,
+    progress_callback: Callable[[dict], None] | None = None,
 ) -> dict | None:
     if not native_solver_available():
         return None
@@ -110,18 +112,58 @@ def solve_native(
         encoding="utf-8",
         creationflags=creation_flags,
     )
-    while True:
+    stdout_parts: list[str] = []
+    stderr_lines: list[str] = []
+
+    def read_stdout() -> None:
+        assert process.stdout is not None
+        stdout_parts.append(process.stdout.read())
+
+    def read_stderr() -> None:
+        assert process.stderr is not None
+        for line in process.stderr:
+            stripped = line.strip()
+            if not stripped:
+                continue
+            try:
+                event = json.loads(stripped)
+            except json.JSONDecodeError:
+                stderr_lines.append(stripped)
+                continue
+            if event.get("type") == "progress":
+                if progress_callback is not None:
+                    progress_callback(event)
+            else:
+                stderr_lines.append(stripped)
+
+    output_thread = threading.Thread(target=read_stdout, name="cube-native-stdout", daemon=True)
+    progress_thread = threading.Thread(target=read_stderr, name="cube-native-stderr", daemon=True)
+    output_thread.start()
+    progress_thread.start()
+    cancelled = False
+    while process.poll() is None:
         try:
-            stdout, stderr = process.communicate(timeout=0.2)
-            break
+            process.wait(timeout=0.2)
         except subprocess.TimeoutExpired:
             if cancel_event is not None and cancel_event.is_set():
+                cancelled = True
                 process.terminate()
                 try:
                     process.wait(timeout=2)
                 except subprocess.TimeoutExpired:
                     process.kill()
-                raise NativeSolverCancelled("搜索已取消。")
+                    process.wait()
+
+    output_thread.join(timeout=2)
+    progress_thread.join(timeout=2)
+    if process.stdout is not None:
+        process.stdout.close()
+    if process.stderr is not None:
+        process.stderr.close()
+    stdout = "".join(stdout_parts)
+    stderr = "\n".join(stderr_lines)
+    if cancelled:
+        raise NativeSolverCancelled("搜索已取消。")
 
     if process.returncode != 0:
         message = stderr.strip().splitlines()[-1] if stderr.strip() else "native solver failed"

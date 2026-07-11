@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f3f2ed" />
     <title>Cube Lens · 魔方拍照求解</title>
-    <link rel="stylesheet" href="/styles.css?v=20260711-7" />
+    <link rel="stylesheet" href="/styles.css?v=20260711-8" />
   </head>
   <body>
     <div class="page-glow page-glow-left" aria-hidden="true"></div>
@@ -43,7 +43,7 @@
             </select>
             <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4" /></svg>
           </div>
-          <small>应用版本 v2026.07.11.7</small>
+          <small>应用版本 v2026.07.11.8</small>
         </div>
       </section>
 
@@ -194,6 +194,7 @@
         <div class="crop-stage"><canvas id="cropCanvas"></canvas></div>
         <footer class="crop-actions">
           <button id="redetectBtn" class="secondary-btn" type="button">自动重新识别</button>
+          <button id="nextCandidateBtn" class="secondary-btn" type="button" hidden>切换候选</button>
           <span id="cropConfidence" class="crop-confidence"></span>
           <button class="secondary-btn" type="submit" value="cancel">取消</button>
           <button id="applyCropBtn" class="primary-btn compact" type="button">应用区域</button>
@@ -201,6 +202,6 @@
       </form>
     </dialog>
 
-    <script src="/app.js?v=20260711-7"></script>
+    <script type="module" src="/app.js?v=20260711-8"></script>
   </body>
 </html>

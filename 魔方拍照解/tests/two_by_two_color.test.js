@@ -1,13 +1,15 @@
 const assert = require("node:assert/strict");
-const fs = require("node:fs");
 const path = require("node:path");
-const vm = require("node:vm");
+const { pathToFileURL } = require("node:url");
 
-const appSource = fs.readFileSync(path.join(__dirname, "..", "web", "app.js"), "utf8");
-const start = appSource.indexOf("function rgbToLab");
-assert(start >= 0, "color functions must remain extractable");
-globalThis.twoByTwoColorMappingValid = true;
-vm.runInThisContext(appSource.slice(start));
+async function main() {
+const {
+  assignBalancedColors2x2,
+  classifyBalancedColors2x2,
+  inferTwoByTwoColorMap,
+  isLegalTwoByTwoFacelets,
+  makeColorDescriptor,
+} = await import(pathToFileURL(path.join(__dirname, "..", "web", "color.js")).href);
 
 const faces = ["U", "R", "F", "D", "L", "B"];
 const solvedClusters = Object.fromEntries(faces.map((face, index) => [face, Array(4).fill(index)]));
@@ -31,6 +33,18 @@ const samplesByFace = Object.fromEntries(
 const classified = assignBalancedColors2x2(samplesByFace, faces);
 for (const face of faces) assert.equal(new Set(classified[face]).size, 1);
 assert.equal(isLegalTwoByTwoFacelets(faces.flatMap((face) => classified[face])), true);
-assert.equal(twoByTwoColorMappingValid, true);
+
+const identical = makeColorDescriptor([220, 220, 220], 0, 0.86);
+const unsafe = classifyBalancedColors2x2(
+  Object.fromEntries(faces.map((face) => [face, Array(4).fill(identical)])),
+  faces,
+);
+assert.equal(unsafe.quality.valid, false);
 
 console.log("two_by_two_color.test.js: all tests passed");
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

@@ -21,6 +21,7 @@ from cube_app.native import (
     solve_native,
 )
 from cube_app.optimal import OptimalSolver, SearchCancelled, SearchTimeout
+from cube_app.two_by_two import TwoByTwoSolver
 
 try:
     from cube_app.vision import detect_face_data_url
@@ -32,11 +33,12 @@ ROOT = Path(__file__).resolve().parent
 WEB_ROOT = ROOT / "web"
 HOST = "127.0.0.1"
 PORT = 8765
-APP_VERSION = "2026.07.11.1"
+APP_VERSION = "2026.07.11.7"
 
 SOLVER = OptimalSolver(ROOT / ".cache", parallel=True)
 PROBE_SOLVER = OptimalSolver(ROOT / ".cache", parallel=False)
 FAST_SOLVER = FastTwoPhaseSolver(ROOT / ".cache")
+TWO_BY_TWO_SOLVER = TwoByTwoSolver()
 QUICK_OPTIMAL_PROBE_SECONDS = 0.75
 QUICK_SOLVE_SECONDS = 1.5
 JOBS: dict[str, dict] = {}
@@ -250,9 +252,12 @@ class AppHandler(BaseHTTPRequestHandler):
                     self._send_json({"ok": False, "error": "OpenCV 检测器不可用"}, status=503)
                     return
                 payload = self._read_json()
-                result = detect_face_data_url(str(payload.get("image", "")))
+                grid_size = int(payload.get("cube_size", 3))
+                if grid_size not in (2, 3):
+                    raise ValueError("cube_size 只能是 2 或 3。")
+                result = detect_face_data_url(str(payload.get("image", "")), grid_size=grid_size)
                 if result is None:
-                    self._send_json({"ok": True, "detected": False})
+                    self._send_json({"ok": True, "detected": False, "app_version": APP_VERSION})
                 else:
                     self._send_json(
                         {
@@ -262,6 +267,7 @@ class AppHandler(BaseHTTPRequestHandler):
                             "confidence": result.confidence,
                             "method": result.method,
                             "score": result.score,
+                            "app_version": APP_VERSION,
                         }
                     )
             except ValueError as exc:
@@ -275,7 +281,10 @@ class AppHandler(BaseHTTPRequestHandler):
         try:
             payload = self._read_json()
             facelets = str(payload.get("facelets", ""))
-            max_depth = int(payload.get("max_depth", 20))
+            cube_size = int(payload.get("cube_size", 3))
+            if cube_size not in (2, 3):
+                raise ValueError("cube_size 只能是 2 或 3。")
+            max_depth = int(payload.get("max_depth", 11 if cube_size == 2 else 20))
             if not 0 <= max_depth <= 20:
                 raise ValueError("max_depth 必须在 0 到 20 之间。")
             timeout = payload.get("timeout_seconds", 180)
@@ -284,6 +293,15 @@ class AppHandler(BaseHTTPRequestHandler):
                 not math.isfinite(timeout_seconds) or not 0.1 <= timeout_seconds <= 3600
             ):
                 raise ValueError("timeout_seconds 必须在 0.1 到 3600 秒之间。")
+            if cube_size == 2:
+                result = TWO_BY_TWO_SOLVER.solve_facelets(
+                    facelets,
+                    max_depth=min(max_depth, 11),
+                    timeout_seconds=timeout_seconds,
+                )
+                self._send_json({"ok": True, **result_payload(result), "proof_status": "complete"})
+                return
+
             cube = from_facelets(facelets)
 
             shared_tables = PROBE_SOLVER.tables
@@ -336,7 +354,7 @@ class AppHandler(BaseHTTPRequestHandler):
             self._send_json(response)
         except JobCapacityError as exc:
             self._send_json({"ok": False, "error": str(exc)}, status=503)
-        except (CubeStateError, SearchTimeout, ValueError) as exc:
+        except (CubeStateError, SearchTimeout, TimeoutError, ValueError) as exc:
             self._send_json({"ok": False, "error": str(exc)}, status=400)
         except Exception as exc:  # pragma: no cover - keeps the local app friendly.
             self._send_json({"ok": False, "error": f"服务器内部错误：{exc}"}, status=500)
@@ -391,7 +409,13 @@ class AppHandler(BaseHTTPRequestHandler):
 def main() -> None:
     server, port = create_server()
     write_port_file(port)
-    print(f"三阶魔方最短解应用已启动: http://{HOST}:{port}/", flush=True)
+    print(f"魔方最短解应用 {APP_VERSION} 已启动: http://{HOST}:{port}/", flush=True)
+    if port != PORT:
+        print(
+            f"警告：默认端口 {PORT} 已被其他进程占用，可能仍有旧版服务在运行。"
+            f"请使用上面的 {port} 端口，或停止旧进程后重新启动。",
+            flush=True,
+        )
     print("首次求解会生成 HTM 剪枝表，请耐心等待。按 Ctrl+C 停止。", flush=True)
     try:
         server.serve_forever()

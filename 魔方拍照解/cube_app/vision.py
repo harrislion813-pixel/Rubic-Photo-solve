@@ -37,13 +37,15 @@ def decode_data_url(data_url: str) -> np.ndarray:
     return image
 
 
-def detect_face_data_url(data_url: str) -> FaceDetection | None:
-    return detect_cube_face(decode_data_url(data_url))
+def detect_face_data_url(data_url: str, grid_size: int = 3) -> FaceDetection | None:
+    return detect_cube_face(decode_data_url(data_url), grid_size=grid_size)
 
 
-def detect_cube_face(image: np.ndarray) -> FaceDetection | None:
+def detect_cube_face(image: np.ndarray, grid_size: int = 3) -> FaceDetection | None:
     if image.ndim != 3 or image.shape[2] != 3:
         raise ImageDetectionError("图片必须是彩色图像")
+    if grid_size not in (2, 3):
+        raise ImageDetectionError("只支持二阶或三阶魔方")
 
     original_height, original_width = image.shape[:2]
     scale = min(1.0, 1100.0 / max(original_width, original_height))
@@ -128,37 +130,72 @@ def detect_cube_face(image: np.ndarray) -> FaceDetection | None:
                 cell_candidates.append((quad, rectangularity * side_ratio))
 
     cells = _deduplicate_cells(cell_candidates)
-    candidates.extend(_fit_grid_candidates(cells, width, height))
+    candidates.extend(_fit_grid_candidates(cells, width, height, grid_size))
+    if grid_size == 2:
+        candidates.extend(_fit_2x2_pair_candidates(cells, width, height))
+        candidates.extend(_expand_2x2_cell_candidates(cells, width, height))
     candidates.extend(_cluster_cell_candidates(cells, width, height))
     candidates = _deduplicate_candidates(candidates, width, height)
 
-    best_score = -1.0
-    best_quad: np.ndarray | None = None
-    best_method = ""
+    scored_candidates: list[tuple[float, np.ndarray, str]] = []
     for quad, method in candidates[:160]:
         candidate_area_ratio = abs(cv2.contourArea(quad)) / image_area
+        if grid_size == 2 and candidate_area_ratio < 0.055:
+            continue
         if candidate_area_ratio < 0.035 and not method.startswith("grid-fit"):
             continue
+        candidate_best_score = -1.0
+        candidate_best_quad: np.ndarray | None = None
         for expansion in (0.96, 1.0, 1.04, 1.09):
             expanded = _expand_quad(quad, expansion, width, height)
-            score = _score_face_candidate(working, expanded)
+            score = _score_face_candidate(working, expanded, grid_size)
+            aligned_cells = 0
+            if grid_size == 2:
+                aligned_cells, alignment_score = _2x2_cell_alignment(cells, expanded)
+                score += alignment_score * 0.24
             if method.startswith("grid-fit"):
-                score += 0.065
-            if score > best_score:
-                best_score = score
-                best_quad = expanded
-                best_method = method
+                score += 0.065 if grid_size == 3 else 0.018
+            elif method in {"cell-pair-2x2", "cell-2x2"}:
+                score += 0.025
+                if aligned_cells < 2:
+                    score -= 0.16
+            if score > candidate_best_score:
+                candidate_best_score = score
+                candidate_best_quad = expanded
+        if candidate_best_quad is not None:
+            scored_candidates.append((candidate_best_score, candidate_best_quad, method))
 
-    if best_quad is None or best_score < 0.50:
+    scored_candidates.sort(key=lambda item: item[0], reverse=True)
+    if not scored_candidates:
+        return None
+    best_score, best_quad, best_method = scored_candidates[0]
+
+    if best_score < 0.50:
         return None
 
     normalized = [[float(point[0] / width), float(point[1] / height)] for point in best_quad]
-    confidence = round(np.clip((best_score - 0.46) / 0.38, 0.0, 1.0) * 100)
+    distinct_score = None
+    for candidate_score, candidate_quad, _ in scored_candidates[1:]:
+        if _quad_iou(best_quad, candidate_quad) < 0.62:
+            distinct_score = candidate_score
+            break
+    score_floor, score_ceiling = ((0.72, 1.25) if grid_size == 2 else (0.62, 1.08))
+    quality_score = float(
+        np.clip((best_score - score_floor) / (score_ceiling - score_floor), 0.0, 1.0)
+    )
+    if distinct_score is None:
+        margin_score = 1.0
+    else:
+        margin_score = float(np.clip((best_score - distinct_score) / 0.12, 0.0, 1.0))
+    area_ratio = abs(cv2.contourArea(best_quad)) / image_area
+    area_floor, area_ceiling = ((0.055, 0.18) if grid_size == 2 else (0.045, 0.24))
+    area_score = float(np.clip((area_ratio - area_floor) / (area_ceiling - area_floor), 0.0, 1.0))
+    confidence = round((quality_score * 0.55 + margin_score * 0.25 + area_score * 0.20) * 100)
     return FaceDetection(
         corners=normalized,
         confidence=int(confidence),
         method=best_method,
-        score=round(float(best_score), 4),
+        score=round(quality_score, 4),
     )
 
 
@@ -233,10 +270,10 @@ def _deduplicate_cells(cells: list[tuple[np.ndarray, float]]) -> list[np.ndarray
 
 
 def _fit_grid_candidates(
-    cells: list[np.ndarray], width: int, height: int
+    cells: list[np.ndarray], width: int, height: int, grid_size: int = 3
 ) -> list[tuple[np.ndarray, str]]:
     candidates: list[tuple[np.ndarray, str]] = []
-    if len(cells) < 6:
+    if len(cells) < grid_size * 2:
         return candidates
 
     centers = np.array([quad.mean(axis=0) for quad in cells], dtype=np.float32)
@@ -288,18 +325,18 @@ def _fit_grid_candidates(
 
         xs = [position[0] for position in best_for_position]
         ys = [position[1] for position in best_for_position]
-        for start_x in range(min(xs), max(xs) - 1):
-            for start_y in range(min(ys), max(ys) - 1):
+        for start_x in range(min(xs), max(xs) - grid_size + 2):
+            for start_y in range(min(ys), max(ys) - grid_size + 2):
                 selected_positions = [
                     position
                     for position in best_for_position
-                    if start_x <= position[0] <= start_x + 2
-                    and start_y <= position[1] <= start_y + 2
+                    if start_x <= position[0] < start_x + grid_size
+                    and start_y <= position[1] < start_y + grid_size
                 ]
-                if len(selected_positions) < 6:
+                if len(selected_positions) < grid_size * 2:
                     continue
-                row_counts = [sum(position[1] == start_y + row for position in selected_positions) for row in range(3)]
-                column_counts = [sum(position[0] == start_x + column for position in selected_positions) for column in range(3)]
+                row_counts = [sum(position[1] == start_y + row for position in selected_positions) for row in range(grid_size)]
+                column_counts = [sum(position[0] == start_x + column for position in selected_positions) for column in range(grid_size)]
                 if min(row_counts) < 1 or min(column_counts) < 1:
                     continue
                 if sum(count >= 2 for count in row_counts) < 2 or sum(count >= 2 for count in column_counts) < 2:
@@ -325,9 +362,12 @@ def _fit_grid_candidates(
                 if transform is None:
                     continue
                 inlier_count = int(inlier_mask.sum()) if inlier_mask is not None else len(selected_positions)
-                if inlier_count < 6:
+                if inlier_count < grid_size * 2:
                     continue
-                outer_grid = np.array([[[0, 0], [3, 0], [3, 3], [0, 3]]], dtype=np.float32)
+                outer_grid = np.array(
+                    [[[0, 0], [grid_size, 0], [grid_size, grid_size], [0, grid_size]]],
+                    dtype=np.float32,
+                )
                 outer = cv2.perspectiveTransform(outer_grid, transform)[0]
                 outer = _order_quad(outer)
                 area_ratio = abs(cv2.contourArea(outer)) / (width * height)
@@ -365,6 +405,169 @@ def _cluster_cell_candidates(
     return candidates
 
 
+def _expand_2x2_cell_candidates(
+    cells: list[np.ndarray], width: int, height: int
+) -> list[tuple[np.ndarray, str]]:
+    """Infer a complete 2x2 face from any one large sticker quadrilateral.
+
+    Real phone photos often clip one side of a 2x2 cube or merge a dark-blue
+    sticker into the background, leaving only two or three detectable cells.
+    A keyboard in the background produces many quads too, but those cells are
+    much smaller. Extrapolating only large, square-ish cells gives the scorer
+    accurate face candidates without requiring all four stickers to contour.
+    """
+    image_area = float(width * height)
+    result: list[tuple[np.ndarray, str]] = []
+    for quad in cells:
+        cell_area_ratio = abs(cv2.contourArea(quad)) / image_area
+        if cell_area_ratio < 0.018 or _side_ratio(quad) < 0.62:
+            continue
+        top = quad[1] - quad[0]
+        bottom = quad[2] - quad[3]
+        left = quad[3] - quad[0]
+        right = quad[2] - quad[1]
+        axis_x = (top + bottom) / 2
+        axis_y = (left + right) / 2
+        center = quad.mean(axis=0)
+        if np.linalg.norm(axis_x) < 4 or np.linalg.norm(axis_y) < 4:
+            continue
+
+        for row in range(2):
+            for column in range(2):
+                top_left = center - (column + 0.5) * axis_x - (row + 0.5) * axis_y
+                outer = np.array(
+                    [
+                        top_left,
+                        top_left + axis_x * 2,
+                        top_left + axis_x * 2 + axis_y * 2,
+                        top_left + axis_y * 2,
+                    ],
+                    dtype=np.float32,
+                )
+                area_ratio = abs(cv2.contourArea(outer)) / image_area
+                if not 0.075 <= area_ratio <= 0.88 or _side_ratio(outer) < 0.34:
+                    continue
+                # A slightly clipped cube is valid; clamp only after its full
+                # geometry has been checked so border cells can still vote.
+                outer[:, 0] = np.clip(outer[:, 0], 0, width - 1)
+                outer[:, 1] = np.clip(outer[:, 1], 0, height - 1)
+                if abs(cv2.contourArea(outer)) / image_area >= 0.06:
+                    result.append((_order_quad(outer), "cell-2x2"))
+    return result
+
+
+def _fit_2x2_pair_candidates(
+    cells: list[np.ndarray], width: int, height: int
+) -> list[tuple[np.ndarray, str]]:
+    """Fit a 2x2 face from a detected horizontal or vertical sticker pair."""
+    image_area = float(width * height)
+    large = [
+        quad
+        for quad in cells
+        if abs(cv2.contourArea(quad)) / image_area >= 0.014 and _side_ratio(quad) >= 0.58
+    ]
+    result: list[tuple[np.ndarray, str]] = []
+    for left_index, first in enumerate(large):
+        first_area = abs(cv2.contourArea(first))
+        first_center = first.mean(axis=0)
+        for second in large[left_index + 1 :]:
+            second_area = abs(cv2.contourArea(second))
+            area_ratio = min(first_area, second_area) / max(first_area, second_area, 1.0)
+            if area_ratio < 0.48:
+                continue
+            second_center = second.mean(axis=0)
+            delta = second_center - first_center
+            horizontal = abs(delta[0]) > abs(delta[1]) * 1.35
+            vertical = abs(delta[1]) > abs(delta[0]) * 1.35
+            if not horizontal and not vertical:
+                continue
+
+            if horizontal:
+                left, right = (first, second) if first_center[0] < second_center[0] else (second, first)
+                left_center, right_center = left.mean(axis=0), right.mean(axis=0)
+                axis_x = right_center - left_center
+                axis_y = (
+                    (left[3] - left[0]) + (left[2] - left[1])
+                    + (right[3] - right[0]) + (right[2] - right[1])
+                ) / 4
+                if axis_y[1] < 0:
+                    axis_y = -axis_y
+                if not 0.50 <= np.linalg.norm(axis_y) / max(np.linalg.norm(axis_x), 1e-6) <= 1.7:
+                    continue
+                row_options = (0, 1)
+                for row in row_options:
+                    face_center = (left_center + right_center) / 2 + (0.5 - row) * axis_y
+                    result.append((_face_quad_from_axes(face_center, axis_x, axis_y), "cell-pair-2x2"))
+            else:
+                top, bottom = (first, second) if first_center[1] < second_center[1] else (second, first)
+                top_center, bottom_center = top.mean(axis=0), bottom.mean(axis=0)
+                axis_y = bottom_center - top_center
+                axis_x = (
+                    (top[1] - top[0]) + (top[2] - top[3])
+                    + (bottom[1] - bottom[0]) + (bottom[2] - bottom[3])
+                ) / 4
+                if axis_x[0] < 0:
+                    axis_x = -axis_x
+                if not 0.50 <= np.linalg.norm(axis_x) / max(np.linalg.norm(axis_y), 1e-6) <= 1.7:
+                    continue
+                for column in (0, 1):
+                    face_center = (top_center + bottom_center) / 2 + (0.5 - column) * axis_x
+                    result.append((_face_quad_from_axes(face_center, axis_x, axis_y), "cell-pair-2x2"))
+
+    clipped: list[tuple[np.ndarray, str]] = []
+    for quad, method in result:
+        area_ratio = abs(cv2.contourArea(quad)) / image_area
+        if not 0.07 <= area_ratio <= 0.88 or _side_ratio(quad) < 0.34:
+            continue
+        quad[:, 0] = np.clip(quad[:, 0], 0, width - 1)
+        quad[:, 1] = np.clip(quad[:, 1], 0, height - 1)
+        if abs(cv2.contourArea(quad)) / image_area >= 0.055:
+            clipped.append((_order_quad(quad), method))
+    return clipped
+
+
+def _face_quad_from_axes(center: np.ndarray, axis_x: np.ndarray, axis_y: np.ndarray) -> np.ndarray:
+    return np.array(
+        [
+            center - axis_x - axis_y,
+            center + axis_x - axis_y,
+            center + axis_x + axis_y,
+            center - axis_x + axis_y,
+        ],
+        dtype=np.float32,
+    )
+
+
+def _2x2_cell_alignment(cells: list[np.ndarray], face_quad: np.ndarray) -> tuple[int, float]:
+    face_area = abs(cv2.contourArea(face_quad))
+    if face_area < 1:
+        return 0, 0.0
+    target = np.array([[0, 0], [1, 0], [1, 1], [0, 1]], dtype=np.float32)
+    transform = cv2.getPerspectiveTransform(face_quad.astype(np.float32), target)
+    slots = np.array([[0.25, 0.25], [0.75, 0.25], [0.25, 0.75], [0.75, 0.75]])
+    matches: list[tuple[float, int]] = []
+    for cell in cells:
+        area_ratio = abs(cv2.contourArea(cell)) / face_area
+        if not 0.10 <= area_ratio <= 0.40 or _side_ratio(cell) < 0.56:
+            continue
+        point = cv2.perspectiveTransform(cell.mean(axis=0).reshape(1, 1, 2), transform)[0, 0]
+        if not -0.1 <= point[0] <= 1.1 or not -0.1 <= point[1] <= 1.1:
+            continue
+        distances = np.linalg.norm(slots - point, axis=1)
+        slot = int(np.argmin(distances))
+        if distances[slot] <= 0.24:
+            matches.append((float(distances[slot]), slot))
+
+    used: set[int] = set()
+    quality = 0.0
+    for distance, slot in sorted(matches):
+        if slot in used:
+            continue
+        used.add(slot)
+        quality += max(0.0, 1 - distance / 0.24)
+    return len(used), quality / 4
+
+
 def _deduplicate_candidates(
     candidates: list[tuple[np.ndarray, str]], width: int, height: int
 ) -> list[tuple[np.ndarray, str]]:
@@ -395,6 +598,19 @@ def _deduplicate_candidates(
     return result
 
 
+def _quad_iou(first: np.ndarray, second: np.ndarray) -> float:
+    first_area = abs(float(cv2.contourArea(first.astype(np.float32))))
+    second_area = abs(float(cv2.contourArea(second.astype(np.float32))))
+    if first_area <= 1 or second_area <= 1:
+        return 0.0
+    intersection_area, _ = cv2.intersectConvexConvex(
+        first.astype(np.float32),
+        second.astype(np.float32),
+    )
+    union = first_area + second_area - float(intersection_area)
+    return float(intersection_area / max(union, 1e-6))
+
+
 def _expand_quad(quad: np.ndarray, factor: float, width: int, height: int) -> np.ndarray:
     center = quad.mean(axis=0)
     expanded = center + (quad - center) * factor
@@ -403,7 +619,7 @@ def _expand_quad(quad: np.ndarray, factor: float, width: int, height: int) -> np
     return expanded.astype(np.float32)
 
 
-def _score_face_candidate(image: np.ndarray, quad: np.ndarray) -> float:
+def _score_face_candidate(image: np.ndarray, quad: np.ndarray, grid_size: int = 3) -> float:
     if abs(cv2.contourArea(quad)) < 64:
         return 0.0
     size = 300
@@ -418,21 +634,21 @@ def _score_face_candidate(image: np.ndarray, quad: np.ndarray) -> float:
     gradient_y = np.abs(cv2.Sobel(gray, cv2.CV_32F, 0, 1, ksize=3))
     vertical_profile = gradient_x[18:-18, :].mean(axis=0)
     horizontal_profile = gradient_y[:, 18:-18].mean(axis=1)
-    edge_score = (
-        _profile_grid_score(vertical_profile, size / 3)
-        + _profile_grid_score(vertical_profile, size * 2 / 3)
-        + _profile_grid_score(horizontal_profile, size / 3)
-        + _profile_grid_score(horizontal_profile, size * 2 / 3)
-    ) / 4
+    grid_lines = [size * index / grid_size for index in range(1, grid_size)]
+    edge_score = sum(
+        _profile_grid_score(profile, position)
+        for profile in (vertical_profile, horizontal_profile)
+        for position in grid_lines
+    ) / (2 * len(grid_lines))
 
     cell_means = []
     uniformities = []
     plausible = []
-    for row in range(3):
-        for column in range(3):
-            center_x = round((column + 0.5) * size / 3)
-            center_y = round((row + 0.5) * size / 3)
-            radius = 24
+    for row in range(grid_size):
+        for column in range(grid_size):
+            center_x = round((column + 0.5) * size / grid_size)
+            center_y = round((row + 0.5) * size / grid_size)
+            radius = 24 if grid_size == 3 else 34
             patch_gray = gray[center_y - radius : center_y + radius, center_x - radius : center_x + radius]
             patch_hsv = hsv[center_y - radius : center_y + radius, center_x - radius : center_x + radius]
             patch_lab = lab[center_y - radius : center_y + radius, center_x - radius : center_x + radius]
@@ -445,17 +661,47 @@ def _score_face_candidate(image: np.ndarray, quad: np.ndarray) -> float:
             plausible.append(value_median > 48 and (saturation_75 > 25 or value_median > 125))
 
     center_brightness = float(np.mean(cell_means))
-    vertical_darkness = np.mean(
-        [_darkest_strip(gray, round(size / 3), vertical=True), _darkest_strip(gray, round(size * 2 / 3), vertical=True)]
-    )
-    horizontal_darkness = np.mean(
-        [_darkest_strip(gray, round(size / 3), vertical=False), _darkest_strip(gray, round(size * 2 / 3), vertical=False)]
-    )
+    vertical_darkness = np.mean([_darkest_strip(gray, round(position), vertical=True) for position in grid_lines])
+    horizontal_darkness = np.mean([_darkest_strip(gray, round(position), vertical=False) for position in grid_lines])
     line_brightness = float((vertical_darkness + horizontal_darkness) / 2)
     dark_grid_score = float(np.clip((center_brightness - line_brightness + 6) / 55, 0, 1))
     uniformity_score = float(np.clip(1 - np.median(uniformities) / 28, 0, 1))
     plausibility_score = float(np.mean(plausible))
     geometry_score = float(np.clip((_side_ratio(quad) - 0.30) / 0.70, 0, 1))
+
+    if grid_size == 2:
+        worst_uniformities = sorted(uniformities, reverse=True)[:2]
+        cell_uniformity_score = float(
+            np.clip(1 - np.mean(worst_uniformities) / 24, 0, 1)
+        )
+        sticker_scores = []
+        for row in range(2):
+            for column in range(2):
+                y0 = round((row + 0.16) * size / 2)
+                y1 = round((row + 0.84) * size / 2)
+                x0 = round((column + 0.16) * size / 2)
+                x1 = round((column + 0.84) * size / 2)
+                patch = hsv[y0:y1, x0:x1]
+                saturation = patch[:, :, 1]
+                value = patch[:, :, 2]
+                sticker_pixels = ((saturation > 38) & (value > 45)) | (
+                    (saturation < 62) & (value > 132)
+                )
+                coverage = float(np.mean(sticker_pixels))
+                sticker_scores.append(float(np.clip((coverage - 0.30) / 0.58, 0, 1)))
+        sticker_scores.sort()
+        # Requiring three convincing quadrants rejects keyboard crops while
+        # tolerating one dark-blue sticker, shadow, logo, or clipped edge.
+        sticker_score = float(np.mean(sticker_scores[1:]))
+        return float(
+            edge_score * 0.15
+            + dark_grid_score * 0.11
+            + uniformity_score * 0.12
+            + plausibility_score * 0.08
+            + geometry_score * 0.09
+            + sticker_score * 0.27
+            + cell_uniformity_score * 0.18
+        )
 
     return float(
         edge_score * 0.38

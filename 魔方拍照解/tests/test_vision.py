@@ -75,6 +75,10 @@ class VisionDetectionTests(unittest.TestCase):
         image = make_photo(1050, 680, corners, light=False)
         result = detect_cube_face(image)
         self.assertIsNotNone(result)
+        self.assertGreaterEqual(result.score, 0)
+        self.assertLessEqual(result.score, 1)
+        self.assertGreaterEqual(result.confidence, 0)
+        self.assertLessEqual(result.confidence, 100)
         detected = np.array(
             [[x * image.shape[1], y * image.shape[0]] for x, y in result.corners],
             np.float32,

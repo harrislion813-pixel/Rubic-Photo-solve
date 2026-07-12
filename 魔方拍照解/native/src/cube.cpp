@@ -4,6 +4,7 @@
 #include <array>
 #include <bit>
 #include <cctype>
+#include <limits>
 #include <numeric>
 #include <stdexcept>
 
@@ -79,6 +80,21 @@ CubieCube CubieCube::apply_move(int move_index_value) const noexcept {
     return moved(move_cubes()[move_index_value]);
 }
 
+CubieCube CubieCube::inverse() const noexcept {
+    CubieCube result;
+    for (int position = 0; position < 8; ++position) {
+        const int cubie = cp[position];
+        result.cp[cubie] = static_cast<std::uint8_t>(position);
+        result.co[cubie] = static_cast<std::uint8_t>((3 - co[position]) % 3);
+    }
+    for (int position = 0; position < 12; ++position) {
+        const int cubie = ep[position];
+        result.ep[cubie] = static_cast<std::uint8_t>(position);
+        result.eo[cubie] = eo[position];
+    }
+    return result;
+}
+
 bool CubieCube::solved() const noexcept { return *this == CubieCube{}; }
 
 const std::array<CubieCube, 18>& move_cubes() {
@@ -101,6 +117,20 @@ int move_index(std::string_view move) noexcept {
         if (kMoveNames[i] == move) return i;
     }
     return -1;
+}
+
+int inverse_move_index(int move) noexcept {
+    const int turn = move % 3;
+    return turn == 0 ? move + 2 : turn == 2 ? move - 2 : move;
+}
+
+std::vector<int> invert_moves(std::span<const int> moves) {
+    std::vector<int> result;
+    result.reserve(moves.size());
+    for (auto move = moves.rbegin(); move != moves.rend(); ++move) {
+        result.push_back(inverse_move_index(*move));
+    }
+    return result;
 }
 
 std::string clean_facelets(std::string_view facelets) {
@@ -255,10 +285,14 @@ std::uint32_t corner_pattern_coord(const CubieCube& cube) noexcept {
 
 std::uint32_t rank_permutation(std::span<const std::uint8_t> permutation) noexcept {
     std::uint32_t rank = 0;
+    std::uint32_t available = permutation.size() >= 32
+        ? std::numeric_limits<std::uint32_t>::max()
+        : (1U << static_cast<unsigned>(permutation.size())) - 1U;
     for (std::size_t i = 0; i < permutation.size(); ++i) {
-        std::uint32_t smaller = 0;
-        for (std::size_t j = i + 1; j < permutation.size(); ++j) smaller += permutation[j] < permutation[i];
+        const std::uint32_t value_bit = 1U << permutation[i];
+        const std::uint32_t smaller = std::popcount(available & (value_bit - 1U));
         rank = rank * static_cast<std::uint32_t>(permutation.size() - i) + smaller;
+        available &= ~value_bit;
     }
     return rank;
 }

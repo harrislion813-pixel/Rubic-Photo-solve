@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rubic-photo-solve"
+version = "0.1.0"
+description = "Local 2x2 and 3x3 Rubik's cube photo solver"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "opencv-python",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.4.2",
+    "pytest-cov==6.3.0",
+    "ruff==0.15.21",
+]
+
+[tool.setuptools]
+packages = ["cube_app"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "native_binary: requires the compiled native solver executable",
+    "native_pdb: requires the native solver plus the corner and phase-1 PDBs",
+    "native_slow: requires large optional PDBs or a long-running native search",
+    "vision_real: uses tracked real-image fixtures",
+    "slow: long-running integration or performance test",
+]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+extend-exclude = ["initial", "native/build"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/benchmark_solver.py" = ["E402"]
+"tests/extract_real_patches.py" = ["E402"]
+"tests/test_hybrid_api.py" = ["E402"]
+"tests/test_solver.py" = ["E402"]
+"tests/test_two_by_two.py" = ["E402"]
+
+[tool.coverage.run]
+branch = true
+source = ["cube_app", "server"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true

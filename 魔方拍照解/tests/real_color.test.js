@@ -117,6 +117,23 @@ if (process.env.COLOR_DEBUG === "1") {
   }
 }
 
+// Red and orange must be separable from their own image evidence, rather than
+// merely landing in the right balanced quota after another sticker is swapped.
+if (["1", "2"].includes(group)) {
+  for (const face of faceOrder) {
+    expected[face].forEach((label, index) => {
+      if (!(["R", "L"].includes(label))) return;
+      const other = label === "R" ? "L" : "R";
+      const correctDistance = robustColorDistance(samples[face][index], samples[label][4]);
+      const otherDistance = robustColorDistance(samples[face][index], samples[other][4]);
+      assert.ok(
+        correctDistance < otherDistance,
+        `${group}:${face}${index} expected ${label}, distances ${correctDistance.toFixed(2)} vs ${otherDistance.toFixed(2)}`,
+      );
+    });
+  }
+}
+
 assert.deepEqual(actual, expected);
 console.log("real image color tests passed");
 }

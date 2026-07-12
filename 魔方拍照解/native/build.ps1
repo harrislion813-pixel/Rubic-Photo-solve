@@ -1,4 +1,16 @@
+param(
+    [switch]$ProfileGuided
+)
+
 $ErrorActionPreference = "Stop"
+
+if ($ProfileGuided) {
+    & (Join-Path $PSScriptRoot "build_profiled.ps1")
+    if ($LASTEXITCODE -ne 0) {
+        throw "Profile-guided native solver build failed with exit code $LASTEXITCODE"
+    }
+    return
+}
 
 $compiler = "C:\msys64\ucrt64\bin\g++.exe"
 $buildDirectory = Join-Path $PSScriptRoot "build"
@@ -16,6 +28,9 @@ try {
     & $compiler `
         -std=c++20 `
         -O3 `
+        -march=native `
+        -mtune=native `
+        -flto `
         -DNDEBUG `
         -Wall `
         -Wextra `

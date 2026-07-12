@@ -16,10 +16,10 @@ defaults:
     working-directory: 魔方拍照解
 
 jobs:
-  test:
-    name: Test (Python 3.10 / Node.js 20)
+  lint:
+    name: Lint (Ruff)
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
 
     steps:
       - name: Check out repository
@@ -28,17 +28,58 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"
           cache: pip
-          cache-dependency-path: 魔方拍照解/requirements.txt
+          cache-dependency-path: 魔方拍照解/pyproject.toml
+
+      - name: Install development tools
+        run: python -m pip install --upgrade pip -e ".[dev]"
+
+      - name: Run Ruff lint
+        run: ruff check .
+
+  python-tests:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: 魔方拍照解/pyproject.toml
+
+      - name: Install Python dependencies
+        run: python -m pip install --upgrade pip -e ".[dev]"
+
+      - name: Run Python tests and report skips
+        run: pytest -ra -m "not native_pdb and not native_slow"
+
+      - name: Compile Python sources
+        run: python -m compileall -q cube_app server.py
+
+  frontend-tests:
+    name: Frontend (Node.js 20)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-
-      - name: Install Python dependencies
-        run: python -m pip install --upgrade pip -r requirements.txt
 
       - name: Run frontend tests
         run: |
@@ -46,9 +87,3 @@ jobs:
           node tests/color.test.js
           node tests/two_by_two_color.test.js
           node tests/solver_ui.test.js
-
-      - name: Run Python tests
-        run: python -m unittest discover -s tests -v
-
-      - name: Compile Python sources
-        run: python -m compileall -q cube_app server.py

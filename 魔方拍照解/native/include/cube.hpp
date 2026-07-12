@@ -23,6 +23,7 @@ struct CubieCube {
 
     [[nodiscard]] CubieCube moved(const CubieCube& move) const noexcept;
     [[nodiscard]] CubieCube apply_move(int move_index) const noexcept;
+    [[nodiscard]] CubieCube inverse() const noexcept;
     [[nodiscard]] bool solved() const noexcept;
     auto operator<=>(const CubieCube&) const = default;
 };
@@ -35,6 +36,8 @@ struct EdgePatternState {
 
 [[nodiscard]] const std::array<CubieCube, 18>& move_cubes();
 [[nodiscard]] int move_index(std::string_view move) noexcept;
+[[nodiscard]] int inverse_move_index(int move) noexcept;
+[[nodiscard]] std::vector<int> invert_moves(std::span<const int> moves);
 [[nodiscard]] std::string clean_facelets(std::string_view facelets);
 [[nodiscard]] CubieCube from_facelets(std::string_view facelets);
 [[nodiscard]] std::string to_facelets(const CubieCube& cube);

@@ -18,10 +18,6 @@ function labPivot(value) {
   return value > 0.008856 ? Math.cbrt(value) : 7.787 * value + 16 / 116;
 }
 
-function labDistance(first, second) {
-  return Math.hypot(first[0] - second[0], first[1] - second[1], first[2] - second[2]);
-}
-
 export function quantile(values, fraction) {
   if (!values.length) return 0;
   const sorted = [...values].sort((first, second) => first - second);
@@ -107,17 +103,31 @@ export function makeColorDescriptor(rgb, saturation, value, glareFraction = 0) {
 }
 
 export function robustColorDistance(sample, center) {
-  const labCost = labDistance(sample.lab, center.lab) * 0.62;
-  const saturationCost = Math.abs(sample.saturation - center.saturation) * 42;
-  const brightnessCost = Math.abs(sample.value - center.value) * 9;
+  // Sticker identity should be stable when the same pigment is photographed
+  // in shadow and direct light. Treat Lab lightness/value as weak signals and
+  // let chroma plus hue separate saturated colors (especially red/orange).
+  const lightnessCost = Math.abs(sample.lab[0] - center.lab[0]) * 0.08;
+  const chromaCost = Math.hypot(
+    sample.lab[1] - center.lab[1],
+    sample.lab[2] - center.lab[2],
+  ) * 0.35;
+  const saturationCost = Math.abs(sample.saturation - center.saturation) * 28;
+  const brightnessCost = Math.abs(sample.value - center.value) * 2;
   let hueCost = 0;
   if (sample.saturation > 0.14 && center.saturation > 0.14) {
     const hueDifference = Math.abs(sample.hue - center.hue);
-    hueCost = Math.min(hueDifference, 1 - hueDifference) * 42;
+    const hueReliability = Math.min(sample.saturation, center.saturation);
+    const sampleIsWarm = sample.hue < 0.12 || sample.hue > 0.94;
+    const centerIsWarm = center.hue < 0.12 || center.hue > 0.94;
+    // Camera exposure moves red/orange far along Lab lightness and chroma,
+    // while their circular hue remains stable. Give that narrow warm sector
+    // extra separation so a bright red is not pulled into the orange quota.
+    const hueWeight = sampleIsWarm && centerIsWarm ? 1600 : 650;
+    hueCost = Math.min(hueDifference, 1 - hueDifference) * hueWeight * hueReliability;
   } else if ((sample.saturation > 0.20) !== (center.saturation > 0.20)) {
     hueCost = 18;
   }
-  return labCost + saturationCost + brightnessCost + hueCost;
+  return lightnessCost + chromaCost + saturationCost + brightnessCost + hueCost;
 }
 
 export function minimumCostAssignment(costs) {

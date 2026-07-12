@@ -38,7 +38,7 @@ try {
         & $solver build-edge-pdb ".cache\native\edge_h_htm_v2.pdb" --group 7 --coverage-depth 10 --threads $threads
         if ($LASTEXITCODE -ne 0) { throw "Eighth edge PDB generation failed" }
     }
-    & $solver build-tail-pdb ".cache\native\tail_depth6_v2.pdb" --depth 6
+    & $solver build-tail-pdb ".cache\native\tail_depth6_v4.pdb" --depth 6 --threads $threads
     if ($LASTEXITCODE -ne 0) { throw "Tail database generation failed" }
 } finally {
     Pop-Location

@@ -51,6 +51,24 @@ assert(
   "specular green must remain closer to green than white",
 );
 
+const darkRed = summarizePatchPixels(patchPixels([[1000, [125, 16, 8]]]));
+const darkOrange = summarizePatchPixels(patchPixels([[1000, [189, 53, 9]]]));
+const brightRed = summarizePatchPixels(patchPixels([[1000, [221, 50, 31]]]));
+const warmBrightRed = summarizePatchPixels(patchPixels([[1000, [220, 63, 37]]]));
+const brightOrange = summarizePatchPixels(patchPixels([[1000, [252, 142, 45]]]));
+assert(
+  robustColorDistance(brightRed, darkRed) < robustColorDistance(brightRed, darkOrange),
+  "a brightly lit red sticker must remain closer to a dark red center than orange",
+);
+assert(
+  robustColorDistance(warmBrightRed, darkRed) < robustColorDistance(warmBrightRed, darkOrange),
+  "a warm, brightly lit red sticker must not drift into the orange cluster",
+);
+assert(
+  robustColorDistance(brightOrange, darkOrange) < robustColorDistance(brightOrange, darkRed),
+  "a brightly lit orange sticker must remain closer to a dark orange center than red",
+);
+
 const palette = [
   [235, 235, 230],
   [210, 45, 35],

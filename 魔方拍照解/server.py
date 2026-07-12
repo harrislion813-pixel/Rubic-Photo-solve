@@ -36,7 +36,7 @@ ROOT = Path(__file__).resolve().parent
 WEB_ROOT = ROOT / "web"
 HOST = "127.0.0.1"
 PORT = 8765
-APP_VERSION = "2026.07.11.8"
+APP_VERSION = "2026.07.11.9"
 
 SOLVER = OptimalSolver(ROOT / ".cache", parallel=True)
 PROBE_SOLVER = OptimalSolver(ROOT / ".cache", parallel=False)

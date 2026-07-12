@@ -6,7 +6,7 @@ import {
 import { describeSearchProgress } from "./solver-client.js";
 
 const FACE_ORDER = ["U", "R", "F", "D", "L", "B"];
-const APP_VERSION = "2026.07.11.8";
+const APP_VERSION = "2026.07.11.9";
 const FACE_HINTS = {
   U: "上面",
   R: "右面",

@@ -1,6 +1,10 @@
+param(
+    [string]$Compiler = "C:\msys64\ucrt64\bin\g++.exe"
+)
+
 $ErrorActionPreference = "Stop"
 
-$compiler = "C:\msys64\ucrt64\bin\g++.exe"
+$compiler = $Compiler
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $buildDirectory = Join-Path $PSScriptRoot "build"
 $trainingTarget = Join-Path $buildDirectory "cube_solver_profiled.exe"

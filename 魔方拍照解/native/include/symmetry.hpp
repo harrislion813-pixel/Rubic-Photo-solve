@@ -13,14 +13,14 @@ inline constexpr std::uint32_t kFlipSliceClassCount = 64'430U;
 inline constexpr int kPhase1SymmetryCount = 16;
 inline constexpr int kAxisRotationCount = 2;
 
-[[nodiscard]] CubieCube conjugate_axis(const CubieCube& cube, int axis_rotation);
-[[nodiscard]] const std::array<std::array<std::uint8_t, 18>, kAxisRotationCount>& axis_rotation_move_maps();
+[[nodiscard]] CubieCube conjugate_axis(const CubieCube &cube, int axis_rotation);
+[[nodiscard]] const std::array<std::array<std::uint8_t, 18>, kAxisRotationCount> &axis_rotation_move_maps();
 
 class Phase1Symmetry {
-public:
+  public:
     Phase1Symmetry();
 
-    [[nodiscard]] CubieCube conjugate(const CubieCube& cube, int symmetry) const;
+    [[nodiscard]] CubieCube conjugate(const CubieCube &cube, int symmetry) const;
     [[nodiscard]] std::uint16_t twist_conjugate(std::uint16_t twist, int symmetry) const noexcept;
     [[nodiscard]] std::uint16_t flip_conjugate(std::uint16_t flip, int symmetry) const noexcept;
     [[nodiscard]] std::uint16_t slice_conjugate(std::uint16_t slice, int symmetry) const noexcept;
@@ -30,20 +30,18 @@ public:
     [[nodiscard]] std::uint32_t class_index(std::uint32_t raw) const noexcept;
     [[nodiscard]] std::uint8_t symmetry_to_representative(std::uint32_t raw) const noexcept;
     [[nodiscard]] std::uint32_t representative(std::uint32_t class_index) const noexcept;
-    [[nodiscard]] std::uint32_t canonical_index(
-        std::uint16_t twist,
-        std::uint16_t flip,
-        std::uint16_t slice) const noexcept;
+    [[nodiscard]] std::uint32_t canonical_index(std::uint16_t twist, std::uint16_t flip,
+                                                std::uint16_t slice) const noexcept;
 
-    [[nodiscard]] const std::vector<std::uint16_t>& twist_table() const noexcept;
-    [[nodiscard]] const std::vector<std::uint32_t>& raw_to_class_table() const noexcept;
-    [[nodiscard]] const std::vector<std::uint8_t>& raw_to_symmetry_table() const noexcept;
-    [[nodiscard]] const std::vector<std::uint32_t>& representatives() const noexcept;
+    [[nodiscard]] const std::vector<std::uint16_t> &twist_table() const noexcept;
+    [[nodiscard]] const std::vector<std::uint32_t> &raw_to_class_table() const noexcept;
+    [[nodiscard]] const std::vector<std::uint8_t> &raw_to_symmetry_table() const noexcept;
+    [[nodiscard]] const std::vector<std::uint32_t> &representatives() const noexcept;
 
-private:
+  private:
     struct Matrix {
         std::int8_t value[3][3]{};
-        bool operator==(const Matrix&) const = default;
+        bool operator==(const Matrix &) const = default;
     };
 
     std::vector<Matrix> matrices_;
@@ -57,4 +55,4 @@ private:
     std::vector<std::uint32_t> representatives_;
 };
 
-}  // namespace cube
+} // namespace cube

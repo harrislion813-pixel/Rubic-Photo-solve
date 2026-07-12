@@ -8,6 +8,8 @@ import time
 import unittest
 import urllib.request
 
+import pytest
+
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -55,6 +57,7 @@ class HybridSolveApiTests(unittest.TestCase):
             server.server_close()
             thread.join(timeout=2)
 
+    @pytest.mark.native_pdb
     @unittest.skipUnless(native_solver_available(), "原生求解器或模式数据库尚未构建")
     def test_native_job_proves_an_incumbent_solution(self) -> None:
         cube = CubieCube()

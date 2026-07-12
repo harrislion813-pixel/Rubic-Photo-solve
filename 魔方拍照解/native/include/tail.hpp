@@ -23,26 +23,25 @@ struct TailLookupCounters {
 };
 
 class TailDatabase {
-public:
-    explicit TailDatabase(const std::filesystem::path& path);
+  public:
+    explicit TailDatabase(const std::filesystem::path &path);
     ~TailDatabase();
 
-    TailDatabase(const TailDatabase&) = delete;
-    TailDatabase& operator=(const TailDatabase&) = delete;
+    TailDatabase(const TailDatabase &) = delete;
+    TailDatabase &operator=(const TailDatabase &) = delete;
 
     [[nodiscard]] int depth() const noexcept;
     [[nodiscard]] std::uint32_t format_version() const noexcept;
-    [[nodiscard]] std::optional<TailHit> lookup(
-        const CubieCube& cube,
-        TailLookupCounters* counters = nullptr) const noexcept;
+    [[nodiscard]] std::optional<TailHit> lookup(const CubieCube &cube,
+                                                TailLookupCounters *counters = nullptr) const noexcept;
     [[nodiscard]] std::vector<int> solution_suffix(CubieCube cube) const;
 
-private:
-    void* file_{nullptr};
-    void* mapping_{nullptr};
-    const std::uint8_t* view_{nullptr};
-    const void* entries_{nullptr};
-    const std::uint64_t* bloom_{nullptr};
+  private:
+    void *file_{nullptr};
+    void *mapping_{nullptr};
+    const std::uint8_t *view_{nullptr};
+    const void *entries_{nullptr};
+    const std::uint64_t *bloom_{nullptr};
     std::uint64_t bloom_word_count_{0};
     std::uint64_t slot_count_{0};
     std::uint64_t mask_{0};
@@ -50,10 +49,6 @@ private:
     int depth_{0};
 };
 
-void build_tail_database(
-    const std::filesystem::path& path,
-    int depth = 6,
-    int threads = 0,
-    bool force = false);
+void build_tail_database(const std::filesystem::path &path, int depth = 6, int threads = 0, bool force = false);
 
-}  // namespace cube
+} // namespace cube

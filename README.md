@@ -35,6 +35,8 @@ http://127.0.0.1:8765/
 .\native\build_tables.ps1
 ```
 
+`build.ps1` 会依次从 `-Compiler`、`CXX` 环境变量和 `PATH` 查找 `g++`，本机 MSYS2 UCRT64 默认路径仅作最后回退。CI 可使用 `.\native\build_tables.ps1 -CiMinimal` 只生成原生测试必需的 corner 和 phase-1 PDB，不生成 Tail/Edge 大库。
+
 默认会在 `.cache/native/` 生成约 67 MiB 的 16 对称联合表、约 42 MiB 的完整角块表，以及约 256 MiB 的深度 6 反向表。所有表均以内存映射方式只读加载并带完整数据校验；文件缺失或校验失败时服务端会安全回退到 Python 求解器。
 
 项目也实现了 8 组完整六棱块模式库。三轴联合表启用后，它们在当前基准上会受随机内存访问限制，默认不加载；需要实验时可执行：
@@ -104,6 +106,13 @@ python -m compileall cube_app server.py
 
 ```powershell
 .\tests\check.ps1
+```
+
+CI 的 Python 3.12 任务会排除依赖本地 EXE/PDB 和实拍素材的用例，并对 `cube_app` 与 `server.py` 执行分支覆盖率门禁，当前下限为 70%。C++ 格式基线使用项目根目录的 `.clang-format`，可在 `clang-format` 加入 `PATH` 后执行：
+
+```powershell
+$files = Get-ChildItem native\src, native\include -Recurse -File -Include *.cpp, *.hpp
+clang-format --dry-run --Werror --style=file $files.FullName
 ```
 
 视觉检测器的调参应使用人工标注且冻结的测试集。复制

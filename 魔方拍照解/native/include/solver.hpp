@@ -41,29 +41,25 @@ struct CoordinateFeatures {
 };
 
 class CoordinateTables {
-public:
+  public:
     CoordinateTables();
 
-    [[nodiscard]] CoordinateState from_cube(
-        const CubieCube& cube,
-        const CoordinateFeatures& features = {}) const noexcept;
-    [[nodiscard]] CoordinateState moved(
-        const CoordinateState& state,
-        int move,
-        const CoordinateFeatures& features = {}) const noexcept;
-    [[nodiscard]] std::uint8_t heuristic(
-        const CoordinateState& state,
-        const Phase1PatternDatabase* phase1_pdb = nullptr,
-        const CornerPatternDatabase* corner_pdb = nullptr,
-        std::span<const EdgePatternDatabase* const> edge_pdbs = {},
-        std::uint8_t cutoff = 255) const noexcept;
+    [[nodiscard]] CoordinateState from_cube(const CubieCube &cube,
+                                            const CoordinateFeatures &features = {}) const noexcept;
+    [[nodiscard]] CoordinateState moved(const CoordinateState &state, int move,
+                                        const CoordinateFeatures &features = {}) const noexcept;
+    [[nodiscard]] std::uint8_t heuristic(const CoordinateState &state,
+                                         const Phase1PatternDatabase *phase1_pdb = nullptr,
+                                         const CornerPatternDatabase *corner_pdb = nullptr,
+                                         std::span<const EdgePatternDatabase *const> edge_pdbs = {},
+                                         std::uint8_t cutoff = 255) const noexcept;
 
     [[nodiscard]] std::uint16_t corner_move(std::uint16_t coordinate, int move) const noexcept;
     [[nodiscard]] std::uint16_t twist_move(std::uint16_t coordinate, int move) const noexcept;
     [[nodiscard]] std::uint16_t flip_move(std::uint16_t coordinate, int move) const noexcept;
     [[nodiscard]] std::uint16_t slice_move(std::uint16_t coordinate, int move) const noexcept;
 
-private:
+  private:
     std::vector<std::uint16_t> twist_move_;
     std::vector<std::uint16_t> flip_move_;
     std::vector<std::uint16_t> slice_move_;
@@ -103,7 +99,7 @@ struct SolverOptions {
     bool use_transposition{false};
     bool use_direction_probe{true};
     std::vector<int> incumbent_moves;
-    std::function<void(const NativeSearchProgress&)> progress_callback;
+    std::function<void(const NativeSearchProgress &)> progress_callback;
 };
 
 struct NativeSolveResult {
@@ -124,24 +120,24 @@ struct NativeSolveResult {
 };
 
 class NativeOptimalSolver {
-public:
+  public:
     explicit NativeOptimalSolver(std::shared_ptr<CoordinateTables> tables = {});
 
-    void load_corner_pdb(const std::filesystem::path& path);
-    void load_phase1_pdb(const std::filesystem::path& path);
-    void load_edge_pdb(int group, const std::filesystem::path& path);
-    void load_edge_pdbs(const std::filesystem::path& path_a, const std::filesystem::path& path_b);
-    void load_extra_edge_pdbs(const std::filesystem::path& path_c, const std::filesystem::path& path_d);
-    void load_tail_database(const std::filesystem::path& path);
+    void load_corner_pdb(const std::filesystem::path &path);
+    void load_phase1_pdb(const std::filesystem::path &path);
+    void load_edge_pdb(int group, const std::filesystem::path &path);
+    void load_edge_pdbs(const std::filesystem::path &path_a, const std::filesystem::path &path_b);
+    void load_extra_edge_pdbs(const std::filesystem::path &path_c, const std::filesystem::path &path_d);
+    void load_tail_database(const std::filesystem::path &path);
     [[nodiscard]] bool has_corner_pdb() const noexcept;
     [[nodiscard]] bool has_phase1_pdb() const noexcept;
     [[nodiscard]] bool has_edge_pdbs() const noexcept;
     [[nodiscard]] bool has_extra_edge_pdbs() const noexcept;
     [[nodiscard]] int edge_pdb_count() const noexcept;
     [[nodiscard]] bool has_tail_database() const noexcept;
-    [[nodiscard]] NativeSolveResult solve(const CubieCube& cube, const SolverOptions& options) const;
+    [[nodiscard]] NativeSolveResult solve(const CubieCube &cube, const SolverOptions &options) const;
 
-private:
+  private:
     std::shared_ptr<CoordinateTables> tables_;
     std::shared_ptr<Phase1PatternDatabase> phase1_pdb_;
     std::shared_ptr<CornerPatternDatabase> corner_pdb_;
@@ -149,4 +145,4 @@ private:
     std::shared_ptr<TailDatabase> tail_database_;
 };
 
-}  // namespace cube
+} // namespace cube

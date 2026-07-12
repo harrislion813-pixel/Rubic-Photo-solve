@@ -1,5 +1,7 @@
 param(
-    [switch]$IncludeEdgePdbs
+    [switch]$IncludeEdgePdbs,
+    [switch]$CiMinimal,
+    [string]$Compiler
 )
 
 $ErrorActionPreference = "Stop"
@@ -10,7 +12,11 @@ $cache = Join-Path $projectRoot ".cache\native"
 $threads = [Math]::Min(32, [Math]::Max(1, [Environment]::ProcessorCount - 1))
 
 if (-not (Test-Path -LiteralPath $solver)) {
-    & (Join-Path $PSScriptRoot "build.ps1") | Out-Null
+    & (Join-Path $PSScriptRoot "build.ps1") -Compiler $Compiler | Out-Null
+}
+
+if ($CiMinimal -and $IncludeEdgePdbs) {
+    throw "-CiMinimal cannot be combined with -IncludeEdgePdbs"
 }
 
 New-Item -ItemType Directory -Force -Path $cache | Out-Null
@@ -38,8 +44,10 @@ try {
         & $solver build-edge-pdb ".cache\native\edge_h_htm_v2.pdb" --group 7 --coverage-depth 10 --threads $threads
         if ($LASTEXITCODE -ne 0) { throw "Eighth edge PDB generation failed" }
     }
-    & $solver build-tail-pdb ".cache\native\tail_depth6_v4.pdb" --depth 6 --threads $threads
-    if ($LASTEXITCODE -ne 0) { throw "Tail database generation failed" }
+    if (-not $CiMinimal) {
+        & $solver build-tail-pdb ".cache\native\tail_depth6_v4.pdb" --depth 6 --threads $threads
+        if ($LASTEXITCODE -ne 0) { throw "Tail database generation failed" }
+    }
 } finally {
     Pop-Location
 }

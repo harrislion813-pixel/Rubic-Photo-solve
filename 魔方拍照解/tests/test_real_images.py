@@ -9,6 +9,7 @@ from pathlib import Path
 
 import cv2
 import numpy as np
+import pytest
 
 from cube_app.vision import _score_face_candidate, assess_detected_face_quality, detect_cube_face
 
@@ -40,6 +41,7 @@ def frontend_image(path: Path) -> np.ndarray:
     return cv2.imdecode(encoded, cv2.IMREAD_COLOR)
 
 
+@pytest.mark.vision_real
 @unittest.skipUnless(AVAILABLE_GROUPS, "需要 initial/ 目录中的一组完整实拍图片")
 class RealImageRegressionTests(unittest.TestCase):
     def test_initial_images_locate_the_complete_cube_face(self) -> None:

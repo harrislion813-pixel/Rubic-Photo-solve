@@ -15,68 +15,84 @@ using Sticker = std::pair<Vector, Vector>;
 
 constexpr std::array<char, 6> kFaces{'U', 'R', 'F', 'D', 'L', 'B'};
 constexpr std::array<Vector, 6> kFaceNormals{{
-    {{0, 1, 0}}, {{1, 0, 0}}, {{0, 0, 1}},
-    {{0, -1, 0}}, {{-1, 0, 0}}, {{0, 0, -1}},
+    {{0, 1, 0}},
+    {{1, 0, 0}},
+    {{0, 0, 1}},
+    {{0, -1, 0}},
+    {{-1, 0, 0}},
+    {{0, 0, -1}},
 }};
 constexpr std::array<std::array<int, 2>, 12> kEdgeFacelets{{
-    {{5, 10}}, {{7, 19}}, {{3, 37}}, {{1, 46}}, {{32, 16}}, {{28, 25}},
-    {{30, 43}}, {{34, 52}}, {{23, 12}}, {{21, 41}}, {{50, 39}}, {{48, 14}},
+    {{5, 10}},
+    {{7, 19}},
+    {{3, 37}},
+    {{1, 46}},
+    {{32, 16}},
+    {{28, 25}},
+    {{30, 43}},
+    {{34, 52}},
+    {{23, 12}},
+    {{21, 41}},
+    {{50, 39}},
+    {{48, 14}},
 }};
 
-int face_for_normal(const Vector& normal) {
+int face_for_normal(const Vector &normal) {
     const auto found = std::find(kFaceNormals.begin(), kFaceNormals.end(), normal);
-    if (found == kFaceNormals.end()) throw std::runtime_error("invalid transformed face normal");
+    if (found == kFaceNormals.end())
+        throw std::runtime_error("invalid transformed face normal");
     return static_cast<int>(found - kFaceNormals.begin());
 }
 
 std::array<Sticker, 54> sticker_geometry() {
     std::array<Sticker, 54> result{};
-    const auto set = [&](int index, Vector position, Vector normal) {
-        result[index] = {position, normal};
-    };
+    const auto set = [&](int index, Vector position, Vector normal) { result[index] = {position, normal}; };
     for (int row = 0; row < 3; ++row) {
         for (int column = 0; column < 3; ++column) {
-            set(row * 3 + column,
-                {static_cast<std::int8_t>(column - 1), 1, static_cast<std::int8_t>(row - 1)}, {0, 1, 0});
-            set(9 + row * 3 + column,
-                {1, static_cast<std::int8_t>(1 - row), static_cast<std::int8_t>(1 - column)}, {1, 0, 0});
-            set(18 + row * 3 + column,
-                {static_cast<std::int8_t>(column - 1), static_cast<std::int8_t>(1 - row), 1}, {0, 0, 1});
-            set(27 + row * 3 + column,
-                {static_cast<std::int8_t>(column - 1), -1, static_cast<std::int8_t>(1 - row)}, {0, -1, 0});
-            set(36 + row * 3 + column,
-                {-1, static_cast<std::int8_t>(1 - row), static_cast<std::int8_t>(column - 1)}, {-1, 0, 0});
-            set(45 + row * 3 + column,
-                {static_cast<std::int8_t>(1 - column), static_cast<std::int8_t>(1 - row), -1}, {0, 0, -1});
+            set(row * 3 + column, {static_cast<std::int8_t>(column - 1), 1, static_cast<std::int8_t>(row - 1)},
+                {0, 1, 0});
+            set(9 + row * 3 + column, {1, static_cast<std::int8_t>(1 - row), static_cast<std::int8_t>(1 - column)},
+                {1, 0, 0});
+            set(18 + row * 3 + column, {static_cast<std::int8_t>(column - 1), static_cast<std::int8_t>(1 - row), 1},
+                {0, 0, 1});
+            set(27 + row * 3 + column, {static_cast<std::int8_t>(column - 1), -1, static_cast<std::int8_t>(1 - row)},
+                {0, -1, 0});
+            set(36 + row * 3 + column, {-1, static_cast<std::int8_t>(1 - row), static_cast<std::int8_t>(column - 1)},
+                {-1, 0, 0});
+            set(45 + row * 3 + column, {static_cast<std::int8_t>(1 - column), static_cast<std::int8_t>(1 - row), -1},
+                {0, 0, -1});
         }
     }
     return result;
 }
 
-std::uint32_t sticker_key(const Sticker& sticker) noexcept {
+std::uint32_t sticker_key(const Sticker &sticker) noexcept {
     std::uint32_t key = 0;
-    for (std::int8_t component : sticker.first) key = key * 3U + static_cast<std::uint32_t>(component + 1);
-    for (std::int8_t component : sticker.second) key = key * 3U + static_cast<std::uint32_t>(component + 1);
+    for (std::int8_t component : sticker.first)
+        key = key * 3U + static_cast<std::uint32_t>(component + 1);
+    for (std::int8_t component : sticker.second)
+        key = key * 3U + static_cast<std::uint32_t>(component + 1);
     return key;
 }
 
-CubieCube conjugate_axis_impl(const CubieCube& cube, int axis_rotation) {
-    const auto transform = [axis_rotation](const Vector& vector) {
+CubieCube conjugate_axis_impl(const CubieCube &cube, int axis_rotation) {
+    const auto transform = [axis_rotation](const Vector &vector) {
         const auto [x, y, z] = vector;
-        if (axis_rotation == 0) return Vector{x, static_cast<std::int8_t>(-z), y};
+        if (axis_rotation == 0)
+            return Vector{x, static_cast<std::int8_t>(-z), y};
         return Vector{static_cast<std::int8_t>(-y), x, z};
     };
     const auto geometry = sticker_geometry();
     std::unordered_map<std::uint32_t, int> sticker_indices;
     sticker_indices.reserve(54);
-    for (int index = 0; index < 54; ++index) sticker_indices.emplace(sticker_key(geometry[index]), index);
+    for (int index = 0; index < 54; ++index)
+        sticker_indices.emplace(sticker_key(geometry[index]), index);
 
     const std::string old_facelets = to_facelets(cube);
     std::string new_facelets(54, '?');
     std::array<char, 256> color_map{};
     for (int face = 0; face < 6; ++face) {
-        color_map[static_cast<unsigned char>(kFaces[face])] =
-            kFaces[face_for_normal(transform(kFaceNormals[face]))];
+        color_map[static_cast<unsigned char>(kFaces[face])] = kFaces[face_for_normal(transform(kFaceNormals[face]))];
     }
     for (int old_index = 0; old_index < 54; ++old_index) {
         const Sticker transformed{transform(geometry[old_index].first), transform(geometry[old_index].second)};
@@ -86,23 +102,24 @@ CubieCube conjugate_axis_impl(const CubieCube& cube, int axis_rotation) {
     return from_facelets(new_facelets);
 }
 
-}  // namespace
+} // namespace
 
-CubieCube conjugate_axis(const CubieCube& cube, int axis_rotation) {
+CubieCube conjugate_axis(const CubieCube &cube, int axis_rotation) {
     if (axis_rotation < 0 || axis_rotation >= kAxisRotationCount) {
         throw std::out_of_range("axis rotation must be 0..1");
     }
     return conjugate_axis_impl(cube, axis_rotation);
 }
 
-const std::array<std::array<std::uint8_t, 18>, kAxisRotationCount>& axis_rotation_move_maps() {
+const std::array<std::array<std::uint8_t, 18>, kAxisRotationCount> &axis_rotation_move_maps() {
     static const auto maps = [] {
         std::array<std::array<std::uint8_t, 18>, kAxisRotationCount> result{};
         for (int axis = 0; axis < kAxisRotationCount; ++axis) {
             for (int move = 0; move < 18; ++move) {
                 const CubieCube transformed = conjugate_axis_impl(move_cubes()[move], axis);
                 const auto found = std::find(move_cubes().begin(), move_cubes().end(), transformed);
-                if (found == move_cubes().end()) throw std::runtime_error("axis rotation did not map a move to a move");
+                if (found == move_cubes().end())
+                    throw std::runtime_error("axis rotation did not map a move to a move");
                 result[axis][move] = static_cast<std::uint8_t>(found - move_cubes().begin());
             }
         }
@@ -117,7 +134,7 @@ Phase1Symmetry::Phase1Symmetry() {
     const Matrix up_quarter_turn{{{0, 0, 1}, {0, 1, 0}, {-1, 0, 0}}};
     const Matrix left_right_reflection{{{-1, 0, 0}, {0, 1, 0}, {0, 0, 1}}};
 
-    const auto multiply = [](const Matrix& left, const Matrix& right) {
+    const auto multiply = [](const Matrix &left, const Matrix &right) {
         Matrix result{};
         for (int row = 0; row < 3; ++row) {
             for (int column = 0; column < 3; ++column) {
@@ -130,11 +147,12 @@ Phase1Symmetry::Phase1Symmetry() {
         }
         return result;
     };
-    const auto transform = [](const Matrix& matrix, const Vector& vector) {
+    const auto transform = [](const Matrix &matrix, const Vector &vector) {
         Vector result{};
         for (int row = 0; row < 3; ++row) {
             int value = 0;
-            for (int column = 0; column < 3; ++column) value += matrix.value[row][column] * vector[column];
+            for (int column = 0; column < 3; ++column)
+                value += matrix.value[row][column] * vector[column];
             result[row] = static_cast<std::int8_t>(value);
         }
         return result;
@@ -143,7 +161,7 @@ Phase1Symmetry::Phase1Symmetry() {
     matrices_.push_back(identity);
     const std::array<Matrix, 3> generators{front_half_turn, up_quarter_turn, left_right_reflection};
     for (std::size_t cursor = 0; cursor < matrices_.size(); ++cursor) {
-        for (const Matrix& generator : generators) {
+        for (const Matrix &generator : generators) {
             const Matrix candidate = multiply(generator, matrices_[cursor]);
             if (std::find(matrices_.begin(), matrices_.end(), candidate) == matrices_.end()) {
                 matrices_.push_back(candidate);
@@ -157,7 +175,8 @@ Phase1Symmetry::Phase1Symmetry() {
     const auto geometry = sticker_geometry();
     std::unordered_map<std::uint32_t, int> sticker_indices;
     sticker_indices.reserve(54);
-    for (int index = 0; index < 54; ++index) sticker_indices.emplace(sticker_key(geometry[index]), index);
+    for (int index = 0; index < 54; ++index)
+        sticker_indices.emplace(sticker_key(geometry[index]), index);
 
     for (int symmetry = 0; symmetry < kPhase1SymmetryCount; ++symmetry) {
         for (int old_position = 0; old_position < 12; ++old_position) {
@@ -169,18 +188,20 @@ Phase1Symmetry::Phase1Symmetry() {
             bool found = false;
             for (int new_position = 0; new_position < 12 && !found; ++new_position) {
                 for (int slot = 0; slot < 2; ++slot) {
-                    if (kEdgeFacelets[new_position][slot] != new_facelet) continue;
+                    if (kEdgeFacelets[new_position][slot] != new_facelet)
+                        continue;
                     edge_position_[symmetry][old_position] = static_cast<std::uint8_t>(new_position);
                     edge_frame_[symmetry][old_position] = static_cast<std::uint8_t>(slot);
                     found = true;
                     break;
                 }
             }
-            if (!found) throw std::runtime_error("transformed edge sticker is not an edge");
+            if (!found)
+                throw std::runtime_error("transformed edge sticker is not an edge");
         }
     }
 
-    const auto conjugate_with_matrix = [&](const CubieCube& cube, const Matrix& matrix) {
+    const auto conjugate_with_matrix = [&](const CubieCube &cube, const Matrix &matrix) {
         const std::string old_facelets = to_facelets(cube);
         std::string new_facelets(54, '?');
         std::array<char, 256> color_map{};
@@ -194,7 +215,8 @@ Phase1Symmetry::Phase1Symmetry() {
                 transform(matrix, geometry[old_index].second),
             };
             const auto found = sticker_indices.find(sticker_key(transformed));
-            if (found == sticker_indices.end()) throw std::runtime_error("transformed sticker is not on the cube");
+            if (found == sticker_indices.end())
+                throw std::runtime_error("transformed sticker is not on the cube");
             new_facelets[found->second] = color_map[static_cast<unsigned char>(old_facelets[old_index])];
         }
         return from_facelets(new_facelets);
@@ -223,14 +245,15 @@ Phase1Symmetry::Phase1Symmetry() {
     slice_conjugates_.resize(495U * kPhase1SymmetryCount);
     for (std::uint16_t coordinate = 0; coordinate < 495; ++coordinate) {
         CubieCube cube = cube_from_slice_comb(coordinate);
-        if (permutation_parity(cube.ep) != 0) std::swap(cube.cp[0], cube.cp[1]);
+        if (permutation_parity(cube.ep) != 0)
+            std::swap(cube.cp[0], cube.cp[1]);
         for (int symmetry = 0; symmetry < kPhase1SymmetryCount; ++symmetry) {
             slice_conjugates_[static_cast<std::size_t>(coordinate) * kPhase1SymmetryCount + symmetry] =
                 slice_comb_coord(conjugate_with_matrix(cube, matrices_[symmetry]));
         }
     }
 
-    const auto conjugate_flip_slice_cube = [&](const CubieCube& cube, int symmetry) {
+    const auto conjugate_flip_slice_cube = [&](const CubieCube &cube, int symmetry) {
         CubieCube transformed;
         for (int old_position = 0; old_position < 12; ++old_position) {
             const int old_edge = cube.ep[old_position];
@@ -270,8 +293,8 @@ Phase1Symmetry::Phase1Symmetry() {
         raw_to_symmetry_[raw] = symmetry_to_rep;
     }
     if (representatives_.size() != kFlipSliceClassCount) {
-        throw std::runtime_error(
-            "phase-1 symmetry class count mismatch: got " + std::to_string(representatives_.size()));
+        throw std::runtime_error("phase-1 symmetry class count mismatch: got " +
+                                 std::to_string(representatives_.size()));
     }
 
     // A projected symmetry table is useful for pruning only if it agrees with
@@ -297,23 +320,26 @@ Phase1Symmetry::Phase1Symmetry() {
     }
 }
 
-CubieCube Phase1Symmetry::conjugate(const CubieCube& cube, int symmetry) const {
-    if (symmetry < 0 || symmetry >= kPhase1SymmetryCount) throw std::out_of_range("symmetry must be 0..15");
+CubieCube Phase1Symmetry::conjugate(const CubieCube &cube, int symmetry) const {
+    if (symmetry < 0 || symmetry >= kPhase1SymmetryCount)
+        throw std::out_of_range("symmetry must be 0..15");
 
     const auto geometry = sticker_geometry();
     std::unordered_map<std::uint32_t, int> sticker_indices;
     sticker_indices.reserve(54);
-    for (int index = 0; index < 54; ++index) sticker_indices.emplace(sticker_key(geometry[index]), index);
-    const auto transform = [](const Matrix& matrix, const Vector& vector) {
+    for (int index = 0; index < 54; ++index)
+        sticker_indices.emplace(sticker_key(geometry[index]), index);
+    const auto transform = [](const Matrix &matrix, const Vector &vector) {
         Vector result{};
         for (int row = 0; row < 3; ++row) {
             int value = 0;
-            for (int column = 0; column < 3; ++column) value += matrix.value[row][column] * vector[column];
+            for (int column = 0; column < 3; ++column)
+                value += matrix.value[row][column] * vector[column];
             result[row] = static_cast<std::int8_t>(value);
         }
         return result;
     };
-    const Matrix& matrix = matrices_[symmetry];
+    const Matrix &matrix = matrices_[symmetry];
     const std::string old_facelets = to_facelets(cube);
     std::string new_facelets(54, '?');
     std::array<char, 256> color_map{};
@@ -372,18 +398,16 @@ std::uint32_t Phase1Symmetry::representative(std::uint32_t class_index_value) co
     return representatives_[class_index_value];
 }
 
-std::uint32_t Phase1Symmetry::canonical_index(
-    std::uint16_t twist,
-    std::uint16_t flip,
-    std::uint16_t slice) const noexcept {
+std::uint32_t Phase1Symmetry::canonical_index(std::uint16_t twist, std::uint16_t flip,
+                                              std::uint16_t slice) const noexcept {
     const std::uint32_t raw = static_cast<std::uint32_t>(flip) * 495U + slice;
     const std::uint8_t symmetry = raw_to_symmetry_[raw];
     return raw_to_class_[raw] * 2187U + twist_conjugate(twist, symmetry);
 }
 
-const std::vector<std::uint16_t>& Phase1Symmetry::twist_table() const noexcept { return twist_conjugates_; }
-const std::vector<std::uint32_t>& Phase1Symmetry::raw_to_class_table() const noexcept { return raw_to_class_; }
-const std::vector<std::uint8_t>& Phase1Symmetry::raw_to_symmetry_table() const noexcept { return raw_to_symmetry_; }
-const std::vector<std::uint32_t>& Phase1Symmetry::representatives() const noexcept { return representatives_; }
+const std::vector<std::uint16_t> &Phase1Symmetry::twist_table() const noexcept { return twist_conjugates_; }
+const std::vector<std::uint32_t> &Phase1Symmetry::raw_to_class_table() const noexcept { return raw_to_class_; }
+const std::vector<std::uint8_t> &Phase1Symmetry::raw_to_symmetry_table() const noexcept { return raw_to_symmetry_; }
+const std::vector<std::uint32_t> &Phase1Symmetry::representatives() const noexcept { return representatives_; }
 
-}  // namespace cube
+} // namespace cube

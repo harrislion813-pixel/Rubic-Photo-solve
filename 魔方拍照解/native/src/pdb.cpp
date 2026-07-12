@@ -53,7 +53,7 @@ std::runtime_error windows_error(std::string_view operation) {
     return std::runtime_error(std::string(operation) + " failed with Windows error " + std::to_string(GetLastError()));
 }
 
-std::uint64_t checksum_bytes(const std::uint8_t* data, std::uint64_t size) noexcept {
+std::uint64_t checksum_bytes(const std::uint8_t *data, std::uint64_t size) noexcept {
     std::uint64_t checksum = 1469598103934665603ULL;
     for (std::uint64_t index = 0; index < size; ++index) {
         checksum ^= data[index];
@@ -62,7 +62,7 @@ std::uint64_t checksum_bytes(const std::uint8_t* data, std::uint64_t size) noexc
     return checksum;
 }
 
-bool valid_existing_file(const std::filesystem::path& path, int requested_depth) {
+bool valid_existing_file(const std::filesystem::path &path, int requested_depth) {
     try {
         CornerPatternDatabase existing(path);
         return existing.complete() || existing.max_value() >= requested_depth + 1;
@@ -71,7 +71,7 @@ bool valid_existing_file(const std::filesystem::path& path, int requested_depth)
     }
 }
 
-bool valid_existing_edge_file(const std::filesystem::path& path, int group, int requested_depth) {
+bool valid_existing_edge_file(const std::filesystem::path &path, int group, int requested_depth) {
     try {
         EdgePatternDatabase existing(path, group);
         return existing.complete() || existing.max_value() >= requested_depth + 1;
@@ -80,7 +80,7 @@ bool valid_existing_edge_file(const std::filesystem::path& path, int group, int 
     }
 }
 
-bool valid_existing_phase1_file(const std::filesystem::path& path, int requested_depth) {
+bool valid_existing_phase1_file(const std::filesystem::path &path, int requested_depth) {
     try {
         Phase1PatternDatabase existing(path);
         return existing.complete() || existing.max_value() >= requested_depth + 1;
@@ -89,13 +89,14 @@ bool valid_existing_phase1_file(const std::filesystem::path& path, int requested
     }
 }
 
-}  // namespace
+} // namespace
 
-Phase1PatternDatabase::Phase1PatternDatabase(const std::filesystem::path& path) {
+Phase1PatternDatabase::Phase1PatternDatabase(const std::filesystem::path &path) {
     const auto absolute = std::filesystem::absolute(path);
-    HANDLE file = CreateFileW(
-        absolute.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-    if (file == INVALID_HANDLE_VALUE) throw windows_error("CreateFileW");
+    HANDLE file = CreateFileW(absolute.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
+                              FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (file == INVALID_HANDLE_VALUE)
+        throw windows_error("CreateFileW");
     file_ = file;
 
     LARGE_INTEGER size{};
@@ -111,7 +112,7 @@ Phase1PatternDatabase::Phase1PatternDatabase(const std::filesystem::path& path) 
         throw windows_error("CreateFileMappingW");
     }
     mapping_ = mapping;
-    view_ = static_cast<const std::uint8_t*>(MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, 0));
+    view_ = static_cast<const std::uint8_t *>(MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, 0));
     if (view_ == nullptr) {
         CloseHandle(mapping);
         CloseHandle(file);
@@ -120,14 +121,13 @@ Phase1PatternDatabase::Phase1PatternDatabase(const std::filesystem::path& path) 
         throw windows_error("MapViewOfFile");
     }
 
-    const auto* header = reinterpret_cast<const PdbHeader*>(view_);
+    const auto *header = reinterpret_cast<const PdbHeader *>(view_);
     const bool valid =
         header->magic == kMagic && header->version == kVersion && header->header_size == sizeof(PdbHeader) &&
         header->metric == kMetricHtm && header->pattern == kPatternPhase1Symmetry && header->bits_per_entry == 4 &&
-        header->entry_count == kPhase1PatternEntries &&
-        header->data_bytes == (kPhase1PatternEntries + 1) / 2 &&
-        size.QuadPart == static_cast<LONGLONG>(header->header_size + header->data_bytes) &&
-        header->max_value <= 15 && (header->flags & kChecksumFlag) != 0 &&
+        header->entry_count == kPhase1PatternEntries && header->data_bytes == (kPhase1PatternEntries + 1) / 2 &&
+        size.QuadPart == static_cast<LONGLONG>(header->header_size + header->data_bytes) && header->max_value <= 15 &&
+        (header->flags & kChecksumFlag) != 0 &&
         header->reserved[0] == checksum_bytes(view_ + header->header_size, header->data_bytes);
     if (!valid) {
         UnmapViewOfFile(view_);
@@ -155,30 +155,31 @@ Phase1PatternDatabase::Phase1PatternDatabase(const std::filesystem::path& path) 
 }
 
 Phase1PatternDatabase::~Phase1PatternDatabase() {
-    if (view_ != nullptr) UnmapViewOfFile(view_);
-    if (mapping_ != nullptr) CloseHandle(static_cast<HANDLE>(mapping_));
-    if (file_ != nullptr) CloseHandle(static_cast<HANDLE>(file_));
+    if (view_ != nullptr)
+        UnmapViewOfFile(view_);
+    if (mapping_ != nullptr)
+        CloseHandle(static_cast<HANDLE>(mapping_));
+    if (file_ != nullptr)
+        CloseHandle(static_cast<HANDLE>(file_));
 }
 
-std::uint8_t Phase1PatternDatabase::distance(
-    std::uint16_t twist,
-    std::uint16_t flip,
-    std::uint16_t slice) const noexcept {
+std::uint8_t Phase1PatternDatabase::distance(std::uint16_t twist, std::uint16_t flip,
+                                             std::uint16_t slice) const noexcept {
     const std::uint32_t coordinate = symmetry_->canonical_index(twist, flip, slice);
     const std::uint8_t packed = data_[coordinate >> 1U];
-    return coordinate & 1U ? static_cast<std::uint8_t>(packed >> 4U)
-                           : static_cast<std::uint8_t>(packed & 0x0FU);
+    return coordinate & 1U ? static_cast<std::uint8_t>(packed >> 4U) : static_cast<std::uint8_t>(packed & 0x0FU);
 }
 
 bool Phase1PatternDatabase::complete() const noexcept { return complete_; }
 
 std::uint8_t Phase1PatternDatabase::max_value() const noexcept { return max_value_; }
 
-CornerPatternDatabase::CornerPatternDatabase(const std::filesystem::path& path) {
+CornerPatternDatabase::CornerPatternDatabase(const std::filesystem::path &path) {
     const auto absolute = std::filesystem::absolute(path);
-    HANDLE file = CreateFileW(
-        absolute.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-    if (file == INVALID_HANDLE_VALUE) throw windows_error("CreateFileW");
+    HANDLE file = CreateFileW(absolute.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
+                              FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (file == INVALID_HANDLE_VALUE)
+        throw windows_error("CreateFileW");
     file_ = file;
 
     LARGE_INTEGER size{};
@@ -194,7 +195,7 @@ CornerPatternDatabase::CornerPatternDatabase(const std::filesystem::path& path) 
         throw windows_error("CreateFileMappingW");
     }
     mapping_ = mapping;
-    view_ = static_cast<const std::uint8_t*>(MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, 0));
+    view_ = static_cast<const std::uint8_t *>(MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, 0));
     if (view_ == nullptr) {
         CloseHandle(mapping);
         CloseHandle(file);
@@ -203,14 +204,13 @@ CornerPatternDatabase::CornerPatternDatabase(const std::filesystem::path& path) 
         throw windows_error("MapViewOfFile");
     }
 
-    const auto* header = reinterpret_cast<const PdbHeader*>(view_);
+    const auto *header = reinterpret_cast<const PdbHeader *>(view_);
     const bool valid =
         header->magic == kMagic && header->version == kVersion && header->header_size == sizeof(PdbHeader) &&
         header->metric == kMetricHtm && header->pattern == kPatternCorners && header->bits_per_entry == 4 &&
-        header->entry_count == kCornerPatternEntries &&
-        header->data_bytes == (kCornerPatternEntries + 1) / 2 &&
-        size.QuadPart == static_cast<LONGLONG>(header->header_size + header->data_bytes) &&
-        header->max_value <= 15 && (header->flags & kChecksumFlag) != 0 &&
+        header->entry_count == kCornerPatternEntries && header->data_bytes == (kCornerPatternEntries + 1) / 2 &&
+        size.QuadPart == static_cast<LONGLONG>(header->header_size + header->data_bytes) && header->max_value <= 15 &&
+        (header->flags & kChecksumFlag) != 0 &&
         header->reserved[0] == checksum_bytes(view_ + header->header_size, header->data_bytes);
     if (!valid) {
         UnmapViewOfFile(view_);
@@ -227,27 +227,31 @@ CornerPatternDatabase::CornerPatternDatabase(const std::filesystem::path& path) 
 }
 
 CornerPatternDatabase::~CornerPatternDatabase() {
-    if (view_ != nullptr) UnmapViewOfFile(view_);
-    if (mapping_ != nullptr) CloseHandle(static_cast<HANDLE>(mapping_));
-    if (file_ != nullptr) CloseHandle(static_cast<HANDLE>(file_));
+    if (view_ != nullptr)
+        UnmapViewOfFile(view_);
+    if (mapping_ != nullptr)
+        CloseHandle(static_cast<HANDLE>(mapping_));
+    if (file_ != nullptr)
+        CloseHandle(static_cast<HANDLE>(file_));
 }
 
 std::uint8_t CornerPatternDatabase::distance(std::uint32_t coordinate) const noexcept {
     const std::uint8_t packed = data_[coordinate >> 1U];
-    return coordinate & 1U ? static_cast<std::uint8_t>(packed >> 4U)
-                           : static_cast<std::uint8_t>(packed & 0x0FU);
+    return coordinate & 1U ? static_cast<std::uint8_t>(packed >> 4U) : static_cast<std::uint8_t>(packed & 0x0FU);
 }
 
 bool CornerPatternDatabase::complete() const noexcept { return complete_; }
 
 std::uint8_t CornerPatternDatabase::max_value() const noexcept { return max_value_; }
 
-EdgePatternDatabase::EdgePatternDatabase(const std::filesystem::path& path, int group) {
-    if (group < 0 || group > 7) throw std::invalid_argument("edge pattern group must be 0..7");
+EdgePatternDatabase::EdgePatternDatabase(const std::filesystem::path &path, int group) {
+    if (group < 0 || group > 7)
+        throw std::invalid_argument("edge pattern group must be 0..7");
     const auto absolute = std::filesystem::absolute(path);
-    HANDLE file = CreateFileW(
-        absolute.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-    if (file == INVALID_HANDLE_VALUE) throw windows_error("CreateFileW");
+    HANDLE file = CreateFileW(absolute.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
+                              FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (file == INVALID_HANDLE_VALUE)
+        throw windows_error("CreateFileW");
     file_ = file;
 
     LARGE_INTEGER size{};
@@ -263,7 +267,7 @@ EdgePatternDatabase::EdgePatternDatabase(const std::filesystem::path& path, int 
         throw windows_error("CreateFileMappingW");
     }
     mapping_ = mapping;
-    view_ = static_cast<const std::uint8_t*>(MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, 0));
+    view_ = static_cast<const std::uint8_t *>(MapViewOfFile(mapping, FILE_MAP_READ, 0, 0, 0));
     if (view_ == nullptr) {
         CloseHandle(mapping);
         CloseHandle(file);
@@ -272,15 +276,14 @@ EdgePatternDatabase::EdgePatternDatabase(const std::filesystem::path& path, int 
         throw windows_error("MapViewOfFile");
     }
 
-    const auto* header = reinterpret_cast<const PdbHeader*>(view_);
+    const auto *header = reinterpret_cast<const PdbHeader *>(view_);
     const std::uint32_t expected_pattern = kPatternEdgesA + static_cast<std::uint32_t>(group);
     const bool valid =
         header->magic == kMagic && header->version == kVersion && header->header_size == sizeof(PdbHeader) &&
         header->metric == kMetricHtm && header->pattern == expected_pattern && header->bits_per_entry == 4 &&
-        header->entry_count == kEdgePatternEntries &&
-        header->data_bytes == (kEdgePatternEntries + 1) / 2 &&
-        size.QuadPart == static_cast<LONGLONG>(header->header_size + header->data_bytes) &&
-        header->max_value <= 15 && (header->flags & kChecksumFlag) != 0 &&
+        header->entry_count == kEdgePatternEntries && header->data_bytes == (kEdgePatternEntries + 1) / 2 &&
+        size.QuadPart == static_cast<LONGLONG>(header->header_size + header->data_bytes) && header->max_value <= 15 &&
+        (header->flags & kChecksumFlag) != 0 &&
         header->reserved[0] == checksum_bytes(view_ + header->header_size, header->data_bytes);
     if (!valid) {
         UnmapViewOfFile(view_);
@@ -297,31 +300,30 @@ EdgePatternDatabase::EdgePatternDatabase(const std::filesystem::path& path, int 
 }
 
 EdgePatternDatabase::~EdgePatternDatabase() {
-    if (view_ != nullptr) UnmapViewOfFile(view_);
-    if (mapping_ != nullptr) CloseHandle(static_cast<HANDLE>(mapping_));
-    if (file_ != nullptr) CloseHandle(static_cast<HANDLE>(file_));
+    if (view_ != nullptr)
+        UnmapViewOfFile(view_);
+    if (mapping_ != nullptr)
+        CloseHandle(static_cast<HANDLE>(mapping_));
+    if (file_ != nullptr)
+        CloseHandle(static_cast<HANDLE>(file_));
 }
 
 std::uint8_t EdgePatternDatabase::distance(std::uint32_t coordinate) const noexcept {
     const std::uint8_t packed = data_[coordinate >> 1U];
-    return coordinate & 1U ? static_cast<std::uint8_t>(packed >> 4U)
-                           : static_cast<std::uint8_t>(packed & 0x0FU);
+    return coordinate & 1U ? static_cast<std::uint8_t>(packed >> 4U) : static_cast<std::uint8_t>(packed & 0x0FU);
 }
 
 bool EdgePatternDatabase::complete() const noexcept { return complete_; }
 
 std::uint8_t EdgePatternDatabase::max_value() const noexcept { return max_value_; }
 
-void build_corner_pattern_database(
-    const std::filesystem::path& path,
-    const CoordinateTables& tables,
-    int threads,
-    int coverage_depth,
-    bool force) {
+void build_corner_pattern_database(const std::filesystem::path &path, const CoordinateTables &tables, int threads,
+                                   int coverage_depth, bool force) {
     if (coverage_depth < 0 || coverage_depth > 11) {
         throw std::invalid_argument("corner PDB coverage depth must be 0..11");
     }
-    if (!force && std::filesystem::exists(path) && valid_existing_file(path, coverage_depth)) return;
+    if (!force && std::filesystem::exists(path) && valid_existing_file(path, coverage_depth))
+        return;
     threads = std::clamp(threads > 0 ? threads : static_cast<int>(std::thread::hardware_concurrency()), 1, 64);
     std::filesystem::create_directories(path.parent_path());
 
@@ -338,7 +340,8 @@ void build_corner_pattern_database(
                 }
             });
         }
-        for (auto& initializer : initializers) initializer.join();
+        for (auto &initializer : initializers)
+            initializer.join();
     }
     distances[0].store(0, std::memory_order_relaxed);
     std::vector<std::uint32_t> frontier{0};
@@ -352,11 +355,12 @@ void build_corner_pattern_database(
         workers.reserve(threads);
         for (int thread = 0; thread < threads; ++thread) {
             workers.emplace_back([&, thread] {
-                auto& output = local_next[thread];
+                auto &output = local_next[thread];
                 output.reserve(frontier.size() / threads + 1024);
                 while (true) {
                     const std::size_t begin = cursor.fetch_add(4096, std::memory_order_relaxed);
-                    if (begin >= frontier.size()) break;
+                    if (begin >= frontier.size())
+                        break;
                     const std::size_t end = std::min(frontier.size(), begin + 4096);
                     for (std::size_t item = begin; item < end; ++item) {
                         const std::uint32_t coordinate = frontier[item];
@@ -367,10 +371,8 @@ void build_corner_pattern_database(
                                 static_cast<std::uint32_t>(tables.corner_move(corner_perm, move)) * 2187U +
                                 tables.twist_move(twist, move);
                             std::uint8_t expected = 255;
-                            if (distances[next].compare_exchange_strong(
-                                    expected,
-                                    static_cast<std::uint8_t>(depth + 1),
-                                    std::memory_order_relaxed)) {
+                            if (distances[next].compare_exchange_strong(expected, static_cast<std::uint8_t>(depth + 1),
+                                                                        std::memory_order_relaxed)) {
                                 output.push_back(next);
                             }
                         }
@@ -378,21 +380,23 @@ void build_corner_pattern_database(
                 }
             });
         }
-        for (auto& worker : workers) worker.join();
+        for (auto &worker : workers)
+            worker.join();
 
         std::size_t next_size = 0;
-        for (const auto& values : local_next) next_size += values.size();
+        for (const auto &values : local_next)
+            next_size += values.size();
         std::vector<std::uint32_t> next;
         next.reserve(next_size);
-        for (auto& values : local_next) {
+        for (auto &values : local_next) {
             next.insert(next.end(), std::make_move_iterator(values.begin()), std::make_move_iterator(values.end()));
         }
         frontier = std::move(next);
         discovered += frontier.size();
         ++depth;
         const double elapsed = std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count();
-        std::cerr << "corner-pdb depth=" << depth << " frontier=" << frontier.size()
-                  << " discovered=" << discovered << " elapsed=" << elapsed << "s\n";
+        std::cerr << "corner-pdb depth=" << depth << " frontier=" << frontier.size() << " discovered=" << discovered
+                  << " elapsed=" << elapsed << "s\n";
     }
 
     const bool complete = discovered == kCornerPatternEntries;
@@ -409,9 +413,8 @@ void build_corner_pattern_database(
                 for (std::uint64_t byte_index = begin_byte; byte_index < end_byte; ++byte_index) {
                     const std::uint64_t first = byte_index * 2;
                     std::uint8_t low = distances[first].load(std::memory_order_relaxed);
-                    std::uint8_t high = first + 1 < kCornerPatternEntries
-                        ? distances[first + 1].load(std::memory_order_relaxed)
-                        : 0;
+                    std::uint8_t high =
+                        first + 1 < kCornerPatternEntries ? distances[first + 1].load(std::memory_order_relaxed) : 0;
                     if (low == 255) {
                         low = unknown_value;
                         ++local_unknown;
@@ -425,7 +428,8 @@ void build_corner_pattern_database(
                 unknown_count.fetch_add(local_unknown, std::memory_order_relaxed);
             });
         }
-        for (auto& packer : packers) packer.join();
+        for (auto &packer : packers)
+            packer.join();
     }
 
     PdbHeader header;
@@ -444,32 +448,33 @@ void build_corner_pattern_database(
     const std::filesystem::path temporary = path.string() + ".tmp";
     {
         std::ofstream output(temporary, std::ios::binary | std::ios::trunc);
-        if (!output) throw std::runtime_error("cannot create corner PDB temporary file");
-        output.write(reinterpret_cast<const char*>(&header), sizeof(header));
-        output.write(reinterpret_cast<const char*>(packed.data()), static_cast<std::streamsize>(packed.size()));
+        if (!output)
+            throw std::runtime_error("cannot create corner PDB temporary file");
+        output.write(reinterpret_cast<const char *>(&header), sizeof(header));
+        output.write(reinterpret_cast<const char *>(packed.data()), static_cast<std::streamsize>(packed.size()));
         output.flush();
-        if (!output) throw std::runtime_error("failed while writing corner PDB");
+        if (!output)
+            throw std::runtime_error("failed while writing corner PDB");
     }
     std::error_code error;
     std::filesystem::remove(path, error);
     error.clear();
     std::filesystem::rename(temporary, path, error);
-    if (error) throw std::runtime_error("cannot atomically publish corner PDB: " + error.message());
-    std::cerr << "corner-pdb complete=" << complete << " unknown=" << unknown_count.load()
-              << " file=" << path.string() << "\n";
+    if (error)
+        throw std::runtime_error("cannot atomically publish corner PDB: " + error.message());
+    std::cerr << "corner-pdb complete=" << complete << " unknown=" << unknown_count.load() << " file=" << path.string()
+              << "\n";
 }
 
-void build_edge_pattern_database(
-    const std::filesystem::path& path,
-    int group,
-    int threads,
-    int coverage_depth,
-    bool force) {
-    if (group < 0 || group > 7) throw std::invalid_argument("edge pattern group must be 0..7");
+void build_edge_pattern_database(const std::filesystem::path &path, int group, int threads, int coverage_depth,
+                                 bool force) {
+    if (group < 0 || group > 7)
+        throw std::invalid_argument("edge pattern group must be 0..7");
     if (coverage_depth < 0 || coverage_depth > 10) {
         throw std::invalid_argument("edge PDB coverage depth must be 0..10");
     }
-    if (!force && std::filesystem::exists(path) && valid_existing_edge_file(path, group, coverage_depth)) return;
+    if (!force && std::filesystem::exists(path) && valid_existing_edge_file(path, group, coverage_depth))
+        return;
     threads = std::clamp(threads > 0 ? threads : static_cast<int>(std::thread::hardware_concurrency()), 1, 64);
     std::filesystem::create_directories(path.parent_path());
 
@@ -486,7 +491,8 @@ void build_edge_pattern_database(
                 }
             });
         }
-        for (auto& initializer : initializers) initializer.join();
+        for (auto &initializer : initializers)
+            initializer.join();
     }
     const EdgePatternState solved_pattern = edge_pattern_state(CubieCube{}, edge_pattern_group(group));
     const std::uint32_t solved_coordinate = edge_pattern_coord(solved_pattern);
@@ -502,21 +508,20 @@ void build_edge_pattern_database(
         workers.reserve(threads);
         for (int thread = 0; thread < threads; ++thread) {
             workers.emplace_back([&, thread] {
-                auto& output = local_next[thread];
+                auto &output = local_next[thread];
                 output.reserve(frontier.size() / threads + 1024);
                 while (true) {
                     const std::size_t begin = cursor.fetch_add(2048, std::memory_order_relaxed);
-                    if (begin >= frontier.size()) break;
+                    if (begin >= frontier.size())
+                        break;
                     const std::size_t end = std::min(frontier.size(), begin + 2048);
                     for (std::size_t item = begin; item < end; ++item) {
                         const EdgePatternState state = edge_pattern_from_coord(frontier[item]);
                         for (int move = 0; move < 18; ++move) {
                             const std::uint32_t next = edge_pattern_coord(move_edge_pattern(state, move));
                             std::uint8_t expected = 255;
-                            if (distances[next].compare_exchange_strong(
-                                    expected,
-                                    static_cast<std::uint8_t>(depth + 1),
-                                    std::memory_order_relaxed)) {
+                            if (distances[next].compare_exchange_strong(expected, static_cast<std::uint8_t>(depth + 1),
+                                                                        std::memory_order_relaxed)) {
                                 output.push_back(next);
                             }
                         }
@@ -524,13 +529,15 @@ void build_edge_pattern_database(
                 }
             });
         }
-        for (auto& worker : workers) worker.join();
+        for (auto &worker : workers)
+            worker.join();
 
         std::size_t next_size = 0;
-        for (const auto& values : local_next) next_size += values.size();
+        for (const auto &values : local_next)
+            next_size += values.size();
         std::vector<std::uint32_t> next;
         next.reserve(next_size);
-        for (auto& values : local_next) {
+        for (auto &values : local_next) {
             next.insert(next.end(), std::make_move_iterator(values.begin()), std::make_move_iterator(values.end()));
         }
         frontier = std::move(next);
@@ -555,9 +562,8 @@ void build_edge_pattern_database(
                 for (std::uint64_t byte_index = begin_byte; byte_index < end_byte; ++byte_index) {
                     const std::uint64_t first = byte_index * 2;
                     std::uint8_t low = distances[first].load(std::memory_order_relaxed);
-                    std::uint8_t high = first + 1 < kEdgePatternEntries
-                        ? distances[first + 1].load(std::memory_order_relaxed)
-                        : 0;
+                    std::uint8_t high =
+                        first + 1 < kEdgePatternEntries ? distances[first + 1].load(std::memory_order_relaxed) : 0;
                     if (low == 255) {
                         low = unknown_value;
                         ++local_unknown;
@@ -571,7 +577,8 @@ void build_edge_pattern_database(
                 unknown_count.fetch_add(local_unknown, std::memory_order_relaxed);
             });
         }
-        for (auto& packer : packers) packer.join();
+        for (auto &packer : packers)
+            packer.join();
     }
 
     PdbHeader header;
@@ -590,31 +597,31 @@ void build_edge_pattern_database(
     const std::filesystem::path temporary = path.string() + ".tmp";
     {
         std::ofstream output(temporary, std::ios::binary | std::ios::trunc);
-        if (!output) throw std::runtime_error("cannot create edge PDB temporary file");
-        output.write(reinterpret_cast<const char*>(&header), sizeof(header));
-        output.write(reinterpret_cast<const char*>(packed.data()), static_cast<std::streamsize>(packed.size()));
+        if (!output)
+            throw std::runtime_error("cannot create edge PDB temporary file");
+        output.write(reinterpret_cast<const char *>(&header), sizeof(header));
+        output.write(reinterpret_cast<const char *>(packed.data()), static_cast<std::streamsize>(packed.size()));
         output.flush();
-        if (!output) throw std::runtime_error("failed while writing edge PDB");
+        if (!output)
+            throw std::runtime_error("failed while writing edge PDB");
     }
     std::error_code error;
     std::filesystem::remove(path, error);
     error.clear();
     std::filesystem::rename(temporary, path, error);
-    if (error) throw std::runtime_error("cannot atomically publish edge PDB: " + error.message());
+    if (error)
+        throw std::runtime_error("cannot atomically publish edge PDB: " + error.message());
     std::cerr << "edge-pdb-" << group << " complete=" << complete << " unknown=" << unknown_count.load()
               << " file=" << path.string() << "\n";
 }
 
-void build_phase1_pattern_database(
-    const std::filesystem::path& path,
-    const CoordinateTables& tables,
-    int threads,
-    int coverage_depth,
-    bool force) {
+void build_phase1_pattern_database(const std::filesystem::path &path, const CoordinateTables &tables, int threads,
+                                   int coverage_depth, bool force) {
     if (coverage_depth < 0 || coverage_depth > 12) {
         throw std::invalid_argument("phase-1 PDB coverage depth must be 0..12");
     }
-    if (!force && std::filesystem::exists(path) && valid_existing_phase1_file(path, coverage_depth)) return;
+    if (!force && std::filesystem::exists(path) && valid_existing_phase1_file(path, coverage_depth))
+        return;
     threads = std::clamp(threads > 0 ? threads : static_cast<int>(std::thread::hardware_concurrency()), 1, 64);
     std::filesystem::create_directories(path.parent_path());
 
@@ -662,7 +669,8 @@ void build_phase1_pattern_database(
                 }
             });
         }
-        for (auto& initializer : initializers) initializer.join();
+        for (auto &initializer : initializers)
+            initializer.join();
     }
 
     const std::uint16_t solved_slice = slice_comb_coord(CubieCube{});
@@ -679,11 +687,12 @@ void build_phase1_pattern_database(
         workers.reserve(threads);
         for (int thread = 0; thread < threads; ++thread) {
             workers.emplace_back([&, thread] {
-                auto& output = local_next[thread];
+                auto &output = local_next[thread];
                 output.reserve(frontier.size() / threads + 1024);
                 while (true) {
                     const std::size_t begin = cursor.fetch_add(4096, std::memory_order_relaxed);
-                    if (begin >= frontier.size()) break;
+                    if (begin >= frontier.size())
+                        break;
                     const std::size_t end = std::min(frontier.size(), begin + 4096);
                     for (std::size_t item = begin; item < end; ++item) {
                         const std::uint32_t coordinate = frontier[item];
@@ -705,9 +714,7 @@ void build_phase1_pattern_database(
                                 const std::uint32_t next = child_class * 2187U + equivalent_twist;
                                 std::uint8_t expected = 255;
                                 if (distances[next].compare_exchange_strong(
-                                        expected,
-                                        static_cast<std::uint8_t>(depth + 1),
-                                        std::memory_order_relaxed)) {
+                                        expected, static_cast<std::uint8_t>(depth + 1), std::memory_order_relaxed)) {
                                     output.push_back(next);
                                 }
                             }
@@ -716,21 +723,23 @@ void build_phase1_pattern_database(
                 }
             });
         }
-        for (auto& worker : workers) worker.join();
+        for (auto &worker : workers)
+            worker.join();
 
         std::size_t next_size = 0;
-        for (const auto& values : local_next) next_size += values.size();
+        for (const auto &values : local_next)
+            next_size += values.size();
         std::vector<std::uint32_t> next;
         next.reserve(next_size);
-        for (auto& values : local_next) {
+        for (auto &values : local_next) {
             next.insert(next.end(), std::make_move_iterator(values.begin()), std::make_move_iterator(values.end()));
         }
         frontier = std::move(next);
         discovered += frontier.size();
         ++depth;
         const double elapsed = std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count();
-        std::cerr << "phase1-pdb depth=" << depth << " frontier=" << frontier.size()
-                  << " discovered=" << discovered << " elapsed=" << elapsed << "s\n";
+        std::cerr << "phase1-pdb depth=" << depth << " frontier=" << frontier.size() << " discovered=" << discovered
+                  << " elapsed=" << elapsed << "s\n";
     }
 
     const bool complete = discovered == kPhase1PatternEntries;
@@ -747,9 +756,8 @@ void build_phase1_pattern_database(
                 for (std::uint64_t byte_index = begin_byte; byte_index < end_byte; ++byte_index) {
                     const std::uint64_t first = byte_index * 2;
                     std::uint8_t low = distances[first].load(std::memory_order_relaxed);
-                    std::uint8_t high = first + 1 < kPhase1PatternEntries
-                        ? distances[first + 1].load(std::memory_order_relaxed)
-                        : 0;
+                    std::uint8_t high =
+                        first + 1 < kPhase1PatternEntries ? distances[first + 1].load(std::memory_order_relaxed) : 0;
                     if (low == 255) {
                         low = unknown_value;
                         ++local_unknown;
@@ -763,7 +771,8 @@ void build_phase1_pattern_database(
                 unknown_count.fetch_add(local_unknown, std::memory_order_relaxed);
             });
         }
-        for (auto& packer : packers) packer.join();
+        for (auto &packer : packers)
+            packer.join();
     }
 
     PdbHeader header;
@@ -782,19 +791,22 @@ void build_phase1_pattern_database(
     const std::filesystem::path temporary = path.string() + ".tmp";
     {
         std::ofstream output(temporary, std::ios::binary | std::ios::trunc);
-        if (!output) throw std::runtime_error("cannot create phase-1 PDB temporary file");
-        output.write(reinterpret_cast<const char*>(&header), sizeof(header));
-        output.write(reinterpret_cast<const char*>(packed.data()), static_cast<std::streamsize>(packed.size()));
+        if (!output)
+            throw std::runtime_error("cannot create phase-1 PDB temporary file");
+        output.write(reinterpret_cast<const char *>(&header), sizeof(header));
+        output.write(reinterpret_cast<const char *>(packed.data()), static_cast<std::streamsize>(packed.size()));
         output.flush();
-        if (!output) throw std::runtime_error("failed while writing phase-1 PDB");
+        if (!output)
+            throw std::runtime_error("failed while writing phase-1 PDB");
     }
     std::error_code error;
     std::filesystem::remove(path, error);
     error.clear();
     std::filesystem::rename(temporary, path, error);
-    if (error) throw std::runtime_error("cannot atomically publish phase-1 PDB: " + error.message());
-    std::cerr << "phase1-pdb complete=" << complete << " unknown=" << unknown_count.load()
-              << " file=" << path.string() << "\n";
+    if (error)
+        throw std::runtime_error("cannot atomically publish phase-1 PDB: " + error.message());
+    std::cerr << "phase1-pdb complete=" << complete << " unknown=" << unknown_count.load() << " file=" << path.string()
+              << "\n";
 }
 
-}  // namespace cube
+} // namespace cube

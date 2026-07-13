@@ -7,12 +7,11 @@ import queue
 import subprocess
 import threading
 from collections.abc import Callable
-from pathlib import Path
-
 from .cubie import CubieCube, MOVE_INDEX, to_facelets
+from .runtime import application_root
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = application_root()
 NATIVE_ROOT = ROOT / "native"
 NATIVE_EXE = NATIVE_ROOT / "build" / "cube_solver.exe"
 NATIVE_CACHE = ROOT / ".cache" / "native"

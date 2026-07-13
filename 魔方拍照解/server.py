@@ -8,10 +8,12 @@ import socket
 import threading
 import time
 import uuid
+import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 
+from cube_app import __version__
 from cube_app.cubie import CubeStateError, CubieCube, from_facelets
 from cube_app.fast import FastTwoPhaseSolver
 from cube_app.native import (
@@ -21,6 +23,7 @@ from cube_app.native import (
     solve_native,
 )
 from cube_app.optimal import OptimalSolver, SearchCancelled, SearchTimeout
+from cube_app.runtime import application_root
 from cube_app.two_by_two import TwoByTwoSolver
 
 try:
@@ -32,11 +35,11 @@ except ImportError:  # The browser detector remains available without OpenCV.
     decode_data_url = None
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = application_root()
 WEB_ROOT = ROOT / "web"
 HOST = "127.0.0.1"
 PORT = 8765
-APP_VERSION = "2026.07.11.9"
+APP_VERSION = __version__
 
 SOLVER = OptimalSolver(ROOT / ".cache", parallel=True)
 PROBE_SOLVER = OptimalSolver(ROOT / ".cache", parallel=False)
@@ -130,7 +133,6 @@ def run_optimal_job(
             update_job(job_id, status="cancelled", message="搜索已取消。")
             return
         update_job(job_id, status="running")
-        started = time.monotonic()
         try:
             def report_progress(progress: dict) -> None:
                 update_job(job_id, progress=progress)
@@ -157,31 +159,15 @@ def run_optimal_job(
                     update_job(job_id, status="complete", result=native_result)
                     return
 
-            try:
-                result = SOLVER.solve_cube(
-                    cube,
-                    max_depth=max_depth,
-                    timeout_seconds=timeout_seconds,
-                    upper_bound=upper_bound,
-                    incumbent_moves=incumbent_moves,
-                    cancel_event=cancel_event,
-                    progress_callback=report_progress,
-                )
-            except PermissionError:
-                remaining = None
-                if timeout_seconds is not None:
-                    remaining = max(0.0, timeout_seconds - (time.monotonic() - started))
-                    if remaining == 0.0:
-                        raise SearchTimeout("搜索超时。")
-                result = PROBE_SOLVER.solve_cube(
-                    cube,
-                    max_depth=max_depth,
-                    timeout_seconds=remaining,
-                    upper_bound=upper_bound,
-                    incumbent_moves=incumbent_moves,
-                    cancel_event=cancel_event,
-                    progress_callback=report_progress,
-                )
+            result = SOLVER.solve_cube(
+                cube,
+                max_depth=max_depth,
+                timeout_seconds=timeout_seconds,
+                upper_bound=upper_bound,
+                incumbent_moves=incumbent_moves,
+                cancel_event=cancel_event,
+                progress_callback=report_progress,
+            )
             if cancel_event is not None and cancel_event.is_set():
                 raise SearchCancelled("搜索已取消。")
             update_job(job_id, status="complete", result=result_payload(result))
@@ -203,11 +189,14 @@ class ExclusiveThreadingHTTPServer(ThreadingHTTPServer):
 
 
 class AppHandler(BaseHTTPRequestHandler):
-    server_version = "CubeOptimalApp/0.1"
+    server_version = f"CubeOptimalApp/{APP_VERSION}"
 
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
         path = parsed.path
+        if path == "/api/version":
+            self._send_json({"ok": True, "version": APP_VERSION})
+            return
         if path.startswith("/api/solve/"):
             job_id = path.removeprefix("/api/solve/").strip("/")
             with JOBS_LOCK:
@@ -427,7 +416,10 @@ class AppHandler(BaseHTTPRequestHandler):
             return
 
     def _send_file(self, path: Path) -> None:
-        body = path.read_bytes()
+        if path.suffix == ".html":
+            body = path.read_text(encoding="utf-8").replace("__APP_VERSION__", APP_VERSION).encode("utf-8")
+        else:
+            body = path.read_bytes()
         content_type = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
         if path.suffix == ".js":
             content_type = "text/javascript; charset=utf-8"
@@ -445,10 +437,11 @@ class AppHandler(BaseHTTPRequestHandler):
             return
 
 
-def main() -> None:
+def main(*, open_browser: bool = False) -> None:
     server, port = create_server()
     write_port_file(port)
-    print(f"魔方最短解应用 {APP_VERSION} 已启动: http://{HOST}:{port}/", flush=True)
+    url = f"http://{HOST}:{port}/"
+    print(f"魔方最短解应用 {APP_VERSION} 已启动: {url}", flush=True)
     if port != PORT:
         print(
             f"警告：默认端口 {PORT} 已被其他进程占用，可能仍有旧版服务在运行。"
@@ -456,6 +449,10 @@ def main() -> None:
             flush=True,
         )
     print("首次求解会生成 HTM 剪枝表，请耐心等待。按 Ctrl+C 停止。", flush=True)
+    if open_browser:
+        browser_timer = threading.Timer(0.4, webbrowser.open, args=(url,))
+        browser_timer.daemon = True
+        browser_timer.start()
     try:
         server.serve_forever()
     except KeyboardInterrupt:

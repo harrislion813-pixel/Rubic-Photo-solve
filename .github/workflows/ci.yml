@@ -16,8 +16,36 @@ defaults:
     working-directory: 魔方拍照解
 
 jobs:
+  version-check:
+    name: Version consistency
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate canonical version and release tag
+        id: version
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
+        run: |
+          args=()
+          if [[ -n "$RELEASE_TAG" ]]; then args=(--tag "$RELEASE_TAG"); fi
+          VERSION=$(python release/check_version.py "${args[@]}")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
   lint:
     name: Lint (Ruff)
+    needs: version-check
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -40,12 +68,13 @@ jobs:
 
   python-tests:
     name: Python ${{ matrix.python-version }}
+    needs: version-check
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
       - name: Check out repository
@@ -73,10 +102,11 @@ jobs:
           --cov=cube_app --cov=server --cov-branch --cov-report=term-missing
 
       - name: Compile Python sources
-        run: python -m compileall -q cube_app server.py
+        run: python -m compileall -q cube_app server.py windows_launcher.py
 
   frontend-tests:
     name: Frontend (Node.js 20)
+    needs: version-check
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -98,6 +128,7 @@ jobs:
 
   native-windows:
     name: Native solver (Windows / UCRT64)
+    needs: version-check
     runs-on: windows-latest
     timeout-minutes: 120
 
@@ -122,8 +153,8 @@ jobs:
             mingw-w64-ucrt-x86_64-clang
             mingw-w64-ucrt-x86_64-gcc
 
-      - name: Install Python dependencies
-        run: python -m pip install --upgrade pip -e ".[dev]"
+      - name: Install Python and release dependencies
+        run: python -m pip install --upgrade pip -e ".[dev,release]"
 
       - name: Check C++ formatting
         run: |
@@ -170,3 +201,36 @@ jobs:
         env:
           REQUIRE_NATIVE_PDB: "1"
         run: pytest -ra -m native_pdb
+
+      - name: Build Windows portable package
+        run: .\release\build_windows.ps1 -Python python -SkipNativeBuild -SkipTableBuild
+
+      - name: Upload Windows portable package
+        uses: actions/upload-artifact@v4
+        with:
+          name: RubicPhotoSolve-${{ needs.version-check.outputs.version }}-windows-x64
+          path: 魔方拍照解/dist/RubicPhotoSolve-*-windows-x64.zip
+          if-no-files-found: error
+
+  publish-release:
+    name: Publish GitHub Release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [version-check, lint, python-tests, frontend-tests, native-windows]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download tested Windows package
+        uses: actions/download-artifact@v4
+        with:
+          name: RubicPhotoSolve-${{ needs.version-check.outputs.version }}-windows-x64
+          path: release-assets
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          name: Cube Lens v${{ needs.version-check.outputs.version }}
+          generate_release_notes: true
+          files: release-assets/*.zip

@@ -269,6 +269,7 @@ class OptimalSolver:
         *coords, lower = state
         transposition: dict[int, int] = {}
         pool: Pool | None = None
+        parallel_enabled = self.parallel and self.max_workers > 1
         if progress_callback is not None:
             progress_callback(
                 {
@@ -284,15 +285,50 @@ class OptimalSolver:
             )
         try:
             for depth in range(lower, effective_max + 1):
-                if self.parallel and self.max_workers > 1 and depth >= _PARALLEL_MIN_DEPTH:
-                    if pool is None:
-                        context = multiprocessing.get_context("spawn")
-                        pool = context.Pool(
-                            processes=self.max_workers,
-                            initializer=_initialize_search_worker,
-                            initargs=(str(self.cache_dir),),
+                if parallel_enabled and depth >= _PARALLEL_MIN_DEPTH:
+                    try:
+                        if pool is None:
+                            context = multiprocessing.get_context("spawn")
+                            pool = context.Pool(
+                                processes=self.max_workers,
+                                initializer=_initialize_search_worker,
+                                initargs=(str(self.cache_dir),),
+                            )
+                        result = self._search_parallel_depth(cube, depth, deadline, pool, cancel_event)
+                    except OSError:
+                        # Managed Windows environments may deny the named-pipe handles used by
+                        # multiprocessing (WinError 5). Preserve correctness by continuing the
+                        # same iterative-deepening search in this process.
+                        if pool is not None:
+                            try:
+                                pool.terminate()
+                                pool.join()
+                            except (OSError, ValueError):
+                                pass
+                            pool = None
+                        parallel_enabled = False
+                        if progress_callback is not None:
+                            progress_callback(
+                                {
+                                    "type": "progress",
+                                    "engine": "python",
+                                    "parallel_fallback": True,
+                                    "current_depth": depth,
+                                    "completed_depth": depth - 1,
+                                    "elapsed_seconds": time.monotonic() - start,
+                                }
+                            )
+                        result = self._search_phase1(
+                            *coords,
+                            lower,
+                            depth,
+                            6,
+                            [],
+                            deadline,
+                            tables,
+                            transposition,
+                            cancel_event,
                         )
-                    result = self._search_parallel_depth(cube, depth, deadline, pool, cancel_event)
                 else:
                     result = self._search_phase1(
                         *coords,
@@ -338,8 +374,11 @@ class OptimalSolver:
                     )
         finally:
             if pool is not None:
-                pool.terminate()
-                pool.join()
+                try:
+                    pool.terminate()
+                    pool.join()
+                except (OSError, ValueError):
+                    pass
 
         if incumbent is not None and max_depth >= len(incumbent) - 1:
             self._check_deadline(deadline, cancel_event)

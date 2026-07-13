@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 import sys
 import threading
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -57,6 +58,23 @@ class OptimalSolverTests(unittest.TestCase):
             optimal._PARALLEL_MIN_DEPTH = previous_threshold
         self.assertEqual(result.depth, 3)
         self.assertTrue(apply_solution(cube, result.moves).is_solved())
+
+    def test_parallel_permission_error_falls_back_to_single_process(self) -> None:
+        previous_threshold = optimal._PARALLEL_MIN_DEPTH
+        optimal._PARALLEL_MIN_DEPTH = 1
+        events: list[dict] = []
+        context = mock.Mock()
+        context.Pool.side_effect = PermissionError(5, "Access is denied")
+        try:
+            cube = scrambled("R U F2")
+            solver = optimal.OptimalSolver(ROOT / ".cache", parallel=True, max_workers=2)
+            with mock.patch.object(optimal.multiprocessing, "get_context", return_value=context):
+                result = solver.solve_cube(cube, timeout_seconds=10, progress_callback=events.append)
+        finally:
+            optimal._PARALLEL_MIN_DEPTH = previous_threshold
+        self.assertEqual(result.depth, 3)
+        self.assertTrue(apply_solution(cube, result.moves).is_solved())
+        self.assertTrue(any(event.get("parallel_fallback") for event in events))
 
     def test_incumbent_is_returned_when_no_shorter_solution_exists(self) -> None:
         cube = scrambled("R")

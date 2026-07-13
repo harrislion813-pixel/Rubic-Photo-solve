@@ -10,3 +10,5 @@ node_modules/
 native/build/
 initial/
 result/
+dist/
+.release-build/

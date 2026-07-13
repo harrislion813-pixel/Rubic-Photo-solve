@@ -10,12 +10,12 @@
 
 - [功能概览](#功能概览)
 - [快速开始](#快速开始)
+- [原生求解器与剪枝表](#原生求解器与剪枝表)
 - [用户操作流程](#用户操作流程)
 - [拍摄与六面方向约定](#拍摄与六面方向约定)
 - [求解结果如何解读](#求解结果如何解读)
 - [项目结构](#项目结构)
 - [API 接口速览](#api-接口速览)
-- [原生求解器与剪枝表](#原生求解器与剪枝表)
 - [开发、测试与基准](#开发测试与基准)
 - [版本与发布](#版本与发布)
 - [故障排查与限制](#故障排查与限制)
@@ -35,11 +35,12 @@
 
 先选择适合你的使用方式：
 
-| 目标 | 推荐方式 | 是否需要 Python | 是否需要 C++ 编译器 |
+| 目标 | 推荐方式 | 是否需要 Python | 原生核心状态 |
 | --- | --- | --- | --- |
-| 直接拍照并求解 | Windows 便携版 | 否 | 否 |
-| 阅读或修改 Python/前端代码 | 源码运行 | 是，3.10–3.14 | 否 |
-| 构建原生求解器或发布包 | 开发环境 | 是，3.10–3.14 | 构建原生核心时需要 |
+| 直接拍照并求解 | Windows 便携版 | 否 | 包内已携带，自动启用 |
+| 快速体验或修改 Python/前端 | 源码运行 | 是，3.10–3.14 | 可选；缺失时使用 Python 回退 |
+| 加速三阶严格最短证明 | 源码 + 原生核心 | 是，3.10–3.14 | 手动编译并生成基础剪枝表 |
+| 构建、测试和发布 | 开发环境 | 是，3.10–3.14 | 建议启用，发布包会携带 |
 
 以下源码命令均在 `魔方拍照解` 目录执行。若当前位于仓库根目录，先运行：
 
@@ -168,6 +169,108 @@ node --version
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -r requirements-release.txt
 ```
+
+### 原生求解器与剪枝表
+
+原生 C++20 求解器是三阶严格最短证明的核心加速能力，但它是一个可选运行组件，而不是应用启动的硬依赖：
+
+- **便携版用户**：发布包已经包含原生程序和基础剪枝表，正常启动即可，服务会自动选用；不需要安装编译器。
+- **源码用户**：可以先使用 Python 回退完整体验识别和求解，再按本节启用原生核心。
+- **开发/发布用户**：建议启用原生核心并运行原生测试；Windows 发布脚本会检查并携带必要资产。
+- **原生资产缺失或损坏**：服务会安全回退到 Python 严格求解器，接口和最短性语义不变，但三阶证明通常更慢。
+
+#### 第 1 步：检查当前是否已经可用
+
+便携版解压目录或源码应用目录中检查三个基础文件：
+
+```powershell
+Test-Path .\native\build\cube_solver.exe
+Test-Path .\.cache\native\corner_htm_v2.pdb
+Test-Path .\.cache\native\phase1_sym_htm_v2.pdb
+```
+
+三行都返回 `True` 表示基础原生资产齐全。源码环境还可以直接调用项目检测函数：
+
+```powershell
+.\.venv\Scripts\python.exe -c "from cube_app.native import native_solver_available; print(native_solver_available())"
+```
+
+输出 `True` 表示服务启动后可以选择原生核心；输出 `False` 时继续下面的构建步骤。
+
+#### 第 2 步：准备 C++20 编译器（仅源码构建需要）
+
+推荐安装 MSYS2 UCRT64 的 `g++`，然后检查：
+
+```powershell
+g++ --version
+```
+
+构建脚本按以下顺序寻找编译器：显式 `-Compiler` 参数、`CXX` 环境变量、系统 `PATH`，最后尝试 `C:\msys64\ucrt64\bin\g++.exe`。如果 `g++` 没加入 `PATH`，可以在构建时传完整路径。
+
+#### 第 3 步：编译原生求解器
+
+自动查找编译器：
+
+```powershell
+.\native\build.ps1
+```
+
+或显式指定 MSYS2 UCRT64：
+
+```powershell
+.\native\build.ps1 -Compiler "C:\msys64\ucrt64\bin\g++.exe"
+```
+
+成功后应生成 `native\build\cube_solver.exe`。脚本使用 C++20、优化和静态链接参数构建；编译失败时先检查编译器路径和 UCRT64 工具链是否完整。
+
+#### 第 4 步：选择并生成剪枝表
+
+有三种配置：
+
+| 配置 | 命令 | 适用场景 |
+| --- | --- | --- |
+| 基础可用 | `.\native\build_tables.ps1 -CiMinimal` | 生成原生运行必需的 phase-1 与 corner PDB，速度和磁盘成本较低 |
+| 推荐完整 | `.\native\build_tables.ps1` | 在基础表之外生成 Tail-6 反向表，通常更利于深层严格证明 |
+| 实验扩展 | `.\native\build_tables.ps1 -IncludeEdgePdbs` | 额外生成完整六棱块模式库，占用更多时间、磁盘和内存 |
+
+普通源码用户建议先运行基础配置：
+
+```powershell
+.\native\build_tables.ps1 -CiMinimal
+```
+
+需要更强严格证明性能、且磁盘空间充足时再运行推荐完整配置。生成过程可能持续较久；不要关闭终端，也不要删除 `.cache\native` 中正在写入的文件。
+
+#### 第 5 步：再次验证
+
+```powershell
+.\.venv\Scripts\python.exe -c "from cube_app.native import native_solver_available; print(native_solver_available())"
+```
+
+预期输出 `True`。开发环境还应运行原生测试：
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -ra -m "native_binary or native_pdb"
+```
+
+#### 第 6 步：启动应用
+
+```powershell
+.\.venv\Scripts\python.exe server.py
+```
+
+无需额外开关。三阶后台严格证明会优先调用原生核心；二阶继续使用专用角块 IDA*；前台快速解和照片识别流程保持不变。
+
+#### 第 7 步：可选启用实验性 Edge PDB
+
+只有已经生成 Edge PDB 并愿意承担额外内存访问成本时才启用：
+
+```powershell
+$env:CUBE_NATIVE_EDGE_PDBS = "1"
+.\.venv\Scripts\python.exe server.py
+```
+
+该环境变量只对当前 PowerShell 会话有效。当前基准中 Edge PDB 不一定比默认三轴下界更快，因此默认关闭。
 
 ## 用户操作流程
 
@@ -331,31 +434,6 @@ node --version
 ### `GET /api/solve/{job_id}` 与 `POST /api/solve/{job_id}/cancel`
 
 前者查询后台任务，后者请求取消任务。任务不存在返回 `404`；排队任务会返回 `queue_position`。
-
-## 原生求解器与剪枝表
-
-需要从源码构建原生加速时，准备 MSYS2 UCRT64 或其他可用的 C++20 `g++`：
-
-```powershell
-.\native\build.ps1
-.\native\build_tables.ps1
-```
-
-脚本依次尝试 `-Compiler`、`CXX` 环境变量和 `PATH`。默认资产写入 `.cache/native/`，以只读内存映射加载并进行完整校验；缺失或损坏时服务回退到 Python 实现。
-
-CI 最小资产：
-
-```powershell
-.\native\build_tables.ps1 -CiMinimal
-```
-
-实验性完整六棱块库会增加磁盘和内存占用，默认不加载：
-
-```powershell
-.\native\build_tables.ps1 -IncludeEdgePdbs
-$env:CUBE_NATIVE_EDGE_PDBS = "1"
-python server.py
-```
 
 ## 开发、测试与基准
 

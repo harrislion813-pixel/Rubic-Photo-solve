@@ -13,7 +13,7 @@ class RuntimePathTests(unittest.TestCase):
         self.assertTrue((application_root() / "cube_app").is_dir())
 
     def test_frozen_root_is_executable_directory(self) -> None:
-        executable = Path("C:/portable/RubicPhotoSolve/RubicPhotoSolve.exe")
+        executable = (Path.cwd() / "portable" / "RubicPhotoSolve.exe").resolve()
         with (
             mock.patch.object(sys, "frozen", True, create=True),
             mock.patch.object(sys, "executable", str(executable)),

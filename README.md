@@ -33,7 +33,15 @@
 
 ## 快速开始
 
-以下命令均在 `魔方拍照解` 目录执行。若当前位于仓库根目录，先运行：
+先选择适合你的使用方式：
+
+| 目标 | 推荐方式 | 是否需要 Python | 是否需要 C++ 编译器 |
+| --- | --- | --- | --- |
+| 直接拍照并求解 | Windows 便携版 | 否 | 否 |
+| 阅读或修改 Python/前端代码 | 源码运行 | 是，3.10–3.14 | 否 |
+| 构建原生求解器或发布包 | 开发环境 | 是，3.10–3.14 | 构建原生核心时需要 |
+
+以下源码命令均在 `魔方拍照解` 目录执行。若当前位于仓库根目录，先运行：
 
 ```powershell
 Set-Location .\魔方拍照解
@@ -41,34 +49,121 @@ Set-Location .\魔方拍照解
 
 ### Windows 便携版（普通用户推荐）
 
-1. 下载 `RubicPhotoSolve-X.Y.Z-windows-x64.zip`，完整解压到可写目录。
-2. 双击 `启动魔方求解器.cmd`。
-3. 等待窗口打印实际地址，例如 `http://127.0.0.1:8765/`；启动器通常会自动打开浏览器。
-4. 上传六个面、检查识别并开始求解。
-5. 关闭应用时回到命令行窗口按 `Ctrl+C`。
+1. 从 GitHub Releases 下载 `RubicPhotoSolve-X.Y.Z-windows-x64.zip`。确认下载的是 ZIP，不是 “Source code”。
+2. 在资源管理器中右键 ZIP，选择“全部解压”。不要直接在压缩包预览窗口运行程序。
+3. 把完整目录放在普通可写位置，例如桌面或文档目录。路径可以包含中文和空格。
+4. 打开解压后的目录，确认至少存在 `RubicPhotoSolve.exe`、`启动魔方求解器.cmd`、`VERSION.txt` 和 `_internal/`。
+5. 双击 `启动魔方求解器.cmd`。第一次启动被 Windows 安全提示拦截时，先确认文件来自本项目 Release，再选择允许运行。
+6. 保持命令行窗口打开。看到类似下面的输出说明服务已启动：
+
+   ```text
+   魔方最短解应用 1.3.1 已启动: http://127.0.0.1:8765/
+   ```
+
+7. 浏览器通常会自动打开；没有自动打开时，把终端打印的完整地址复制到浏览器。
+8. 按照[用户操作流程](#用户操作流程)上传六面并求解。
+9. 使用结束后回到命令行窗口按 `Ctrl+C`。浏览器标签页关闭后，后台服务仍会继续运行，必须关闭终端或按 `Ctrl+C` 才会停止。
 
 便携包通常包含 `RubicPhotoSolve.exe`、`web/`、`cube_solver.exe`、corner / phase-1 PDB、`VERSION.txt` 和 `README-Windows.txt`。如果某个原生文件或 PDB 缺失，服务会安全回退到 Python 求解器，通常只影响速度。
 
 ### 从源码运行
 
+#### 第 1 步：检查 Python
+
 要求 Windows、Python 3.10–3.14：
 
 ```powershell
+python --version
+```
+
+预期输出形如 `Python 3.14.4`。若命令不存在，请安装受支持版本的 Python，并在安装器中启用 “Add Python to PATH”。
+
+#### 第 2 步：创建虚拟环境
+
+```powershell
 python -m venv .venv
+```
+
+成功后目录中会出现 `.venv`。如果 `ensurepip` 失败，可直接使用项目现有的可用 Python 环境继续，但不要混用多个 Python 安装。
+
+#### 第 3 步：激活虚拟环境
+
+```powershell
 .\.venv\Scripts\Activate.ps1
+```
+
+PowerShell 提示符前通常会出现 `(.venv)`。若执行策略阻止脚本，只对当前窗口临时放行：
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+.\.venv\Scripts\Activate.ps1
+```
+
+#### 第 4 步：安装运行依赖
+
+```powershell
 python -m pip install -r requirements.txt
+```
+
+依赖安装完成后可检查版本：
+
+```powershell
+python -c "import cv2, numpy; print(cv2.__version__, numpy.__version__)"
+```
+
+#### 第 5 步：启动服务
+
+```powershell
 python server.py
 ```
 
-服务默认端口为 `8765`；若被占用，会在 `8765`–`8794` 中寻找可用端口并打印实际端口。OpenCV 用于后端照片定位；没有 OpenCV 时服务仍能启动，但 `/api/detect` 会返回 `503`，前端可使用浏览器检测器或人工四角校正。
+服务默认端口为 `8765`；若被占用，会在 `8765`–`8794` 中寻找可用端口。始终使用终端实际打印的地址。
+
+#### 第 6 步：验证服务
+
+新开一个 PowerShell 窗口，根据实际端口执行：
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:8765/api/version
+```
+
+预期返回 `ok=True`、`version=1.3.1`。随后用浏览器打开同一地址的根路径。
+
+#### 第 7 步：停止服务
+
+回到运行 `python server.py` 的窗口按 `Ctrl+C`。不要直接结束整个 Python 安装目录中的其他进程。
+
+OpenCV 用于后端照片定位；没有 OpenCV 时服务仍能启动，但 `/api/detect` 会返回 `503`，前端可使用浏览器检测器或人工四角校正。
 
 ### 开发环境
+
+#### 第 1 步：建立开发环境
 
 ```powershell
 .\setup-dev.ps1
 ```
 
-该脚本会创建或复用 `.venv`，安装锁定的开发依赖，并以 editable 模式安装项目。构建 Windows 发布包前再安装：
+该脚本会创建或复用 `.venv`，安装锁定的开发依赖，并以 editable 模式安装项目。
+
+#### 第 2 步：确认工具可用
+
+```powershell
+.\.venv\Scripts\python.exe --version
+.\.venv\Scripts\python.exe -m pytest --version
+node --version
+```
+
+前端测试需要 Node.js 20 或兼容版本。只开发 Python 核心时可以暂时不安装 Node，但完整检查会失败。
+
+#### 第 3 步：运行完整检查
+
+```powershell
+.\tests\check.ps1
+```
+
+看到 `31 passed, 3 skipped` 一类结果是正常的；实拍素材不存在时会跳过 3 个 real-image 测试。
+
+#### 第 4 步：安装发布依赖（仅打包时需要）
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -r requirements-release.txt
@@ -76,12 +171,58 @@ python server.py
 
 ## 用户操作流程
 
-1. **选择类型**：页面顶部选择 `2×2` 或 `3×3`。
-2. **上传六面**：按 `U R F D L B` 位置上传；`F` 是输出解法的前面基准。
-3. **检查定位**：确认四角、九宫格和置信度；区域偏移时点击 `⌗` 拖动四角。
-4. **校正颜色**：旋转网格，或点击非中心色块手动改色。中心块固定为该面的标签。
-5. **开始求解**：二阶通常直接得到严格解；三阶可能先显示快速解，再等待后台证明。
-6. **查看状态**：页面约每秒轮询一次；超时或取消时保留已有候选，但显示“未证明”。
+### 第 1 步：固定魔方的空间基准
+
+先决定哪一面作为 `F`（前面），并在整个拍摄过程中保持这个基准。不要每拍一张就随意改变对“前、上、右”的定义。
+
+### 第 2 步：选择魔方类型
+
+页面顶部选择 `2×2` 或 `3×3`。二阶每面 4 个色块，三阶每面 9 个色块。切换类型会改变识别网格、颜色数量校验和求解器。
+
+### 第 3 步：按约定拍摄六面
+
+依次拍摄 `U`、`R`、`F`、`D`、`L`、`B`。每张照片都从该面的外侧正对拍摄，并按照下方[面标签与相邻边](#面标签与相邻边)规定的边朝上。
+
+### 第 4 步：上传到正确位置
+
+点击页面中相应面卡片上传照片。不要根据贴纸颜色猜标签：`U/R/F/D/L/B` 表示空间位置，不表示白、红、绿等固定颜色。
+
+### 第 5 步：检查四角定位
+
+确认覆盖框的四个角落在魔方面的四个外角，网格线大致穿过色块间隙。如果框选偏离：
+
+1. 点击该面右上角的 `⌗`；
+2. 在原图上拖动四个角；
+3. 让四边贴合魔方面外边缘；
+4. 点击应用并重新检查网格。
+
+### 第 6 步：校正单面旋转方向
+
+把识别网格与方向表对照。若照片整体旋转了 90°、180° 或 270°，点击旋转按钮，直到相邻边方向正确。颜色看起来正确并不代表空间方向正确。
+
+### 第 7 步：校正颜色
+
+逐格检查识别结果。点击识别错误的非中心色块，选择正确颜色。三阶中心块固定为该面的颜色基准；二阶没有中心块，必须依靠六面全局聚类和角块合法性确定颜色。
+
+### 第 8 步：等待状态校验通过
+
+六面齐全后，确认每种颜色数量正确且页面没有非法角块、非法棱块或方向错误提示。若状态非法，优先检查照片方向，其次检查四角定位，最后才逐格改色。
+
+### 第 9 步：设置求解参数并开始求解
+
+一般保持默认最大深度。三阶可以调整“最短验证超时”：较短时间更快结束证明，较长时间更可能完成严格最短证明，但会占用更多 CPU 时间。
+
+### 第 10 步：正确理解结果
+
+- 二阶通常同步返回 `proof_status=complete` 的严格最短解；
+- 三阶可能先返回 `optimal=false` 的快速解，该解可执行但尚未证明最短；
+- 页面会继续轮询后台任务；完成后显示严格结果；
+- `timeout` 表示证明时间用完，不表示快速解错误；
+- `cancelled` 表示用户取消或任务被终止；已有快速解仍可保留。
+
+### 第 11 步：执行转动
+
+始终以已选定的 `F` 面作为前面、`U` 面作为上面执行公式。`R` 表示右面顺时针，`R'` 表示右面逆时针，`R2` 表示右面转 180°；其他字母同理。顺逆时针均以正对该面的视角判断。
 
 ## 拍摄与六面方向约定
 
@@ -161,7 +302,7 @@ python server.py
 返回当前服务版本：
 
 ```json
-{"ok": true, "version": "1.3.0"}
+{"ok": true, "version": "1.3.1"}
 ```
 
 ### `POST /api/detect`
@@ -233,10 +374,23 @@ node tests\two_by_two_color.test.js
 node tests\solver_ui.test.js
 python -m pytest -ra
 python -m compileall cube_app server.py windows_launcher.py
-python release\check_version.py --tag v1.3.0
+python release\check_version.py --tag v1.3.1
 ```
 
 CI 对 `cube_app` 和 `server.py` 执行至少 70% 的分支覆盖率门禁；依赖本地 EXE/PDB 或实拍图片的用例会在资源缺失时跳过。视觉标注基准使用：
+
+CI 中的 `SKIPPED` 不等于失败：Linux Python 矩阵会跳过需要 Windows 原生程序的用例，这些能力由独立的 `Native solver (Windows / UCRT64)` 作业验证；缺少 `tests/initial/` 完整实拍组时，real-image 用例也会跳过。判断失败应看最后的 `FAILED`、`ERROR` 和退出码。
+
+本地复现 CI 覆盖率门禁：
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -ra `
+  -m "not native_binary and not native_pdb and not native_slow and not vision_real" `
+  --cov=cube_app --cov=server --cov-branch `
+  --cov-report=term-missing --cov-fail-under=70
+```
+
+视觉标注基准使用：
 
 ```powershell
 python tests\benchmark_vision.py tests\vision_annotations.json
@@ -256,31 +410,88 @@ python tests\benchmark_solver.py --timeout 30
 __version__ = "X.Y.Z"
 ```
 
-发布步骤：
+使用语义化版本 `MAJOR.MINOR.PATCH`。修复问题增加 `PATCH`，兼容的新功能增加 `MINOR`，不兼容变更增加 `MAJOR`。
 
-1. 更新 `__version__` 和 `CHANGELOG.md`；
-2. 运行 `python release\check_version.py`；
-3. 提交全部修改；
-4. 运行 `.\release\prepare_release.ps1 -CreateTag`，由脚本执行检查、测试、构建并创建 `vX.Y.Z` 标签；
-5. 推送 `git push origin vX.Y.Z`，CI 在所有检查通过后创建 GitHub Release 并上传同版本 ZIP。
-
-典型命令：
+### 第 1 步：确定版本号
 
 ```powershell
-python release\check_version.py
-.\release\prepare_release.ps1 -CreateTag
-git push origin vX.Y.Z
+python -c "from cube_app import __version__; print(__version__)"
+git tag --list "v*" --sort=-version:refname
 ```
 
-版本检查会验证 Python 包元数据、前端版本占位符、`CHANGELOG.md` 和可选 Git 标签，避免页面、API、包元数据和 ZIP 文件名版本不一致。工作区有未提交改动时，发布脚本要求显式传 `-AllowDirty`。
+不要移动已经推送的标签。旧版本发布后发现问题，应创建新的补丁版本。
+
+### 第 2 步：修改版本和变更记录
+
+1. 在 `cube_app/__init__.py` 修改唯一版本源；
+2. 在 `CHANGELOG.md` 增加同版本条目；
+3. 更新 README 中的版本示例；
+4. 不要在 `pyproject.toml` 添加第二份静态版本。
+
+### 第 3 步：刷新本地包元数据
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install --no-deps -e .
+```
+
+### 第 4 步：验证版本和完整测试
+
+```powershell
+.\.venv\Scripts\python.exe release\check_version.py --tag v1.3.1
+.\tests\check.ps1
+```
+
+### 第 5 步：审查并提交
+
+```powershell
+git status --short
+git diff --check
+git diff
+git add -- ..\README.md README.md CHANGELOG.md cube_app\__init__.py tests\test_runtime.py tests\test_two_by_two.py
+git diff --cached
+git commit -m "Fix Linux CI and release v1.3.1"
+git status --short
+```
+
+这些路径对应当前 `v1.3.1` 修复。以后发布时应按 `git status` 列出的实际改动调整文件列表。`git diff --cached` 用于最后确认待提交内容；最后一条 `git status --short` 应无输出。
+
+### 第 6 步：构建并创建本地标签
+
+```powershell
+.\release\prepare_release.ps1 -CreateTag
+```
+
+脚本要求干净工作区，并依次完成版本检查、测试、Windows ZIP 构建、哈希计算和标签创建。`-AllowDirty` 只适合临时验证，不能与 `-CreateTag` 同时使用。
+
+### 第 7 步：检查产物
+
+```powershell
+Get-Item .\dist\RubicPhotoSolve-1.3.1-windows-x64.zip
+Get-FileHash .\dist\RubicPhotoSolve-1.3.1-windows-x64.zip -Algorithm SHA256
+git show --no-patch v1.3.1
+```
+
+### 第 8 步：推送并等待发布
+
+```powershell
+git push origin main
+git push origin v1.3.1
+```
+
+只有 `v*` 标签推送会触发 GitHub Release。依次在 Actions 页面确认 Version、Lint、Python、Frontend、Native Windows 和 Publish Release 成功；任一前置任务失败时不会创建 Release。
 
 ## 故障排查与限制
 
+- **PowerShell 禁止运行脚本**：执行 `Set-ExecutionPolicy -Scope Process Bypass`，只对当前窗口临时放行。
+- **`No module named pytest`**：运行 `.\setup-dev.ps1`，之后使用 `.\.venv\Scripts\python.exe -m pytest`。
 - **服务无法启动**：确认 Python 3.10–3.14、依赖安装成功，并使用启动日志中的实际端口。
 - **`/api/detect` 返回 503**：后端 OpenCV 不可用；检查依赖，或使用浏览器检测器和人工四角校正。
 - **识别方向 / 颜色错误**：先检查相邻边约定，再做四角校正、旋转网格、手动改色或重新拍摄。
 - **原生 EXE / PDB 缺失**：运行 `native\build.ps1` 和 `native\build_tables.ps1`；没有 C++ 编译器时可继续用 Python 求解器。
 - **`WinError 5`**：受限 Windows 不能创建 worker 时，Python 严格求解器会自动回退到单进程，结果语义不变但可能变慢。
 - **三阶未证明**：检查 `/api/solve/{job_id}` 的 `status` 和 `proof_status`；超时、排队和取消都不会把候选解自动标记为最短。
+- **发布脚本提示工作区不干净**：先用 `git status --short` 和 `git diff` 审查改动，需要发布的内容必须先提交；正式创建标签时不要用 `-AllowDirty` 绕过保护。
+- **标签已创建但没有 GitHub Release**：本地标签必须执行 `git push origin vX.Y.Z`；随后检查 Actions 的前置作业，任何失败都会使 Publish Release 跳过。
+- **CI 出现 `SKIPPED`**：跳过本身不是失败；继续查看日志末尾真正的 `FAILED`、`ERROR` 和退出码。
 
 项目面向单机、单用户和本地浏览器，不提供账号、TLS、远程多用户隔离或生产级队列。严格三阶证明可能需要较长时间和较大内存；真实照片效果取决于光照、反光、遮挡和拍摄方向。

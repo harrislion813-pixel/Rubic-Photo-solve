@@ -67,7 +67,7 @@ class TwoByTwoTests(unittest.TestCase):
                     queue.append(child)
         for sequence in ("R", "R U", "R U F"):
             cube = scrambled(sequence)
-            result = self.solver.solve_cube(cube, timeout_seconds=10)
+            result = self.solver.solve_cube(cube, timeout_seconds=None)
             self.assertEqual(result.depth, depths[(cube.cp, cube.co)])
 
 

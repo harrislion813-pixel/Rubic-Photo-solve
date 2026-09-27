@@ -6,14 +6,19 @@
 
 #include <algorithm>
 #include <array>
+#include <atomic>
+#include <deque>
 #include <exception>
 #include <filesystem>
 #include <iomanip>
 #include <iostream>
 #include <memory>
+#include <mutex>
 #include <sstream>
 #include <string>
 #include <thread>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace {
@@ -66,7 +71,25 @@ void print_moves_json(std::ostream &output, const std::vector<int> &moves) {
     output << ']';
 }
 
-void print_progress_json(std::ostream &output, const cube::NativeSearchProgress &progress) {
+void print_counters_json(std::ostream &output, const cube::SearchCounters &counters,
+                         const std::vector<cube::WorkerStatistics> &workers) {
+    output << ",\"generated_candidates\":" << counters.generated << ",\"small_pdb_queries\":" << counters.small_queries
+           << ",\"phase1_queries\":" << counters.phase1_queries << ",\"corner_queries\":" << counters.corner_queries
+           << ",\"edge_queries\":" << counters.edge_queries << ",\"axis_rejects\":[" << counters.axis_rejects[0] << ','
+           << counters.axis_rejects[1] << ',' << counters.axis_rejects[2] << ']'
+           << ",\"equality_rejects\":" << counters.equality_rejects << ",\"corner_rejects\":" << counters.corner_rejects
+           << ",\"edge_rejects\":" << counters.edge_rejects << ",\"workers\":[";
+    for (std::size_t i = 0; i < workers.size(); ++i) {
+        if (i)
+            output << ',';
+        output << "{\"nodes\":" << workers[i].nodes << ",\"generated\":" << workers[i].generated
+               << ",\"busy_seconds\":" << workers[i].busy_seconds << ",\"idle_seconds\":" << workers[i].idle_seconds
+               << '}';
+    }
+    output << ']';
+}
+
+void print_progress_json(std::ostream &output, const cube::NativeSearchProgress &progress, const std::string &id = "") {
     output << "{\"type\":\"progress\",\"lower_bound\":" << progress.lower_bound
            << ",\"upper_bound\":" << progress.upper_bound << ",\"current_depth\":" << progress.current_depth
            << ",\"completed_depth\":" << progress.completed_depth << ",\"iteration_nodes\":" << progress.iteration_nodes
@@ -78,16 +101,25 @@ void print_progress_json(std::ostream &output, const cube::NativeSearchProgress 
            << ",\"tail_hits\":" << progress.tail_hits << ",\"iteration_seconds\":" << std::fixed << std::setprecision(6)
            << progress.iteration_seconds << ",\"elapsed_seconds\":" << progress.elapsed_seconds
            << ",\"found\":" << (progress.found ? "true" : "false")
-           << ",\"timed_out\":" << (progress.timed_out ? "true" : "false") << "}\n"
-           << std::flush;
+           << ",\"timed_out\":" << (progress.timed_out ? "true" : "false")
+           << ",\"cancelled\":" << (progress.cancelled ? "true" : "false");
+    if (!id.empty())
+        output << ",\"request_id\":" << std::quoted(id);
+    print_counters_json(output, progress.counters, progress.workers);
+    output << "}\n" << std::flush;
 }
 
 void print_result_json(std::ostream &output, const cube::NativeSolveResult &result,
-                       const cube::NativeOptimalSolver &solver, bool framed = false) {
+                       const cube::NativeOptimalSolver &solver, bool framed = false, const std::string &id = "") {
     output << "{\"ok\":true";
     if (framed)
         output << ",\"type\":\"result\"";
-    output << ",\"status\":\"" << (result.timed_out ? "timeout" : "complete")
+    if (!id.empty())
+        output << ",\"request_id\":" << std::quoted(id);
+    output << ",\"status\":\""
+           << (result.cancelled   ? "cancelled"
+               : result.timed_out ? "timeout"
+                                  : "complete")
            << "\",\"inverse_direction\":" << (result.inverse_direction ? "true" : "false") << ",\"moves\":";
     print_moves_json(output, result.moves);
     output << ",\"solution\":\"" << moves_text(result.moves) << "\",\"depth\":" << result.depth
@@ -103,8 +135,10 @@ void print_result_json(std::ostream &output, const cube::NativeSolveResult &resu
            << ",\"edge_pdbs\":" << (solver.has_edge_pdbs() ? "true" : "false")
            << ",\"extra_edge_pdbs\":" << (solver.has_extra_edge_pdbs() ? "true" : "false")
            << ",\"edge_pdb_count\":" << solver.edge_pdb_count()
-           << ",\"tail_pdb\":" << (solver.has_tail_database() ? "true" : "false") << "}\n"
-           << std::flush;
+           << ",\"tail_pdb\":" << (solver.has_tail_database() ? "true" : "false")
+           << ",\"completed_depth\":" << result.completed_depth;
+    print_counters_json(output, result.counters, result.workers);
+    output << "}\n" << std::flush;
 }
 
 std::vector<std::string> split_tabs(const std::string &line) {
@@ -121,6 +155,96 @@ std::vector<std::string> split_tabs(const std::string &line) {
     }
 }
 
+bool tuning_option(const std::string &option, cube::SolverOptions &options) {
+    if (option == "--no-axis-strengthening")
+        options.strengthen_axes = false;
+    else if (option == "--keep-small-tables")
+        options.omit_covered_small_tables = false;
+    else if (option == "--no-staged-expansion")
+        options.staged_expansion = false;
+    else if (option == "--no-direction-probe")
+        options.use_direction_probe = false;
+    else if (option == "--inverse-direction")
+        options.inverse_direction = true;
+    else if (option == "--transposition")
+        options.use_transposition = true;
+    else if (option == "--no-transposition")
+        options.use_transposition = false;
+    else
+        return false;
+    return true;
+}
+
+void check_heuristic(int argc, char **argv) {
+    int depth_limit = 3;
+    std::filesystem::path corner_path, phase1_path;
+    for (int i = 2; i < argc; ++i) {
+        const std::string flag = argv[i];
+        if (flag == "--depth" && i + 1 < argc)
+            depth_limit = std::stoi(argv[++i]);
+        else if (flag == "--pdb" && i + 1 < argc)
+            corner_path = argv[++i];
+        else if (flag == "--phase1-pdb" && i + 1 < argc)
+            phase1_path = argv[++i];
+        else
+            throw std::invalid_argument("unknown heuristic check option");
+    }
+    if (depth_limit < 0 || depth_limit > 4)
+        throw std::invalid_argument("heuristic check depth must be 0..4");
+    cube::CoordinateTables tables;
+    std::unique_ptr<cube::CornerPatternDatabase> corner;
+    std::unique_ptr<cube::Phase1PatternDatabase> phase1;
+    if (!corner_path.empty())
+        corner = std::make_unique<cube::CornerPatternDatabase>(corner_path);
+    if (!phase1_path.empty())
+        phase1 = std::make_unique<cube::Phase1PatternDatabase>(phase1_path);
+    cube::CoordinateFeatures features;
+    features.axis_coordinates = bool(phase1);
+    features.edge_pattern_a = features.edge_pattern_b = false;
+    features.small_corner = !corner || !corner->complete();
+    features.small_phase1 = !phase1 || !phase1->complete();
+    std::deque<std::pair<cube::CubieCube, int>> queue{{cube::CubieCube{}, 0}};
+    std::unordered_set<std::string> seen{cube::to_facelets(cube::CubieCube{})};
+    std::uint64_t checked = 0;
+    cube::SearchCounters counters;
+    while (!queue.empty()) {
+        const auto [state, depth] = queue.front();
+        queue.pop_front();
+        const auto coordinates = tables.from_cube(state, features);
+        const auto lower = tables.heuristic(coordinates, phase1.get(), corner.get(), {}, 255, features, &counters);
+        if (lower > depth || tables.materialize(coordinates) != state)
+            throw std::runtime_error("heuristic exceeds BFS distance or compact state differs");
+        auto baseline_features = features;
+        baseline_features.strengthen_axes = false;
+        baseline_features.small_phase1 = baseline_features.small_corner = true;
+        const auto baseline = tables.heuristic(coordinates, phase1.get(), corner.get(), {}, 255, baseline_features);
+        if (lower < baseline)
+            throw std::runtime_error("optimized heuristic is weaker than covered projections");
+        for (int move = 0; move < 18; ++move) {
+            const auto child_cube = state.apply_move(move);
+            const auto expected = tables.moved(coordinates, move, features);
+            if (tables.materialize(expected) != child_cube)
+                throw std::runtime_error("compact coordinate transition differs");
+            for (std::uint8_t cutoff : {std::uint8_t{0}, std::uint8_t{3}, std::uint8_t{255}}) {
+                cube::CoordinateState child;
+                const auto bound =
+                    tables.expand(coordinates, move, child, phase1.get(), corner.get(), {}, cutoff, features, counters);
+                const auto full_bound = tables.heuristic(expected, phase1.get(), corner.get(), {}, 255, features);
+                if ((bound <= cutoff) != (full_bound <= cutoff) ||
+                    (bound <= cutoff && tables.materialize(child) != child_cube))
+                    throw std::runtime_error("staged expansion differs from full evaluation");
+            }
+            if (depth < depth_limit && seen.insert(cube::to_facelets(child_cube)).second)
+                queue.emplace_back(child_cube, depth + 1);
+        }
+        ++checked;
+    }
+    if (!features.small_phase1 && !features.small_corner && counters.small_queries != 0)
+        throw std::runtime_error("complete PDB path queried covered small tables");
+    std::cout << "{\"ok\":true,\"checked\":" << checked << ",\"depth\":" << depth_limit
+              << ",\"small_pdb_queries\":" << counters.small_queries << "}\n";
+}
+
 } // namespace
 
 int main(int argc, char **argv) {
@@ -130,6 +254,10 @@ int main(int argc, char **argv) {
             return 2;
         }
         const std::string command = argv[1];
+        if (command == "check-heuristic") {
+            check_heuristic(argc, argv);
+            return 0;
+        }
         if (command == "symmetry-info") {
             cube::Phase1Symmetry symmetry;
             std::cout << "{\"ok\":true,\"symmetries\":16,\"flip_slice_classes\":" << symmetry.class_count() << "}\n";
@@ -243,6 +371,7 @@ int main(int argc, char **argv) {
             return 0;
         }
         if (command == "serve") {
+            cube::SolverOptions defaults;
             std::filesystem::path pdb_path;
             std::filesystem::path phase1_pdb_path;
             std::filesystem::path tail_pdb_path;
@@ -257,6 +386,8 @@ int main(int argc, char **argv) {
                     phase1_pdb_path = argv[++index];
                 else if (option == "--tail-pdb" && index + 1 < argc)
                     tail_pdb_path = argv[++index];
+                else if (tuning_option(option, defaults))
+                    continue;
                 else {
                     const auto flag = std::find(edge_flags.begin(), edge_flags.end(), option);
                     if (flag == edge_flags.end() || index + 1 >= argc) {
@@ -277,29 +408,108 @@ int main(int argc, char **argv) {
             }
             if (!tail_pdb_path.empty())
                 solver.load_tail_database(tail_pdb_path);
-            std::cout << "{\"ok\":true,\"type\":\"ready\"}\n" << std::flush;
+            std::cout << "{\"ok\":true,\"type\":\"ready\",\"protocol_version\":2,\"proof_version\":1}\n" << std::flush;
 
+            std::thread search;
+            std::atomic<bool> running{false};
+            std::atomic<bool> cancel{false};
+            std::mutex output_mutex;
+            std::mutex incumbent_mutex;
+            std::vector<int> incumbent;
+            std::string active_id;
+            cube::CubieCube active_state;
+            // In-memory only: loaded PDBs, HTM and proof rules are immutable for this process.
+            std::unordered_map<std::string, int> proofs;
             std::string request;
             while (std::getline(std::cin, request)) {
+                std::string id;
                 try {
                     const auto fields = split_tabs(request);
-                    if (fields.size() != 5)
+                    if (fields.size() == 2 && fields[0] == "cancel") {
+                        if (fields[1] == active_id)
+                            cancel.store(true);
+                        continue;
+                    }
+                    if (fields.size() == 3 && fields[0] == "incumbent") {
+                        if (fields[1] == active_id && running.load()) {
+                            auto moves = parse_moves(fields[2]);
+                            auto candidate = active_state;
+                            for (int move : moves)
+                                candidate = candidate.apply_move(move);
+                            if (!candidate.solved())
+                                throw std::invalid_argument("updated incumbent does not solve the cube");
+                            std::lock_guard lock(incumbent_mutex);
+                            if (incumbent.empty() || moves.size() < incumbent.size())
+                                incumbent = std::move(moves);
+                        }
+                        continue;
+                    }
+                    const bool framed = fields.size() == 7 && fields[0] == "solve";
+                    if (!framed && fields.size() != 5)
                         throw std::invalid_argument("invalid serve request");
-                    const cube::CubieCube state = cube::from_facelets(fields[0]);
-                    cube::SolverOptions options;
-                    options.max_depth = std::stoi(fields[1]);
-                    options.timeout_seconds = std::stod(fields[2]);
-                    options.threads = std::stoi(fields[3]);
-                    options.incumbent_moves = parse_moves(fields[4]);
-                    options.progress_callback = [](const cube::NativeSearchProgress &progress) {
-                        print_progress_json(std::cout, progress);
+                    const int offset = framed ? 2 : 0;
+                    id = framed ? fields[1] : "";
+                    if (running.load())
+                        throw std::invalid_argument("service is already searching");
+                    if (search.joinable())
+                        search.join();
+                    active_state = cube::from_facelets(fields[offset]);
+                    active_id = id;
+                    cube::SolverOptions options = defaults;
+                    options.max_depth = std::stoi(fields[offset + 1]);
+                    options.timeout_seconds = std::stod(fields[offset + 2]);
+                    options.threads = std::stoi(fields[offset + 3]);
+                    options.incumbent_moves = parse_moves(fields[offset + 4]);
+                    incumbent = options.incumbent_moves;
+                    cancel.store(false);
+                    options.cancel_requested = &cancel;
+                    const auto key = cube::to_facelets(active_state);
+                    const auto previous = proofs.find(key);
+                    if (framed && previous != proofs.end())
+                        options.completed_depth = previous->second;
+                    // Legacy benchmark requests deliberately rerun each proof.
+                    options.incumbent_callback = [&] {
+                        std::lock_guard lock(incumbent_mutex);
+                        return incumbent;
                     };
-                    print_result_json(std::cout, solver.solve(state, options), solver, true);
+                    running.store(true);
+                    search = std::thread([&, options, id, key, framed, state = active_state]() mutable {
+                        int completed = options.completed_depth;
+                        options.progress_callback = [&](const cube::NativeSearchProgress &progress) {
+                            completed = std::max(completed, progress.completed_depth);
+                            std::lock_guard lock(output_mutex);
+                            print_progress_json(std::cout, progress, id);
+                        };
+                        try {
+                            const auto result = solver.solve(state, options);
+                            completed = std::max(completed, result.completed_depth);
+                            if (framed) {
+                                if (proofs.size() >= 128 && !proofs.contains(key))
+                                    proofs.erase(proofs.begin());
+                                proofs[key] = completed;
+                            }
+                            // Mark idle under the output lock before the terminal frame is observed.
+                            std::lock_guard lock(output_mutex);
+                            running.store(false);
+                            print_result_json(std::cout, result, solver, true, id);
+                        } catch (const std::exception &error) {
+                            std::lock_guard lock(output_mutex);
+                            running.store(false);
+                            std::cout << "{\"ok\":false,\"type\":\"error\",\"request_id\":" << std::quoted(id)
+                                      << ",\"error\":" << std::quoted(error.what()) << "}\n"
+                                      << std::flush;
+                        }
+                    });
                 } catch (const std::exception &error) {
-                    std::cout << "{\"ok\":false,\"type\":\"error\",\"error\":\"" << error.what() << "\"}\n"
+                    std::lock_guard lock(output_mutex);
+                    std::cout << "{\"ok\":false,\"type\":\"error\",\"request_id\":" << std::quoted(id)
+                              << ",\"error\":" << std::quoted(error.what()) << "}\n"
                               << std::flush;
                 }
             }
+            cancel.store(true);
+            if (search.joinable())
+                search.join();
             return 0;
         }
         if (argc < 3) {
@@ -353,12 +563,8 @@ int main(int argc, char **argv) {
                     tail_pdb_path = argv[++index];
                 else if (option == "--incumbent" && index + 1 < argc)
                     options.incumbent_moves = parse_moves(argv[++index]);
-                else if (option == "--transposition")
-                    options.use_transposition = true;
-                else if (option == "--no-transposition")
-                    options.use_transposition = false;
-                else if (option == "--no-direction-probe")
-                    options.use_direction_probe = false;
+                else if (tuning_option(option, options))
+                    continue;
                 else
                     throw std::invalid_argument("unknown solve option: " + option);
             }

@@ -2,6 +2,7 @@
 
 #include "cube.hpp"
 
+#include <atomic>
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
@@ -21,7 +22,7 @@ class Phase1PatternDatabase;
 class TailDatabase;
 
 struct CoordinateState {
-    std::optional<CubieCube> cube;
+    std::uint64_t edges{};
     std::uint16_t twist{};
     std::uint16_t flip{};
     std::uint16_t slice{};
@@ -37,7 +38,29 @@ struct CoordinateFeatures {
     bool axis_coordinates{true};
     bool edge_pattern_a{true};
     bool edge_pattern_b{true};
-    bool full_cube_for_heuristic{true};
+    bool small_phase1{true};
+    bool small_corner{true};
+    bool strengthen_axes{true};
+    bool staged_expansion{true};
+};
+
+struct SearchCounters {
+    std::uint64_t generated{};
+    std::uint64_t small_queries{};
+    std::uint64_t phase1_queries{};
+    std::uint64_t corner_queries{};
+    std::uint64_t edge_queries{};
+    std::array<std::uint64_t, 3> axis_rejects{};
+    std::uint64_t equality_rejects{};
+    std::uint64_t corner_rejects{};
+    std::uint64_t edge_rejects{};
+};
+
+struct WorkerStatistics {
+    std::uint64_t nodes{};
+    std::uint64_t generated{};
+    double busy_seconds{};
+    double idle_seconds{};
 };
 
 class CoordinateTables {
@@ -52,7 +75,13 @@ class CoordinateTables {
                                          const Phase1PatternDatabase *phase1_pdb = nullptr,
                                          const CornerPatternDatabase *corner_pdb = nullptr,
                                          std::span<const EdgePatternDatabase *const> edge_pdbs = {},
-                                         std::uint8_t cutoff = 255) const noexcept;
+                                         std::uint8_t cutoff = 255, const CoordinateFeatures &features = {},
+                                         SearchCounters *counters = nullptr) const noexcept;
+    [[nodiscard]] std::uint8_t expand(const CoordinateState &parent, int move, CoordinateState &child,
+                                      const Phase1PatternDatabase *phase1_pdb, const CornerPatternDatabase *corner_pdb,
+                                      std::span<const EdgePatternDatabase *const> edge_pdbs, std::uint8_t cutoff,
+                                      const CoordinateFeatures &features, SearchCounters &counters) const noexcept;
+    [[nodiscard]] CubieCube materialize(const CoordinateState &state) const;
 
     [[nodiscard]] std::uint16_t corner_move(std::uint16_t coordinate, int move) const noexcept;
     [[nodiscard]] std::uint16_t twist_move(std::uint16_t coordinate, int move) const noexcept;
@@ -68,6 +97,13 @@ class CoordinateTables {
     std::vector<std::uint8_t> flip_slice_prune_;
     std::vector<std::uint8_t> twist_flip_prune_;
     std::vector<std::uint8_t> corner_prune_;
+    [[nodiscard]] bool load_cache(const std::filesystem::path &path);
+    void save_cache(const std::filesystem::path &path) const;
+    [[nodiscard]] std::uint8_t evaluate(CoordinateState &state, const CoordinateState *parent, int move,
+                                        const Phase1PatternDatabase *phase1_pdb,
+                                        const CornerPatternDatabase *corner_pdb,
+                                        std::span<const EdgePatternDatabase *const> edge_pdbs, std::uint8_t cutoff,
+                                        const CoordinateFeatures &features, SearchCounters &counters) const noexcept;
 };
 
 struct NativeSearchProgress {
@@ -89,6 +125,9 @@ struct NativeSearchProgress {
     double elapsed_seconds{};
     bool found{};
     bool timed_out{};
+    bool cancelled{};
+    SearchCounters counters;
+    std::vector<WorkerStatistics> workers;
 };
 
 struct SolverOptions {
@@ -98,7 +137,14 @@ struct SolverOptions {
     std::size_t transposition_limit_per_thread{500'000};
     bool use_transposition{false};
     bool use_direction_probe{true};
+    bool strengthen_axes{true};
+    bool omit_covered_small_tables{true};
+    bool staged_expansion{true};
+    bool inverse_direction{false};
+    int completed_depth{-1}; // Only supplied by the service's verified proof cache.
+    const std::atomic<bool> *cancel_requested{nullptr};
     std::vector<int> incumbent_moves;
+    std::function<std::vector<int>()> incumbent_callback;
     std::function<void(const NativeSearchProgress &)> progress_callback;
 };
 
@@ -107,6 +153,7 @@ struct NativeSolveResult {
     int depth{-1};
     bool optimal{false};
     bool timed_out{false};
+    bool cancelled{false};
     bool inverse_direction{false};
     double elapsed_seconds{0.0};
     std::uint64_t nodes{0};
@@ -117,6 +164,9 @@ struct NativeSolveResult {
     std::uint64_t tail_exact_queries{0};
     std::uint64_t tail_probes{0};
     std::uint64_t tail_hits{0};
+    int completed_depth{-1};
+    SearchCounters counters;
+    std::vector<WorkerStatistics> workers;
 };
 
 class NativeOptimalSolver {

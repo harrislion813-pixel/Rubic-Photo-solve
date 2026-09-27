@@ -1,0 +1,653 @@
+{
+  "binary": {
+    "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\build\\cube_solver.exe",
+    "bytes": 3822690,
+    "sha256": "0ef12dfa36a69e60cad2d5afe5f0749ede1fc128150183528dc6e52b01c28fea"
+  },
+  "pdbs": [
+    {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\native\\corner_htm_v2.pdb",
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb"
+    },
+    {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\native\\phase1_sym_htm_v2.pdb",
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f"
+    },
+    {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\native\\tail_depth6_v4.pdb",
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74"
+    }
+  ],
+  "cases_file": {
+    "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\tests\\native_cases.json",
+    "bytes": 667,
+    "sha256": "36b2f1ad4d85f2206f36bbeec64a248e8dd604a332184db00e84ea2c26beb52c"
+  },
+  "cold_starts": [
+    {
+      "variant": "baseline",
+      "repeat": 0,
+      "seconds": 0.6590766000008443,
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 2,
+        "proof_version": 1
+      }
+    },
+    {
+      "variant": "pruning",
+      "repeat": 0,
+      "seconds": 0.6819124000003285,
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 2,
+        "proof_version": 1
+      }
+    },
+    {
+      "variant": "staged",
+      "repeat": 0,
+      "seconds": 0.6665650000004462,
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 2,
+        "proof_version": 1
+      }
+    },
+    {
+      "variant": "staged",
+      "repeat": 1,
+      "seconds": 0.6845198000000892,
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 2,
+        "proof_version": 1
+      }
+    },
+    {
+      "variant": "pruning",
+      "repeat": 1,
+      "seconds": 0.6934030000002167,
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 2,
+        "proof_version": 1
+      }
+    },
+    {
+      "variant": "baseline",
+      "repeat": 1,
+      "seconds": 0.6713932000002387,
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 2,
+        "proof_version": 1
+      }
+    },
+    {
+      "variant": "baseline",
+      "repeat": 2,
+      "seconds": 0.6986686000000191,
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 2,
+        "proof_version": 1
+      }
+    },
+    {
+      "variant": "pruning",
+      "repeat": 2,
+      "seconds": 0.66967939999995,
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 2,
+        "proof_version": 1
+      }
+    },
+    {
+      "variant": "staged",
+      "repeat": 2,
+      "seconds": 0.6699595000000045,
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 2,
+        "proof_version": 1
+      }
+    }
+  ],
+  "summaries": {
+    "baseline/16/pgo16": {
+      "runs": 3,
+      "completed": 3,
+      "timeout_ratio": 0.0,
+      "all_run_wall_p50": 0.13509369999974297,
+      "all_run_wall_p95": 0.1439226000002236,
+      "successful_proof_p50": 0.134701,
+      "completed_depths": [
+        15,
+        15,
+        15
+      ]
+    },
+    "baseline/16/seed18": {
+      "runs": 3,
+      "completed": 3,
+      "timeout_ratio": 0.0,
+      "all_run_wall_p50": 14.904682200000025,
+      "all_run_wall_p95": 16.679554800000005,
+      "successful_proof_p50": 14.90415,
+      "completed_depths": [
+        16,
+        16,
+        16
+      ]
+    },
+    "baseline/16/known18": {
+      "runs": 3,
+      "completed": 3,
+      "timeout_ratio": 0.0,
+      "all_run_wall_p50": 31.963429700000233,
+      "all_run_wall_p95": 33.80448340000021,
+      "successful_proof_p50": 31.962753,
+      "completed_depths": [
+        17,
+        17,
+        17
+      ]
+    },
+    "pruning/16/pgo16": {
+      "runs": 3,
+      "completed": 3,
+      "timeout_ratio": 0.0,
+      "all_run_wall_p50": 0.08466139999927691,
+      "all_run_wall_p95": 0.09411230000023352,
+      "successful_proof_p50": 0.084244,
+      "completed_depths": [
+        15,
+        15,
+        15
+      ]
+    },
+    "pruning/16/seed18": {
+      "runs": 3,
+      "completed": 3,
+      "timeout_ratio": 0.0,
+      "all_run_wall_p50": 8.660301099999742,
+      "all_run_wall_p95": 9.233270799999445,
+      "successful_proof_p50": 8.659812,
+      "completed_depths": [
+        16,
+        16,
+        16
+      ]
+    },
+    "pruning/16/known18": {
+      "runs": 3,
+      "completed": 3,
+      "timeout_ratio": 0.0,
+      "all_run_wall_p50": 18.778929299999618,
+      "all_run_wall_p95": 19.94964970000001,
+      "successful_proof_p50": 18.778295,
+      "completed_depths": [
+        17,
+        17,
+        17
+      ]
+    },
+    "staged/16/pgo16": {
+      "runs": 3,
+      "completed": 3,
+      "timeout_ratio": 0.0,
+      "all_run_wall_p50": 0.06254730000000563,
+      "all_run_wall_p95": 0.06323499999962223,
+      "successful_proof_p50": 0.062007,
+      "completed_depths": [
+        15,
+        15,
+        15
+      ]
+    },
+    "staged/16/seed18": {
+      "runs": 3,
+      "completed": 3,
+      "timeout_ratio": 0.0,
+      "all_run_wall_p50": 6.541167699999278,
+      "all_run_wall_p95": 7.0848289000005025,
+      "successful_proof_p50": 6.54063,
+      "completed_depths": [
+        16,
+        16,
+        16
+      ]
+    },
+    "staged/16/known18": {
+      "runs": 3,
+      "completed": 3,
+      "timeout_ratio": 0.0,
+      "all_run_wall_p50": 15.295748800000183,
+      "all_run_wall_p95": 15.617910299999494,
+      "successful_proof_p50": 15.295223,
+      "completed_depths": [
+        17,
+        17,
+        17
+      ]
+    }
+  },
+  "build": {
+    "compiler": "g++.exe (Rev5, Built by MSYS2 project) 16.1.0",
+    "flags": "-std=c++20 -O3 -march=native -mtune=native -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static",
+    "profile_guided": false,
+    "built_at": "2026-09-27T10:03:11.0801750Z",
+    "binary_sha256": "0EF12DFA36A69E60CAD2D5AFE5F0749EDE1FC128150183528DC6E52B01C28FEA",
+    "source_sha256": {
+      "main.cpp": "0AB3D8209140D3C4725431F2A03D20F121254FC2C2F0FBB7729F3DFB626F41CB",
+      "tail.cpp": "8B97FFD8CF347CD8DDD449BD92623E53124EC5AAE8ABD1776A15C2EB2C612E55",
+      "solver.cpp": "4F275019871BFF4776CF572EA02DF4EA2A2F6936F7EB0395DF98983F1D3DB78A",
+      "cube.hpp": "6346AA5BDCF355EA9EFC6836905032E78E1359F4813D4674CF9C82E45ECBCEF9",
+      "cube.cpp": "F94564AC640C96CFE52B18A3D012958271FC08AB7E5EBA64B77C49BA9B06EBAF",
+      "symmetry.cpp": "DE8FA95BDFC02EE0CA4123FFA719BCADDA74119A48F73332EA3829C22C29355F",
+      "solver.hpp": "188234AD4D6585CF7CD7FEE02F4754BC236ACAC88E481D03DC317645FBF0FD64",
+      "pdb.hpp": "08DCD2EDB1CB222AF602CDDEE0B86585B554C3638D05B779F8FE2BF489C8E7CF",
+      "pdb.cpp": "DB2404C4D8261F9A4ECA7506A014C476F63660363C5CFA602F2B7E6941FC8E3C",
+      "tail.hpp": "3B302610376AD768BA643FB28833FFF6C122C40A491CD9132950794E771E7948",
+      "symmetry.hpp": "B53C16C7892DC9473E7059EAA5935B9BA1D44A96BFAE99291802770303757D2E"
+    }
+  },
+  "selected_cases": [
+    {
+      "case": "pgo16",
+      "facelets": "RFLLURLRRDFULRRBDLUBFUFULDRDLDRDBFFDUBFULFRUBBLBDBBFDU",
+      "incumbent": [
+        "D",
+        "L'",
+        "D",
+        "F2",
+        "D2",
+        "L'",
+        "U'",
+        "R",
+        "U2",
+        "F2",
+        "L",
+        "F'",
+        "U2",
+        "L",
+        "U",
+        "B"
+      ]
+    },
+    {
+      "case": "seed18",
+      "facelets": "RRRBUBBLLDDBLRRFDFUFBUFDDBLRRDUDFFUDFLLULRULBUDUFBFRBL",
+      "incumbent": [
+        "F2",
+        "D2",
+        "L2",
+        "B'",
+        "R",
+        "U2",
+        "F2",
+        "U2",
+        "L2",
+        "F",
+        "L'",
+        "D2",
+        "U2",
+        "R2",
+        "U2",
+        "F",
+        "D2",
+        "F2"
+      ]
+    },
+    {
+      "case": "known18",
+      "facelets": "UDBBURFBBUFULRUBFFDLLRFFDLDRULLDDRRDFRLULUUDBRBLBBFRDF",
+      "incumbent": [
+        "R",
+        "U2",
+        "L",
+        "U2",
+        "L2",
+        "B2",
+        "R2",
+        "D'",
+        "L'",
+        "B2",
+        "U",
+        "F'",
+        "B",
+        "D",
+        "R",
+        "L'",
+        "F'",
+        "U"
+      ]
+    }
+  ],
+  "short_budget_acceptance": {
+    "cases_file": {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\tests\\native_cases.json",
+      "bytes": 616,
+      "sha256": "9eb0be6ae60a96d66582c4a9dd4666bfcbf6aa884af22c9cb9bab4b70290b87d"
+    },
+    "selected_cases": [
+      {
+        "name": "repo14",
+        "facelets": "RLULUBRUDLRBLRFDDRURFFFFLBRUDFUDRLDUBBBDLRBBFLUDUBLFFD",
+        "incumbent": [
+          "F2",
+          "U",
+          "F",
+          "R'",
+          "B'",
+          "U'",
+          "F'",
+          "D'",
+          "F",
+          "L2",
+          "U",
+          "F'",
+          "U",
+          "B2"
+        ]
+      },
+      {
+        "name": "pgo16",
+        "facelets": "RFLLURLRRDFULRRBDLUBFUFULDRDLDRDBFFDUBFULFRUBBLBDBBFDU",
+        "incumbent": [
+          "D",
+          "L'",
+          "D",
+          "F2",
+          "D2",
+          "L'",
+          "U'",
+          "R",
+          "U2",
+          "F2",
+          "L",
+          "F'",
+          "U2",
+          "L",
+          "U",
+          "B"
+        ]
+      },
+      {
+        "name": "seed18",
+        "facelets": "RRRBUBBLLDDBLRRFDFUFBUFDDBLRRDUDFFUDFLLULRULBUDUFBFRBL",
+        "incumbent": [
+          "F2",
+          "D2",
+          "L2",
+          "B'",
+          "R",
+          "U2",
+          "F2",
+          "U2",
+          "L2",
+          "F",
+          "L'",
+          "D2",
+          "U2",
+          "R2",
+          "U2",
+          "F",
+          "D2",
+          "F2"
+        ]
+      },
+      {
+        "name": "known18",
+        "facelets": "UDBBURFBBUFULRUBFFDLLRFFDLDRULLDDRRDFRLULUUDBRBLBBFRDF",
+        "incumbent": [
+          "R",
+          "U2",
+          "L",
+          "U2",
+          "L2",
+          "B2",
+          "R2",
+          "D'",
+          "L'",
+          "B2",
+          "U",
+          "F'",
+          "B",
+          "D",
+          "R",
+          "L'",
+          "F'",
+          "U"
+        ]
+      },
+      {
+        "name": "legal-20260927-0",
+        "facelets": "BLFBUFLUDLRDRRDUBBURFUFDBBFULRDDURLULRFFLFDBLRUDLBDRFB",
+        "incumbent": []
+      },
+      {
+        "name": "legal-20260927-1",
+        "facelets": "BDBDUFURUBUDRRLLLRLBRFFFFBFUDUBDUFUFDRBULDLLRLLRFBBDRD",
+        "incumbent": []
+      },
+      {
+        "name": "legal-20260927-2",
+        "facelets": "RBUFULLLRBDRBRBUULUBDDFDFUBDRLRDLDUBFRFFLFRDLBRUUBLDFF",
+        "incumbent": []
+      },
+      {
+        "name": "superflip",
+        "facelets": "UBULURUFURURFRBRDRFUFLFRFDFDFDLDRDBDLULBLFLDLBUBRBLBDB",
+        "incumbent": []
+      }
+    ],
+    "cold_starts": [
+      {
+        "variant": "staged",
+        "repeat": 0,
+        "seconds": 0.6583630999994057,
+        "ready": {
+          "ok": true,
+          "type": "ready",
+          "protocol_version": 2,
+          "proof_version": 1
+        }
+      }
+    ],
+    "summaries": {
+      "staged/16/repo14": {
+        "runs": 1,
+        "completed": 1,
+        "timeout_ratio": 0.0,
+        "all_run_wall_p50": 0.005715299999792478,
+        "all_run_wall_p95": 0.005715299999792478,
+        "successful_proof_p50": 0.005367,
+        "completed_depths": [
+          13
+        ]
+      },
+      "staged/16/pgo16": {
+        "runs": 1,
+        "completed": 1,
+        "timeout_ratio": 0.0,
+        "all_run_wall_p50": 0.061081300000296324,
+        "all_run_wall_p95": 0.061081300000296324,
+        "successful_proof_p50": 0.060658,
+        "completed_depths": [
+          15
+        ]
+      },
+      "staged/16/seed18": {
+        "runs": 1,
+        "completed": 0,
+        "timeout_ratio": 1.0,
+        "all_run_wall_p50": 2.0009344000000056,
+        "all_run_wall_p95": 2.0009344000000056,
+        "successful_proof_p50": null,
+        "completed_depths": [
+          16
+        ]
+      },
+      "staged/16/known18": {
+        "runs": 1,
+        "completed": 0,
+        "timeout_ratio": 1.0,
+        "all_run_wall_p50": 2.0013068999996904,
+        "all_run_wall_p95": 2.0013068999996904,
+        "successful_proof_p50": null,
+        "completed_depths": [
+          16
+        ]
+      },
+      "staged/16/legal-20260927-0": {
+        "runs": 1,
+        "completed": 0,
+        "timeout_ratio": 1.0,
+        "all_run_wall_p50": 2.0009534999999232,
+        "all_run_wall_p95": 2.0009534999999232,
+        "successful_proof_p50": null,
+        "completed_depths": [
+          16
+        ]
+      },
+      "staged/16/legal-20260927-1": {
+        "runs": 1,
+        "completed": 0,
+        "timeout_ratio": 1.0,
+        "all_run_wall_p50": 2.000949999999648,
+        "all_run_wall_p95": 2.000949999999648,
+        "successful_proof_p50": null,
+        "completed_depths": [
+          16
+        ]
+      },
+      "staged/16/legal-20260927-2": {
+        "runs": 1,
+        "completed": 0,
+        "timeout_ratio": 1.0,
+        "all_run_wall_p50": 2.00110930000028,
+        "all_run_wall_p95": 2.00110930000028,
+        "successful_proof_p50": null,
+        "completed_depths": [
+          16
+        ]
+      },
+      "staged/16/superflip": {
+        "runs": 1,
+        "completed": 0,
+        "timeout_ratio": 1.0,
+        "all_run_wall_p50": 2.0010503000003155,
+        "all_run_wall_p95": 2.0010503000003155,
+        "successful_proof_p50": null,
+        "completed_depths": [
+          16
+        ]
+      }
+    },
+    "results": [
+      {
+        "case": "repo14",
+        "facelets": "RLULUBRUDLRBLRFDDRURFFFFLBRUDFUDRLDUBBBDLRBBFLUDUBLFFD",
+        "completed_depth": 13,
+        "wall_seconds": 0.005715299999792478,
+        "optimal": true,
+        "status": "complete",
+        "current_depth": 13
+      },
+      {
+        "case": "pgo16",
+        "facelets": "RFLLURLRRDFULRRBDLUBFUFULDRDLDRDBFFDUBFULFRUBBLBDBBFDU",
+        "completed_depth": 15,
+        "wall_seconds": 0.061081300000296324,
+        "optimal": true,
+        "status": "complete",
+        "current_depth": 15
+      },
+      {
+        "case": "seed18",
+        "facelets": "RRRBUBBLLDDBLRRFDFUFBUFDDBLRRDUDFFUDFLLULRULBUDUFBFRBL",
+        "completed_depth": 16,
+        "wall_seconds": 2.0009344000000056,
+        "optimal": false,
+        "status": "timeout",
+        "current_depth": 17
+      },
+      {
+        "case": "known18",
+        "facelets": "UDBBURFBBUFULRUBFFDLLRFFDLDRULLDDRRDFRLULUUDBRBLBBFRDF",
+        "completed_depth": 16,
+        "wall_seconds": 2.0013068999996904,
+        "optimal": false,
+        "status": "timeout",
+        "current_depth": 17
+      },
+      {
+        "case": "legal-20260927-0",
+        "facelets": "BLFBUFLUDLRDRRDUBBURFUFDBBFULRDDURLULRFFLFDBLRUDLBDRFB",
+        "completed_depth": 16,
+        "wall_seconds": 2.0009534999999232,
+        "optimal": false,
+        "status": "timeout",
+        "current_depth": 17
+      },
+      {
+        "case": "legal-20260927-1",
+        "facelets": "BDBDUFURUBUDRRLLLRLBRFFFFBFUDUBDUFUFDRBULDLLRLLRFBBDRD",
+        "completed_depth": 16,
+        "wall_seconds": 2.000949999999648,
+        "optimal": false,
+        "status": "timeout",
+        "current_depth": 17
+      },
+      {
+        "case": "legal-20260927-2",
+        "facelets": "RBUFULLLRBDRBRBUULUBDDFDFUBDRLRDLDUBFRFFLFRDLBRUUBLDFF",
+        "completed_depth": 16,
+        "wall_seconds": 2.00110930000028,
+        "optimal": false,
+        "status": "timeout",
+        "current_depth": 17
+      },
+      {
+        "case": "superflip",
+        "facelets": "UBULURUFURURFRBRDRFUFLFRFDFDFDLDRDBDLULBLFLDLBUBRBLBDB",
+        "completed_depth": 16,
+        "wall_seconds": 2.0010503000003155,
+        "optimal": false,
+        "status": "timeout",
+        "current_depth": 17
+      }
+    ]
+  },
+  "validation": {
+    "full_pytest": "46 passed in 52.92s",
+    "node_tests": [
+      "recognition",
+      "color",
+      "two_by_two_color",
+      "solver_ui"
+    ],
+    "other_checks": [
+      "ruff",
+      "compileall",
+      "clang-format",
+      "git diff --check"
+    ],
+    "latest_lifecycle_and_hybrid_validation": "14 passed in 3.62s"
+  }
+}

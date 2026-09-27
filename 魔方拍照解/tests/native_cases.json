@@ -1,0 +1,10 @@
+[
+  {"name":"repo14","scramble":"B2 U' F U' L2 F' D F U B R F' U' F2","expected_depth":14},
+  {"name":"pgo16","scramble":"B' U' L' U2 F L' F2 U2 R' U L D2 F2 D' L D'","expected_depth":16,"training":true},
+  {"name":"seed18","scramble":"F2 D2 F' U2 R2 U2 D2 L F' L2 U2 F2 U2 R' B L2 D2 F2","expected_depth":17},
+  {"name":"known18","scramble":"U' F L R' D' B' F U' B2 L D R2 B2 L2 U2 L' U2 R'","expected_depth":18},
+  {"name":"legal-20260927-0","legal_seed":20260927},
+  {"name":"legal-20260927-1","legal_seed":20260928},
+  {"name":"legal-20260927-2","legal_seed":20260929},
+  {"name":"superflip","superflip":true}
+]

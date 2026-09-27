@@ -53,6 +53,7 @@ const uploadCount = document.querySelector("#uploadCount");
 const uploadMeterBar = document.querySelector("#uploadMeterBar");
 let solveGeneration = 0;
 let solvePollTimer = null;
+let activeSolveKey = null;
 let activeJobId = null;
 const cropDialog = document.querySelector("#cropDialog");
 const cropCanvas = document.querySelector("#cropCanvas");
@@ -1123,6 +1124,11 @@ function applyFacelets(facelets, manual = false) {
 
 async function solveCube() {
   const facelets = faceletsText.value.toUpperCase().replace(/[^URFDLB]/g, "");
+  const solveKey = `${cubeSize}:${facelets}`;
+  if (activeJobId && activeSolveKey === solveKey) {
+    statusText.textContent = "继续使用当前最短性验证任务";
+    return;
+  }
   const loadedCount = FACE_ORDER.filter((face) => state[face].imageLoaded).length;
   if (loadedCount < 6 && colorAssessment.source !== "manual") {
     showError(statusText, "请先完成六面录入，或在高级设置中手动输入完整 Facelets");
@@ -1140,8 +1146,8 @@ async function solveCube() {
   }
   solveBtn.disabled = true;
   solutionText.textContent = cubeSize === 2
-    ? "正在搜索二阶 HTM 严格最短解。首次求解会先构建角块剪枝表。"
-    : "正在生成快速解；随后会在后台继续验证严格最短解。";
+    ? "正在查询二阶 HTM 严格最短解。"
+    : "正在验证严格最短解，较难状态会同时生成快速解。";
   depthText.textContent = "";
   statusText.textContent = "求解中...";
   try {
@@ -1172,10 +1178,10 @@ async function solveCube() {
     }
 
     if (data.optimal) {
-      depthText.textContent = `${data.depth} 步，${data.metric}，严格最短：是，耗时 ${data.elapsed_seconds}s`;
+      depthText.textContent = `${data.depth} 步，${data.metric}，严格最短：是，验证耗时 ${data.proof_elapsed_seconds ?? data.elapsed_seconds}s`;
       statusText.textContent = "严格最短解已确认";
     } else if (data.depth !== null) {
-      depthText.textContent = `${data.depth} 步，${data.metric}，当前为快速解，生成耗时 ${data.elapsed_seconds}s；后台正在验证最短性`;
+      depthText.textContent = `${data.depth} 步，${data.metric}，当前为快速解，生成耗时 ${data.solution_generation_seconds ?? data.elapsed_seconds}s；后台正在验证最短性`;
       statusText.textContent = "快速解已生成，正在后台验证严格最短解...";
     } else {
       depthText.textContent = "后台正在继续搜索";
@@ -1184,6 +1190,7 @@ async function solveCube() {
 
     if (data.job_id) {
       activeJobId = data.job_id;
+      activeSolveKey = solveKey;
       pollOptimalJob(data.job_id, generation);
     }
   } catch (error) {
@@ -1207,7 +1214,7 @@ async function pollOptimalJob(jobId, generation) {
     if (data.status === "complete") {
       const result = data.result;
       solutionText.textContent = result.solution || "已复原，无需转动";
-      depthText.textContent = `${result.depth} 步，${result.metric}，严格最短：是，验证耗时 ${result.elapsed_seconds}s`;
+      depthText.textContent = `${result.depth} 步，${result.metric}，严格最短：是；解生成 ${data.solution_generation_seconds ?? 0}s，验证 ${data.proof_elapsed_seconds ?? result.elapsed_seconds}s`;
       statusText.textContent = "严格最短解已确认";
       solvePollTimer = null;
       if (activeJobId === jobId) activeJobId = null;
@@ -1250,6 +1257,7 @@ function cancelJob(jobId) {
 }
 
 function cancelActiveJob() {
+  activeSolveKey = null;
   if (!activeJobId) return;
   const jobId = activeJobId;
   activeJobId = null;

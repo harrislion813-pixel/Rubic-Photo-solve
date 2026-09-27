@@ -1,0 +1,5 @@
+[
+  {"name":"training-existing16","scramble":"B' U' L' U2 F L' F2 U2 R' U L D2 F2 D' L D'"},
+  {"name":"training-legal-a","legal_seed":20260801},
+  {"name":"training-legal-b","legal_seed":20260802}
+]

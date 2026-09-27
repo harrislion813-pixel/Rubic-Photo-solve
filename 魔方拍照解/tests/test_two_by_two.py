@@ -4,6 +4,10 @@ from collections import deque
 from pathlib import Path
 import sys
 import unittest
+import random
+import tempfile
+
+from cube_app.two_by_two_tables import CACHE_NAME, ENTRIES, load_or_build
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,6 +31,31 @@ def scrambled(sequence: str) -> CubieCube:
 
 
 class TwoByTwoTests(unittest.TestCase):
+    def test_random_states_in_all_user_orientations_keep_correct_move_mapping(self):
+        generator = random.Random(20260927)
+        for _ in range(12):
+            cube = scrambled(" ".join(generator.choice(MOVE_NAMES) for _ in range(20)))
+            distance = self.solver.solve_cube(cube).depth
+            for cp, co in rotated_solved_corners():
+                rotated = cube.moved(CubieCube(cp=cp, co=co))
+                result = self.solver.solve_cube(rotated)
+                self.assertEqual(result.depth, distance)
+                for name in result.moves:
+                    rotated = rotated.apply_move_index(MOVE_INDEX[name])
+                self.assertTrue(is_solved_2x2(rotated))
+
+    def test_full_table_cache_is_versioned_and_corruption_is_rebuilt(self):
+        with tempfile.TemporaryDirectory() as directory:
+            tables = load_or_build(directory)
+            self.assertEqual(len(tables[0]), ENTRIES)
+            self.assertEqual(int(tables[0].max()), 11)
+            cache = Path(directory) / CACHE_NAME
+            raw = bytearray(cache.read_bytes())
+            raw[100] ^= 1
+            cache.write_bytes(raw)
+            rebuilt = load_or_build(directory)
+            self.assertEqual(rebuilt[0].tobytes(), tables[0].tobytes())
+
     @classmethod
     def setUpClass(cls) -> None:
         cls.solver = TwoByTwoSolver()

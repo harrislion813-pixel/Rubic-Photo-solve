@@ -51,6 +51,7 @@ select = ["E4", "E7", "E9", "F"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/benchmark_solver.py" = ["E402"]
+"tests/benchmark_native.py" = ["E402"]
 "tests/extract_real_patches.py" = ["E402"]
 "tests/test_hybrid_api.py" = ["E402"]
 "tests/test_solver.py" = ["E402"]

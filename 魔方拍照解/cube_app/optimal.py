@@ -234,9 +234,11 @@ class OptimalSolver:
         incumbent_moves: list[str] | None = None,
         cancel_event: threading.Event | None = None,
         progress_callback: Callable[[dict], None] | None = None,
+        deadline: float | None = None,
     ) -> SolveResult:
         start = time.monotonic()
-        deadline = None if timeout_seconds is None else start + timeout_seconds
+        if deadline is None and timeout_seconds is not None:
+            deadline = start + timeout_seconds
         self._check_deadline(deadline, cancel_event)
 
         if cube.is_solved():

@@ -73,4 +73,17 @@ if ($LASTEXITCODE -ne 0) {
     throw "Native solver build failed with exit code $LASTEXITCODE"
 }
 
+$buildInfo = [ordered]@{
+    compiler = (& $compilerPath --version | Select-Object -First 1)
+    flags = "-std=c++20 -O3 -march=native -mtune=native -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static"
+    profile_guided = $false
+    built_at = [DateTime]::UtcNow.ToString("o")
+    binary_sha256 = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash
+    source_sha256 = @{}
+}
+Get-ChildItem (Join-Path $PSScriptRoot "src"), (Join-Path $PSScriptRoot "include") -File -Recurse | ForEach-Object {
+    $buildInfo.source_sha256[$_.Name] = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash
+}
+$buildInfo | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $buildDirectory "build-info.json") -Encoding utf8
+
 Write-Output $target

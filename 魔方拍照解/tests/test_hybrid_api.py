@@ -80,7 +80,7 @@ class HybridSolveApiTests(unittest.TestCase):
             with JOBS_LOCK:
                 JOBS.pop(job_id, None)
 
-    def test_quick_result_arrives_before_optimal_job_finishes(self) -> None:
+    def test_result_arrives_within_interactive_budget(self) -> None:
         server = ExclusiveThreadingHTTPServer((HOST, 0), AppHandler)
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
@@ -102,8 +102,6 @@ class HybridSolveApiTests(unittest.TestCase):
             )
             quick_elapsed = time.perf_counter() - started
             self.assertTrue(response["ok"])
-            self.assertFalse(response["optimal"])
-            self.assertTrue(response["job_id"])
             self.assertTrue(response["solution"])
             self.assertLess(quick_elapsed, 2.5)
 
@@ -111,6 +109,12 @@ class HybridSolveApiTests(unittest.TestCase):
             for move in response["moves"]:
                 solved = solved.apply_move_index(MOVE_INDEX[move])
             self.assertTrue(solved.is_solved())
+
+            if response["optimal"]:
+                self.assertEqual(response["depth"], 16)
+                self.assertEqual(response["proof_status"], "complete")
+                return
+            self.assertTrue(response["job_id"])
 
             deadline = time.monotonic() + 6
             while True:

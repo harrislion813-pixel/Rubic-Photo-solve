@@ -6,6 +6,8 @@ import os
 import queue
 import subprocess
 import threading
+import time
+import uuid
 from collections.abc import Callable
 from .cubie import CubieCube, MOVE_INDEX, to_facelets
 from .runtime import application_root
@@ -67,8 +69,14 @@ class _PersistentNativeSolver:
         use_edge_pdbs = os.environ.get("CUBE_NATIVE_EDGE_PDBS", "").strip().lower() in {"1", "true", "yes"}
         for flag, path in zip(
             (
-                "--edge-pdb-a", "--edge-pdb-b", "--edge-pdb-c", "--edge-pdb-d",
-                "--edge-pdb-e", "--edge-pdb-f", "--edge-pdb-g", "--edge-pdb-h",
+                "--edge-pdb-a",
+                "--edge-pdb-b",
+                "--edge-pdb-c",
+                "--edge-pdb-d",
+                "--edge-pdb-e",
+                "--edge-pdb-f",
+                "--edge-pdb-g",
+                "--edge-pdb-h",
             ),
             (EDGE_PDB_A, EDGE_PDB_B, EDGE_PDB_C, EDGE_PDB_D, EDGE_PDB_E, EDGE_PDB_F, EDGE_PDB_G, EDGE_PDB_H),
         ):
@@ -76,19 +84,22 @@ class _PersistentNativeSolver:
                 command.extend((flag, str(path.relative_to(ROOT))))
         return command
 
-    def _start_locked(self) -> None:
+    def _start_locked(self, deadline: float | None, cancel_event: threading.Event | None) -> None:
         creation_flags = getattr(subprocess, "CREATE_NO_WINDOW", 0)
-        process = subprocess.Popen(
-            self._command(),
-            cwd=ROOT,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            encoding="utf-8",
-            bufsize=1,
-            creationflags=creation_flags,
-        )
+        try:
+            process = subprocess.Popen(
+                self._command(),
+                cwd=ROOT,
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                encoding="utf-8",
+                bufsize=1,
+                creationflags=creation_flags,
+            )
+        except OSError as exc:
+            raise NativeSolverError(f"native solver service could not start: {exc}") from exc
         lines: queue.Queue[str | None] = queue.Queue()
         self._process = process
         self._lines = lines
@@ -113,11 +124,21 @@ class _PersistentNativeSolver:
         self._stderr_reader = threading.Thread(target=read_stderr, name="cube-native-service-stderr", daemon=True)
         self._reader.start()
         self._stderr_reader.start()
-        try:
-            ready_line = lines.get(timeout=30)
-        except queue.Empty as exc:
-            self._stop_locked()
-            raise NativeSolverError("native solver service did not become ready") from exc
+        startup_deadline = min(time.monotonic() + 30, deadline) if deadline is not None else time.monotonic() + 30
+        while True:
+            if cancel_event is not None and cancel_event.is_set():
+                self._stop_locked()
+                raise NativeSolverCancelled("native solver startup was cancelled")
+            if time.monotonic() >= startup_deadline:
+                self._stop_locked()
+                if deadline is not None and time.monotonic() >= deadline:
+                    raise NativeSolverTimeout("native solver initialization exceeded the deadline")
+                raise NativeSolverError("native solver service did not become ready")
+            try:
+                ready_line = lines.get(timeout=0.05)
+                break
+            except queue.Empty:
+                continue
         if ready_line is None:
             message = self._stderr_lines[-1] if self._stderr_lines else "native solver service failed to start"
             self._stop_locked()
@@ -130,6 +151,9 @@ class _PersistentNativeSolver:
         if ready.get("type") != "ready" or not ready.get("ok"):
             self._stop_locked()
             raise NativeSolverError(str(ready.get("error", "native solver service failed to start")))
+        if ready.get("protocol_version", 0) < 2:
+            self._stop_locked()
+            raise NativeSolverError("native service protocol is outdated; rebuild native/build.ps1")
 
     def _stop_locked(self) -> None:
         process = self._process
@@ -152,40 +176,79 @@ class _PersistentNativeSolver:
             self._stderr_reader.join(timeout=2)
         self._lines = None
 
+    def _send_locked(self, message: str) -> None:
+        assert self._process is not None and self._process.stdin is not None
+        try:
+            self._process.stdin.write(message)
+            self._process.stdin.flush()
+        except (BrokenPipeError, OSError) as exc:
+            self._stop_locked()
+            raise NativeSolverError("native solver service stopped unexpectedly") from exc
+
     def solve(
         self,
         cube: CubieCube,
         max_depth: int,
-        timeout_seconds: float,
+        timeout_seconds: float | None,
         worker_count: int,
         incumbent_moves: list[str] | None,
         cancel_event: threading.Event | None,
         progress_callback: Callable[[dict], None] | None,
+        deadline: float | None = None,
+        incumbent_provider: Callable[[], list[str] | None] | None = None,
     ) -> dict:
-        with self._lock:
+        if deadline is None and timeout_seconds is not None:
+            deadline = time.monotonic() + timeout_seconds
+        while not self._lock.acquire(timeout=0.05):
+            if cancel_event is not None and cancel_event.is_set():
+                raise NativeSolverCancelled("native solver search was cancelled while queued")
+            if deadline is not None and time.monotonic() >= deadline:
+                raise NativeSolverTimeout("native solver deadline expired while queued")
+        try:
+            if cancel_event is not None and cancel_event.is_set():
+                raise NativeSolverCancelled("native solver search was cancelled")
+            if deadline is not None and time.monotonic() >= deadline:
+                raise NativeSolverTimeout("native solver deadline expired")
             if self._process is None or self._process.poll() is not None:
                 self._stop_locked()
-                self._start_locked()
+                self._start_locked(deadline, cancel_event)
             assert self._process is not None and self._process.stdin is not None and self._lines is not None
             incumbent = " ".join(incumbent_moves or [])
-            request = f"{to_facelets(cube)}\t{max_depth}\t{timeout_seconds}\t{worker_count}\t{incumbent}\n"
-            try:
-                self._process.stdin.write(request)
-                self._process.stdin.flush()
-            except (BrokenPipeError, OSError) as exc:
-                self._stop_locked()
-                raise NativeSolverError("native solver service stopped unexpectedly") from exc
+            request_id = uuid.uuid4().hex
+            remaining = 0 if deadline is None else max(0.000001, deadline - time.monotonic())
+            request = (
+                f"solve\t{request_id}\t{to_facelets(cube)}\t{max_depth}\t{remaining}\t{worker_count}\t{incumbent}\n"
+            )
+            self._send_locked(request)
 
+            stop_reason = None
+            stop_sent_at = None
             while True:
-                if cancel_event is not None and cancel_event.is_set():
+                if stop_reason is None:
+                    if cancel_event is not None and cancel_event.is_set():
+                        stop_reason = NativeSolverCancelled("native solver search was cancelled")
+                    elif deadline is not None and time.monotonic() >= deadline:
+                        stop_reason = NativeSolverTimeout("native optimal proof timed out")
+                    if stop_reason is not None:
+                        self._send_locked(f"cancel\t{request_id}\n")
+                        stop_sent_at = time.monotonic()
+                if stop_sent_at is not None and time.monotonic() - stop_sent_at > 5:
                     self._stop_locked()
-                    raise NativeSolverCancelled("native solver search was cancelled")
+                    raise NativeSolverError("native service did not acknowledge cancellation")
+                if stop_reason is None and incumbent_provider is not None:
+                    candidate = incumbent_provider()
+                    candidate_text = " ".join(candidate or [])
+                    if candidate_text and candidate_text != incumbent:
+                        self._send_locked(f"incumbent\t{request_id}\t{candidate_text}\n")
+                        incumbent = candidate_text
                 try:
-                    line = self._lines.get(timeout=0.2)
+                    line = self._lines.get(timeout=0.05)
                 except queue.Empty:
                     continue
                 if line is None:
-                    message = self._stderr_lines[-1] if self._stderr_lines else "native solver service stopped unexpectedly"
+                    message = (
+                        self._stderr_lines[-1] if self._stderr_lines else "native solver service stopped unexpectedly"
+                    )
                     self._stop_locked()
                     raise NativeSolverError(message)
                 try:
@@ -193,14 +256,20 @@ class _PersistentNativeSolver:
                 except json.JSONDecodeError as exc:
                     self._stop_locked()
                     raise NativeSolverError("native solver service returned invalid JSON") from exc
+                if event.get("request_id") != request_id:
+                    continue
                 if event.get("type") == "progress":
                     if progress_callback is not None:
-                        progress_callback(event)
+                        progress_callback({**event, "engine": "native-cpp"})
                     continue
                 if event.get("type") == "error" or not event.get("ok"):
                     raise NativeSolverError(str(event.get("error", "native solver failed")))
                 if event.get("type") == "result":
+                    if stop_reason is not None:
+                        raise stop_reason
                     return event
+        finally:
+            self._lock.release()
 
     def close(self) -> None:
         with self._lock:
@@ -218,6 +287,8 @@ def native_solver_available() -> bool:
 def _validated_result(cube: CubieCube, payload: dict) -> dict:
     if payload.get("status") == "timeout":
         raise NativeSolverTimeout("native optimal proof timed out")
+    if payload.get("status") == "cancelled":
+        raise NativeSolverCancelled("native solver search was cancelled")
     moves = [str(move) for move in payload.get("moves", [])]
     verified = cube
     try:
@@ -242,6 +313,10 @@ def _validated_result(cube: CubieCube, payload: dict) -> dict:
         "tail_exact_queries": int(payload.get("tail_exact_queries", 0)),
         "tail_probes": int(payload.get("tail_probes", 0)),
         "tail_hits": int(payload.get("tail_hits", 0)),
+        "completed_depth": int(payload.get("completed_depth", -1)),
+        "generated_candidates": int(payload.get("generated_candidates", 0)),
+        "phase1_queries": int(payload.get("phase1_queries", 0)),
+        "corner_queries": int(payload.get("corner_queries", 0)),
         "engine": "native-cpp",
     }
 
@@ -250,11 +325,13 @@ def solve_native(
     cube: CubieCube,
     *,
     max_depth: int,
-    timeout_seconds: float,
+    timeout_seconds: float | None,
     incumbent_moves: list[str] | None,
     cancel_event: threading.Event | None,
     threads: int | None = None,
     progress_callback: Callable[[dict], None] | None = None,
+    deadline: float | None = None,
+    incumbent_provider: Callable[[], list[str] | None] | None = None,
 ) -> dict | None:
     if not native_solver_available():
         return None
@@ -268,5 +345,7 @@ def solve_native(
         incumbent_moves,
         cancel_event,
         progress_callback,
+        deadline,
+        incumbent_provider,
     )
     return _validated_result(cube, payload)

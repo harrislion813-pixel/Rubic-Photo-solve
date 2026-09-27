@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import math
+import logging
+import os
 import mimetypes
 import errno
 import socket
@@ -14,12 +16,13 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from cube_app import __version__
-from cube_app.cubie import CubeStateError, CubieCube, from_facelets
+from cube_app.cubie import CubeStateError, CubieCube, from_facelets, to_facelets
 from cube_app.fast import FastTwoPhaseSolver
 from cube_app.native import (
     NativeSolverCancelled,
     NativeSolverError,
     NativeSolverTimeout,
+    native_solver_available,
     solve_native,
 )
 from cube_app.optimal import OptimalSolver, SearchCancelled, SearchTimeout
@@ -50,6 +53,7 @@ QUICK_SOLVE_SECONDS = 1.5
 JOBS: dict[str, dict] = {}
 JOBS_LOCK = threading.Lock()
 OPTIMAL_SEARCH_LOCK = threading.Lock()
+QUICK_SEARCH_LOCK = threading.Lock()
 MAX_JOBS = 100
 DETECTION_PIPELINE = DetectionPipeline() if DetectionPipeline is not None else None
 
@@ -74,15 +78,25 @@ def prepare_optimal_job(
     quick_result,
     max_depth: int,
     timeout_seconds: float | None,
+    *,
+    deadline: float | None = None,
 ) -> tuple[str, threading.Thread]:
+    created = time.monotonic()
+    if deadline is None and timeout_seconds is not None:
+        deadline = created + timeout_seconds
+    state_key = (to_facelets(cube), max_depth, "HTM", 1)
     job_id = uuid.uuid4().hex
     cancel_event = threading.Event()
     with JOBS_LOCK:
+        for existing_id, existing in JOBS.items():
+            if existing.get("_state_key") == state_key and existing.get("status") in {"queued", "running"}:
+                return existing_id, existing["_worker"]
         if len(JOBS) >= MAX_JOBS:
             terminal = [
                 (key, value.get("updated_at", 0.0))
                 for key, value in JOBS.items()
                 if value.get("status") in {"complete", "timeout", "error", "cancelled"}
+                and not value["_worker"].is_alive()
             ]
             remove_count = len(JOBS) - MAX_JOBS + 1
             for key, _ in sorted(terminal, key=lambda item: item[1])[:remove_count]:
@@ -96,18 +110,55 @@ def prepare_optimal_job(
             "updated_at": time.time(),
             "_cancel_event": cancel_event,
             "incumbent_depth": quick_result.depth if quick_result is not None else None,
+            "_state_key": state_key,
+            "_deadline": deadline,
+            "_started_at": created,
+            "_done": threading.Event(),
+            "_incumbent_moves": quick_result.moves if quick_result is not None else None,
+            "engine": "pending",
+            "solution_generation_seconds": 0.0,
         }
 
-    proof_max_depth = min(max_depth, quick_result.depth) if quick_result is not None else max_depth
-    upper_bound = quick_result.depth if quick_result is not None else None
-    incumbent_moves = quick_result.moves if quick_result is not None else None
-    thread = threading.Thread(
-        target=run_optimal_job,
-        args=(job_id, cube, proof_max_depth, timeout_seconds, upper_bound, incumbent_moves, cancel_event),
-        name=f"cube-optimal-{job_id[:8]}",
-        daemon=True,
-    )
-    return job_id, thread
+        proof_max_depth = min(max_depth, quick_result.depth) if quick_result is not None else max_depth
+        upper_bound = quick_result.depth if quick_result is not None else None
+        incumbent_moves = quick_result.moves if quick_result is not None else None
+        thread = threading.Thread(
+            target=run_optimal_job,
+            args=(job_id, cube, proof_max_depth, timeout_seconds, upper_bound, incumbent_moves, cancel_event, deadline),
+            name=f"cube-optimal-{job_id[:8]}",
+            daemon=True,
+        )
+        JOBS[job_id]["_worker"] = thread
+        return job_id, thread
+
+
+def start_optimal_job(job_id: str, worker: threading.Thread) -> None:
+    with JOBS_LOCK:
+        if not JOBS[job_id].get("_started"):
+            JOBS[job_id]["_started"] = True
+            if worker.ident is None:
+                worker.start()
+
+
+def remaining_seconds(deadline: float | None) -> float | None:
+    if deadline is None:
+        return None
+    remaining = deadline - time.monotonic()
+    if remaining <= 0:
+        raise SearchTimeout("搜索超时。")
+    return remaining
+
+
+def generate_quick_solution(cube: CubieCube, deadline: float | None):
+    while not QUICK_SEARCH_LOCK.acquire(timeout=0.05):
+        remaining_seconds(deadline)
+    try:
+        if FAST_SOLVER._tables is None and PROBE_SOLVER._tables is not None:
+            FAST_SOLVER._tables = PROBE_SOLVER._tables
+        budget = min(QUICK_SOLVE_SECONDS, remaining_seconds(deadline) or QUICK_SOLVE_SECONDS)
+        return FAST_SOLVER.solve_cube(cube, timeout_seconds=budget)
+    finally:
+        QUICK_SEARCH_LOCK.release()
 
 
 def update_job(job_id: str, **values: object) -> None:
@@ -127,56 +178,105 @@ def run_optimal_job(
     upper_bound: int | None = None,
     incumbent_moves: list[str] | None = None,
     cancel_event: threading.Event | None = None,
+    deadline: float | None = None,
 ) -> None:
-    with OPTIMAL_SEARCH_LOCK:
+    started = time.monotonic()
+    if deadline is None and timeout_seconds is not None:
+        deadline = started + timeout_seconds
+    acquired = False
+    try:
+        while not acquired:
+            if cancel_event is not None and cancel_event.is_set():
+                raise SearchCancelled("搜索已取消。")
+            remaining_seconds(deadline)
+            acquired = OPTIMAL_SEARCH_LOCK.acquire(timeout=0.05)
         if cancel_event is not None and cancel_event.is_set():
-            update_job(job_id, status="cancelled", message="搜索已取消。")
-            return
+            raise SearchCancelled("搜索已取消。")
         update_job(job_id, status="running")
+
+        def report_progress(progress: dict) -> None:
+            update_job(job_id, progress=progress, engine=progress.get("engine", "python"))
+
+        def incumbent_provider() -> list[str] | None:
+            with JOBS_LOCK:
+                return JOBS.get(job_id, {}).get("_incumbent_moves", incumbent_moves)
+
         try:
-            def report_progress(progress: dict) -> None:
-                update_job(job_id, progress=progress)
+            update_job(job_id, engine="native-cpp")
+            native_result = solve_native(
+                cube,
+                max_depth=max_depth,
+                timeout_seconds=remaining_seconds(deadline),
+                incumbent_moves=incumbent_moves,
+                cancel_event=cancel_event,
+                progress_callback=report_progress,
+                deadline=deadline,
+                incumbent_provider=incumbent_provider,
+                threads=min(32, max(1, (os.cpu_count() or 1) - 1)),
+            )
+        except NativeSolverCancelled as exc:
+            raise SearchCancelled(str(exc)) from exc
+        except NativeSolverTimeout as exc:
+            raise SearchTimeout(str(exc)) from exc
+        except NativeSolverError as exc:
+            logging.warning("原生求解失败，使用剩余预算回退 Python: %s", exc)
+            update_job(job_id, fallback_reason=str(exc))
+            native_result = None
+        if native_result is not None:
+            if cancel_event is not None and cancel_event.is_set():
+                raise SearchCancelled("搜索已取消。")
+            update_job(job_id, status="complete", result=native_result)
+            return
+        update_job(job_id, engine="python")
+        with JOBS_LOCK:
+            if "fallback_reason" not in JOBS.get(job_id, {}):
+                update_reason = "原生程序或必需的 PDB 文件不可用。"
+            else:
+                update_reason = None
+        if update_reason:
+            update_job(job_id, fallback_reason=update_reason)
+        incumbent_moves = incumbent_provider()
+        upper_bound = len(incumbent_moves) if incumbent_moves else upper_bound
 
-            if timeout_seconds is not None:
-                try:
-                    native_result = solve_native(
-                        cube,
-                        max_depth=max_depth,
-                        timeout_seconds=timeout_seconds,
-                        incumbent_moves=incumbent_moves,
-                        cancel_event=cancel_event,
-                        progress_callback=report_progress,
-                    )
-                except NativeSolverCancelled as exc:
-                    raise SearchCancelled(str(exc)) from exc
-                except NativeSolverTimeout as exc:
-                    raise SearchTimeout(str(exc)) from exc
-                except NativeSolverError:
-                    native_result = None
-                if native_result is not None:
-                    if cancel_event is not None and cancel_event.is_set():
-                        raise SearchCancelled("搜索已取消。")
-                    update_job(job_id, status="complete", result=native_result)
-                    return
-
+        try:
             result = SOLVER.solve_cube(
                 cube,
                 max_depth=max_depth,
-                timeout_seconds=timeout_seconds,
+                timeout_seconds=remaining_seconds(deadline),
+                deadline=deadline,
                 upper_bound=upper_bound,
                 incumbent_moves=incumbent_moves,
                 cancel_event=cancel_event,
                 progress_callback=report_progress,
             )
-            if cancel_event is not None and cancel_event.is_set():
-                raise SearchCancelled("搜索已取消。")
-            update_job(job_id, status="complete", result=result_payload(result))
-        except SearchCancelled as exc:
-            update_job(job_id, status="cancelled", message=str(exc))
-        except SearchTimeout as exc:
-            update_job(job_id, status="timeout", message=str(exc))
-        except Exception as exc:  # pragma: no cover - background safety net.
-            update_job(job_id, status="error", message=str(exc))
+        except PermissionError:
+            result = PROBE_SOLVER.solve_cube(
+                cube,
+                max_depth=max_depth,
+                timeout_seconds=remaining_seconds(deadline),
+                deadline=deadline,
+                upper_bound=upper_bound,
+                incumbent_moves=incumbent_moves,
+                cancel_event=cancel_event,
+                progress_callback=report_progress,
+            )
+        if cancel_event is not None and cancel_event.is_set():
+            raise SearchCancelled("搜索已取消。")
+        update_job(job_id, status="complete", result={**result_payload(result), "engine": "python"})
+    except SearchCancelled as exc:
+        update_job(job_id, status="cancelled", message=str(exc))
+    except SearchTimeout as exc:
+        update_job(job_id, status="timeout", message=str(exc))
+    except Exception as exc:  # pragma: no cover - background safety net.
+        update_job(job_id, status="error", message=str(exc))
+    finally:
+        if acquired:
+            OPTIMAL_SEARCH_LOCK.release()
+        with JOBS_LOCK:
+            job = JOBS.get(job_id)
+            if job is not None:
+                job["proof_elapsed_seconds"] = round(time.monotonic() - started, 3)
+                job["_done"].set()
 
 
 class ExclusiveThreadingHTTPServer(ThreadingHTTPServer):
@@ -201,11 +301,15 @@ class AppHandler(BaseHTTPRequestHandler):
             job_id = path.removeprefix("/api/solve/").strip("/")
             with JOBS_LOCK:
                 job = JOBS.get(job_id)
-                snapshot = None if job is None else {
-                    key: value
-                    for key, value in job.items()
-                    if key not in {"created_at", "updated_at"} and not key.startswith("_")
-                }
+                snapshot = (
+                    None
+                    if job is None
+                    else {
+                        key: value
+                        for key, value in job.items()
+                        if key not in {"created_at", "updated_at"} and not key.startswith("_")
+                    }
+                )
                 if snapshot is not None and snapshot.get("status") == "queued":
                     queued = sorted(
                         (value.get("created_at", 0.0), key)
@@ -258,11 +362,7 @@ class AppHandler(BaseHTTPRequestHandler):
             return
         if parsed.path == "/api/detect":
             try:
-                if (
-                    decode_data_url is None
-                    or DETECTION_PIPELINE is None
-                    or assess_detected_face_quality is None
-                ):
+                if decode_data_url is None or DETECTION_PIPELINE is None or assess_detected_face_quality is None:
                     self._send_json({"ok": False, "error": "OpenCV 检测器不可用"}, status=503)
                     return
                 payload = self._read_json()
@@ -332,42 +432,99 @@ class AppHandler(BaseHTTPRequestHandler):
 
             cube = from_facelets(facelets)
 
-            shared_tables = PROBE_SOLVER.tables
-            if SOLVER._tables is None:
-                SOLVER._tables = shared_tables
-            if FAST_SOLVER._tables is None:
-                FAST_SOLVER._tables = shared_tables
-
-            probe_seconds = QUICK_OPTIMAL_PROBE_SECONDS
-            if timeout_seconds is not None:
-                probe_seconds = min(probe_seconds, timeout_seconds)
-            try:
-                result = PROBE_SOLVER.solve_cube(cube, max_depth=max_depth, timeout_seconds=probe_seconds)
-            except SearchTimeout:
-                result = None
-
-            if result is not None:
-                self._send_json({"ok": True, **result_payload(result), "proof_status": "complete"})
-                return
-
-            quick_seconds = QUICK_SOLVE_SECONDS
-            if timeout_seconds is not None:
-                quick_seconds = min(quick_seconds, max(0.1, timeout_seconds - probe_seconds))
-            try:
-                quick_result = FAST_SOLVER.solve_cube(cube, timeout_seconds=quick_seconds)
-            except SearchTimeout:
-                quick_result = None
-
-            job_id, thread = prepare_optimal_job(cube, quick_result, max_depth, timeout_seconds)
-            thread.start()
+            request_started = time.monotonic()
+            deadline = None if timeout_seconds is None else request_started + timeout_seconds
+            quick_result = None
+            if native_solver_available():
+                job_id, worker = prepare_optimal_job(cube, None, max_depth, timeout_seconds, deadline=deadline)
+                start_optimal_job(job_id, worker)
+                with JOBS_LOCK:
+                    done = JOBS[job_id]["_done"]
+                done.wait(min(QUICK_OPTIMAL_PROBE_SECONDS, timeout_seconds or QUICK_OPTIMAL_PROBE_SECONDS))
+                with JOBS_LOCK:
+                    snapshot = dict(JOBS[job_id])
+                    generate = not snapshot.get("_generator_started") and snapshot["status"] in {"queued", "running"}
+                    if generate:
+                        JOBS[job_id]["_generator_started"] = True
+                if snapshot["status"] == "complete":
+                    self._send_json(
+                        {
+                            "ok": True,
+                            **snapshot["result"],
+                            "proof_status": "complete",
+                            "solution_generation_seconds": 0.0,
+                            "proof_elapsed_seconds": snapshot.get("proof_elapsed_seconds", 0.0),
+                        }
+                    )
+                    return
+                if generate:
+                    generation_started = time.monotonic()
+                    try:
+                        quick_result = generate_quick_solution(cube, deadline)
+                    except SearchTimeout:
+                        pass
+                    generation_seconds = round(time.monotonic() - generation_started, 3)
+                    if quick_result is not None:
+                        update_job(
+                            job_id,
+                            _incumbent_moves=quick_result.moves,
+                            incumbent_depth=quick_result.depth,
+                            candidate_result=result_payload(quick_result),
+                        )
+                    update_job(job_id, solution_generation_seconds=generation_seconds)
+                with JOBS_LOCK:
+                    snapshot = dict(JOBS[job_id])
+                if snapshot["status"] == "complete":
+                    self._send_json(
+                        {
+                            "ok": True,
+                            **snapshot["result"],
+                            "proof_status": "complete",
+                            "solution_generation_seconds": snapshot["solution_generation_seconds"],
+                            "proof_elapsed_seconds": snapshot.get("proof_elapsed_seconds", 0.0),
+                        }
+                    )
+                    return
+                quick_payload = snapshot.get("candidate_result")
+            else:
+                probe_budget = min(
+                    QUICK_OPTIMAL_PROBE_SECONDS, remaining_seconds(deadline) or QUICK_OPTIMAL_PROBE_SECONDS
+                )
+                probe_deadline = time.monotonic() + probe_budget
+                try:
+                    result = PROBE_SOLVER.solve_cube(
+                        cube,
+                        max_depth=max_depth,
+                        timeout_seconds=probe_budget,
+                        deadline=min(deadline, probe_deadline) if deadline else probe_deadline,
+                    )
+                except SearchTimeout:
+                    result = None
+                if result is not None:
+                    self._send_json(
+                        {"ok": True, **result_payload(result), "engine": "python", "proof_status": "complete"}
+                    )
+                    return
+                try:
+                    quick_result = generate_quick_solution(cube, deadline)
+                except SearchTimeout:
+                    pass
+                job_id, worker = prepare_optimal_job(cube, quick_result, max_depth, timeout_seconds, deadline=deadline)
+                start_optimal_job(job_id, worker)
+                with JOBS_LOCK:
+                    snapshot = dict(JOBS[job_id])
+                quick_payload = result_payload(quick_result) if quick_result else None
             response = {
                 "ok": True,
                 "job_id": job_id,
-                "proof_status": "queued",
+                "proof_status": snapshot["status"],
                 "optimal": False,
+                "engine": snapshot["engine"],
+                "solution_generation_seconds": snapshot.get("solution_generation_seconds", 0.0),
+                "request_elapsed_seconds": round(time.monotonic() - request_started, 3),
             }
-            if quick_result is not None:
-                response.update(result_payload(quick_result))
+            if quick_payload:
+                response.update(quick_payload)
             else:
                 response.update(
                     {
@@ -375,8 +532,8 @@ class AppHandler(BaseHTTPRequestHandler):
                         "solution": "",
                         "depth": None,
                         "metric": "HTM",
-                        "elapsed_seconds": round(probe_seconds + quick_seconds, 3),
-                        "message": "快速搜索暂未找到解法，正在后台继续严格搜索。",
+                        "elapsed_seconds": 0.0,
+                        "message": "正在后台严格搜索。",
                     }
                 )
             self._send_json(response)

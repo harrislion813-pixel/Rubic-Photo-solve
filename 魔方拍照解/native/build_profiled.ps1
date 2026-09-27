@@ -1,5 +1,6 @@
 param(
-    [string]$Compiler = "C:\msys64\ucrt64\bin\g++.exe"
+    [string]$Compiler = "C:\msys64\ucrt64\bin\g++.exe",
+    [double]$TrainingTimeout = 30
 )
 
 $ErrorActionPreference = "Stop"
@@ -36,6 +37,7 @@ $common = @(
     "-march=native",
     "-mtune=native",
     "-flto",
+    "-fprofile-update=atomic",
     "-DNDEBUG",
     "-Wall",
     "-Wextra",
@@ -62,15 +64,12 @@ try {
     try {
         $ErrorActionPreference = "Continue"
         try {
-            & $trainingTarget solve `
-                "RFLLURLRRDFULRRBDLUBFUFULDRDLDRDBFFDUBFULFRUBBLBDBBFDU" `
-                --max-depth 16 `
-                --timeout 120 `
-                --threads ([Environment]::ProcessorCount) `
-                --pdb ".cache/native/corner_htm_v2.pdb" `
-                --phase1-pdb ".cache/native/phase1_sym_htm_v2.pdb" `
-                --tail-pdb ".cache/native/tail_depth6_v4.pdb" `
-                --incumbent "D L' D F2 D2 L' U' R U2 F2 L F' U2 L U B" 2>$null | Out-Null
+            $trainingPython = Join-Path $projectRoot ".venv\Scripts\python.exe"
+            if (-not (Test-Path -LiteralPath $trainingPython)) { $trainingPython = "python" }
+            & $trainingPython tests\benchmark_native.py --binary $trainingTarget `
+                --cases-file tests\native_pgo_cases.json --cases all --variants staged --repeats 1 `
+                --threads ([Environment]::ProcessorCount) --timeout $TrainingTimeout `
+                --output .cache\native-pgo-training.json
             $trainingExitCode = $LASTEXITCODE
         } finally {
             $ErrorActionPreference = "Stop"
@@ -84,6 +83,15 @@ try {
         "-fprofile-prefix-path=$prefix" -o "build\cube_solver_profiled.exe"
     if ($LASTEXITCODE -ne 0) { throw "PGO optimized build failed with exit code $LASTEXITCODE" }
     Move-Item -LiteralPath $trainingTarget -Destination $target -Force
+    [ordered]@{
+        compiler = (& $compiler --version | Select-Object -First 1)
+        flags = ($common -join " ") + " -fprofile-use -fprofile-correction"
+        profile_guided = $true
+        built_at = [DateTime]::UtcNow.ToString("o")
+        binary_sha256 = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash
+        training_cases_sha256 = (Get-FileHash -LiteralPath (Join-Path $projectRoot "tests\native_pgo_cases.json") -Algorithm SHA256).Hash
+        training_timeout = $TrainingTimeout
+    } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $buildDirectory "build-info.json") -Encoding utf8
 } finally {
     Pop-Location
     $resolvedProfile = [System.IO.Path]::GetFullPath($profileDirectory)

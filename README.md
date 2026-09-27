@@ -24,7 +24,7 @@
 
 - 本地网页界面：服务默认只监听 `127.0.0.1`，照片和识别数据不会上传到云端。
 - 二阶识别与求解：没有中心块，自动从 24 个色块恢复 6 种颜色，并按 HTM 求严格最少步数。
-- 三阶识别与混合求解：先返回可执行的快速解，再在后台逐深度验证更短解；验证完成后自动替换为严格结果。
+- 三阶识别与混合求解：优先启动原生严格证明，困难状态同时生成可执行的快速解；验证完成后自动替换为严格结果。
 - 多候选视觉检测：OpenCV 检测器返回候选四角、置信度和质量信息；浏览器检测器可作为降级路径。
 - 人工校正：可旋转单面网格、拖动四角透视区域、修改非中心色块颜色。
 - Windows 便携发布：发布 ZIP 自带运行所需的应用文件、OpenCV、C++ 求解器和基础 PDB 表。
@@ -58,7 +58,7 @@ Set-Location .\魔方拍照解
 6. 保持命令行窗口打开。看到类似下面的输出说明服务已启动：
 
    ```text
-   魔方最短解应用 1.3.1 已启动: http://127.0.0.1:8765/
+   魔方最短解应用 1.4.0 已启动: http://127.0.0.1:8765/
    ```
 
 7. 浏览器通常会自动打开；没有自动打开时，把终端打印的完整地址复制到浏览器。
@@ -128,7 +128,7 @@ python server.py
 Invoke-RestMethod http://127.0.0.1:8765/api/version
 ```
 
-预期返回 `ok=True`、`version=1.3.1`。随后用浏览器打开同一地址的根路径。
+预期返回 `ok=True`、`version=1.4.0`。随后用浏览器打开同一地址的根路径。
 
 #### 第 7 步：停止服务
 
@@ -259,7 +259,7 @@ g++ --version
 .\.venv\Scripts\python.exe server.py
 ```
 
-无需额外开关。三阶后台严格证明会优先调用原生核心；二阶继续使用专用角块 IDA*；前台快速解和照片识别流程保持不变。
+无需额外开关。三阶后台严格证明会优先调用原生核心；二阶使用准确距离表；较难三阶状态同时生成快速解，照片识别流程保持不变。
 
 #### 第 7 步：可选启用实验性 Edge PDB
 
@@ -354,7 +354,7 @@ $env:CUBE_NATIVE_EDGE_PDBS = "1"
 
 ### 二阶（2×2）
 
-二阶没有中心块。应用会把 24 个采样色块聚成 6 组、每组 4 个，再利用 8 个角块的颜色组合和朝向约束确定颜色标签。求解器只建模角块排列与扭转，把整体旋转的 24 种空间朝向视作同一个复原状态，按深度递增 IDA* 搜索，最大深度为 11；返回时 `proof_status` 为 `complete`。
+二阶没有中心块。应用会把 24 个采样色块聚成 6 组、每组 4 个，再利用 8 个角块的颜色组合和朝向约束确定颜色标签。求解器把整体旋转的 24 种空间朝向视作同一个复原状态，固定 DBL 角块后用准确 HTM 距离表覆盖 3,674,160 个状态，沿距离递减的动作直接返回严格最短解。最大距离为 11，返回时 `proof_status` 为 `complete`。距离与转移表带版本和 SHA-256 校验，Windows 便携包随附缓存；源码环境可运行 `python -m cube_app.two_by_two_tables` 提前生成。
 
 ### 三阶（3×3）
 
@@ -362,14 +362,16 @@ $env:CUBE_NATIVE_EDGE_PDBS = "1"
 
 ```text
 输入 facelets
-    ├─ 短时严格探测 ─ 找到证明解 ─ 直接返回 complete
-    └─ 快速求解 ─ 返回候选解 ─ 后台 IDA* / C++ 核心继续证明
-                              ├─ complete：严格最短已证明
-                              ├─ timeout：候选可用，但未完成证明
-                              └─ cancelled / error：任务被取消或失败
+    └─ 原生严格证明 ──短时完成──立即返回 complete
+                   └─ 较难状态同时生成快速解，更新活动证明的上界
+                       ├─ complete：严格最短已证明
+                       ├─ timeout：候选可用，但未完成证明
+                       └─ cancelled / error：任务被取消或失败
 ```
 
 后台按深度从小到大，只搜索比当前候选更短的深度。超时表示证明尚未完成，不代表候选解错误；极难状态的严格证明可能耗时较久。
+
+原生搜索使用紧凑棱排列、三轴同值加强下界和分阶段展开，完整 PDB 可用时省略小表查询。取消可保留原生进程，重复活动请求复用任务，完整证明深度在进程内缓存；排队、初始化、搜索和回退共享绝对截止时间。实现范围、可复现基准和实验项见[性能重构记录](魔方拍照解/docs/performance-refactor-2026-09-27.md)。
 
 ## 项目结构
 
@@ -405,7 +407,7 @@ $env:CUBE_NATIVE_EDGE_PDBS = "1"
 返回当前服务版本：
 
 ```json
-{"ok": true, "version": "1.3.1"}
+{"ok": true, "version": "1.4.0"}
 ```
 
 ### `POST /api/detect`
@@ -452,7 +454,7 @@ node tests\two_by_two_color.test.js
 node tests\solver_ui.test.js
 python -m pytest -ra
 python -m compileall cube_app server.py windows_launcher.py
-python release\check_version.py --tag v1.3.1
+python release\check_version.py --tag v1.4.0
 ```
 
 CI 对 `cube_app` 和 `server.py` 执行至少 70% 的分支覆盖率门禁；依赖本地 EXE/PDB 或实拍图片的用例会在资源缺失时跳过。视觉标注基准使用：
@@ -515,7 +517,7 @@ git tag --list "v*" --sort=-version:refname
 ### 第 4 步：验证版本和完整测试
 
 ```powershell
-.\.venv\Scripts\python.exe release\check_version.py --tag v1.3.1
+.\.venv\Scripts\python.exe release\check_version.py --tag v1.4.0
 .\tests\check.ps1
 ```
 
@@ -525,13 +527,13 @@ git tag --list "v*" --sort=-version:refname
 git status --short
 git diff --check
 git diff
-git add -- ..\README.md README.md CHANGELOG.md cube_app\__init__.py tests\test_runtime.py tests\test_two_by_two.py
+git add -- ..\README.md README.md CHANGELOG.md cube_app native release docs tests server.py web pyproject.toml
 git diff --cached
-git commit -m "Fix Linux CI and release v1.3.1"
+git commit -m "Release v1.4.0 with optimal search performance improvements"
 git status --short
 ```
 
-这些路径对应当前 `v1.3.1` 修复。以后发布时应按 `git status` 列出的实际改动调整文件列表。`git diff --cached` 用于最后确认待提交内容；最后一条 `git status --short` 应无输出。
+提交文件应覆盖当前版本的全部改动。以后发布时应按 `git status` 列出的实际改动调整文件列表。`git diff --cached` 用于最后确认待提交内容；最后一条 `git status --short` 应无输出。
 
 ### 第 6 步：构建并创建本地标签
 
@@ -544,16 +546,16 @@ git status --short
 ### 第 7 步：检查产物
 
 ```powershell
-Get-Item .\dist\RubicPhotoSolve-1.3.1-windows-x64.zip
-Get-FileHash .\dist\RubicPhotoSolve-1.3.1-windows-x64.zip -Algorithm SHA256
-git show --no-patch v1.3.1
+Get-Item .\dist\RubicPhotoSolve-1.4.0-windows-x64.zip
+Get-FileHash .\dist\RubicPhotoSolve-1.4.0-windows-x64.zip -Algorithm SHA256
+git show --no-patch v1.4.0
 ```
 
 ### 第 8 步：推送并等待发布
 
 ```powershell
 git push origin main
-git push origin v1.3.1
+git push origin v1.4.0
 ```
 
 只有 `v*` 标签推送会触发 GitHub Release。依次在 Actions 页面确认 Version、Lint、Python、Frontend、Native Windows 和 Publish Release 成功；任一前置任务失败时不会创建 Release。

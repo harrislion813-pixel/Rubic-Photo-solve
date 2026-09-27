@@ -135,9 +135,10 @@ def load_or_build(cache_directory: str, deadline: float | None = None) -> tuple[
 
 if __name__ == "__main__":
     import argparse
+    from .runtime import application_root
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--cache-dir", default=str(Path(__file__).resolve().parents[1] / ".cache"))
+    parser.add_argument("--cache-dir", default=str(application_root() / ".cache"))
     args = parser.parse_args()
     started = time.monotonic()
     tables = load_or_build(args.cache_dir)

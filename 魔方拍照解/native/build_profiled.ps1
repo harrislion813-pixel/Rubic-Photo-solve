@@ -50,6 +50,7 @@ $common = @(
     "src\tail.cpp",
     "src\main.cpp",
     "-pthread",
+    "-municode",
     "-static"
 )
 

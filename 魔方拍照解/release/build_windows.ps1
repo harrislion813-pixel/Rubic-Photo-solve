@@ -23,7 +23,8 @@ $cornerPdb = Join-Path $nativeCache "corner_htm_v2.pdb"
 $phase1Pdb = Join-Path $nativeCache "phase1_sym_htm_v2.pdb"
 $tailPdb = Join-Path $nativeCache "tail_depth6_v4.pdb"
 $pythonTables = Join-Path $projectRoot ".cache\solver_tables_v3.pkl"
-$requiredAssets = @($nativeExe, $cornerPdb, $phase1Pdb, $pythonTables)
+$twoByTwoTables = Join-Path $projectRoot ".cache\two_by_two_htm_v1.bin"
+$requiredAssets = @($nativeExe, $cornerPdb, $phase1Pdb, $pythonTables, $twoByTwoTables)
 
 function Assert-FreeSpace {
     param([long]$RequiredBytes, [string]$Purpose)
@@ -75,6 +76,10 @@ try {
         if ($LASTEXITCODE -ne 0) { throw "Python solver-table generation failed with exit code $LASTEXITCODE" }
     }
 
+    Write-Progress -Activity "Building Windows release" -Status "Preparing verified 2x2 distance tables" -PercentComplete 40
+    & $Python -m cube_app.two_by_two_tables
+    if ($LASTEXITCODE -ne 0) { throw "2x2 distance-table generation failed with exit code $LASTEXITCODE" }
+
     foreach ($asset in $requiredAssets) { Assert-Asset $asset }
     if ($IncludeTailPdb) { Assert-Asset $tailPdb }
     Assert-FreeSpace 1.5GB "Portable package assembly"
@@ -112,6 +117,7 @@ try {
     Copy-Item -LiteralPath $nativeExe -Destination (Join-Path $packageRoot "native\build\cube_solver.exe") -Force
     New-Item -ItemType Directory -Force -Path (Join-Path $packageRoot ".cache\native") | Out-Null
     Copy-Item -LiteralPath $pythonTables -Destination (Join-Path $packageRoot ".cache\solver_tables_v3.pkl") -Force
+    Copy-Item -LiteralPath $twoByTwoTables -Destination (Join-Path $packageRoot ".cache\two_by_two_htm_v1.bin") -Force
     Copy-Item -LiteralPath $cornerPdb, $phase1Pdb -Destination (Join-Path $packageRoot ".cache\native") -Force
     if ($IncludeTailPdb) {
         Copy-Item -LiteralPath $tailPdb -Destination (Join-Path $packageRoot ".cache\native\tail_depth6_v4.pdb") -Force

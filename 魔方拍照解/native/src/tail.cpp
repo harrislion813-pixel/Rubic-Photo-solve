@@ -1,4 +1,5 @@
 #include "tail.hpp"
+#include "paths.hpp"
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -653,7 +654,8 @@ void build_tail_database(const std::filesystem::path &path, int depth, int threa
     header.reserved[1] = mix_checksum(metadata_checksum ^ std::rotl(bloom_checksum, 17));
     header.reserved[2] = kBloomChecksumMarker;
 
-    const std::filesystem::path temporary = path.string() + ".tmp";
+    auto temporary = path;
+    temporary += ".tmp";
     {
         std::ofstream output(temporary, std::ios::binary | std::ios::trunc);
         if (!output)
@@ -673,7 +675,7 @@ void build_tail_database(const std::filesystem::path &path, int depth, int threa
     if (error)
         throw std::runtime_error("cannot atomically publish tail database: " + error.message());
     std::cerr << "tail-db complete depth=" << depth << " states=" << state_count << " slots=" << slot_count
-              << " file=" << path.string() << "\n";
+              << " file=" << utf8_path(path) << "\n";
 }
 
 } // namespace cube

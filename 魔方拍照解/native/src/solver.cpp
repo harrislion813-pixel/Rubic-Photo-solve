@@ -558,8 +558,8 @@ parallel_depth_search(const CoordinateTables &tables, const Phase1PatternDatabas
 } // namespace
 
 CoordinateTables::CoordinateTables() {
-    const char *configured_cache = std::getenv("CUBE_NATIVE_COORDINATE_CACHE");
-    const std::filesystem::path cache = configured_cache ? configured_cache : ".cache/native/coordinates_htm_v1.bin";
+    const wchar_t *configured_cache = _wgetenv(L"CUBE_NATIVE_COORDINATE_CACHE");
+    const std::filesystem::path cache = configured_cache ? configured_cache : L".cache/native/coordinates_htm_v1.bin";
     if (!cache.empty() && load_cache(cache))
         return;
     twist_move_ = build_move_table(kTwistCount, cube_from_twist, twist_coord);

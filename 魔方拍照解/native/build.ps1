@@ -64,6 +64,7 @@ try {
         src\main.cpp `
         -pthread `
         -static `
+        -municode `
         -o build\cube_solver.exe
 } finally {
     Pop-Location
@@ -75,7 +76,7 @@ if ($LASTEXITCODE -ne 0) {
 
 $buildInfo = [ordered]@{
     compiler = (& $compilerPath --version | Select-Object -First 1)
-    flags = "-std=c++20 -O3 -march=native -mtune=native -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static"
+    flags = "-std=c++20 -O3 -march=native -mtune=native -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode"
     profile_guided = $false
     built_at = [DateTime]::UtcNow.ToString("o")
     binary_sha256 = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash

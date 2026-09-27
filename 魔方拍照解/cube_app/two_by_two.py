@@ -6,6 +6,7 @@ from functools import lru_cache
 import time
 from pathlib import Path
 
+from .runtime import application_root
 from .two_by_two_tables import coordinates, load_or_build
 from .cubie import (
     CORNER_COLORS,
@@ -147,7 +148,7 @@ def _normalizations() -> tuple[tuple[CubieCube, tuple[int, ...]], ...]:
 
 class TwoByTwoSolver:
     def __init__(self, cache_dir: str | Path | None = None) -> None:
-        self.cache_dir = Path(cache_dir) if cache_dir is not None else Path(__file__).resolve().parents[1] / ".cache"
+        self.cache_dir = Path(cache_dir) if cache_dir is not None else application_root() / ".cache"
         self._tables = None
 
     def solve_facelets(

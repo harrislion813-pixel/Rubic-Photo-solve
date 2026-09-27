@@ -42,7 +42,7 @@ class NativeCommandMixin:
 )
 class NativeBinaryTests(NativeCommandMixin, unittest.TestCase):
     def test_coordinate_cache_corruption_is_rebuilt(self):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(prefix="魔方 缓存🧩-") as directory:
             path = os.path.join(directory, "coordinates.bin")
             environment = {**os.environ, "CUBE_NATIVE_COORDINATE_CACHE": path}
 
@@ -90,6 +90,19 @@ class NativeBinaryTests(NativeCommandMixin, unittest.TestCase):
         first = self.run_native("validate", to_facelets(cube))
         second = self.run_native("validate", first["inverse_facelets"])
         self.assertEqual(second["inverse_facelets"], to_facelets(cube))
+
+    def test_tail_database_builds_and_loads_in_unicode_directory(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="魔方 尾表🧩-") as directory:
+            path = os.path.join(directory, "tail.pdb")
+            built = self.run_native("build-tail-pdb", path, "--depth", "1", "--threads", "2")
+            self.assertEqual(built["depth"], 1)
+            cube = CubieCube().apply_move_index(MOVE_INDEX["R"])
+            result = self.run_native("solve", to_facelets(cube), "--max-depth", "1", "--tail-pdb", path)
+            self.assertEqual(result["depth"], 1)
+            self.assertTrue(result["optimal"])
+            for name in result["moves"]:
+                cube = cube.apply_move_index(MOVE_INDEX[name])
+            self.assertTrue(cube.is_solved())
 
     def test_phase1_symmetry_has_expected_class_count(self) -> None:
         result = self.run_native("symmetry-info")
@@ -146,7 +159,7 @@ class NativePdbSolverTests(NativeCommandMixin, unittest.TestCase):
         self.assertEqual(result["small_pdb_queries"], 0)
 
     def test_partial_pdb_keeps_small_table_fallback(self):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(prefix="魔方 剪枝🧩-") as directory:
             path = os.path.join(directory, "partial.pdb")
             self.run_native("build-corner-pdb", path, "--coverage-depth", "0", "--threads", "2")
             phase1 = os.path.join(directory, "partial-phase1.pdb")

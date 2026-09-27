@@ -1,4 +1,5 @@
 #include "pdb.hpp"
+#include "paths.hpp"
 
 #include "solver.hpp"
 #include "symmetry.hpp"
@@ -445,7 +446,8 @@ void build_corner_pattern_database(const std::filesystem::path &path, const Coor
     header.data_bytes = packed.size();
     header.reserved[0] = checksum_bytes(packed.data(), packed.size());
 
-    const std::filesystem::path temporary = path.string() + ".tmp";
+    auto temporary = path;
+    temporary += ".tmp";
     {
         std::ofstream output(temporary, std::ios::binary | std::ios::trunc);
         if (!output)
@@ -462,8 +464,8 @@ void build_corner_pattern_database(const std::filesystem::path &path, const Coor
     std::filesystem::rename(temporary, path, error);
     if (error)
         throw std::runtime_error("cannot atomically publish corner PDB: " + error.message());
-    std::cerr << "corner-pdb complete=" << complete << " unknown=" << unknown_count.load() << " file=" << path.string()
-              << "\n";
+    std::cerr << "corner-pdb complete=" << complete << " unknown=" << unknown_count.load()
+              << " file=" << utf8_path(path) << "\n";
 }
 
 void build_edge_pattern_database(const std::filesystem::path &path, int group, int threads, int coverage_depth,
@@ -594,7 +596,8 @@ void build_edge_pattern_database(const std::filesystem::path &path, int group, i
     header.data_bytes = packed.size();
     header.reserved[0] = checksum_bytes(packed.data(), packed.size());
 
-    const std::filesystem::path temporary = path.string() + ".tmp";
+    auto temporary = path;
+    temporary += ".tmp";
     {
         std::ofstream output(temporary, std::ios::binary | std::ios::trunc);
         if (!output)
@@ -612,7 +615,7 @@ void build_edge_pattern_database(const std::filesystem::path &path, int group, i
     if (error)
         throw std::runtime_error("cannot atomically publish edge PDB: " + error.message());
     std::cerr << "edge-pdb-" << group << " complete=" << complete << " unknown=" << unknown_count.load()
-              << " file=" << path.string() << "\n";
+              << " file=" << utf8_path(path) << "\n";
 }
 
 void build_phase1_pattern_database(const std::filesystem::path &path, const CoordinateTables &tables, int threads,
@@ -788,7 +791,8 @@ void build_phase1_pattern_database(const std::filesystem::path &path, const Coor
     header.data_bytes = packed.size();
     header.reserved[0] = checksum_bytes(packed.data(), packed.size());
 
-    const std::filesystem::path temporary = path.string() + ".tmp";
+    auto temporary = path;
+    temporary += ".tmp";
     {
         std::ofstream output(temporary, std::ios::binary | std::ios::trunc);
         if (!output)
@@ -805,8 +809,8 @@ void build_phase1_pattern_database(const std::filesystem::path &path, const Coor
     std::filesystem::rename(temporary, path, error);
     if (error)
         throw std::runtime_error("cannot atomically publish phase-1 PDB: " + error.message());
-    std::cerr << "phase1-pdb complete=" << complete << " unknown=" << unknown_count.load() << " file=" << path.string()
-              << "\n";
+    std::cerr << "phase1-pdb complete=" << complete << " unknown=" << unknown_count.load()
+              << " file=" << utf8_path(path) << "\n";
 }
 
 } // namespace cube

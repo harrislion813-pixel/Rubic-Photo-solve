@@ -1,8 +1,14 @@
 #include "cube.hpp"
+#include "paths.hpp"
 #include "pdb.hpp"
 #include "solver.hpp"
 #include "symmetry.hpp"
 #include "tail.hpp"
+
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
 
 #include <algorithm>
 #include <array>
@@ -183,9 +189,9 @@ void check_heuristic(int argc, char **argv) {
         if (flag == "--depth" && i + 1 < argc)
             depth_limit = std::stoi(argv[++i]);
         else if (flag == "--pdb" && i + 1 < argc)
-            corner_path = argv[++i];
+            corner_path = cube::path_from_utf8(argv[++i]);
         else if (flag == "--phase1-pdb" && i + 1 < argc)
-            phase1_path = argv[++i];
+            phase1_path = cube::path_from_utf8(argv[++i]);
         else
             throw std::invalid_argument("unknown heuristic check option");
     }
@@ -247,8 +253,27 @@ void check_heuristic(int argc, char **argv) {
 
 } // namespace
 
-int main(int argc, char **argv) {
+int wmain(int argc, wchar_t **wide_argv) {
     try {
+        // Keep filesystem arguments lossless, including paths outside the ANSI code page.
+        std::vector<std::string> arguments;
+        arguments.reserve(argc);
+        for (int index = 0; index < argc; ++index) {
+            const int size =
+                WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, wide_argv[index], -1, nullptr, 0, nullptr, nullptr);
+            if (size == 0)
+                throw std::invalid_argument("invalid Unicode command-line argument");
+            std::string argument(size, '\0');
+            if (!WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, wide_argv[index], -1, argument.data(), size,
+                                     nullptr, nullptr))
+                throw std::invalid_argument("invalid Unicode command-line argument");
+            argument.pop_back();
+            arguments.push_back(std::move(argument));
+        }
+        std::vector<char *> argv_storage;
+        for (auto &argument : arguments)
+            argv_storage.push_back(argument.data());
+        char **argv = argv_storage.data();
         if (argc < 2) {
             print_usage();
             return 2;
@@ -283,8 +308,8 @@ int main(int argc, char **argv) {
                     throw std::invalid_argument("unknown build option: " + option);
             }
             auto tables = std::make_shared<cube::CoordinateTables>();
-            cube::build_corner_pattern_database(argv[2], *tables, threads, coverage_depth, force);
-            cube::CornerPatternDatabase pdb(argv[2]);
+            cube::build_corner_pattern_database(cube::path_from_utf8(argv[2]), *tables, threads, coverage_depth, force);
+            cube::CornerPatternDatabase pdb(cube::path_from_utf8(argv[2]));
             std::cout << "{\"ok\":true,\"complete\":" << (pdb.complete() ? "true" : "false")
                       << ",\"max_value\":" << static_cast<int>(pdb.max_value()) << "}\n";
             return 0;
@@ -309,8 +334,8 @@ int main(int argc, char **argv) {
                     throw std::invalid_argument("unknown build option: " + option);
             }
             auto tables = std::make_shared<cube::CoordinateTables>();
-            cube::build_phase1_pattern_database(argv[2], *tables, threads, coverage_depth, force);
-            cube::Phase1PatternDatabase pdb(argv[2]);
+            cube::build_phase1_pattern_database(cube::path_from_utf8(argv[2]), *tables, threads, coverage_depth, force);
+            cube::Phase1PatternDatabase pdb(cube::path_from_utf8(argv[2]));
             std::cout << "{\"ok\":true,\"complete\":" << (pdb.complete() ? "true" : "false")
                       << ",\"max_value\":" << static_cast<int>(pdb.max_value()) << "}\n";
             return 0;
@@ -340,8 +365,8 @@ int main(int argc, char **argv) {
                 else
                     throw std::invalid_argument("unknown build option: " + option);
             }
-            cube::build_edge_pattern_database(argv[2], group, threads, coverage_depth, force);
-            cube::EdgePatternDatabase pdb(argv[2], group);
+            cube::build_edge_pattern_database(cube::path_from_utf8(argv[2]), group, threads, coverage_depth, force);
+            cube::EdgePatternDatabase pdb(cube::path_from_utf8(argv[2]), group);
             std::cout << "{\"ok\":true,\"complete\":" << (pdb.complete() ? "true" : "false")
                       << ",\"max_value\":" << static_cast<int>(pdb.max_value()) << "}\n";
             return 0;
@@ -365,8 +390,8 @@ int main(int argc, char **argv) {
                 else
                     throw std::invalid_argument("unknown build option: " + option);
             }
-            cube::build_tail_database(argv[2], depth, threads, force);
-            cube::TailDatabase tail(argv[2]);
+            cube::build_tail_database(cube::path_from_utf8(argv[2]), depth, threads, force);
+            cube::TailDatabase tail(cube::path_from_utf8(argv[2]));
             std::cout << "{\"ok\":true,\"depth\":" << tail.depth() << ",\"version\":" << tail.format_version() << "}\n";
             return 0;
         }
@@ -381,11 +406,11 @@ int main(int argc, char **argv) {
             for (int index = 2; index < argc; ++index) {
                 const std::string option = argv[index];
                 if (option == "--pdb" && index + 1 < argc)
-                    pdb_path = argv[++index];
+                    pdb_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--phase1-pdb" && index + 1 < argc)
-                    phase1_pdb_path = argv[++index];
+                    phase1_pdb_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--tail-pdb" && index + 1 < argc)
-                    tail_pdb_path = argv[++index];
+                    tail_pdb_path = cube::path_from_utf8(argv[++index]);
                 else if (tuning_option(option, defaults))
                     continue;
                 else {
@@ -393,7 +418,8 @@ int main(int argc, char **argv) {
                     if (flag == edge_flags.end() || index + 1 >= argc) {
                         throw std::invalid_argument("unknown serve option: " + option);
                     }
-                    edge_pdb_paths[static_cast<std::size_t>(flag - edge_flags.begin())] = argv[++index];
+                    edge_pdb_paths[static_cast<std::size_t>(flag - edge_flags.begin())] =
+                        cube::path_from_utf8(argv[++index]);
                 }
             }
 
@@ -540,27 +566,27 @@ int main(int argc, char **argv) {
                 else if (option == "--threads" && index + 1 < argc)
                     options.threads = std::stoi(argv[++index]);
                 else if (option == "--pdb" && index + 1 < argc)
-                    pdb_path = argv[++index];
+                    pdb_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--phase1-pdb" && index + 1 < argc)
-                    phase1_pdb_path = argv[++index];
+                    phase1_pdb_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--edge-pdb-a" && index + 1 < argc)
-                    edge_pdb_a_path = argv[++index];
+                    edge_pdb_a_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--edge-pdb-b" && index + 1 < argc)
-                    edge_pdb_b_path = argv[++index];
+                    edge_pdb_b_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--edge-pdb-c" && index + 1 < argc)
-                    edge_pdb_c_path = argv[++index];
+                    edge_pdb_c_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--edge-pdb-d" && index + 1 < argc)
-                    edge_pdb_d_path = argv[++index];
+                    edge_pdb_d_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--edge-pdb-e" && index + 1 < argc)
-                    more_edge_pdb_paths[0] = argv[++index];
+                    more_edge_pdb_paths[0] = cube::path_from_utf8(argv[++index]);
                 else if (option == "--edge-pdb-f" && index + 1 < argc)
-                    more_edge_pdb_paths[1] = argv[++index];
+                    more_edge_pdb_paths[1] = cube::path_from_utf8(argv[++index]);
                 else if (option == "--edge-pdb-g" && index + 1 < argc)
-                    more_edge_pdb_paths[2] = argv[++index];
+                    more_edge_pdb_paths[2] = cube::path_from_utf8(argv[++index]);
                 else if (option == "--edge-pdb-h" && index + 1 < argc)
-                    more_edge_pdb_paths[3] = argv[++index];
+                    more_edge_pdb_paths[3] = cube::path_from_utf8(argv[++index]);
                 else if (option == "--tail-pdb" && index + 1 < argc)
-                    tail_pdb_path = argv[++index];
+                    tail_pdb_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--incumbent" && index + 1 < argc)
                     options.incumbent_moves = parse_moves(argv[++index]);
                 else if (tuning_option(option, options))

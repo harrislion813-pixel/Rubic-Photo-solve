@@ -23,7 +23,7 @@
 
 - 本地网页界面：服务默认只监听 `127.0.0.1`，照片和识别数据不会上传到云端。
 - 二阶识别与求解：没有中心块，自动从 24 个色块恢复 6 种颜色，并按 HTM 求严格最少步数。
-- 三阶识别与混合求解：先返回可执行的快速解，再在后台逐深度验证更短解；验证完成后自动替换为严格结果。
+- 三阶识别与混合求解：优先启动原生严格证明，困难状态同时生成可执行的快速解；验证完成后自动替换为严格结果。
 - 多候选视觉检测：后端 OpenCV 检测器会返回候选四角、置信度和质量信息；浏览器检测器可作为降级路径。
 - 人工校正：可旋转单面网格、拖动四角透视区域、修改非中心色块颜色。
 - Windows 便携发布：发布 ZIP 自带 Python 运行环境所需的应用文件、OpenCV、C++ 求解器和基础 PDB 表，不需要另装 Python。
@@ -51,7 +51,7 @@
 6. 保持命令行窗口打开。看到类似下面的输出说明服务已启动：
 
    ```text
-   魔方最短解应用 1.3.1 已启动: http://127.0.0.1:8765/
+   魔方最短解应用 1.4.0 已启动: http://127.0.0.1:8765/
    ```
 
 7. 浏览器通常会自动打开；没有自动打开时，把终端打印的完整地址复制到浏览器。
@@ -64,6 +64,7 @@
 - `web/`：前端页面和静态资源；
 - `cube_solver.exe`：C++ 严格搜索核心（若构建时可用）；
 - corner / phase-1 PDB：原生求解所需的基础剪枝表；
+- `.cache/two_by_two_htm_v1.bin`：已生成并校验的二阶准确距离表；
 - `VERSION.txt`：与包文件名一致的版本号；
 - `README-Windows.txt`：便携版的简明说明。
 
@@ -130,7 +131,7 @@ python server.py
 Invoke-RestMethod http://127.0.0.1:8765/api/version
 ```
 
-预期返回 `ok=True`、`version=1.3.1`。随后用浏览器打开同一地址的根路径。
+预期返回 `ok=True`、`version=1.4.0`。随后用浏览器打开同一地址的根路径。
 
 #### 第 7 步：停止服务
 
@@ -257,7 +258,7 @@ g++ --version
 .\.venv\Scripts\python.exe server.py
 ```
 
-无需额外开关。三阶后台严格证明会优先调用原生核心；二阶继续使用专用角块 IDA*；前台快速解和照片识别保持不变。
+无需额外开关。三阶后台严格证明会优先调用原生核心；二阶使用准确距离表；较难三阶状态同时生成快速解，照片识别流程保持不变。
 
 #### 第 7 步：可选启用实验性 Edge PDB
 
@@ -373,9 +374,11 @@ OpenCV 不可用时，前端浏览器检测器仍可尝试定位；如果定位�
 
 - 只建模角块排列和扭转；
 - 将整体旋转的 24 种空间朝向视作同一个复原状态；
-- 使用角块排列 / 朝向剪枝表与逐层 IDA*；
-- 只有更短深度全部搜索失败后才返回当前解；
-- 最大搜索深度为 11，返回时 `proof_status` 为 `complete`。
+- 固定 DBL 角块，用准确 HTM 距离表覆盖 `7! × 3^6 = 3,674,160` 个状态；
+- 沿距离递减的动作直接取出严格最短解，映射回原来的面向并验证；
+- 最大距离为 11，返回时 `proof_status` 为 `complete`。
+
+距离和辅助转移表带版本与 SHA-256 校验，保存在 `.cache/two_by_two_htm_v1.bin`。便携包包含此文件；源码环境可提前运行 `python -m cube_app.two_by_two_tables` 生成。
 
 ### 三阶（3×3）
 
@@ -383,14 +386,18 @@ OpenCV 不可用时，前端浏览器检测器仍可尝试定位；如果定位�
 
 ```text
 输入 facelets
-    ├─ 短时严格探测（probe）──找到证明解──立即返回 complete
-    └─ 快速求解（fast）──────返回候选解──后台 IDA*/原生核心继续证明
-                                      ├─ complete：严格最短已证明
-                                      ├─ timeout：当前候选可用，但未完成证明
-                                      └─ cancelled / error：任务被取消或失败
+    └─ 原生严格证明 ──短时完成──立即返回 complete
+                   └─ 较难状态同时生成快速解，更新活动证明的上界
+                       ├─ complete：严格最短已证明
+                       ├─ timeout：当前候选可用，但未完成证明
+                       └─ cancelled / error：任务被取消或失败
 ```
 
 后台搜索按深度从小到大进行，只搜索比当前候选更短的深度。超时只代表证明尚未完成，不代表候选解错误。随机极难状态的严格证明可能耗时较久，可在页面调整“最短验证超时”。
+
+原生核心使用紧凑棱排列、三轴同值加强下界和分阶段展开；完整 PDB 可用时省略被其覆盖的小表查询。确定性的坐标转移与小剪枝表使用版本化校验缓存，损坏后自动重建。每 250 ms 的进度包含生成候选、各阶段查询与拒绝数以及线程工作统计。
+
+相同活动状态的请求复用任务。取消会保留原生进程和已加载 PDB；重试可复用进程内最多 128 个状态的完整证明深度，未完成的深度不会缓存。排队、初始化、搜索和 Python 回退共享绝对截止时间；无限时任务同样优先使用原生核心。页面分别显示解生成和证明的耗时。
 
 ## 项目结构
 
@@ -408,7 +415,8 @@ OpenCV 不可用时，前端浏览器检测器仍可尝试定位；如果定位�
 │  ├─ fast.py                # 三阶前台快速求解
 │  ├─ optimal.py             # Python 严格最短搜索与后台任务
 │  ├─ native.py              # C++ 原生求解器调用和资产校验
-│  ├─ two_by_two.py          # 二阶 IDA* 求解器
+│  ├─ two_by_two.py          # 二阶规范化、准确距离查询与动作验证
+│  ├─ two_by_two_tables.py   # 二阶完整距离表与校验缓存
 │  └─ tables.py              # Python 剪枝表
 ├─ web/
 │  ├─ index.html              # 页面结构、说明和版本占位符
@@ -438,7 +446,7 @@ OpenCV 不可用时，前端浏览器检测器仍可尝试定位；如果定位�
 用于检查服务是否可用以及前后端版本：
 
 ```json
-{"ok": true, "version": "1.3.1"}
+{"ok": true, "version": "1.4.0"}
 ```
 
 ### `POST /api/detect`
@@ -488,7 +496,7 @@ OpenCV 不可用时，前端浏览器检测器仍可尝试定位；如果定位�
 .\tests\check.ps1
 ```
 
-该脚本会检查工具链和版本配置，运行前端 Node 测试、Ruff、Python 测试、覆盖率门禁和 `compileall`。测试临时文件放在 `.cache/test-tmp`，避免污染系统临时目录。
+该脚本会检查工具链和版本配置，运行前端 Node 测试、Ruff、Python 测试和 `compileall`。CI 另行运行下方的覆盖率门禁。测试临时文件放在 `.cache/test-tmp`，避免污染系统临时目录。
 
 ### 分项检查
 
@@ -499,7 +507,7 @@ node tests\two_by_two_color.test.js
 node tests\solver_ui.test.js
 python -m pytest -ra
 python -m compileall cube_app server.py windows_launcher.py
-python release\check_version.py --tag v1.3.1
+python release\check_version.py --tag v1.4.0
 ```
 
 CI 对 `cube_app` 和 `server.py` 执行至少 70% 的分支覆盖率门禁；依赖本地 EXE/PDB 或实拍图片的测试会在缺少资源时跳过。当前仓库未必包含 `tests/initial/` 实拍素材，因此看到 real-image 用例被跳过是预期行为。
@@ -545,6 +553,15 @@ python tests\extract_real_patches.py --group 2 | node tests\real_color.test.js -
 python tests\benchmark_solver.py --timeout 30
 ```
 
+原生性能基准分别记录启动、热搜索、PDB/编译版本、候选解、完成深度及内存峰值，以旧协议关闭证明缓存复用，轮换对照顺序并保留超时样本：
+
+```powershell
+python tests\benchmark_native.py --cases pgo16,seed18,known18 --threads 16 --repeats 3
+python tests\benchmark_native.py --cases all --timeout 60 --output .cache\native-acceptance.json
+```
+
+`--no-axis-strengthening`、`--keep-small-tables`、`--no-staged-expansion` 可独立对照；`--inverse-direction` 用于逆向回归。`baseline` 是当前代码关闭优化后的对照，包含新状态表示和统计，不能等同于历史 EXE。独立 PGO 训练集见 `tests/native_pgo_cases.json`，验收集见 `tests/native_cases.json`。交付范围、实测结果与实验项见[性能重构记录](docs/performance-refactor-2026-09-27.md)。
+
 C++ 格式检查使用项目根目录的 `.clang-format`：
 
 ```powershell
@@ -571,14 +588,14 @@ python -c "from cube_app import __version__; print(__version__)"
 git tag --list "v*" --sort=-version:refname
 ```
 
-不要移动或复用已经推送到远程的标签。若 `v1.3.0` 已存在，而后续需要修复 CI，应发布 `v1.3.1`。
+不要移动或复用已经推送到远程的标签。修复已发布版本的问题时增加补丁号；增加兼容的新功能时增加次版本号。
 
 ### 第 2 步：更新唯一版本源
 
 编辑 `cube_app/__init__.py`：
 
 ```python
-__version__ = "1.3.1"
+__version__ = "1.4.0"
 ```
 
 不要在 `pyproject.toml` 再写静态版本；它会从 `cube_app.__version__` 动态读取。
@@ -598,10 +615,10 @@ __version__ = "1.3.1"
 ### 第 5 步：检查版本一致性
 
 ```powershell
-.\.venv\Scripts\python.exe release\check_version.py --tag v1.3.1
+.\.venv\Scripts\python.exe release\check_version.py --tag v1.4.0
 ```
 
-脚本会检查语义化版本、Python 包配置、前端版本占位符、`CHANGELOG.md` 和标签名称。预期只输出 `1.3.1`。
+脚本会检查语义化版本、Python 包配置、前端版本占位符、`CHANGELOG.md` 和标签名称。预期只输出 `1.4.0`。
 
 ### 第 6 步：运行完整检查
 
@@ -617,12 +634,12 @@ __version__ = "1.3.1"
 git status --short
 git diff --check
 git diff
-git add -- ..\README.md README.md CHANGELOG.md cube_app\__init__.py tests\test_runtime.py tests\test_two_by_two.py
+git add -- ..\README.md README.md CHANGELOG.md cube_app native release docs tests server.py web pyproject.toml
 git diff --cached
-git commit -m "Fix Linux CI and release v1.3.1"
+git commit -m "Release v1.4.0 with optimal search performance improvements"
 ```
 
-这些路径对应当前 `v1.3.1` 修复。以后发布时应按 `git status` 的实际改动调整文件列表。提交前必须检查 `git diff --cached`，确保本次文件全部纳入且无关文件没有混入。
+提交文件应覆盖当前版本的全部改动。以后发布时应按 `git status` 的实际改动调整文件列表。提交前必须检查 `git diff --cached`，确保本次文件全部纳入且无关文件没有混入。
 
 ### 第 8 步：确认工作区干净
 
@@ -645,16 +662,16 @@ git status --short
 ### 第 10 步：确认产物和标签
 
 ```powershell
-Get-Item .\dist\RubicPhotoSolve-1.3.1-windows-x64.zip
-Get-FileHash .\dist\RubicPhotoSolve-1.3.1-windows-x64.zip -Algorithm SHA256
-git show --no-patch v1.3.1
+Get-Item .\dist\RubicPhotoSolve-1.4.0-windows-x64.zip
+Get-FileHash .\dist\RubicPhotoSolve-1.4.0-windows-x64.zip -Algorithm SHA256
+git show --no-patch v1.4.0
 ```
 
 ### 第 11 步：推送提交和标签
 
 ```powershell
 git push origin main
-git push origin v1.3.1
+git push origin v1.4.0
 ```
 
 只有推送 `v*` 标签才会触发 GitHub Release 发布任务。只推送 `main` 不会创建 Release。
@@ -662,7 +679,7 @@ git push origin v1.3.1
 ### 第 12 步：检查 GitHub Actions 和 Release
 
 1. 打开仓库的 Actions 页面；
-2. 找到分支为 `v1.3.1` 的 CI 运行；
+2. 找到分支为 `v1.4.0` 的 CI 运行；
 3. 等待 Version、Lint、Python、Frontend 和 Native Windows 全部通过；
 4. `Publish GitHub Release` 随后下载经过测试的 Artifact；
 5. 在 Releases 页面确认标题、标签和 ZIP 文件名一致。
@@ -732,13 +749,13 @@ git diff
 
 按顺序检查：
 
-1. `git tag --list v1.3.1` 能看到本地标签；
-2. `git ls-remote --tags origin refs/tags/v1.3.1` 能看到远程标签；
-3. GitHub Actions 中存在 `headBranch=v1.3.1` 的运行；
+1. `git tag --list v1.4.0` 能看到本地标签；
+2. `git ls-remote --tags origin refs/tags/v1.4.0` 能看到远程标签；
+3. GitHub Actions 中存在 `headBranch=v1.4.0` 的运行；
 4. 所有 Python、前端和 Windows Native 作业成功；
 5. `Publish GitHub Release` 没有因前置失败而跳过。
 
-本地创建标签不会自动上传，必须执行 `git push origin v1.3.1`。
+本地创建标签不会自动上传，必须执行 `git push origin v1.4.0`。
 
 ### CI 显示很多 `SKIPPED`
 

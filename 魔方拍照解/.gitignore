@@ -12,3 +12,6 @@ initial/
 result/
 dist/
 .release-build/
+
+# Personal Codex configuration
+.codex/

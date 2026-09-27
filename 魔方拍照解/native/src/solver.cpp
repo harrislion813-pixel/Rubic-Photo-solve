@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <atomic>
 #include <bit>
+#include <cctype>
 #include <cmath>
 #include <condition_variable>
 #include <cstdint>
@@ -29,6 +30,35 @@
 #include <utility>
 
 namespace cube {
+
+MoveMetric parse_metric(const std::string &value) {
+    std::string normalized = value;
+    std::transform(normalized.begin(), normalized.end(), normalized.begin(),
+                   [](unsigned char character) { return static_cast<char>(std::toupper(character)); });
+    if (normalized == "HTM")
+        return MoveMetric::HTM;
+    if (normalized == "QTM")
+        return MoveMetric::QTM;
+    throw std::invalid_argument("metric must be HTM or QTM");
+}
+
+const char *metric_name(MoveMetric metric) noexcept { return metric == MoveMetric::QTM ? "QTM" : "HTM"; }
+
+int move_cost(int move, MoveMetric metric) {
+    if (move < 0 || move >= 18)
+        throw std::invalid_argument("invalid move index");
+    return metric == MoveMetric::QTM && move % 3 == 1 ? 2 : 1;
+}
+
+int solution_cost(std::span<const int> moves, MoveMetric metric) {
+    int cost = 0;
+    for (int move : moves)
+        cost += move_cost(move, metric);
+    return cost;
+}
+
+int default_max_depth(MoveMetric metric) noexcept { return metric == MoveMetric::QTM ? 26 : 20; }
+
 namespace {
 
 constexpr int kMoveCount = 18;
@@ -361,12 +391,12 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
         }
     }
 
-    const int next_depth = depth_left - 1;
     if (depth_left >= kMoveOrderingMinRemaining) {
         struct Candidate {
             CoordinateState state;
             int move{};
             int face{};
+            int remaining{};
             std::uint8_t heuristic{};
         };
         std::vector<Candidate> candidates;
@@ -375,13 +405,16 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
             const int face = move / 3;
             if (should_skip_face(last_face, face))
                 continue;
+            const int next_depth = depth_left - move_cost(move, options.metric);
+            if (next_depth < 0)
+                continue;
             CoordinateState child;
             const std::uint8_t child_heuristic =
                 tables.expand(state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
                               static_cast<std::uint8_t>(next_depth), features, worker.counters);
             if (child_heuristic > next_depth)
                 continue;
-            candidates.push_back(Candidate{std::move(child), move, face, child_heuristic});
+            candidates.push_back(Candidate{std::move(child), move, face, next_depth, child_heuristic});
         }
         std::stable_sort(candidates.begin(), candidates.end(), [](const Candidate &left, const Candidate &right) {
             return left.heuristic < right.heuristic;
@@ -389,7 +422,7 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
         for (const Candidate &candidate : candidates) {
             path.push_back(candidate.move);
             if (depth_first_search(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features, options,
-                                   candidate.state, next_depth, candidate.face, path, control, worker, true)) {
+                                   candidate.state, candidate.remaining, candidate.face, path, control, worker, true)) {
                 return true;
             }
             path.pop_back();
@@ -405,6 +438,9 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
     for (int move = 0; move < kMoveCount; ++move) {
         const int face = move / 3;
         if (should_skip_face(last_face, face))
+            continue;
+        const int next_depth = depth_left - move_cost(move, options.metric);
+        if (next_depth < 0)
             continue;
         CoordinateState child;
         const std::uint8_t child_heuristic =
@@ -431,16 +467,19 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
 std::vector<SearchTask> split_task(const CoordinateTables &tables, const Phase1PatternDatabase *phase1_pdb,
                                    const CornerPatternDatabase *corner_pdb,
                                    std::span<const EdgePatternDatabase *const> edge_pdbs,
-                                   const CoordinateFeatures &features, const SearchTask &task, WorkerContext &worker) {
+                                   const CoordinateFeatures &features, const SolverOptions &options,
+                                   const SearchTask &task, WorkerContext &worker) {
     std::vector<SearchTask> children;
     if (task.depth_left == 0)
         return children;
-    const int next_depth = task.depth_left - 1;
     std::uint64_t generated_nodes = 0;
     children.reserve(15);
     for (int move = 0; move < kMoveCount; ++move) {
         const int face = move / 3;
         if (should_skip_face(task.last_face, face))
+            continue;
+        const int next_depth = task.depth_left - move_cost(move, options.metric);
+        if (next_depth < 0)
             continue;
         ++generated_nodes;
         CoordinateState child;
@@ -505,7 +544,7 @@ parallel_depth_search(const CoordinateTables &tables, const Phase1PatternDatabas
             const bool should_split =
                 task.depth_left > split_floor && task.path.size() < 7 && queued_after_pop < target_queue;
             if (should_split) {
-                auto children = split_task(tables, phase1_pdb, corner_pdb, edge_pdbs, features, task, worker);
+                auto children = split_task(tables, phase1_pdb, corner_pdb, edge_pdbs, features, options, task, worker);
                 {
                     std::lock_guard lock(queue.mutex);
                     queue.outstanding += children.size();
@@ -900,13 +939,19 @@ int NativeOptimalSolver::edge_pdb_count() const noexcept {
 
 bool NativeOptimalSolver::has_tail_database() const noexcept { return static_cast<bool>(tail_database_); }
 
-NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const SolverOptions &options) const {
-    if (options.max_depth < 0 || options.max_depth > 20)
-        throw std::invalid_argument("max depth must be 0..20");
+NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const SolverOptions &requested_options) const {
+    SolverOptions options = requested_options;
+    if (options.max_depth == -1)
+        options.max_depth = default_max_depth(options.metric);
+    if (options.max_depth < 0 || options.max_depth > default_max_depth(options.metric))
+        throw std::invalid_argument("max depth must be 0.." + std::to_string(default_max_depth(options.metric)));
     if (!std::isfinite(options.timeout_seconds) || options.timeout_seconds < 0)
         throw std::invalid_argument("timeout must be finite and nonnegative (0 means unlimited)");
     const auto started = std::chrono::steady_clock::now();
     NativeSolveResult result;
+    result.metric = options.metric;
+    // The loaded suffix table stores HTM exact distances; QTM must bypass all Tail branches.
+    const TailDatabase *active_tail = options.metric == MoveMetric::HTM ? tail_database_.get() : nullptr;
     if (cube.solved()) {
         result.depth = 0;
         result.optimal = true;
@@ -942,9 +987,9 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         tables_->heuristic(active_initial, phase1_pdb_.get(), corner_pdb_.get(), edge_pdb_views, 255, features);
     int effective_max = options.max_depth;
     if (!incumbent.empty())
-        effective_max = std::min(effective_max, static_cast<int>(incumbent.size()) - 1);
-    const bool probe_enabled =
-        options.use_direction_probe && !searching_inverse && incumbent.size() >= 18 && effective_max >= 17;
+        effective_max = std::min(effective_max, solution_cost(incumbent, options.metric) - 1);
+    const bool probe_enabled = options.use_direction_probe && !searching_inverse &&
+                               solution_cost(incumbent, options.metric) >= 18 && effective_max >= 17;
     const int probe_depth = probe_enabled ? std::max(lower_bound, std::min(16, effective_max - 2)) : -1;
     bool direction_probed = false;
     const int thread_count = std::clamp(
@@ -965,6 +1010,7 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         if (!options.progress_callback)
             return;
         NativeSearchProgress progress;
+        progress.metric = options.metric;
         progress.lower_bound = lower_bound;
         progress.upper_bound = effective_max;
         progress.current_depth = depth;
@@ -996,10 +1042,11 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
     for (int depth = completed_depth + 1; depth <= effective_max; ++depth) {
         if (options.incumbent_callback) {
             auto updated = options.incumbent_callback();
-            if (!updated.empty() && (incumbent.empty() || updated.size() < incumbent.size())) {
+            if (!updated.empty() && (incumbent.empty() || solution_cost(updated, options.metric) <
+                                                              solution_cost(incumbent, options.metric))) {
                 validate_incumbent(updated);
                 incumbent = std::move(updated);
-                effective_max = std::min(options.max_depth, static_cast<int>(incumbent.size()) - 1);
+                effective_max = std::min(options.max_depth, solution_cost(incumbent, options.metric) - 1);
                 if (depth > effective_max)
                     break;
             }
@@ -1012,8 +1059,8 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         control.solution.clear();
         auto snapshot = [&] { report(depth, nodes_before, split_before, iteration_started); };
         auto solution =
-            parallel_depth_search(*tables_, phase1_pdb_.get(), corner_pdb_.get(), edge_pdb_views, tail_database_.get(),
-                                  features, active_initial, depth, options, thread_count, control, snapshot);
+            parallel_depth_search(*tables_, phase1_pdb_.get(), corner_pdb_.get(), edge_pdb_views, active_tail, features,
+                                  active_initial, depth, options, thread_count, control, snapshot);
         const auto primary_nodes = control.nodes.load() - nodes_before;
         if (!solution && !control.timed_out.load() && !cancelled() && !direction_probed && depth == probe_depth) {
             direction_probed = true;
@@ -1023,9 +1070,9 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
             const auto inverse_before = control.nodes.load();
             control.stop.store(false);
             if (inverse_lower <= depth) {
-                auto inverse_solution = parallel_depth_search(
-                    *tables_, phase1_pdb_.get(), corner_pdb_.get(), edge_pdb_views, tail_database_.get(), features,
-                    inverse_initial, depth, options, thread_count, control, snapshot);
+                auto inverse_solution =
+                    parallel_depth_search(*tables_, phase1_pdb_.get(), corner_pdb_.get(), edge_pdb_views, active_tail,
+                                          features, inverse_initial, depth, options, thread_count, control, snapshot);
                 if (inverse_solution)
                     solution = invert_moves(*inverse_solution);
                 else if (control.nodes.load() - inverse_before < primary_nodes) {
@@ -1045,7 +1092,7 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         report(depth, nodes_before, split_before, iteration_started, solution.has_value());
         if (solution) {
             result.moves = *solution;
-            result.depth = static_cast<int>(result.moves.size());
+            result.depth = solution_cost(result.moves, options.metric);
             result.optimal = true;
             break;
         }
@@ -1056,14 +1103,10 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         }
     }
     if (result.depth < 0 && !incumbent.empty()) {
-        if (!result.timed_out && !result.cancelled && completed_depth < static_cast<int>(incumbent.size()) - 1)
-            throw std::runtime_error("no solution found within max depth");
         result.moves = incumbent;
-        result.depth = static_cast<int>(incumbent.size());
+        result.depth = solution_cost(incumbent, options.metric);
         result.optimal = !result.timed_out && !result.cancelled && completed_depth >= result.depth - 1;
     }
-    if (result.depth < 0 && !result.timed_out && !result.cancelled)
-        throw std::runtime_error("no solution found within max depth");
     result.completed_depth = completed_depth;
     result.nodes = control.nodes.load();
     result.split_nodes = control.split_nodes.load();

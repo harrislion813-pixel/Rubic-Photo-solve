@@ -1,6 +1,6 @@
 # 魔方拍照解：二阶 / 三阶本地识别与最短解
 
-这是一个运行在本机浏览器中的魔方求解器。选择二阶（2×2）或三阶（3×3），上传六个面的照片，确认识别结果后，应用会生成可执行的复原步骤，并在条件允许时继续验证 HTM 严格最短解。
+这是一个运行在本机浏览器中的魔方求解器。选择二阶（2×2）或三阶（3×3），上传六个面的照片，确认识别结果后，选择 HTM 或 QTM 计步方式，应用会生成可执行的复原步骤，并验证所选方式下的严格最短解。默认 HTM 保持原有行为。
 
 当前版本以 `cube_app.__version__` 和运行时 `GET /api/version` 的返回值为准。版本、变更记录和发布方式见[版本与发布](#版本与发布)。
 
@@ -22,7 +22,7 @@
 ## 功能概览
 
 - 本地网页界面：服务默认只监听 `127.0.0.1`，照片和识别数据不会上传到云端。
-- 二阶识别与求解：没有中心块，自动从 24 个色块恢复 6 种颜色，并按 HTM 求严格最少步数。
+- 二阶识别与求解：没有中心块，自动从 24 个色块恢复 6 种颜色，并按 HTM / QTM 准确距离表求严格最少步数。
 - 三阶识别与混合求解：优先启动原生严格证明，困难状态同时生成可执行的快速解；验证完成后自动替换为严格结果。
 - 多候选视觉检测：后端 OpenCV 检测器会返回候选四角、置信度和质量信息；浏览器检测器可作为降级路径。
 - 人工校正：可旋转单面网格、拖动四角透视区域、修改非中心色块颜色。
@@ -51,7 +51,7 @@
 6. 保持命令行窗口打开。看到类似下面的输出说明服务已启动：
 
    ```text
-   魔方最短解应用 1.4.0 已启动: http://127.0.0.1:8765/
+   魔方最短解应用 1.5.0 已启动: http://127.0.0.1:8765/
    ```
 
 7. 浏览器通常会自动打开；没有自动打开时，把终端打印的完整地址复制到浏览器。
@@ -64,7 +64,7 @@
 - `web/`：前端页面和静态资源；
 - `cube_solver.exe`：C++ 严格搜索核心（若构建时可用）；
 - corner / phase-1 PDB：原生求解所需的基础剪枝表；
-- `.cache/two_by_two_htm_v1.bin`：已生成并校验的二阶准确距离表；
+- `.cache/two_by_two_htm_v1.bin` 和 `.cache/two_by_two_qtm_v1.bin`：已生成并校验的二阶双模式准确距离表；
 - `VERSION.txt`：与包文件名一致的版本号；
 - `README-Windows.txt`：便携版的简明说明。
 
@@ -131,7 +131,7 @@ python server.py
 Invoke-RestMethod http://127.0.0.1:8765/api/version
 ```
 
-预期返回 `ok=True`、`version=1.4.0`。随后用浏览器打开同一地址的根路径。
+预期返回 `ok=True`、`version=1.5.0`。随后用浏览器打开同一地址的根路径。
 
 #### 第 7 步：停止服务
 
@@ -310,7 +310,9 @@ $env:CUBE_NATIVE_EDGE_PDBS = "1"
 
 ### 第 9 步：设置求解参数并开始求解
 
-一般保持默认最大深度。三阶可以调整“最短验证超时”：较短时间更快结束证明，较长时间更可能完成严格最短证明，但会占用更多 CPU 时间。
+在开始求解按钮上方选择“180° 计步方式”：默认“算一步（HTM）”，也可选择“算两步（QTM）”。页面按魔方阶数和模式设置完整预算（二阶 11 / 14，三阶 20 / 26）。三阶可以调整“最短验证超时”：较长时间更可能完成证明，也会占用更多 CPU 时间。
+
+切换计步方式会取消旧任务、清除旧解和最短标记，保留照片、Facelets 与人工校正；再次点击“开始求解”才启动新模式的搜索。
 
 ### 第 10 步：跟踪证明进度
 
@@ -366,19 +368,32 @@ OpenCV 不可用时，前端浏览器检测器仍可尝试定位；如果定位�
 
 ## 求解结果如何解读
 
-### HTM 计步
+### HTM / QTM 计步
 
-项目使用 HTM（Half Turn Metric）：`R`、`R'` 和 `R2` 各计 1 步。结果中的 `depth` 就是 HTM 步数，`solution` 是空格分隔的转动记号。
+| 模式 | `R` / `R'`（90°） | `R2`（180°） | 默认 |
+| --- | ---: | ---: | --- |
+| HTM（Half Turn Metric） | 1 | 1 | 是 |
+| QTM（Quarter Turn Metric） | 1 | 2 | 否 |
+
+`depth`、候选代价、搜索预算和证明进度都使用结果 `metric` 的单位。`solution` 保留标准公式记法，可以包含 `R2`；逆时针 `R'` 在两种模式都只计 1 步。QTM 会重新优化总代价，将 HTM 公式重新计价只能得到一个候选上界，不能证明 QTM 最短。
 
 ### 二阶（2×2）
 
 - 只建模角块排列和扭转；
 - 将整体旋转的 24 种空间朝向视作同一个复原状态；
-- 固定 DBL 角块，用准确 HTM 距离表覆盖 `7! × 3^6 = 3,674,160` 个状态；
-- 沿距离递减的动作直接取出严格最短解，映射回原来的面向并验证；
-- 最大距离为 11，返回时 `proof_status` 为 `complete`。
+- 固定 DBL 角块，两张准确距离表各覆盖 `7! × 3^6 = 3,674,160` 个状态；
+- HTM 全部 9 种 U/R/F 动作执行 BFS；QTM 使用 6 种正反 90° 动作执行 BFS，允许连续同面；
+- 按动作代价恢复距离递减的路径，映射回原来的面向并重新执行验证；
+- 最大距离为 HTM 11 / QTM 14，完整预算内返回 `proof_status: "complete"`。
 
-距离和辅助转移表带版本与 SHA-256 校验，保存在 `.cache/two_by_two_htm_v1.bin`。便携包包含此文件；源码环境可提前运行 `python -m cube_app.two_by_two_tables` 生成。
+距离和辅助转移表带模式 magic、版本与 SHA-256 校验，分别保存在 `.cache/two_by_two_htm_v1.bin` 和 `.cache/two_by_two_qtm_v1.bin`，内存缓存也按模式隔离。便携包包含两张表；源码环境可提前生成：
+
+```powershell
+python -m cube_app.two_by_two_tables --metric HTM
+python -m cube_app.two_by_two_tables --metric QTM
+```
+
+损坏缓存会重建；只读部署仍可使用已验证的内存表。首次建表与等待其他建表线程都计入请求 deadline。显式预算小于准确距离时报告预算不足，不把合法状态称为非法。
 
 ### 三阶（3×3）
 
@@ -390,14 +405,17 @@ OpenCV 不可用时，前端浏览器检测器仍可尝试定位；如果定位�
                    └─ 较难状态同时生成快速解，更新活动证明的上界
                        ├─ complete：严格最短已证明
                        ├─ timeout：当前候选可用，但未完成证明
+                       ├─ budget_exhausted：预算不足，尚未证明最短
                        └─ cancelled / error：任务被取消或失败
 ```
 
-后台搜索按深度从小到大进行，只搜索比当前候选更短的深度。超时只代表证明尚未完成，不代表候选解错误。随机极难状态的严格证明可能耗时较久，可在页面调整“最短验证超时”。
+后台搜索按所选模式的代价预算从小到大进行，只搜索比当前候选更小的代价。超时、取消和预算不足均不代表证明完成；已有候选仍可执行。三阶默认完整预算为 HTM 20 / QTM 26，覆盖合法状态的最大距离，但不保证默认超时内完成证明。
+
+QTM 复用已有 HTM PDB 作为有效下界，首次实现禁用 HTM Tail 的直接后缀捷径。较弱的下界可能使 QTM 证明更慢；三阶快速生成器提供的 HTM 候选会按目标模式重新计价，始终标识为未证明候选。
 
 原生核心使用紧凑棱排列、三轴同值加强下界和分阶段展开；完整 PDB 可用时省略被其覆盖的小表查询。确定性的坐标转移与小剪枝表使用版本化校验缓存，损坏后自动重建。每 250 ms 的进度包含生成候选、各阶段查询与拒绝数以及线程工作统计。
 
-相同活动状态的请求复用任务。取消会保留原生进程和已加载 PDB；重试可复用进程内最多 128 个状态的完整证明深度，未完成的深度不会缓存。排队、初始化、搜索和 Python 回退共享绝对截止时间；无限时任务同样优先使用原生核心。页面分别显示解生成和证明的耗时。
+相同状态、魔方阶数、实际预算、模式和证明版本的活动请求复用任务。取消保留原生进程和已加载 PDB；同模式重试可复用进程内最多 128 个状态的完整排除预算，未完成的预算不缓存，跨模式不复用证明。原生协议为 `protocol_version=3` / `proof_version=2`，声明支持 HTM、QTM；旧 EXE 能力不匹配时按剩余 deadline 回退到 Python。排队、初始化、搜索和 Python 回退共享绝对截止时间。页面分别显示解生成和证明耗时。
 
 ## 项目结构
 
@@ -412,6 +430,7 @@ OpenCV 不可用时，前端浏览器检测器仍可尝试定位；如果定位�
 │  ├─ detection.py           # 候选四角检测与检测管线
 │  ├─ color.py               # 颜色原型、聚类和合法状态校验
 │  ├─ cubie.py               # 面贴纸与角棱块状态转换
+│  ├─ metrics.py             # 计步校验、动作总代价与默认预算
 │  ├─ fast.py                # 三阶前台快速求解
 │  ├─ optimal.py             # Python 严格最短搜索与后台任务
 │  ├─ native.py              # C++ 原生求解器调用和资产校验
@@ -446,7 +465,7 @@ OpenCV 不可用时，前端浏览器检测器仍可尝试定位；如果定位�
 用于检查服务是否可用以及前后端版本：
 
 ```json
-{"ok": true, "version": "1.4.0"}
+{"ok": true, "version": "1.5.0"}
 ```
 
 ### `POST /api/detect`
@@ -467,22 +486,25 @@ OpenCV 不可用时，前端浏览器检测器仍可尝试定位；如果定位�
 {
   "facelets": "...",
   "cube_size": 3,
-  "max_depth": 20,
+  "metric": "QTM",
+  "max_depth": 26,
   "timeout_seconds": 180
 }
 ```
 
 `facelets` 只允许使用 `U R F D L B` 六个字符，并按六个面的顺序拼接：`U`、`R`、`F`、`D`、`L`、`B`。三阶每面 9 个字符，共 54 个；二阶每面 4 个字符，共 24 个。三阶还要求六个中心位置分别是对应面标签，且每种字符数量必须正确。
 
-参数范围：`cube_size` 为 `2` 或 `3`；`max_depth` 为 `0`–`20`（二阶内部最多使用 11）；`timeout_seconds` 为 `0.1`–`3600`，传 `0`、`null` 或 `"none"` 表示不设置超时。
+参数范围：`cube_size` 为 `2` 或 `3`；`metric` 省略时为 `HTM`，明确传入仅接受 `HTM` / `QTM`（不区分大小写）。`max_depth` 必须是整数，HTM 为 `0`–`20`、QTM 为 `0`–`26`；二阶实际预算分别截到 11 / 14。省略预算按阶数/模式默认取二阶 11 / 14、三阶 20 / 26；显式较小预算被尊重。`timeout_seconds` 为 `0.1`–`3600`，传 `0`、`null` 或 `"none"` 表示不设置超时。
 
 - 二阶通常同步返回 `moves`、`solution`、`depth`、`metric`、`optimal` 和 `proof_status: "complete"`；
 - 三阶可能同步返回快速结果，也可能返回 `job_id` 与 `proof_status: "queued"`；
+- `metric` 在零步、候选、等待、超时和终态均返回；`depth` 是动作总代价，没有可用解时为 `null`；
+- `optimal: true` 和 `proof_status: "complete"` 仅在已严格排除所有更小代价的解时成立；`budget_exhausted`、`timeout`、`cancelled` 均尚未证明最短；
 - 贴纸字符串不合法、参数错误或搜索容量已满时分别返回 `400` 或 `503`。
 
 ### `GET /api/solve/{job_id}`
 
-查询后台任务。返回 `status`、进度字段和（完成时）最终结果；排队任务还会返回 `queue_position`。任务不存在返回 `404`。
+查询后台任务。返回 `metric`、`max_depth`、`status`、进度字段和（完成时）最终结果；排队任务还返回 `queue_position`。`incumbent_depth`、`lower_bound`、`upper_bound`、`current_depth`、`completed_depth` 均按任务模式计价。任务不存在返回 `404`。
 
 ### `POST /api/solve/{job_id}/cancel`
 
@@ -507,7 +529,7 @@ node tests\two_by_two_color.test.js
 node tests\solver_ui.test.js
 python -m pytest -ra
 python -m compileall cube_app server.py windows_launcher.py
-python release\check_version.py --tag v1.4.0
+python release\check_version.py --tag v1.5.0
 ```
 
 CI 对 `cube_app` 和 `server.py` 执行至少 70% 的分支覆盖率门禁；依赖本地 EXE/PDB 或实拍图片的测试会在缺少资源时跳过。当前仓库未必包含 `tests/initial/` 实拍素材，因此看到 real-image 用例被跳过是预期行为。
@@ -553,11 +575,11 @@ python tests\extract_real_patches.py --group 2 | node tests\real_color.test.js -
 python tests\benchmark_solver.py --timeout 30
 ```
 
-原生性能基准分别记录启动、热搜索、PDB/编译版本、候选解、完成深度及内存峰值，以旧协议关闭证明缓存复用，轮换对照顺序并保留超时样本：
+原生性能基准显式记录 metric、加权候选代价、启动、热搜索、PDB/编译版本、完成预算及内存峰值，通过 `--no-proof-cache` 关闭证明缓存复用，轮换对照顺序并保留超时样本：
 
 ```powershell
-python tests\benchmark_native.py --cases pgo16,seed18,known18 --threads 16 --repeats 3
-python tests\benchmark_native.py --cases all --timeout 60 --output .cache\native-acceptance.json
+python tests\benchmark_native.py --metric HTM --cases pgo16,seed18,known18 --threads 16 --repeats 3
+python tests\benchmark_native.py --metric QTM --cases all --timeout 60 --output .cache\qtm-native-acceptance.json
 ```
 
 `--no-axis-strengthening`、`--keep-small-tables`、`--no-staged-expansion` 可独立对照；`--inverse-direction` 用于逆向回归。`baseline` 是当前代码关闭优化后的对照，包含新状态表示和统计，不能等同于历史 EXE。独立 PGO 训练集见 `tests/native_pgo_cases.json`，验收集见 `tests/native_cases.json`。交付范围、实测结果与实验项见[性能重构记录](docs/performance-refactor-2026-09-27.md)。
@@ -595,7 +617,7 @@ git tag --list "v*" --sort=-version:refname
 编辑 `cube_app/__init__.py`：
 
 ```python
-__version__ = "1.4.0"
+__version__ = "1.5.0"
 ```
 
 不要在 `pyproject.toml` 再写静态版本；它会从 `cube_app.__version__` 动态读取。
@@ -615,10 +637,10 @@ __version__ = "1.4.0"
 ### 第 5 步：检查版本一致性
 
 ```powershell
-.\.venv\Scripts\python.exe release\check_version.py --tag v1.4.0
+.\.venv\Scripts\python.exe release\check_version.py --tag v1.5.0
 ```
 
-脚本会检查语义化版本、Python 包配置、前端版本占位符、`CHANGELOG.md` 和标签名称。预期只输出 `1.4.0`。
+脚本会检查语义化版本、Python 包配置、前端版本占位符、`CHANGELOG.md` 和标签名称。预期只输出 `1.5.0`。
 
 ### 第 6 步：运行完整检查
 
@@ -636,7 +658,7 @@ git diff --check
 git diff
 git add -- ..\README.md README.md CHANGELOG.md cube_app native release docs tests server.py web pyproject.toml
 git diff --cached
-git commit -m "Release v1.4.0 with optimal search performance improvements"
+git commit -m "Release v1.5.0 with HTM and QTM optimal solving"
 ```
 
 提交文件应覆盖当前版本的全部改动。以后发布时应按 `git status` 的实际改动调整文件列表。提交前必须检查 `git diff --cached`，确保本次文件全部纳入且无关文件没有混入。
@@ -662,16 +684,16 @@ git status --short
 ### 第 10 步：确认产物和标签
 
 ```powershell
-Get-Item .\dist\RubicPhotoSolve-1.4.0-windows-x64.zip
-Get-FileHash .\dist\RubicPhotoSolve-1.4.0-windows-x64.zip -Algorithm SHA256
-git show --no-patch v1.4.0
+Get-Item .\dist\RubicPhotoSolve-1.5.0-windows-x64.zip
+Get-FileHash .\dist\RubicPhotoSolve-1.5.0-windows-x64.zip -Algorithm SHA256
+git show --no-patch v1.5.0
 ```
 
 ### 第 11 步：推送提交和标签
 
 ```powershell
 git push origin main
-git push origin v1.4.0
+git push origin v1.5.0
 ```
 
 只有推送 `v*` 标签才会触发 GitHub Release 发布任务。只推送 `main` 不会创建 Release。
@@ -679,7 +701,7 @@ git push origin v1.4.0
 ### 第 12 步：检查 GitHub Actions 和 Release
 
 1. 打开仓库的 Actions 页面；
-2. 找到分支为 `v1.4.0` 的 CI 运行；
+2. 找到分支为 `v1.5.0` 的 CI 运行；
 3. 等待 Version、Lint、Python、Frontend 和 Native Windows 全部通过；
 4. `Publish GitHub Release` 随后下载经过测试的 Artifact；
 5. 在 Releases 页面确认标题、标签和 ZIP 文件名一致。
@@ -749,13 +771,13 @@ git diff
 
 按顺序检查：
 
-1. `git tag --list v1.4.0` 能看到本地标签；
-2. `git ls-remote --tags origin refs/tags/v1.4.0` 能看到远程标签；
-3. GitHub Actions 中存在 `headBranch=v1.4.0` 的运行；
+1. `git tag --list v1.5.0` 能看到本地标签；
+2. `git ls-remote --tags origin refs/tags/v1.5.0` 能看到远程标签；
+3. GitHub Actions 中存在 `headBranch=v1.5.0` 的运行；
 4. 所有 Python、前端和 Windows Native 作业成功；
 5. `Publish GitHub Release` 没有因前置失败而跳过。
 
-本地创建标签不会自动上传，必须执行 `git push origin v1.4.0`。
+本地创建标签不会自动上传，必须执行 `git push origin v1.5.0`。
 
 ### CI 显示很多 `SKIPPED`
 

@@ -33,7 +33,7 @@
         <div class="hero-copy">
           <span class="eyebrow">PHOTO TO SOLUTION</span>
           <h1 id="pageTitle">三阶魔方<br /><em>拍照即解</em></h1>
-          <p id="pageSubtitle">依次录入六个面，自动识别色块并校验状态，生成以 F 面为前基准的 HTM 最短解。</p>
+          <p id="pageSubtitle">依次录入六个面，自动识别色块并校验状态，按所选 HTM / QTM 计步方式验证以 F 面为前基准的最短解。</p>
         </div>
         <div class="cube-size-control">
           <label for="cubeSizeSelect">选择魔方阶数</label>
@@ -98,6 +98,13 @@
             </div>
           </div>
 
+          <div class="metric-control">
+            <label for="metricSelect">180° 计步方式</label>
+            <select id="metricSelect">
+              <option value="HTM" selected>算一步（HTM）</option>
+              <option value="QTM">算两步（QTM）</option>
+            </select>
+          </div>
           <button id="solveBtn" class="primary-btn" type="button">
             <span>开始求解</span>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" /></svg>
@@ -106,12 +113,13 @@
           <div class="solution-block">
             <div class="solution-heading">
               <span class="label">还原步骤</span>
-              <span class="metric-chip">HTM</span>
+              <span id="metricChip" class="metric-chip">HTM</span>
             </div>
             <div id="solutionText" class="solution-text" aria-live="polite">
               <span class="empty-solution">完成六面录入后，解法会显示在这里</span>
             </div>
             <div id="depthText" class="depth-text"></div>
+            <p id="metricHint" class="depth-text">HTM：R2 等 180° 转动计 1 步，90° 正反转均计 1 步</p>
           </div>
 
           <details class="advanced-panel">

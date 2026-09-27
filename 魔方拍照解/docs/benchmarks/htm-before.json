@@ -1,0 +1,1037 @@
+{
+  "binary": {
+    "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\build\\cube_solver.exe",
+    "bytes": 3839002,
+    "sha256": "2fbb4f11ecaedc531b5ec1e31841352555b366b5c7b3792acbbd77526b9a4575"
+  },
+  "pdbs": [
+    {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\native\\corner_htm_v2.pdb",
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb"
+    },
+    {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\native\\phase1_sym_htm_v2.pdb",
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f"
+    },
+    {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\native\\tail_depth6_v4.pdb",
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74"
+    }
+  ],
+  "cases_file": {
+    "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\tests\\native_cases.json",
+    "bytes": 626,
+    "sha256": "127ba523a950301ea73416e9b3a654eb1d8cc0933faf60f42107981ba55a6351"
+  },
+  "selected_cases": [
+    {
+      "name": "repo14",
+      "facelets": "RLULUBRUDLRBLRFDDRURFFFFLBRUDFUDRLDUBBBDLRBBFLUDUBLFFD",
+      "incumbent": [
+        "F2",
+        "U",
+        "F",
+        "R'",
+        "B'",
+        "U'",
+        "F'",
+        "D'",
+        "F",
+        "L2",
+        "U",
+        "F'",
+        "U",
+        "B2"
+      ]
+    },
+    {
+      "name": "pgo16",
+      "facelets": "RFLLURLRRDFULRRBDLUBFUFULDRDLDRDBFFDUBFULFRUBBLBDBBFDU",
+      "incumbent": [
+        "D",
+        "L'",
+        "D",
+        "F2",
+        "D2",
+        "L'",
+        "U'",
+        "R",
+        "U2",
+        "F2",
+        "L",
+        "F'",
+        "U2",
+        "L",
+        "U",
+        "B"
+      ]
+    }
+  ],
+  "cold_starts": [
+    {
+      "variant": "staged",
+      "repeat": 0,
+      "seconds": 0.7073885000027076,
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 2,
+        "proof_version": 1
+      }
+    }
+  ],
+  "runs": [
+    {
+      "case": "repo14",
+      "facelets": "RLULUBRUDLRBLRFDDRURFFFFLBRUDFUDRLDUBBBDLRBBFLUDUBLFFD",
+      "incumbent": [
+        "F2",
+        "U",
+        "F",
+        "R'",
+        "B'",
+        "U'",
+        "F'",
+        "D'",
+        "F",
+        "L2",
+        "U",
+        "F'",
+        "U",
+        "B2"
+      ],
+      "threads": 4,
+      "wall_seconds": 0.005323800000041956,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "status": "complete",
+        "inverse_direction": false,
+        "moves": [
+          "F2",
+          "U",
+          "F",
+          "R'",
+          "B'",
+          "U'",
+          "F'",
+          "D'",
+          "F",
+          "L2",
+          "U",
+          "F'",
+          "U",
+          "B2"
+        ],
+        "solution": "F2 U F R' B' U' F' D' F L2 U F' U B2",
+        "depth": 14,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 0.004948,
+        "nodes": 9069,
+        "split_nodes": 13233,
+        "transposition_hits": 0,
+        "tail_queries": 2,
+        "tail_bloom_rejects": 2,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "corner_pdb": true,
+        "phase1_pdb": true,
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": true,
+        "completed_depth": 13,
+        "generated_candidates": 133905,
+        "small_pdb_queries": 0,
+        "phase1_queries": 247697,
+        "corner_queries": 12193,
+        "edge_queries": 0,
+        "axis_rejects": [
+          57794,
+          39702,
+          18485
+        ],
+        "equality_rejects": 6155,
+        "corner_rejects": 1715,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 2301,
+            "generated": 32316,
+            "busy_seconds": 0.003052,
+            "idle_seconds": 7.5e-05
+          },
+          {
+            "nodes": 2125,
+            "generated": 29820,
+            "busy_seconds": 0.002918,
+            "idle_seconds": 4.4e-05
+          },
+          {
+            "nodes": 2060,
+            "generated": 29022,
+            "busy_seconds": 0.002887,
+            "idle_seconds": 2.6e-05
+          },
+          {
+            "nodes": 2234,
+            "generated": 31146,
+            "busy_seconds": 0.00285,
+            "idle_seconds": 2.6e-05
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 13,
+          "current_depth": 10,
+          "completed_depth": 9,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 2.1e-05,
+          "elapsed_seconds": 2.1e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 13,
+          "current_depth": 10,
+          "completed_depth": 10,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 108,
+          "nodes": 0,
+          "split_nodes": 108,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000332,
+          "elapsed_seconds": 0.000443,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "generated_candidates": 108,
+          "small_pdb_queries": 0,
+          "phase1_queries": 213,
+          "corner_queries": 8,
+          "edge_queries": 0,
+          "axis_rejects": [
+            27,
+            57,
+            16
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 33,
+              "busy_seconds": 0.000127,
+              "idle_seconds": 1.9e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 39,
+              "busy_seconds": 1e-05,
+              "idle_seconds": 4.7e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 24,
+              "busy_seconds": 2.4e-05,
+              "idle_seconds": 5.4e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 12,
+              "busy_seconds": 4e-06,
+              "idle_seconds": 0.000116
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 13,
+          "current_depth": 11,
+          "completed_depth": 11,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 1023,
+          "nodes": 0,
+          "split_nodes": 1131,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000334,
+          "elapsed_seconds": 0.000805,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "generated_candidates": 1131,
+          "small_pdb_queries": 0,
+          "phase1_queries": 2150,
+          "corner_queries": 93,
+          "edge_queries": 0,
+          "axis_rejects": [
+            422,
+            399,
+            191
+          ],
+          "equality_rejects": 26,
+          "corner_rejects": 11,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 492,
+              "busy_seconds": 0.000151,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 0,
+              "generated": 309,
+              "busy_seconds": 7.3e-05,
+              "idle_seconds": 4.1e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 183,
+              "busy_seconds": 4.7e-05,
+              "idle_seconds": 2.9e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 39,
+              "busy_seconds": 8e-06,
+              "idle_seconds": 4.4e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 13,
+          "current_depth": 12,
+          "completed_depth": 12,
+          "iteration_nodes": 349,
+          "iteration_split_nodes": 5829,
+          "nodes": 349,
+          "split_nodes": 6960,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000719,
+          "elapsed_seconds": 0.001548,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "generated_candidates": 11601,
+          "small_pdb_queries": 0,
+          "phase1_queries": 22199,
+          "corner_queries": 1096,
+          "edge_queries": 0,
+          "axis_rejects": [
+            4491,
+            3916,
+            1795
+          ],
+          "equality_rejects": 401,
+          "corner_rejects": 133,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 82,
+              "generated": 2607,
+              "busy_seconds": 0.000485,
+              "idle_seconds": 3e-05
+            },
+            {
+              "nodes": 104,
+              "generated": 3063,
+              "busy_seconds": 0.000443,
+              "idle_seconds": 5.3e-05
+            },
+            {
+              "nodes": 80,
+              "generated": 2409,
+              "busy_seconds": 0.000394,
+              "idle_seconds": 8e-05
+            },
+            {
+              "nodes": 83,
+              "generated": 2391,
+              "busy_seconds": 0.000414,
+              "idle_seconds": 3.4e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 13,
+          "current_depth": 13,
+          "completed_depth": 13,
+          "iteration_nodes": 8720,
+          "iteration_split_nodes": 6273,
+          "nodes": 9069,
+          "split_nodes": 13233,
+          "transposition_hits": 0,
+          "tail_queries": 2,
+          "tail_bloom_rejects": 2,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.003352,
+          "elapsed_seconds": 0.004923,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "generated_candidates": 133905,
+          "small_pdb_queries": 0,
+          "phase1_queries": 247697,
+          "corner_queries": 12193,
+          "edge_queries": 0,
+          "axis_rejects": [
+            57794,
+            39702,
+            18485
+          ],
+          "equality_rejects": 6155,
+          "corner_rejects": 1715,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 2301,
+              "generated": 32316,
+              "busy_seconds": 0.003052,
+              "idle_seconds": 7.5e-05
+            },
+            {
+              "nodes": 2125,
+              "generated": 29820,
+              "busy_seconds": 0.002918,
+              "idle_seconds": 4.4e-05
+            },
+            {
+              "nodes": 2060,
+              "generated": 29022,
+              "busy_seconds": 0.002887,
+              "idle_seconds": 2.6e-05
+            },
+            {
+              "nodes": 2234,
+              "generated": 31146,
+              "busy_seconds": 0.00285,
+              "idle_seconds": 2.6e-05
+            }
+          ]
+        }
+      ],
+      "completed_depth": 13,
+      "process_peak_memory_bytes": 343863296,
+      "variant": "staged",
+      "repeat": 0
+    },
+    {
+      "case": "pgo16",
+      "facelets": "RFLLURLRRDFULRRBDLUBFUFULDRDLDRDBFFDUBFULFRUBBLBDBBFDU",
+      "incumbent": [
+        "D",
+        "L'",
+        "D",
+        "F2",
+        "D2",
+        "L'",
+        "U'",
+        "R",
+        "U2",
+        "F2",
+        "L",
+        "F'",
+        "U2",
+        "L",
+        "U",
+        "B"
+      ],
+      "threads": 4,
+      "wall_seconds": 0.4263901000012993,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "status": "complete",
+        "inverse_direction": false,
+        "moves": [
+          "D",
+          "L'",
+          "D",
+          "F2",
+          "D2",
+          "L'",
+          "U'",
+          "R",
+          "U2",
+          "F2",
+          "L",
+          "F'",
+          "U2",
+          "L",
+          "U",
+          "B"
+        ],
+        "solution": "D L' D F2 D2 L' U' R U2 F2 L F' U2 L U B",
+        "depth": 16,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 0.426023,
+        "nodes": 759236,
+        "split_nodes": 22365,
+        "transposition_hits": 0,
+        "tail_queries": 147,
+        "tail_bloom_rejects": 140,
+        "tail_exact_queries": 7,
+        "tail_probes": 14,
+        "tail_hits": 0,
+        "corner_pdb": true,
+        "phase1_pdb": true,
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": true,
+        "completed_depth": 15,
+        "generated_candidates": 10160820,
+        "small_pdb_queries": 0,
+        "phase1_queries": 16126195,
+        "corner_queries": 846630,
+        "edge_queries": 0,
+        "axis_rejects": [
+          6228053,
+          1904449,
+          584574
+        ],
+        "equality_rejects": 598544,
+        "corner_rejects": 84297,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 183133,
+            "generated": 2446107,
+            "busy_seconds": 0.163497,
+            "idle_seconds": 7.7e-05
+          },
+          {
+            "nodes": 171041,
+            "generated": 2284227,
+            "busy_seconds": 0.163513,
+            "idle_seconds": 2.8e-05
+          },
+          {
+            "nodes": 176855,
+            "generated": 2364183,
+            "busy_seconds": 0.163413,
+            "idle_seconds": 9.7e-05
+          },
+          {
+            "nodes": 174298,
+            "generated": 2329665,
+            "busy_seconds": 0.163414,
+            "idle_seconds": 4.8e-05
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 15,
+          "current_depth": 10,
+          "completed_depth": 9,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.2e-05,
+          "elapsed_seconds": 1.2e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 15,
+          "current_depth": 10,
+          "completed_depth": 10,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 18,
+          "nodes": 0,
+          "split_nodes": 18,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000248,
+          "elapsed_seconds": 0.000273,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "generated_candidates": 18,
+          "small_pdb_queries": 0,
+          "phase1_queries": 22,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            15,
+            2,
+            1
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 18,
+              "busy_seconds": 2e-06,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 15,
+          "current_depth": 11,
+          "completed_depth": 11,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 177,
+          "nodes": 0,
+          "split_nodes": 195,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000246,
+          "elapsed_seconds": 0.000542,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "generated_candidates": 195,
+          "small_pdb_queries": 0,
+          "phase1_queries": 290,
+          "corner_queries": 13,
+          "edge_queries": 0,
+          "axis_rejects": [
+            132,
+            31,
+            4
+          ],
+          "equality_rejects": 15,
+          "corner_rejects": 1,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 177,
+              "busy_seconds": 2.2e-05,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 15,
+          "current_depth": 12,
+          "completed_depth": 12,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 3252,
+          "nodes": 0,
+          "split_nodes": 3447,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000506,
+          "elapsed_seconds": 0.001068,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "generated_candidates": 3447,
+          "small_pdb_queries": 0,
+          "phase1_queries": 5346,
+          "corner_queries": 277,
+          "edge_queries": 0,
+          "axis_rejects": [
+            2189,
+            617,
+            126
+          ],
+          "equality_rejects": 238,
+          "corner_rejects": 24,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 1143,
+              "busy_seconds": 0.000287,
+              "idle_seconds": 1.8e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 861,
+              "busy_seconds": 0.000187,
+              "idle_seconds": 7.1e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 795,
+              "busy_seconds": 0.000155,
+              "idle_seconds": 6.7e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 453,
+              "busy_seconds": 9.8e-05,
+              "idle_seconds": 8.4e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 15,
+          "current_depth": 13,
+          "completed_depth": 13,
+          "iteration_nodes": 3162,
+          "iteration_split_nodes": 5910,
+          "nodes": 3162,
+          "split_nodes": 9357,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.001637,
+          "elapsed_seconds": 0.002725,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "generated_candidates": 51801,
+          "small_pdb_queries": 0,
+          "phase1_queries": 82164,
+          "corner_queries": 4476,
+          "edge_queries": 0,
+          "axis_rejects": [
+            32161,
+            9580,
+            2526
+          ],
+          "equality_rejects": 3279,
+          "corner_rejects": 398,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 656,
+              "generated": 10434,
+              "busy_seconds": 0.001376,
+              "idle_seconds": 3.4e-05
+            },
+            {
+              "nodes": 851,
+              "generated": 12948,
+              "busy_seconds": 0.001356,
+              "idle_seconds": 3.2e-05
+            },
+            {
+              "nodes": 788,
+              "generated": 12057,
+              "busy_seconds": 0.001291,
+              "idle_seconds": 5.3e-05
+            },
+            {
+              "nodes": 867,
+              "generated": 12915,
+              "busy_seconds": 0.001287,
+              "idle_seconds": 3e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 15,
+          "current_depth": 14,
+          "completed_depth": 14,
+          "iteration_nodes": 50747,
+          "iteration_split_nodes": 6744,
+          "nodes": 53909,
+          "split_nodes": 16101,
+          "transposition_hits": 0,
+          "tail_queries": 13,
+          "tail_bloom_rejects": 13,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.259306,
+          "elapsed_seconds": 0.262054,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "generated_candidates": 736638,
+          "small_pdb_queries": 0,
+          "phase1_queries": 1165927,
+          "corner_queries": 61831,
+          "edge_queries": 0,
+          "axis_rejects": [
+            454230,
+            137624,
+            39704
+          ],
+          "equality_rejects": 43948,
+          "corner_rejects": 6024,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 12789,
+              "generated": 173181,
+              "busy_seconds": 0.011802,
+              "idle_seconds": 5.1e-05
+            },
+            {
+              "nodes": 12999,
+              "generated": 175194,
+              "busy_seconds": 0.011762,
+              "idle_seconds": 6.5e-05
+            },
+            {
+              "nodes": 11997,
+              "generated": 161964,
+              "busy_seconds": 0.011778,
+              "idle_seconds": 1.4e-05
+            },
+            {
+              "nodes": 12962,
+              "generated": 174498,
+              "busy_seconds": 0.011685,
+              "idle_seconds": 6.9e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 15,
+          "current_depth": 15,
+          "completed_depth": 15,
+          "iteration_nodes": 705327,
+          "iteration_split_nodes": 6264,
+          "nodes": 759236,
+          "split_nodes": 22365,
+          "transposition_hits": 0,
+          "tail_queries": 147,
+          "tail_bloom_rejects": 140,
+          "tail_exact_queries": 7,
+          "tail_probes": 14,
+          "tail_hits": 0,
+          "iteration_seconds": 0.163884,
+          "elapsed_seconds": 0.425984,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "generated_candidates": 10160820,
+          "small_pdb_queries": 0,
+          "phase1_queries": 16126195,
+          "corner_queries": 846630,
+          "edge_queries": 0,
+          "axis_rejects": [
+            6228053,
+            1904449,
+            584574
+          ],
+          "equality_rejects": 598544,
+          "corner_rejects": 84297,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 183133,
+              "generated": 2446107,
+              "busy_seconds": 0.163497,
+              "idle_seconds": 7.7e-05
+            },
+            {
+              "nodes": 171041,
+              "generated": 2284227,
+              "busy_seconds": 0.163513,
+              "idle_seconds": 2.8e-05
+            },
+            {
+              "nodes": 176855,
+              "generated": 2364183,
+              "busy_seconds": 0.163413,
+              "idle_seconds": 9.7e-05
+            },
+            {
+              "nodes": 174298,
+              "generated": 2329665,
+              "busy_seconds": 0.163414,
+              "idle_seconds": 4.8e-05
+            }
+          ]
+        }
+      ],
+      "completed_depth": 15,
+      "process_peak_memory_bytes": 343982080,
+      "variant": "staged",
+      "repeat": 0
+    }
+  ],
+  "summaries": {
+    "staged/4/repo14": {
+      "runs": 1,
+      "completed": 1,
+      "timeout_ratio": 0.0,
+      "all_run_wall_p50": 0.005323800000041956,
+      "all_run_wall_p95": 0.005323800000041956,
+      "successful_proof_p50": 0.004948,
+      "completed_depths": [
+        13
+      ]
+    },
+    "staged/4/pgo16": {
+      "runs": 1,
+      "completed": 1,
+      "timeout_ratio": 0.0,
+      "all_run_wall_p50": 0.4263901000012993,
+      "all_run_wall_p95": 0.4263901000012993,
+      "successful_proof_p50": 0.426023,
+      "completed_depths": [
+        15
+      ]
+    }
+  },
+  "build": {
+    "compiler": "g++.exe (Rev5, Built by MSYS2 project) 16.1.0",
+    "flags": "-std=c++20 -O3 -march=native -mtune=native -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode",
+    "profile_guided": false,
+    "built_at": "2026-09-27T10:34:17.5694348Z",
+    "binary_sha256": "2FBB4F11ECAEDC531B5EC1E31841352555B366B5C7B3792ACBBD77526B9A4575",
+    "source_sha256": {
+      "solver.cpp": "5E0445466519FC1692BE718A0434203368B5CD9D23CC93C7A884CBD55D00C875",
+      "paths.hpp": "FB3ECD78D63C5AB1D3FB183C4F9822B9C0A1A0DA3133561C14F09C56828DE786",
+      "tail.cpp": "EC479533CF48E61E58857B184142B8B2AABBDC134E3E719A32746EE69522135B",
+      "symmetry.cpp": "DE8FA95BDFC02EE0CA4123FFA719BCADDA74119A48F73332EA3829C22C29355F",
+      "pdb.cpp": "03FB90E8F656C26974E59FF6FCB8EDB4DF999025E1FF88528688BC3D97B4793A",
+      "solver.hpp": "188234AD4D6585CF7CD7FEE02F4754BC236ACAC88E481D03DC317645FBF0FD64",
+      "pdb.hpp": "08DCD2EDB1CB222AF602CDDEE0B86585B554C3638D05B779F8FE2BF489C8E7CF",
+      "cube.cpp": "F94564AC640C96CFE52B18A3D012958271FC08AB7E5EBA64B77C49BA9B06EBAF",
+      "tail.hpp": "3B302610376AD768BA643FB28833FFF6C122C40A491CD9132950794E771E7948",
+      "symmetry.hpp": "B53C16C7892DC9473E7059EAA5935B9BA1D44A96BFAE99291802770303757D2E",
+      "main.cpp": "D9F5911BEC72EBC6FBB0DA9A45167E1654815B0F02293D44B6F93CF663600B84",
+      "cube.hpp": "6346AA5BDCF355EA9EFC6836905032E78E1359F4813D4674CF9C82E45ECBCEF9"
+    }
+  }
+}

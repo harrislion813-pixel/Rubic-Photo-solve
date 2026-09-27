@@ -18,6 +18,7 @@ from urllib.parse import urlparse
 from cube_app import __version__
 from cube_app.cubie import CubeStateError, CubieCube, from_facelets, to_facelets
 from cube_app.fast import FastTwoPhaseSolver
+from cube_app.metrics import normalize_metric, resolve_max_depth, solution_cost
 from cube_app.native import (
     NativeSolverCancelled,
     NativeSolverError,
@@ -25,7 +26,7 @@ from cube_app.native import (
     native_solver_available,
     solve_native,
 )
-from cube_app.optimal import OptimalSolver, SearchCancelled, SearchTimeout
+from cube_app.optimal import OptimalSolver, SearchCancelled, SearchTimeout, SolveResult
 from cube_app.runtime import application_root
 from cube_app.two_by_two import TwoByTwoSolver
 
@@ -55,6 +56,7 @@ JOBS_LOCK = threading.Lock()
 OPTIMAL_SEARCH_LOCK = threading.Lock()
 QUICK_SEARCH_LOCK = threading.Lock()
 MAX_JOBS = 100
+PROOF_VERSION = 2
 DETECTION_PIPELINE = DetectionPipeline() if DetectionPipeline is not None else None
 
 
@@ -80,11 +82,16 @@ def prepare_optimal_job(
     timeout_seconds: float | None,
     *,
     deadline: float | None = None,
+    metric: str = "HTM",
 ) -> tuple[str, threading.Thread]:
+    metric = normalize_metric(metric)
+    max_depth = resolve_max_depth(3, metric, max_depth)
+    if quick_result is not None:
+        quick_result = candidate_for_metric(quick_result, metric)
     created = time.monotonic()
     if deadline is None and timeout_seconds is not None:
         deadline = created + timeout_seconds
-    state_key = (to_facelets(cube), max_depth, "HTM", 1)
+    state_key = (to_facelets(cube), 3, max_depth, metric, PROOF_VERSION)
     job_id = uuid.uuid4().hex
     cancel_event = threading.Event()
     with JOBS_LOCK:
@@ -95,7 +102,7 @@ def prepare_optimal_job(
             terminal = [
                 (key, value.get("updated_at", 0.0))
                 for key, value in JOBS.items()
-                if value.get("status") in {"complete", "timeout", "error", "cancelled"}
+                if value.get("status") in {"complete", "timeout", "error", "cancelled", "budget_exhausted"}
                 and not value["_worker"].is_alive()
             ]
             remove_count = len(JOBS) - MAX_JOBS + 1
@@ -106,6 +113,10 @@ def prepare_optimal_job(
         JOBS[job_id] = {
             "job_id": job_id,
             "status": "queued",
+            "metric": metric,
+            "cube_size": 3,
+            "max_depth": max_depth,
+            "proof_version": PROOF_VERSION,
             "created_at": time.time(),
             "updated_at": time.time(),
             "_cancel_event": cancel_event,
@@ -118,13 +129,16 @@ def prepare_optimal_job(
             "engine": "pending",
             "solution_generation_seconds": 0.0,
         }
+        if quick_result is not None:
+            JOBS[job_id]["candidate_result"] = result_payload(quick_result)
 
         proof_max_depth = min(max_depth, quick_result.depth) if quick_result is not None else max_depth
         upper_bound = quick_result.depth if quick_result is not None else None
         incumbent_moves = quick_result.moves if quick_result is not None else None
         thread = threading.Thread(
             target=run_optimal_job,
-            args=(job_id, cube, proof_max_depth, timeout_seconds, upper_bound, incumbent_moves, cancel_event, deadline),
+            args=(job_id, cube, proof_max_depth, timeout_seconds, upper_bound, incumbent_moves, cancel_event, deadline,
+                  metric),
             name=f"cube-optimal-{job_id[:8]}",
             daemon=True,
         )
@@ -149,14 +163,20 @@ def remaining_seconds(deadline: float | None) -> float | None:
     return remaining
 
 
-def generate_quick_solution(cube: CubieCube, deadline: float | None):
+def candidate_for_metric(result, metric: str) -> SolveResult:
+    """The HTM two-phase generator supplies a feasible bound in either metric."""
+    return SolveResult(list(result.moves), solution_cost(result.moves, metric), metric,
+                       result.elapsed_seconds, not result.moves)
+
+
+def generate_quick_solution(cube: CubieCube, deadline: float | None, metric: str = "HTM"):
     while not QUICK_SEARCH_LOCK.acquire(timeout=0.05):
         remaining_seconds(deadline)
     try:
         if FAST_SOLVER._tables is None and PROBE_SOLVER._tables is not None:
             FAST_SOLVER._tables = PROBE_SOLVER._tables
         budget = min(QUICK_SOLVE_SECONDS, remaining_seconds(deadline) or QUICK_SOLVE_SECONDS)
-        return FAST_SOLVER.solve_cube(cube, timeout_seconds=budget)
+        return candidate_for_metric(FAST_SOLVER.solve_cube(cube, timeout_seconds=budget), metric)
     finally:
         QUICK_SEARCH_LOCK.release()
 
@@ -170,6 +190,18 @@ def update_job(job_id: str, **values: object) -> None:
         job["updated_at"] = time.time()
 
 
+def update_job_candidate(job_id: str, result) -> None:
+    with JOBS_LOCK:
+        job = JOBS.get(job_id)
+        if job is None:
+            return
+        candidate = candidate_for_metric(result, job["metric"])
+        previous = job.get("incumbent_depth")
+        if previous is None or candidate.depth < previous:
+            job.update(_incumbent_moves=candidate.moves, incumbent_depth=candidate.depth,
+                       candidate_result=result_payload(candidate), updated_at=time.time())
+
+
 def run_optimal_job(
     job_id: str,
     cube: CubieCube,
@@ -179,7 +211,9 @@ def run_optimal_job(
     incumbent_moves: list[str] | None = None,
     cancel_event: threading.Event | None = None,
     deadline: float | None = None,
+    metric: str = "HTM",
 ) -> None:
+    metric = normalize_metric(metric)
     started = time.monotonic()
     if deadline is None and timeout_seconds is not None:
         deadline = started + timeout_seconds
@@ -195,7 +229,7 @@ def run_optimal_job(
         update_job(job_id, status="running")
 
         def report_progress(progress: dict) -> None:
-            update_job(job_id, progress=progress, engine=progress.get("engine", "python"))
+            update_job(job_id, progress={**progress, "metric": metric}, engine=progress.get("engine", "python"))
 
         def incumbent_provider() -> list[str] | None:
             with JOBS_LOCK:
@@ -213,6 +247,7 @@ def run_optimal_job(
                 deadline=deadline,
                 incumbent_provider=incumbent_provider,
                 threads=min(32, max(1, (os.cpu_count() or 1) - 1)),
+                metric=metric,
             )
         except NativeSolverCancelled as exc:
             raise SearchCancelled(str(exc)) from exc
@@ -225,7 +260,8 @@ def run_optimal_job(
         if native_result is not None:
             if cancel_event is not None and cancel_event.is_set():
                 raise SearchCancelled("搜索已取消。")
-            update_job(job_id, status="complete", result=native_result)
+            status = "complete" if native_result["optimal"] else "budget_exhausted"
+            update_job(job_id, status=status, result=native_result)
             return
         update_job(job_id, engine="python")
         with JOBS_LOCK:
@@ -236,7 +272,7 @@ def run_optimal_job(
         if update_reason:
             update_job(job_id, fallback_reason=update_reason)
         incumbent_moves = incumbent_provider()
-        upper_bound = len(incumbent_moves) if incumbent_moves else upper_bound
+        upper_bound = solution_cost(incumbent_moves, metric) if incumbent_moves else upper_bound
 
         try:
             result = SOLVER.solve_cube(
@@ -248,6 +284,7 @@ def run_optimal_job(
                 incumbent_moves=incumbent_moves,
                 cancel_event=cancel_event,
                 progress_callback=report_progress,
+                metric=metric,
             )
         except PermissionError:
             result = PROBE_SOLVER.solve_cube(
@@ -259,14 +296,19 @@ def run_optimal_job(
                 incumbent_moves=incumbent_moves,
                 cancel_event=cancel_event,
                 progress_callback=report_progress,
+                metric=metric,
             )
         if cancel_event is not None and cancel_event.is_set():
             raise SearchCancelled("搜索已取消。")
-        update_job(job_id, status="complete", result={**result_payload(result), "engine": "python"})
+        status = "complete" if result.optimal else "budget_exhausted"
+        update_job(job_id, status=status, result={**result_payload(result), "engine": "python"})
     except SearchCancelled as exc:
         update_job(job_id, status="cancelled", message=str(exc))
     except SearchTimeout as exc:
         update_job(job_id, status="timeout", message=str(exc))
+    except CubeStateError as exc:
+        # Input has already passed from_facelets validation before this worker.
+        update_job(job_id, status="budget_exhausted", message=str(exc))
     except Exception as exc:  # pragma: no cover - background safety net.
         update_job(job_id, status="error", message=str(exc))
     finally:
@@ -347,7 +389,7 @@ class AppHandler(BaseHTTPRequestHandler):
                     status = None
                 else:
                     status = str(job.get("status", "queued"))
-                    if status not in {"complete", "timeout", "error", "cancelled"}:
+                    if status not in {"complete", "timeout", "error", "cancelled", "budget_exhausted"}:
                         cancel_event = job.get("_cancel_event")
                         if isinstance(cancel_event, threading.Event):
                             cancel_event.set()
@@ -358,7 +400,7 @@ class AppHandler(BaseHTTPRequestHandler):
             if status is None:
                 self._send_json({"ok": False, "error": "求解任务不存在或已过期"}, status=404)
             else:
-                self._send_json({"ok": True, "job_id": job_id, "status": status})
+                self._send_json({"ok": True, "job_id": job_id, "status": status, "metric": job["metric"]})
             return
         if parsed.path == "/api/detect":
             try:
@@ -406,15 +448,15 @@ class AppHandler(BaseHTTPRequestHandler):
         if parsed.path != "/api/solve":
             self._send_json({"error": "Not found"}, status=404)
             return
+        metric = "HTM"
         try:
             payload = self._read_json()
             facelets = str(payload.get("facelets", ""))
+            metric = normalize_metric(payload.get("metric", "HTM"))
             cube_size = int(payload.get("cube_size", 3))
             if cube_size not in (2, 3):
                 raise ValueError("cube_size 只能是 2 或 3。")
-            max_depth = int(payload.get("max_depth", 11 if cube_size == 2 else 20))
-            if not 0 <= max_depth <= 20:
-                raise ValueError("max_depth 必须在 0 到 20 之间。")
+            max_depth = resolve_max_depth(cube_size, metric, payload.get("max_depth"))
             timeout = payload.get("timeout_seconds", 180)
             timeout_seconds = None if timeout in (None, 0, "0", "none") else float(timeout)
             if timeout_seconds is not None and (
@@ -424,8 +466,9 @@ class AppHandler(BaseHTTPRequestHandler):
             if cube_size == 2:
                 result = TWO_BY_TWO_SOLVER.solve_facelets(
                     facelets,
-                    max_depth=min(max_depth, 11),
+                    max_depth=max_depth,
                     timeout_seconds=timeout_seconds,
+                    metric=metric,
                 )
                 self._send_json({"ok": True, **result_payload(result), "proof_status": "complete"})
                 return
@@ -436,7 +479,8 @@ class AppHandler(BaseHTTPRequestHandler):
             deadline = None if timeout_seconds is None else request_started + timeout_seconds
             quick_result = None
             if native_solver_available():
-                job_id, worker = prepare_optimal_job(cube, None, max_depth, timeout_seconds, deadline=deadline)
+                job_id, worker = prepare_optimal_job(cube, None, max_depth, timeout_seconds, deadline=deadline,
+                                                     metric=metric)
                 start_optimal_job(job_id, worker)
                 with JOBS_LOCK:
                     done = JOBS[job_id]["_done"]
@@ -460,17 +504,12 @@ class AppHandler(BaseHTTPRequestHandler):
                 if generate:
                     generation_started = time.monotonic()
                     try:
-                        quick_result = generate_quick_solution(cube, deadline)
+                        quick_result = generate_quick_solution(cube, deadline, metric)
                     except SearchTimeout:
                         pass
                     generation_seconds = round(time.monotonic() - generation_started, 3)
                     if quick_result is not None:
-                        update_job(
-                            job_id,
-                            _incumbent_moves=quick_result.moves,
-                            incumbent_depth=quick_result.depth,
-                            candidate_result=result_payload(quick_result),
-                        )
+                        update_job_candidate(job_id, quick_result)
                     update_job(job_id, solution_generation_seconds=generation_seconds)
                 with JOBS_LOCK:
                     snapshot = dict(JOBS[job_id])
@@ -485,7 +524,7 @@ class AppHandler(BaseHTTPRequestHandler):
                         }
                     )
                     return
-                quick_payload = snapshot.get("candidate_result")
+                quick_payload = snapshot.get("result") or snapshot.get("candidate_result")
             else:
                 probe_budget = min(
                     QUICK_OPTIMAL_PROBE_SECONDS, remaining_seconds(deadline) or QUICK_OPTIMAL_PROBE_SECONDS
@@ -497,19 +536,28 @@ class AppHandler(BaseHTTPRequestHandler):
                         max_depth=max_depth,
                         timeout_seconds=probe_budget,
                         deadline=min(deadline, probe_deadline) if deadline else probe_deadline,
+                        metric=metric,
                     )
                 except SearchTimeout:
                     result = None
+                except CubeStateError as exc:
+                    self._send_json({
+                        "ok": True, "metric": metric, "max_depth": max_depth,
+                        "moves": [], "solution": "", "depth": None, "optimal": False,
+                        "engine": "python", "proof_status": "budget_exhausted", "message": str(exc),
+                    })
+                    return
                 if result is not None:
                     self._send_json(
                         {"ok": True, **result_payload(result), "engine": "python", "proof_status": "complete"}
                     )
                     return
                 try:
-                    quick_result = generate_quick_solution(cube, deadline)
+                    quick_result = generate_quick_solution(cube, deadline, metric)
                 except SearchTimeout:
                     pass
-                job_id, worker = prepare_optimal_job(cube, quick_result, max_depth, timeout_seconds, deadline=deadline)
+                job_id, worker = prepare_optimal_job(cube, quick_result, max_depth, timeout_seconds, deadline=deadline,
+                                                     metric=metric)
                 start_optimal_job(job_id, worker)
                 with JOBS_LOCK:
                     snapshot = dict(JOBS[job_id])
@@ -519,30 +567,33 @@ class AppHandler(BaseHTTPRequestHandler):
                 "job_id": job_id,
                 "proof_status": snapshot["status"],
                 "optimal": False,
+                "metric": metric,
+                "max_depth": max_depth,
                 "engine": snapshot["engine"],
                 "solution_generation_seconds": snapshot.get("solution_generation_seconds", 0.0),
                 "request_elapsed_seconds": round(time.monotonic() - request_started, 3),
             }
             if quick_payload:
                 response.update(quick_payload)
+                response["optimal"] = False
             else:
                 response.update(
                     {
                         "moves": [],
                         "solution": "",
                         "depth": None,
-                        "metric": "HTM",
+                        "metric": metric,
                         "elapsed_seconds": 0.0,
                         "message": "正在后台严格搜索。",
                     }
                 )
             self._send_json(response)
         except JobCapacityError as exc:
-            self._send_json({"ok": False, "error": str(exc)}, status=503)
+            self._send_json({"ok": False, "error": str(exc), "metric": metric}, status=503)
         except (CubeStateError, SearchTimeout, TimeoutError, ValueError) as exc:
-            self._send_json({"ok": False, "error": str(exc)}, status=400)
+            self._send_json({"ok": False, "error": str(exc), "metric": metric}, status=400)
         except Exception as exc:  # pragma: no cover - keeps the local app friendly.
-            self._send_json({"ok": False, "error": f"服务器内部错误：{exc}"}, status=500)
+            self._send_json({"ok": False, "error": f"服务器内部错误：{exc}", "metric": metric}, status=500)
 
     def log_message(self, format: str, *args: object) -> None:
         print(f"{self.address_string()} - {format % args}")

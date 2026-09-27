@@ -23,8 +23,11 @@ $cornerPdb = Join-Path $nativeCache "corner_htm_v2.pdb"
 $phase1Pdb = Join-Path $nativeCache "phase1_sym_htm_v2.pdb"
 $tailPdb = Join-Path $nativeCache "tail_depth6_v4.pdb"
 $pythonTables = Join-Path $projectRoot ".cache\solver_tables_v3.pkl"
-$twoByTwoTables = Join-Path $projectRoot ".cache\two_by_two_htm_v1.bin"
-$requiredAssets = @($nativeExe, $cornerPdb, $phase1Pdb, $pythonTables, $twoByTwoTables)
+$twoByTwoTables = @(
+    (Join-Path $projectRoot ".cache\two_by_two_htm_v1.bin"),
+    (Join-Path $projectRoot ".cache\two_by_two_qtm_v1.bin")
+)
+$requiredAssets = @($nativeExe, $cornerPdb, $phase1Pdb, $pythonTables) + $twoByTwoTables
 
 function Assert-FreeSpace {
     param([long]$RequiredBytes, [string]$Purpose)
@@ -76,9 +79,14 @@ try {
         if ($LASTEXITCODE -ne 0) { throw "Python solver-table generation failed with exit code $LASTEXITCODE" }
     }
 
-    Write-Progress -Activity "Building Windows release" -Status "Preparing verified 2x2 distance tables" -PercentComplete 40
-    & $Python -m cube_app.two_by_two_tables
-    if ($LASTEXITCODE -ne 0) { throw "2x2 distance-table generation failed with exit code $LASTEXITCODE" }
+    Write-Progress -Activity "Building Windows release" -Status "Preparing verified HTM/QTM 2x2 distance tables" -PercentComplete 40
+    foreach ($metric in @("HTM", "QTM")) {
+        & $Python -m cube_app.two_by_two_tables --metric $metric
+        if ($LASTEXITCODE -ne 0) { throw "$metric 2x2 distance-table verification failed with exit code $LASTEXITCODE" }
+    }
+
+    & $Python -c "import json, pathlib, subprocess; p = subprocess.run([str(pathlib.Path('native/build/cube_solver.exe').resolve()), 'serve'], input='', stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8', timeout=30); ready = json.loads(p.stdout.splitlines()[0]); assert p.returncode == 0 and ready.get('ok') and ready.get('type') == 'ready' and ready.get('protocol_version') == 3 and ready.get('proof_version') == 2 and {'HTM', 'QTM'}.issubset(ready.get('metrics', [])), ready; print('Native protocol 3 / proof 2: HTM, QTM verified')"
+    if ($LASTEXITCODE -ne 0) { throw "Native solver lacks verified dual-metric protocol support. Rebuild with native\build.ps1." }
 
     foreach ($asset in $requiredAssets) { Assert-Asset $asset }
     if ($IncludeTailPdb) { Assert-Asset $tailPdb }
@@ -86,7 +94,7 @@ try {
 
     if ($PreflightOnly) {
         Write-Progress -Activity "Building Windows release" -Completed
-        Write-Host "Release preflight passed. Native solver and required PDBs are ready."
+        Write-Host "Release preflight passed. Dual-metric native solver, both 2x2 tables and required PDBs are ready."
         return
     }
 
@@ -117,7 +125,7 @@ try {
     Copy-Item -LiteralPath $nativeExe -Destination (Join-Path $packageRoot "native\build\cube_solver.exe") -Force
     New-Item -ItemType Directory -Force -Path (Join-Path $packageRoot ".cache\native") | Out-Null
     Copy-Item -LiteralPath $pythonTables -Destination (Join-Path $packageRoot ".cache\solver_tables_v3.pkl") -Force
-    Copy-Item -LiteralPath $twoByTwoTables -Destination (Join-Path $packageRoot ".cache\two_by_two_htm_v1.bin") -Force
+    Copy-Item -LiteralPath $twoByTwoTables -Destination (Join-Path $packageRoot ".cache") -Force
     Copy-Item -LiteralPath $cornerPdb, $phase1Pdb -Destination (Join-Path $packageRoot ".cache\native") -Force
     if ($IncludeTailPdb) {
         Copy-Item -LiteralPath $tailPdb -Destination (Join-Path $packageRoot ".cache\native\tail_depth6_v4.pdb") -Force

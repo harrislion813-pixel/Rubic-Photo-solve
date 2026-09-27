@@ -16,6 +16,13 @@
 
 namespace cube {
 
+enum class MoveMetric { HTM, QTM };
+[[nodiscard]] MoveMetric parse_metric(const std::string &value);
+[[nodiscard]] const char *metric_name(MoveMetric metric) noexcept;
+[[nodiscard]] int move_cost(int move, MoveMetric metric);
+[[nodiscard]] int solution_cost(std::span<const int> moves, MoveMetric metric);
+[[nodiscard]] int default_max_depth(MoveMetric metric) noexcept;
+
 class CornerPatternDatabase;
 class EdgePatternDatabase;
 class Phase1PatternDatabase;
@@ -107,6 +114,7 @@ class CoordinateTables {
 };
 
 struct NativeSearchProgress {
+    MoveMetric metric{MoveMetric::HTM};
     int lower_bound{};
     int upper_bound{};
     int current_depth{};
@@ -131,7 +139,8 @@ struct NativeSearchProgress {
 };
 
 struct SolverOptions {
-    int max_depth{20};
+    MoveMetric metric{MoveMetric::HTM};
+    int max_depth{-1}; // Unspecified: resolve to the selected metric's full search bound.
     double timeout_seconds{180.0};
     int threads{0};
     std::size_t transposition_limit_per_thread{500'000};
@@ -149,6 +158,7 @@ struct SolverOptions {
 };
 
 struct NativeSolveResult {
+    MoveMetric metric{MoveMetric::HTM};
     std::vector<int> moves;
     int depth{-1};
     bool optimal{false};

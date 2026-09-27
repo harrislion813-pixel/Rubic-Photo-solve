@@ -1,4 +1,4 @@
-"""Reproducible native benchmark. Legacy framing disables proof-cache reuse."""
+"""Reproducible HTM/QTM benchmark with proof-cache reuse explicitly disabled."""
 
 from __future__ import annotations
 
@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from cube_app.cubie import CubieCube, MOVE_INDEX, from_facelets, to_facelets
 from cube_app.optimal import invert_moves
+from cube_app.metrics import default_max_depth, normalize_metric, solution_cost
 
 
 def legal_state(seed: int) -> CubieCube:
@@ -91,7 +92,7 @@ class Service:
     def __init__(self, binary: Path, flags: list[str], pdb_flags: list[str]):
         started = time.perf_counter()
         self.process = subprocess.Popen(
-            [str(binary.resolve()), "serve", *pdb_flags, *flags],
+            [str(binary.resolve()), "serve", "--no-proof-cache", *pdb_flags, *flags],
             cwd=ROOT,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
@@ -118,7 +119,7 @@ class Service:
         self.error_reader.start()
         try:
             ready = self.event(30)
-            if ready.get("type") != "ready" or not ready.get("ok"):
+            if ready.get("type") != "ready" or not ready.get("ok") or ready.get("protocol_version") != 3:
                 raise RuntimeError(ready)
         except Exception:
             self.close()
@@ -132,10 +133,12 @@ class Service:
             raise RuntimeError("native service stopped: " + "\n".join(self.errors[-5:]))
         return json.loads(line)
 
-    def solve(self, case: dict, threads: int, timeout: float) -> dict:
+    def solve(self, case: dict, threads: int, timeout: float, metric: str = "HTM") -> dict:
         cube, incumbent = case_state(case)
         started = time.perf_counter()
-        self.process.stdin.write(f"{to_facelets(cube)}\t20\t{timeout}\t{threads}\t{' '.join(incumbent)}\n")
+        self.process.stdin.write(
+            f"solve\tbenchmark\t{to_facelets(cube)}\t{default_max_depth(3, metric)}\t{timeout}\t{threads}\t{metric}\t{' '.join(incumbent)}\n"
+        )
         self.process.stdin.flush()
         events = []
         while True:
@@ -150,14 +153,18 @@ class Service:
             verified = cube
             for name in event.get("moves", []):
                 verified = verified.apply_move_index(MOVE_INDEX[name])
-            if not verified.is_solved():
+            if not verified.is_solved() or event.get("metric") != metric or event["depth"] != solution_cost(event.get("moves", []), metric):
                 raise AssertionError("invalid native solution")
-        if event.get("optimal") and case.get("expected_depth") is not None and event["depth"] != case["expected_depth"]:
+        expected = case.get("expected_depth" if metric == "HTM" else "expected_qtm_depth")
+        if event.get("optimal") and expected is not None and event["depth"] != expected:
             raise AssertionError(f"incorrect optimal depth for {case['name']}")
         return {
             "case": case["name"],
             "facelets": to_facelets(cube),
             "incumbent": incumbent,
+            "metric": metric,
+            "incumbent_depth": solution_cost(incumbent, metric) if incumbent else None,
+            "proof_cache_reuse": False,
             "threads": threads,
             "wall_seconds": time.perf_counter() - started,
             "result": event,
@@ -201,6 +208,7 @@ def main():
     parser.add_argument("--cases", default="repo14,pgo16,seed18,known18")
     parser.add_argument("--threads", default="16")
     parser.add_argument("--timeout", type=float, default=60)
+    parser.add_argument("--metric", choices=("HTM", "QTM"), type=normalize_metric, default="HTM")
     parser.add_argument("--repeats", type=int, default=3)
     parser.add_argument("--variants", default="baseline,pruning,staged")
     parser.add_argument("--no-tail", action="store_true")
@@ -233,6 +241,9 @@ def main():
         pdb_paths.append(tail)
         pdb_flags += ["--tail-pdb", tail.relative_to(ROOT).as_posix()]
     output = {
+        "metric": args.metric,
+        "proof_cache_reuse": False,
+        "tail_enabled": args.metric == "HTM" and not args.no_tail and tail.is_file(),
         "binary": file_metadata(args.binary),
         "pdbs": [file_metadata(p) for p in pdb_paths],
         "cases_file": file_metadata(args.cases_file),
@@ -258,7 +269,7 @@ def main():
             try:
                 for threads in map(int, args.threads.split(",")):
                     for case in selected:
-                        run = service.solve(case, threads, args.timeout)
+                        run = service.solve(case, threads, args.timeout, args.metric)
                         run.update(variant=variant, repeat=repeat)
                         output["runs"].append(run)
                         print(

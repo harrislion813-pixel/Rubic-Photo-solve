@@ -10,6 +10,7 @@ import time
 import uuid
 from collections.abc import Callable
 from .cubie import CubieCube, MOVE_INDEX, to_facelets
+from .metrics import normalize_metric, resolve_max_depth, solution_cost
 from .runtime import application_root
 
 
@@ -151,9 +152,16 @@ class _PersistentNativeSolver:
         if ready.get("type") != "ready" or not ready.get("ok"):
             self._stop_locked()
             raise NativeSolverError(str(ready.get("error", "native solver service failed to start")))
-        if ready.get("protocol_version", 0) < 2:
+        supported_metrics = ready.get("metrics")
+        if (
+            ready.get("protocol_version", 0) != 3
+            or ready.get("proof_version", 0) != 2
+            or not isinstance(supported_metrics, list)
+            or any(not isinstance(item, str) for item in supported_metrics)
+            or not {"HTM", "QTM"}.issubset(supported_metrics)
+        ):
             self._stop_locked()
-            raise NativeSolverError("native service protocol is outdated; rebuild native/build.ps1")
+            raise NativeSolverError("native service HTM/QTM capabilities do not match protocol 3 / proof 2; rebuild native/build.ps1")
 
     def _stop_locked(self) -> None:
         process = self._process
@@ -196,6 +204,7 @@ class _PersistentNativeSolver:
         progress_callback: Callable[[dict], None] | None,
         deadline: float | None = None,
         incumbent_provider: Callable[[], list[str] | None] | None = None,
+        metric: str = "HTM",
     ) -> dict:
         if deadline is None and timeout_seconds is not None:
             deadline = time.monotonic() + timeout_seconds
@@ -217,7 +226,7 @@ class _PersistentNativeSolver:
             request_id = uuid.uuid4().hex
             remaining = 0 if deadline is None else max(0.000001, deadline - time.monotonic())
             request = (
-                f"solve\t{request_id}\t{to_facelets(cube)}\t{max_depth}\t{remaining}\t{worker_count}\t{incumbent}\n"
+                f"solve\t{request_id}\t{to_facelets(cube)}\t{max_depth}\t{remaining}\t{worker_count}\t{metric}\t{incumbent}\n"
             )
             self._send_locked(request)
 
@@ -238,7 +247,9 @@ class _PersistentNativeSolver:
                 if stop_reason is None and incumbent_provider is not None:
                     candidate = incumbent_provider()
                     candidate_text = " ".join(candidate or [])
-                    if candidate_text and candidate_text != incumbent:
+                    if candidate_text and candidate_text != incumbent and (
+                        not incumbent or solution_cost(candidate or [], metric) < solution_cost(incumbent, metric)
+                    ):
                         self._send_locked(f"incumbent\t{request_id}\t{candidate_text}\n")
                         incumbent = candidate_text
                 try:
@@ -259,6 +270,9 @@ class _PersistentNativeSolver:
                 if event.get("request_id") != request_id:
                     continue
                 if event.get("type") == "progress":
+                    if event.get("metric") != metric:
+                        self._stop_locked()
+                        raise NativeSolverError("native solver progress metric does not match the request")
                     if progress_callback is not None:
                         progress_callback({**event, "engine": "native-cpp"})
                     continue
@@ -284,25 +298,37 @@ def native_solver_available() -> bool:
     return NATIVE_EXE.is_file() and all(path.is_file() for path in (CORNER_PDB, PHASE1_PDB))
 
 
-def _validated_result(cube: CubieCube, payload: dict) -> dict:
+def _validated_result(cube: CubieCube, payload: dict, metric: str = "HTM") -> dict:
+    metric = normalize_metric(metric)
+    if payload.get("metric") != metric:
+        raise NativeSolverError("native solver result metric does not match the request")
     if payload.get("status") == "timeout":
         raise NativeSolverTimeout("native optimal proof timed out")
     if payload.get("status") == "cancelled":
         raise NativeSolverCancelled("native solver search was cancelled")
-    moves = [str(move) for move in payload.get("moves", [])]
+    moves = payload.get("moves")
+    if not isinstance(moves, list) or any(not isinstance(move, str) for move in moves):
+        raise NativeSolverError("native solver returned invalid move data")
+    no_solution = payload.get("status") == "budget_exhausted" and type(payload.get("depth")) is int and payload["depth"] == -1
+    if no_solution and (moves or payload.get("optimal")):
+        raise NativeSolverError("native solver returned an inconsistent exhausted-budget result")
     verified = cube
     try:
         for move in moves:
             verified = verified.apply_move_index(MOVE_INDEX[move])
     except KeyError as exc:
         raise NativeSolverError(f"native solver returned unknown move: {exc.args[0]}") from exc
-    if not verified.is_solved():
+    if not no_solution and not verified.is_solved():
         raise NativeSolverError("native solver returned an invalid solution")
+    cost = solution_cost(moves, metric)
+    if not no_solution and (type(payload.get("depth")) is not int or payload["depth"] != cost):
+        raise NativeSolverError("native solver result depth does not match its move cost")
     return {
         "moves": moves,
         "solution": " ".join(moves),
-        "depth": len(moves),
-        "metric": "HTM",
+        "depth": None if no_solution else cost,
+        "metric": metric,
+        "status": payload.get("status", "complete"),
         "optimal": bool(payload.get("optimal")),
         "inverse_direction": bool(payload.get("inverse_direction")),
         "elapsed_seconds": round(float(payload.get("elapsed_seconds", 0.0)), 3),
@@ -324,7 +350,7 @@ def _validated_result(cube: CubieCube, payload: dict) -> dict:
 def solve_native(
     cube: CubieCube,
     *,
-    max_depth: int,
+    max_depth: int | None = None,
     timeout_seconds: float | None,
     incumbent_moves: list[str] | None,
     cancel_event: threading.Event | None,
@@ -332,7 +358,10 @@ def solve_native(
     progress_callback: Callable[[dict], None] | None = None,
     deadline: float | None = None,
     incumbent_provider: Callable[[], list[str] | None] | None = None,
+    metric: str = "HTM",
 ) -> dict | None:
+    metric = normalize_metric(metric)
+    max_depth = resolve_max_depth(3, metric, max_depth)
     if not native_solver_available():
         return None
 
@@ -347,5 +376,6 @@ def solve_native(
         progress_callback,
         deadline,
         incumbent_provider,
+        metric,
     )
-    return _validated_result(cube, payload)
+    return _validated_result(cube, payload, metric)

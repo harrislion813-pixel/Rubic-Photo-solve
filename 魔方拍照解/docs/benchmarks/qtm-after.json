@@ -1,0 +1,1771 @@
+{
+  "metric": "QTM",
+  "proof_cache_reuse": false,
+  "tail_enabled": false,
+  "binary": {
+    "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\build\\cube_solver.exe",
+    "bytes": 3852385,
+    "sha256": "0823726b72c8975a89cd208d1daaaa0d2db25cc6feb1587f7629c73c75d4f67c"
+  },
+  "pdbs": [
+    {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\native\\corner_htm_v2.pdb",
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb"
+    },
+    {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\native\\phase1_sym_htm_v2.pdb",
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f"
+    },
+    {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\native\\tail_depth6_v4.pdb",
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74"
+    }
+  ],
+  "cases_file": {
+    "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\tests\\native_cases.json",
+    "bytes": 626,
+    "sha256": "127ba523a950301ea73416e9b3a654eb1d8cc0933faf60f42107981ba55a6351"
+  },
+  "selected_cases": [
+    {
+      "name": "repo14",
+      "facelets": "RLULUBRUDLRBLRFDDRURFFFFLBRUDFUDRLDUBBBDLRBBFLUDUBLFFD",
+      "incumbent": [
+        "F2",
+        "U",
+        "F",
+        "R'",
+        "B'",
+        "U'",
+        "F'",
+        "D'",
+        "F",
+        "L2",
+        "U",
+        "F'",
+        "U",
+        "B2"
+      ]
+    },
+    {
+      "name": "pgo16",
+      "facelets": "RFLLURLRRDFULRRBDLUBFUFULDRDLDRDBFFDUBFULFRUBBLBDBBFDU",
+      "incumbent": [
+        "D",
+        "L'",
+        "D",
+        "F2",
+        "D2",
+        "L'",
+        "U'",
+        "R",
+        "U2",
+        "F2",
+        "L",
+        "F'",
+        "U2",
+        "L",
+        "U",
+        "B"
+      ]
+    }
+  ],
+  "cold_starts": [
+    {
+      "variant": "staged",
+      "repeat": 0,
+      "seconds": 0.7179780000005849,
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 3,
+        "proof_version": 2,
+        "metrics": [
+          "HTM",
+          "QTM"
+        ]
+      }
+    }
+  ],
+  "runs": [
+    {
+      "case": "repo14",
+      "facelets": "RLULUBRUDLRBLRFDDRURFFFFLBRUDFUDRLDUBBBDLRBBFLUDUBLFFD",
+      "incumbent": [
+        "F2",
+        "U",
+        "F",
+        "R'",
+        "B'",
+        "U'",
+        "F'",
+        "D'",
+        "F",
+        "L2",
+        "U",
+        "F'",
+        "U",
+        "B2"
+      ],
+      "metric": "QTM",
+      "incumbent_depth": 17,
+      "proof_cache_reuse": false,
+      "threads": 4,
+      "wall_seconds": 0.4007015000024694,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "benchmark",
+        "status": "complete",
+        "inverse_direction": false,
+        "moves": [
+          "F2",
+          "U",
+          "F",
+          "R'",
+          "B'",
+          "U'",
+          "F'",
+          "D'",
+          "F",
+          "L2",
+          "U",
+          "F'",
+          "U",
+          "B2"
+        ],
+        "solution": "F2 U F R' B' U' F' D' F L2 U F' U B2",
+        "depth": 17,
+        "metric": "QTM",
+        "optimal": true,
+        "elapsed_seconds": 0.400284,
+        "nodes": 1663393,
+        "split_nodes": 33723,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "corner_pdb": true,
+        "phase1_pdb": true,
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": true,
+        "tail_enabled": false,
+        "completed_depth": 16,
+        "generated_candidates": 22226889,
+        "small_pdb_queries": 0,
+        "phase1_queries": 35892817,
+        "corner_queries": 1871238,
+        "edge_queries": 0,
+        "axis_rejects": [
+          13287619,
+          4219353,
+          1870247
+        ],
+        "equality_rejects": 980679,
+        "corner_rejects": 203084,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 370199,
+            "generated": 4942115,
+            "busy_seconds": 0.350273,
+            "idle_seconds": 6.8e-05
+          },
+          {
+            "nodes": 365361,
+            "generated": 4876248,
+            "busy_seconds": 0.350255,
+            "idle_seconds": 6.2e-05
+          },
+          {
+            "nodes": 367466,
+            "generated": 4904674,
+            "busy_seconds": 0.350261,
+            "idle_seconds": 2.4e-05
+          },
+          {
+            "nodes": 371406,
+            "generated": 4955407,
+            "busy_seconds": 0.350185,
+            "idle_seconds": 7.3e-05
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 16,
+          "current_depth": 10,
+          "completed_depth": 9,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 2.1e-05,
+          "elapsed_seconds": 2.1e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 16,
+          "current_depth": 10,
+          "completed_depth": 10,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 84,
+          "nodes": 0,
+          "split_nodes": 84,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000281,
+          "elapsed_seconds": 0.000388,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 84,
+          "small_pdb_queries": 0,
+          "phase1_queries": 153,
+          "corner_queries": 5,
+          "edge_queries": 0,
+          "axis_rejects": [
+            29,
+            41,
+            9
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 45,
+              "busy_seconds": 0.000112,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 27,
+              "busy_seconds": 8e-06,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 0,
+              "generated": 12,
+              "busy_seconds": 4e-06,
+              "idle_seconds": 4.3e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 8.7e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 16,
+          "current_depth": 11,
+          "completed_depth": 11,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 525,
+          "nodes": 0,
+          "split_nodes": 609,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000265,
+          "elapsed_seconds": 0.000677,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 609,
+          "small_pdb_queries": 0,
+          "phase1_queries": 1132,
+          "corner_queries": 50,
+          "edge_queries": 0,
+          "axis_rejects": [
+            236,
+            223,
+            90
+          ],
+          "equality_rejects": 10,
+          "corner_rejects": 7,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 273,
+              "busy_seconds": 8.2e-05,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 0,
+              "generated": 174,
+              "busy_seconds": 5.3e-05,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 0,
+              "generated": 78,
+              "busy_seconds": 1.5e-05,
+              "idle_seconds": 1.9e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 1.2e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 16,
+          "current_depth": 12,
+          "completed_depth": 12,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 4014,
+          "nodes": 0,
+          "split_nodes": 4623,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000445,
+          "elapsed_seconds": 0.001145,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 4623,
+          "small_pdb_queries": 0,
+          "phase1_queries": 8135,
+          "corner_queries": 389,
+          "edge_queries": 0,
+          "axis_rejects": [
+            2166,
+            1402,
+            545
+          ],
+          "equality_rejects": 121,
+          "corner_rejects": 47,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 1200,
+              "busy_seconds": 0.000236,
+              "idle_seconds": 3.1e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 1077,
+              "busy_seconds": 0.000229,
+              "idle_seconds": 1.3e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 1005,
+              "busy_seconds": 0.000177,
+              "idle_seconds": 3.5e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 732,
+              "busy_seconds": 0.000157,
+              "idle_seconds": 3.6e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 16,
+          "current_depth": 13,
+          "completed_depth": 13,
+          "iteration_nodes": 1831,
+          "iteration_split_nodes": 6849,
+          "nodes": 1831,
+          "split_nodes": 11472,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.001247,
+          "elapsed_seconds": 0.002417,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 35826,
+          "small_pdb_queries": 0,
+          "phase1_queries": 62300,
+          "corner_queries": 3293,
+          "edge_queries": 0,
+          "axis_rejects": [
+            18306,
+            9229,
+            4016
+          ],
+          "equality_rejects": 1203,
+          "corner_rejects": 386,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 451,
+              "generated": 7926,
+              "busy_seconds": 0.000989,
+              "idle_seconds": 5.6e-05
+            },
+            {
+              "nodes": 452,
+              "generated": 8058,
+              "busy_seconds": 0.000999,
+              "idle_seconds": 2.1e-05
+            },
+            {
+              "nodes": 481,
+              "generated": 7857,
+              "busy_seconds": 0.000898,
+              "idle_seconds": 8.8e-05
+            },
+            {
+              "nodes": 447,
+              "generated": 7362,
+              "busy_seconds": 0.000879,
+              "idle_seconds": 6.4e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 16,
+          "current_depth": 14,
+          "completed_depth": 14,
+          "iteration_nodes": 19253,
+          "iteration_split_nodes": 8799,
+          "nodes": 21084,
+          "split_nodes": 20271,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.006005,
+          "elapsed_seconds": 0.008447,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 301275,
+          "small_pdb_queries": 0,
+          "phase1_queries": 505413,
+          "corner_queries": 26148,
+          "edge_queries": 0,
+          "axis_rejects": [
+            166604,
+            67055,
+            30098
+          ],
+          "equality_rejects": 11987,
+          "corner_rejects": 2935,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 4634,
+              "generated": 64182,
+              "busy_seconds": 0.005727,
+              "idle_seconds": 6.4e-05
+            },
+            {
+              "nodes": 4921,
+              "generated": 67557,
+              "busy_seconds": 0.005701,
+              "idle_seconds": 2.3e-05
+            },
+            {
+              "nodes": 4888,
+              "generated": 67311,
+              "busy_seconds": 0.005719,
+              "idle_seconds": 3.7e-05
+            },
+            {
+              "nodes": 4810,
+              "generated": 66399,
+              "busy_seconds": 0.00562,
+              "idle_seconds": 6.3e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 16,
+          "current_depth": 15,
+          "completed_depth": 15,
+          "iteration_nodes": 167877,
+          "iteration_split_nodes": 7563,
+          "nodes": 188961,
+          "split_nodes": 27834,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.04102,
+          "elapsed_seconds": 0.049497,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 2548445,
+          "small_pdb_queries": 0,
+          "phase1_queries": 4180811,
+          "corner_queries": 217036,
+          "edge_queries": 0,
+          "axis_rejects": [
+            1475245,
+            517748,
+            231201
+          ],
+          "equality_rejects": 108453,
+          "corner_rejects": 24761,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 38386,
+              "generated": 514320,
+              "busy_seconds": 0.040672,
+              "idle_seconds": 3.9e-05
+            },
+            {
+              "nodes": 45242,
+              "generated": 605319,
+              "busy_seconds": 0.040573,
+              "idle_seconds": 6.9e-05
+            },
+            {
+              "nodes": 45204,
+              "generated": 604766,
+              "busy_seconds": 0.040615,
+              "idle_seconds": 7.7e-05
+            },
+            {
+              "nodes": 39045,
+              "generated": 522765,
+              "busy_seconds": 0.040501,
+              "idle_seconds": 0.000114
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 1060864,
+          "iteration_split_nodes": 489,
+          "nodes": 1249825,
+          "split_nodes": 28323,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.252001,
+          "elapsed_seconds": 0.301533,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 16706000,
+          "small_pdb_queries": 0,
+          "phase1_queries": 26976755,
+          "corner_queries": 1403069,
+          "edge_queries": 0,
+          "axis_rejects": [
+            10036136,
+            3073263,
+            1458975
+          ],
+          "equality_rejects": 735987,
+          "corner_rejects": 149362,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 270336,
+              "generated": 3608835,
+              "busy_seconds": 0.248036,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 262144,
+              "generated": 3497949,
+              "busy_seconds": 0.244088,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 262144,
+              "generated": 3498739,
+              "busy_seconds": 0.246187,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 266240,
+              "generated": 3552032,
+              "busy_seconds": 0.246728,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 16,
+          "iteration_nodes": 1474432,
+          "iteration_split_nodes": 5889,
+          "nodes": 1663393,
+          "split_nodes": 33723,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.35072,
+          "elapsed_seconds": 0.400253,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 22226889,
+          "small_pdb_queries": 0,
+          "phase1_queries": 35892817,
+          "corner_queries": 1871238,
+          "edge_queries": 0,
+          "axis_rejects": [
+            13287619,
+            4219353,
+            1870247
+          ],
+          "equality_rejects": 980679,
+          "corner_rejects": 203084,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 370199,
+              "generated": 4942115,
+              "busy_seconds": 0.350273,
+              "idle_seconds": 6.8e-05
+            },
+            {
+              "nodes": 365361,
+              "generated": 4876248,
+              "busy_seconds": 0.350255,
+              "idle_seconds": 6.2e-05
+            },
+            {
+              "nodes": 367466,
+              "generated": 4904674,
+              "busy_seconds": 0.350261,
+              "idle_seconds": 2.4e-05
+            },
+            {
+              "nodes": 371406,
+              "generated": 4955407,
+              "busy_seconds": 0.350185,
+              "idle_seconds": 7.3e-05
+            }
+          ]
+        }
+      ],
+      "completed_depth": 16,
+      "process_peak_memory_bytes": 343961600,
+      "variant": "staged",
+      "repeat": 0
+    },
+    {
+      "case": "pgo16",
+      "facelets": "RFLLURLRRDFULRRBDLUBFUFULDRDLDRDBFFDUBFULFRUBBLBDBBFDU",
+      "incumbent": [
+        "D",
+        "L'",
+        "D",
+        "F2",
+        "D2",
+        "L'",
+        "U'",
+        "R",
+        "U2",
+        "F2",
+        "L",
+        "F'",
+        "U2",
+        "L",
+        "U",
+        "B"
+      ],
+      "metric": "QTM",
+      "incumbent_depth": 21,
+      "proof_cache_reuse": false,
+      "threads": 4,
+      "wall_seconds": 2.0007501000000047,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "benchmark",
+        "status": "timeout",
+        "inverse_direction": true,
+        "moves": [
+          "D",
+          "L'",
+          "D",
+          "F2",
+          "D2",
+          "L'",
+          "U'",
+          "R",
+          "U2",
+          "F2",
+          "L",
+          "F'",
+          "U2",
+          "L",
+          "U",
+          "B"
+        ],
+        "solution": "D L' D F2 D2 L' U' R U2 F2 L F' U2 L U B",
+        "depth": 21,
+        "metric": "QTM",
+        "optimal": false,
+        "elapsed_seconds": 2.000334,
+        "nodes": 8517759,
+        "split_nodes": 34980,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "corner_pdb": true,
+        "phase1_pdb": true,
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": true,
+        "tail_enabled": false,
+        "completed_depth": 16,
+        "generated_candidates": 113785801,
+        "small_pdb_queries": 0,
+        "phase1_queries": 172662278,
+        "corner_queries": 9291665,
+        "edge_queries": 0,
+        "axis_rejects": [
+          76255570,
+          16193321,
+          6511506
+        ],
+        "equality_rejects": 5536851,
+        "corner_rejects": 767835,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 1582475,
+            "generated": 21133861,
+            "busy_seconds": 1.483225,
+            "idle_seconds": 3e-06
+          },
+          {
+            "nodes": 1562420,
+            "generated": 20863335,
+            "busy_seconds": 1.483192,
+            "idle_seconds": 2e-06
+          },
+          {
+            "nodes": 1567744,
+            "generated": 20939137,
+            "busy_seconds": 1.48316,
+            "idle_seconds": 1e-06
+          },
+          {
+            "nodes": 1581396,
+            "generated": 21118973,
+            "busy_seconds": 1.483098,
+            "idle_seconds": 1e-06
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 10,
+          "completed_depth": 9,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.4e-05,
+          "elapsed_seconds": 1.4e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 10,
+          "completed_depth": 10,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 18,
+          "nodes": 0,
+          "split_nodes": 18,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.00029,
+          "elapsed_seconds": 0.000324,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 18,
+          "small_pdb_queries": 0,
+          "phase1_queries": 20,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            16,
+            2,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 18,
+              "busy_seconds": 2e-06,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 11,
+          "completed_depth": 11,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 111,
+          "nodes": 0,
+          "split_nodes": 129,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000266,
+          "elapsed_seconds": 0.000614,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 129,
+          "small_pdb_queries": 0,
+          "phase1_queries": 181,
+          "corner_queries": 8,
+          "edge_queries": 0,
+          "axis_rejects": [
+            95,
+            16,
+            2
+          ],
+          "equality_rejects": 8,
+          "corner_rejects": 1,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 111,
+              "busy_seconds": 1.2e-05,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 12,
+          "completed_depth": 12,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 1611,
+          "nodes": 0,
+          "split_nodes": 1740,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.00033,
+          "elapsed_seconds": 0.000966,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 1740,
+          "small_pdb_queries": 0,
+          "phase1_queries": 2492,
+          "corner_queries": 135,
+          "edge_queries": 0,
+          "axis_rejects": [
+            1248,
+            232,
+            43
+          ],
+          "equality_rejects": 82,
+          "corner_rejects": 10,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 693,
+              "busy_seconds": 9.2e-05,
+              "idle_seconds": 3.9e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 531,
+              "busy_seconds": 8.8e-05,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 0,
+              "generated": 348,
+              "busy_seconds": 3.1e-05,
+              "idle_seconds": 4.1e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 39,
+              "busy_seconds": 2.6e-05,
+              "idle_seconds": 2.3e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 13,
+          "completed_depth": 13,
+          "iteration_nodes": 728,
+          "iteration_split_nodes": 5757,
+          "nodes": 728,
+          "split_nodes": 7497,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000776,
+          "elapsed_seconds": 0.001774,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 17238,
+          "small_pdb_queries": 0,
+          "phase1_queries": 25676,
+          "corner_queries": 1513,
+          "edge_queries": 0,
+          "axis_rejects": [
+            11977,
+            2438,
+            585
+          ],
+          "equality_rejects": 843,
+          "corner_rejects": 112,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 210,
+              "generated": 4440,
+              "busy_seconds": 0.000501,
+              "idle_seconds": 4.6e-05
+            },
+            {
+              "nodes": 179,
+              "generated": 3882,
+              "busy_seconds": 0.000471,
+              "idle_seconds": 4.1e-05
+            },
+            {
+              "nodes": 167,
+              "generated": 3474,
+              "busy_seconds": 0.000422,
+              "idle_seconds": 6e-05
+            },
+            {
+              "nodes": 172,
+              "generated": 3702,
+              "busy_seconds": 0.00042,
+              "idle_seconds": 1.2e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 14,
+          "completed_depth": 14,
+          "iteration_nodes": 10945,
+          "iteration_split_nodes": 6495,
+          "nodes": 11673,
+          "split_nodes": 13992,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.003021,
+          "elapsed_seconds": 0.004813,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 169866,
+          "small_pdb_queries": 0,
+          "phase1_queries": 252500,
+          "corner_queries": 14313,
+          "edge_queries": 0,
+          "axis_rejects": [
+            117480,
+            23614,
+            6597
+          ],
+          "equality_rejects": 8354,
+          "corner_rejects": 1109,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 2758,
+              "generated": 38601,
+              "busy_seconds": 0.002797,
+              "idle_seconds": 2.1e-05
+            },
+            {
+              "nodes": 2654,
+              "generated": 37083,
+              "busy_seconds": 0.002711,
+              "idle_seconds": 4.4e-05
+            },
+            {
+              "nodes": 2795,
+              "generated": 39090,
+              "busy_seconds": 0.002741,
+              "idle_seconds": 4.2e-05
+            },
+            {
+              "nodes": 2738,
+              "generated": 37854,
+              "busy_seconds": 0.002676,
+              "idle_seconds": 4.3e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 15,
+          "completed_depth": 15,
+          "iteration_nodes": 109110,
+          "iteration_split_nodes": 8253,
+          "nodes": 120783,
+          "split_nodes": 22245,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.025959,
+          "elapsed_seconds": 0.030793,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 1634742,
+          "small_pdb_queries": 0,
+          "phase1_queries": 2437882,
+          "corner_queries": 134792,
+          "edge_queries": 0,
+          "axis_rejects": [
+            1117594,
+            234255,
+            69113
+          ],
+          "equality_rejects": 80021,
+          "corner_rejects": 11321,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 27383,
+              "generated": 367977,
+              "busy_seconds": 0.025609,
+              "idle_seconds": 6.8e-05
+            },
+            {
+              "nodes": 27869,
+              "generated": 373551,
+              "busy_seconds": 0.025567,
+              "idle_seconds": 6.4e-05
+            },
+            {
+              "nodes": 26466,
+              "generated": 355710,
+              "busy_seconds": 0.025544,
+              "idle_seconds": 5.9e-05
+            },
+            {
+              "nodes": 27392,
+              "generated": 367638,
+              "busy_seconds": 0.025473,
+              "idle_seconds": 9.1e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 16,
+          "completed_depth": 16,
+          "iteration_nodes": 2102941,
+          "iteration_split_nodes": 12282,
+          "nodes": 2223724,
+          "split_nodes": 34527,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.485937,
+          "elapsed_seconds": 0.516761,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 29730495,
+          "small_pdb_queries": 0,
+          "phase1_queries": 44835605,
+          "corner_queries": 2429519,
+          "edge_queries": 0,
+          "axis_rejects": [
+            20059357,
+            4246013,
+            1546782
+          ],
+          "equality_rejects": 1451773,
+          "corner_rejects": 200276,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 257881,
+              "generated": 3448317,
+              "busy_seconds": 0.246435,
+              "idle_seconds": 5.6e-05
+            },
+            {
+              "nodes": 272112,
+              "generated": 3637308,
+              "busy_seconds": 0.246425,
+              "idle_seconds": 5.9e-05
+            },
+            {
+              "nodes": 260653,
+              "generated": 3484236,
+              "busy_seconds": 0.246329,
+              "idle_seconds": 0.000115
+            },
+            {
+              "nodes": 257051,
+              "generated": 3435600,
+              "busy_seconds": 0.246347,
+              "idle_seconds": 6e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 17,
+          "completed_depth": 16,
+          "iteration_nodes": 1114112,
+          "iteration_split_nodes": 321,
+          "nodes": 3337836,
+          "split_nodes": 34848,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.263727,
+          "elapsed_seconds": 0.780523,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 44605752,
+          "small_pdb_queries": 0,
+          "phase1_queries": 67254023,
+          "corner_queries": 3644086,
+          "edge_queries": 0,
+          "axis_rejects": [
+            30173411,
+            6225366,
+            2392472
+          ],
+          "equality_rejects": 2173402,
+          "corner_rejects": 300302,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 274432,
+              "generated": 3664720,
+              "busy_seconds": 0.168806,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 278528,
+              "generated": 3718258,
+              "busy_seconds": 0.257024,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 286720,
+              "generated": 3828834,
+              "busy_seconds": 0.183618,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 274432,
+              "generated": 3663445,
+              "busy_seconds": 0.258597,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 17,
+          "completed_depth": 16,
+          "iteration_nodes": 2187264,
+          "iteration_split_nodes": 351,
+          "nodes": 4410988,
+          "split_nodes": 34878,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.525458,
+          "elapsed_seconds": 1.042253,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 58943159,
+          "small_pdb_queries": 0,
+          "phase1_queries": 89370161,
+          "corner_queries": 4815074,
+          "edge_queries": 0,
+          "axis_rejects": [
+            39501218,
+            8465910,
+            3295697
+          ],
+          "equality_rejects": 2868270,
+          "corner_rejects": 398113,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 548864,
+              "generated": 7329405,
+              "busy_seconds": 0.520194,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 544768,
+              "generated": 7274944,
+              "busy_seconds": 0.520993,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 552960,
+              "generated": 7387464,
+              "busy_seconds": 0.507859,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 540672,
+              "generated": 7220851,
+              "busy_seconds": 0.492851,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 17,
+          "completed_depth": 16,
+          "iteration_nodes": 3305472,
+          "iteration_split_nodes": 381,
+          "nodes": 5529196,
+          "split_nodes": 34908,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.789418,
+          "elapsed_seconds": 1.306213,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 73874362,
+          "small_pdb_queries": 0,
+          "phase1_queries": 112143855,
+          "corner_queries": 6022038,
+          "edge_queries": 0,
+          "axis_rejects": [
+            49358047,
+            10772251,
+            4126608
+          ],
+          "equality_rejects": 3598456,
+          "corner_rejects": 486845,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 827392,
+              "generated": 11048602,
+              "busy_seconds": 0.710499,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 819200,
+              "generated": 10939407,
+              "busy_seconds": 0.778848,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 827392,
+              "generated": 11051660,
+              "busy_seconds": 0.752377,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 831488,
+              "generated": 11104198,
+              "busy_seconds": 0.731156,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 17,
+          "completed_depth": 16,
+          "iteration_nodes": 4468736,
+          "iteration_split_nodes": 396,
+          "nodes": 6692460,
+          "split_nodes": 34923,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.066961,
+          "elapsed_seconds": 1.583756,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 89407256,
+          "small_pdb_queries": 0,
+          "phase1_queries": 135835790,
+          "corner_queries": 7303526,
+          "edge_queries": 0,
+          "axis_rejects": [
+            59729473,
+            12936206,
+            5090921
+          ],
+          "equality_rejects": 4350188,
+          "corner_rejects": 605037,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1122304,
+              "generated": 14986033,
+              "busy_seconds": 1.004939,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1110016,
+              "generated": 14821833,
+              "busy_seconds": 1.054237,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1110016,
+              "generated": 14826012,
+              "busy_seconds": 1.050955,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1126400,
+              "generated": 15042883,
+              "busy_seconds": 1.042284,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 17,
+          "completed_depth": 16,
+          "iteration_nodes": 5623808,
+          "iteration_split_nodes": 441,
+          "nodes": 7847532,
+          "split_nodes": 34968,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.329586,
+          "elapsed_seconds": 1.846382,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 104833825,
+          "small_pdb_queries": 0,
+          "phase1_queries": 159075625,
+          "corner_queries": 8560186,
+          "edge_queries": 0,
+          "axis_rejects": [
+            70234335,
+            14966486,
+            5977181
+          ],
+          "equality_rejects": 5098739,
+          "corner_rejects": 706579,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1413120,
+              "generated": 18872277,
+              "busy_seconds": 1.307809,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1400832,
+              "generated": 18706665,
+              "busy_seconds": 1.311516,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1400832,
+              "generated": 18709015,
+              "busy_seconds": 1.322538,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1409024,
+              "generated": 18815373,
+              "busy_seconds": 1.301128,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 17,
+          "completed_depth": 16,
+          "iteration_nodes": 6294035,
+          "iteration_split_nodes": 453,
+          "nodes": 8517759,
+          "split_nodes": 34980,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.483507,
+          "elapsed_seconds": 2.000303,
+          "found": false,
+          "timed_out": true,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 113785801,
+          "small_pdb_queries": 0,
+          "phase1_queries": 172662278,
+          "corner_queries": 9291665,
+          "edge_queries": 0,
+          "axis_rejects": [
+            76255570,
+            16193321,
+            6511506
+          ],
+          "equality_rejects": 5536851,
+          "corner_rejects": 767835,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1582475,
+              "generated": 21133861,
+              "busy_seconds": 1.483225,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1562420,
+              "generated": 20863335,
+              "busy_seconds": 1.483192,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1567744,
+              "generated": 20939137,
+              "busy_seconds": 1.48316,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1581396,
+              "generated": 21118973,
+              "busy_seconds": 1.483098,
+              "idle_seconds": 1e-06
+            }
+          ]
+        }
+      ],
+      "completed_depth": 16,
+      "process_peak_memory_bytes": 344141824,
+      "variant": "staged",
+      "repeat": 0
+    }
+  ],
+  "summaries": {
+    "staged/4/repo14": {
+      "runs": 1,
+      "completed": 1,
+      "timeout_ratio": 0.0,
+      "all_run_wall_p50": 0.4007015000024694,
+      "all_run_wall_p95": 0.4007015000024694,
+      "successful_proof_p50": 0.400284,
+      "completed_depths": [
+        16
+      ]
+    },
+    "staged/4/pgo16": {
+      "runs": 1,
+      "completed": 0,
+      "timeout_ratio": 1.0,
+      "all_run_wall_p50": 2.0007501000000047,
+      "all_run_wall_p95": 2.0007501000000047,
+      "successful_proof_p50": null,
+      "completed_depths": [
+        16
+      ]
+    }
+  },
+  "build": {
+    "compiler": "g++.exe (Rev5, Built by MSYS2 project) 16.1.0",
+    "flags": "-std=c++20 -O3 -march=native -mtune=native -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode",
+    "profile_guided": false,
+    "built_at": "2026-09-27T17:57:38.2453880Z",
+    "binary_sha256": "0823726B72C8975A89CD208D1DAAAA0D2DB25CC6FEB1587F7629C73C75D4F67C",
+    "source_sha256": {
+      "cube.cpp": "F94564AC640C96CFE52B18A3D012958271FC08AB7E5EBA64B77C49BA9B06EBAF",
+      "cube.hpp": "6346AA5BDCF355EA9EFC6836905032E78E1359F4813D4674CF9C82E45ECBCEF9",
+      "symmetry.cpp": "DE8FA95BDFC02EE0CA4123FFA719BCADDA74119A48F73332EA3829C22C29355F",
+      "pdb.cpp": "03FB90E8F656C26974E59FF6FCB8EDB4DF999025E1FF88528688BC3D97B4793A",
+      "pdb.hpp": "08DCD2EDB1CB222AF602CDDEE0B86585B554C3638D05B779F8FE2BF489C8E7CF",
+      "paths.hpp": "FB3ECD78D63C5AB1D3FB183C4F9822B9C0A1A0DA3133561C14F09C56828DE786",
+      "main.cpp": "34E319CC0AEC5075857639FE8777898FFFF3FD5270ACE8DDAA762E8CDE03640B",
+      "tail.hpp": "3B302610376AD768BA643FB28833FFF6C122C40A491CD9132950794E771E7948",
+      "symmetry.hpp": "B53C16C7892DC9473E7059EAA5935B9BA1D44A96BFAE99291802770303757D2E",
+      "solver.cpp": "24B8339D33AB63816CA490A057D4403DA29279448388EEF83440DDAE3AF4EBDA",
+      "tail.cpp": "EC479533CF48E61E58857B184142B8B2AABBDC134E3E719A32746EE69522135B",
+      "solver.hpp": "3EAB40CB5DFAEC5A1527208E0A8B758C60467E8198E0ACC6ADFB9967F6913947"
+    }
+  }
+}

@@ -33,6 +33,7 @@ from .cubie import (
     to_facelets,
 )
 from .tables import SolverTables, load_or_build_tables
+from .metrics import MOVE_COSTS, normalize_metric, resolve_max_depth, solution_cost
 
 
 _Vector = tuple[int, int, int]
@@ -207,12 +208,13 @@ class OptimalSolver:
     def solve_facelets(
         self,
         facelets: str,
-        max_depth: int = 20,
+        max_depth: int | None = None,
         timeout_seconds: float | None = 120.0,
         upper_bound: int | None = None,
         incumbent_moves: list[str] | None = None,
         cancel_event: threading.Event | None = None,
         progress_callback: Callable[[dict], None] | None = None,
+        metric: str = "HTM",
     ) -> SolveResult:
         cube = from_facelets(facelets)
         return self.solve_cube(
@@ -223,26 +225,30 @@ class OptimalSolver:
             incumbent_moves=incumbent_moves,
             cancel_event=cancel_event,
             progress_callback=progress_callback,
+            metric=metric,
         )
 
     def solve_cube(
         self,
         cube: CubieCube,
-        max_depth: int = 20,
+        max_depth: int | None = None,
         timeout_seconds: float | None = 120.0,
         upper_bound: int | None = None,
         incumbent_moves: list[str] | None = None,
         cancel_event: threading.Event | None = None,
         progress_callback: Callable[[dict], None] | None = None,
         deadline: float | None = None,
+        metric: str = "HTM",
     ) -> SolveResult:
+        metric = normalize_metric(metric)
+        max_depth = resolve_max_depth(3, metric, max_depth)
         start = time.monotonic()
         if deadline is None and timeout_seconds is not None:
             deadline = start + timeout_seconds
         self._check_deadline(deadline, cancel_event)
 
         if cube.is_solved():
-            return SolveResult([], 0, "HTM", time.monotonic() - start, True)
+            return SolveResult([], 0, metric, time.monotonic() - start, True)
 
         incumbent: list[str] | None = None
         if incumbent_moves is not None:
@@ -255,20 +261,23 @@ class OptimalSolver:
                 raise ValueError(f"候选解包含未知转动：{exc.args[0]}") from exc
             if not candidate.is_solved():
                 raise ValueError("候选解不能复原当前魔方状态。")
+            incumbent_cost = solution_cost(incumbent, metric)
             if upper_bound is None:
-                upper_bound = len(incumbent)
-            elif upper_bound != len(incumbent):
-                raise ValueError("候选解长度与 upper_bound 不一致。")
+                upper_bound = incumbent_cost
+            elif upper_bound != incumbent_cost:
+                raise ValueError("候选解代价与 upper_bound 不一致。")
 
         effective_max = max_depth
         if upper_bound is not None:
-            if upper_bound < 1:
+            if not isinstance(upper_bound, int) or isinstance(upper_bound, bool) or upper_bound < 1:
                 raise ValueError("upper_bound 必须为正整数。")
             effective_max = min(max_depth, upper_bound - 1)
 
         tables = self.tables
         state = self._prepare_phase1_state(cube, tables)
         *coords, lower = state
+        # Values are exhausted remaining costs in this request's metric. The
+        # dictionary never survives a request, so metrics cannot share proofs.
         transposition: dict[int, int] = {}
         pool: Pool | None = None
         parallel_enabled = self.parallel and self.max_workers > 1
@@ -277,6 +286,7 @@ class OptimalSolver:
                 {
                     "type": "progress",
                     "engine": "python",
+                    "metric": metric,
                     "lower_bound": lower,
                     "upper_bound": effective_max,
                     "current_depth": lower,
@@ -296,7 +306,7 @@ class OptimalSolver:
                                 initializer=_initialize_search_worker,
                                 initargs=(str(self.cache_dir),),
                             )
-                        result = self._search_parallel_depth(cube, depth, deadline, pool, cancel_event)
+                        result = self._search_parallel_depth(cube, depth, deadline, pool, cancel_event, metric)
                     except OSError:
                         # Managed Windows environments may deny the named-pipe handles used by
                         # multiprocessing (WinError 5). Preserve correctness by continuing the
@@ -314,6 +324,7 @@ class OptimalSolver:
                                 {
                                     "type": "progress",
                                     "engine": "python",
+                                    "metric": metric,
                                     "parallel_fallback": True,
                                     "current_depth": depth,
                                     "completed_depth": depth - 1,
@@ -330,6 +341,7 @@ class OptimalSolver:
                             tables,
                             transposition,
                             cancel_event,
+                            metric,
                         )
                 else:
                     result = self._search_phase1(
@@ -342,6 +354,7 @@ class OptimalSolver:
                         tables,
                         transposition,
                         cancel_event,
+                        metric,
                     )
                 if result is not None:
                     if progress_callback is not None:
@@ -349,6 +362,7 @@ class OptimalSolver:
                             {
                                 "type": "progress",
                                 "engine": "python",
+                                "metric": metric,
                                 "lower_bound": lower,
                                 "upper_bound": effective_max,
                                 "current_depth": depth,
@@ -359,12 +373,13 @@ class OptimalSolver:
                             }
                         )
                     moves = [MOVE_NAMES[idx] for idx in result]
-                    return SolveResult(moves, len(moves), "HTM", time.monotonic() - start, True)
+                    return SolveResult(moves, solution_cost(moves, metric), metric, time.monotonic() - start, True)
                 if progress_callback is not None:
                     progress_callback(
                         {
                             "type": "progress",
                             "engine": "python",
+                            "metric": metric,
                             "lower_bound": lower,
                             "upper_bound": effective_max,
                             "current_depth": depth,
@@ -382,11 +397,14 @@ class OptimalSolver:
                 except (OSError, ValueError):
                     pass
 
-        if incumbent is not None and max_depth >= len(incumbent) - 1:
+        if incumbent is not None:
             self._check_deadline(deadline, cancel_event)
-            return SolveResult(incumbent, len(incumbent), "HTM", time.monotonic() - start, True)
+            return SolveResult(
+                incumbent, incumbent_cost, metric, time.monotonic() - start,
+                max_depth >= incumbent_cost - 1 or lower >= incumbent_cost,
+            )
 
-        raise CubeStateError(f"在 HTM {effective_max} 步内未找到解法。请检查输入状态是否合法。")
+        raise CubeStateError(f"在 {metric} {effective_max} 步预算内未找到解法；可增加搜索预算。")
 
     def _prepare_phase1_state(self, cube: CubieCube, tables: SolverTables) -> tuple[int, ...]:
         twist = get_twist(cube)
@@ -429,13 +447,18 @@ class OptimalSolver:
         deadline: float | None,
         pool: Pool,
         cancel_event: threading.Event | None,
+        metric: str = "HTM",
     ) -> list[int] | None:
         remaining_timeout = None if deadline is None else max(0.0, deadline - time.monotonic())
         if remaining_timeout == 0.0:
             self._check_deadline(deadline, cancel_event)
-        tasks = ((cube, depth, move_idx, remaining_timeout) for move_idx in range(18))
+        prices = MOVE_COSTS[metric]
+        tasks = [
+            (cube, depth, move_idx, remaining_timeout, metric)
+            for move_idx, cost in enumerate(prices) if cost <= depth
+        ]
         results = pool.imap_unordered(_search_worker_branch, tasks, chunksize=1)
-        for _ in range(18):
+        for _ in range(len(tasks)):
             while True:
                 self._check_deadline(deadline, cancel_event)
                 wait_seconds = 0.2
@@ -458,7 +481,11 @@ class OptimalSolver:
         depth: int,
         move_idx: int,
         timeout_seconds: float | None,
+        metric: str = "HTM",
     ) -> list[int] | None:
+        remaining = depth - MOVE_COSTS[metric][move_idx]
+        if remaining < 0:
+            return None
         deadline = None if timeout_seconds is None else time.monotonic() + timeout_seconds
         child = cube.apply_move_index(move_idx)
         tables = self.tables
@@ -467,13 +494,14 @@ class OptimalSolver:
         return self._search_phase1(
             *coords,
             heuristic,
-            depth - 1,
+            remaining,
             MOVE_FACE_INDEX[move_idx],
             [move_idx],
             deadline,
             tables,
             {},
             None,
+            metric,
         )
 
     def _phase1_heuristic(
@@ -484,6 +512,7 @@ class OptimalSolver:
         slice_comb: int,
         corner_perm: int,
     ) -> int:
+        # Existing tables store HTM distances: h_HTM <= d_HTM <= d_QTM.
         return max(
             tables.twist_slice_prune[twist * N_SLICE_COMB + slice_comb],
             tables.flip_slice_prune[flip * N_SLICE_COMB + slice_comb],
@@ -520,6 +549,7 @@ class OptimalSolver:
         tables: SolverTables,
         transposition: dict[int, int],
         cancel_event: threading.Event | None,
+        metric: str = "HTM",
     ) -> list[int] | None:
         self._check_deadline(deadline, cancel_event)
         if heuristic > depth_left:
@@ -545,6 +575,7 @@ class OptimalSolver:
                 deadline,
                 tables,
                 cancel_event,
+                metric,
             )
             if phase2_result is not None:
                 return phase2_result
@@ -563,12 +594,15 @@ class OptimalSolver:
         twist_flip_prune = tables.twist_flip_prune
         corner_prune = tables.corner_perm_prune
         x_move_map, z_move_map = _rotation_move_maps()
-        next_depth = depth_left - 1
+        prices = MOVE_COSTS[metric]
 
         # Collect children with their heuristics, then sort by heuristic ascending
         # so the most promising branches are explored first.
-        children: list[tuple[int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int]] = []
+        children: list[tuple[int, ...]] = []
         for move_idx, face in _ALLOWED_MOVES[last_face]:
+            next_depth = depth_left - prices[move_idx]
+            if next_depth < 0:
+                continue
             ntwist = twist_move[twist][move_idx]
             nflip = flip_move[flip][move_idx]
             nslice = slice_move[slice_comb][move_idx]
@@ -632,6 +666,7 @@ class OptimalSolver:
                 ntwist, nflip, nslice, ncorner_perm, next_edge_pack,
                 nx_twist, nx_flip, nx_slice, nx_corner_perm,
                 nz_twist, nz_flip, nz_slice, nz_corner_perm,
+                next_depth,
             ))
 
         children.sort(key=lambda c: (c[0], c[1]))
@@ -644,6 +679,7 @@ class OptimalSolver:
             next_edge_pack = child_data[7]
             nx_twist, nx_flip, nx_slice, nx_corner_perm = child_data[8:12]
             nz_twist, nz_flip, nz_slice, nz_corner_perm = child_data[12:16]
+            next_depth = child_data[16]
 
             path.append(move_idx)
             result = self._search_phase1(
@@ -668,6 +704,7 @@ class OptimalSolver:
                 tables,
                 transposition,
                 cancel_event,
+                metric,
             )
             if result is not None:
                 return result
@@ -690,6 +727,7 @@ class OptimalSolver:
         deadline: float | None,
         tables: SolverTables,
         cancel_event: threading.Event | None,
+        metric: str = "HTM",
     ) -> list[int] | None:
         heuristic = self._phase2_heuristic(tables, cp, ep8, slice_perm)
         return self._search_phase2(
@@ -703,6 +741,7 @@ class OptimalSolver:
             deadline,
             tables,
             cancel_event,
+            metric,
         )
 
     def _search_phase2(
@@ -717,6 +756,7 @@ class OptimalSolver:
         deadline: float | None,
         tables: SolverTables,
         cancel_event: threading.Event | None,
+        metric: str = "HTM",
     ) -> list[int] | None:
         self._check_deadline(deadline, cancel_event)
         if heuristic > depth_left:
@@ -726,8 +766,11 @@ class OptimalSolver:
         if depth_left == 0:
             return None
 
-        next_depth = depth_left - 1
+        prices = MOVE_COSTS[metric]
         for phase2_col, move_idx, face in _ALLOWED_PHASE2_MOVES[last_face]:
+            next_depth = depth_left - prices[move_idx]
+            if next_depth < 0:
+                continue
             ncp = tables.corner_perm_move[cp][phase2_col]
             nep8 = tables.edge8_perm_move[ep8][phase2_col]
             nslice = tables.slice_perm_move[slice_perm][phase2_col]
@@ -747,6 +790,7 @@ class OptimalSolver:
                 deadline,
                 tables,
                 cancel_event,
+                metric,
             )
             if result is not None:
                 return result
@@ -760,8 +804,15 @@ class OptimalSolver:
             raise SearchTimeout("搜索超时；可以重试或先检查色块识别是否准确。")
 
 
-def solve(facelets: str, max_depth: int = 20, timeout_seconds: float | None = 120.0) -> SolveResult:
-    return OptimalSolver().solve_facelets(facelets, max_depth=max_depth, timeout_seconds=timeout_seconds)
+def solve(
+    facelets: str,
+    max_depth: int | None = None,
+    timeout_seconds: float | None = 120.0,
+    metric: str = "HTM",
+) -> SolveResult:
+    return OptimalSolver().solve_facelets(
+        facelets, max_depth=max_depth, timeout_seconds=timeout_seconds, metric=metric,
+    )
 
 
 def invert_moves(moves: list[str]) -> list[str]:
@@ -786,9 +837,9 @@ def _initialize_search_worker(cache_dir: str) -> None:
 
 
 def _search_worker_branch(
-    task: tuple[CubieCube, int, int, float | None],
+    task: tuple[CubieCube, int, int, float | None, str],
 ) -> tuple[str, list[int] | None]:
-    cube, depth, move_idx, timeout_seconds = task
+    cube, depth, move_idx, timeout_seconds, metric = task
     if _SEARCH_WORKER_SOLVER is None:
         raise RuntimeError("Search worker was not initialized.")
     try:
@@ -797,6 +848,7 @@ def _search_worker_branch(
             depth,
             move_idx,
             timeout_seconds,
+            metric,
         )
         return "ok", result
     except SearchTimeout:

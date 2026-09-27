@@ -29,12 +29,20 @@
 
 namespace {
 
+int parse_integer(const std::string &value) {
+    std::size_t consumed = 0;
+    const int parsed = std::stoi(value, &consumed);
+    if (consumed != value.size())
+        throw std::invalid_argument("expected an integer: " + value);
+    return parsed;
+}
+
 void print_usage() {
     std::cerr << "usage:\n"
               << "  cube_solver validate FACELETS\n"
               << "  cube_solver apply FACELETS [MOVES...]\n"
               << "  cube_solver symmetry-info\n"
-              << "  cube_solver solve FACELETS [--max-depth N] [--timeout S] [--threads N]\n"
+              << "  cube_solver solve FACELETS [--metric HTM|QTM] [--max-depth N] [--timeout S] [--threads N]\n"
               << "                    [--pdb PATH] [--incumbent \"MOVES\"] [--transposition]\n"
               << "  cube_solver serve [--pdb PATH] [--phase1-pdb PATH] [--tail-pdb PATH]\n"
               << "  cube_solver build-corner-pdb PATH [--coverage-depth N] [--threads N] [--force]\n"
@@ -96,7 +104,8 @@ void print_counters_json(std::ostream &output, const cube::SearchCounters &count
 }
 
 void print_progress_json(std::ostream &output, const cube::NativeSearchProgress &progress, const std::string &id = "") {
-    output << "{\"type\":\"progress\",\"lower_bound\":" << progress.lower_bound
+    output << "{\"type\":\"progress\",\"lower_bound\":" << progress.lower_bound << ",\"metric\":\""
+           << cube::metric_name(progress.metric) << "\""
            << ",\"upper_bound\":" << progress.upper_bound << ",\"current_depth\":" << progress.current_depth
            << ",\"completed_depth\":" << progress.completed_depth << ",\"iteration_nodes\":" << progress.iteration_nodes
            << ",\"iteration_split_nodes\":" << progress.iteration_split_nodes << ",\"nodes\":" << progress.total_nodes
@@ -125,11 +134,12 @@ void print_result_json(std::ostream &output, const cube::NativeSolveResult &resu
     output << ",\"status\":\""
            << (result.cancelled   ? "cancelled"
                : result.timed_out ? "timeout"
+               : !result.optimal  ? "budget_exhausted"
                                   : "complete")
            << "\",\"inverse_direction\":" << (result.inverse_direction ? "true" : "false") << ",\"moves\":";
     print_moves_json(output, result.moves);
-    output << ",\"solution\":\"" << moves_text(result.moves) << "\",\"depth\":" << result.depth
-           << ",\"metric\":\"HTM\",\"optimal\":" << (result.optimal ? "true" : "false")
+    output << ",\"solution\":\"" << moves_text(result.moves) << "\",\"depth\":" << result.depth << ",\"metric\":\""
+           << cube::metric_name(result.metric) << "\",\"optimal\":" << (result.optimal ? "true" : "false")
            << ",\"elapsed_seconds\":" << std::fixed << std::setprecision(6) << result.elapsed_seconds
            << ",\"nodes\":" << result.nodes << ",\"split_nodes\":" << result.split_nodes
            << ",\"transposition_hits\":" << result.transposition_hits << ",\"tail_queries\":" << result.tail_queries
@@ -141,7 +151,8 @@ void print_result_json(std::ostream &output, const cube::NativeSolveResult &resu
            << ",\"edge_pdbs\":" << (solver.has_edge_pdbs() ? "true" : "false")
            << ",\"extra_edge_pdbs\":" << (solver.has_extra_edge_pdbs() ? "true" : "false")
            << ",\"edge_pdb_count\":" << solver.edge_pdb_count()
-           << ",\"tail_pdb\":" << (solver.has_tail_database() ? "true" : "false")
+           << ",\"tail_pdb\":" << (solver.has_tail_database() ? "true" : "false") << ",\"tail_enabled\":"
+           << (solver.has_tail_database() && result.metric == cube::MoveMetric::HTM ? "true" : "false")
            << ",\"completed_depth\":" << result.completed_depth;
     print_counters_json(output, result.counters, result.workers);
     output << "}\n" << std::flush;
@@ -183,11 +194,14 @@ bool tuning_option(const std::string &option, cube::SolverOptions &options) {
 
 void check_heuristic(int argc, char **argv) {
     int depth_limit = 3;
+    cube::MoveMetric metric = cube::MoveMetric::HTM;
     std::filesystem::path corner_path, phase1_path;
     for (int i = 2; i < argc; ++i) {
         const std::string flag = argv[i];
         if (flag == "--depth" && i + 1 < argc)
             depth_limit = std::stoi(argv[++i]);
+        else if (flag == "--metric" && i + 1 < argc)
+            metric = cube::parse_metric(argv[++i]);
         else if (flag == "--pdb" && i + 1 < argc)
             corner_path = cube::path_from_utf8(argv[++i]);
         else if (flag == "--phase1-pdb" && i + 1 < argc)
@@ -240,14 +254,17 @@ void check_heuristic(int argc, char **argv) {
                     (bound <= cutoff && tables.materialize(child) != child_cube))
                     throw std::runtime_error("staged expansion differs from full evaluation");
             }
-            if (depth < depth_limit && seen.insert(cube::to_facelets(child_cube)).second)
+            // An independent unit-cost oracle: QTM expands only quarter turns and allows repeated faces.
+            if (depth < depth_limit && cube::move_cost(move, metric) == 1 &&
+                seen.insert(cube::to_facelets(child_cube)).second)
                 queue.emplace_back(child_cube, depth + 1);
         }
         ++checked;
     }
     if (!features.small_phase1 && !features.small_corner && counters.small_queries != 0)
         throw std::runtime_error("complete PDB path queried covered small tables");
-    std::cout << "{\"ok\":true,\"checked\":" << checked << ",\"depth\":" << depth_limit
+    std::cout << "{\"ok\":true,\"checked\":" << checked << ",\"depth\":" << depth_limit << ",\"metric\":\""
+              << cube::metric_name(metric) << "\""
               << ",\"small_pdb_queries\":" << counters.small_queries << "}\n";
 }
 
@@ -397,6 +414,7 @@ int wmain(int argc, wchar_t **wide_argv) {
         }
         if (command == "serve") {
             cube::SolverOptions defaults;
+            bool use_proof_cache = true;
             std::filesystem::path pdb_path;
             std::filesystem::path phase1_pdb_path;
             std::filesystem::path tail_pdb_path;
@@ -411,6 +429,8 @@ int wmain(int argc, wchar_t **wide_argv) {
                     phase1_pdb_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--tail-pdb" && index + 1 < argc)
                     tail_pdb_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--no-proof-cache")
+                    use_proof_cache = false;
                 else if (tuning_option(option, defaults))
                     continue;
                 else {
@@ -434,7 +454,9 @@ int wmain(int argc, wchar_t **wide_argv) {
             }
             if (!tail_pdb_path.empty())
                 solver.load_tail_database(tail_pdb_path);
-            std::cout << "{\"ok\":true,\"type\":\"ready\",\"protocol_version\":2,\"proof_version\":1}\n" << std::flush;
+            std::cout << "{\"ok\":true,\"type\":\"ready\",\"protocol_version\":3,\"proof_version\":2,\"metrics\":["
+                         "\"HTM\",\"QTM\"]}\n"
+                      << std::flush;
 
             std::thread search;
             std::atomic<bool> running{false};
@@ -444,7 +466,8 @@ int wmain(int argc, wchar_t **wide_argv) {
             std::vector<int> incumbent;
             std::string active_id;
             cube::CubieCube active_state;
-            // In-memory only: loaded PDBs, HTM and proof rules are immutable for this process.
+            cube::MoveMetric active_metric{cube::MoveMetric::HTM};
+            // In-memory only: loaded PDBs and proof rules are immutable for this process.
             std::unordered_map<std::string, int> proofs;
             std::string request;
             while (std::getline(std::cin, request)) {
@@ -465,12 +488,13 @@ int wmain(int argc, wchar_t **wide_argv) {
                             if (!candidate.solved())
                                 throw std::invalid_argument("updated incumbent does not solve the cube");
                             std::lock_guard lock(incumbent_mutex);
-                            if (incumbent.empty() || moves.size() < incumbent.size())
+                            if (incumbent.empty() || cube::solution_cost(moves, active_metric) <
+                                                         cube::solution_cost(incumbent, active_metric))
                                 incumbent = std::move(moves);
                         }
                         continue;
                     }
-                    const bool framed = fields.size() == 7 && fields[0] == "solve";
+                    const bool framed = (fields.size() == 7 || fields.size() == 8) && fields[0] == "solve";
                     if (!framed && fields.size() != 5)
                         throw std::invalid_argument("invalid serve request");
                     const int offset = framed ? 2 : 0;
@@ -482,16 +506,22 @@ int wmain(int argc, wchar_t **wide_argv) {
                     active_state = cube::from_facelets(fields[offset]);
                     active_id = id;
                     cube::SolverOptions options = defaults;
-                    options.max_depth = std::stoi(fields[offset + 1]);
+                    options.max_depth = parse_integer(fields[offset + 1]);
+                    if (options.max_depth < 0)
+                        throw std::invalid_argument("max depth must be nonnegative");
                     options.timeout_seconds = std::stod(fields[offset + 2]);
-                    options.threads = std::stoi(fields[offset + 3]);
-                    options.incumbent_moves = parse_moves(fields[offset + 4]);
+                    options.threads = parse_integer(fields[offset + 3]);
+                    options.metric =
+                        fields.size() == 8 ? cube::parse_metric(fields[offset + 4]) : cube::MoveMetric::HTM;
+                    active_metric = options.metric;
+                    options.incumbent_moves = parse_moves(fields[offset + (fields.size() == 8 ? 5 : 4)]);
                     incumbent = options.incumbent_moves;
                     cancel.store(false);
                     options.cancel_requested = &cancel;
-                    const auto key = cube::to_facelets(active_state);
+                    const auto key =
+                        cube::to_facelets(active_state) + ":" + cube::metric_name(options.metric) + ":proof2";
                     const auto previous = proofs.find(key);
-                    if (framed && previous != proofs.end())
+                    if (framed && use_proof_cache && previous != proofs.end())
                         options.completed_depth = previous->second;
                     // Legacy benchmark requests deliberately rerun each proof.
                     options.incumbent_callback = [&] {
@@ -509,7 +539,7 @@ int wmain(int argc, wchar_t **wide_argv) {
                         try {
                             const auto result = solver.solve(state, options);
                             completed = std::max(completed, result.completed_depth);
-                            if (framed) {
+                            if (framed && use_proof_cache) {
                                 if (proofs.size() >= 128 && !proofs.contains(key))
                                     proofs.erase(proofs.begin());
                                 proofs[key] = completed;
@@ -546,6 +576,7 @@ int wmain(int argc, wchar_t **wide_argv) {
         cube::CubieCube state = cube::from_facelets(argv[2]);
         if (command == "solve") {
             cube::SolverOptions options;
+            bool explicit_max_depth = false;
             options.progress_callback = [](const cube::NativeSearchProgress &progress) {
                 print_progress_json(std::cerr, progress);
             };
@@ -559,8 +590,11 @@ int wmain(int argc, wchar_t **wide_argv) {
             std::filesystem::path tail_pdb_path;
             for (int index = 3; index < argc; ++index) {
                 const std::string option = argv[index];
-                if (option == "--max-depth" && index + 1 < argc)
-                    options.max_depth = std::stoi(argv[++index]);
+                if (option == "--max-depth" && index + 1 < argc) {
+                    options.max_depth = parse_integer(argv[++index]);
+                    explicit_max_depth = true;
+                } else if (option == "--metric" && index + 1 < argc)
+                    options.metric = cube::parse_metric(argv[++index]);
                 else if (option == "--timeout" && index + 1 < argc)
                     options.timeout_seconds = std::stod(argv[++index]);
                 else if (option == "--threads" && index + 1 < argc)
@@ -594,6 +628,10 @@ int wmain(int argc, wchar_t **wide_argv) {
                 else
                     throw std::invalid_argument("unknown solve option: " + option);
             }
+            if (!explicit_max_depth)
+                options.max_depth = cube::default_max_depth(options.metric);
+            else if (options.max_depth < 0)
+                throw std::invalid_argument("max depth must be nonnegative");
             cube::NativeOptimalSolver solver;
             if (!phase1_pdb_path.empty() && std::filesystem::exists(phase1_pdb_path)) {
                 solver.load_phase1_pdb(phase1_pdb_path);

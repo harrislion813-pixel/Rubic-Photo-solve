@@ -8,6 +8,7 @@ from pathlib import Path
 
 from .runtime import application_root
 from .two_by_two_tables import coordinates, load_or_build
+from .metrics import move_cost, normalize_metric, resolve_max_depth, solution_cost
 from .cubie import (
     CORNER_COLORS,
     MOVE_INDEX,
@@ -149,21 +150,29 @@ def _normalizations() -> tuple[tuple[CubieCube, tuple[int, ...]], ...]:
 class TwoByTwoSolver:
     def __init__(self, cache_dir: str | Path | None = None) -> None:
         self.cache_dir = Path(cache_dir) if cache_dir is not None else application_root() / ".cache"
-        self._tables = None
+        self._tables = {}
 
     def solve_facelets(
-        self, facelets: str, max_depth: int = 11, timeout_seconds: float | None = 10.0
+        self, facelets: str, max_depth: int | None = None, timeout_seconds: float | None = 10.0,
+        metric: str = "HTM",
     ) -> TwoByTwoResult:
-        return self.solve_cube(from_facelets_2x2(facelets), max_depth=max_depth, timeout_seconds=timeout_seconds)
+        return self.solve_cube(
+            from_facelets_2x2(facelets), max_depth=max_depth, timeout_seconds=timeout_seconds, metric=metric
+        )
 
-    def solve_cube(self, cube: CubieCube, max_depth: int = 11, timeout_seconds: float | None = 10.0) -> TwoByTwoResult:
+    def solve_cube(
+        self, cube: CubieCube, max_depth: int | None = None, timeout_seconds: float | None = 10.0,
+        metric: str = "HTM",
+    ) -> TwoByTwoResult:
+        metric = normalize_metric(metric)
+        max_depth = resolve_max_depth(2, metric, max_depth)
         started = time.monotonic()
         deadline = None if timeout_seconds is None else started + timeout_seconds
         if is_solved_2x2(cube):
-            return TwoByTwoResult([], 0, "HTM", time.monotonic() - started)
-        if self._tables is None:
-            self._tables = load_or_build(str(self.cache_dir), deadline)
-        distance, perm_moves, twist_moves = self._tables
+            return TwoByTwoResult([], 0, metric, time.monotonic() - started)
+        if metric not in self._tables:
+            self._tables[metric] = load_or_build(str(self.cache_dir), deadline, metric)
+        distance, perm_moves, twist_moves = self._tables[metric]
         for rotation, move_map in _normalizations():
             normalized = cube.moved(rotation)
             if normalized.cp[6] == 6 and normalized.co[6] == 0:
@@ -173,23 +182,28 @@ class TwoByTwoSolver:
         perm, twist = coordinates(normalized)
         depth = int(distance[perm * 729 + twist])
         if depth > max_depth:
-            raise CubeStateError(f"在二阶 HTM {max_depth} 步内未找到解法；准确最短长度为 {depth} 步。")
+            raise ValueError(f"二阶 {metric} 搜索预算 {max_depth} 步不足；准确最短长度为 {depth} 步。")
         path = []
-        for remaining in range(depth, 0, -1):
+        remaining = depth
+        # Prefer a compact half-turn token when its weighted edge is shortest.
+        path_moves = (1, 4, 7, 0, 2, 3, 5, 6, 8) if metric == "QTM" else range(9)
+        while remaining:
             if deadline is not None and time.monotonic() >= deadline:
                 raise TimeoutError("二阶最短解搜索超时。")
-            for move in range(9):
+            for move in path_moves:
                 next_perm = int(perm_moves[perm, move])
                 next_twist = int(twist_moves[twist, move])
-                if distance[next_perm * 729 + next_twist] == remaining - 1:
+                cost = move_cost(move, metric)
+                if int(distance[next_perm * 729 + next_twist]) + cost == remaining:
                     path.append(MOVE_NAMES[move_map[move]])
                     perm, twist = next_perm, next_twist
+                    remaining -= cost
                     break
             else:
                 raise RuntimeError("二阶距离表缺少递减路径。")
         verified = cube
         for name in path:
             verified = _corner_moved(verified, MOVE_INDEX[name])
-        if not is_solved_2x2(verified):
+        if not is_solved_2x2(verified) or solution_cost(path, metric) != depth:
             raise RuntimeError("二阶动作映射未通过复原验证。")
-        return TwoByTwoResult(path, depth, "HTM", time.monotonic() - started)
+        return TwoByTwoResult(path, depth, metric, time.monotonic() - started)

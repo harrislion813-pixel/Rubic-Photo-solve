@@ -1,0 +1,39 @@
+{
+  "version": "1.5.0",
+  "archive": "RubicPhotoSolve-1.5.0-windows-x64.zip",
+  "archive_bytes": 221708620,
+  "archive_sha256": "f6145734924f7ab5943e3105f6301cd5f123dd5dab709a4e31ca87015a921f2b",
+  "native_binary_sha256": "2cf746712dd31d3347c4f2b5868a82d3ca43f0fc284ed73a275c9457c795ffe3",
+  "zip_crc_verified": true,
+  "packaged_version_verified": true,
+  "checks": [
+    {
+      "cube_size": 2,
+      "metric": "HTM",
+      "depth": 1,
+      "optimal": true,
+      "engine": null
+    },
+    {
+      "cube_size": 2,
+      "metric": "QTM",
+      "depth": 2,
+      "optimal": true,
+      "engine": null
+    },
+    {
+      "cube_size": 3,
+      "metric": "HTM",
+      "depth": 1,
+      "optimal": true,
+      "engine": "native-cpp"
+    },
+    {
+      "cube_size": 3,
+      "metric": "QTM",
+      "depth": 2,
+      "optimal": true,
+      "engine": "native-cpp"
+    }
+  ]
+}

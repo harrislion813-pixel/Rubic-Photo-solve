@@ -135,10 +135,10 @@ def test_serial_weighted_phase1_and_phase2_match_bfs(solver, sequence):
     assert apply_moves(cube, result.moves).is_solved()
 
 
-def test_insufficient_budget_candidate_is_unproved(solver):
+def test_lower_bound_can_prove_candidate_despite_search_budget(solver):
     cube = apply_moves(CubieCube(), ["R2"])
     result = solver.solve_cube(cube, max_depth=0, metric="QTM", incumbent_moves=["R2"])
-    assert result.depth == 2 and result.metric == "QTM" and not result.optimal
+    assert result.depth == 2 and result.metric == "QTM" and result.optimal
     assert apply_moves(cube, result.moves).is_solved()
     with pytest.raises(CubeStateError, match="预算"):
         solver.solve_cube(cube, max_depth=0, metric="QTM")
@@ -154,7 +154,7 @@ def test_parallel_qtm_matches_oracle_and_filtered_root_count(monkeypatch):
         result = solver.solve_cube(cube, metric="QTM", max_depth=expected, timeout_seconds=15, progress_callback=events.append)
         assert result.depth == expected and result.optimal and result.metric == "QTM"
         assert apply_moves(cube, result.moves).is_solved()
-    assert any(event.get("found") is False and event["completed_depth"] == 1 for event in events)
+    assert all(event["completed_depth"] >= event["lower_bound"] - 1 for event in events if "lower_bound" in event)
     assert all(event["metric"] == "QTM" for event in events)
 
 
@@ -176,7 +176,7 @@ def test_cancellation_keeps_only_completed_cost_layers(solver):
     progress = []
     def on_progress(snapshot):
         progress.append(snapshot)
-        if snapshot.get("found") is False and snapshot["completed_depth"] == 1:
+        if snapshot["completed_depth"] == 1:
             event.set()
     with pytest.raises(optimal.SearchCancelled):
         solver.solve_cube(apply_moves(CubieCube(), ["R2"]), metric="QTM", cancel_event=event, progress_callback=on_progress)

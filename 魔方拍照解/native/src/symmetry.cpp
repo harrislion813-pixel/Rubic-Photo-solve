@@ -358,6 +358,18 @@ CubieCube Phase1Symmetry::conjugate(const CubieCube &cube, int symmetry) const {
     return from_facelets(new_facelets);
 }
 
+CubieCube Phase1Symmetry::conjugate_edges(const CubieCube &cube, int symmetry) const noexcept {
+    CubieCube transformed;
+    for (int old_position = 0; old_position < 12; ++old_position) {
+        const int old_edge = cube.ep[old_position];
+        const int new_position = edge_position_[symmetry][old_position];
+        transformed.ep[new_position] = edge_position_[symmetry][old_edge];
+        transformed.eo[new_position] = static_cast<std::uint8_t>(
+            cube.eo[old_position] ^ edge_frame_[symmetry][old_position] ^ edge_frame_[symmetry][old_edge]);
+    }
+    return transformed;
+}
+
 std::uint16_t Phase1Symmetry::twist_conjugate(std::uint16_t twist, int symmetry) const noexcept {
     return twist_conjugates_[static_cast<std::size_t>(twist) * kPhase1SymmetryCount + symmetry];
 }

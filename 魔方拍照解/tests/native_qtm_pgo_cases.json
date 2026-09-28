@@ -1,0 +1,6 @@
+[
+  {"name":"qtm-train-legal-01","legal_seed":20261201},
+  {"name":"qtm-train-legal-02","legal_seed":20261202},
+  {"name":"qtm-train-legal-03","legal_seed":20261203},
+  {"name":"qtm-train-scramble-01","scramble":"R U F2 D' L B2 U' R2 F D B' L2 U F'"}
+]

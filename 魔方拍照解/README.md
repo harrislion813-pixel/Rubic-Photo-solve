@@ -51,7 +51,7 @@
 6. 保持命令行窗口打开。看到类似下面的输出说明服务已启动：
 
    ```text
-   魔方最短解应用 1.5.0 已启动: http://127.0.0.1:8765/
+   魔方最短解应用 1.6.0 已启动: http://127.0.0.1:8765/
    ```
 
 7. 浏览器通常会自动打开；没有自动打开时，把终端打印的完整地址复制到浏览器。
@@ -131,7 +131,7 @@ python server.py
 Invoke-RestMethod http://127.0.0.1:8765/api/version
 ```
 
-预期返回 `ok=True`、`version=1.5.0`。随后用浏览器打开同一地址的根路径。
+预期返回 `ok=True`、`version=1.6.0`。随后用浏览器打开同一地址的根路径。
 
 #### 第 7 步：停止服务
 
@@ -231,6 +231,8 @@ g++ --version
 | 基础可用 | `.\native\build_tables.ps1 -CiMinimal` | 生成 phase-1 与 corner PDB，速度和磁盘成本较低 |
 | 推荐完整 | `.\native\build_tables.ps1` | 增加 Tail-6 反向表，通常更利于深层严格证明 |
 | 实验扩展 | `.\native\build_tables.ps1 -IncludeEdgePdbs` | 增加完整六棱块模式库，占用更多时间、磁盘和内存 |
+| QTM 标准 | `.\native\build_tables.ps1 -Metric QTM` | 完整 QTM Corner/Phase-1 表与 QTM Tail-7 |
+| QTM 强配置 | `.\native\build_tables.ps1 -Metric QTM -Profile Strong -Resume -MemoryLimitGiB 12` | 再生成完整强联合表与 QTM Tail-8；需要约 6 GiB 资产空间 |
 
 普通源码用户建议先运行：
 
@@ -238,7 +240,7 @@ g++ --version
 .\native\build_tables.ps1 -CiMinimal
 ```
 
-生成过程可能持续较久；不要关闭终端，也不要删除 `.cache\native` 中正在写入的文件。
+生成过程可能持续较久；不要关闭终端，也不要删除 `.cache\native` 中正在写入的文件。Python 严格回退可预生成约 6.3 MiB 的 QTM 小表：`.\.venv\Scripts\python.exe -m cube_app.qtm_small`。发布用跨机器原生程序可通过 `.\native\build.ps1 -Portable` 编译。已生成的原生 QTM 资产可用 `.\release\build_qtm_assets.ps1 -Profile Standard` 或 `-Profile Strong` 校验并复制到 `dist`，包括哈希清单。完整 Windows 包可用 `.\release\build_windows.ps1 -QtmProfile Strong` 构建。
 
 #### 第 5 步：再次验证
 
@@ -411,11 +413,11 @@ python -m cube_app.two_by_two_tables --metric QTM
 
 后台搜索按所选模式的代价预算从小到大进行，只搜索比当前候选更小的代价。超时、取消和预算不足均不代表证明完成；已有候选仍可执行。三阶默认完整预算为 HTM 20 / QTM 26，覆盖合法状态的最大距离，但不保证默认超时内完成证明。
 
-QTM 复用已有 HTM PDB 作为有效下界，首次实现禁用 HTM Tail 的直接后缀捷径。较弱的下界可能使 QTM 证明更慢；三阶快速生成器提供的 HTM 候选会按目标模式重新计价，始终标识为未证明候选。
+QTM 在专用资产存在时使用完整 Corner/Phase-1 PDB 与 QTM Tail；强配置再加载三轴联合 PDB 和 Tail-8。缺少专用资产时仍可用 HTM PDB 作为合法下界。原生 QTM 候选器会持续改进可执行上界，候选在严格证明完成前始终标识为未证明；原生不可用时 Python 候选搜索也按 QTM 半转代价计费。
 
 原生核心使用紧凑棱排列、三轴同值加强下界和分阶段展开；完整 PDB 可用时省略被其覆盖的小表查询。确定性的坐标转移与小剪枝表使用版本化校验缓存，损坏后自动重建。每 250 ms 的进度包含生成候选、各阶段查询与拒绝数以及线程工作统计。
 
-相同状态、魔方阶数、实际预算、模式和证明版本的活动请求复用任务。取消保留原生进程和已加载 PDB；同模式重试可复用进程内最多 128 个状态的完整排除预算，未完成的预算不缓存，跨模式不复用证明。原生协议为 `protocol_version=3` / `proof_version=2`，声明支持 HTM、QTM；旧 EXE 能力不匹配时按剩余 deadline 回退到 Python。排队、初始化、搜索和 Python 回退共享绝对截止时间。页面分别显示解生成和证明耗时。
+相同状态、魔方阶数、实际预算、模式和证明版本的活动请求复用任务。取消保留原生进程和已加载 PDB；同模式重试可复用进程内最多 128 个状态的完整排除预算，未完成的预算不缓存，跨模式不复用证明。原生协议为 `protocol_version=3` / `proof_version=3`，声明支持 HTM、QTM；旧 EXE 能力不匹配时按剩余 deadline 回退到 Python。排队、初始化、搜索和 Python 回退共享绝对截止时间。页面分别显示解生成和证明耗时。
 
 ## 项目结构
 
@@ -465,7 +467,7 @@ QTM 复用已有 HTM PDB 作为有效下界，首次实现禁用 HTM Tail 的直
 用于检查服务是否可用以及前后端版本：
 
 ```json
-{"ok": true, "version": "1.5.0"}
+{"ok": true, "version": "1.6.0"}
 ```
 
 ### `POST /api/detect`
@@ -529,7 +531,7 @@ node tests\two_by_two_color.test.js
 node tests\solver_ui.test.js
 python -m pytest -ra
 python -m compileall cube_app server.py windows_launcher.py
-python release\check_version.py --tag v1.5.0
+python release\check_version.py --tag v1.6.0
 ```
 
 CI 对 `cube_app` 和 `server.py` 执行至少 70% 的分支覆盖率门禁；依赖本地 EXE/PDB 或实拍图片的测试会在缺少资源时跳过。当前仓库未必包含 `tests/initial/` 实拍素材，因此看到 real-image 用例被跳过是预期行为。
@@ -584,6 +586,8 @@ python tests\benchmark_native.py --metric QTM --cases all --timeout 60 --output 
 
 `--no-axis-strengthening`、`--keep-small-tables`、`--no-staged-expansion` 可独立对照；`--inverse-direction` 用于逆向回归。`baseline` 是当前代码关闭优化后的对照，包含新状态表示和统计，不能等同于历史 EXE。独立 PGO 训练集见 `tests/native_pgo_cases.json`，验收集见 `tests/native_cases.json`。交付范围、实测结果与实验项见[性能重构记录](docs/performance-refactor-2026-09-27.md)。
 
+三阶 QTM 强配置的实现、完整验收、公开难例压力组、资产包验证和未达目标见[QTM 强优化报告](docs/qtm-strong-optimization-report.md)。
+
 C++ 格式检查使用项目根目录的 `.clang-format`：
 
 ```powershell
@@ -617,7 +621,7 @@ git tag --list "v*" --sort=-version:refname
 编辑 `cube_app/__init__.py`：
 
 ```python
-__version__ = "1.5.0"
+__version__ = "1.6.0"
 ```
 
 不要在 `pyproject.toml` 再写静态版本；它会从 `cube_app.__version__` 动态读取。
@@ -637,10 +641,10 @@ __version__ = "1.5.0"
 ### 第 5 步：检查版本一致性
 
 ```powershell
-.\.venv\Scripts\python.exe release\check_version.py --tag v1.5.0
+.\.venv\Scripts\python.exe release\check_version.py --tag v1.6.0
 ```
 
-脚本会检查语义化版本、Python 包配置、前端版本占位符、`CHANGELOG.md` 和标签名称。预期只输出 `1.5.0`。
+脚本会检查语义化版本、Python 包配置、前端版本占位符、`CHANGELOG.md` 和标签名称。预期只输出 `1.6.0`。
 
 ### 第 6 步：运行完整检查
 
@@ -658,7 +662,7 @@ git diff --check
 git diff
 git add -- ..\README.md README.md CHANGELOG.md cube_app native release docs tests server.py web pyproject.toml
 git diff --cached
-git commit -m "Release v1.5.0 with HTM and QTM optimal solving"
+git commit -m "Release v1.6.0 with HTM and QTM optimal solving"
 ```
 
 提交文件应覆盖当前版本的全部改动。以后发布时应按 `git status` 的实际改动调整文件列表。提交前必须检查 `git diff --cached`，确保本次文件全部纳入且无关文件没有混入。
@@ -684,16 +688,16 @@ git status --short
 ### 第 10 步：确认产物和标签
 
 ```powershell
-Get-Item .\dist\RubicPhotoSolve-1.5.0-windows-x64.zip
-Get-FileHash .\dist\RubicPhotoSolve-1.5.0-windows-x64.zip -Algorithm SHA256
-git show --no-patch v1.5.0
+Get-Item .\dist\RubicPhotoSolve-1.6.0-windows-x64.zip
+Get-FileHash .\dist\RubicPhotoSolve-1.6.0-windows-x64.zip -Algorithm SHA256
+git show --no-patch v1.6.0
 ```
 
 ### 第 11 步：推送提交和标签
 
 ```powershell
 git push origin main
-git push origin v1.5.0
+git push origin v1.6.0
 ```
 
 只有推送 `v*` 标签才会触发 GitHub Release 发布任务。只推送 `main` 不会创建 Release。
@@ -701,7 +705,7 @@ git push origin v1.5.0
 ### 第 12 步：检查 GitHub Actions 和 Release
 
 1. 打开仓库的 Actions 页面；
-2. 找到分支为 `v1.5.0` 的 CI 运行；
+2. 找到分支为 `v1.6.0` 的 CI 运行；
 3. 等待 Version、Lint、Python、Frontend 和 Native Windows 全部通过；
 4. `Publish GitHub Release` 随后下载经过测试的 Artifact；
 5. 在 Releases 页面确认标题、标签和 ZIP 文件名一致。
@@ -771,13 +775,13 @@ git diff
 
 按顺序检查：
 
-1. `git tag --list v1.5.0` 能看到本地标签；
-2. `git ls-remote --tags origin refs/tags/v1.5.0` 能看到远程标签；
-3. GitHub Actions 中存在 `headBranch=v1.5.0` 的运行；
+1. `git tag --list v1.6.0` 能看到本地标签；
+2. `git ls-remote --tags origin refs/tags/v1.6.0` 能看到远程标签；
+3. GitHub Actions 中存在 `headBranch=v1.6.0` 的运行；
 4. 所有 Python、前端和 Windows Native 作业成功；
 5. `Publish GitHub Release` 没有因前置失败而跳过。
 
-本地创建标签不会自动上传，必须执行 `git push origin v1.5.0`。
+本地创建标签不会自动上传，必须执行 `git push origin v1.6.0`。
 
 ### CI 显示很多 `SKIPPED`
 

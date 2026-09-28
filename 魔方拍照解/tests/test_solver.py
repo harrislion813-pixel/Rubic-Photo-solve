@@ -113,6 +113,13 @@ class FastTwoPhaseSolverTests(unittest.TestCase):
         self.assertTrue(result.optimal)
         self.assertEqual(result.depth, 0)
 
+    def test_qtm_fallback_prices_half_turns_during_search(self) -> None:
+        cube = scrambled("R2")
+        result = self.solver.solve_cube(cube, timeout_seconds=2, metric="QTM")
+        self.assertEqual(result.metric, "QTM")
+        self.assertEqual(result.depth, 2)
+        self.assertTrue(apply_solution(cube, result.moves).is_solved())
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -30,10 +30,12 @@ from .cubie import (
     all_move_cubes,
     build_sticker_geometry,
     from_facelets,
+    permutation_parity,
     to_facelets,
 )
 from .tables import SolverTables, load_or_build_tables
 from .metrics import MOVE_COSTS, normalize_metric, resolve_max_depth, solution_cost
+from .qtm_small import QtmSmallTables, load_qtm_small_tables
 
 
 _Vector = tuple[int, int, int]
@@ -196,6 +198,8 @@ class OptimalSolver:
     ) -> None:
         self.cache_dir = Path(cache_dir)
         self._tables: SolverTables | None = None
+        self._qtm_small: QtmSmallTables | None = None
+        self._qtm_small_checked = False
         self.parallel = parallel
         self.max_workers = max_workers or min(12, max(1, (os.cpu_count() or 1) - 1))
 
@@ -204,6 +208,11 @@ class OptimalSolver:
         if self._tables is None:
             self._tables = load_or_build_tables(self.cache_dir)
         return self._tables
+
+    def _load_qtm_small(self) -> None:
+        if not self._qtm_small_checked:
+            self._qtm_small = load_qtm_small_tables(self.cache_dir)
+            self._qtm_small_checked = True
 
     def solve_facelets(
         self,
@@ -274,8 +283,14 @@ class OptimalSolver:
             effective_max = min(max_depth, upper_bound - 1)
 
         tables = self.tables
-        state = self._prepare_phase1_state(cube, tables)
+        if metric == "QTM":
+            self._load_qtm_small()
+        state = self._prepare_phase1_state(cube, tables, metric)
         *coords, lower = state
+        qtm_parity = permutation_parity(cube.cp) if metric == "QTM" else None
+        if qtm_parity is not None:
+            lower += (lower ^ qtm_parity) & 1
+        completed_depth = lower - 1
         # Values are exhausted remaining costs in this request's metric. The
         # dictionary never survives a request, so metrics cannot share proofs.
         transposition: dict[int, int] = {}
@@ -290,13 +305,13 @@ class OptimalSolver:
                     "lower_bound": lower,
                     "upper_bound": effective_max,
                     "current_depth": lower,
-                    "completed_depth": lower - 1,
+                    "completed_depth": completed_depth,
                     "nodes": 0,
                     "elapsed_seconds": 0.0,
                 }
             )
         try:
-            for depth in range(lower, effective_max + 1):
+            for depth in range(lower, effective_max + 1, 2 if qtm_parity is not None else 1):
                 if parallel_enabled and depth >= _PARALLEL_MIN_DEPTH:
                     try:
                         if pool is None:
@@ -327,7 +342,7 @@ class OptimalSolver:
                                     "metric": metric,
                                     "parallel_fallback": True,
                                     "current_depth": depth,
-                                    "completed_depth": depth - 1,
+                                    "completed_depth": completed_depth,
                                     "elapsed_seconds": time.monotonic() - start,
                                 }
                             )
@@ -366,7 +381,7 @@ class OptimalSolver:
                                 "lower_bound": lower,
                                 "upper_bound": effective_max,
                                 "current_depth": depth,
-                                "completed_depth": depth - 1,
+                                "completed_depth": completed_depth,
                                 "nodes": 0,
                                 "elapsed_seconds": time.monotonic() - start,
                                 "found": True,
@@ -374,6 +389,7 @@ class OptimalSolver:
                         )
                     moves = [MOVE_NAMES[idx] for idx in result]
                     return SolveResult(moves, solution_cost(moves, metric), metric, time.monotonic() - start, True)
+                completed_depth = depth + (1 if qtm_parity is not None else 0)
                 if progress_callback is not None:
                     progress_callback(
                         {
@@ -383,7 +399,7 @@ class OptimalSolver:
                             "lower_bound": lower,
                             "upper_bound": effective_max,
                             "current_depth": depth,
-                            "completed_depth": depth,
+                            "completed_depth": completed_depth,
                             "nodes": 0,
                             "elapsed_seconds": time.monotonic() - start,
                             "found": False,
@@ -401,12 +417,13 @@ class OptimalSolver:
             self._check_deadline(deadline, cancel_event)
             return SolveResult(
                 incumbent, incumbent_cost, metric, time.monotonic() - start,
-                max_depth >= incumbent_cost - 1 or lower >= incumbent_cost,
+                completed_depth >= incumbent_cost - 1,
             )
 
         raise CubeStateError(f"在 {metric} {effective_max} 步预算内未找到解法；可增加搜索预算。")
 
-    def _prepare_phase1_state(self, cube: CubieCube, tables: SolverTables) -> tuple[int, ...]:
+    def _prepare_phase1_state(self, cube: CubieCube, tables: SolverTables,
+                              metric: str = "HTM") -> tuple[int, ...]:
         twist = get_twist(cube)
         flip = get_flip(cube)
         slice_comb = get_slice_comb(cube)
@@ -419,9 +436,9 @@ class OptimalSolver:
         )
         (x_twist, x_flip, x_slice, x_corner_perm), (z_twist, z_flip, z_slice, z_corner_perm) = rotated_coords
         lower = max(
-            self._phase1_heuristic(tables, twist, flip, slice_comb, corner_perm),
-            self._phase1_heuristic(tables, x_twist, x_flip, x_slice, x_corner_perm),
-            self._phase1_heuristic(tables, z_twist, z_flip, z_slice, z_corner_perm),
+            self._phase1_heuristic(tables, twist, flip, slice_comb, corner_perm, metric),
+            self._phase1_heuristic(tables, x_twist, x_flip, x_slice, x_corner_perm, metric),
+            self._phase1_heuristic(tables, z_twist, z_flip, z_slice, z_corner_perm, metric),
         )
         return (
             twist,
@@ -489,7 +506,9 @@ class OptimalSolver:
         deadline = None if timeout_seconds is None else time.monotonic() + timeout_seconds
         child = cube.apply_move_index(move_idx)
         tables = self.tables
-        state = self._prepare_phase1_state(child, tables)
+        if metric == "QTM":
+            self._load_qtm_small()
+        state = self._prepare_phase1_state(child, tables, metric)
         *coords, heuristic = state
         return self._search_phase1(
             *coords,
@@ -511,8 +530,17 @@ class OptimalSolver:
         flip: int,
         slice_comb: int,
         corner_perm: int,
+        metric: str = "HTM",
     ) -> int:
-        # Existing tables store HTM distances: h_HTM <= d_HTM <= d_QTM.
+        if metric == "QTM" and self._qtm_small is not None:
+            small = self._qtm_small
+            return max(
+                small.twist_slice[twist * N_SLICE_COMB + slice_comb],
+                small.flip_slice[flip * N_SLICE_COMB + slice_comb],
+                small.twist_flip[twist * N_FLIP + flip],
+                small.corner_perm[corner_perm],
+            )
+        # HTM tables remain valid lower bounds when QTM tables are unavailable.
         return max(
             tables.twist_slice_prune[twist * N_SLICE_COMB + slice_comb],
             tables.flip_slice_prune[flip * N_SLICE_COMB + slice_comb],
@@ -589,10 +617,11 @@ class OptimalSolver:
         flip_move = tables.flip_move
         slice_move = tables.slice_comb_move
         corner_move = tables.corner_perm_all_move
-        twist_slice_prune = tables.twist_slice_prune
-        flip_slice_prune = tables.flip_slice_prune
-        twist_flip_prune = tables.twist_flip_prune
-        corner_prune = tables.corner_perm_prune
+        small = self._qtm_small if metric == "QTM" else None
+        twist_slice_prune = small.twist_slice if small is not None else tables.twist_slice_prune
+        flip_slice_prune = small.flip_slice if small is not None else tables.flip_slice_prune
+        twist_flip_prune = small.twist_flip if small is not None else tables.twist_flip_prune
+        corner_prune = small.corner_perm if small is not None else tables.corner_perm_prune
         x_move_map, z_move_map = _rotation_move_maps()
         prices = MOVE_COSTS[metric]
 

@@ -1,8 +1,11 @@
 #include "cube.hpp"
+#include "fast.hpp"
 #include "paths.hpp"
 #include "pdb.hpp"
 #include "solver.hpp"
 #include "symmetry.hpp"
+#include "strong_coords.hpp"
+#include "strong_pdb.hpp"
 #include "tail.hpp"
 
 #ifndef NOMINMAX
@@ -29,6 +32,24 @@
 
 namespace {
 
+const char *asset_profile(const cube::NativeOptimalSolver &solver, cube::MoveMetric metric) {
+    if (metric == cube::MoveMetric::HTM)
+        return "htm";
+    const bool qtm_base = solver.has_corner_pdb(metric) && solver.corner_pdb_metric(metric) == metric &&
+                          solver.corner_pdb_complete(metric) && solver.has_phase1_pdb(metric) &&
+                          solver.phase1_pdb_metric(metric) == metric && solver.phase1_pdb_complete(metric);
+    if (qtm_base && solver.has_strong_pdb(metric) && solver.tail_database_depth(metric) >= 8)
+        return "strong";
+    if (qtm_base && solver.tail_database_depth(metric) >= 7)
+        return "standard";
+    if (qtm_base)
+        return "base";
+    if ((solver.has_corner_pdb(metric) && solver.corner_pdb_metric(metric) == metric) ||
+        (solver.has_phase1_pdb(metric) && solver.phase1_pdb_metric(metric) == metric))
+        return "partial";
+    return "fallback";
+}
+
 int parse_integer(const std::string &value) {
     std::size_t consumed = 0;
     const int parsed = std::stoi(value, &consumed);
@@ -42,14 +63,20 @@ void print_usage() {
               << "  cube_solver validate FACELETS\n"
               << "  cube_solver apply FACELETS [MOVES...]\n"
               << "  cube_solver symmetry-info\n"
+              << "  cube_solver strong-symmetry-info\n"
+              << "  cube_solver build-strong-pdb PATH --metric QTM [--coverage-depth N] [--threads N] [--resume] [--memory-limit-gib N]\n"
+              << "  cube_solver verify-strong-pdb PATH [--threads N]\n"
+              << "  cube_solver fast-solve FACELETS --qtm-phase1-pdb PATH [--timeout N] [--incumbent-cost N]\n"
               << "  cube_solver solve FACELETS [--metric HTM|QTM] [--max-depth N] [--timeout S] [--threads N]\n"
               << "                    [--pdb PATH] [--incumbent \"MOVES\"] [--transposition]\n"
-              << "  cube_solver serve [--pdb PATH] [--phase1-pdb PATH] [--tail-pdb PATH]\n"
-              << "  cube_solver build-corner-pdb PATH [--coverage-depth N] [--threads N] [--force]\n"
-              << "  cube_solver build-phase1-pdb PATH [--coverage-depth N] [--threads N] [--force]\n"
+              << "  cube_solver serve [--pdb PATH] [--phase1-pdb PATH] [--qtm-pdb PATH] [--qtm-phase1-pdb PATH] [--strong-pdb PATH]\n"
+              << "  cube_solver build-corner-pdb PATH [--metric HTM|QTM] [--coverage-depth N] [--threads N] [--force]\n"
+              << "  cube_solver build-phase1-pdb PATH [--metric HTM|QTM] [--coverage-depth N] [--threads N] [--force]\n"
               << "  cube_solver build-edge-pdb PATH --group 0..7 [--coverage-depth N]\n"
               << "                    [--threads N] [--force]\n"
-              << "  cube_solver build-tail-pdb PATH [--depth 0..7] [--threads N] [--force]\n";
+              << "  cube_solver build-tail-pdb PATH [--metric HTM|QTM] [--depth N] [--threads N] [--force]\n"
+              << "  cube_solver verify-tail-pdb PATH [--threads N]\n"
+              << "  cube_solver verify-pdb PATH --pattern corner|phase1|edge [--group 0..7] [--threads N] --full\n";
 }
 
 std::vector<int> parse_moves(const std::string &text) {
@@ -89,7 +116,10 @@ void print_counters_json(std::ostream &output, const cube::SearchCounters &count
                          const std::vector<cube::WorkerStatistics> &workers) {
     output << ",\"generated_candidates\":" << counters.generated << ",\"small_pdb_queries\":" << counters.small_queries
            << ",\"phase1_queries\":" << counters.phase1_queries << ",\"corner_queries\":" << counters.corner_queries
-           << ",\"edge_queries\":" << counters.edge_queries << ",\"axis_rejects\":[" << counters.axis_rejects[0] << ','
+           << ",\"edge_queries\":" << counters.edge_queries << ",\"strong_queries\":" << counters.strong_queries
+           << ",\"tt_keys\":" << counters.tt_keys << ",\"tt_lookups\":" << counters.tt_lookups
+           << ",\"tt_stores\":" << counters.tt_stores
+           << ",\"strong_rejects\":" << counters.strong_rejects << ",\"axis_rejects\":[" << counters.axis_rejects[0] << ','
            << counters.axis_rejects[1] << ',' << counters.axis_rejects[2] << ']'
            << ",\"equality_rejects\":" << counters.equality_rejects << ",\"corner_rejects\":" << counters.corner_rejects
            << ",\"edge_rejects\":" << counters.edge_rejects << ",\"workers\":[";
@@ -98,6 +128,9 @@ void print_counters_json(std::ostream &output, const cube::SearchCounters &count
             output << ',';
         output << "{\"nodes\":" << workers[i].nodes << ",\"generated\":" << workers[i].generated
                << ",\"busy_seconds\":" << workers[i].busy_seconds << ",\"idle_seconds\":" << workers[i].idle_seconds
+               << ",\"tasks\":" << workers[i].tasks
+               << ",\"longest_task_seconds\":" << workers[i].longest_task_seconds
+               << ",\"queue_lock_wait_seconds\":" << workers[i].queue_lock_wait_seconds
                << '}';
     }
     output << ']';
@@ -146,13 +179,25 @@ void print_result_json(std::ostream &output, const cube::NativeSolveResult &resu
            << ",\"tail_bloom_rejects\":" << result.tail_bloom_rejects
            << ",\"tail_exact_queries\":" << result.tail_exact_queries << ",\"tail_probes\":" << result.tail_probes
            << ",\"tail_hits\":" << result.tail_hits
-           << ",\"corner_pdb\":" << (solver.has_corner_pdb() ? "true" : "false")
-           << ",\"phase1_pdb\":" << (solver.has_phase1_pdb() ? "true" : "false")
-           << ",\"edge_pdbs\":" << (solver.has_edge_pdbs() ? "true" : "false")
-           << ",\"extra_edge_pdbs\":" << (solver.has_extra_edge_pdbs() ? "true" : "false")
-           << ",\"edge_pdb_count\":" << solver.edge_pdb_count()
-           << ",\"tail_pdb\":" << (solver.has_tail_database() ? "true" : "false") << ",\"tail_enabled\":"
-           << (solver.has_tail_database() && result.metric == cube::MoveMetric::HTM ? "true" : "false")
+           << ",\"candidate_phase1_nodes\":" << result.candidate_phase1_nodes
+           << ",\"candidate_phase2_nodes\":" << result.candidate_phase2_nodes
+           << ",\"candidate_improvements\":" << result.candidate_improvements
+           << ",\"candidate_window_replacements\":" << result.candidate_window_replacements
+           << ",\"first_candidate_seconds\":" << result.first_candidate_seconds
+           << ",\"corner_pdb\":" << (solver.has_corner_pdb(result.metric) ? "true" : "false")
+           << ",\"corner_pdb_metric\":\"" << cube::metric_name(solver.corner_pdb_metric(result.metric)) << "\""
+           << ",\"corner_pdb_complete\":" << (solver.corner_pdb_complete(result.metric) ? "true" : "false")
+           << ",\"phase1_pdb\":" << (solver.has_phase1_pdb(result.metric) ? "true" : "false")
+           << ",\"phase1_pdb_metric\":\"" << cube::metric_name(solver.phase1_pdb_metric(result.metric)) << "\""
+           << ",\"phase1_pdb_complete\":" << (solver.phase1_pdb_complete(result.metric) ? "true" : "false")
+           << ",\"edge_pdbs\":" << (solver.has_edge_pdbs(result.metric) ? "true" : "false")
+           << ",\"extra_edge_pdbs\":" << (solver.has_extra_edge_pdbs(result.metric) ? "true" : "false")
+           << ",\"edge_pdb_count\":" << solver.edge_pdb_count(result.metric)
+           << ",\"tail_pdb\":" << (solver.has_tail_database(result.metric) ? "true" : "false") << ",\"tail_enabled\":"
+           << (solver.has_tail_database(result.metric) ? "true" : "false")
+           << ",\"strong_pdb\":" << (solver.has_strong_pdb(result.metric) ? "true" : "false")
+           << ",\"asset_profile\":\"" << asset_profile(solver, result.metric) << "\""
+           << ",\"tail_depth\":" << solver.tail_database_depth(result.metric)
            << ",\"completed_depth\":" << result.completed_depth;
     print_counters_json(output, result.counters, result.workers);
     output << "}\n" << std::flush;
@@ -181,6 +226,14 @@ bool tuning_option(const std::string &option, cube::SolverOptions &options) {
         options.staged_expansion = false;
     else if (option == "--no-direction-probe")
         options.use_direction_probe = false;
+    else if (option == "--no-qtm-parity")
+        options.use_qtm_parity = false;
+    else if (option == "--no-native-candidate")
+        options.use_native_candidate = false;
+    else if (option == "--legacy-split")
+        options.adaptive_split = false;
+    else if (option == "--tt-every-node")
+        options.selective_transposition = false;
     else if (option == "--inverse-direction")
         options.inverse_direction = true;
     else if (option == "--transposition")
@@ -195,7 +248,7 @@ bool tuning_option(const std::string &option, cube::SolverOptions &options) {
 void check_heuristic(int argc, char **argv) {
     int depth_limit = 3;
     cube::MoveMetric metric = cube::MoveMetric::HTM;
-    std::filesystem::path corner_path, phase1_path;
+    std::filesystem::path corner_path, phase1_path, strong_path;
     for (int i = 2; i < argc; ++i) {
         const std::string flag = argv[i];
         if (flag == "--depth" && i + 1 < argc)
@@ -206,23 +259,36 @@ void check_heuristic(int argc, char **argv) {
             corner_path = cube::path_from_utf8(argv[++i]);
         else if (flag == "--phase1-pdb" && i + 1 < argc)
             phase1_path = cube::path_from_utf8(argv[++i]);
+        else if (flag == "--strong-pdb" && i + 1 < argc)
+            strong_path = cube::path_from_utf8(argv[++i]);
         else
             throw std::invalid_argument("unknown heuristic check option");
     }
-    if (depth_limit < 0 || depth_limit > 4)
-        throw std::invalid_argument("heuristic check depth must be 0..4");
+    if (depth_limit < 0 || depth_limit > 5)
+        throw std::invalid_argument("heuristic check depth must be 0..5");
     cube::CoordinateTables tables;
     std::unique_ptr<cube::CornerPatternDatabase> corner;
     std::unique_ptr<cube::Phase1PatternDatabase> phase1;
+    std::unique_ptr<cube::StrongPatternDatabase> strong;
     if (!corner_path.empty())
         corner = std::make_unique<cube::CornerPatternDatabase>(corner_path);
     if (!phase1_path.empty())
         phase1 = std::make_unique<cube::Phase1PatternDatabase>(phase1_path);
+    if (!strong_path.empty()) {
+        if (metric != cube::MoveMetric::QTM)
+            throw std::invalid_argument("strong PDB requires QTM heuristic verification");
+        strong = std::make_unique<cube::StrongPatternDatabase>(strong_path);
+    }
     cube::CoordinateFeatures features;
-    features.axis_coordinates = bool(phase1);
+    features.metric = metric;
+    features.strong_pdb = strong.get();
+    features.axis_coordinates = bool(phase1) || bool(strong);
     features.edge_pattern_a = features.edge_pattern_b = false;
-    features.small_corner = !corner || !corner->complete();
-    features.small_phase1 = !phase1 || !phase1->complete();
+    features.small_corner = !corner || !corner->complete() ||
+                            (metric == cube::MoveMetric::QTM && corner->metric() == cube::MoveMetric::HTM);
+    features.small_phase1 = !phase1 || !phase1->complete() ||
+                            (metric == cube::MoveMetric::QTM && phase1->metric() == cube::MoveMetric::HTM);
+    features.strengthen_axes = !phase1 || phase1->metric() == cube::MoveMetric::HTM;
     std::deque<std::pair<cube::CubieCube, int>> queue{{cube::CubieCube{}, 0}};
     std::unordered_set<std::string> seen{cube::to_facelets(cube::CubieCube{})};
     std::uint64_t checked = 0;
@@ -305,13 +371,183 @@ int wmain(int argc, wchar_t **wide_argv) {
             std::cout << "{\"ok\":true,\"symmetries\":16,\"flip_slice_classes\":" << symmetry.class_count() << "}\n";
             return 0;
         }
+        if (command == "strong-symmetry-info") {
+            cube::SortedSliceSymmetry symmetry;
+            std::cout << "{\"ok\":true,\"raw_sorted_slice\":" << cube::kSortedSliceCount
+                      << ",\"classes\":" << symmetry.class_count() << ",\"joint_entries\":"
+                      << static_cast<std::uint64_t>(symmetry.class_count()) * 2048U * 2187U << "}\n";
+            return 0;
+        }
+        if (command == "build-strong-pdb") {
+            if (argc < 3) {
+                print_usage();
+                return 2;
+            }
+            int threads = 8;
+            int coverage_depth = 254;
+            bool resume = false;
+            double memory_limit_gib = 12.0;
+            cube::MoveMetric metric = cube::MoveMetric::QTM;
+            for (int index = 3; index < argc; ++index) {
+                const std::string option = argv[index];
+                if (option == "--threads" && index + 1 < argc)
+                    threads = std::stoi(argv[++index]);
+                else if (option == "--coverage-depth" && index + 1 < argc)
+                    coverage_depth = std::stoi(argv[++index]);
+                else if (option == "--memory-limit-gib" && index + 1 < argc)
+                    memory_limit_gib = std::stod(argv[++index]);
+                else if (option == "--metric" && index + 1 < argc)
+                    metric = cube::parse_metric(argv[++index]);
+                else if (option == "--resume")
+                    resume = true;
+                else
+                    throw std::invalid_argument("unknown strong PDB build option: " + option);
+            }
+            if (metric != cube::MoveMetric::QTM)
+                throw std::invalid_argument("strong PDB currently requires QTM");
+            cube::CoordinateTables tables;
+            const auto path = cube::path_from_utf8(argv[2]);
+            cube::build_strong_pattern_database(path, tables, threads, coverage_depth, resume, memory_limit_gib);
+            cube::StrongPatternDatabase pdb(path);
+            std::cout << "{\"ok\":true,\"metric\":\"QTM\",\"entries\":" << cube::kStrongPatternEntries
+                      << ",\"complete\":" << (pdb.complete() ? "true" : "false")
+                      << ",\"coverage_depth\":" << pdb.coverage_depth() << ",\"max_distance\":"
+                      << static_cast<int>(pdb.max_distance()) << "}\n";
+            return 0;
+        }
+        if (command == "verify-strong-pdb") {
+            if (argc < 3) {
+                print_usage();
+                return 2;
+            }
+            int threads = 8;
+            for (int index = 3; index < argc; ++index) {
+                const std::string option = argv[index];
+                if (option == "--threads" && index + 1 < argc)
+                    threads = std::stoi(argv[++index]);
+                else
+                    throw std::invalid_argument("unknown strong verification option: " + option);
+            }
+            cube::CoordinateTables tables;
+            cube::StrongPatternDatabase pdb(cube::path_from_utf8(argv[2]));
+            const auto verified = pdb.verify_all(tables, threads);
+            std::cout << "{\"ok\":true,\"metric\":\"QTM\",\"entries\":" << verified.entries
+                      << ",\"histogram\":[";
+            for (int depth = 0; depth <= pdb.max_distance(); ++depth) {
+                if (depth)
+                    std::cout << ',';
+                std::cout << verified.distance_histogram[static_cast<std::size_t>(depth)];
+            }
+            std::cout << "]}\n";
+            return 0;
+        }
+        if (command == "fast-solve") {
+            if (argc < 3) {
+                print_usage();
+                return 2;
+            }
+            std::filesystem::path phase1_path;
+            std::filesystem::path tail_path;
+            cube::FastCandidateOptions options;
+            for (int index = 3; index < argc; ++index) {
+                const std::string option = argv[index];
+                if (option == "--qtm-phase1-pdb" && index + 1 < argc)
+                    phase1_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--qtm-tail-pdb" && index + 1 < argc)
+                    tail_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--timeout" && index + 1 < argc)
+                    options.timeout_seconds = std::stod(argv[++index]);
+                else if (option == "--incumbent-cost" && index + 1 < argc)
+                    options.incumbent_cost = std::stoi(argv[++index]);
+                else if (option == "--max-phase1-cost" && index + 1 < argc)
+                    options.max_phase1_cost = std::stoi(argv[++index]);
+                else if (option == "--max-phase2-cost" && index + 1 < argc)
+                    options.max_phase2_cost = std::stoi(argv[++index]);
+                else
+                    throw std::invalid_argument("unknown fast-solve option: " + option);
+            }
+            if (phase1_path.empty())
+                throw std::invalid_argument("fast-solve requires --qtm-phase1-pdb");
+            cube::CoordinateTables tables;
+            cube::Phase1PatternDatabase phase1(phase1_path);
+            std::unique_ptr<cube::TailDatabase> tail;
+            if (!tail_path.empty()) {
+                tail = std::make_unique<cube::TailDatabase>(tail_path);
+                if (tail->metric() != cube::MoveMetric::QTM)
+                    throw std::invalid_argument("fast-solve QTM tail asset has the wrong metric");
+                options.local_tail = tail.get();
+            }
+            const auto state = cube::from_facelets(argv[2]);
+            const auto result = cube::find_fast_qtm_candidate(state, tables, phase1, options);
+            std::cout << "{\"ok\":true,\"metric\":\"QTM\",\"cost\":" << result.cost
+                      << ",\"moves\":[";
+            for (std::size_t index = 0; index < result.moves.size(); ++index) {
+                if (index)
+                    std::cout << ',';
+                std::cout << '"' << cube::kMoveNames[result.moves[index]] << '"';
+            }
+            std::cout << "],\"phase1_nodes\":" << result.phase1_nodes
+                      << ",\"phase2_nodes\":" << result.phase2_nodes
+                      << ",\"phase1_max_distance\":" << result.phase1_max_distance
+                      << ",\"phase2_max_distance\":" << result.phase2_max_distance
+                      << ",\"improvements\":" << result.improvements
+                      << ",\"window_replacements\":" << result.window_replacements
+                      << ",\"timed_out\":" << (result.timed_out ? "true" : "false") << "}\n";
+            return 0;
+        }
+        if (command == "verify-pdb") {
+            if (argc < 3) {
+                print_usage();
+                return 2;
+            }
+            std::string pattern;
+            int group = -1;
+            int threads = static_cast<int>(std::max(1U, std::thread::hardware_concurrency()));
+            bool full = false;
+            for (int index = 3; index < argc; ++index) {
+                const std::string option = argv[index];
+                if (option == "--pattern" && index + 1 < argc)
+                    pattern = argv[++index];
+                else if (option == "--group" && index + 1 < argc)
+                    group = std::stoi(argv[++index]);
+                else if (option == "--threads" && index + 1 < argc)
+                    threads = std::stoi(argv[++index]);
+                else if (option == "--full")
+                    full = true;
+                else
+                    throw std::invalid_argument("unknown PDB verification option: " + option);
+            }
+            if (!full)
+                throw std::invalid_argument("verify-pdb requires --full");
+            const auto path = cube::path_from_utf8(argv[2]);
+            cube::PdbVerification verified;
+            if (pattern == "edge")
+                verified = cube::verify_qtm_edge_pdb(path, group, threads);
+            else if (pattern == "corner" || pattern == "phase1") {
+                cube::CoordinateTables tables;
+                verified = pattern == "corner" ? cube::verify_qtm_corner_pdb(path, tables, threads)
+                                                   : cube::verify_qtm_phase1_pdb(path, tables, threads);
+            } else
+                throw std::invalid_argument("PDB pattern must be corner, phase1 or edge");
+            std::cout << "{\"ok\":true,\"metric\":\"QTM\",\"pattern\":" << std::quoted(pattern)
+                      << ",\"checked\":" << verified.checked << ",\"transitions\":" << verified.transitions
+                      << ",\"max_distance\":" << verified.max_distance << ",\"histogram\":[";
+            for (int distance = 0; distance <= verified.max_distance; ++distance) {
+                if (distance)
+                    std::cout << ',';
+                std::cout << verified.histogram[distance];
+            }
+            std::cout << "]}\n";
+            return 0;
+        }
         if (command == "build-corner-pdb") {
             if (argc < 3) {
                 print_usage();
                 return 2;
             }
             int threads = static_cast<int>(std::max(1U, std::thread::hardware_concurrency()));
-            int coverage_depth = 11;
+            int coverage_depth = -1;
+            cube::MoveMetric metric = cube::MoveMetric::HTM;
             bool force = false;
             for (int index = 3; index < argc; ++index) {
                 const std::string option = argv[index];
@@ -319,16 +555,26 @@ int wmain(int argc, wchar_t **wide_argv) {
                     threads = std::stoi(argv[++index]);
                 else if (option == "--coverage-depth" && index + 1 < argc)
                     coverage_depth = std::stoi(argv[++index]);
+                else if (option == "--metric" && index + 1 < argc)
+                    metric = cube::parse_metric(argv[++index]);
                 else if (option == "--force")
                     force = true;
                 else
                     throw std::invalid_argument("unknown build option: " + option);
             }
             auto tables = std::make_shared<cube::CoordinateTables>();
-            cube::build_corner_pattern_database(cube::path_from_utf8(argv[2]), *tables, threads, coverage_depth, force);
+            if (coverage_depth < 0)
+                coverage_depth = metric == cube::MoveMetric::QTM ? 254 : 11;
+            if (metric == cube::MoveMetric::QTM)
+                cube::build_qtm_corner_pattern_database(cube::path_from_utf8(argv[2]), *tables, threads,
+                                                        coverage_depth, force);
+            else
+                cube::build_corner_pattern_database(cube::path_from_utf8(argv[2]), *tables, threads,
+                                                    coverage_depth, force);
             cube::CornerPatternDatabase pdb(cube::path_from_utf8(argv[2]));
             std::cout << "{\"ok\":true,\"complete\":" << (pdb.complete() ? "true" : "false")
-                      << ",\"max_value\":" << static_cast<int>(pdb.max_value()) << "}\n";
+                      << ",\"metric\":\"" << cube::metric_name(pdb.metric()) << "\",\"coverage_depth\":"
+                      << pdb.coverage_depth() << ",\"max_value\":" << static_cast<int>(pdb.max_value()) << "}\n";
             return 0;
         }
         if (command == "build-phase1-pdb") {
@@ -337,7 +583,8 @@ int wmain(int argc, wchar_t **wide_argv) {
                 return 2;
             }
             int threads = static_cast<int>(std::max(1U, std::thread::hardware_concurrency()));
-            int coverage_depth = 12;
+            int coverage_depth = -1;
+            cube::MoveMetric metric = cube::MoveMetric::HTM;
             bool force = false;
             for (int index = 3; index < argc; ++index) {
                 const std::string option = argv[index];
@@ -345,16 +592,26 @@ int wmain(int argc, wchar_t **wide_argv) {
                     threads = std::stoi(argv[++index]);
                 else if (option == "--coverage-depth" && index + 1 < argc)
                     coverage_depth = std::stoi(argv[++index]);
+                else if (option == "--metric" && index + 1 < argc)
+                    metric = cube::parse_metric(argv[++index]);
                 else if (option == "--force")
                     force = true;
                 else
                     throw std::invalid_argument("unknown build option: " + option);
             }
             auto tables = std::make_shared<cube::CoordinateTables>();
-            cube::build_phase1_pattern_database(cube::path_from_utf8(argv[2]), *tables, threads, coverage_depth, force);
+            if (coverage_depth < 0)
+                coverage_depth = metric == cube::MoveMetric::QTM ? 254 : 12;
+            if (metric == cube::MoveMetric::QTM)
+                cube::build_qtm_phase1_pattern_database(cube::path_from_utf8(argv[2]), *tables, threads,
+                                                        coverage_depth, force);
+            else
+                cube::build_phase1_pattern_database(cube::path_from_utf8(argv[2]), *tables, threads,
+                                                    coverage_depth, force);
             cube::Phase1PatternDatabase pdb(cube::path_from_utf8(argv[2]));
             std::cout << "{\"ok\":true,\"complete\":" << (pdb.complete() ? "true" : "false")
-                      << ",\"max_value\":" << static_cast<int>(pdb.max_value()) << "}\n";
+                      << ",\"metric\":\"" << cube::metric_name(pdb.metric()) << "\",\"coverage_depth\":"
+                      << pdb.coverage_depth() << ",\"max_value\":" << static_cast<int>(pdb.max_value()) << "}\n";
             return 0;
         }
         if (command == "build-edge-pdb") {
@@ -363,7 +620,8 @@ int wmain(int argc, wchar_t **wide_argv) {
                 return 2;
             }
             int threads = static_cast<int>(std::max(1U, std::thread::hardware_concurrency()));
-            int coverage_depth = 10;
+            int coverage_depth = -1;
+            cube::MoveMetric metric = cube::MoveMetric::HTM;
             int group = -1;
             bool force = false;
             for (int index = 3; index < argc; ++index) {
@@ -372,6 +630,8 @@ int wmain(int argc, wchar_t **wide_argv) {
                     threads = std::stoi(argv[++index]);
                 else if (option == "--coverage-depth" && index + 1 < argc)
                     coverage_depth = std::stoi(argv[++index]);
+                else if (option == "--metric" && index + 1 < argc)
+                    metric = cube::parse_metric(argv[++index]);
                 else if (option == "--group" && index + 1 < argc)
                     group = std::stoi(argv[++index]);
                 else if (option == "--first-edge" && index + 1 < argc) {
@@ -382,10 +642,18 @@ int wmain(int argc, wchar_t **wide_argv) {
                 else
                     throw std::invalid_argument("unknown build option: " + option);
             }
-            cube::build_edge_pattern_database(cube::path_from_utf8(argv[2]), group, threads, coverage_depth, force);
+            if (coverage_depth < 0)
+                coverage_depth = metric == cube::MoveMetric::QTM ? 254 : 10;
+            if (metric == cube::MoveMetric::QTM)
+                cube::build_qtm_edge_pattern_database(cube::path_from_utf8(argv[2]), group, threads,
+                                                      coverage_depth, force);
+            else
+                cube::build_edge_pattern_database(cube::path_from_utf8(argv[2]), group, threads,
+                                                  coverage_depth, force);
             cube::EdgePatternDatabase pdb(cube::path_from_utf8(argv[2]), group);
             std::cout << "{\"ok\":true,\"complete\":" << (pdb.complete() ? "true" : "false")
-                      << ",\"max_value\":" << static_cast<int>(pdb.max_value()) << "}\n";
+                      << ",\"metric\":\"" << cube::metric_name(pdb.metric()) << "\",\"coverage_depth\":"
+                      << pdb.coverage_depth() << ",\"max_value\":" << static_cast<int>(pdb.max_value()) << "}\n";
             return 0;
         }
         if (command == "build-tail-pdb") {
@@ -396,20 +664,51 @@ int wmain(int argc, wchar_t **wide_argv) {
             int depth = 6;
             int threads = static_cast<int>(std::max(1U, std::thread::hardware_concurrency()));
             bool force = false;
+            cube::MoveMetric metric = cube::MoveMetric::HTM;
             for (int index = 3; index < argc; ++index) {
                 const std::string option = argv[index];
                 if (option == "--depth" && index + 1 < argc)
                     depth = std::stoi(argv[++index]);
                 else if (option == "--threads" && index + 1 < argc)
                     threads = std::stoi(argv[++index]);
+                else if (option == "--metric" && index + 1 < argc)
+                    metric = cube::parse_metric(argv[++index]);
                 else if (option == "--force")
                     force = true;
                 else
                     throw std::invalid_argument("unknown build option: " + option);
             }
-            cube::build_tail_database(cube::path_from_utf8(argv[2]), depth, threads, force);
+            cube::build_tail_database(cube::path_from_utf8(argv[2]), depth, threads, force, metric);
             cube::TailDatabase tail(cube::path_from_utf8(argv[2]));
-            std::cout << "{\"ok\":true,\"depth\":" << tail.depth() << ",\"version\":" << tail.format_version() << "}\n";
+            std::cout << "{\"ok\":true,\"metric\":\"" << cube::metric_name(tail.metric())
+                      << "\",\"depth\":" << tail.depth() << ",\"version\":" << tail.format_version()
+                      << "}\n";
+            return 0;
+        }
+        if (command == "verify-tail-pdb") {
+            if (argc < 3) {
+                print_usage();
+                return 2;
+            }
+            int threads = 0;
+            for (int index = 3; index < argc; ++index) {
+                const std::string option = argv[index];
+                if (option == "--threads" && index + 1 < argc)
+                    threads = std::stoi(argv[++index]);
+                else
+                    throw std::invalid_argument("unknown tail verification option: " + option);
+            }
+            cube::TailDatabase tail(cube::path_from_utf8(argv[2]));
+            const auto verified = tail.verify_all(threads);
+            std::cout << "{\"ok\":true,\"metric\":\"" << cube::metric_name(tail.metric())
+                      << "\",\"depth\":" << tail.depth() << ",\"states\":" << verified.states
+                      << ",\"histogram\":[";
+            for (int depth = 0; depth <= tail.depth(); ++depth) {
+                if (depth)
+                    std::cout << ',';
+                std::cout << verified.distance_histogram[static_cast<std::size_t>(depth)];
+            }
+            std::cout << "]}\n";
             return 0;
         }
         if (command == "serve") {
@@ -417,8 +716,13 @@ int wmain(int argc, wchar_t **wide_argv) {
             bool use_proof_cache = true;
             std::filesystem::path pdb_path;
             std::filesystem::path phase1_pdb_path;
+            std::filesystem::path qtm_pdb_path;
+            std::filesystem::path qtm_phase1_pdb_path;
+            std::filesystem::path strong_pdb_path;
             std::filesystem::path tail_pdb_path;
+            std::filesystem::path qtm_tail_pdb_path;
             std::array<std::filesystem::path, 8> edge_pdb_paths{};
+            std::array<std::filesystem::path, 2> qtm_edge_pdb_paths{};
             const std::array<std::string, 8> edge_flags{"--edge-pdb-a", "--edge-pdb-b", "--edge-pdb-c", "--edge-pdb-d",
                                                         "--edge-pdb-e", "--edge-pdb-f", "--edge-pdb-g", "--edge-pdb-h"};
             for (int index = 2; index < argc; ++index) {
@@ -427,8 +731,20 @@ int wmain(int argc, wchar_t **wide_argv) {
                     pdb_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--phase1-pdb" && index + 1 < argc)
                     phase1_pdb_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--qtm-pdb" && index + 1 < argc)
+                    qtm_pdb_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--qtm-phase1-pdb" && index + 1 < argc)
+                    qtm_phase1_pdb_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--strong-pdb" && index + 1 < argc)
+                    strong_pdb_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--qtm-edge-pdb-a" && index + 1 < argc)
+                    qtm_edge_pdb_paths[0] = cube::path_from_utf8(argv[++index]);
+                else if (option == "--qtm-edge-pdb-b" && index + 1 < argc)
+                    qtm_edge_pdb_paths[1] = cube::path_from_utf8(argv[++index]);
                 else if (option == "--tail-pdb" && index + 1 < argc)
                     tail_pdb_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--qtm-tail-pdb" && index + 1 < argc)
+                    qtm_tail_pdb_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--no-proof-cache")
                     use_proof_cache = false;
                 else if (tuning_option(option, defaults))
@@ -445,18 +761,45 @@ int wmain(int argc, wchar_t **wide_argv) {
 
             cube::NativeOptimalSolver solver;
             if (!phase1_pdb_path.empty())
-                solver.load_phase1_pdb(phase1_pdb_path);
+                solver.load_phase1_pdb(phase1_pdb_path, cube::MoveMetric::HTM);
+            if (!qtm_phase1_pdb_path.empty())
+                solver.load_phase1_pdb(qtm_phase1_pdb_path, cube::MoveMetric::QTM);
             if (!pdb_path.empty())
-                solver.load_corner_pdb(pdb_path);
+                solver.load_corner_pdb(pdb_path, cube::MoveMetric::HTM);
+            if (!qtm_pdb_path.empty())
+                solver.load_corner_pdb(qtm_pdb_path, cube::MoveMetric::QTM);
             for (int group = 0; group < 8; ++group) {
                 if (!edge_pdb_paths[group].empty())
-                    solver.load_edge_pdb(group, edge_pdb_paths[group]);
+                    solver.load_edge_pdb(group, edge_pdb_paths[group], cube::MoveMetric::HTM);
             }
+            for (int group = 0; group < 2; ++group)
+                if (!qtm_edge_pdb_paths[group].empty())
+                    solver.load_edge_pdb(group, qtm_edge_pdb_paths[group], cube::MoveMetric::QTM);
             if (!tail_pdb_path.empty())
                 solver.load_tail_database(tail_pdb_path);
-            std::cout << "{\"ok\":true,\"type\":\"ready\",\"protocol_version\":3,\"proof_version\":2,\"metrics\":["
-                         "\"HTM\",\"QTM\"]}\n"
-                      << std::flush;
+            if (!qtm_tail_pdb_path.empty())
+                solver.load_tail_database(qtm_tail_pdb_path, cube::MoveMetric::QTM);
+            if (!strong_pdb_path.empty())
+                solver.load_strong_pdb(strong_pdb_path);
+            std::cout << "{\"ok\":true,\"type\":\"ready\",\"protocol_version\":3,\"proof_version\":3,\"metrics\":["
+                         "\"HTM\",\"QTM\"],\"assets\":{";
+            for (const auto metric : {cube::MoveMetric::HTM, cube::MoveMetric::QTM}) {
+                if (metric == cube::MoveMetric::QTM)
+                    std::cout << ',';
+                std::cout << '\"' << cube::metric_name(metric) << "\":{\"corner\":"
+                          << (solver.has_corner_pdb(metric) ? "true" : "false") << ",\"corner_metric\":\""
+                          << cube::metric_name(solver.corner_pdb_metric(metric)) << "\",\"corner_complete\":"
+                          << (solver.corner_pdb_complete(metric) ? "true" : "false") << ",\"phase1\":"
+                          << (solver.has_phase1_pdb(metric) ? "true" : "false") << ",\"phase1_metric\":\""
+                          << cube::metric_name(solver.phase1_pdb_metric(metric)) << "\",\"phase1_complete\":"
+                          << (solver.phase1_pdb_complete(metric) ? "true" : "false") << ",\"edge_count\":"
+                          << solver.edge_pdb_count(metric) << ",\"tail\":"
+                          << (solver.has_tail_database(metric) ? "true" : "false") << ",\"strong\":"
+                          << (solver.has_strong_pdb(metric) ? "true" : "false") << ",\"tail_depth\":"
+                          << solver.tail_database_depth(metric) << ",\"profile\":\""
+                          << asset_profile(solver, metric) << "\"}";
+            }
+            std::cout << "}}\n" << std::flush;
 
             std::thread search;
             std::atomic<bool> running{false};
@@ -519,7 +862,7 @@ int wmain(int argc, wchar_t **wide_argv) {
                     cancel.store(false);
                     options.cancel_requested = &cancel;
                     const auto key =
-                        cube::to_facelets(active_state) + ":" + cube::metric_name(options.metric) + ":proof2";
+                        cube::to_facelets(active_state) + ":" + cube::metric_name(options.metric) + ":proof3";
                     const auto previous = proofs.find(key);
                     if (framed && use_proof_cache && previous != proofs.end())
                         options.completed_depth = previous->second;
@@ -527,6 +870,20 @@ int wmain(int argc, wchar_t **wide_argv) {
                     options.incumbent_callback = [&] {
                         std::lock_guard lock(incumbent_mutex);
                         return incumbent;
+                    };
+                    options.candidate_callback = [&, id](const std::vector<int> &moves) {
+                        const int cost = cube::solution_cost(moves, cube::MoveMetric::QTM);
+                        {
+                            std::lock_guard lock(incumbent_mutex);
+                            if (incumbent.empty() || cost < cube::solution_cost(incumbent, cube::MoveMetric::QTM))
+                                incumbent = moves;
+                        }
+                        std::lock_guard lock(output_mutex);
+                        std::cout << "{\"ok\":true,\"type\":\"candidate\",\"request_id\":"
+                                  << std::quoted(id) << ",\"metric\":\"QTM\",\"cost\":" << cost
+                                  << ",\"moves\":";
+                        print_moves_json(std::cout, moves);
+                        std::cout << "}\n" << std::flush;
                     };
                     running.store(true);
                     search = std::thread([&, options, id, key, framed, state = active_state]() mutable {
@@ -582,12 +939,18 @@ int wmain(int argc, wchar_t **wide_argv) {
             };
             std::filesystem::path pdb_path;
             std::filesystem::path phase1_pdb_path;
+            std::filesystem::path qtm_pdb_path;
+            std::filesystem::path qtm_phase1_pdb_path;
+            std::filesystem::path strong_pdb_path;
             std::filesystem::path edge_pdb_a_path;
             std::filesystem::path edge_pdb_b_path;
+            std::filesystem::path qtm_edge_pdb_a_path;
+            std::filesystem::path qtm_edge_pdb_b_path;
             std::filesystem::path edge_pdb_c_path;
             std::filesystem::path edge_pdb_d_path;
             std::array<std::filesystem::path, 4> more_edge_pdb_paths{};
             std::filesystem::path tail_pdb_path;
+            std::filesystem::path qtm_tail_pdb_path;
             for (int index = 3; index < argc; ++index) {
                 const std::string option = argv[index];
                 if (option == "--max-depth" && index + 1 < argc) {
@@ -603,6 +966,16 @@ int wmain(int argc, wchar_t **wide_argv) {
                     pdb_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--phase1-pdb" && index + 1 < argc)
                     phase1_pdb_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--qtm-pdb" && index + 1 < argc)
+                    qtm_pdb_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--qtm-phase1-pdb" && index + 1 < argc)
+                    qtm_phase1_pdb_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--strong-pdb" && index + 1 < argc)
+                    strong_pdb_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--qtm-edge-pdb-a" && index + 1 < argc)
+                    qtm_edge_pdb_a_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--qtm-edge-pdb-b" && index + 1 < argc)
+                    qtm_edge_pdb_b_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--edge-pdb-a" && index + 1 < argc)
                     edge_pdb_a_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--edge-pdb-b" && index + 1 < argc)
@@ -621,6 +994,8 @@ int wmain(int argc, wchar_t **wide_argv) {
                     more_edge_pdb_paths[3] = cube::path_from_utf8(argv[++index]);
                 else if (option == "--tail-pdb" && index + 1 < argc)
                     tail_pdb_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--qtm-tail-pdb" && index + 1 < argc)
+                    qtm_tail_pdb_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--incumbent" && index + 1 < argc)
                     options.incumbent_moves = parse_moves(argv[++index]);
                 else if (tuning_option(option, options))
@@ -634,10 +1009,22 @@ int wmain(int argc, wchar_t **wide_argv) {
                 throw std::invalid_argument("max depth must be nonnegative");
             cube::NativeOptimalSolver solver;
             if (!phase1_pdb_path.empty() && std::filesystem::exists(phase1_pdb_path)) {
-                solver.load_phase1_pdb(phase1_pdb_path);
+                solver.load_phase1_pdb(phase1_pdb_path, cube::MoveMetric::HTM);
+            }
+            if (!qtm_phase1_pdb_path.empty()) {
+                if (!std::filesystem::exists(qtm_phase1_pdb_path))
+                    throw std::invalid_argument("QTM phase-1 PDB does not exist");
+                solver.load_phase1_pdb(qtm_phase1_pdb_path, cube::MoveMetric::QTM);
             }
             if (!pdb_path.empty() && std::filesystem::exists(pdb_path))
-                solver.load_corner_pdb(pdb_path);
+                solver.load_corner_pdb(pdb_path, cube::MoveMetric::HTM);
+            if (!qtm_pdb_path.empty()) {
+                if (!std::filesystem::exists(qtm_pdb_path))
+                    throw std::invalid_argument("QTM corner PDB does not exist");
+                solver.load_corner_pdb(qtm_pdb_path, cube::MoveMetric::QTM);
+            }
+            if (!strong_pdb_path.empty())
+                solver.load_strong_pdb(strong_pdb_path);
             const std::array<std::filesystem::path, 4> first_edge_pdb_paths{edge_pdb_a_path, edge_pdb_b_path,
                                                                             edge_pdb_c_path, edge_pdb_d_path};
             for (int group = 0; group < 4; ++group) {
@@ -645,7 +1032,7 @@ int wmain(int argc, wchar_t **wide_argv) {
                 if (!path.empty()) {
                     if (!std::filesystem::exists(path))
                         throw std::invalid_argument("edge PDB does not exist");
-                    solver.load_edge_pdb(group, path);
+                    solver.load_edge_pdb(group, path, cube::MoveMetric::HTM);
                 }
             }
             for (int group = 4; group < 8; ++group) {
@@ -653,14 +1040,20 @@ int wmain(int argc, wchar_t **wide_argv) {
                 if (!path.empty()) {
                     if (!std::filesystem::exists(path))
                         throw std::invalid_argument("extra edge PDB does not exist");
-                    solver.load_edge_pdb(group, path);
+                    solver.load_edge_pdb(group, path, cube::MoveMetric::HTM);
                 }
             }
+            if (!qtm_edge_pdb_a_path.empty())
+                solver.load_edge_pdb(0, qtm_edge_pdb_a_path, cube::MoveMetric::QTM);
+            if (!qtm_edge_pdb_b_path.empty())
+                solver.load_edge_pdb(1, qtm_edge_pdb_b_path, cube::MoveMetric::QTM);
             if (!tail_pdb_path.empty()) {
                 if (!std::filesystem::exists(tail_pdb_path))
                     throw std::invalid_argument("tail database does not exist");
                 solver.load_tail_database(tail_pdb_path);
             }
+            if (!qtm_tail_pdb_path.empty())
+                solver.load_tail_database(qtm_tail_pdb_path, cube::MoveMetric::QTM);
             const auto result = solver.solve(state, options);
             print_result_json(std::cout, result, solver);
             return 0;

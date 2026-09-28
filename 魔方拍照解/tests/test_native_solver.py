@@ -46,6 +46,7 @@ class NativeBridgeValidationTests(unittest.TestCase):
         cube = CubieCube().apply_move_index(MOVE_INDEX["R2"])
         payload = {"metric": "QTM", "depth": 2, "moves": ["R2"], "optimal": True}
         self.assertEqual(_validated_result(cube, payload, "QTM")["depth"], 2)
+        self.assertEqual(_validated_result(cube, {**payload, "asset_profile": "strong"}, "QTM")["asset_profile"], "strong")
         for update in ({"metric": "HTM"}, {"depth": 1}, {"depth": True}, {"moves": ["nonsense"]}, {"moves": ["U2"]}):
             with self.subTest(update=update), self.assertRaises(NativeSolverError):
                 _validated_result(cube, {**payload, **update}, "QTM")
@@ -57,7 +58,7 @@ class NativeBridgeValidationTests(unittest.TestCase):
         self.assertFalse(result["optimal"])
 
     def test_handshake_rejects_old_or_missing_capabilities(self):
-        ready = {"ok": True, "type": "ready", "protocol_version": 3, "proof_version": 2, "metrics": ["HTM", "QTM"]}
+        ready = {"ok": True, "type": "ready", "protocol_version": 3, "proof_version": 3, "metrics": ["HTM", "QTM"]}
         for update in ({"protocol_version": 2}, {"proof_version": 1}, {"metrics": ["HTM"]}, {"metrics": []}, {"metrics": None}):
             process = MagicMock()
             process.stdout = io.StringIO(json.dumps({**ready, **update}) + "\n")
@@ -93,6 +94,12 @@ class NativeCommandMixin:
     reason="原生求解器尚未编译",
 )
 class NativeBinaryTests(NativeCommandMixin, unittest.TestCase):
+    def test_sorted_slice_symmetry_enumerates_joint_coordinate(self):
+        info = self.run_native("strong-symmetry-info")
+        self.assertEqual(info["raw_sorted_slice"], 11880)
+        self.assertEqual(info["classes"], 788)
+        self.assertEqual(info["joint_entries"], 3_529_433_088)
+
     def test_all_moves_use_the_selected_metric(self):
         for move in range(18):
             cube = CubieCube().apply_move_index(move)
@@ -126,6 +133,56 @@ class NativeBinaryTests(NativeCommandMixin, unittest.TestCase):
         result = self.run_native("check-heuristic", "--depth", "3", "--metric", "QTM")
         self.assertEqual(result["checked"], len(quarter_turn_oracle()))
 
+    def test_qtm_kernel_ablation_switches_preserve_exact_shallow_proof(self):
+        cube = CubieCube()
+        for name in ("R2", "U", "F"):
+            cube = cube.apply_move_index(MOVE_INDEX[name])
+        expected = quarter_turn_oracle(4)[cube]
+        for flags in ((), ("--transposition",), ("--transposition", "--tt-every-node"),
+                      ("--legacy-split",), ("--no-direction-probe",), ("--inverse-direction",)):
+            with self.subTest(flags=flags):
+                result = self.run_native("solve", to_facelets(cube), "--metric", "QTM",
+                                         "--max-depth", str(expected), "--threads", "4",
+                                         "--no-native-candidate", *flags)
+                self.assertEqual(result["depth"], expected)
+                self.assertTrue(result["optimal"])
+
+    def test_qtm_partial_assets_are_metric_isolated_and_admissible(self):
+        with tempfile.TemporaryDirectory(prefix="魔方 QTM 表-") as directory:
+            corner = os.path.join(directory, "corner.pdb")
+            phase1 = os.path.join(directory, "phase1.pdb")
+            for command, path in (("build-corner-pdb", corner), ("build-phase1-pdb", phase1)):
+                result = self.run_native(command, path, "--metric", "QTM", "--coverage-depth", "3", "--threads", "2")
+                self.assertEqual(result["metric"], "QTM")
+                self.assertFalse(result["complete"])
+                self.assertEqual(result["coverage_depth"], 3)
+            checked = self.run_native("check-heuristic", "--metric", "QTM", "--depth", "5",
+                                      "--pdb", corner, "--phase1-pdb", phase1)
+            self.assertEqual(checked["checked"], 105046)
+            cube = CubieCube().apply_move_index(MOVE_INDEX["R2"])
+            qtm = self.run_native("solve", to_facelets(cube), "--metric", "QTM",
+                                  "--qtm-pdb", corner, "--qtm-phase1-pdb", phase1)
+            self.assertEqual((qtm["depth"], qtm["corner_pdb_metric"], qtm["phase1_pdb_metric"]),
+                             (2, "QTM", "QTM"))
+            self.assertEqual(qtm["asset_profile"], "partial")
+            self.assertFalse(qtm["corner_pdb_complete"])
+            htm = self.run_native("solve", to_facelets(cube), "--metric", "HTM",
+                                  "--qtm-pdb", corner, "--qtm-phase1-pdb", phase1)
+            self.assertEqual(htm["depth"], 1)
+            wrong_flag = subprocess.run([str(NATIVE_EXE), "solve", to_facelets(cube),
+                                         "--metric", "QTM", "--pdb", corner],
+                                        capture_output=True, text=True, encoding="utf-8")
+            self.assertNotEqual(wrong_flag.returncode, 0)
+            with open(corner, "r+b") as asset:
+                asset.seek(80)
+                byte = asset.read(1)
+                asset.seek(80)
+                asset.write(bytes([byte[0] ^ 1]))
+            corrupted = subprocess.run([str(NATIVE_EXE), "solve", to_facelets(cube),
+                                        "--metric", "QTM", "--qtm-pdb", corner],
+                                       capture_output=True, text=True, encoding="utf-8")
+            self.assertNotEqual(corrupted.returncode, 0)
+
     def test_qtm_budget_cannot_use_loaded_htm_tail(self):
         with tempfile.TemporaryDirectory(prefix="魔方 QTM 尾表-") as directory:
             path = os.path.join(directory, "tail.pdb")
@@ -137,6 +194,24 @@ class NativeBinaryTests(NativeCommandMixin, unittest.TestCase):
                 self.assertFalse(result["tail_enabled"])
                 self.assertEqual(result["depth"], -1 if budget == 1 else 2)
                 self.assertEqual(result["optimal"], budget == 2)
+
+    def test_qtm_tail_uses_quarter_turn_distance_and_rejects_wrong_flag(self):
+        with tempfile.TemporaryDirectory(prefix="魔方 QTM Tail-") as directory:
+            path = os.path.join(directory, "tail_qtm.pdb")
+            built = self.run_native("build-tail-pdb", path, "--metric", "QTM", "--depth", "4", "--threads", "2")
+            self.assertEqual((built["metric"], built["version"]), ("QTM", 5))
+            state = to_facelets(CubieCube().apply_move_index(MOVE_INDEX["R2"]))
+            short = self.run_native("solve", state, "--metric", "QTM", "--max-depth", "1",
+                                    "--qtm-tail-pdb", path)
+            self.assertEqual(short["depth"], -1)
+            result = self.run_native("solve", state, "--metric", "QTM", "--max-depth", "2",
+                                     "--qtm-tail-pdb", path)
+            self.assertEqual(result["depth"], 2)
+            self.assertTrue(result["optimal"])
+            self.assertGreater(result["tail_hits"], 0)
+            wrong = subprocess.run([str(NATIVE_EXE), "solve", state, "--metric", "QTM",
+                                    "--tail-pdb", path], capture_output=True, text=True, encoding="utf-8")
+            self.assertNotEqual(wrong.returncode, 0)
 
     def test_cli_rejects_fractional_or_unsupported_budgets(self):
         for budget in ("2.5", "2x", "-1", "27"):
@@ -152,8 +227,9 @@ class NativeBinaryTests(NativeCommandMixin, unittest.TestCase):
             try:
                 ready = json.loads(process.stdout.readline())
                 self.assertEqual(ready["protocol_version"], 3)
-                self.assertEqual(ready["proof_version"], 2)
+                self.assertEqual(ready["proof_version"], 3)
                 self.assertEqual(ready["metrics"], ["HTM", "QTM"])
+                self.assertEqual(ready["assets"]["QTM"]["profile"], "fallback")
                 state = to_facelets(CubieCube().apply_move_index(MOVE_INDEX["R2"]))
                 def request(frame):
                     process.stdin.write(frame + "\n")
@@ -169,7 +245,7 @@ class NativeBinaryTests(NativeCommandMixin, unittest.TestCase):
                 self.assertEqual(first["depth"], 1)
                 second, events = request(f"solve\tb\t{state}\t1\t5\t2\tQTM\t")
                 self.assertEqual(second["status"], "budget_exhausted")
-                self.assertEqual(events[0]["completed_depth"], 0)
+                self.assertEqual(events[0]["completed_depth"], 1)
                 self.assertEqual(second["tail_queries"], 0)
                 third, _ = request(f"solve\tc\t{state}\t2\t5\t2\tQTM\t")
                 self.assertEqual(third["depth"], 2)
@@ -286,7 +362,7 @@ class NativePdbSolverTests(NativeCommandMixin, unittest.TestCase):
     def test_qtm_pdb_lower_bounds_match_independent_oracle(self):
         result = self.run_native("check-heuristic", "--depth", "3", "--metric", "QTM", "--pdb", ".cache/native/corner_htm_v2.pdb", "--phase1-pdb", ".cache/native/phase1_sym_htm_v2.pdb")
         self.assertEqual(result["checked"], len(quarter_turn_oracle()))
-        self.assertEqual(result["small_pdb_queries"], 0)
+        self.assertGreater(result["small_pdb_queries"], 0)
 
     def test_new_incumbent_is_accepted_during_search(self):
         scramble = "U' F L R' D' B' F U' B2 L D R2 B2 L2 U2 L' U2 R'".split()

@@ -1,0 +1,1986 @@
+[
+  {
+    "name": "expansion-00",
+    "facelets": "RLDFULRBRFDLURRFDUBUUFFRFUUDLLFDBLDRDUDDLLURLBBFBBFBRB",
+    "incumbent": [
+      "F",
+      "D",
+      "B",
+      "U",
+      "R",
+      "D",
+      "U'",
+      "R",
+      "B'",
+      "D",
+      "B",
+      "F'",
+      "L",
+      "F",
+      "L'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 15,
+      "scramble": [
+        "L",
+        "F'",
+        "L'",
+        "F",
+        "B'",
+        "D'",
+        "B",
+        "R'",
+        "U",
+        "D'",
+        "R'",
+        "U'",
+        "B'",
+        "D'",
+        "F'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-01",
+    "facelets": "LURUUURBFRLBBRRDDRBUDLFDLRFUDLBDLBFUDFDRLFLLFURBFBBFDU",
+    "incumbent": [
+      "R",
+      "U'",
+      "R",
+      "D",
+      "B",
+      "U",
+      "B",
+      "U'",
+      "B'",
+      "F",
+      "L'",
+      "U",
+      "F'",
+      "L",
+      "B"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 15,
+      "scramble": [
+        "B'",
+        "L'",
+        "F",
+        "U'",
+        "L",
+        "F'",
+        "B",
+        "U",
+        "B'",
+        "U'",
+        "B'",
+        "D'",
+        "R'",
+        "U",
+        "R'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-02",
+    "facelets": "DUBBURDRURDLBRDDDFBUFLFRFBRLLFFDFUULRDLFLFRUUULBLBRDBB",
+    "incumbent": [
+      "B'",
+      "D",
+      "R'",
+      "F",
+      "L",
+      "R",
+      "U",
+      "B'",
+      "L'",
+      "R'",
+      "D",
+      "L'",
+      "B",
+      "U'",
+      "L'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 15,
+      "scramble": [
+        "L",
+        "U",
+        "B'",
+        "L",
+        "D'",
+        "R",
+        "L",
+        "B",
+        "U'",
+        "R'",
+        "L'",
+        "F'",
+        "R",
+        "D'",
+        "B"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-03",
+    "facelets": "FBRBULFRLBDBRRDBBLUUUBFFDFRBDDLDDRFDLRRLLUFFLULURBUFUD",
+    "incumbent": [
+      "R'",
+      "D",
+      "U",
+      "F",
+      "B'",
+      "U",
+      "B'",
+      "U",
+      "R'",
+      "F'",
+      "L'",
+      "F",
+      "R",
+      "D'",
+      "R'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 15,
+      "scramble": [
+        "R",
+        "D",
+        "R'",
+        "F'",
+        "L",
+        "F",
+        "R",
+        "U'",
+        "B",
+        "U'",
+        "B",
+        "F'",
+        "U'",
+        "D'",
+        "R"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-04",
+    "facelets": "DUBBUDDLFDFRLRURULFFLRFBRDBFLURDRBFFBDRULBLDUDBLLBFURU",
+    "incumbent": [
+      "B'",
+      "F'",
+      "L'",
+      "F'",
+      "D",
+      "B",
+      "R'",
+      "L",
+      "F'",
+      "L",
+      "R",
+      "F",
+      "D",
+      "R'",
+      "D'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 15,
+      "scramble": [
+        "D",
+        "R",
+        "D'",
+        "F'",
+        "R'",
+        "L'",
+        "F",
+        "L'",
+        "R",
+        "B'",
+        "D'",
+        "F",
+        "L",
+        "F",
+        "B"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-05",
+    "facelets": "DULUUULRRDBBRRBLBRFFFFFUUBUFDBRDRBDURFDFLLUDLDLBLBDFLR",
+    "incumbent": [
+      "L",
+      "B'",
+      "D",
+      "B",
+      "L",
+      "D",
+      "U'",
+      "R",
+      "F",
+      "L'",
+      "U'",
+      "R'",
+      "U",
+      "L",
+      "F"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 15,
+      "scramble": [
+        "F'",
+        "L'",
+        "U'",
+        "R",
+        "U",
+        "L",
+        "F'",
+        "R'",
+        "U",
+        "D'",
+        "L'",
+        "B'",
+        "D'",
+        "B",
+        "L'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-06",
+    "facelets": "UFUDULRBBUUFRRLBDFULLBFBFRDDULDDFDFDFRBLLUBBLRRLFBDRUR",
+    "incumbent": [
+      "F",
+      "D'",
+      "L",
+      "B'",
+      "R'",
+      "L",
+      "R'",
+      "U",
+      "D",
+      "B'",
+      "R",
+      "D",
+      "U",
+      "L",
+      "F"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 15,
+      "scramble": [
+        "F'",
+        "L'",
+        "U'",
+        "D'",
+        "R'",
+        "B",
+        "D'",
+        "U'",
+        "R",
+        "L'",
+        "R",
+        "B",
+        "L'",
+        "D",
+        "F'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-07",
+    "facelets": "DRUFUFUBBRULLRFURLLUUFFDFLFRBRBDDLUBRLBRLDDDDFUBRBBDLF",
+    "incumbent": [
+      "L",
+      "R'",
+      "L",
+      "F'",
+      "L'",
+      "D",
+      "U",
+      "D",
+      "R",
+      "F",
+      "U'",
+      "F",
+      "B",
+      "U",
+      "F'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 15,
+      "scramble": [
+        "F",
+        "U'",
+        "B'",
+        "F'",
+        "U",
+        "F'",
+        "R'",
+        "D'",
+        "U'",
+        "D'",
+        "L",
+        "F",
+        "L'",
+        "R",
+        "L'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-08",
+    "facelets": "FFBUUFDFFUUDRRDLLFRRRFFDUUUBBBBDBFRURLBRLLLDRLDDLBBLUD",
+    "incumbent": [
+      "F",
+      "B",
+      "R'",
+      "L",
+      "D'",
+      "L'",
+      "F'",
+      "B",
+      "L",
+      "B'",
+      "R'",
+      "L'",
+      "R",
+      "B",
+      "D",
+      "B"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 16,
+      "scramble": [
+        "B'",
+        "D'",
+        "B'",
+        "R'",
+        "L",
+        "R",
+        "B",
+        "L'",
+        "B'",
+        "F",
+        "L",
+        "D",
+        "L'",
+        "R",
+        "B'",
+        "F'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-09",
+    "facelets": "LDRUUFFBUBDDDRRUUFRLRFFBDRBBFLBDLUFRFBDRLLLRLBLDUBDUUF",
+    "incumbent": [
+      "B",
+      "L'",
+      "R",
+      "F'",
+      "L",
+      "B'",
+      "U",
+      "L'",
+      "F'",
+      "R'",
+      "U'",
+      "R'",
+      "U",
+      "D'",
+      "L",
+      "D'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 16,
+      "scramble": [
+        "D",
+        "L'",
+        "D",
+        "U'",
+        "R",
+        "U",
+        "R",
+        "F",
+        "L",
+        "U'",
+        "B",
+        "L'",
+        "F",
+        "R'",
+        "L",
+        "B'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-10",
+    "facelets": "RFRFURRBDBFFRRBURRBULDFBDDLLLFDDUBBUULDLLRLFFDUBLBUFDU",
+    "incumbent": [
+      "R'",
+      "F",
+      "D",
+      "R",
+      "L",
+      "F",
+      "D",
+      "B'",
+      "D'",
+      "R'",
+      "F'",
+      "B'",
+      "L",
+      "U",
+      "L'",
+      "B'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 16,
+      "scramble": [
+        "B",
+        "L",
+        "U'",
+        "L'",
+        "B",
+        "F",
+        "R",
+        "D",
+        "B",
+        "D'",
+        "F'",
+        "L'",
+        "R'",
+        "D'",
+        "F'",
+        "R"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-11",
+    "facelets": "FUDBUFRFLFURFRUFDLBRDUFLULRBBUBDRLDBLDDDLRURRFBULBLDFB",
+    "incumbent": [
+      "U",
+      "D",
+      "U'",
+      "F'",
+      "U",
+      "B'",
+      "F'",
+      "R'",
+      "L'",
+      "R",
+      "D",
+      "U'",
+      "R",
+      "L",
+      "D",
+      "L"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 16,
+      "scramble": [
+        "L'",
+        "D'",
+        "L'",
+        "R'",
+        "U",
+        "D'",
+        "R'",
+        "L",
+        "R",
+        "F",
+        "B",
+        "U'",
+        "F",
+        "U",
+        "D'",
+        "U'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-12",
+    "facelets": "LULBUFLLBDRURRFRUFUBRDFBDRBLDUFDLDDRDUFULBRLFBFBDBRULF",
+    "incumbent": [
+      "L",
+      "B",
+      "L'",
+      "U'",
+      "R",
+      "B'",
+      "D",
+      "L'",
+      "D",
+      "L'",
+      "F'",
+      "L'",
+      "R",
+      "D'",
+      "U",
+      "F'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 16,
+      "scramble": [
+        "F",
+        "U'",
+        "D",
+        "R'",
+        "L",
+        "F",
+        "L",
+        "D'",
+        "L",
+        "D'",
+        "B",
+        "R'",
+        "U",
+        "L",
+        "B'",
+        "L'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-13",
+    "facelets": "RFDRUFFFRURFBRBBRFLLBUFRUDRLFDBDUBDDFDULLBDDBLUULBURLL",
+    "incumbent": [
+      "U",
+      "R'",
+      "L'",
+      "D'",
+      "U'",
+      "D",
+      "L",
+      "F'",
+      "L",
+      "D'",
+      "U",
+      "D'",
+      "U'",
+      "R'",
+      "D'",
+      "B"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 16,
+      "scramble": [
+        "B'",
+        "D",
+        "R",
+        "U",
+        "D",
+        "U'",
+        "D",
+        "L'",
+        "F",
+        "L'",
+        "D'",
+        "U",
+        "D",
+        "L",
+        "R",
+        "U'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-14",
+    "facelets": "RULDUDDRDLRUBRRLLRBFFDFLRDFFBUUDUDLBDLLFLFBBUBRFBBUUFR",
+    "incumbent": [
+      "L'",
+      "D",
+      "L'",
+      "F'",
+      "D'",
+      "U",
+      "B'",
+      "R",
+      "F'",
+      "L",
+      "R'",
+      "L'",
+      "B",
+      "F'",
+      "L'",
+      "D"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 16,
+      "scramble": [
+        "D'",
+        "L",
+        "F",
+        "B'",
+        "L",
+        "R",
+        "L'",
+        "F",
+        "R'",
+        "B",
+        "U'",
+        "D",
+        "F",
+        "L",
+        "D'",
+        "L"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-15",
+    "facelets": "UBDUUDRFBDBFDRFURLDLRLFRDURBFBBDFULURRFBLULRLLUFDBLBDF",
+    "incumbent": [
+      "R",
+      "U",
+      "L'",
+      "B'",
+      "U",
+      "L'",
+      "R'",
+      "B'",
+      "F'",
+      "L'",
+      "B",
+      "R",
+      "B",
+      "D'",
+      "U",
+      "L"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 16,
+      "scramble": [
+        "L'",
+        "U'",
+        "D",
+        "B'",
+        "R'",
+        "B'",
+        "L",
+        "F",
+        "B",
+        "R",
+        "L",
+        "U'",
+        "B",
+        "L",
+        "U'",
+        "R'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-16",
+    "facelets": "BBBBUBDUULDDFRDLLLFLBFFUFDDUFFRDFRRFRLRRLRDDRLUULBUUBB",
+    "incumbent": [
+      "B'",
+      "D'",
+      "F'",
+      "B",
+      "R'",
+      "D",
+      "F",
+      "R",
+      "L'",
+      "D",
+      "U'",
+      "F",
+      "U'",
+      "D",
+      "F",
+      "R",
+      "U'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 17,
+      "scramble": [
+        "U",
+        "R'",
+        "F'",
+        "D'",
+        "U",
+        "F'",
+        "U",
+        "D'",
+        "L",
+        "R'",
+        "F'",
+        "D'",
+        "R",
+        "B'",
+        "F",
+        "D",
+        "B"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-17",
+    "facelets": "FFFUUDBRBRBDBRFLRBUDURFLRRFBBUDDFRDDDLLULUUFDRULLBBLLF",
+    "incumbent": [
+      "D",
+      "R",
+      "L'",
+      "R",
+      "F'",
+      "U",
+      "F'",
+      "L",
+      "B'",
+      "L'",
+      "F'",
+      "D",
+      "L",
+      "R'",
+      "L'",
+      "F'",
+      "L"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 17,
+      "scramble": [
+        "L'",
+        "F",
+        "L",
+        "R",
+        "L'",
+        "D'",
+        "F",
+        "L",
+        "B",
+        "L'",
+        "F",
+        "U'",
+        "F",
+        "R'",
+        "L",
+        "R'",
+        "D'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-18",
+    "facelets": "UDDUUFUUDBUBFRFFDRBLLBFDFBRDRULDBLFFLRRULLFDLRRBLBBDRU",
+    "incumbent": [
+      "L",
+      "B",
+      "L'",
+      "F'",
+      "U",
+      "R",
+      "D",
+      "F",
+      "R",
+      "L",
+      "D'",
+      "U'",
+      "D'",
+      "F'",
+      "U",
+      "L'",
+      "U"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 17,
+      "scramble": [
+        "U'",
+        "L",
+        "U'",
+        "F",
+        "D",
+        "U",
+        "D",
+        "L'",
+        "R'",
+        "F'",
+        "D'",
+        "R'",
+        "U'",
+        "F",
+        "L",
+        "B'",
+        "L'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-19",
+    "facelets": "DULRUULUFDLFBRDUFDDBLDFLUFFBRRRDLBDRRBBFLLLDRURBFBUFBU",
+    "incumbent": [
+      "F",
+      "B'",
+      "R",
+      "B",
+      "L",
+      "U",
+      "L'",
+      "F'",
+      "L'",
+      "R'",
+      "U",
+      "F'",
+      "L",
+      "B",
+      "D",
+      "U",
+      "B'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 17,
+      "scramble": [
+        "B",
+        "U'",
+        "D'",
+        "B'",
+        "L'",
+        "F",
+        "U'",
+        "R",
+        "L",
+        "F",
+        "L",
+        "U'",
+        "L'",
+        "B'",
+        "R'",
+        "B",
+        "F'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-20",
+    "facelets": "UURLUUDDFLFBLRUDBLFFUFFBDLFRULLDDBRURFRRLRDDBURFBBBBDL",
+    "incumbent": [
+      "D'",
+      "U",
+      "D'",
+      "B",
+      "L",
+      "D'",
+      "L'",
+      "R'",
+      "D'",
+      "L",
+      "D'",
+      "U'",
+      "B",
+      "U",
+      "L",
+      "D",
+      "R"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 17,
+      "scramble": [
+        "R'",
+        "D'",
+        "L'",
+        "U'",
+        "B'",
+        "U",
+        "D",
+        "L'",
+        "D",
+        "R",
+        "L",
+        "D",
+        "L'",
+        "B'",
+        "D",
+        "U'",
+        "D"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-21",
+    "facelets": "BDBBUUDFFLRRFRFLLULLUDFUURBBBDBDUFDFUDFBLFDURDLLRBLRRR",
+    "incumbent": [
+      "F'",
+      "L",
+      "R",
+      "D",
+      "U'",
+      "L",
+      "B",
+      "L",
+      "U",
+      "R",
+      "F",
+      "U",
+      "F'",
+      "B",
+      "F",
+      "R",
+      "U"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 17,
+      "scramble": [
+        "U'",
+        "R'",
+        "F'",
+        "B'",
+        "F",
+        "U'",
+        "F'",
+        "R'",
+        "U'",
+        "L'",
+        "B'",
+        "L'",
+        "U",
+        "D'",
+        "R'",
+        "L'",
+        "F"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-22",
+    "facelets": "FLUBURBULBULBRRRBRDBUUFDDUBLLUFDRBDURLRRLFDLFFDDFBDFFL",
+    "incumbent": [
+      "F'",
+      "U'",
+      "R",
+      "U",
+      "L'",
+      "U",
+      "D",
+      "F",
+      "B",
+      "R",
+      "L'",
+      "D'",
+      "L",
+      "B'",
+      "F'",
+      "D",
+      "B'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 17,
+      "scramble": [
+        "B",
+        "D'",
+        "F",
+        "B",
+        "L'",
+        "D",
+        "L",
+        "R'",
+        "B'",
+        "F'",
+        "D'",
+        "U'",
+        "L",
+        "U'",
+        "R'",
+        "U",
+        "F"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-23",
+    "facelets": "RRULUFFRLUDFLRUUUURBFBFBFUBDLLRDRLBRBDDLLUBFLRDDFBFBDD",
+    "incumbent": [
+      "R",
+      "F",
+      "D",
+      "B",
+      "R",
+      "L",
+      "U",
+      "B",
+      "F",
+      "R'",
+      "D",
+      "R'",
+      "F",
+      "B",
+      "F",
+      "U",
+      "D'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092804,
+      "scramble_length": 17,
+      "scramble": [
+        "D",
+        "U'",
+        "F'",
+        "B'",
+        "F'",
+        "R",
+        "D'",
+        "R",
+        "F'",
+        "B'",
+        "U'",
+        "L'",
+        "R'",
+        "B'",
+        "D'",
+        "F'",
+        "R'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-24",
+    "facelets": "DBFBUBLUDFDRDRDDBBDLRRFLUUBBRRFDLLDLLUBLLFFURURFRBFUFU",
+    "incumbent": [
+      "R",
+      "B'",
+      "L",
+      "B'",
+      "U",
+      "L'",
+      "R'",
+      "U",
+      "D'",
+      "L'",
+      "F",
+      "B'",
+      "R'",
+      "U'",
+      "L'",
+      "D'",
+      "L'",
+      "F"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "F'",
+        "L",
+        "D",
+        "L",
+        "U",
+        "R",
+        "B",
+        "F'",
+        "L",
+        "D",
+        "U'",
+        "R",
+        "L",
+        "U'",
+        "B",
+        "L'",
+        "B",
+        "R'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-25",
+    "facelets": "RLRRUUDDFLBDDRBFLFFFUFFBLRRDUURDDLDLUFRLLUUBBBFBLBUDRB",
+    "incumbent": [
+      "L",
+      "B'",
+      "F",
+      "B",
+      "U'",
+      "L'",
+      "D'",
+      "B",
+      "L",
+      "F",
+      "D",
+      "U'",
+      "F'",
+      "R",
+      "L'",
+      "U",
+      "R'",
+      "D'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "D",
+        "R",
+        "U'",
+        "L",
+        "R'",
+        "F",
+        "U",
+        "D'",
+        "F'",
+        "L'",
+        "B'",
+        "D",
+        "L",
+        "U",
+        "B'",
+        "F'",
+        "B",
+        "L'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-26",
+    "facelets": "DDLLUFBRDLUBLRULDURFFRFDFBFULUUDBRRBFFUBLBDRRDFRLBULDB",
+    "incumbent": [
+      "F",
+      "B",
+      "F'",
+      "B",
+      "R'",
+      "D",
+      "F",
+      "B",
+      "F'",
+      "B'",
+      "D",
+      "R",
+      "F",
+      "R'",
+      "B'",
+      "U'",
+      "F'",
+      "R"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "R'",
+        "F",
+        "U",
+        "B",
+        "R",
+        "F'",
+        "R'",
+        "D'",
+        "B",
+        "F",
+        "B'",
+        "F'",
+        "D'",
+        "R",
+        "B'",
+        "F",
+        "B'",
+        "F'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-27",
+    "facelets": "BUFLUFDLFUDLRRDFFBBBRUFBURULULDDRDLRRFLFLBRRBDLUBBUDDF",
+    "incumbent": [
+      "U",
+      "D'",
+      "R'",
+      "D'",
+      "F'",
+      "B",
+      "F'",
+      "R",
+      "D",
+      "U'",
+      "F'",
+      "R",
+      "L'",
+      "F",
+      "L'",
+      "B",
+      "R'",
+      "B'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "B",
+        "R",
+        "B'",
+        "L",
+        "F'",
+        "L",
+        "R'",
+        "F",
+        "U",
+        "D'",
+        "R'",
+        "F",
+        "B'",
+        "F",
+        "D",
+        "R",
+        "D",
+        "U'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-28",
+    "facelets": "ULDFUULFULLBRRURRUDDBRFDFDFDBDDDFRRLRLBBLBBLLRBFFBUFUU",
+    "incumbent": [
+      "R",
+      "B",
+      "L",
+      "F",
+      "U",
+      "B'",
+      "D",
+      "U'",
+      "L",
+      "U",
+      "R'",
+      "U'",
+      "F'",
+      "B",
+      "D'",
+      "R'",
+      "U",
+      "R'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "R",
+        "U'",
+        "R",
+        "D",
+        "B'",
+        "F",
+        "U",
+        "R",
+        "U'",
+        "L'",
+        "U",
+        "D'",
+        "B",
+        "U'",
+        "F'",
+        "L'",
+        "B'",
+        "R'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-29",
+    "facelets": "LBDBUDDLURRBURRRFULDFRFFUUFFLDFDLLRRBUFBLFBDLRLUBBDBUD",
+    "incumbent": [
+      "L'",
+      "D'",
+      "F",
+      "B'",
+      "R'",
+      "F'",
+      "R",
+      "L'",
+      "R'",
+      "F'",
+      "L'",
+      "U'",
+      "F'",
+      "B",
+      "D",
+      "F'",
+      "D",
+      "U"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "U'",
+        "D'",
+        "F",
+        "D'",
+        "B'",
+        "F",
+        "U",
+        "L",
+        "F",
+        "R",
+        "L",
+        "R'",
+        "F",
+        "R",
+        "B",
+        "F'",
+        "D",
+        "L"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-30",
+    "facelets": "FFFFUUDBUBBDURLDDULDRFFLBLBLDRBDRFBBUUFULRURDRDRFBRLLL",
+    "incumbent": [
+      "L",
+      "D'",
+      "R'",
+      "B'",
+      "F",
+      "B'",
+      "U'",
+      "F",
+      "R",
+      "U'",
+      "F'",
+      "L",
+      "R'",
+      "F",
+      "D",
+      "L'",
+      "F'",
+      "U"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "U'",
+        "F",
+        "L",
+        "D'",
+        "F'",
+        "R",
+        "L'",
+        "F",
+        "U",
+        "R'",
+        "F'",
+        "U",
+        "B",
+        "F'",
+        "B",
+        "R",
+        "D",
+        "L'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-31",
+    "facelets": "UFUFUBDUDLRRURLULURRFBFBDDLBRFDDURRBRLBBLDFFLBUFDBLLFD",
+    "incumbent": [
+      "B",
+      "F",
+      "U'",
+      "B'",
+      "U'",
+      "R'",
+      "F",
+      "D'",
+      "R'",
+      "U'",
+      "L'",
+      "F'",
+      "D'",
+      "L'",
+      "U'",
+      "B'",
+      "D'",
+      "R"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "R'",
+        "D",
+        "B",
+        "U",
+        "L",
+        "D",
+        "F",
+        "L",
+        "U",
+        "R",
+        "D",
+        "F'",
+        "R",
+        "U",
+        "B",
+        "U",
+        "F'",
+        "B'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-32",
+    "facelets": "RLDBULBDFDBBBRDULUUBLFFUFFLRRFFDDBLFURLULDDUDRUBRBRRFL",
+    "incumbent": [
+      "F",
+      "B",
+      "U'",
+      "R'",
+      "L",
+      "F",
+      "D",
+      "U",
+      "B'",
+      "D",
+      "F'",
+      "L'",
+      "U'",
+      "B",
+      "F'",
+      "R",
+      "U'",
+      "D'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "D",
+        "U",
+        "R'",
+        "F",
+        "B'",
+        "U",
+        "L",
+        "F",
+        "D'",
+        "B",
+        "U'",
+        "D'",
+        "F'",
+        "L'",
+        "R",
+        "U",
+        "B'",
+        "F'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-33",
+    "facelets": "LDRFURBFFUDDFRBUUURRRUFDFUBRFLUDLLRLFLUDLBBRDBBDLBLFBD",
+    "incumbent": [
+      "U",
+      "D",
+      "B",
+      "L'",
+      "B'",
+      "U'",
+      "F",
+      "R'",
+      "B",
+      "R'",
+      "U'",
+      "D",
+      "B",
+      "R",
+      "B'",
+      "F",
+      "U'",
+      "B"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "B'",
+        "U",
+        "F'",
+        "B",
+        "R'",
+        "B'",
+        "D'",
+        "U",
+        "R",
+        "B'",
+        "R",
+        "F'",
+        "U",
+        "B",
+        "L",
+        "B'",
+        "D'",
+        "U'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-34",
+    "facelets": "DRRDUURFLFBFFRRULFFLDBFDRUBBRLUDDRRUBBUULLBFDDFLDBLLBU",
+    "incumbent": [
+      "L",
+      "R",
+      "U",
+      "D",
+      "L",
+      "B'",
+      "U'",
+      "D",
+      "B'",
+      "R'",
+      "D'",
+      "U",
+      "B",
+      "R'",
+      "B",
+      "U'",
+      "D'",
+      "R'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "R",
+        "D",
+        "U",
+        "B'",
+        "R",
+        "B'",
+        "U'",
+        "D",
+        "R",
+        "B",
+        "D'",
+        "U",
+        "B",
+        "L'",
+        "D'",
+        "U'",
+        "R'",
+        "L'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-35",
+    "facelets": "BLDUUURFFDBBBRFLDLFRLRFRLBUULBLDRRBBRFUFLUFUFRDULBDDDD",
+    "incumbent": [
+      "F'",
+      "D",
+      "F",
+      "B'",
+      "L",
+      "D",
+      "B",
+      "F'",
+      "U'",
+      "F'",
+      "L'",
+      "B",
+      "U",
+      "D",
+      "B'",
+      "U'",
+      "R",
+      "U"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "U'",
+        "R'",
+        "U",
+        "B",
+        "D'",
+        "U'",
+        "B'",
+        "L",
+        "F",
+        "U",
+        "F",
+        "B'",
+        "D'",
+        "L'",
+        "B",
+        "F'",
+        "D'",
+        "F"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-36",
+    "facelets": "URRDULRRLUUUDRFDRLBBFLFLUFFBULLDURRBLBDULFFBRFFBDBBDDD",
+    "incumbent": [
+      "F",
+      "B'",
+      "L'",
+      "R",
+      "U'",
+      "F'",
+      "L'",
+      "B",
+      "F",
+      "U'",
+      "D",
+      "U'",
+      "L",
+      "U",
+      "D'",
+      "R",
+      "B'",
+      "D'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "D",
+        "B",
+        "R'",
+        "D",
+        "U'",
+        "L'",
+        "U",
+        "D'",
+        "U",
+        "F'",
+        "B'",
+        "L",
+        "F",
+        "U",
+        "R'",
+        "L",
+        "B",
+        "F'"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-37",
+    "facelets": "FURBUFLLUBUFRRBLRBDFRRFUBFFDDULDDFLLDDBBLFRURDBLLBRUDU",
+    "incumbent": [
+      "D'",
+      "U",
+      "D'",
+      "U",
+      "F'",
+      "D",
+      "L",
+      "R",
+      "D",
+      "U",
+      "F",
+      "L'",
+      "B'",
+      "D",
+      "F",
+      "U",
+      "D'",
+      "F'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "F",
+        "D",
+        "U'",
+        "F'",
+        "D'",
+        "B",
+        "L",
+        "F'",
+        "U'",
+        "D'",
+        "R'",
+        "L'",
+        "D'",
+        "F",
+        "U'",
+        "D",
+        "U'",
+        "D"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-38",
+    "facelets": "RUDFUFURFURFLRRRLLBDRDFBLDDUBBBDUDFUDURFLLLUFLRFBBLBDB",
+    "incumbent": [
+      "D'",
+      "F'",
+      "D",
+      "F",
+      "U",
+      "B",
+      "F",
+      "L",
+      "U'",
+      "D",
+      "R",
+      "D'",
+      "F'",
+      "U",
+      "D",
+      "B'",
+      "F",
+      "L'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "L",
+        "F'",
+        "B",
+        "D'",
+        "U'",
+        "F",
+        "D",
+        "R'",
+        "D'",
+        "U",
+        "L'",
+        "F'",
+        "B'",
+        "U'",
+        "F'",
+        "D'",
+        "F",
+        "D"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  },
+  {
+    "name": "expansion-39",
+    "facelets": "RBRUUUDDBULUDRLDRRBRLRFBRFFUDLFDFUFFBRLULBLUBFLDDBBDLF",
+    "incumbent": [
+      "F'",
+      "U",
+      "D'",
+      "L",
+      "B'",
+      "F'",
+      "D'",
+      "B",
+      "D",
+      "R",
+      "B'",
+      "F",
+      "L'",
+      "B",
+      "U",
+      "B'",
+      "F",
+      "B'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092805,
+      "scramble_length": 18,
+      "scramble": [
+        "B",
+        "F'",
+        "B",
+        "U'",
+        "B'",
+        "L",
+        "F'",
+        "B",
+        "R'",
+        "D'",
+        "B'",
+        "D",
+        "F",
+        "B",
+        "L'",
+        "D",
+        "U'",
+        "F"
+      ]
+    },
+    "proof": {
+      "method": "timed_native_exhaustive_search_pending"
+    }
+  }
+]

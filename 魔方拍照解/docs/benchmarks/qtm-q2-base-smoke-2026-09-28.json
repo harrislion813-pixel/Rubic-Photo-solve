@@ -1,0 +1,6770 @@
+{
+  "metric": "QTM",
+  "profile": "q2-base",
+  "pdb_manifest": {
+    "path": "docs\\benchmarks\\qtm-q2-profile-manifest-2026-09-28.json",
+    "bytes": 2186,
+    "sha256": "534214abc85815d3815fbd7a790cad1f0e6041bda9d3b9394a3dca763ce7ec0f"
+  },
+  "max_cost": null,
+  "incumbent_mode": "fixed",
+  "native_flags": [],
+  "proof_cache_reuse": false,
+  "tail_enabled": false,
+  "binary": {
+    "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\build\\cube_solver.exe",
+    "bytes": 3956332,
+    "sha256": "300fb0e5b5979aaf2f528a5cd23c537d20d52480331085832113b666391e9992"
+  },
+  "pdbs": [
+    {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\qtm-strong-baseline-2026-09-28\\corner_htm_v2.pdb",
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb"
+    },
+    {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\qtm-strong-baseline-2026-09-28\\phase1_sym_htm_v2.pdb",
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f"
+    },
+    {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\qtm-strong-baseline-2026-09-28\\tail_depth6_v4.pdb",
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74"
+    },
+    {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\native\\corner_qtm_v3.pdb",
+      "bytes": 88179920,
+      "sha256": "070f1314a7b68955ed3e84a3de5b6e2ede20385f0775a334ec9f1d470f0e08d0"
+    },
+    {
+      "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\native\\phase1_qtm_v3.pdb",
+      "bytes": 140908490,
+      "sha256": "7606158cd7ccb4c1d49db7aab45fe25fbad21580aab8742648ae3e29567e6a11"
+    }
+  ],
+  "cases_file": {
+    "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\tests\\native_cases.json",
+    "bytes": 626,
+    "sha256": "127ba523a950301ea73416e9b3a654eb1d8cc0933faf60f42107981ba55a6351"
+  },
+  "selected_cases": [
+    {
+      "name": "repo14",
+      "facelets": "RLULUBRUDLRBLRFDDRURFFFFLBRUDFUDRLDUBBBDLRBBFLUDUBLFFD",
+      "incumbent": [
+        "F2",
+        "U",
+        "F",
+        "R'",
+        "B'",
+        "U'",
+        "F'",
+        "D'",
+        "F",
+        "L2",
+        "U",
+        "F'",
+        "U",
+        "B2"
+      ]
+    },
+    {
+      "name": "pgo16",
+      "facelets": "RFLLURLRRDFULRRBDLUBFUFULDRDLDRDBFFDUBFULFRUBBLBDBBFDU",
+      "incumbent": [
+        "D",
+        "L'",
+        "D",
+        "F2",
+        "D2",
+        "L'",
+        "U'",
+        "R",
+        "U2",
+        "F2",
+        "L",
+        "F'",
+        "U2",
+        "L",
+        "U",
+        "B"
+      ]
+    },
+    {
+      "name": "seed18",
+      "facelets": "RRRBUBBLLDDBLRRFDFUFBUFDDBLRRDUDFFUDFLLULRULBUDUFBFRBL",
+      "incumbent": [
+        "F2",
+        "D2",
+        "L2",
+        "B'",
+        "R",
+        "U2",
+        "F2",
+        "U2",
+        "L2",
+        "F",
+        "L'",
+        "D2",
+        "U2",
+        "R2",
+        "U2",
+        "F",
+        "D2",
+        "F2"
+      ]
+    },
+    {
+      "name": "known18",
+      "facelets": "UDBBURFBBUFULRUBFFDLLRFFDLDRULLDDRRDFRLULUUDBRBLBBFRDF",
+      "incumbent": [
+        "R",
+        "U2",
+        "L",
+        "U2",
+        "L2",
+        "B2",
+        "R2",
+        "D'",
+        "L'",
+        "B2",
+        "U",
+        "F'",
+        "B",
+        "D",
+        "R",
+        "L'",
+        "F'",
+        "U"
+      ]
+    },
+    {
+      "name": "legal-20260927-0",
+      "facelets": "BLFBUFLUDLRDRRDUBBURFUFDBBFULRDDURLULRFFLFDBLRUDLBDRFB",
+      "incumbent": []
+    },
+    {
+      "name": "legal-20260927-1",
+      "facelets": "BDBDUFURUBUDRRLLLRLBRFFFFBFUDUBDUFUFDRBULDLLRLLRFBBDRD",
+      "incumbent": []
+    },
+    {
+      "name": "legal-20260927-2",
+      "facelets": "RBUFULLLRBDRBRBUULUBDDFDFUBDRLRDLDUBFRFFLFRDLBRUUBLDFF",
+      "incumbent": []
+    },
+    {
+      "name": "superflip",
+      "facelets": "UBULURUFURURFRBRDRFUFLFRFDFDFDLDRDBDLULBLFLDLBUBRBLBDB",
+      "incumbent": []
+    }
+  ],
+  "cold_starts": [
+    {
+      "variant": "staged",
+      "repeat": 0,
+      "seconds": 1.3894640000071377,
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 3,
+        "proof_version": 3,
+        "metrics": [
+          "HTM",
+          "QTM"
+        ],
+        "assets": {
+          "HTM": {
+            "corner": true,
+            "corner_metric": "HTM",
+            "phase1": true,
+            "phase1_metric": "HTM",
+            "edge_count": 0,
+            "tail": true
+          },
+          "QTM": {
+            "corner": true,
+            "corner_metric": "QTM",
+            "phase1": true,
+            "phase1_metric": "QTM",
+            "edge_count": 0,
+            "tail": false
+          }
+        }
+      }
+    }
+  ],
+  "runs": [
+    {
+      "case": "repo14",
+      "facelets": "RLULUBRUDLRBLRFDDRURFFFFLBRUDFUDRLDUBBBDLRBBFLUDUBLFFD",
+      "incumbent": [
+        "F2",
+        "U",
+        "F",
+        "R'",
+        "B'",
+        "U'",
+        "F'",
+        "D'",
+        "F",
+        "L2",
+        "U",
+        "F'",
+        "U",
+        "B2"
+      ],
+      "metric": "QTM",
+      "incumbent_depth": 17,
+      "incumbent_mode": "fixed",
+      "max_cost": 26,
+      "proof_cache_reuse": false,
+      "threads": 4,
+      "wall_seconds": 0.008271799990325235,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "benchmark",
+        "status": "complete",
+        "inverse_direction": false,
+        "moves": [
+          "F2",
+          "U",
+          "F",
+          "R'",
+          "B'",
+          "U'",
+          "F'",
+          "D'",
+          "F",
+          "L2",
+          "U",
+          "F'",
+          "U",
+          "B2"
+        ],
+        "solution": "F2 U F R' B' U' F' D' F L2 U F' U B2",
+        "depth": 17,
+        "metric": "QTM",
+        "optimal": true,
+        "elapsed_seconds": 0.007909,
+        "nodes": 19752,
+        "split_nodes": 11184,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "corner_pdb": true,
+        "corner_pdb_metric": "QTM",
+        "phase1_pdb": true,
+        "phase1_pdb_metric": "QTM",
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": false,
+        "tail_enabled": false,
+        "completed_depth": 16,
+        "generated_candidates": 274622,
+        "small_pdb_queries": 0,
+        "phase1_queries": 432867,
+        "corner_queries": 26406,
+        "edge_queries": 0,
+        "axis_rejects": [
+          168831,
+          54519,
+          25260
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 5423,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 5365,
+            "generated": 73388,
+            "busy_seconds": 0.006661,
+            "idle_seconds": 6.3e-05
+          },
+          {
+            "nodes": 4639,
+            "generated": 63819,
+            "busy_seconds": 0.006624,
+            "idle_seconds": 7.3e-05
+          },
+          {
+            "nodes": 5166,
+            "generated": 70926,
+            "busy_seconds": 0.006574,
+            "idle_seconds": 9.5e-05
+          },
+          {
+            "nodes": 4582,
+            "generated": 62718,
+            "busy_seconds": 0.006628,
+            "idle_seconds": 2.3e-05
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 16,
+          "current_depth": 11,
+          "completed_depth": 10,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.9e-05,
+          "elapsed_seconds": 1.9e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 16,
+          "current_depth": 11,
+          "completed_depth": 12,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 69,
+          "nodes": 0,
+          "split_nodes": 69,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000314,
+          "elapsed_seconds": 0.000416,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 69,
+          "small_pdb_queries": 0,
+          "phase1_queries": 131,
+          "corner_queries": 4,
+          "edge_queries": 0,
+          "axis_rejects": [
+            20,
+            36,
+            9
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 33,
+              "busy_seconds": 0.000112,
+              "idle_seconds": 3.9e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 12,
+              "busy_seconds": 8e-06,
+              "idle_seconds": 0.000117
+            },
+            {
+              "nodes": 0,
+              "generated": 12,
+              "busy_seconds": 4e-06,
+              "idle_seconds": 9.8e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 12,
+              "busy_seconds": 3.5e-05,
+              "idle_seconds": 4.2e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 16,
+          "current_depth": 13,
+          "completed_depth": 14,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 3702,
+          "nodes": 0,
+          "split_nodes": 3771,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000476,
+          "elapsed_seconds": 0.00091,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 3771,
+          "small_pdb_queries": 0,
+          "phase1_queries": 6690,
+          "corner_queries": 359,
+          "edge_queries": 0,
+          "axis_rejects": [
+            1736,
+            1151,
+            525
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 77,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 927,
+              "busy_seconds": 0.00028,
+              "idle_seconds": 2.1e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 891,
+              "busy_seconds": 0.000194,
+              "idle_seconds": 3.8e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 858,
+              "busy_seconds": 0.000226,
+              "idle_seconds": 3e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 1026,
+              "busy_seconds": 0.000232,
+              "idle_seconds": 4.4e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 16,
+          "current_depth": 15,
+          "completed_depth": 16,
+          "iteration_nodes": 19752,
+          "iteration_split_nodes": 7413,
+          "nodes": 19752,
+          "split_nodes": 11184,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.00695,
+          "elapsed_seconds": 0.007885,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 274622,
+          "small_pdb_queries": 0,
+          "phase1_queries": 432867,
+          "corner_queries": 26406,
+          "edge_queries": 0,
+          "axis_rejects": [
+            168831,
+            54519,
+            25260
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 5423,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 5365,
+              "generated": 73388,
+              "busy_seconds": 0.006661,
+              "idle_seconds": 6.3e-05
+            },
+            {
+              "nodes": 4639,
+              "generated": 63819,
+              "busy_seconds": 0.006624,
+              "idle_seconds": 7.3e-05
+            },
+            {
+              "nodes": 5166,
+              "generated": 70926,
+              "busy_seconds": 0.006574,
+              "idle_seconds": 9.5e-05
+            },
+            {
+              "nodes": 4582,
+              "generated": 62718,
+              "busy_seconds": 0.006628,
+              "idle_seconds": 2.3e-05
+            }
+          ]
+        }
+      ],
+      "completed_depth": 16,
+      "process_peak_memory_bytes": 585150464,
+      "ready_capabilities": {
+        "HTM": {
+          "corner": true,
+          "corner_metric": "HTM",
+          "phase1": true,
+          "phase1_metric": "HTM",
+          "edge_count": 0,
+          "tail": true
+        },
+        "QTM": {
+          "corner": true,
+          "corner_metric": "QTM",
+          "phase1": true,
+          "phase1_metric": "QTM",
+          "edge_count": 0,
+          "tail": false
+        }
+      },
+      "variant": "staged",
+      "repeat": 0
+    },
+    {
+      "case": "pgo16",
+      "facelets": "RFLLURLRRDFULRRBDLUBFUFULDRDLDRDBFFDUBFULFRUBBLBDBBFDU",
+      "incumbent": [
+        "D",
+        "L'",
+        "D",
+        "F2",
+        "D2",
+        "L'",
+        "U'",
+        "R",
+        "U2",
+        "F2",
+        "L",
+        "F'",
+        "U2",
+        "L",
+        "U",
+        "B"
+      ],
+      "metric": "QTM",
+      "incumbent_depth": 21,
+      "incumbent_mode": "fixed",
+      "max_cost": 26,
+      "proof_cache_reuse": false,
+      "threads": 4,
+      "wall_seconds": 2.0008637999999337,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "benchmark",
+        "status": "timeout",
+        "inverse_direction": false,
+        "moves": [
+          "D",
+          "L'",
+          "D",
+          "F2",
+          "D2",
+          "L'",
+          "U'",
+          "R",
+          "U2",
+          "F2",
+          "L",
+          "F'",
+          "U2",
+          "L",
+          "U",
+          "B"
+        ],
+        "solution": "D L' D F2 D2 L' U' R U2 F2 L F' U2 L U B",
+        "depth": 21,
+        "metric": "QTM",
+        "optimal": false,
+        "elapsed_seconds": 2.00052,
+        "nodes": 8214033,
+        "split_nodes": 15351,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "corner_pdb": true,
+        "corner_pdb_metric": "QTM",
+        "phase1_pdb": true,
+        "phase1_pdb_metric": "QTM",
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": false,
+        "tail_enabled": false,
+        "completed_depth": 18,
+        "generated_candidates": 109649990,
+        "small_pdb_queries": 0,
+        "phase1_queries": 157521452,
+        "corner_queries": 10765626,
+        "edge_queries": 0,
+        "axis_rejects": [
+          77948263,
+          15536066,
+          5401393
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 2548725,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 1762743,
+            "generated": 23529920,
+            "busy_seconds": 1.70115,
+            "idle_seconds": 1e-06
+          },
+          {
+            "nodes": 1771268,
+            "generated": 23643416,
+            "busy_seconds": 1.701116,
+            "idle_seconds": 1e-06
+          },
+          {
+            "nodes": 1694055,
+            "generated": 22609843,
+            "busy_seconds": 1.701079,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 1732608,
+            "generated": 23118297,
+            "busy_seconds": 1.701027,
+            "idle_seconds": 0.0
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 11,
+          "completed_depth": 10,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1e-05,
+          "elapsed_seconds": 1e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 11,
+          "completed_depth": 12,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 30,
+          "nodes": 0,
+          "split_nodes": 30,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000259,
+          "elapsed_seconds": 0.000282,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 30,
+          "small_pdb_queries": 0,
+          "phase1_queries": 35,
+          "corner_queries": 1,
+          "edge_queries": 0,
+          "axis_rejects": [
+            27,
+            1,
+            1
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 30,
+              "busy_seconds": 3e-06,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 13,
+          "completed_depth": 14,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 2103,
+          "nodes": 0,
+          "split_nodes": 2133,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000356,
+          "elapsed_seconds": 0.000662,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 2133,
+          "small_pdb_queries": 0,
+          "phase1_queries": 2992,
+          "corner_queries": 201,
+          "edge_queries": 0,
+          "axis_rejects": [
+            1552,
+            303,
+            77
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 42,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 864,
+              "busy_seconds": 0.00013,
+              "idle_seconds": 4.8e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 684,
+              "busy_seconds": 0.000113,
+              "idle_seconds": 4e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 339,
+              "busy_seconds": 4.2e-05,
+              "idle_seconds": 7.6e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 216,
+              "busy_seconds": 8.7e-05,
+              "idle_seconds": 6e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 15,
+          "completed_depth": 16,
+          "iteration_nodes": 13300,
+          "iteration_split_nodes": 6879,
+          "nodes": 13300,
+          "split_nodes": 9012,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.003868,
+          "elapsed_seconds": 0.004554,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 186438,
+          "small_pdb_queries": 0,
+          "phase1_queries": 265376,
+          "corner_queries": 18731,
+          "edge_queries": 0,
+          "axis_rejects": [
+            134265,
+            26521,
+            7292
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 4387,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 3303,
+              "generated": 45834,
+              "busy_seconds": 0.00354,
+              "idle_seconds": 9.2e-05
+            },
+            {
+              "nodes": 3277,
+              "generated": 45243,
+              "busy_seconds": 0.003502,
+              "idle_seconds": 5.8e-05
+            },
+            {
+              "nodes": 3348,
+              "generated": 46341,
+              "busy_seconds": 0.003546,
+              "idle_seconds": 3.5e-05
+            },
+            {
+              "nodes": 3372,
+              "generated": 46887,
+              "busy_seconds": 0.003573,
+              "idle_seconds": 3.2e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 17,
+          "completed_depth": 16,
+          "iteration_nodes": 1077248,
+          "iteration_split_nodes": 525,
+          "nodes": 1090548,
+          "split_nodes": 9537,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.253572,
+          "elapsed_seconds": 0.258148,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 14569901,
+          "small_pdb_queries": 0,
+          "phase1_queries": 20724159,
+          "corner_queries": 1410025,
+          "edge_queries": 0,
+          "axis_rejects": [
+            10455674,
+            2075984,
+            628814
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 317826,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 266240,
+              "generated": 3554870,
+              "busy_seconds": 0.244169,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 266240,
+              "generated": 3553868,
+              "busy_seconds": 0.233676,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 274432,
+              "generated": 3664767,
+              "busy_seconds": 0.252864,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 270336,
+              "generated": 3609958,
+              "busy_seconds": 0.247351,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 17,
+          "completed_depth": 18,
+          "iteration_nodes": 1240059,
+          "iteration_split_nodes": 6033,
+          "nodes": 1253359,
+          "split_nodes": 15045,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.294446,
+          "elapsed_seconds": 0.299022,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 16748514,
+          "small_pdb_queries": 0,
+          "phase1_queries": 23865628,
+          "corner_queries": 1623959,
+          "edge_queries": 0,
+          "axis_rejects": [
+            11986534,
+            2410884,
+            728483
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 368133,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 305353,
+              "generated": 4078617,
+              "busy_seconds": 0.294085,
+              "idle_seconds": 5.7e-05
+            },
+            {
+              "nodes": 310583,
+              "generated": 4146614,
+              "busy_seconds": 0.294006,
+              "idle_seconds": 0.000104
+            },
+            {
+              "nodes": 318885,
+              "generated": 4259670,
+              "busy_seconds": 0.294016,
+              "idle_seconds": 6.7e-05
+            },
+            {
+              "nodes": 305238,
+              "generated": 4077175,
+              "busy_seconds": 0.293959,
+              "idle_seconds": 9.2e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 19,
+          "completed_depth": 18,
+          "iteration_nodes": 1056768,
+          "iteration_split_nodes": 306,
+          "nodes": 2310127,
+          "split_nodes": 15351,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.25868,
+          "elapsed_seconds": 0.557734,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 30852578,
+          "small_pdb_queries": 0,
+          "phase1_queries": 44092059,
+          "corner_queries": 2995293,
+          "edge_queries": 0,
+          "axis_rejects": [
+            22062982,
+            4343767,
+            1451888
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 682223,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 262144,
+              "generated": 3499126,
+              "busy_seconds": 0.200752,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 266240,
+              "generated": 3553873,
+              "busy_seconds": 1.5e-05,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 262144,
+              "generated": 3498966,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 266240,
+              "generated": 3552099,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 19,
+          "completed_depth": 18,
+          "iteration_nodes": 2199552,
+          "iteration_split_nodes": 306,
+          "nodes": 3452911,
+          "split_nodes": 15351,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.5274,
+          "elapsed_seconds": 0.826454,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 46105415,
+          "small_pdb_queries": 0,
+          "phase1_queries": 66180836,
+          "corner_queries": 4526242,
+          "edge_queries": 0,
+          "axis_rejects": [
+            32847684,
+            6444097,
+            2288744
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1070413,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 548864,
+              "generated": 7325602,
+              "busy_seconds": 0.200752,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 552960,
+              "generated": 7380284,
+              "busy_seconds": 1.5e-05,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 548864,
+              "generated": 7326951,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 548864,
+              "generated": 7324064,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 19,
+          "completed_depth": 18,
+          "iteration_nodes": 3301376,
+          "iteration_split_nodes": 306,
+          "nodes": 4554735,
+          "split_nodes": 15351,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.794458,
+          "elapsed_seconds": 1.093512,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 60810291,
+          "small_pdb_queries": 0,
+          "phase1_queries": 87309926,
+          "corner_queries": 5980101,
+          "edge_queries": 0,
+          "axis_rejects": [
+            43294692,
+            8535619,
+            3001231
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1422491,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 831488,
+              "generated": 11097363,
+              "busy_seconds": 0.200752,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 839680,
+              "generated": 11207164,
+              "busy_seconds": 1.5e-05,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 811008,
+              "generated": 10824587,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 819200,
+              "generated": 10932663,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 19,
+          "completed_depth": 18,
+          "iteration_nodes": 4382720,
+          "iteration_split_nodes": 306,
+          "nodes": 5636079,
+          "split_nodes": 15351,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.063598,
+          "elapsed_seconds": 1.362652,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 75241434,
+          "small_pdb_queries": 0,
+          "phase1_queries": 108012478,
+          "corner_queries": 7394186,
+          "edge_queries": 0,
+          "axis_rejects": [
+            53577934,
+            10560018,
+            3710650
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1755254,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1101824,
+              "generated": 14705268,
+              "busy_seconds": 0.200752,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1114112,
+              "generated": 14871177,
+              "busy_seconds": 1.018057,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1077248,
+              "generated": 14377288,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1089536,
+              "generated": 14539187,
+              "busy_seconds": 0.886686,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 19,
+          "completed_depth": 18,
+          "iteration_nodes": 5439488,
+          "iteration_split_nodes": 306,
+          "nodes": 6692847,
+          "split_nodes": 15351,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.331184,
+          "elapsed_seconds": 1.630238,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 89346862,
+          "small_pdb_queries": 0,
+          "phase1_queries": 128075908,
+          "corner_queries": 8757222,
+          "edge_queries": 0,
+          "axis_rejects": [
+            63738152,
+            12492448,
+            4360398
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2061468,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1372160,
+              "generated": 18314530,
+              "busy_seconds": 1.062651,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1392640,
+              "generated": 18588663,
+              "busy_seconds": 1.092793,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1327104,
+              "generated": 17713878,
+              "busy_seconds": 1.283466,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1347584,
+              "generated": 17981277,
+              "busy_seconds": 0.886686,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 19,
+          "completed_depth": 18,
+          "iteration_nodes": 6529024,
+          "iteration_split_nodes": 306,
+          "nodes": 7782383,
+          "split_nodes": 15351,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.597236,
+          "elapsed_seconds": 1.89629,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 103889164,
+          "small_pdb_queries": 0,
+          "phase1_queries": 149055311,
+          "corner_queries": 10189928,
+          "edge_queries": 0,
+          "axis_rejects": [
+            74005505,
+            14605245,
+            5089844
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2404655,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1654784,
+              "generated": 22088647,
+              "busy_seconds": 1.062651,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1667072,
+              "generated": 22252334,
+              "busy_seconds": 1.092793,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1585152,
+              "generated": 21156759,
+              "busy_seconds": 1.283466,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1622016,
+              "generated": 21642910,
+              "busy_seconds": 0.886686,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 20,
+          "current_depth": 19,
+          "completed_depth": 18,
+          "iteration_nodes": 6960674,
+          "iteration_split_nodes": 306,
+          "nodes": 8214033,
+          "split_nodes": 15351,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.701431,
+          "elapsed_seconds": 2.000485,
+          "found": false,
+          "timed_out": true,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 109649990,
+          "small_pdb_queries": 0,
+          "phase1_queries": 157521452,
+          "corner_queries": 10765626,
+          "edge_queries": 0,
+          "axis_rejects": [
+            77948263,
+            15536066,
+            5401393
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2548725,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1762743,
+              "generated": 23529920,
+              "busy_seconds": 1.70115,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1771268,
+              "generated": 23643416,
+              "busy_seconds": 1.701116,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1694055,
+              "generated": 22609843,
+              "busy_seconds": 1.701079,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1732608,
+              "generated": 23118297,
+              "busy_seconds": 1.701027,
+              "idle_seconds": 0.0
+            }
+          ]
+        }
+      ],
+      "completed_depth": 18,
+      "process_peak_memory_bytes": 585400320,
+      "ready_capabilities": {
+        "HTM": {
+          "corner": true,
+          "corner_metric": "HTM",
+          "phase1": true,
+          "phase1_metric": "HTM",
+          "edge_count": 0,
+          "tail": true
+        },
+        "QTM": {
+          "corner": true,
+          "corner_metric": "QTM",
+          "phase1": true,
+          "phase1_metric": "QTM",
+          "edge_count": 0,
+          "tail": false
+        }
+      },
+      "variant": "staged",
+      "repeat": 0
+    },
+    {
+      "case": "seed18",
+      "facelets": "RRRBUBBLLDDBLRRFDFUFBUFDDBLRRDUDFFUDFLLULRULBUDUFBFRBL",
+      "incumbent": [
+        "F2",
+        "D2",
+        "L2",
+        "B'",
+        "R",
+        "U2",
+        "F2",
+        "U2",
+        "L2",
+        "F",
+        "L'",
+        "D2",
+        "U2",
+        "R2",
+        "U2",
+        "F",
+        "D2",
+        "F2"
+      ],
+      "metric": "QTM",
+      "incumbent_depth": 31,
+      "incumbent_mode": "fixed",
+      "max_cost": 26,
+      "proof_cache_reuse": false,
+      "threads": 4,
+      "wall_seconds": 2.000872199991136,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "benchmark",
+        "status": "timeout",
+        "inverse_direction": false,
+        "moves": [
+          "F2",
+          "D2",
+          "L2",
+          "B'",
+          "R",
+          "U2",
+          "F2",
+          "U2",
+          "L2",
+          "F",
+          "L'",
+          "D2",
+          "U2",
+          "R2",
+          "U2",
+          "F",
+          "D2",
+          "F2"
+        ],
+        "solution": "F2 D2 L2 B' R U2 F2 U2 L2 F L' D2 U2 R2 U2 F D2 F2",
+        "depth": 31,
+        "metric": "QTM",
+        "optimal": false,
+        "elapsed_seconds": 2.000488,
+        "nodes": 8199705,
+        "split_nodes": 19662,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "corner_pdb": true,
+        "corner_pdb_metric": "QTM",
+        "phase1_pdb": true,
+        "phase1_pdb_metric": "QTM",
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": false,
+        "tail_enabled": false,
+        "completed_depth": 18,
+        "generated_candidates": 109448656,
+        "small_pdb_queries": 0,
+        "phase1_queries": 158911352,
+        "corner_queries": 10349787,
+        "edge_queries": 0,
+        "axis_rejects": [
+          75928813,
+          17581247,
+          5590228
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 2146819,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 1605888,
+            "generated": 21430266,
+            "busy_seconds": 1.591624,
+            "idle_seconds": 1e-06
+          },
+          {
+            "nodes": 1614848,
+            "generated": 21553564,
+            "busy_seconds": 1.591558,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 1585753,
+            "generated": 21175767,
+            "busy_seconds": 1.591597,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 1607350,
+            "generated": 21448204,
+            "busy_seconds": 1.59152,
+            "idle_seconds": 0.0
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 11,
+          "completed_depth": 10,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.5e-05,
+          "elapsed_seconds": 1.5e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 11,
+          "completed_depth": 12,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 150,
+          "nodes": 0,
+          "split_nodes": 150,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000288,
+          "elapsed_seconds": 0.000321,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 150,
+          "small_pdb_queries": 0,
+          "phase1_queries": 188,
+          "corner_queries": 11,
+          "edge_queries": 0,
+          "axis_rejects": [
+            125,
+            12,
+            2
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 150,
+              "busy_seconds": 1.9e-05,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 13,
+          "completed_depth": 14,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 6111,
+          "nodes": 0,
+          "split_nodes": 6261,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000554,
+          "elapsed_seconds": 0.0009,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 6261,
+          "small_pdb_queries": 0,
+          "phase1_queries": 8536,
+          "corner_queries": 628,
+          "edge_queries": 0,
+          "axis_rejects": [
+            4789,
+            669,
+            175
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 161,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 1767,
+              "busy_seconds": 0.000288,
+              "idle_seconds": 3.5e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 1512,
+              "busy_seconds": 0.000221,
+              "idle_seconds": 7.6e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 1473,
+              "busy_seconds": 0.000219,
+              "idle_seconds": 6e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 1359,
+              "busy_seconds": 0.000183,
+              "idle_seconds": 6.2e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 15,
+          "completed_depth": 16,
+          "iteration_nodes": 25008,
+          "iteration_split_nodes": 6852,
+          "nodes": 25008,
+          "split_nodes": 13113,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.006085,
+          "elapsed_seconds": 0.007014,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 346564,
+          "small_pdb_queries": 0,
+          "phase1_queries": 489035,
+          "corner_queries": 35782,
+          "edge_queries": 0,
+          "axis_rejects": [
+            253614,
+            44707,
+            12887
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 9366,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 6165,
+              "generated": 84081,
+              "busy_seconds": 0.005748,
+              "idle_seconds": 7.2e-05
+            },
+            {
+              "nodes": 6350,
+              "generated": 86398,
+              "busy_seconds": 0.005662,
+              "idle_seconds": 7.5e-05
+            },
+            {
+              "nodes": 6296,
+              "generated": 85746,
+              "busy_seconds": 0.005748,
+              "idle_seconds": 2.2e-05
+            },
+            {
+              "nodes": 6197,
+              "generated": 84078,
+              "busy_seconds": 0.005697,
+              "idle_seconds": 9.9e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 17,
+          "completed_depth": 16,
+          "iteration_nodes": 1150976,
+          "iteration_split_nodes": 465,
+          "nodes": 1175984,
+          "split_nodes": 13578,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.26558,
+          "elapsed_seconds": 0.272626,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 15699279,
+          "small_pdb_queries": 0,
+          "phase1_queries": 22342419,
+          "corner_queries": 1556751,
+          "edge_queries": 0,
+          "axis_rejects": [
+            11298647,
+            2159918,
+            684561
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 378778,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 274432,
+              "generated": 3661264,
+              "busy_seconds": 0.256286,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 290816,
+              "generated": 3878426,
+              "busy_seconds": 0.260498,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 303104,
+              "generated": 4042965,
+              "busy_seconds": 0.263627,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 282624,
+              "generated": 3770060,
+              "busy_seconds": 0.262645,
+              "idle_seconds": 3e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 17,
+          "completed_depth": 18,
+          "iteration_nodes": 1760858,
+          "iteration_split_nodes": 6243,
+          "nodes": 1785866,
+          "split_nodes": 19356,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.40151,
+          "elapsed_seconds": 0.408557,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 23840855,
+          "small_pdb_queries": 0,
+          "phase1_queries": 34143259,
+          "corner_queries": 2400752,
+          "edge_queries": 0,
+          "axis_rejects": [
+            17013469,
+            3356589,
+            1071452
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 612032,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 442103,
+              "generated": 5899080,
+              "busy_seconds": 0.40112,
+              "idle_seconds": 7.4e-05
+            },
+            {
+              "nodes": 428261,
+              "generated": 5713468,
+              "busy_seconds": 0.401017,
+              "idle_seconds": 9.5e-05
+            },
+            {
+              "nodes": 453999,
+              "generated": 6058350,
+              "busy_seconds": 0.401091,
+              "idle_seconds": 4.9e-05
+            },
+            {
+              "nodes": 436495,
+              "generated": 5823393,
+              "busy_seconds": 0.401128,
+              "idle_seconds": 6.3e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 19,
+          "completed_depth": 18,
+          "iteration_nodes": 995328,
+          "iteration_split_nodes": 306,
+          "nodes": 2781194,
+          "split_nodes": 19662,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.259176,
+          "elapsed_seconds": 0.667765,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 37128705,
+          "small_pdb_queries": 0,
+          "phase1_queries": 53458725,
+          "corner_queries": 3645949,
+          "edge_queries": 0,
+          "axis_rejects": [
+            26193283,
+            5545063,
+            1745823
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 861439,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 245760,
+              "generated": 3281494,
+              "busy_seconds": 0.178072,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 245760,
+              "generated": 3279609,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 262144,
+              "generated": 3501534,
+              "busy_seconds": 1.8e-05,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 241664,
+              "generated": 3225213,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 19,
+          "completed_depth": 18,
+          "iteration_nodes": 2039808,
+          "iteration_split_nodes": 306,
+          "nodes": 3825674,
+          "split_nodes": 19662,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.527691,
+          "elapsed_seconds": 0.936279,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 51067809,
+          "small_pdb_queries": 0,
+          "phase1_queries": 73426203,
+          "corner_queries": 4927228,
+          "edge_queries": 0,
+          "axis_rejects": [
+            36062982,
+            7655499,
+            2423513
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1098252,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 491520,
+              "generated": 6560023,
+              "busy_seconds": 0.178072,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 512000,
+              "generated": 6833593,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 516096,
+              "generated": 6891801,
+              "busy_seconds": 1.8e-05,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 520192,
+              "generated": 6941537,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 19,
+          "completed_depth": 18,
+          "iteration_nodes": 3153920,
+          "iteration_split_nodes": 306,
+          "nodes": 4939786,
+          "split_nodes": 19662,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.796954,
+          "elapsed_seconds": 1.205542,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 65936262,
+          "small_pdb_queries": 0,
+          "phase1_queries": 94845632,
+          "corner_queries": 6292410,
+          "edge_queries": 0,
+          "axis_rejects": [
+            46497969,
+            9971455,
+            3175841
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1349365,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 782336,
+              "generated": 10439114,
+              "busy_seconds": 0.178072,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 786432,
+              "generated": 10496327,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 790528,
+              "generated": 10556044,
+              "busy_seconds": 1.8e-05,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 794624,
+              "generated": 10603922,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 19,
+          "completed_depth": 18,
+          "iteration_nodes": 4235264,
+          "iteration_split_nodes": 306,
+          "nodes": 6021130,
+          "split_nodes": 19662,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.063949,
+          "elapsed_seconds": 1.472537,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 80367902,
+          "small_pdb_queries": 0,
+          "phase1_queries": 115937428,
+          "corner_queries": 7619736,
+          "edge_queries": 0,
+          "axis_rejects": [
+            56379213,
+            12412106,
+            3958265
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1595319,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1069056,
+              "generated": 14264287,
+              "busy_seconds": 1.050773,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1052672,
+              "generated": 14050128,
+              "busy_seconds": 1.035569,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1048576,
+              "generated": 14001660,
+              "busy_seconds": 0.923646,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1064960,
+              "generated": 14210972,
+              "busy_seconds": 0.961028,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 19,
+          "completed_depth": 18,
+          "iteration_nodes": 5275648,
+          "iteration_split_nodes": 306,
+          "nodes": 7061514,
+          "split_nodes": 19662,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.316129,
+          "elapsed_seconds": 1.724717,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 94257374,
+          "small_pdb_queries": 0,
+          "phase1_queries": 136533587,
+          "corner_queries": 8942316,
+          "edge_queries": 0,
+          "axis_rejects": [
+            65660398,
+            14921996,
+            4734083
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1877485,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1323008,
+              "generated": 17654804,
+              "busy_seconds": 1.146494,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1323008,
+              "generated": 17657960,
+              "busy_seconds": 1.035569,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1306624,
+              "generated": 17449348,
+              "busy_seconds": 0.923646,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1323008,
+              "generated": 17654407,
+              "busy_seconds": 0.961028,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 19,
+          "completed_depth": 18,
+          "iteration_nodes": 6381568,
+          "iteration_split_nodes": 306,
+          "nodes": 8167434,
+          "split_nodes": 19662,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.585323,
+          "elapsed_seconds": 1.993912,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 109017655,
+          "small_pdb_queries": 0,
+          "phase1_queries": 158269763,
+          "corner_queries": 10308318,
+          "edge_queries": 0,
+          "axis_rejects": [
+            75640990,
+            17505479,
+            5564287
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2137614,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1597440,
+              "generated": 21317445,
+              "busy_seconds": 1.146494,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1605632,
+              "generated": 21430502,
+              "busy_seconds": 1.035569,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1576960,
+              "generated": 21058349,
+              "busy_seconds": 0.923646,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1601536,
+              "generated": 21370504,
+              "busy_seconds": 0.961028,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 11,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 19,
+          "completed_depth": 18,
+          "iteration_nodes": 6413839,
+          "iteration_split_nodes": 306,
+          "nodes": 8199705,
+          "split_nodes": 19662,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.591875,
+          "elapsed_seconds": 2.000463,
+          "found": false,
+          "timed_out": true,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 109448656,
+          "small_pdb_queries": 0,
+          "phase1_queries": 158911352,
+          "corner_queries": 10349787,
+          "edge_queries": 0,
+          "axis_rejects": [
+            75928813,
+            17581247,
+            5590228
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2146819,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1605888,
+              "generated": 21430266,
+              "busy_seconds": 1.591624,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1614848,
+              "generated": 21553564,
+              "busy_seconds": 1.591558,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1585753,
+              "generated": 21175767,
+              "busy_seconds": 1.591597,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1607350,
+              "generated": 21448204,
+              "busy_seconds": 1.59152,
+              "idle_seconds": 0.0
+            }
+          ]
+        }
+      ],
+      "completed_depth": 18,
+      "process_peak_memory_bytes": 585543680,
+      "ready_capabilities": {
+        "HTM": {
+          "corner": true,
+          "corner_metric": "HTM",
+          "phase1": true,
+          "phase1_metric": "HTM",
+          "edge_count": 0,
+          "tail": true
+        },
+        "QTM": {
+          "corner": true,
+          "corner_metric": "QTM",
+          "phase1": true,
+          "phase1_metric": "QTM",
+          "edge_count": 0,
+          "tail": false
+        }
+      },
+      "variant": "staged",
+      "repeat": 0
+    },
+    {
+      "case": "known18",
+      "facelets": "UDBBURFBBUFULRUBFFDLLRFFDLDRULLDDRRDFRLULUUDBRBLBBFRDF",
+      "incumbent": [
+        "R",
+        "U2",
+        "L",
+        "U2",
+        "L2",
+        "B2",
+        "R2",
+        "D'",
+        "L'",
+        "B2",
+        "U",
+        "F'",
+        "B",
+        "D",
+        "R",
+        "L'",
+        "F'",
+        "U"
+      ],
+      "metric": "QTM",
+      "incumbent_depth": 24,
+      "incumbent_mode": "fixed",
+      "max_cost": 26,
+      "proof_cache_reuse": false,
+      "threads": 4,
+      "wall_seconds": 2.000870499992743,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "benchmark",
+        "status": "timeout",
+        "inverse_direction": false,
+        "moves": [
+          "R",
+          "U2",
+          "L",
+          "U2",
+          "L2",
+          "B2",
+          "R2",
+          "D'",
+          "L'",
+          "B2",
+          "U",
+          "F'",
+          "B",
+          "D",
+          "R",
+          "L'",
+          "F'",
+          "U"
+        ],
+        "solution": "R U2 L U2 L2 B2 R2 D' L' B2 U F' B D R L' F' U",
+        "depth": 24,
+        "metric": "QTM",
+        "optimal": false,
+        "elapsed_seconds": 2.000488,
+        "nodes": 8146103,
+        "split_nodes": 20280,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "corner_pdb": true,
+        "corner_pdb_metric": "QTM",
+        "phase1_pdb": true,
+        "phase1_pdb_metric": "QTM",
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": false,
+        "tail_enabled": false,
+        "completed_depth": 17,
+        "generated_candidates": 108771790,
+        "small_pdb_queries": 0,
+        "phase1_queries": 156151704,
+        "corner_queries": 10606328,
+        "edge_queries": 0,
+        "axis_rejects": [
+          78414042,
+          13340274,
+          6412710
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 2456758,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 1968643,
+            "generated": 26284476,
+            "busy_seconds": 1.930572,
+            "idle_seconds": 3e-06
+          },
+          {
+            "nodes": 1960960,
+            "generated": 26177958,
+            "busy_seconds": 1.930533,
+            "idle_seconds": 4e-06
+          },
+          {
+            "nodes": 1973770,
+            "generated": 26351509,
+            "busy_seconds": 1.930497,
+            "idle_seconds": 2e-06
+          },
+          {
+            "nodes": 1971590,
+            "generated": 26317670,
+            "busy_seconds": 1.930458,
+            "idle_seconds": 3e-06
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 23,
+          "current_depth": 12,
+          "completed_depth": 11,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.5e-05,
+          "elapsed_seconds": 1.5e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 23,
+          "current_depth": 12,
+          "completed_depth": 13,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 207,
+          "nodes": 0,
+          "split_nodes": 207,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000263,
+          "elapsed_seconds": 0.000293,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 207,
+          "small_pdb_queries": 0,
+          "phase1_queries": 316,
+          "corner_queries": 27,
+          "edge_queries": 0,
+          "axis_rejects": [
+            143,
+            19,
+            18
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 13,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 207,
+              "busy_seconds": 2.3e-05,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 23,
+          "current_depth": 14,
+          "completed_depth": 15,
+          "iteration_nodes": 1003,
+          "iteration_split_nodes": 5754,
+          "nodes": 1003,
+          "split_nodes": 5961,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.00075,
+          "elapsed_seconds": 0.001064,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 19353,
+          "small_pdb_queries": 0,
+          "phase1_queries": 28614,
+          "corner_queries": 2188,
+          "edge_queries": 0,
+          "axis_rejects": [
+            14016,
+            1878,
+            1426
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 586,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 266,
+              "generated": 5043,
+              "busy_seconds": 0.0005,
+              "idle_seconds": 3.8e-05
+            },
+            {
+              "nodes": 246,
+              "generated": 4689,
+              "busy_seconds": 0.000458,
+              "idle_seconds": 2.9e-05
+            },
+            {
+              "nodes": 262,
+              "generated": 5109,
+              "busy_seconds": 0.000485,
+              "idle_seconds": 1.3e-05
+            },
+            {
+              "nodes": 229,
+              "generated": 4305,
+              "busy_seconds": 0.000436,
+              "idle_seconds": 7e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 23,
+          "current_depth": 16,
+          "completed_depth": 17,
+          "iteration_nodes": 270137,
+          "iteration_split_nodes": 13854,
+          "nodes": 271140,
+          "split_nodes": 19815,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.068436,
+          "elapsed_seconds": 0.06952,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 3640177,
+          "small_pdb_queries": 0,
+          "phase1_queries": 5304813,
+          "corner_queries": 370443,
+          "edge_queries": 0,
+          "axis_rejects": [
+            2554569,
+            510759,
+            205799
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 96435,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 34582,
+              "generated": 463431,
+              "busy_seconds": 0.032274,
+              "idle_seconds": 4e-05
+            },
+            {
+              "nodes": 34656,
+              "generated": 464508,
+              "busy_seconds": 0.032202,
+              "idle_seconds": 7.7e-05
+            },
+            {
+              "nodes": 35205,
+              "generated": 471570,
+              "busy_seconds": 0.032183,
+              "idle_seconds": 6.6e-05
+            },
+            {
+              "nodes": 33643,
+              "generated": 450917,
+              "busy_seconds": 0.03214,
+              "idle_seconds": 5.7e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 23,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 1114112,
+          "iteration_split_nodes": 321,
+          "nodes": 1385252,
+          "split_nodes": 20136,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.270025,
+          "elapsed_seconds": 0.339578,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 18514769,
+          "small_pdb_queries": 0,
+          "phase1_queries": 26571151,
+          "corner_queries": 1823061,
+          "edge_queries": 0,
+          "axis_rejects": [
+            13361000,
+            2255434,
+            1076700
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 434502,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 278528,
+              "generated": 3719656,
+              "busy_seconds": 0.217118,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 282624,
+              "generated": 3772530,
+              "busy_seconds": 0.236017,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 282624,
+              "generated": 3773773,
+              "busy_seconds": 0.219345,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 270336,
+              "generated": 3608633,
+              "busy_seconds": 0.229323,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 23,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 2179072,
+          "iteration_split_nodes": 336,
+          "nodes": 2450212,
+          "split_nodes": 20151,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.536333,
+          "elapsed_seconds": 0.605886,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 32735149,
+          "small_pdb_queries": 0,
+          "phase1_queries": 46860642,
+          "corner_queries": 3162657,
+          "edge_queries": 0,
+          "axis_rejects": [
+            23643453,
+            4062231,
+            1868252
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 709096,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 540672,
+              "generated": 7218977,
+              "busy_seconds": 0.53097,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 536576,
+              "generated": 7163893,
+              "busy_seconds": 0.484002,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 561152,
+              "generated": 7494418,
+              "busy_seconds": 0.52353,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 540672,
+              "generated": 7217684,
+              "busy_seconds": 0.527415,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 23,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 3297280,
+          "iteration_split_nodes": 366,
+          "nodes": 3568420,
+          "split_nodes": 20181,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.802123,
+          "elapsed_seconds": 0.871676,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 47659397,
+          "small_pdb_queries": 0,
+          "phase1_queries": 67966088,
+          "corner_queries": 4585782,
+          "edge_queries": 0,
+          "axis_rejects": [
+            34604044,
+            5808437,
+            2662608
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1013996,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 811008,
+              "generated": 10827734,
+              "busy_seconds": 0.743935,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 819200,
+              "generated": 10935754,
+              "busy_seconds": 0.770292,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 839680,
+              "generated": 11211131,
+              "busy_seconds": 0.754484,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 827392,
+              "generated": 11044601,
+              "busy_seconds": 0.764108,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 23,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 4370432,
+          "iteration_split_nodes": 381,
+          "nodes": 4641572,
+          "split_nodes": 20196,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.068647,
+          "elapsed_seconds": 1.1382,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 61984221,
+          "small_pdb_queries": 0,
+          "phase1_queries": 88714162,
+          "corner_queries": 6006450,
+          "edge_queries": 0,
+          "axis_rejects": [
+            44780532,
+            7681904,
+            3516824
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1361533,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1077248,
+              "generated": 14381705,
+              "busy_seconds": 1.007264,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1089536,
+              "generated": 14543966,
+              "busy_seconds": 1.01512,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1105920,
+              "generated": 14765187,
+              "busy_seconds": 0.977336,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1097728,
+              "generated": 14653186,
+              "busy_seconds": 1.062844,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 23,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 5439488,
+          "iteration_split_nodes": 411,
+          "nodes": 5710628,
+          "split_nodes": 20226,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.334768,
+          "elapsed_seconds": 1.404321,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 76255425,
+          "small_pdb_queries": 0,
+          "phase1_queries": 109501425,
+          "corner_queries": 7419500,
+          "edge_queries": 0,
+          "axis_rejects": [
+            54918902,
+            9431597,
+            4486943
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1705504,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1347584,
+              "generated": 17990469,
+              "busy_seconds": 1.250513,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1355776,
+              "generated": 18098954,
+              "busy_seconds": 1.280175,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1372160,
+              "generated": 18319153,
+              "busy_seconds": 1.262778,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1363968,
+              "generated": 18206672,
+              "busy_seconds": 1.32246,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 23,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 6500352,
+          "iteration_split_nodes": 441,
+          "nodes": 6771492,
+          "split_nodes": 20256,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.601672,
+          "elapsed_seconds": 1.671225,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 90417548,
+          "small_pdb_queries": 0,
+          "phase1_queries": 129762671,
+          "corner_queries": 8793468,
+          "edge_queries": 0,
+          "axis_rejects": [
+            65233000,
+            11028608,
+            5364017
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2018518,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1626112,
+              "generated": 21708849,
+              "busy_seconds": 1.552541,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1609728,
+              "generated": 21489289,
+              "busy_seconds": 1.598037,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1634304,
+              "generated": 21819012,
+              "busy_seconds": 1.582129,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1630208,
+              "generated": 21760221,
+              "busy_seconds": 1.569101,
+              "idle_seconds": 2e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 23,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 7610368,
+          "iteration_split_nodes": 453,
+          "nodes": 7881508,
+          "split_nodes": 20268,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.869217,
+          "elapsed_seconds": 1.93877,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 105240626,
+          "small_pdb_queries": 0,
+          "phase1_queries": 150995450,
+          "corner_queries": 10254113,
+          "edge_queries": 0,
+          "axis_rejects": [
+            75924477,
+            12882151,
+            6181444
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2369202,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1904640,
+              "generated": 25430319,
+              "busy_seconds": 1.860819,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1896448,
+              "generated": 25316583,
+              "busy_seconds": 1.827997,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1908736,
+              "generated": 25483911,
+              "busy_seconds": 1.819776,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1900544,
+              "generated": 25369636,
+              "busy_seconds": 1.790085,
+              "idle_seconds": 2e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 23,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 7874963,
+          "iteration_split_nodes": 465,
+          "nodes": 8146103,
+          "split_nodes": 20280,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.930901,
+          "elapsed_seconds": 2.000454,
+          "found": false,
+          "timed_out": true,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 108771790,
+          "small_pdb_queries": 0,
+          "phase1_queries": 156151704,
+          "corner_queries": 10606328,
+          "edge_queries": 0,
+          "axis_rejects": [
+            78414042,
+            13340274,
+            6412710
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2456758,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1968643,
+              "generated": 26284476,
+              "busy_seconds": 1.930572,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1960960,
+              "generated": 26177958,
+              "busy_seconds": 1.930533,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 1973770,
+              "generated": 26351509,
+              "busy_seconds": 1.930497,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1971590,
+              "generated": 26317670,
+              "busy_seconds": 1.930458,
+              "idle_seconds": 3e-06
+            }
+          ]
+        }
+      ],
+      "completed_depth": 17,
+      "process_peak_memory_bytes": 585568256,
+      "ready_capabilities": {
+        "HTM": {
+          "corner": true,
+          "corner_metric": "HTM",
+          "phase1": true,
+          "phase1_metric": "HTM",
+          "edge_count": 0,
+          "tail": true
+        },
+        "QTM": {
+          "corner": true,
+          "corner_metric": "QTM",
+          "phase1": true,
+          "phase1_metric": "QTM",
+          "edge_count": 0,
+          "tail": false
+        }
+      },
+      "variant": "staged",
+      "repeat": 0
+    },
+    {
+      "case": "legal-20260927-0",
+      "facelets": "BLFBUFLUDLRDRRDUBBURFUFDBBFULRDDURLULRFFLFDBLRUDLBDRFB",
+      "incumbent": [],
+      "metric": "QTM",
+      "incumbent_depth": null,
+      "incumbent_mode": "fixed",
+      "max_cost": 26,
+      "proof_cache_reuse": false,
+      "threads": 4,
+      "wall_seconds": 2.0005802000086987,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "benchmark",
+        "status": "timeout",
+        "inverse_direction": false,
+        "moves": [],
+        "solution": "",
+        "depth": -1,
+        "metric": "QTM",
+        "optimal": false,
+        "elapsed_seconds": 2.000285,
+        "nodes": 8016944,
+        "split_nodes": 14892,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "corner_pdb": true,
+        "corner_pdb_metric": "QTM",
+        "phase1_pdb": true,
+        "phase1_pdb_metric": "QTM",
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": false,
+        "tail_enabled": false,
+        "completed_depth": 17,
+        "generated_candidates": 107007277,
+        "small_pdb_queries": 0,
+        "phase1_queries": 157657567,
+        "corner_queries": 10433613,
+        "edge_queries": 0,
+        "axis_rejects": [
+          72336558,
+          18694001,
+          5544056
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 2414214,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 1938847,
+            "generated": 25876794,
+            "busy_seconds": 1.960211,
+            "idle_seconds": 2e-06
+          },
+          {
+            "nodes": 1960367,
+            "generated": 26161493,
+            "busy_seconds": 1.96019,
+            "idle_seconds": 1e-06
+          },
+          {
+            "nodes": 1957147,
+            "generated": 26122521,
+            "busy_seconds": 1.960154,
+            "idle_seconds": 1e-06
+          },
+          {
+            "nodes": 1999872,
+            "generated": 26687603,
+            "busy_seconds": 1.960131,
+            "idle_seconds": 1e-06
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 12,
+          "completed_depth": 11,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.4e-05,
+          "elapsed_seconds": 1.4e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 12,
+          "completed_depth": 13,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 201,
+          "nodes": 0,
+          "split_nodes": 201,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000243,
+          "elapsed_seconds": 0.000278,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 201,
+          "small_pdb_queries": 0,
+          "phase1_queries": 313,
+          "corner_queries": 17,
+          "edge_queries": 0,
+          "axis_rejects": [
+            114,
+            62,
+            8
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 3,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 201,
+              "busy_seconds": 2.3e-05,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 14,
+          "completed_depth": 15,
+          "iteration_nodes": 1369,
+          "iteration_split_nodes": 6471,
+          "nodes": 1369,
+          "split_nodes": 6672,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000908,
+          "elapsed_seconds": 0.001209,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 24867,
+          "small_pdb_queries": 0,
+          "phase1_queries": 37962,
+          "corner_queries": 2597,
+          "edge_queries": 0,
+          "axis_rejects": [
+            15753,
+            5595,
+            1076
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 576,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 362,
+              "generated": 6660,
+              "busy_seconds": 0.000628,
+              "idle_seconds": 4.9e-05
+            },
+            {
+              "nodes": 354,
+              "generated": 6351,
+              "busy_seconds": 0.000618,
+              "idle_seconds": 3.4e-05
+            },
+            {
+              "nodes": 318,
+              "generated": 5712,
+              "busy_seconds": 0.000559,
+              "idle_seconds": 2e-05
+            },
+            {
+              "nodes": 335,
+              "generated": 5943,
+              "busy_seconds": 0.000596,
+              "idle_seconds": 2.8e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 16,
+          "completed_depth": 17,
+          "iteration_nodes": 159342,
+          "iteration_split_nodes": 7779,
+          "nodes": 160711,
+          "split_nodes": 14451,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.038478,
+          "elapsed_seconds": 0.039706,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 2158866,
+          "small_pdb_queries": 0,
+          "phase1_queries": 3215393,
+          "corner_queries": 212850,
+          "edge_queries": 0,
+          "axis_rejects": [
+            1422550,
+            418496,
+            105767
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 50267,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 41239,
+              "generated": 552492,
+              "busy_seconds": 0.038127,
+              "idle_seconds": 5.3e-05
+            },
+            {
+              "nodes": 38885,
+              "generated": 521043,
+              "busy_seconds": 0.038048,
+              "idle_seconds": 7.6e-05
+            },
+            {
+              "nodes": 40115,
+              "generated": 536838,
+              "busy_seconds": 0.03812,
+              "idle_seconds": 4.4e-05
+            },
+            {
+              "nodes": 39103,
+              "generated": 523626,
+              "busy_seconds": 0.038005,
+              "idle_seconds": 9.4e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 1060864,
+          "iteration_split_nodes": 306,
+          "nodes": 1221575,
+          "split_nodes": 14757,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.257215,
+          "elapsed_seconds": 0.296953,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 16315889,
+          "small_pdb_queries": 0,
+          "phase1_queries": 23960484,
+          "corner_queries": 1609957,
+          "edge_queries": 0,
+          "axis_rejects": [
+            11150528,
+            2688596,
+            867631
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 386132,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 266240,
+              "generated": 3553000,
+              "busy_seconds": 0.256108,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 262144,
+              "generated": 3497871,
+              "busy_seconds": 0.251257,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 270336,
+              "generated": 3609262,
+              "busy_seconds": 0.255799,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 262144,
+              "generated": 3496890,
+              "busy_seconds": 0.255262,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 2146304,
+          "iteration_split_nodes": 336,
+          "nodes": 2307015,
+          "split_nodes": 14787,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.524805,
+          "elapsed_seconds": 0.564542,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 30804856,
+          "small_pdb_queries": 0,
+          "phase1_queries": 45529120,
+          "corner_queries": 3014302,
+          "edge_queries": 0,
+          "axis_rejects": [
+            20716582,
+            5454813,
+            1620002
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 704931,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 532480,
+              "generated": 7107369,
+              "busy_seconds": 0.504648,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 536576,
+              "generated": 7160688,
+              "busy_seconds": 0.481055,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 544768,
+              "generated": 7271959,
+              "busy_seconds": 0.456563,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 532480,
+              "generated": 7105974,
+              "busy_seconds": 0.457529,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 3239936,
+          "iteration_split_nodes": 351,
+          "nodes": 3400647,
+          "split_nodes": 14802,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.791354,
+          "elapsed_seconds": 0.831092,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 45401496,
+          "small_pdb_queries": 0,
+          "phase1_queries": 66968501,
+          "corner_queries": 4440357,
+          "edge_queries": 0,
+          "axis_rejects": [
+            30616938,
+            8004715,
+            2340354
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1037362,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 794624,
+              "generated": 10606450,
+              "busy_seconds": 0.787649,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 811008,
+              "generated": 10822103,
+              "busy_seconds": 0.709484,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 819200,
+              "generated": 10935579,
+              "busy_seconds": 0.783943,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 815104,
+              "generated": 10878498,
+              "busy_seconds": 0.7854,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 4251648,
+          "iteration_split_nodes": 366,
+          "nodes": 4412359,
+          "split_nodes": 14817,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.058102,
+          "elapsed_seconds": 1.09784,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 58900968,
+          "small_pdb_queries": 0,
+          "phase1_queries": 86970325,
+          "corner_queries": 5769526,
+          "edge_queries": 0,
+          "axis_rejects": [
+            39724919,
+            10285381,
+            3122022
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1354837,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1048576,
+              "generated": 13994138,
+              "busy_seconds": 0.943359,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1073152,
+              "generated": 14319299,
+              "busy_seconds": 0.927042,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1052672,
+              "generated": 14050893,
+              "busy_seconds": 0.95783,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1077248,
+              "generated": 14377772,
+              "busy_seconds": 1.026314,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 5292032,
+          "iteration_split_nodes": 381,
+          "nodes": 5452743,
+          "split_nodes": 14832,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.325586,
+          "elapsed_seconds": 1.365324,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 72782787,
+          "small_pdb_queries": 0,
+          "phase1_queries": 107375104,
+          "corner_queries": 7105867,
+          "edge_queries": 0,
+          "axis_rejects": [
+            49182626,
+            12610687,
+            3884501
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1650789,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1306624,
+              "generated": 17438366,
+              "busy_seconds": 1.209417,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1327104,
+              "generated": 17707969,
+              "busy_seconds": 1.306283,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1310720,
+              "generated": 17492934,
+              "busy_seconds": 1.24182,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1347584,
+              "generated": 17984652,
+              "busy_seconds": 1.230329,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 6352896,
+          "iteration_split_nodes": 411,
+          "nodes": 6513607,
+          "split_nodes": 14862,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.592221,
+          "elapsed_seconds": 1.63196,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 86942927,
+          "small_pdb_queries": 0,
+          "phase1_queries": 127879691,
+          "corner_queries": 8446785,
+          "edge_queries": 0,
+          "axis_rejects": [
+            58961520,
+            15028816,
+            4506728
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1930789,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1576960,
+              "generated": 21046125,
+              "busy_seconds": 1.504867,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1585152,
+              "generated": 21152025,
+              "busy_seconds": 1.535039,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1572864,
+              "generated": 20994098,
+              "busy_seconds": 1.59034,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1617920,
+              "generated": 21591813,
+              "busy_seconds": 1.53539,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 7438336,
+          "iteration_split_nodes": 441,
+          "nodes": 7599047,
+          "split_nodes": 14892,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.859211,
+          "elapsed_seconds": 1.898949,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 101429673,
+          "small_pdb_queries": 0,
+          "phase1_queries": 149305286,
+          "corner_queries": 9874753,
+          "edge_queries": 0,
+          "axis_rejects": [
+            68669032,
+            17648504,
+            5238329
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2273292,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1839104,
+              "generated": 24544161,
+              "busy_seconds": 1.806749,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1855488,
+              "generated": 24762027,
+              "busy_seconds": 1.784026,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1851392,
+              "generated": 24711379,
+              "busy_seconds": 1.795604,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1892352,
+              "generated": 25253240,
+              "busy_seconds": 1.786558,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 7856233,
+          "iteration_split_nodes": 441,
+          "nodes": 8016944,
+          "split_nodes": 14892,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.960515,
+          "elapsed_seconds": 2.000253,
+          "found": false,
+          "timed_out": true,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 107007277,
+          "small_pdb_queries": 0,
+          "phase1_queries": 157657567,
+          "corner_queries": 10433613,
+          "edge_queries": 0,
+          "axis_rejects": [
+            72336558,
+            18694001,
+            5544056
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2414214,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1938847,
+              "generated": 25876794,
+              "busy_seconds": 1.960211,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1960367,
+              "generated": 26161493,
+              "busy_seconds": 1.96019,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1957147,
+              "generated": 26122521,
+              "busy_seconds": 1.960154,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1999872,
+              "generated": 26687603,
+              "busy_seconds": 1.960131,
+              "idle_seconds": 1e-06
+            }
+          ]
+        }
+      ],
+      "completed_depth": 17,
+      "process_peak_memory_bytes": 585580544,
+      "ready_capabilities": {
+        "HTM": {
+          "corner": true,
+          "corner_metric": "HTM",
+          "phase1": true,
+          "phase1_metric": "HTM",
+          "edge_count": 0,
+          "tail": true
+        },
+        "QTM": {
+          "corner": true,
+          "corner_metric": "QTM",
+          "phase1": true,
+          "phase1_metric": "QTM",
+          "edge_count": 0,
+          "tail": false
+        }
+      },
+      "variant": "staged",
+      "repeat": 0
+    },
+    {
+      "case": "legal-20260927-1",
+      "facelets": "BDBDUFURUBUDRRLLLRLBRFFFFBFUDUBDUFUFDRBULDLLRLLRFBBDRD",
+      "incumbent": [],
+      "metric": "QTM",
+      "incumbent_depth": null,
+      "incumbent_mode": "fixed",
+      "max_cost": 26,
+      "proof_cache_reuse": false,
+      "threads": 4,
+      "wall_seconds": 2.0008615999977337,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "benchmark",
+        "status": "timeout",
+        "inverse_direction": false,
+        "moves": [],
+        "solution": "",
+        "depth": -1,
+        "metric": "QTM",
+        "optimal": false,
+        "elapsed_seconds": 2.000472,
+        "nodes": 8380167,
+        "split_nodes": 14667,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "corner_pdb": true,
+        "corner_pdb_metric": "QTM",
+        "phase1_pdb": true,
+        "phase1_pdb_metric": "QTM",
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": false,
+        "tail_enabled": false,
+        "completed_depth": 17,
+        "generated_candidates": 111854198,
+        "small_pdb_queries": 0,
+        "phase1_queries": 163133487,
+        "corner_queries": 11295834,
+        "edge_queries": 0,
+        "axis_rejects": [
+          76773541,
+          18884839,
+          4900922
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 2913251,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 2063121,
+            "generated": 27534014,
+            "busy_seconds": 1.961356,
+            "idle_seconds": 3e-06
+          },
+          {
+            "nodes": 2122251,
+            "generated": 28321846,
+            "busy_seconds": 1.961338,
+            "idle_seconds": 1e-06
+          },
+          {
+            "nodes": 2007040,
+            "generated": 26786026,
+            "busy_seconds": 1.961307,
+            "idle_seconds": 2e-06
+          },
+          {
+            "nodes": 2024838,
+            "generated": 27023345,
+            "busy_seconds": 1.961274,
+            "idle_seconds": 2e-06
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 12,
+          "completed_depth": 11,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.2e-05,
+          "elapsed_seconds": 1.2e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 12,
+          "completed_depth": 13,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 261,
+          "nodes": 0,
+          "split_nodes": 261,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000264,
+          "elapsed_seconds": 0.000293,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 261,
+          "small_pdb_queries": 0,
+          "phase1_queries": 376,
+          "corner_queries": 23,
+          "edge_queries": 0,
+          "axis_rejects": [
+            175,
+            57,
+            6
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 5,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 261,
+              "busy_seconds": 2.8e-05,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 14,
+          "completed_depth": 15,
+          "iteration_nodes": 1367,
+          "iteration_split_nodes": 6837,
+          "nodes": 1367,
+          "split_nodes": 7098,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000911,
+          "elapsed_seconds": 0.001225,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 25320,
+          "small_pdb_queries": 0,
+          "phase1_queries": 37651,
+          "corner_queries": 2737,
+          "edge_queries": 0,
+          "axis_rejects": [
+            16907,
+            4933,
+            889
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 695,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 336,
+              "generated": 6243,
+              "busy_seconds": 0.000628,
+              "idle_seconds": 8.6e-05
+            },
+            {
+              "nodes": 359,
+              "generated": 6660,
+              "busy_seconds": 0.00064,
+              "idle_seconds": 2.9e-05
+            },
+            {
+              "nodes": 348,
+              "generated": 6318,
+              "busy_seconds": 0.000557,
+              "idle_seconds": 5.6e-05
+            },
+            {
+              "nodes": 324,
+              "generated": 5838,
+              "busy_seconds": 0.000617,
+              "idle_seconds": 4.3e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 16,
+          "completed_depth": 17,
+          "iteration_nodes": 161550,
+          "iteration_split_nodes": 7116,
+          "nodes": 162917,
+          "split_nodes": 14214,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.037472,
+          "elapsed_seconds": 0.038717,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 2188967,
+          "small_pdb_queries": 0,
+          "phase1_queries": 3198825,
+          "corner_queries": 224878,
+          "edge_queries": 0,
+          "axis_rejects": [
+            1492472,
+            385475,
+            86923
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 60119,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 43016,
+              "generated": 576185,
+              "busy_seconds": 0.037143,
+              "idle_seconds": 4.9e-05
+            },
+            {
+              "nodes": 38135,
+              "generated": 510681,
+              "busy_seconds": 0.037077,
+              "idle_seconds": 7.6e-05
+            },
+            {
+              "nodes": 42672,
+              "generated": 571281,
+              "busy_seconds": 0.037037,
+              "idle_seconds": 9e-05
+            },
+            {
+              "nodes": 37727,
+              "generated": 505500,
+              "busy_seconds": 0.037061,
+              "idle_seconds": 3.6e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 1175552,
+          "iteration_split_nodes": 321,
+          "nodes": 1338469,
+          "split_nodes": 14535,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.264616,
+          "elapsed_seconds": 0.303372,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 17880233,
+          "small_pdb_queries": 0,
+          "phase1_queries": 25599319,
+          "corner_queries": 1803628,
+          "edge_queries": 0,
+          "axis_rejects": [
+            12649293,
+            2745236,
+            682890
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 462842,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 290816,
+              "generated": 3881574,
+              "busy_seconds": 0.25259,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 307200,
+              "generated": 4101869,
+              "busy_seconds": 0.2255,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 286720,
+              "generated": 3825296,
+              "busy_seconds": 0.255752,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 290816,
+              "generated": 3882527,
+              "busy_seconds": 0.221636,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 2310144,
+          "iteration_split_nodes": 336,
+          "nodes": 2473061,
+          "split_nodes": 14550,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.53076,
+          "elapsed_seconds": 0.569515,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 33019768,
+          "small_pdb_queries": 0,
+          "phase1_queries": 47815120,
+          "corner_queries": 3373126,
+          "edge_queries": 0,
+          "axis_rejects": [
+            22943065,
+            5360532,
+            1343871
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 897757,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 569344,
+              "generated": 7598341,
+              "busy_seconds": 0.526627,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 598016,
+              "generated": 7981792,
+              "busy_seconds": 0.506762,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 573440,
+              "generated": 7651852,
+              "busy_seconds": 0.464139,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 569344,
+              "generated": 7598816,
+              "busy_seconds": 0.466471,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 3424256,
+          "iteration_split_nodes": 351,
+          "nodes": 3587173,
+          "split_nodes": 14565,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.797214,
+          "elapsed_seconds": 0.835969,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 47879812,
+          "small_pdb_queries": 0,
+          "phase1_queries": 69158655,
+          "corner_queries": 4853318,
+          "edge_queries": 0,
+          "axis_rejects": [
+            33467727,
+            7547880,
+            2011738
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1263832,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 851968,
+              "generated": 11367424,
+              "busy_seconds": 0.78299,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 888832,
+              "generated": 11858688,
+              "busy_seconds": 0.788267,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 831488,
+              "generated": 11095170,
+              "busy_seconds": 0.727467,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 851968,
+              "generated": 11369563,
+              "busy_seconds": 0.788451,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 4485120,
+          "iteration_split_nodes": 366,
+          "nodes": 4648037,
+          "split_nodes": 14580,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.061404,
+          "elapsed_seconds": 1.100159,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 62033818,
+          "small_pdb_queries": 0,
+          "phase1_queries": 90114110,
+          "corner_queries": 6281475,
+          "edge_queries": 0,
+          "axis_rejects": [
+            42947534,
+            10094871,
+            2710803
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1631121,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1118208,
+              "generated": 14918627,
+              "busy_seconds": 0.985466,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1175552,
+              "generated": 15683602,
+              "busy_seconds": 1.059126,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1073152,
+              "generated": 14321000,
+              "busy_seconds": 1.045456,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1118208,
+              "generated": 14921622,
+              "busy_seconds": 0.932444,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 5599232,
+          "iteration_split_nodes": 396,
+          "nodes": 5762149,
+          "split_nodes": 14610,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.330534,
+          "elapsed_seconds": 1.36929,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 76904428,
+          "small_pdb_queries": 0,
+          "phase1_queries": 111599781,
+          "corner_queries": 7791496,
+          "edge_queries": 0,
+          "axis_rejects": [
+            53315973,
+            12484218,
+            3313628
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2026997,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1413120,
+              "generated": 18855404,
+              "busy_seconds": 1.324497,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1466368,
+              "generated": 19565163,
+              "busy_seconds": 1.283127,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1335296,
+              "generated": 17819605,
+              "busy_seconds": 1.315482,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1384448,
+              "generated": 18475289,
+              "busy_seconds": 1.322599,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 6590464,
+          "iteration_split_nodes": 411,
+          "nodes": 6753381,
+          "split_nodes": 14625,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.582903,
+          "elapsed_seconds": 1.621658,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 90136695,
+          "small_pdb_queries": 0,
+          "phase1_queries": 131107502,
+          "corner_queries": 9127090,
+          "edge_queries": 0,
+          "axis_rejects": [
+            62255667,
+            14793973,
+            3960873
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2371325,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1662976,
+              "generated": 22189633,
+              "busy_seconds": 1.580606,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1720320,
+              "generated": 22956286,
+              "busy_seconds": 1.491483,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1581056,
+              "generated": 21100346,
+              "busy_seconds": 1.576324,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1626112,
+              "generated": 21701463,
+              "busy_seconds": 1.577182,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 7757824,
+          "iteration_split_nodes": 441,
+          "nodes": 7920741,
+          "split_nodes": 14655,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.854915,
+          "elapsed_seconds": 1.89367,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 105726162,
+          "small_pdb_queries": 0,
+          "phase1_queries": 154139509,
+          "corner_queries": 10706035,
+          "edge_queries": 0,
+          "axis_rejects": [
+            72647009,
+            17747758,
+            4626293
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2782891,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1953792,
+              "generated": 26076076,
+              "busy_seconds": 1.827579,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 2007040,
+              "generated": 26783383,
+              "busy_seconds": 1.827454,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1884160,
+              "generated": 25148388,
+              "busy_seconds": 1.842804,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1912832,
+              "generated": 25529348,
+              "busy_seconds": 1.815215,
+              "idle_seconds": 2e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 8217250,
+          "iteration_split_nodes": 453,
+          "nodes": 8380167,
+          "split_nodes": 14667,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.961682,
+          "elapsed_seconds": 2.000437,
+          "found": false,
+          "timed_out": true,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 111854198,
+          "small_pdb_queries": 0,
+          "phase1_queries": 163133487,
+          "corner_queries": 11295834,
+          "edge_queries": 0,
+          "axis_rejects": [
+            76773541,
+            18884839,
+            4900922
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2913251,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 2063121,
+              "generated": 27534014,
+              "busy_seconds": 1.961356,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 2122251,
+              "generated": 28321846,
+              "busy_seconds": 1.961338,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 2007040,
+              "generated": 26786026,
+              "busy_seconds": 1.961307,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 2024838,
+              "generated": 27023345,
+              "busy_seconds": 1.961274,
+              "idle_seconds": 2e-06
+            }
+          ]
+        }
+      ],
+      "completed_depth": 17,
+      "process_peak_memory_bytes": 585580544,
+      "ready_capabilities": {
+        "HTM": {
+          "corner": true,
+          "corner_metric": "HTM",
+          "phase1": true,
+          "phase1_metric": "HTM",
+          "edge_count": 0,
+          "tail": true
+        },
+        "QTM": {
+          "corner": true,
+          "corner_metric": "QTM",
+          "phase1": true,
+          "phase1_metric": "QTM",
+          "edge_count": 0,
+          "tail": false
+        }
+      },
+      "variant": "staged",
+      "repeat": 0
+    },
+    {
+      "case": "legal-20260927-2",
+      "facelets": "RBUFULLLRBDRBRBUULUBDDFDFUBDRLRDLDUBFRFFLFRDLBRUUBLDFF",
+      "incumbent": [],
+      "metric": "QTM",
+      "incumbent_depth": null,
+      "incumbent_mode": "fixed",
+      "max_cost": 26,
+      "proof_cache_reuse": false,
+      "threads": 4,
+      "wall_seconds": 2.000582699998631,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "benchmark",
+        "status": "timeout",
+        "inverse_direction": false,
+        "moves": [],
+        "solution": "",
+        "depth": -1,
+        "metric": "QTM",
+        "optimal": false,
+        "elapsed_seconds": 2.000278,
+        "nodes": 8329863,
+        "split_nodes": 14499,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "corner_pdb": true,
+        "corner_pdb_metric": "QTM",
+        "phase1_pdb": true,
+        "phase1_pdb_metric": "QTM",
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": false,
+        "tail_enabled": false,
+        "completed_depth": 17,
+        "generated_candidates": 111181261,
+        "small_pdb_queries": 0,
+        "phase1_queries": 156737450,
+        "corner_queries": 11079653,
+        "edge_queries": 0,
+        "axis_rejects": [
+          81594549,
+          13619899,
+          4888048
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 2747463,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 2073585,
+            "generated": 27676159,
+            "busy_seconds": 1.959878,
+            "idle_seconds": 5e-06
+          },
+          {
+            "nodes": 2064384,
+            "generated": 27549879,
+            "busy_seconds": 1.959855,
+            "idle_seconds": 4e-06
+          },
+          {
+            "nodes": 2022904,
+            "generated": 26995613,
+            "busy_seconds": 1.95982,
+            "idle_seconds": 2e-06
+          },
+          {
+            "nodes": 2007822,
+            "generated": 26795518,
+            "busy_seconds": 1.959783,
+            "idle_seconds": 3e-06
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 12,
+          "completed_depth": 11,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.3e-05,
+          "elapsed_seconds": 1.3e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 12,
+          "completed_depth": 13,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 354,
+          "nodes": 0,
+          "split_nodes": 354,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000286,
+          "elapsed_seconds": 0.000318,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 354,
+          "small_pdb_queries": 0,
+          "phase1_queries": 477,
+          "corner_queries": 37,
+          "edge_queries": 0,
+          "axis_rejects": [
+            279,
+            27,
+            11
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 12,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 354,
+              "busy_seconds": 3.9e-05,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 14,
+          "completed_depth": 15,
+          "iteration_nodes": 1471,
+          "iteration_split_nodes": 6306,
+          "nodes": 1471,
+          "split_nodes": 6660,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000953,
+          "elapsed_seconds": 0.001293,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 26316,
+          "small_pdb_queries": 0,
+          "phase1_queries": 36815,
+          "corner_queries": 2881,
+          "edge_queries": 0,
+          "axis_rejects": [
+            19972,
+            2672,
+            952
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 753,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 368,
+              "generated": 6678,
+              "busy_seconds": 0.000652,
+              "idle_seconds": 9e-05
+            },
+            {
+              "nodes": 387,
+              "generated": 6603,
+              "busy_seconds": 0.000603,
+              "idle_seconds": 8.8e-05
+            },
+            {
+              "nodes": 363,
+              "generated": 6363,
+              "busy_seconds": 0.000653,
+              "idle_seconds": 7.5e-05
+            },
+            {
+              "nodes": 353,
+              "generated": 6318,
+              "busy_seconds": 0.000595,
+              "idle_seconds": 6.3e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 16,
+          "completed_depth": 17,
+          "iteration_nodes": 159697,
+          "iteration_split_nodes": 7398,
+          "nodes": 161168,
+          "split_nodes": 14058,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.038711,
+          "elapsed_seconds": 0.040017,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 2164092,
+          "small_pdb_queries": 0,
+          "phase1_queries": 3030360,
+          "corner_queries": 221546,
+          "edge_queries": 0,
+          "axis_rejects": [
+            1610620,
+            242878,
+            89782
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 58601,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 36186,
+              "generated": 484626,
+              "busy_seconds": 0.038434,
+              "idle_seconds": 4.2e-05
+            },
+            {
+              "nodes": 36360,
+              "generated": 486822,
+              "busy_seconds": 0.038367,
+              "idle_seconds": 8e-05
+            },
+            {
+              "nodes": 43883,
+              "generated": 587574,
+              "busy_seconds": 0.038322,
+              "idle_seconds": 9.6e-05
+            },
+            {
+              "nodes": 43268,
+              "generated": 578754,
+              "busy_seconds": 0.038262,
+              "idle_seconds": 0.000121
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 1179648,
+          "iteration_split_nodes": 321,
+          "nodes": 1340816,
+          "split_nodes": 14379,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.273209,
+          "elapsed_seconds": 0.313263,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 17910907,
+          "small_pdb_queries": 0,
+          "phase1_queries": 25167756,
+          "corner_queries": 1762173,
+          "edge_queries": 0,
+          "axis_rejects": [
+            13209379,
+            2148508,
+            791614
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 419099,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 286720,
+              "generated": 3828626,
+              "busy_seconds": 0.250001,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 299008,
+              "generated": 3991103,
+              "busy_seconds": 0.243217,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 299008,
+              "generated": 3990715,
+              "busy_seconds": 0.235789,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 294912,
+              "generated": 3936371,
+              "busy_seconds": 0.264549,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 2289664,
+          "iteration_split_nodes": 336,
+          "nodes": 2450832,
+          "split_nodes": 14394,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.541381,
+          "elapsed_seconds": 0.581434,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 32721628,
+          "small_pdb_queries": 0,
+          "phase1_queries": 46088593,
+          "corner_queries": 3242658,
+          "edge_queries": 0,
+          "axis_rejects": [
+            23955996,
+            4166639,
+            1357115
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 789582,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 581632,
+              "generated": 7762967,
+              "busy_seconds": 0.533413,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 573440,
+              "generated": 7652551,
+              "busy_seconds": 0.474583,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 565248,
+              "generated": 7544181,
+              "busy_seconds": 0.482775,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 569344,
+              "generated": 7597837,
+              "busy_seconds": 0.500186,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 3387392,
+          "iteration_split_nodes": 351,
+          "nodes": 3548560,
+          "split_nodes": 14409,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.8078,
+          "elapsed_seconds": 0.847853,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 47367973,
+          "small_pdb_queries": 0,
+          "phase1_queries": 66990288,
+          "corner_queries": 4739112,
+          "edge_queries": 0,
+          "axis_rejects": [
+            34500271,
+            6115498,
+            2013895
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1188346,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 860160,
+              "generated": 11480768,
+              "busy_seconds": 0.797961,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 847872,
+              "generated": 11313928,
+              "busy_seconds": 0.805501,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 851968,
+              "generated": 11369532,
+              "busy_seconds": 0.74347,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 827392,
+              "generated": 11039653,
+              "busy_seconds": 0.668863,
+              "idle_seconds": 2e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 4517888,
+          "iteration_split_nodes": 381,
+          "nodes": 4679056,
+          "split_nodes": 14439,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.077063,
+          "elapsed_seconds": 1.117117,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 62457674,
+          "small_pdb_queries": 0,
+          "phase1_queries": 88413094,
+          "corner_queries": 6224114,
+          "edge_queries": 0,
+          "axis_rejects": [
+            45540679,
+            7881039,
+            2812665
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1542772,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1146880,
+              "generated": 15308888,
+              "busy_seconds": 1.063288,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1130496,
+              "generated": 15085252,
+              "busy_seconds": 1.016623,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1134592,
+              "generated": 15141652,
+              "busy_seconds": 1.04437,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1105920,
+              "generated": 14757790,
+              "busy_seconds": 1.025857,
+              "idle_seconds": 2e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 5541888,
+          "iteration_split_nodes": 411,
+          "nodes": 5703056,
+          "split_nodes": 14469,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.331075,
+          "elapsed_seconds": 1.371128,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 76127369,
+          "small_pdb_queries": 0,
+          "phase1_queries": 107593741,
+          "corner_queries": 7571672,
+          "edge_queries": 0,
+          "axis_rejects": [
+            55615134,
+            9560651,
+            3380763
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1866269,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1400832,
+              "generated": 18698637,
+              "busy_seconds": 1.314427,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 1388544,
+              "generated": 18530538,
+              "busy_seconds": 1.299743,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1388544,
+              "generated": 18531308,
+              "busy_seconds": 1.273701,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1363968,
+              "generated": 18202794,
+              "busy_seconds": 1.268564,
+              "idle_seconds": 2e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 6668288,
+          "iteration_split_nodes": 426,
+          "nodes": 6829456,
+          "split_nodes": 14484,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.598705,
+          "elapsed_seconds": 1.638759,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 91162006,
+          "small_pdb_queries": 0,
+          "phase1_queries": 128689081,
+          "corner_queries": 9107904,
+          "edge_queries": 0,
+          "axis_rejects": [
+            66760148,
+            11279233,
+            4015585
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2276146,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1683456,
+              "generated": 22469879,
+              "busy_seconds": 1.552188,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 1675264,
+              "generated": 22357720,
+              "busy_seconds": 1.542965,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1671168,
+              "generated": 22304078,
+              "busy_seconds": 1.515833,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1638400,
+              "generated": 21866237,
+              "busy_seconds": 1.523065,
+              "idle_seconds": 3e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 7741440,
+          "iteration_split_nodes": 441,
+          "nodes": 7902608,
+          "split_nodes": 14499,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.865299,
+          "elapsed_seconds": 1.905352,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 105480287,
+          "small_pdb_queries": 0,
+          "phase1_queries": 148777817,
+          "corner_queries": 10526658,
+          "edge_queries": 0,
+          "axis_rejects": [
+            77360717,
+            12944238,
+            4649550
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2621722,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1966080,
+              "generated": 26241626,
+              "busy_seconds": 1.770304,
+              "idle_seconds": 5e-06
+            },
+            {
+              "nodes": 1957888,
+              "generated": 26129034,
+              "busy_seconds": 1.728419,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1916928,
+              "generated": 25582655,
+              "busy_seconds": 1.747601,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1900544,
+              "generated": 25362880,
+              "busy_seconds": 1.758556,
+              "idle_seconds": 3e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 8168695,
+          "iteration_split_nodes": 441,
+          "nodes": 8329863,
+          "split_nodes": 14499,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.96019,
+          "elapsed_seconds": 2.000244,
+          "found": false,
+          "timed_out": true,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 111181261,
+          "small_pdb_queries": 0,
+          "phase1_queries": 156737450,
+          "corner_queries": 11079653,
+          "edge_queries": 0,
+          "axis_rejects": [
+            81594549,
+            13619899,
+            4888048
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2747463,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 2073585,
+              "generated": 27676159,
+              "busy_seconds": 1.959878,
+              "idle_seconds": 5e-06
+            },
+            {
+              "nodes": 2064384,
+              "generated": 27549879,
+              "busy_seconds": 1.959855,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 2022904,
+              "generated": 26995613,
+              "busy_seconds": 1.95982,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 2007822,
+              "generated": 26795518,
+              "busy_seconds": 1.959783,
+              "idle_seconds": 3e-06
+            }
+          ]
+        }
+      ],
+      "completed_depth": 17,
+      "process_peak_memory_bytes": 585580544,
+      "ready_capabilities": {
+        "HTM": {
+          "corner": true,
+          "corner_metric": "HTM",
+          "phase1": true,
+          "phase1_metric": "HTM",
+          "edge_count": 0,
+          "tail": true
+        },
+        "QTM": {
+          "corner": true,
+          "corner_metric": "QTM",
+          "phase1": true,
+          "phase1_metric": "QTM",
+          "edge_count": 0,
+          "tail": false
+        }
+      },
+      "variant": "staged",
+      "repeat": 0
+    },
+    {
+      "case": "superflip",
+      "facelets": "UBULURUFURURFRBRDRFUFLFRFDFDFDLDRDBDLULBLFLDLBUBRBLBDB",
+      "incumbent": [],
+      "metric": "QTM",
+      "incumbent_depth": null,
+      "incumbent_mode": "fixed",
+      "max_cost": 26,
+      "proof_cache_reuse": false,
+      "threads": 4,
+      "wall_seconds": 2.000768700003391,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "benchmark",
+        "status": "timeout",
+        "inverse_direction": false,
+        "moves": [],
+        "solution": "",
+        "depth": -1,
+        "metric": "QTM",
+        "optimal": false,
+        "elapsed_seconds": 2.000443,
+        "nodes": 13798818,
+        "split_nodes": 14085,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "corner_pdb": true,
+        "corner_pdb_metric": "QTM",
+        "phase1_pdb": true,
+        "phase1_pdb_metric": "QTM",
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": false,
+        "tail_enabled": false,
+        "completed_depth": 17,
+        "generated_candidates": 183616223,
+        "small_pdb_queries": 0,
+        "phase1_queries": 249582702,
+        "corner_queries": 14430847,
+        "edge_queries": 0,
+        "axis_rejects": [
+          139041094,
+          23187877,
+          6957771
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 629237,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 2964828,
+            "generated": 39456300,
+            "busy_seconds": 1.894776,
+            "idle_seconds": 2e-06
+          },
+          {
+            "nodes": 3185664,
+            "generated": 42398316,
+            "busy_seconds": 1.894757,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 3152360,
+            "generated": 41966025,
+            "busy_seconds": 1.89471,
+            "idle_seconds": 1e-06
+          },
+          {
+            "nodes": 3418085,
+            "generated": 45481610,
+            "busy_seconds": 1.894673,
+            "idle_seconds": 1e-06
+          }
+        ]
+      },
+      "events": [
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 12,
+          "completed_depth": 11,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.3e-05,
+          "elapsed_seconds": 1.3e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 12,
+          "completed_depth": 13,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 18,
+          "nodes": 0,
+          "split_nodes": 18,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000262,
+          "elapsed_seconds": 0.000289,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 18,
+          "small_pdb_queries": 0,
+          "phase1_queries": 30,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            10,
+            4,
+            4
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 18,
+              "busy_seconds": 1e-06,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 14,
+          "completed_depth": 15,
+          "iteration_nodes": 21493,
+          "iteration_split_nodes": 7638,
+          "nodes": 21493,
+          "split_nodes": 7656,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.002149,
+          "elapsed_seconds": 0.002453,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 290343,
+          "small_pdb_queries": 0,
+          "phase1_queries": 379599,
+          "corner_queries": 24698,
+          "edge_queries": 0,
+          "axis_rejects": [
+            234185,
+            24200,
+            7640
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 2256,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 5386,
+              "generated": 72999,
+              "busy_seconds": 0.001837,
+              "idle_seconds": 8.7e-05
+            },
+            {
+              "nodes": 5485,
+              "generated": 73654,
+              "busy_seconds": 0.001839,
+              "idle_seconds": 6.5e-05
+            },
+            {
+              "nodes": 5362,
+              "generated": 72505,
+              "busy_seconds": 0.001792,
+              "idle_seconds": 7.4e-05
+            },
+            {
+              "nodes": 5260,
+              "generated": 71167,
+              "busy_seconds": 0.001809,
+              "idle_seconds": 3.1e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 16,
+          "completed_depth": 17,
+          "iteration_nodes": 1056388,
+          "iteration_split_nodes": 6093,
+          "nodes": 1077881,
+          "split_nodes": 13749,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.102812,
+          "elapsed_seconds": 0.105287,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 14313972,
+          "small_pdb_queries": 0,
+          "phase1_queries": 19272775,
+          "corner_queries": 1170498,
+          "edge_queries": 0,
+          "axis_rejects": [
+            11018113,
+            1636848,
+            489824
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 90288,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 244546,
+              "generated": 3241452,
+              "busy_seconds": 0.102448,
+              "idle_seconds": 7.1e-05
+            },
+            {
+              "nodes": 240403,
+              "generated": 3192652,
+              "busy_seconds": 0.102386,
+              "idle_seconds": 8.6e-05
+            },
+            {
+              "nodes": 290048,
+              "generated": 3850632,
+              "busy_seconds": 0.102413,
+              "idle_seconds": 4.1e-05
+            },
+            {
+              "nodes": 281391,
+              "generated": 3738893,
+              "busy_seconds": 0.102342,
+              "idle_seconds": 8.3e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 2015232,
+          "iteration_split_nodes": 306,
+          "nodes": 3093113,
+          "split_nodes": 14055,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.2671,
+          "elapsed_seconds": 0.372419,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 41135789,
+          "small_pdb_queries": 0,
+          "phase1_queries": 55707800,
+          "corner_queries": 3270261,
+          "edge_queries": 0,
+          "axis_rejects": [
+            31342132,
+            5019254,
+            1505459
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 174403,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 417792,
+              "generated": 5560594,
+              "busy_seconds": 3.3e-05,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 602112,
+              "generated": 8007693,
+              "busy_seconds": 0.041727,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 413696,
+              "generated": 5506477,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 581632,
+              "generated": 7747053,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 3858432,
+          "iteration_split_nodes": 306,
+          "nodes": 4936313,
+          "split_nodes": 14055,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.535683,
+          "elapsed_seconds": 0.641002,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 65662380,
+          "small_pdb_queries": 0,
+          "phase1_queries": 89061367,
+          "corner_queries": 5191933,
+          "edge_queries": 0,
+          "axis_rejects": [
+            49882031,
+            8165689,
+            2424053
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 252848,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 839680,
+              "generated": 11175742,
+              "busy_seconds": 0.510674,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1101824,
+              "generated": 14651365,
+              "busy_seconds": 0.439203,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 872448,
+              "generated": 11613774,
+              "busy_seconds": 0.520133,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1044480,
+              "generated": 13907527,
+              "busy_seconds": 0.357248,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 5861376,
+          "iteration_split_nodes": 321,
+          "nodes": 6939257,
+          "split_nodes": 14070,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.803214,
+          "elapsed_seconds": 0.908533,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 92315981,
+          "small_pdb_queries": 0,
+          "phase1_queries": 125411912,
+          "corner_queries": 7291147,
+          "edge_queries": 0,
+          "axis_rejects": [
+            69982059,
+            11575945,
+            3468174
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 349075,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1388544,
+              "generated": 18473721,
+              "busy_seconds": 0.632895,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1495040,
+              "generated": 19889042,
+              "busy_seconds": 0.660165,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1392640,
+              "generated": 18540106,
+              "busy_seconds": 0.643772,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1585152,
+              "generated": 21099140,
+              "busy_seconds": 0.67151,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 7651328,
+          "iteration_split_nodes": 321,
+          "nodes": 8729209,
+          "split_nodes": 14070,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.05589,
+          "elapsed_seconds": 1.161209,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 116127901,
+          "small_pdb_queries": 0,
+          "phase1_queries": 158131543,
+          "corner_queries": 9167202,
+          "edge_queries": 0,
+          "axis_rejects": [
+            87697260,
+            14861687,
+            4403101
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 435228,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1789952,
+              "generated": 23816147,
+              "busy_seconds": 0.976076,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1921024,
+              "generated": 25555813,
+              "busy_seconds": 0.935798,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1867776,
+              "generated": 24864820,
+              "busy_seconds": 0.93523,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 2072576,
+              "generated": 27577149,
+              "busy_seconds": 0.67151,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 9273344,
+          "iteration_split_nodes": 321,
+          "nodes": 10351225,
+          "split_nodes": 14070,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.322141,
+          "elapsed_seconds": 1.42746,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 137722506,
+          "small_pdb_queries": 0,
+          "phase1_queries": 187316435,
+          "corner_queries": 10847828,
+          "edge_queries": 0,
+          "axis_rejects": [
+            104182899,
+            17489344,
+            5203788
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 493810,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 2158592,
+              "generated": 28722621,
+              "busy_seconds": 1.215489,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 2297856,
+              "generated": 30572925,
+              "busy_seconds": 1.184843,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 2330624,
+              "generated": 31026602,
+              "busy_seconds": 0.93523,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 2486272,
+              "generated": 33086386,
+              "busy_seconds": 1.084717,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 10735616,
+          "iteration_split_nodes": 336,
+          "nodes": 11813497,
+          "split_nodes": 14085,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.589456,
+          "elapsed_seconds": 1.694775,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 157185981,
+          "small_pdb_queries": 0,
+          "phase1_queries": 213486195,
+          "corner_queries": 12365873,
+          "edge_queries": 0,
+          "axis_rejects": [
+            119123021,
+            19829786,
+            5868661
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 549571,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 2531328,
+              "generated": 33682335,
+              "busy_seconds": 1.568977,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 2654208,
+              "generated": 35317716,
+              "busy_seconds": 1.423386,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 2695168,
+              "generated": 35882631,
+              "busy_seconds": 1.38749,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 2854912,
+              "generated": 37989327,
+              "busy_seconds": 1.340377,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 12451840,
+          "iteration_split_nodes": 336,
+          "nodes": 13529721,
+          "split_nodes": 14085,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.856071,
+          "elapsed_seconds": 1.96139,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 180032653,
+          "small_pdb_queries": 0,
+          "phase1_queries": 244586386,
+          "corner_queries": 14154165,
+          "edge_queries": 0,
+          "axis_rejects": [
+            136426115,
+            22663441,
+            6790298
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 621624,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 2908160,
+              "generated": 38701800,
+              "busy_seconds": 1.824587,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 3112960,
+              "generated": 41429601,
+              "busy_seconds": 1.668972,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 3096576,
+              "generated": 41223562,
+              "busy_seconds": 1.733635,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 3334144,
+              "generated": 44363718,
+              "busy_seconds": 1.704093,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 12,
+          "metric": "QTM",
+          "upper_bound": 26,
+          "current_depth": 18,
+          "completed_depth": 17,
+          "iteration_nodes": 12720937,
+          "iteration_split_nodes": 336,
+          "nodes": 13798818,
+          "split_nodes": 14085,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.895089,
+          "elapsed_seconds": 2.000408,
+          "found": false,
+          "timed_out": true,
+          "cancelled": false,
+          "request_id": "benchmark",
+          "generated_candidates": 183616223,
+          "small_pdb_queries": 0,
+          "phase1_queries": 249582702,
+          "corner_queries": 14430847,
+          "edge_queries": 0,
+          "axis_rejects": [
+            139041094,
+            23187877,
+            6957771
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 629237,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 2964828,
+              "generated": 39456300,
+              "busy_seconds": 1.894776,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 3185664,
+              "generated": 42398316,
+              "busy_seconds": 1.894757,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 3152360,
+              "generated": 41966025,
+              "busy_seconds": 1.89471,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 3418085,
+              "generated": 45481610,
+              "busy_seconds": 1.894673,
+              "idle_seconds": 1e-06
+            }
+          ]
+        }
+      ],
+      "completed_depth": 17,
+      "process_peak_memory_bytes": 585592832,
+      "ready_capabilities": {
+        "HTM": {
+          "corner": true,
+          "corner_metric": "HTM",
+          "phase1": true,
+          "phase1_metric": "HTM",
+          "edge_count": 0,
+          "tail": true
+        },
+        "QTM": {
+          "corner": true,
+          "corner_metric": "QTM",
+          "phase1": true,
+          "phase1_metric": "QTM",
+          "edge_count": 0,
+          "tail": false
+        }
+      },
+      "variant": "staged",
+      "repeat": 0
+    }
+  ],
+  "summaries": {
+    "staged/4/repo14": {
+      "runs": 1,
+      "completed": 1,
+      "timeout_ratio": 0.0,
+      "all_run_wall_p50": 0.008271799990325235,
+      "all_run_wall_p95": 0.008271799990325235,
+      "successful_proof_p50": 0.007909,
+      "completed_depths": [
+        16
+      ]
+    },
+    "staged/4/pgo16": {
+      "runs": 1,
+      "completed": 0,
+      "timeout_ratio": 1.0,
+      "all_run_wall_p50": 2.0008637999999337,
+      "all_run_wall_p95": 2.0008637999999337,
+      "successful_proof_p50": null,
+      "completed_depths": [
+        18
+      ]
+    },
+    "staged/4/seed18": {
+      "runs": 1,
+      "completed": 0,
+      "timeout_ratio": 1.0,
+      "all_run_wall_p50": 2.000872199991136,
+      "all_run_wall_p95": 2.000872199991136,
+      "successful_proof_p50": null,
+      "completed_depths": [
+        18
+      ]
+    },
+    "staged/4/known18": {
+      "runs": 1,
+      "completed": 0,
+      "timeout_ratio": 1.0,
+      "all_run_wall_p50": 2.000870499992743,
+      "all_run_wall_p95": 2.000870499992743,
+      "successful_proof_p50": null,
+      "completed_depths": [
+        17
+      ]
+    },
+    "staged/4/legal-20260927-0": {
+      "runs": 1,
+      "completed": 0,
+      "timeout_ratio": 1.0,
+      "all_run_wall_p50": 2.0005802000086987,
+      "all_run_wall_p95": 2.0005802000086987,
+      "successful_proof_p50": null,
+      "completed_depths": [
+        17
+      ]
+    },
+    "staged/4/legal-20260927-1": {
+      "runs": 1,
+      "completed": 0,
+      "timeout_ratio": 1.0,
+      "all_run_wall_p50": 2.0008615999977337,
+      "all_run_wall_p95": 2.0008615999977337,
+      "successful_proof_p50": null,
+      "completed_depths": [
+        17
+      ]
+    },
+    "staged/4/legal-20260927-2": {
+      "runs": 1,
+      "completed": 0,
+      "timeout_ratio": 1.0,
+      "all_run_wall_p50": 2.000582699998631,
+      "all_run_wall_p95": 2.000582699998631,
+      "successful_proof_p50": null,
+      "completed_depths": [
+        17
+      ]
+    },
+    "staged/4/superflip": {
+      "runs": 1,
+      "completed": 0,
+      "timeout_ratio": 1.0,
+      "all_run_wall_p50": 2.000768700003391,
+      "all_run_wall_p95": 2.000768700003391,
+      "successful_proof_p50": null,
+      "completed_depths": [
+        17
+      ]
+    }
+  },
+  "build": {
+    "compiler": "g++.exe (Rev5, Built by MSYS2 project) 16.1.0",
+    "flags": "-std=c++20 -O3 -march=native -mtune=native -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode",
+    "profile_guided": false,
+    "built_at": "2026-09-28T03:07:34.6473418Z",
+    "binary_sha256": "300FB0E5B5979AAF2F528A5CD23C537D20D52480331085832113B666391E9992",
+    "source_sha256": {
+      "solver.cpp": "2F12E15E05707B65A40692670D4095A7B2CB116029EE764AC382B795E3579966",
+      "symmetry.hpp": "B53C16C7892DC9473E7059EAA5935B9BA1D44A96BFAE99291802770303757D2E",
+      "symmetry.cpp": "DE8FA95BDFC02EE0CA4123FFA719BCADDA74119A48F73332EA3829C22C29355F",
+      "cube.hpp": "6346AA5BDCF355EA9EFC6836905032E78E1359F4813D4674CF9C82E45ECBCEF9",
+      "pdb.cpp": "D2F4B65EABEE0A316EA93EFB3A836EDD74CF1C7A198325136DE77BAC6C72ED7D",
+      "tail.cpp": "12CC02C3ED0B1B28C816EED090941EC73D72770FC2AE8ADDA8C72E15AEB38A29",
+      "main.cpp": "3D23CE40F274D3A3B6460E0103C2B477DF816B6EF2DE016910830DB6A9600F45",
+      "cube.cpp": "F94564AC640C96CFE52B18A3D012958271FC08AB7E5EBA64B77C49BA9B06EBAF",
+      "metric.hpp": "8B9389EABD7BCC32C7F9CC554AEB29B7FE8A77AED56738E4A75A21E66029C8FB",
+      "pdb.hpp": "C39BE6468E5F3CA8239129576106BC2838F3D8502A7414EC14E07AA238C21ED3",
+      "tail.hpp": "22FF68849BECF6F4FAC2259131EBE7A294A4913C41990A60162A699D83B564F1",
+      "paths.hpp": "FB3ECD78D63C5AB1D3FB183C4F9822B9C0A1A0DA3133561C14F09C56828DE786",
+      "solver.hpp": "FD8060A17ECF09D816DF1738F1E157DAF8A331BED7638AE6A4F2ABBA72495191"
+    }
+  }
+}

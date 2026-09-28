@@ -1,6 +1,7 @@
 param(
     [string]$Compiler = "C:\msys64\ucrt64\bin\g++.exe",
-    [double]$TrainingTimeout = 30
+    [double]$TrainingTimeout = 30,
+    [ValidateSet("HTM", "QTM")][string]$Metric = "HTM"
 )
 
 $ErrorActionPreference = "Stop"
@@ -21,6 +22,14 @@ $tailPdb = Join-Path $projectRoot ".cache\native\tail_depth6_v4.pdb"
 foreach ($path in @($cornerPdb, $phase1Pdb, $tailPdb)) {
     if (-not (Test-Path -LiteralPath $path)) {
         throw "Profile-guided build requires the native databases: $path"
+    }
+}
+if ($Metric -eq "QTM") {
+    foreach ($name in @("corner_qtm_v3.pdb", "phase1_qtm_v3.pdb", "strong_qtm_v3.pdb", "tail_qtm_depth8_v5.pdb")) {
+        $asset = Join-Path (Join-Path $projectRoot ".cache\native") $name
+        if (-not (Test-Path -LiteralPath $asset -PathType Leaf)) {
+            throw "QTM PGO training requires $asset"
+        }
     }
 }
 if (-not (Test-Path -LiteralPath $compiler)) {
@@ -44,9 +53,12 @@ $common = @(
     "-Wpedantic",
     "-I", "include",
     "src\cube.cpp",
+    "src\fast.cpp",
     "src\pdb.cpp",
     "src\solver.cpp",
     "src\symmetry.cpp",
+    "src\strong_coords.cpp",
+    "src\strong_pdb.cpp",
     "src\tail.cpp",
     "src\main.cpp",
     "-pthread",
@@ -67,10 +79,18 @@ try {
         try {
             $trainingPython = Join-Path $projectRoot ".venv\Scripts\python.exe"
             if (-not (Test-Path -LiteralPath $trainingPython)) { $trainingPython = "python" }
-            & $trainingPython tests\benchmark_native.py --binary $trainingTarget `
-                --cases-file tests\native_pgo_cases.json --cases all --variants staged --repeats 1 `
-                --threads ([Environment]::ProcessorCount) --timeout $TrainingTimeout `
-                --output .cache\native-pgo-training.json
+            if ($Metric -eq "QTM") {
+                & $trainingPython tests\benchmark_native.py --binary $trainingTarget `
+                    --metric QTM --profile q4-strong --pdb-manifest docs\benchmarks\qtm-q4-profile-manifest-2026-09-28.json `
+                    --cases-file tests\native_qtm_pgo_cases.json --cases all --variants staged --repeats 1 `
+                    --threads 8 --timeout $TrainingTimeout --startup-timeout 180 `
+                    --output .cache\native-qtm-pgo-training.json
+            } else {
+                & $trainingPython tests\benchmark_native.py --binary $trainingTarget `
+                    --cases-file tests\native_pgo_cases.json --cases all --variants staged --repeats 1 `
+                    --threads ([Environment]::ProcessorCount) --timeout $TrainingTimeout `
+                    --output .cache\native-pgo-training.json
+            }
             $trainingExitCode = $LASTEXITCODE
         } finally {
             $ErrorActionPreference = "Stop"
@@ -88,9 +108,11 @@ try {
         compiler = (& $compiler --version | Select-Object -First 1)
         flags = ($common -join " ") + " -fprofile-use -fprofile-correction"
         profile_guided = $true
+        portable = $false
+        metric = $Metric
         built_at = [DateTime]::UtcNow.ToString("o")
         binary_sha256 = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash
-        training_cases_sha256 = (Get-FileHash -LiteralPath (Join-Path $projectRoot "tests\native_pgo_cases.json") -Algorithm SHA256).Hash
+        training_cases_sha256 = (Get-FileHash -LiteralPath (Join-Path $projectRoot $(if ($Metric -eq "QTM") { "tests\native_qtm_pgo_cases.json" } else { "tests\native_pgo_cases.json" })) -Algorithm SHA256).Hash
         training_timeout = $TrainingTimeout
     } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $buildDirectory "build-info.json") -Encoding utf8
 } finally {

@@ -4,6 +4,18 @@
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-09-29
+
+### Added
+
+- 三阶 QTM 原生候选搜索、专用 Corner / Phase-1 距离表和 QTM Tail-7；强配置可加载三轴联合表及 Tail-8。
+- QTM 小表 Python 回退、标准与强配置资产构建及校验、QTM 资产包和 ZIP64 Windows 打包。
+
+### Changed
+
+- 原生证明协议升级至 proof 3；QTM 求解支持持久 worker pool、代价排序、可选转置表和总内存上限。
+- Windows 发布流程可按需构建、校验并打包标准或强配置 QTM 资产。
+
 ## [1.5.0] - 2026-09-28
 
 ### Added

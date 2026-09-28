@@ -1,0 +1,872 @@
+[
+  {
+    "name": "oracle08-00",
+    "facelets": "UUUUUFDBRFLBRRDRRFLLUUFBBDBLRUFDUDLDFFFDLBBRDLLLBBFRDR",
+    "incumbent": [
+      "L'",
+      "B'",
+      "R'",
+      "U",
+      "F'",
+      "R'",
+      "L'",
+      "F'"
+    ],
+    "expected_qtm_depth": 8,
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092801,
+      "scramble": [
+        "F",
+        "L",
+        "R",
+        "F",
+        "U'",
+        "R",
+        "B",
+        "L"
+      ]
+    },
+    "proof": {
+      "method": "bidirectional_unrestricted_qtm_bfs",
+      "radius_each_side": 4,
+      "goal_ball_states": 11206,
+      "minimum_meeting_cost": 8
+    }
+  },
+  {
+    "name": "oracle08-01",
+    "facelets": "RDBRUBRLBLLLFRRFUUFDDRFURFLURDFDLRULDUUDLBDLBUBFDBFFBB",
+    "incumbent": [
+      "L",
+      "L",
+      "R",
+      "F'",
+      "L",
+      "B'",
+      "U",
+      "B'"
+    ],
+    "expected_qtm_depth": 8,
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092801,
+      "scramble": [
+        "B",
+        "U'",
+        "B",
+        "L'",
+        "F",
+        "R'",
+        "L'",
+        "L'"
+      ]
+    },
+    "proof": {
+      "method": "bidirectional_unrestricted_qtm_bfs",
+      "radius_each_side": 4,
+      "goal_ball_states": 11206,
+      "minimum_meeting_cost": 8
+    }
+  },
+  {
+    "name": "oracle08-02",
+    "facelets": "DBFUUUUULDBDRRDUDLRRBUFFURRFBBFDFRDULFFBLLDLLRDFRBLBLB",
+    "incumbent": [
+      "D",
+      "B'",
+      "D'",
+      "U'",
+      "R",
+      "L'",
+      "D",
+      "R'"
+    ],
+    "expected_qtm_depth": 8,
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092801,
+      "scramble": [
+        "R",
+        "D'",
+        "L",
+        "R'",
+        "U",
+        "D",
+        "B",
+        "D'"
+      ]
+    },
+    "proof": {
+      "method": "bidirectional_unrestricted_qtm_bfs",
+      "radius_each_side": 4,
+      "goal_ball_states": 11206,
+      "minimum_meeting_cost": 8
+    }
+  },
+  {
+    "name": "oracle08-03",
+    "facelets": "LRULUFRLDBUBBRRFDDBULDFDRDUFLLBDRBRRFFDLLFUUULBDUBBFFR",
+    "incumbent": [
+      "L",
+      "R'",
+      "D'",
+      "D'",
+      "B'",
+      "F'",
+      "D'",
+      "L'"
+    ],
+    "expected_qtm_depth": 8,
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092801,
+      "scramble": [
+        "L",
+        "D",
+        "F",
+        "B",
+        "D",
+        "D",
+        "R",
+        "L'"
+      ]
+    },
+    "proof": {
+      "method": "bidirectional_unrestricted_qtm_bfs",
+      "radius_each_side": 4,
+      "goal_ball_states": 11206,
+      "minimum_meeting_cost": 8
+    }
+  },
+  {
+    "name": "oracle08-04",
+    "facelets": "RRRDUFLLLURBDRDBRBFFFFFBFDDRLLBDBRLLFRDULUDLDUUUFBBUUB",
+    "incumbent": [
+      "B'",
+      "F",
+      "R'",
+      "L",
+      "L",
+      "D'",
+      "D'",
+      "L'"
+    ],
+    "expected_qtm_depth": 8,
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092801,
+      "scramble": [
+        "L",
+        "D",
+        "D",
+        "L'",
+        "L'",
+        "R",
+        "F'",
+        "B"
+      ]
+    },
+    "proof": {
+      "method": "bidirectional_unrestricted_qtm_bfs",
+      "radius_each_side": 4,
+      "goal_ball_states": 11206,
+      "minimum_meeting_cost": 8
+    }
+  },
+  {
+    "name": "oracle08-05",
+    "facelets": "UUUDUBDUBRRFRRFDDDBLUFFUFFRLLFDDFDDFLLLLLUBBURBBRBBLRR",
+    "incumbent": [
+      "R'",
+      "B",
+      "U",
+      "B'",
+      "R",
+      "R",
+      "F",
+      "D'"
+    ],
+    "expected_qtm_depth": 8,
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092801,
+      "scramble": [
+        "D",
+        "F'",
+        "R'",
+        "R'",
+        "B",
+        "U'",
+        "B'",
+        "R"
+      ]
+    },
+    "proof": {
+      "method": "bidirectional_unrestricted_qtm_bfs",
+      "radius_each_side": 4,
+      "goal_ball_states": 11206,
+      "minimum_meeting_cost": 8
+    }
+  },
+  {
+    "name": "oracle08-06",
+    "facelets": "LFFUUUDDURRURRLDFLLLFDFFUBRBDFBDURUUDLFFLRDRRLLBBBDBBB",
+    "incumbent": [
+      "B",
+      "B",
+      "D'",
+      "R",
+      "F",
+      "F",
+      "D'",
+      "R'"
+    ],
+    "expected_qtm_depth": 8,
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092801,
+      "scramble": [
+        "R",
+        "D",
+        "F'",
+        "F'",
+        "R'",
+        "D",
+        "B'",
+        "B'"
+      ]
+    },
+    "proof": {
+      "method": "bidirectional_unrestricted_qtm_bfs",
+      "radius_each_side": 4,
+      "goal_ball_states": 11206,
+      "minimum_meeting_cost": 8
+    }
+  },
+  {
+    "name": "oracle08-07",
+    "facelets": "RRDUUBBUBURFLRDUDRLFLRFDRLLDUFFDFBLUBBDULFULFLDDBBRFBR",
+    "incumbent": [
+      "F'",
+      "B'",
+      "L'",
+      "F'",
+      "L",
+      "R",
+      "U",
+      "F"
+    ],
+    "expected_qtm_depth": 8,
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092801,
+      "scramble": [
+        "F'",
+        "U'",
+        "R'",
+        "L'",
+        "F",
+        "L",
+        "B",
+        "F"
+      ]
+    },
+    "proof": {
+      "method": "bidirectional_unrestricted_qtm_bfs",
+      "radius_each_side": 4,
+      "goal_ball_states": 11206,
+      "minimum_meeting_cost": 8
+    }
+  },
+  {
+    "name": "oracle08-08",
+    "facelets": "FRFFUURDUBRDRRDFFLFBRLFFLLLBDDBDDDUBLLUFLBBUURBURBUDLR",
+    "incumbent": [
+      "U",
+      "D",
+      "L",
+      "U'",
+      "D'",
+      "L",
+      "B'",
+      "D'"
+    ],
+    "expected_qtm_depth": 8,
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092801,
+      "scramble": [
+        "D",
+        "B",
+        "L'",
+        "D",
+        "U",
+        "L'",
+        "D'",
+        "U'"
+      ]
+    },
+    "proof": {
+      "method": "bidirectional_unrestricted_qtm_bfs",
+      "radius_each_side": 4,
+      "goal_ball_states": 11206,
+      "minimum_meeting_cost": 8
+    }
+  },
+  {
+    "name": "oracle08-09",
+    "facelets": "RRLUULRRDRBBFRBDDUUUBFFURRFDDLDDLLDLFLBULLUFFDFURBBFBB",
+    "incumbent": [
+      "R'",
+      "B'",
+      "R",
+      "U'",
+      "R",
+      "D",
+      "B",
+      "U"
+    ],
+    "expected_qtm_depth": 8,
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092801,
+      "scramble": [
+        "U'",
+        "B'",
+        "D'",
+        "R'",
+        "U",
+        "R'",
+        "B",
+        "R"
+      ]
+    },
+    "proof": {
+      "method": "bidirectional_unrestricted_qtm_bfs",
+      "radius_each_side": 4,
+      "goal_ball_states": 11206,
+      "minimum_meeting_cost": 8
+    }
+  },
+  {
+    "name": "oracle08-10",
+    "facelets": "LRRFUBFDRUUFURRUDDUFBUFLLBLFLFDDLDFLBURLLRBBDDDUBBFBRR",
+    "incumbent": [
+      "F",
+      "D'",
+      "L",
+      "F",
+      "L",
+      "B'",
+      "R",
+      "B"
+    ],
+    "expected_qtm_depth": 8,
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092801,
+      "scramble": [
+        "B'",
+        "R'",
+        "B",
+        "L'",
+        "F'",
+        "L'",
+        "D",
+        "F'"
+      ]
+    },
+    "proof": {
+      "method": "bidirectional_unrestricted_qtm_bfs",
+      "radius_each_side": 4,
+      "goal_ball_states": 11206,
+      "minimum_meeting_cost": 8
+    }
+  },
+  {
+    "name": "oracle08-11",
+    "facelets": "DRRRUBFBBUDFLRRLBDULLFFUUFFBUUDDUDDBBBRULLFFRDDLFBRRLL",
+    "incumbent": [
+      "U'",
+      "D",
+      "R",
+      "U",
+      "B'",
+      "R",
+      "U",
+      "B'"
+    ],
+    "expected_qtm_depth": 8,
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092801,
+      "scramble": [
+        "B",
+        "U'",
+        "R'",
+        "B",
+        "U'",
+        "R'",
+        "D'",
+        "U"
+      ]
+    },
+    "proof": {
+      "method": "bidirectional_unrestricted_qtm_bfs",
+      "radius_each_side": 4,
+      "goal_ball_states": 11206,
+      "minimum_meeting_cost": 8
+    }
+  },
+  {
+    "name": "legal-20271000",
+    "facelets": "RFBDURUBULFRBRFLBDBUBLFLRRFFUULDRBBFDLRRLUDFUDUFDBDLDL",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271000
+    }
+  },
+  {
+    "name": "legal-20271001",
+    "facelets": "LFBLUBRBDLULRRRDBBFLFRFFUFBFLRLDDRRUDUUDLUFDLUUBBBFRDD",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271001
+    }
+  },
+  {
+    "name": "legal-20271002",
+    "facelets": "ULRFULLDRDUBURDDLBFRFBFBDBLRRBUDDFFLRDDFLLURBUFFBBRUUL",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271002
+    }
+  },
+  {
+    "name": "legal-20271003",
+    "facelets": "DBFUUFRFLBURBRFFBLBLURFDRDLDLDUDUBFFBRDBLDULFULLRBRUDR",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271003
+    }
+  },
+  {
+    "name": "legal-20271004",
+    "facelets": "FULBUUDDURRUFRFFFDRLFUFRLFLDUDRDLRLRLRBBLBBDBBLUDBDFBU",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271004
+    }
+  },
+  {
+    "name": "legal-20271005",
+    "facelets": "LUFBUURLBRBUDRDDLDDFUDFLURBLBRFDUURLFLFFLFFUBLRDBBRBDR",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271005
+    }
+  },
+  {
+    "name": "legal-20271006",
+    "facelets": "DUDRUURFLFLLURRBBRBLDLFFRDLFBUDDLFFBFUDDLDUFUBBRBBRURL",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271006
+    }
+  },
+  {
+    "name": "legal-20271007",
+    "facelets": "FFLFUDFRLDBURRBRRFUUBUFDLUDFBBRDBRLDLLRFLLBFDBDULBURDU",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271007
+    }
+  },
+  {
+    "name": "legal-20271008",
+    "facelets": "ULDDUBDDBLDBURBLRRLLDBFFDBUFLBRDFLFUBFFDLRFURRURUBRFLU",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271008
+    }
+  },
+  {
+    "name": "legal-20271009",
+    "facelets": "RLRRUBULDLUFRRFDDUFDFRFBLRLBDBUDBRFRFFLLLUDFUDUUDBBBLB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271009
+    }
+  },
+  {
+    "name": "legal-20271010",
+    "facelets": "BBRRUDRDRFLFRRDLLUUFUUFUBUDLFFFDBLRBDDBFLLFRDDURBBLLBU",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271010
+    }
+  },
+  {
+    "name": "legal-20271011",
+    "facelets": "FUFRUUDLRDLUBRULFRLDFFFDUBBBLDLDUUBDUFFRLDBFRLBRRBDBRL",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271011
+    }
+  },
+  {
+    "name": "legal-20271012",
+    "facelets": "BRRBUULDDFFURRLDFUDBRDFULRFUDLRDDLBRDUBFLLUFFFBRUBLBLB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271012
+    }
+  },
+  {
+    "name": "legal-20271013",
+    "facelets": "FBBDUUFULDRURRRRLDDFBDFDBLDUUBUDBFLRUFLDLBUBLRRRFBLFFL",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271013
+    }
+  },
+  {
+    "name": "legal-20271014",
+    "facelets": "ULLDUDUUURRBBRUULDLBFBFLFFRRDBRDDFFBFBBFLRLFDDULRBURLD",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271014
+    }
+  },
+  {
+    "name": "legal-20271015",
+    "facelets": "BRUDUFFFDBRLURBUDFUULLFLRURBRBUDBFFDULRRLFLBDFDLLBBRDD",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271015
+    }
+  },
+  {
+    "name": "legal-20271016",
+    "facelets": "DFFRURUUBLFURRBFDULFDDFBULLRUDUDRRBRFUBLLLDBFLDRDBFBLB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271016
+    }
+  },
+  {
+    "name": "legal-20271017",
+    "facelets": "DDFUUFULLDDRBRRFFLBDBUFLFRURDLFDULRDRBRRLLULDUBBUBBFFB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271017
+    }
+  },
+  {
+    "name": "legal-20271018",
+    "facelets": "RBBUUBDRFRLDFRUDRLRBDUFRUUFFFLFDDBLUFBBFLRUDLLDULBLBDR",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271018
+    }
+  },
+  {
+    "name": "legal-20271019",
+    "facelets": "FLRBURLLBRDDFRLFULFBUBFRBRUUBLFDRFUBRUDLLDRDLBDDUBFDFU",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271019
+    }
+  },
+  {
+    "name": "legal-20271020",
+    "facelets": "DRRUUBBBBDLFURDFDLRRRRFLBLRUFUDDRUDBLBUULFLLLDUFFBFDBF",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271020
+    }
+  },
+  {
+    "name": "legal-20271021",
+    "facelets": "RUDFUUFRLBBLURRDLFDBURFFRDBDBRLDDUDUURLBLDFFFBLBUBLLFR",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271021
+    }
+  },
+  {
+    "name": "legal-20271022",
+    "facelets": "LFFBUFBRULUDURDRLLDUBBFLUBBRDUDDDFFFDURBLRLRFRRBFBLULD",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271022
+    }
+  },
+  {
+    "name": "legal-20271023",
+    "facelets": "FDURUDRBLBFLLRDRFBDUUDFUUBBRRUUDLLURDFFBLBBFFFLLRBLDRD",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271023
+    }
+  },
+  {
+    "name": "legal-20271024",
+    "facelets": "LLDFULFUFUUFBRDURBRFRUFDLLRBDBBDURBDURDDLBDLULFFFBRLRB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271024
+    }
+  },
+  {
+    "name": "legal-20271025",
+    "facelets": "LBBUUBUDFRRDDRRRUBFLDBFFLRUFDFBDLBFUBRLFLLRUDLDUFBLRUD",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271025
+    }
+  },
+  {
+    "name": "legal-20271026",
+    "facelets": "ULRUUBFFBLRDURDRLLDLDDFBUDBFBURDDFUURRLBLRDFLBUFFBLBFR",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271026
+    }
+  },
+  {
+    "name": "legal-20271027",
+    "facelets": "DUBDUUUDFLFDDRLRFRRLULFRUBDLRBBDRDUBLFFULFRDBLBFBBLURF",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271027
+    }
+  },
+  {
+    "name": "legal-20271028",
+    "facelets": "RLDBUFRRUFRLDRRUUUDDLDFFDLFRBRUDFLBBUUFDLBDLBBFBUBLLRF",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271028
+    }
+  },
+  {
+    "name": "legal-20271029",
+    "facelets": "UDRFUDLDDLLFRRLDFUDRFBFFBRBUBRLDLLRRRUBDLUFBLDFFUBBBUU",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271029
+    }
+  },
+  {
+    "name": "legal-20271030",
+    "facelets": "BBBBUDRRFDRLBRLUFFBBLUFDULLBUFFDRRDDLUDRLFUDRULDFBURLF",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271030
+    }
+  },
+  {
+    "name": "legal-20271031",
+    "facelets": "RDFRUUUUBLFUURDLFRRLDDFBDBULDBRDRRLFUUFLLRDBFLLBFBFDBB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271031
+    }
+  },
+  {
+    "name": "superflip",
+    "facelets": "UBULURUFURURFRBRDRFUFLFRFDFDFDLDRDBDLULBLFLDLBUBRBLBDB",
+    "source": {
+      "kind": "independently_constructed_cubie_state",
+      "description": "all 12 edges flipped"
+    }
+  },
+  {
+    "name": "pressure-00",
+    "facelets": "RRRLUDLLDRRBDRBDUFUBBLFLRDLDFBFDFBRLFUFBLFLRFUUUUBDDBU",
+    "incumbent": [
+      "F'",
+      "B'",
+      "F'",
+      "R'",
+      "F'",
+      "D",
+      "L",
+      "R",
+      "B'",
+      "R",
+      "B",
+      "U",
+      "U",
+      "B'",
+      "D'",
+      "L'",
+      "L",
+      "D'",
+      "F'",
+      "U'",
+      "U",
+      "D'",
+      "R",
+      "L'",
+      "L'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092803,
+      "scramble": [
+        "L",
+        "L",
+        "R'",
+        "D",
+        "U'",
+        "U",
+        "F",
+        "D",
+        "L'",
+        "L",
+        "D",
+        "B",
+        "U'",
+        "U'",
+        "B'",
+        "R'",
+        "B",
+        "R'",
+        "L'",
+        "D'",
+        "F",
+        "R",
+        "F",
+        "B",
+        "F"
+      ]
+    }
+  },
+  {
+    "name": "pressure-01",
+    "facelets": "BLFLUBDBBDDDURUURBBURDFFULFFDRRDBFDUUFLULRLFLRBLRBLRFD",
+    "incumbent": [
+      "R'",
+      "F'",
+      "B",
+      "L'",
+      "L'",
+      "F'",
+      "D'",
+      "B'",
+      "R",
+      "D",
+      "L'",
+      "R'",
+      "D",
+      "L'",
+      "D'",
+      "U",
+      "R",
+      "F",
+      "B",
+      "L'",
+      "F",
+      "L'",
+      "R",
+      "F'",
+      "R"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092803,
+      "scramble": [
+        "R'",
+        "F",
+        "R'",
+        "L",
+        "F'",
+        "L",
+        "B'",
+        "F'",
+        "R'",
+        "U'",
+        "D",
+        "L",
+        "D'",
+        "R",
+        "L",
+        "D'",
+        "R'",
+        "B",
+        "D",
+        "F",
+        "L",
+        "L",
+        "B'",
+        "F",
+        "R"
+      ]
+    }
+  },
+  {
+    "name": "pressure-02",
+    "facelets": "BLFDUUBRRFLUURLBDUUFUFFBDDRLLDRDFFRRLRLBLUDUFLFDBBDBBR",
+    "incumbent": [
+      "D",
+      "B",
+      "U",
+      "R'",
+      "R",
+      "L'",
+      "U",
+      "F",
+      "B'",
+      "R'",
+      "D",
+      "L'",
+      "R",
+      "B'",
+      "R",
+      "U'",
+      "D'",
+      "R",
+      "B'",
+      "U'",
+      "U",
+      "U'",
+      "F'",
+      "B",
+      "L'"
+    ],
+    "source": {
+      "kind": "fixed_rng_quarter_scramble",
+      "seed": 2026092803,
+      "scramble": [
+        "L",
+        "B'",
+        "F",
+        "U",
+        "U'",
+        "U",
+        "B",
+        "R'",
+        "D",
+        "U",
+        "R'",
+        "B",
+        "R'",
+        "L",
+        "D'",
+        "R",
+        "B",
+        "F'",
+        "U'",
+        "L",
+        "R'",
+        "R",
+        "U'",
+        "B'",
+        "D'"
+      ]
+    }
+  }
+]

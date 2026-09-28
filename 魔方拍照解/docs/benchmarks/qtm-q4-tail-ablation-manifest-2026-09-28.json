@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "stage": "Q4 Tail-7/Tail-8 ablation",
+  "profiles": {
+    "strong-no-tail": {
+      "assets": {
+        "qtm_corner": ".cache/native/corner_qtm_v3.pdb",
+        "qtm_phase1": ".cache/native/phase1_qtm_v3.pdb",
+        "qtm_strong": ".cache/native/strong_qtm_v3.pdb"
+      }
+    },
+    "strong-tail7": {
+      "assets": {
+        "qtm_corner": ".cache/native/corner_qtm_v3.pdb",
+        "qtm_phase1": ".cache/native/phase1_qtm_v3.pdb",
+        "qtm_strong": ".cache/native/strong_qtm_v3.pdb",
+        "qtm_tail": ".cache/native/tail_qtm_depth7_v5.pdb"
+      }
+    },
+    "strong-tail8": {
+      "assets": {
+        "qtm_corner": ".cache/native/corner_qtm_v3.pdb",
+        "qtm_phase1": ".cache/native/phase1_qtm_v3.pdb",
+        "qtm_strong": ".cache/native/strong_qtm_v3.pdb",
+        "qtm_tail": ".cache/native/tail_qtm_depth8_v5.pdb"
+      }
+    }
+  }
+}

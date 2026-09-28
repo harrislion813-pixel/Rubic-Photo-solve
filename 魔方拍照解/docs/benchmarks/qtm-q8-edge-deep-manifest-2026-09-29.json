@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "stage": "Q8 deep-state Edge ablation",
+  "profiles": {
+    "strong-edge": {
+      "assets": {
+        "qtm_corner": ".cache/native/corner_qtm_v3.pdb",
+        "qtm_phase1": ".cache/native/phase1_qtm_v3.pdb",
+        "qtm_edge_a": ".cache/native/edge_a_qtm_v3.pdb",
+        "qtm_edge_b": ".cache/native/edge_b_qtm_v3.pdb",
+        "qtm_strong": ".cache/native/strong_qtm_v3.pdb",
+        "qtm_tail": ".cache/native/tail_qtm_depth8_v5.pdb"
+      }
+    }
+  }
+}

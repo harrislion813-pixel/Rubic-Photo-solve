@@ -25,11 +25,13 @@ constexpr std::array<char, 8> kMagic{'R', 'C', 'T', 'A', 'I', 'L', '1', '\0'};
 constexpr std::uint32_t kLegacyVersion = 2;
 constexpr std::uint32_t kCompactVersion = 3;
 constexpr std::uint32_t kBloomVersion = 4;
+constexpr std::uint32_t kQtmBloomVersion = 5;
 constexpr std::uint8_t kEmpty = 255;
 constexpr std::uint32_t kEmptyMetadata = static_cast<std::uint32_t>(kEmpty) << 16U;
 constexpr std::uint32_t kBusyMetadata = 254U << 16U;
 constexpr std::uint64_t kParallelChecksumMarker = 0x5441494C50415231ULL;
 constexpr std::uint64_t kBloomChecksumMarker = 0x5441494C424C4D31ULL;
+constexpr std::uint64_t kQtmBloomChecksumMarker = 0x5441494C51544D31ULL;
 constexpr int kBloomHashes = 7;
 constexpr std::uint64_t kBloomWordsPerBlock = 8;
 
@@ -244,7 +246,20 @@ std::uint8_t inverse_move(int move) noexcept {
     return static_cast<std::uint8_t>((move / 3) * 3 + (power == 0 ? 2 : power == 2 ? 0 : 1));
 }
 
-std::uint64_t slots_for_depth(int depth) {
+std::uint64_t slots_for_depth(int depth, MoveMetric metric) {
+    if (metric == MoveMetric::QTM) {
+        if (depth <= 2)
+            return 1ULL << 12U;
+        if (depth == 3)
+            return 1ULL << 15U;
+        if (depth == 4)
+            return 1ULL << 18U;
+        if (depth == 5)
+            return 1ULL << 20U;
+        if (depth == 6)
+            return 1ULL << 22U;
+        return depth == 7 ? 1ULL << 24U : 1ULL << 27U;
+    }
     if (depth <= 2)
         return 1ULL << 12U;
     if (depth == 3)
@@ -258,17 +273,17 @@ std::uint64_t slots_for_depth(int depth) {
     return 1ULL << 28U;
 }
 
-void require_tail_build_memory(int depth) {
+void require_tail_build_memory(int depth, MoveMetric metric) {
     if (depth < 7)
         return;
     MEMORYSTATUSEX status{};
     status.dwLength = sizeof(status);
     if (!GlobalMemoryStatusEx(&status))
         throw windows_error("GlobalMemoryStatusEx");
-    constexpr std::uint64_t minimum_available = 10ULL << 30U;
+    const std::uint64_t minimum_available =
+        metric == MoveMetric::QTM ? (depth == 8 ? 4ULL << 30U : 2ULL << 30U) : 10ULL << 30U;
     if (status.ullAvailPhys < minimum_available) {
-        throw std::runtime_error(
-            "building a depth-7 tail database requires at least 10 GiB of available physical memory");
+        throw std::runtime_error("insufficient available physical memory for tail database build");
     }
 }
 
@@ -354,10 +369,44 @@ std::optional<TailHit> find_compact_entry(const std::uint64_t *keys, const std::
     }
 }
 
-bool valid_existing_file(const std::filesystem::path &path, int requested_depth) {
+template <std::size_t N>
+std::array<std::uint8_t, N> unrank_permutation_array(std::uint32_t rank) noexcept {
+    std::array<std::uint8_t, N> digits{}, available{}, result{};
+    for (int index = static_cast<int>(N) - 1; index >= 0; --index) {
+        const auto base = static_cast<std::uint32_t>(N - static_cast<std::size_t>(index));
+        digits[static_cast<std::size_t>(index)] = static_cast<std::uint8_t>(rank % base);
+        rank /= base;
+    }
+    for (std::size_t index = 0; index < N; ++index)
+        available[index] = static_cast<std::uint8_t>(index);
+    for (std::size_t index = 0; index < N; ++index) {
+        const auto digit = digits[index];
+        result[index] = available[digit];
+        for (std::size_t remaining = digit; remaining + 1 < N - index; ++remaining)
+            available[remaining] = available[remaining + 1];
+    }
+    return result;
+}
+
+CubieCube unpack_cube(PackedKey key) noexcept {
+    constexpr std::uint64_t corner_mask = (1ULL << 27U) - 1ULL;
+    constexpr std::uint64_t edge_mask = (1ULL << 29U) - 1ULL;
+    const auto corner = static_cast<std::uint32_t>(key.low & corner_mask);
+    const auto edge = static_cast<std::uint32_t>((key.low >> 27U) & edge_mask);
+    const auto flip = static_cast<std::uint16_t>((key.low >> 56U) | (static_cast<std::uint64_t>(key.high) << 8U));
+    CubieCube cube;
+    cube.cp = unrank_permutation_array<8>(corner / 2187U);
+    cube.co = cube_from_twist(static_cast<std::uint16_t>(corner % 2187U)).co;
+    cube.ep = unrank_permutation_array<12>(edge);
+    cube.eo = cube_from_flip(flip).eo;
+    return cube;
+}
+
+bool valid_existing_file(const std::filesystem::path &path, int requested_depth, MoveMetric metric) {
     try {
         TailDatabase existing(path);
-        return existing.format_version() >= kCompactVersion && existing.depth() >= requested_depth;
+        return existing.format_version() >= kCompactVersion && existing.depth() >= requested_depth &&
+               existing.metric() == metric;
     } catch (...) {
         return false;
     }
@@ -398,13 +447,15 @@ TailDatabase::TailDatabase(const std::filesystem::path &path) {
     const auto *header = reinterpret_cast<const TailHeader *>(view_);
     const bool legacy = header->version == kLegacyVersion;
     const bool compact = header->version == kCompactVersion;
-    const bool bloom_format = header->version == kBloomVersion;
+    const bool qtm_format = header->version == kQtmBloomVersion;
+    const bool bloom_format = header->version == kBloomVersion || qtm_format;
     const std::uint64_t entry_bytes = legacy ? sizeof(LegacyTailEntry) : 12U;
     const std::uint64_t bloom_bytes = bloom_format ? bloom_word_count(header->slot_count) * sizeof(std::uint64_t) : 0;
     const std::uint64_t data_bytes = header->slot_count * entry_bytes + bloom_bytes;
     bool checksum_valid = false;
     if (size.QuadPart == static_cast<LONGLONG>(sizeof(TailHeader) + data_bytes)) {
-        if (bloom_format && header->reserved[2] == kBloomChecksumMarker) {
+        if (bloom_format && header->reserved[2] ==
+                                (qtm_format ? kQtmBloomChecksumMarker : kBloomChecksumMarker)) {
             const auto *keys = view_ + sizeof(TailHeader);
             const auto *metadata = keys + header->slot_count * sizeof(std::uint64_t);
             const auto *bloom = metadata + header->slot_count * sizeof(std::uint32_t);
@@ -424,10 +475,16 @@ TailDatabase::TailDatabase(const std::filesystem::path &path) {
             checksum_valid = header->reserved[0] == checksum_bytes(view_ + sizeof(TailHeader), data_bytes);
         }
     }
+    const bool qtm_count_valid = !qtm_format ||
+                                 (header->depth != 7 && header->depth != 8) ||
+                                 header->state_count == (header->depth == 7 ? 9205558ULL : 86049153ULL);
     const bool valid = header->magic == kMagic && (legacy || compact || bloom_format) &&
-                       header->header_size == sizeof(TailHeader) && header->metric == 1 && header->depth <= 7 &&
+                       header->header_size == sizeof(TailHeader) &&
+                       header->metric == (qtm_format ? 2U : 1U) &&
+                       header->depth <= (qtm_format ? 8U : 7U) &&
                        header->slot_count > 0 && (header->slot_count & (header->slot_count - 1)) == 0 &&
-                       size.QuadPart == static_cast<LONGLONG>(sizeof(TailHeader) + data_bytes) && checksum_valid;
+                       size.QuadPart == static_cast<LONGLONG>(sizeof(TailHeader) + data_bytes) &&
+                       header->state_count < header->slot_count && qtm_count_valid && checksum_valid;
     if (!valid) {
         UnmapViewOfFile(view_);
         CloseHandle(mapping);
@@ -439,9 +496,11 @@ TailDatabase::TailDatabase(const std::filesystem::path &path) {
     }
     entries_ = view_ + sizeof(TailHeader);
     slot_count_ = header->slot_count;
+    state_count_ = header->state_count;
     mask_ = slot_count_ - 1;
     version_ = header->version;
     depth_ = static_cast<int>(header->depth);
+    metric_ = qtm_format ? MoveMetric::QTM : MoveMetric::HTM;
     if (bloom_format) {
         const auto *keys = static_cast<const std::uint64_t *>(entries_);
         const auto *metadata = reinterpret_cast<const std::uint32_t *>(keys + slot_count_);
@@ -460,6 +519,7 @@ TailDatabase::~TailDatabase() {
 }
 
 int TailDatabase::depth() const noexcept { return depth_; }
+MoveMetric TailDatabase::metric() const noexcept { return metric_; }
 
 std::uint32_t TailDatabase::format_version() const noexcept { return version_; }
 
@@ -467,14 +527,15 @@ std::optional<TailHit> TailDatabase::lookup(const CubieCube &cube, TailLookupCou
     if (counters != nullptr)
         ++counters->queries;
     const PackedKey key = pack_cube(cube);
-    if (version_ == kBloomVersion && !bloom_maybe_contains(bloom_, bloom_word_count_, key)) {
+    if ((version_ == kBloomVersion || version_ == kQtmBloomVersion) &&
+        !bloom_maybe_contains(bloom_, bloom_word_count_, key)) {
         if (counters != nullptr)
             ++counters->bloom_rejects;
         return std::nullopt;
     }
     if (counters != nullptr)
         ++counters->exact_queries;
-    if (version_ == kCompactVersion || version_ == kBloomVersion) {
+    if (version_ == kCompactVersion || version_ == kBloomVersion || version_ == kQtmBloomVersion) {
         const auto *keys = static_cast<const std::uint64_t *>(entries_);
         const auto *metadata = reinterpret_cast<const std::uint32_t *>(keys + slot_count_);
         auto result = find_compact_entry(keys, metadata, mask_, key, counters);
@@ -498,22 +559,98 @@ std::vector<int> TailDatabase::solution_suffix(CubieCube cube) const {
         if (!hit.has_value() || hit->move_to_goal >= 18) {
             throw std::runtime_error("tail database chain is incomplete");
         }
+        if (metric_ == MoveMetric::QTM && hit->move_to_goal % 3 == 1)
+            throw std::runtime_error("QTM tail contains a half turn");
         result.push_back(hit->move_to_goal);
-        cube = cube.apply_move(hit->move_to_goal);
+        const CubieCube next = cube.apply_move(hit->move_to_goal);
+        const auto next_hit = lookup(next);
+        if (!next_hit.has_value() || next_hit->distance + move_cost(hit->move_to_goal, metric_) != hit->distance)
+            throw std::runtime_error("tail database distance chain is invalid");
+        cube = next;
     }
     return result;
 }
 
-void build_tail_database(const std::filesystem::path &path, int depth, int threads, bool force) {
-    if (depth < 0 || depth > 7)
-        throw std::invalid_argument("tail database depth must be 0..7");
-    if (!force && std::filesystem::exists(path) && valid_existing_file(path, depth))
+TailVerification TailDatabase::verify_all(int threads) const {
+    if (version_ != kBloomVersion && version_ != kQtmBloomVersion)
+        throw std::invalid_argument("full tail verification requires a bloom-format table");
+    threads = std::clamp(threads > 0 ? threads : static_cast<int>(std::thread::hardware_concurrency()), 1, 64);
+    const auto *keys = static_cast<const std::uint64_t *>(entries_);
+    const auto *metadata = reinterpret_cast<const std::uint32_t *>(keys + slot_count_);
+    std::vector<TailVerification> local(static_cast<std::size_t>(threads));
+    std::atomic<bool> failed{false};
+    std::vector<std::thread> workers;
+    workers.reserve(threads);
+    for (int thread = 0; thread < threads; ++thread) {
+        workers.emplace_back([&, thread] {
+            auto &result = local[static_cast<std::size_t>(thread)];
+            for (std::uint64_t slot = slot_count_ * static_cast<std::uint64_t>(thread) / threads;
+                 slot < slot_count_ * static_cast<std::uint64_t>(thread + 1) / threads &&
+                 !failed.load(std::memory_order_relaxed); ++slot) {
+                const auto value = metadata[slot];
+                const auto distance = metadata_distance(value);
+                if (distance == kEmpty)
+                    continue;
+                if (distance > depth_ || distance >= result.distance_histogram.size()) {
+                    failed.store(true, std::memory_order_relaxed);
+                    break;
+                }
+                ++result.states;
+                ++result.distance_histogram[distance];
+                const PackedKey key{keys[slot], metadata_key_high(value)};
+                const CubieCube cube = unpack_cube(key);
+                if (pack_cube(cube) != key) {
+                    failed.store(true, std::memory_order_relaxed);
+                    break;
+                }
+                if (distance == 0) {
+                    if (!cube.solved() || metadata_move(value) != kEmpty)
+                        failed.store(true, std::memory_order_relaxed);
+                    continue;
+                }
+                const int move = metadata_move(value);
+                if (move >= 18 || (metric_ == MoveMetric::QTM && move % 3 == 1)) {
+                    failed.store(true, std::memory_order_relaxed);
+                    break;
+                }
+                const auto next_key = pack_cube(cube.apply_move(move));
+                const auto next = find_compact_entry(keys, metadata, mask_, next_key, nullptr);
+                if (!next.has_value() || next->distance + move_cost(move, metric_) != distance)
+                    failed.store(true, std::memory_order_relaxed);
+            }
+        });
+    }
+    for (auto &worker : workers)
+        worker.join();
+    if (failed.load())
+        throw std::runtime_error("tail database has an invalid state or non-descending chain");
+    TailVerification result;
+    for (const auto &part : local) {
+        result.states += part.states;
+        for (std::size_t depth = 0; depth < result.distance_histogram.size(); ++depth)
+            result.distance_histogram[depth] += part.distance_histogram[depth];
+    }
+    if (result.states != state_count_)
+        throw std::runtime_error("tail database state count does not match populated slots");
+    if (metric_ == MoveMetric::QTM) {
+        constexpr std::array<std::uint64_t, 9> sphere{1, 12, 114, 1068, 10011, 93840, 878880, 8221632, 76843595};
+        for (int depth = 0; depth <= depth_; ++depth)
+            if (result.distance_histogram[static_cast<std::size_t>(depth)] != sphere[static_cast<std::size_t>(depth)])
+                throw std::runtime_error("QTM tail database distance histogram differs from the known sphere");
+    }
+    return result;
+}
+
+void build_tail_database(const std::filesystem::path &path, int depth, int threads, bool force, MoveMetric metric) {
+    if (depth < 0 || depth > (metric == MoveMetric::QTM ? 8 : 7))
+        throw std::invalid_argument("tail database depth is outside the metric's supported range");
+    if (!force && std::filesystem::exists(path) && valid_existing_file(path, depth, metric))
         return;
     std::filesystem::create_directories(path.parent_path());
-    require_tail_build_memory(depth);
+    require_tail_build_memory(depth, metric);
     threads = std::clamp(threads > 0 ? threads : static_cast<int>(std::thread::hardware_concurrency()), 1, 64);
 
-    const std::uint64_t slot_count = slots_for_depth(depth);
+    const std::uint64_t slot_count = slots_for_depth(depth, metric);
     auto keys = std::make_unique_for_overwrite<std::uint64_t[]>(slot_count);
     auto metadata = std::make_unique_for_overwrite<std::uint32_t[]>(slot_count);
     {
@@ -561,6 +698,8 @@ void build_tail_database(const std::filesystem::path &path, int depth, int threa
                     }
                     auto expand_state = [&](const CubieCube &state) {
                         for (int move = 0; move < 18; ++move) {
+                            if (metric == MoveMetric::QTM && move % 3 == 1)
+                                continue;
                             const CubieCube child = state.apply_move(move);
                             const PackedKey key = pack_cube(child);
                             if (insert_compact_concurrent(keys.get(), metadata.get(), slot_count, key,
@@ -608,6 +747,8 @@ void build_tail_database(const std::filesystem::path &path, int depth, int threa
                 next.reserve(frontier.size() * 12);
             for (const CubieCube &state : frontier) {
                 for (int move = 0; move < 18; ++move) {
+                    if (metric == MoveMetric::QTM && move % 3 == 1)
+                        continue;
                     CubieCube child = state.apply_move(move);
                     const PackedKey key = pack_cube(child);
                     const std::uint64_t slot = find_compact_slot(keys.get(), metadata.get(), slot_count, key);
@@ -626,6 +767,11 @@ void build_tail_database(const std::filesystem::path &path, int depth, int threa
         if (final_layer)
             frontier_shards.clear();
         state_count += next_count;
+        if (metric == MoveMetric::QTM && (current_depth + 1 == 7 || current_depth + 1 == 8)) {
+            const std::uint64_t expected = current_depth + 1 == 7 ? 9205558ULL : 86049153ULL;
+            if (state_count != expected)
+                throw std::runtime_error("QTM tail sphere count differs from the independently known count");
+        }
         if (state_count * 10 >= slot_count * 7) {
             throw std::runtime_error("tail database hash table exceeded 70% load");
         }
@@ -639,9 +785,9 @@ void build_tail_database(const std::filesystem::path &path, int depth, int threa
 
     TailHeader header;
     header.magic = kMagic;
-    header.version = kBloomVersion;
+    header.version = metric == MoveMetric::QTM ? kQtmBloomVersion : kBloomVersion;
     header.header_size = sizeof(TailHeader);
-    header.metric = 1;
+    header.metric = metric == MoveMetric::QTM ? 2 : 1;
     header.depth = depth;
     header.slot_count = slot_count;
     header.state_count = state_count;
@@ -652,7 +798,7 @@ void build_tail_database(const std::filesystem::path &path, int depth, int threa
     const std::uint64_t bloom_checksum =
         checksum_bytes_parallel(reinterpret_cast<const std::uint8_t *>(bloom.get()), bloom_words * sizeof(bloom[0]));
     header.reserved[1] = mix_checksum(metadata_checksum ^ std::rotl(bloom_checksum, 17));
-    header.reserved[2] = kBloomChecksumMarker;
+    header.reserved[2] = metric == MoveMetric::QTM ? kQtmBloomChecksumMarker : kBloomChecksumMarker;
 
     auto temporary = path;
     temporary += ".tmp";
@@ -668,13 +814,10 @@ void build_tail_database(const std::filesystem::path &path, int depth, int threa
         if (!output)
             throw std::runtime_error("failed while writing tail database");
     }
-    std::error_code error;
-    std::filesystem::remove(path, error);
-    error.clear();
-    std::filesystem::rename(temporary, path, error);
-    if (error)
-        throw std::runtime_error("cannot atomically publish tail database: " + error.message());
-    std::cerr << "tail-db complete depth=" << depth << " states=" << state_count << " slots=" << slot_count
+    if (!MoveFileExW(temporary.c_str(), path.c_str(), MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH))
+        throw windows_error("publish tail database");
+    std::cerr << "tail-db complete metric=" << metric_name(metric) << " depth=" << depth
+              << " states=" << state_count << " slots=" << slot_count
               << " file=" << utf8_path(path) << "\n";
 }
 

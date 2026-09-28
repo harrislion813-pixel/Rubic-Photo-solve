@@ -1,5 +1,6 @@
 param(
     [switch]$ProfileGuided,
+    [switch]$Portable,
     [string]$Compiler
 )
 
@@ -42,14 +43,14 @@ if ($ProfileGuided) {
 $env:PATH = (Split-Path -Parent $compilerPath) + ";" + $env:PATH
 New-Item -ItemType Directory -Force -Path $buildDirectory | Out-Null
 Write-Host "Using C++ compiler: $compilerPath"
+$architectureFlags = if ($Portable) { @("-march=x86-64", "-mtune=generic") } else { @("-march=native", "-mtune=native") }
 
 Push-Location $PSScriptRoot
 try {
     & $compilerPath `
         -std=c++20 `
         -O3 `
-        -march=native `
-        -mtune=native `
+        @architectureFlags `
         -flto `
         -DNDEBUG `
         -Wall `
@@ -57,9 +58,12 @@ try {
         -Wpedantic `
         -I include `
         src\cube.cpp `
+        src\fast.cpp `
         src\pdb.cpp `
         src\solver.cpp `
         src\symmetry.cpp `
+        src\strong_coords.cpp `
+        src\strong_pdb.cpp `
         src\tail.cpp `
         src\main.cpp `
         -pthread `
@@ -76,7 +80,8 @@ if ($LASTEXITCODE -ne 0) {
 
 $buildInfo = [ordered]@{
     compiler = (& $compilerPath --version | Select-Object -First 1)
-    flags = "-std=c++20 -O3 -march=native -mtune=native -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode"
+    flags = "-std=c++20 -O3 $($architectureFlags -join ' ') -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode"
+    portable = [bool]$Portable
     profile_guided = $false
     built_at = [DateTime]::UtcNow.ToString("o")
     binary_sha256 = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash

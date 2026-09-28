@@ -1,5 +1,8 @@
 #pragma once
 
+#include "metric.hpp"
+
+#include <array>
 #include <cstdint>
 #include <filesystem>
 #include <memory>
@@ -22,8 +25,11 @@ class Phase1PatternDatabase {
     Phase1PatternDatabase &operator=(const Phase1PatternDatabase &) = delete;
 
     [[nodiscard]] std::uint8_t distance(std::uint16_t twist, std::uint16_t flip, std::uint16_t slice) const noexcept;
+    [[nodiscard]] std::uint8_t distance_index(std::uint32_t coordinate) const noexcept;
     [[nodiscard]] bool complete() const noexcept;
     [[nodiscard]] std::uint8_t max_value() const noexcept;
+    [[nodiscard]] int coverage_depth() const noexcept;
+    [[nodiscard]] MoveMetric metric() const noexcept;
 
   private:
     void *file_{nullptr};
@@ -32,7 +38,10 @@ class Phase1PatternDatabase {
     const std::uint8_t *data_{nullptr};
     std::shared_ptr<Phase1Symmetry> symmetry_;
     std::uint8_t max_value_{0};
+    std::uint8_t bits_per_entry_{4};
+    int coverage_depth_{0};
     bool complete_{false};
+    MoveMetric metric_{MoveMetric::HTM};
 };
 
 class CornerPatternDatabase {
@@ -46,6 +55,8 @@ class CornerPatternDatabase {
     [[nodiscard]] std::uint8_t distance(std::uint32_t coordinate) const noexcept;
     [[nodiscard]] bool complete() const noexcept;
     [[nodiscard]] std::uint8_t max_value() const noexcept;
+    [[nodiscard]] int coverage_depth() const noexcept;
+    [[nodiscard]] MoveMetric metric() const noexcept;
 
   private:
     void *file_{nullptr};
@@ -53,7 +64,10 @@ class CornerPatternDatabase {
     const std::uint8_t *view_{nullptr};
     const std::uint8_t *data_{nullptr};
     std::uint8_t max_value_{0};
+    std::uint8_t bits_per_entry_{4};
+    int coverage_depth_{0};
     bool complete_{false};
+    MoveMetric metric_{MoveMetric::HTM};
 };
 
 class EdgePatternDatabase {
@@ -67,6 +81,8 @@ class EdgePatternDatabase {
     [[nodiscard]] std::uint8_t distance(std::uint32_t coordinate) const noexcept;
     [[nodiscard]] bool complete() const noexcept;
     [[nodiscard]] std::uint8_t max_value() const noexcept;
+    [[nodiscard]] int coverage_depth() const noexcept;
+    [[nodiscard]] MoveMetric metric() const noexcept;
 
   private:
     void *file_{nullptr};
@@ -74,7 +90,10 @@ class EdgePatternDatabase {
     const std::uint8_t *view_{nullptr};
     const std::uint8_t *data_{nullptr};
     std::uint8_t max_value_{0};
+    std::uint8_t bits_per_entry_{4};
+    int coverage_depth_{0};
     bool complete_{false};
+    MoveMetric metric_{MoveMetric::HTM};
 };
 
 void build_corner_pattern_database(const std::filesystem::path &path, const CoordinateTables &tables, int threads,
@@ -85,5 +104,25 @@ void build_edge_pattern_database(const std::filesystem::path &path, int group, i
 
 void build_phase1_pattern_database(const std::filesystem::path &path, const CoordinateTables &tables, int threads,
                                    int coverage_depth = 12, bool force = false);
+
+void build_qtm_corner_pattern_database(const std::filesystem::path &path, const CoordinateTables &tables, int threads,
+                                       int coverage_depth = 254, bool force = false);
+void build_qtm_phase1_pattern_database(const std::filesystem::path &path, const CoordinateTables &tables, int threads,
+                                       int coverage_depth = 254, bool force = false);
+void build_qtm_edge_pattern_database(const std::filesystem::path &path, int group, int threads,
+                                     int coverage_depth = 254, bool force = false);
+
+struct PdbVerification {
+    std::uint64_t checked{};
+    std::uint64_t transitions{};
+    int max_distance{};
+    std::array<std::uint64_t, 256> histogram{};
+};
+
+[[nodiscard]] PdbVerification verify_qtm_corner_pdb(const std::filesystem::path &path,
+                                                     const CoordinateTables &tables, int threads);
+[[nodiscard]] PdbVerification verify_qtm_phase1_pdb(const std::filesystem::path &path,
+                                                     const CoordinateTables &tables, int threads);
+[[nodiscard]] PdbVerification verify_qtm_edge_pdb(const std::filesystem::path &path, int group, int threads);
 
 } // namespace cube

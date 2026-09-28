@@ -21,6 +21,7 @@ class Phase1Symmetry {
     Phase1Symmetry();
 
     [[nodiscard]] CubieCube conjugate(const CubieCube &cube, int symmetry) const;
+    [[nodiscard]] CubieCube conjugate_edges(const CubieCube &cube, int symmetry) const noexcept;
     [[nodiscard]] std::uint16_t twist_conjugate(std::uint16_t twist, int symmetry) const noexcept;
     [[nodiscard]] std::uint16_t flip_conjugate(std::uint16_t flip, int symmetry) const noexcept;
     [[nodiscard]] std::uint16_t slice_conjugate(std::uint16_t slice, int symmetry) const noexcept;

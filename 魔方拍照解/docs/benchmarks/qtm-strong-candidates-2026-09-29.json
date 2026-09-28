@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "metric": "QTM",
+  "budget_seconds": 3,
+  "legacy_raw": {
+    "path": ".cache\\qtm-candidate-legacy-random32x3.json",
+    "sha256": "976a41fb8adacd7a18561dd5d23a231a55a07e03f72cb7cdf2d00470ce53309a"
+  },
+  "native_http_raw": {
+    "path": ".cache\\qtm-end-to-end-strong-random32x3.json",
+    "sha256": "a31131ae27366bad57ba7a777dd3f509b2925ef9aa56b3cf22b3842814df8991"
+  },
+  "cold_first_request": {
+    "case": "oracle12-00",
+    "seconds": 5.937999999994645,
+    "status": "complete",
+    "depth": 12,
+    "asset_profile": "strong"
+  },
+  "legacy_candidate_count": 32,
+  "native_candidate_count": 32,
+  "missing_candidate_treatment": "infinite cost",
+  "legacy_cost_median_all_32": 30.0,
+  "native_cost_median_all_32": 25.0,
+  "native_first_candidate_p95_seconds": 1.0,
+  "native_first_candidate_missing": 0,
+  "paired": [
+    {
+      "case": "legal-20271000",
+      "legacy_cost": 32,
+      "native_cost": 26,
+      "first_candidate_seconds": 0.9680000000080327
+    },
+    {
+      "case": "legal-20271001",
+      "legacy_cost": 34,
+      "native_cost": 26,
+      "first_candidate_seconds": 0.9690000000118744
+    },
+    {
+      "case": "legal-20271002",
+      "legacy_cost": 30,
+      "native_cost": 24,
+      "first_candidate_seconds": 0.9839999999967404
+    },
+    {
+      "case": "legal-20271003",
+      "legacy_cost": 31,
+      "native_cost": 25,
+      "first_candidate_seconds": 0.9539999999979045
+    },
+    {
+      "case": "legal-20271004",
+      "legacy_cost": 30,
+      "native_cost": 26,
+      "first_candidate_seconds": 0.9530000000086147
+    },
+    {
+      "case": "legal-20271005",
+      "legacy_cost": 24,
+      "native_cost": 22,
+      "first_candidate_seconds": 0.9839999999967404
+    },
+    {
+      "case": "legal-20271006",
+      "legacy_cost": 31,
+      "native_cost": 25,
+      "first_candidate_seconds": 0.9689999999973224
+    },
+    {
+      "case": "legal-20271007",
+      "legacy_cost": 27,
+      "native_cost": 25,
+      "first_candidate_seconds": 0.9850000000005821
+    },
+    {
+      "case": "legal-20271008",
+      "legacy_cost": 33,
+      "native_cost": 19,
+      "first_candidate_seconds": 0.75
+    },
+    {
+      "case": "legal-20271009",
+      "legacy_cost": 29,
+      "native_cost": 25,
+      "first_candidate_seconds": 0.9679999999934807
+    },
+    {
+      "case": "legal-20271010",
+      "legacy_cost": 27,
+      "native_cost": 25,
+      "first_candidate_seconds": 0.9689999999973224
+    },
+    {
+      "case": "legal-20271011",
+      "legacy_cost": 31,
+      "native_cost": 19,
+      "first_candidate_seconds": 0.5
+    },
+    {
+      "case": "legal-20271012",
+      "legacy_cost": 29,
+      "native_cost": 25,
+      "first_candidate_seconds": 0.9689999999973224
+    },
+    {
+      "case": "legal-20271013",
+      "legacy_cost": 29,
+      "native_cost": 23,
+      "first_candidate_seconds": 0.9850000000005821
+    },
+    {
+      "case": "legal-20271014",
+      "legacy_cost": 28,
+      "native_cost": 24,
+      "first_candidate_seconds": 0.9840000000112923
+    },
+    {
+      "case": "legal-20271015",
+      "legacy_cost": 28,
+      "native_cost": 24,
+      "first_candidate_seconds": 0.9689999999973224
+    },
+    {
+      "case": "legal-20271016",
+      "legacy_cost": 29,
+      "native_cost": 25,
+      "first_candidate_seconds": 0.9530000000086147
+    },
+    {
+      "case": "legal-20271017",
+      "legacy_cost": 33,
+      "native_cost": 25,
+      "first_candidate_seconds": 0.9530000000086147
+    },
+    {
+      "case": "legal-20271018",
+      "legacy_cost": 30,
+      "native_cost": 24,
+      "first_candidate_seconds": 1.0
+    },
+    {
+      "case": "legal-20271019",
+      "legacy_cost": 32,
+      "native_cost": 26,
+      "first_candidate_seconds": 0.9539999999979045
+    },
+    {
+      "case": "legal-20271020",
+      "legacy_cost": 32,
+      "native_cost": 24,
+      "first_candidate_seconds": 0.9839999999967404
+    },
+    {
+      "case": "legal-20271021",
+      "legacy_cost": 32,
+      "native_cost": 26,
+      "first_candidate_seconds": 0.9689999999973224
+    },
+    {
+      "case": "legal-20271022",
+      "legacy_cost": 29,
+      "native_cost": 25,
+      "first_candidate_seconds": 0.9839999999967404
+    },
+    {
+      "case": "legal-20271023",
+      "legacy_cost": 30,
+      "native_cost": 26,
+      "first_candidate_seconds": 0.9850000000005821
+    },
+    {
+      "case": "legal-20271024",
+      "legacy_cost": 29,
+      "native_cost": 25,
+      "first_candidate_seconds": 0.9850000000005821
+    },
+    {
+      "case": "legal-20271025",
+      "legacy_cost": 31,
+      "native_cost": 25,
+      "first_candidate_seconds": 0.9689999999973224
+    },
+    {
+      "case": "legal-20271026",
+      "legacy_cost": 28,
+      "native_cost": 26,
+      "first_candidate_seconds": 0.9530000000086147
+    },
+    {
+      "case": "legal-20271027",
+      "legacy_cost": 31,
+      "native_cost": 25,
+      "first_candidate_seconds": 0.9839999999967404
+    },
+    {
+      "case": "legal-20271028",
+      "legacy_cost": 28,
+      "native_cost": 22,
+      "first_candidate_seconds": 1.0
+    },
+    {
+      "case": "legal-20271029",
+      "legacy_cost": 29,
+      "native_cost": 23,
+      "first_candidate_seconds": 0.9689999999973224
+    },
+    {
+      "case": "legal-20271030",
+      "legacy_cost": 30,
+      "native_cost": 26,
+      "first_candidate_seconds": 0.9850000000005821
+    },
+    {
+      "case": "legal-20271031",
+      "legacy_cost": 28,
+      "native_cost": 24,
+      "first_candidate_seconds": 0.9529999999940628
+    }
+  ]
+}

@@ -114,7 +114,7 @@ def test_active_job_keys_isolate_metric_budget_and_proof_version(jobs):
     assert htm == htm_retry and htm_worker is retry
     assert len({htm, qtm, qtm_small}) == 3
     assert server.JOBS[qtm]['metric'] == 'QTM'
-    assert server.JOBS[qtm]['proof_version'] == 2
+    assert server.JOBS[qtm]['proof_version'] == 3
 
 
 def test_candidates_compare_weighted_cost_not_item_count(jobs):
@@ -148,6 +148,23 @@ def test_qtm_engine_failure_falls_back_with_same_metric_deadline_and_cost(jobs):
     assert solve.call_args.kwargs['metric'] == 'QTM'
     assert solve.call_args.kwargs['upper_bound'] == 2
     assert solve.call_args.kwargs['deadline'] == server.JOBS[key]['_deadline']
+
+
+def test_qtm_native_failure_uses_python_candidate_when_none_was_published(jobs):
+    candidate = SolveResult(['R2'], 2, 'QTM', 0, False)
+    with patch.object(server, 'solve_native', side_effect=NativeSolverError('bad QTM asset')), patch.object(
+        server, 'generate_quick_solution', return_value=candidate
+    ) as quick, patch.object(
+        server.SOLVER, 'solve_cube', return_value=SolveResult(['R2'], 2, 'QTM', 0, True)
+    ) as solve:
+        key, worker = server.prepare_optimal_job(after('R2'), None, 26, 3, metric='QTM')
+        worker.start()
+        worker.join(5)
+    assert server.JOBS[key]['status'] == 'complete'
+    assert server.JOBS[key]['candidate_result']['depth'] == 2
+    assert server.JOBS[key]['fallback_reason'] == 'bad QTM asset'
+    assert quick.call_args.kwargs['force_python'] is True
+    assert solve.call_args.kwargs['upper_bound'] == 2
 
 
 def test_qtm_native_timeout_does_not_start_python(jobs):
@@ -186,6 +203,17 @@ def test_http_qtm_budget_one_is_incomplete_not_invalid_state(api):
     assert status == 200 and result['ok']
     assert result['metric'] == 'QTM' and not result['optimal']
     assert result['depth'] is None and result['proof_status'] == 'budget_exhausted'
+
+
+def test_http_shallow_result_does_not_finish_existing_running_job(api):
+    cube = after('R2')
+    existing_id, _ = server.prepare_optimal_job(cube, None, 1, 3, metric='QTM')
+    with server.JOBS_LOCK:
+        server.JOBS[existing_id]['status'] = 'running'
+    status, result = api({'facelets': to_facelets(cube), 'metric': 'QTM', 'max_depth': 1})
+    assert status == 200 and result['proof_status'] == 'budget_exhausted'
+    assert result['job_id'] != existing_id
+    assert server.JOBS[existing_id]['status'] == 'running'
 
 
 @pytest.mark.parametrize('metric,depth', [('HTM', 1), ('QTM', 2)])

@@ -166,7 +166,7 @@ jobs:
           }
 
       - name: Build native solver
-        run: .\native\build.ps1 -Compiler "${{ steps.msys2.outputs.msys2-location }}\ucrt64\bin\g++.exe"
+        run: .\native\build.ps1 -Portable -Compiler "${{ steps.msys2.outputs.msys2-location }}\ucrt64\bin\g++.exe"
 
       - name: Run required native binary tests
         env:

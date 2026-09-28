@@ -12,8 +12,8 @@
 #include <atomic>
 #include <bit>
 #include <chrono>
-#include <cstring>
 #include <cstdlib>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <limits>
@@ -93,15 +93,14 @@ bool valid_qtm_header(const std::uint8_t *view, std::uint64_t file_bytes, std::u
     if (file_bytes < sizeof(QtmPdbHeader))
         return false;
     const auto *header = reinterpret_cast<const QtmPdbHeader *>(view);
-    const bool metadata_valid = header->magic == kMagic && header->version == kQtmVersion &&
-           header->header_size == sizeof(QtmPdbHeader) && header->metric == kMetricQtm &&
-           header->pattern == pattern && header->coordinate_version == kCoordinateVersion &&
-           header->builder_version == kBuilderVersion && header->bits_per_entry == 8 &&
-           header->entry_count == entries && header->data_bytes == entries &&
-           file_bytes == sizeof(QtmPdbHeader) + entries && header->coverage_depth < 255 &&
-           header->max_distance <= header->coverage_depth && header->unknown_count <= entries &&
-           ((header->flags & kCompleteFlag) != 0) == (header->unknown_count == 0) &&
-           (header->flags & kChecksumFlag) != 0;
+    const bool metadata_valid =
+        header->magic == kMagic && header->version == kQtmVersion && header->header_size == sizeof(QtmPdbHeader) &&
+        header->metric == kMetricQtm && header->pattern == pattern &&
+        header->coordinate_version == kCoordinateVersion && header->builder_version == kBuilderVersion &&
+        header->bits_per_entry == 8 && header->entry_count == entries && header->data_bytes == entries &&
+        file_bytes == sizeof(QtmPdbHeader) + entries && header->coverage_depth < 255 &&
+        header->max_distance <= header->coverage_depth && header->unknown_count <= entries &&
+        ((header->flags & kCompleteFlag) != 0) == (header->unknown_count == 0) && (header->flags & kChecksumFlag) != 0;
     if (!metadata_valid)
         return false;
     std::uint64_t checksum = 1469598103934665603ULL;
@@ -193,8 +192,8 @@ Phase1PatternDatabase::Phase1PatternDatabase(const std::filesystem::path &path) 
         size.QuadPart == static_cast<LONGLONG>(header->header_size + header->data_bytes) && header->max_value <= 15 &&
         (header->flags & kChecksumFlag) != 0 &&
         header->reserved[0] == checksum_bytes(view_ + header->header_size, header->data_bytes);
-    const bool qtm_valid = valid_qtm_header(view_, static_cast<std::uint64_t>(size.QuadPart),
-                                            kPatternPhase1Symmetry, kPhase1PatternEntries);
+    const bool qtm_valid = valid_qtm_header(view_, static_cast<std::uint64_t>(size.QuadPart), kPatternPhase1Symmetry,
+                                            kPhase1PatternEntries);
     if (!old_valid && !qtm_valid) {
         UnmapViewOfFile(view_);
         CloseHandle(mapping);
@@ -299,8 +298,8 @@ CornerPatternDatabase::CornerPatternDatabase(const std::filesystem::path &path) 
         size.QuadPart == static_cast<LONGLONG>(header->header_size + header->data_bytes) && header->max_value <= 15 &&
         (header->flags & kChecksumFlag) != 0 &&
         header->reserved[0] == checksum_bytes(view_ + header->header_size, header->data_bytes);
-    const bool qtm_valid = valid_qtm_header(view_, static_cast<std::uint64_t>(size.QuadPart),
-                                            kPatternCorners, kCornerPatternEntries);
+    const bool qtm_valid =
+        valid_qtm_header(view_, static_cast<std::uint64_t>(size.QuadPart), kPatternCorners, kCornerPatternEntries);
     if (!old_valid && !qtm_valid) {
         UnmapViewOfFile(view_);
         CloseHandle(mapping);
@@ -391,8 +390,8 @@ EdgePatternDatabase::EdgePatternDatabase(const std::filesystem::path &path, int 
         size.QuadPart == static_cast<LONGLONG>(header->header_size + header->data_bytes) && header->max_value <= 15 &&
         (header->flags & kChecksumFlag) != 0 &&
         header->reserved[0] == checksum_bytes(view_ + header->header_size, header->data_bytes);
-    const bool qtm_valid = valid_qtm_header(view_, static_cast<std::uint64_t>(size.QuadPart),
-                                            expected_pattern, kEdgePatternEntries);
+    const bool qtm_valid =
+        valid_qtm_header(view_, static_cast<std::uint64_t>(size.QuadPart), expected_pattern, kEdgePatternEntries);
     if (!old_valid && !qtm_valid) {
         UnmapViewOfFile(view_);
         CloseHandle(mapping);
@@ -940,9 +939,9 @@ void build_phase1_pattern_database(const std::filesystem::path &path, const Coor
 namespace {
 
 template <typename Neighbors>
-void build_qtm_pattern(const std::filesystem::path &path, std::uint32_t pattern, std::uint64_t entries,
-                       int threads, int coverage_depth, bool force, const char *label,
-                       std::uint32_t solved_index, Neighbors neighbors) {
+void build_qtm_pattern(const std::filesystem::path &path, std::uint32_t pattern, std::uint64_t entries, int threads,
+                       int coverage_depth, bool force, const char *label, std::uint32_t solved_index,
+                       Neighbors neighbors) {
     if (coverage_depth < 0 || coverage_depth > 254)
         throw std::invalid_argument("QTM PDB coverage depth must be 0..254");
     if (!force && std::filesystem::exists(path)) {
@@ -976,8 +975,8 @@ void build_qtm_pattern(const std::filesystem::path &path, std::uint32_t pattern,
         std::vector<std::thread> workers;
         for (int thread = 0; thread < threads; ++thread) {
             workers.emplace_back([&, thread] {
-                for (std::uint64_t index = entries * thread / threads;
-                     index < entries * (thread + 1) / threads; ++index)
+                for (std::uint64_t index = entries * thread / threads; index < entries * (thread + 1) / threads;
+                     ++index)
                     distances[index].store(255, std::memory_order_relaxed);
             });
         }
@@ -1004,8 +1003,8 @@ void build_qtm_pattern(const std::filesystem::path &path, std::uint32_t pattern,
                     for (std::size_t item = begin; item < end; ++item) {
                         neighbors(frontier[item], [&](std::uint32_t child) {
                             std::uint8_t expected = 255;
-                            if (distances[child].compare_exchange_strong(expected,
-                                    static_cast<std::uint8_t>(depth + 1), std::memory_order_relaxed))
+                            if (distances[child].compare_exchange_strong(expected, static_cast<std::uint8_t>(depth + 1),
+                                                                         std::memory_order_relaxed))
                                 output.push_back(child);
                         });
                     }
@@ -1026,8 +1025,9 @@ void build_qtm_pattern(const std::filesystem::path &path, std::uint32_t pattern,
         discovered += frontier.size();
         ++depth;
         std::cerr << label << " metric=QTM depth=" << depth << " frontier=" << frontier.size()
-                  << " discovered=" << discovered << " elapsed="
-                  << std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count() << "s\n";
+                  << " discovered=" << discovered
+                  << " elapsed=" << std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count()
+                  << "s\n";
     }
     std::vector<std::uint8_t> data(entries);
     std::array<std::uint64_t, 256> histogram{};
@@ -1074,8 +1074,7 @@ void build_qtm_pattern(const std::filesystem::path &path, std::uint32_t pattern,
     if (!MoveFileExW(temporary.c_str(), path.c_str(), MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH))
         throw windows_error("publish QTM PDB");
     std::cerr << label << " metric=QTM complete=" << (unknown_count == 0) << " max_distance=" << max_distance
-              << " unknown=" << unknown_count << " checksum=" << header.checksum << " file=" << utf8_path(path)
-              << "\n";
+              << " unknown=" << unknown_count << " checksum=" << header.checksum << " file=" << utf8_path(path) << "\n";
 }
 
 } // namespace
@@ -1122,8 +1121,8 @@ void build_qtm_phase1_pattern_database(const std::filesystem::path &path, const 
     }
     const auto solved_slice = slice_comb_coord(CubieCube{});
     const auto solved_index = symmetry.canonical_index(0, 0, solved_slice);
-    build_qtm_pattern(path, kPatternPhase1Symmetry, kPhase1PatternEntries, threads, coverage_depth, force,
-                      "phase1-pdb", solved_index, [&](std::uint32_t coordinate, auto emit) {
+    build_qtm_pattern(path, kPatternPhase1Symmetry, kPhase1PatternEntries, threads, coverage_depth, force, "phase1-pdb",
+                      solved_index, [&](std::uint32_t coordinate, auto emit) {
                           const std::uint32_t class_index = coordinate / 2187U;
                           const auto twist = static_cast<std::uint16_t>(coordinate % 2187U);
                           const auto base = static_cast<std::size_t>(class_index) * move_count;
@@ -1144,8 +1143,8 @@ void build_qtm_phase1_pattern_database(const std::filesystem::path &path, const 
                       });
 }
 
-void build_qtm_edge_pattern_database(const std::filesystem::path &path, int group, int threads,
-                                     int coverage_depth, bool force) {
+void build_qtm_edge_pattern_database(const std::filesystem::path &path, int group, int threads, int coverage_depth,
+                                     bool force) {
     if (group < 0 || group > 7)
         throw std::invalid_argument("edge pattern group must be 0..7");
     const auto solved = edge_pattern_coord(edge_pattern_state(CubieCube{}, edge_pattern_group(group)));
@@ -1163,8 +1162,8 @@ void build_qtm_edge_pattern_database(const std::filesystem::path &path, int grou
 namespace {
 
 template <typename Value, typename Neighbors, typename Equivalents>
-PdbVerification verify_qtm_graph(std::uint64_t entries, std::uint32_t goal, int threads,
-                                 Value value, Neighbors neighbors, Equivalents equivalents) {
+PdbVerification verify_qtm_graph(std::uint64_t entries, std::uint32_t goal, int threads, Value value,
+                                 Neighbors neighbors, Equivalents equivalents) {
     threads = std::clamp(threads > 0 ? threads : static_cast<int>(std::thread::hardware_concurrency()), 1, 64);
     struct Local {
         PdbVerification stats;
@@ -1176,8 +1175,7 @@ PdbVerification verify_qtm_graph(std::uint64_t entries, std::uint32_t goal, int 
     for (int thread = 0; thread < threads; ++thread) {
         workers.emplace_back([&, thread] {
             auto &local = locals[thread];
-            for (std::uint64_t index = entries * thread / threads;
-                 index < entries * (thread + 1) / threads; ++index) {
+            for (std::uint64_t index = entries * thread / threads; index < entries * (thread + 1) / threads; ++index) {
                 const int distance = value(static_cast<std::uint32_t>(index));
                 if (distance >= 255 || (distance == 0) != (index == goal)) {
                     local.bad = index;
@@ -1213,8 +1211,7 @@ PdbVerification verify_qtm_graph(std::uint64_t entries, std::uint32_t goal, int 
     PdbVerification total;
     for (const auto &local : locals) {
         if (local.bad != std::numeric_limits<std::uint64_t>::max())
-            throw std::runtime_error("QTM PDB distance certificate failed at index " +
-                                     std::to_string(local.bad));
+            throw std::runtime_error("QTM PDB distance certificate failed at index " + std::to_string(local.bad));
         total.checked += local.stats.checked;
         total.transitions += local.stats.transitions;
         total.max_distance = std::max(total.max_distance, local.stats.max_distance);
@@ -1230,17 +1227,17 @@ PdbVerification verify_qtm_corner_pdb(const std::filesystem::path &path, const C
     CornerPatternDatabase pdb(path);
     if (pdb.metric() != MoveMetric::QTM || !pdb.complete())
         throw std::invalid_argument("full QTM corner verification requires a complete QTM table");
-    return verify_qtm_graph(kCornerPatternEntries, 0, threads,
-                            [&](std::uint32_t index) { return pdb.distance(index); },
-                            [&](std::uint32_t coordinate, auto emit) {
-                                const auto corner = static_cast<std::uint16_t>(coordinate / 2187U);
-                                const auto twist = static_cast<std::uint16_t>(coordinate % 2187U);
-                                for (int move = 0; move < 18; ++move)
-                                    if (move % 3 != 1)
-                                        emit(static_cast<std::uint32_t>(tables.corner_move(corner, move)) * 2187U +
-                                             tables.twist_move(twist, move));
-                            },
-                            [](std::uint32_t, auto) {});
+    return verify_qtm_graph(
+        kCornerPatternEntries, 0, threads, [&](std::uint32_t index) { return pdb.distance(index); },
+        [&](std::uint32_t coordinate, auto emit) {
+            const auto corner = static_cast<std::uint16_t>(coordinate / 2187U);
+            const auto twist = static_cast<std::uint16_t>(coordinate % 2187U);
+            for (int move = 0; move < 18; ++move)
+                if (move % 3 != 1)
+                    emit(static_cast<std::uint32_t>(tables.corner_move(corner, move)) * 2187U +
+                         tables.twist_move(twist, move));
+        },
+        [](std::uint32_t, auto) {});
 }
 
 PdbVerification verify_qtm_edge_pdb(const std::filesystem::path &path, int group, int threads) {
@@ -1248,19 +1245,18 @@ PdbVerification verify_qtm_edge_pdb(const std::filesystem::path &path, int group
     if (pdb.metric() != MoveMetric::QTM || !pdb.complete())
         throw std::invalid_argument("full QTM edge verification requires a complete QTM table");
     const auto goal = edge_pattern_coord(edge_pattern_state(CubieCube{}, edge_pattern_group(group)));
-    return verify_qtm_graph(kEdgePatternEntries, goal, threads,
-                            [&](std::uint32_t index) { return pdb.distance(index); },
-                            [&](std::uint32_t coordinate, auto emit) {
-                                const auto state = edge_pattern_from_coord(coordinate);
-                                for (int move = 0; move < 18; ++move)
-                                    if (move % 3 != 1)
-                                        emit(edge_pattern_coord(move_edge_pattern(state, move)));
-                            },
-                            [](std::uint32_t, auto) {});
+    return verify_qtm_graph(
+        kEdgePatternEntries, goal, threads, [&](std::uint32_t index) { return pdb.distance(index); },
+        [&](std::uint32_t coordinate, auto emit) {
+            const auto state = edge_pattern_from_coord(coordinate);
+            for (int move = 0; move < 18; ++move)
+                if (move % 3 != 1)
+                    emit(edge_pattern_coord(move_edge_pattern(state, move)));
+        },
+        [](std::uint32_t, auto) {});
 }
 
-PdbVerification verify_qtm_phase1_pdb(const std::filesystem::path &path, const CoordinateTables &tables,
-                                        int threads) {
+PdbVerification verify_qtm_phase1_pdb(const std::filesystem::path &path, const CoordinateTables &tables, int threads) {
     Phase1PatternDatabase pdb(path);
     if (pdb.metric() != MoveMetric::QTM || !pdb.complete())
         throw std::invalid_argument("full QTM phase-1 verification requires a complete QTM table");
@@ -1273,32 +1269,31 @@ PdbVerification verify_qtm_phase1_pdb(const std::filesystem::path &path, const C
                 stabilizers[class_index] |= static_cast<std::uint16_t>(1U << sym);
     }
     const auto goal = symmetry.canonical_index(0, 0, slice_comb_coord(CubieCube{}));
-    return verify_qtm_graph(kPhase1PatternEntries, goal, threads,
-                            [&](std::uint32_t index) { return pdb.distance_index(index); },
-                            [&](std::uint32_t coordinate, auto emit) {
-                                const std::uint32_t class_index = coordinate / 2187U;
-                                const auto twist = static_cast<std::uint16_t>(coordinate % 2187U);
-                                const auto raw = symmetry.representative(class_index);
-                                const auto flip = static_cast<std::uint16_t>(raw / 495U);
-                                const auto slice = static_cast<std::uint16_t>(raw % 495U);
-                                for (int move = 0; move < 18; ++move) {
-                                    if (move % 3 == 1)
-                                        continue;
-                                    emit(symmetry.canonical_index(tables.twist_move(twist, move),
-                                                                   tables.flip_move(flip, move),
-                                                                   tables.slice_move(slice, move)));
-                                }
-                            },
-                            [&](std::uint32_t coordinate, auto emit) {
-                                const auto class_index = coordinate / 2187U;
-                                const auto twist = static_cast<std::uint16_t>(coordinate % 2187U);
-                                auto mask = stabilizers[class_index];
-                                while (mask != 0) {
-                                    const int sym = std::countr_zero(mask);
-                                    mask &= static_cast<std::uint16_t>(mask - 1U);
-                                    emit(class_index * 2187U + symmetry.twist_conjugate(twist, sym));
-                                }
-                            });
+    return verify_qtm_graph(
+        kPhase1PatternEntries, goal, threads, [&](std::uint32_t index) { return pdb.distance_index(index); },
+        [&](std::uint32_t coordinate, auto emit) {
+            const std::uint32_t class_index = coordinate / 2187U;
+            const auto twist = static_cast<std::uint16_t>(coordinate % 2187U);
+            const auto raw = symmetry.representative(class_index);
+            const auto flip = static_cast<std::uint16_t>(raw / 495U);
+            const auto slice = static_cast<std::uint16_t>(raw % 495U);
+            for (int move = 0; move < 18; ++move) {
+                if (move % 3 == 1)
+                    continue;
+                emit(symmetry.canonical_index(tables.twist_move(twist, move), tables.flip_move(flip, move),
+                                              tables.slice_move(slice, move)));
+            }
+        },
+        [&](std::uint32_t coordinate, auto emit) {
+            const auto class_index = coordinate / 2187U;
+            const auto twist = static_cast<std::uint16_t>(coordinate % 2187U);
+            auto mask = stabilizers[class_index];
+            while (mask != 0) {
+                const int sym = std::countr_zero(mask);
+                mask &= static_cast<std::uint16_t>(mask - 1U);
+                emit(class_index * 2187U + symmetry.twist_conjugate(twist, sym));
+            }
+        });
 }
 
 } // namespace cube

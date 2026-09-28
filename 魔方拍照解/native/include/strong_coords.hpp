@@ -23,10 +23,9 @@ class SortedSliceSymmetry {
     [[nodiscard]] std::uint8_t symmetry_to_representative(std::uint16_t sorted) const noexcept;
     [[nodiscard]] std::uint16_t representative(std::uint16_t class_index) const noexcept;
     [[nodiscard]] std::uint16_t stabilizer_mask(std::uint16_t class_index) const noexcept;
-    [[nodiscard]] std::uint16_t flip_conjugate(std::uint16_t flip, std::uint16_t sorted,
-                                               int symmetry) const noexcept;
+    [[nodiscard]] std::uint16_t flip_conjugate(std::uint16_t flip, std::uint16_t sorted, int symmetry) const noexcept;
     [[nodiscard]] std::uint64_t canonical_index(std::uint16_t twist, std::uint16_t flip,
-                                                 std::uint16_t sorted) const noexcept;
+                                                std::uint16_t sorted) const noexcept;
     [[nodiscard]] std::uint16_t class_count() const noexcept;
     [[nodiscard]] const Phase1Symmetry &phase1() const noexcept;
 

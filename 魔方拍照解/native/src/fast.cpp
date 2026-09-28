@@ -77,7 +77,8 @@ struct Phase2Tables {
                     const auto next_permutation = permutation_moves[permutation * kPhase2Moves.size() + column];
                     const auto next_slice = slice_move[slice * kPhase2Moves.size() + column];
                     const auto next = static_cast<std::uint32_t>(next_permutation) * 24U + next_slice;
-                    const auto next_depth = depth + static_cast<std::size_t>(move_cost(kPhase2Moves[column], MoveMetric::QTM));
+                    const auto next_depth =
+                        depth + static_cast<std::size_t>(move_cost(kPhase2Moves[column], MoveMetric::QTM));
                     if (next_depth >= distances[next])
                         continue;
                     if (distances[next] == 255)
@@ -138,9 +139,8 @@ class Search {
     Search(const CubieCube &cube, const CoordinateTables &tables, const Phase1PatternDatabase &phase1,
            const Phase2Tables &phase2, const FastCandidateOptions &options)
         : cube_(cube), tables_(tables), phase1_(phase1), phase2_(phase2), options_(options),
-          deadline_(std::chrono::steady_clock::now() +
-                    std::chrono::duration_cast<std::chrono::steady_clock::duration>(
-                        std::chrono::duration<double>(options.timeout_seconds))),
+          deadline_(std::chrono::steady_clock::now() + std::chrono::duration_cast<std::chrono::steady_clock::duration>(
+                                                           std::chrono::duration<double>(options.timeout_seconds))),
           best_cost_(options.incumbent_cost) {
         result_.phase1_max_distance = phase1.max_value();
         result_.phase2_max_distance = std::max(phase2.corner_max, phase2.edge_max);
@@ -226,8 +226,7 @@ class Search {
         return current;
     }
 
-    bool phase2_dfs(std::uint16_t corner, std::uint16_t edge, std::uint8_t slice, int remaining,
-                    int last_face) {
+    bool phase2_dfs(std::uint16_t corner, std::uint16_t edge, std::uint8_t slice, int remaining, int last_face) {
         ++result_.phase2_nodes;
         if (expired() || phase2_.lower(corner, edge, slice) > remaining)
             return false;
@@ -241,7 +240,8 @@ class Search {
             const int next_remaining = remaining - move_cost(move, MoveMetric::QTM);
             if (next_remaining < 0)
                 continue;
-            const auto next_corner = phase2_.corner_move[static_cast<std::size_t>(corner) * kPhase2Moves.size() + column];
+            const auto next_corner =
+                phase2_.corner_move[static_cast<std::size_t>(corner) * kPhase2Moves.size() + column];
             const auto next_edge = phase2_.edge_move[static_cast<std::size_t>(edge) * kPhase2Moves.size() + column];
             const auto next_slice = phase2_.slice_move[static_cast<std::size_t>(slice) * kPhase2Moves.size() + column];
             if (phase2_.lower(next_corner, next_edge, next_slice) > next_remaining)
@@ -258,7 +258,8 @@ class Search {
 
     void try_phase2(const CubieCube &cube) {
         const auto corner = corner_perm_coord(cube);
-        const auto edge = static_cast<std::uint16_t>(rank_permutation(std::span<const std::uint8_t>(cube.ep.data(), 8)));
+        const auto edge =
+            static_cast<std::uint16_t>(rank_permutation(std::span<const std::uint8_t>(cube.ep.data(), 8)));
         std::array<std::uint8_t, 4> last{};
         for (int position = 0; position < 4; ++position)
             last[position] = static_cast<std::uint8_t>(cube.ep[8 + position] - 8);
@@ -276,8 +277,8 @@ class Search {
         }
     }
 
-    void phase1_dfs(const CubieCube &cube, std::uint16_t twist, std::uint16_t flip, std::uint16_t slice,
-                    int remaining, int last_face) {
+    void phase1_dfs(const CubieCube &cube, std::uint16_t twist, std::uint16_t flip, std::uint16_t slice, int remaining,
+                    int last_face) {
         ++result_.phase1_nodes;
         if (expired() || phase1_.distance(twist, flip, slice) > remaining)
             return;
@@ -336,8 +337,8 @@ FastCandidateResult find_fast_qtm_candidate(const CubieCube &cube, const Coordin
     result.phase1_max_distance = phase1_pdb.max_value();
     result.phase2_max_distance = std::max(phase2.corner_max, phase2.edge_max);
     int best_cost = options.incumbent_cost;
-    constexpr std::array<std::pair<int, bool>, 6> variants{{{-1, false}, {0, false}, {1, false},
-                                                              {-1, true}, {0, true}, {1, true}}};
+    constexpr std::array<std::pair<int, bool>, 6> variants{
+        {{-1, false}, {0, false}, {1, false}, {-1, true}, {0, true}, {1, true}}};
     for (std::size_t index = 0; index < variants.size(); ++index) {
         const auto now = std::chrono::steady_clock::now();
         if (now >= deadline ||

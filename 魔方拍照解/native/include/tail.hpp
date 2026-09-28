@@ -3,8 +3,8 @@
 #include "cube.hpp"
 #include "metric.hpp"
 
-#include <cstdint>
 #include <array>
+#include <cstdint>
 #include <filesystem>
 #include <optional>
 #include <vector>

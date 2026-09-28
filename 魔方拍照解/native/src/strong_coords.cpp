@@ -96,9 +96,7 @@ std::uint16_t SortedSliceSymmetry::conjugate(std::uint16_t sorted, int symmetry)
     return conjugates_[static_cast<std::size_t>(sorted) * kPhase1SymmetryCount + symmetry];
 }
 
-std::uint16_t SortedSliceSymmetry::class_index(std::uint16_t sorted) const noexcept {
-    return raw_to_class_[sorted];
-}
+std::uint16_t SortedSliceSymmetry::class_index(std::uint16_t sorted) const noexcept { return raw_to_class_[sorted]; }
 
 std::uint8_t SortedSliceSymmetry::symmetry_to_representative(std::uint16_t sorted) const noexcept {
     return raw_to_symmetry_[sorted];
@@ -120,7 +118,7 @@ std::uint16_t SortedSliceSymmetry::flip_conjugate(std::uint16_t flip, std::uint1
 }
 
 std::uint64_t SortedSliceSymmetry::canonical_index(std::uint16_t twist, std::uint16_t flip,
-                                                    std::uint16_t sorted) const noexcept {
+                                                   std::uint16_t sorted) const noexcept {
     const auto symmetry = symmetry_to_representative(sorted);
     const auto canonical_flip = flip_conjugate(flip, sorted, symmetry);
     const auto canonical_twist = phase1_.twist_conjugate(twist, symmetry);

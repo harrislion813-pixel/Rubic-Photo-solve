@@ -207,8 +207,7 @@ class NativeOptimalSolver {
 
     void load_corner_pdb(const std::filesystem::path &path, std::optional<MoveMetric> expected = std::nullopt);
     void load_phase1_pdb(const std::filesystem::path &path, std::optional<MoveMetric> expected = std::nullopt);
-    void load_edge_pdb(int group, const std::filesystem::path &path,
-                       std::optional<MoveMetric> expected = std::nullopt);
+    void load_edge_pdb(int group, const std::filesystem::path &path, std::optional<MoveMetric> expected = std::nullopt);
     void load_edge_pdbs(const std::filesystem::path &path_a, const std::filesystem::path &path_b);
     void load_extra_edge_pdbs(const std::filesystem::path &path_c, const std::filesystem::path &path_d);
     void load_tail_database(const std::filesystem::path &path, MoveMetric expected_metric = MoveMetric::HTM);

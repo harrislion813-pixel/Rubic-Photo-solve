@@ -119,10 +119,10 @@ struct PdbVerification {
     std::array<std::uint64_t, 256> histogram{};
 };
 
-[[nodiscard]] PdbVerification verify_qtm_corner_pdb(const std::filesystem::path &path,
-                                                     const CoordinateTables &tables, int threads);
-[[nodiscard]] PdbVerification verify_qtm_phase1_pdb(const std::filesystem::path &path,
-                                                     const CoordinateTables &tables, int threads);
+[[nodiscard]] PdbVerification verify_qtm_corner_pdb(const std::filesystem::path &path, const CoordinateTables &tables,
+                                                    int threads);
+[[nodiscard]] PdbVerification verify_qtm_phase1_pdb(const std::filesystem::path &path, const CoordinateTables &tables,
+                                                    int threads);
 [[nodiscard]] PdbVerification verify_qtm_edge_pdb(const std::filesystem::path &path, int group, int threads);
 
 } // namespace cube

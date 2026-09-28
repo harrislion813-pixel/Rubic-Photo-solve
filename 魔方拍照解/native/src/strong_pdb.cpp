@@ -77,11 +77,10 @@ bool valid_header(const StrongHeader &header, std::uint64_t file_bytes) noexcept
            header.metric == kMetricQtm && header.pattern == kPatternStrong &&
            header.coordinate_version == kCoordinateVersion && header.builder_version == kBuilderVersion &&
            header.bits_per_entry == 8 && header.entry_count == kStrongPatternEntries &&
-           header.data_bytes == kStrongPatternEntries &&
-           file_bytes == sizeof(StrongHeader) + kStrongPatternEntries && header.coverage_depth < 255 &&
-           header.max_distance <= header.coverage_depth && header.unknown_count <= kStrongPatternEntries &&
-           ((header.flags & kCompleteFlag) != 0) == (header.unknown_count == 0) &&
-           (header.flags & kChecksumFlag) != 0;
+           header.data_bytes == kStrongPatternEntries && file_bytes == sizeof(StrongHeader) + kStrongPatternEntries &&
+           header.coverage_depth < 255 && header.max_distance <= header.coverage_depth &&
+           header.unknown_count <= kStrongPatternEntries &&
+           ((header.flags & kCompleteFlag) != 0) == (header.unknown_count == 0) && (header.flags & kChecksumFlag) != 0;
 }
 
 StrongHeader make_header(int depth, std::uint64_t discovered, const std::uint8_t *data) {
@@ -133,8 +132,8 @@ struct StrongTransitions {
                     next_flip[slot * 2048U + flip] = flip_coord(canonical);
                 }
                 for (std::uint16_t twist = 0; twist < 2187; ++twist)
-                    next_twist[slot * 2187U + twist] = symmetry.phase1().twist_conjugate(
-                        tables.twist_move(twist, move), mapping);
+                    next_twist[slot * 2187U + twist] =
+                        symmetry.phase1().twist_conjugate(tables.twist_move(twist, move), mapping);
             }
             auto mask = symmetry.stabilizer_mask(class_index);
             mask &= static_cast<std::uint16_t>(mask - 1U); // The identity slot is emitted directly.
@@ -170,7 +169,8 @@ StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path) 
         throw windows_error("open strong PDB");
     file_ = file;
     LARGE_INTEGER size{};
-    if (!GetFileSizeEx(file, &size) || size.QuadPart != static_cast<LONGLONG>(sizeof(StrongHeader) + kStrongPatternEntries)) {
+    if (!GetFileSizeEx(file, &size) ||
+        size.QuadPart != static_cast<LONGLONG>(sizeof(StrongHeader) + kStrongPatternEntries)) {
         CloseHandle(file);
         file_ = nullptr;
         throw std::runtime_error("strong PDB size is invalid");
@@ -280,7 +280,8 @@ StrongVerification StrongPatternDatabase::verify_all(const CoordinateTables &tab
                         ++result.distance_histogram[distance];
                         bool predecessor = distance == 0;
                         for (std::size_t quarter = 0; quarter < kQuarterMoves.size(); ++quarter) {
-                            const std::size_t slot = static_cast<std::size_t>(class_index) * kQuarterMoves.size() + quarter;
+                            const std::size_t slot =
+                                static_cast<std::size_t>(class_index) * kQuarterMoves.size() + quarter;
                             const auto child_class = transitions.next_class[slot];
                             const auto child_flip = transitions.next_flip[slot * 2048U + flip];
                             const auto child_twist = transitions.next_twist[slot * 2187U + twist];
@@ -319,8 +320,8 @@ StrongVerification StrongPatternDatabase::verify_all(const CoordinateTables &tab
 
 namespace {
 
-void write_checkpoint(const std::filesystem::path &checkpoint, const std::atomic<std::uint8_t> *distances,
-                      int depth, std::uint64_t discovered) {
+void write_checkpoint(const std::filesystem::path &checkpoint, const std::atomic<std::uint8_t> *distances, int depth,
+                      std::uint64_t discovered) {
     const auto *bytes = reinterpret_cast<const std::uint8_t *>(distances);
     std::cerr << "strong-pdb checkpoint depth=" << depth << " checksum-start\n";
     const StrongHeader header = make_header(depth, discovered, bytes);
@@ -348,8 +349,8 @@ void write_checkpoint(const std::filesystem::path &checkpoint, const std::atomic
 }
 
 std::pair<int, std::uint64_t> restore_checkpoint(const std::filesystem::path &path,
-                                                  std::atomic<std::uint8_t> *distances,
-                                                  std::vector<std::uint64_t> &frontier) {
+                                                 std::atomic<std::uint8_t> *distances,
+                                                 std::vector<std::uint64_t> &frontier) {
     std::ifstream input(path, std::ios::binary | std::ios::ate);
     if (!input || input.tellg() != static_cast<std::streamoff>(sizeof(StrongHeader) + kStrongPatternEntries))
         throw std::runtime_error("strong PDB checkpoint is missing or truncated");
@@ -388,8 +389,8 @@ std::pair<int, std::uint64_t> restore_checkpoint(const std::filesystem::path &pa
 
 } // namespace
 
-void build_strong_pattern_database(const std::filesystem::path &path, const CoordinateTables &tables,
-                                   int threads, int coverage_depth, bool resume, double memory_limit_gib) {
+void build_strong_pattern_database(const std::filesystem::path &path, const CoordinateTables &tables, int threads,
+                                   int coverage_depth, bool resume, double memory_limit_gib) {
     if (coverage_depth < 0 || coverage_depth > 254)
         throw std::invalid_argument("strong PDB coverage depth must be 0..254");
     if (!std::isfinite(memory_limit_gib) || memory_limit_gib <= 0)
@@ -410,8 +411,8 @@ void build_strong_pattern_database(const std::filesystem::path &path, const Coor
         throw windows_error("query available memory");
     const auto user_limit = static_cast<std::uint64_t>(memory_limit_gib * 1024.0 * 1024.0 * 1024.0);
     const auto hard_limit = std::min(user_limit, memory.ullAvailPhys * 7ULL / 10ULL);
-    const std::uint64_t estimated = kStrongPatternEntries + 2ULL * kWordCount * sizeof(std::uint64_t) +
-                                    512ULL * 1024ULL * 1024ULL;
+    const std::uint64_t estimated =
+        kStrongPatternEntries + 2ULL * kWordCount * sizeof(std::uint64_t) + 512ULL * 1024ULL * 1024ULL;
     if (estimated > hard_limit)
         throw std::runtime_error("strong PDB estimated memory exceeds configured/free-memory limit");
     threads = std::clamp(threads > 0 ? threads : static_cast<int>(std::thread::hardware_concurrency()), 1, 64);
@@ -459,10 +460,9 @@ void build_strong_pattern_database(const std::filesystem::path &path, const Coor
             workers.emplace_back([&, thread] {
                 auto claim = [&](std::uint64_t child) {
                     std::uint8_t expected = 255;
-                    if (distances[child].compare_exchange_strong(expected, next_depth,
-                                                                  std::memory_order_relaxed)) {
-                        std::atomic_ref<std::uint64_t>(next[child >> 6U]).fetch_or(
-                            1ULL << (child & 63U), std::memory_order_relaxed);
+                    if (distances[child].compare_exchange_strong(expected, next_depth, std::memory_order_relaxed)) {
+                        std::atomic_ref<std::uint64_t>(next[child >> 6U])
+                            .fetch_or(1ULL << (child & 63U), std::memory_order_relaxed);
                         ++local_new[thread];
                     }
                 };
@@ -479,15 +479,16 @@ void build_strong_pattern_database(const std::filesystem::path &path, const Coor
                         const std::uint16_t flip = static_cast<std::uint16_t>(remainder / 2187U);
                         const std::uint16_t twist = static_cast<std::uint16_t>(remainder % 2187U);
                         for (std::size_t quarter = 0; quarter < kQuarterMoves.size(); ++quarter) {
-                            const std::size_t slot = static_cast<std::size_t>(class_index) * kQuarterMoves.size() + quarter;
+                            const std::size_t slot =
+                                static_cast<std::size_t>(class_index) * kQuarterMoves.size() + quarter;
                             const auto child_class = transitions.next_class[slot];
                             const auto child_flip = transitions.next_flip[slot * 2048U + flip];
                             const auto child_twist = transitions.next_twist[slot * 2187U + twist];
                             claim((static_cast<std::uint64_t>(child_class) * 2048U + child_flip) * 2187U + child_twist);
                             for (const auto &stabilizer : transitions.stabilizers[child_class]) {
                                 const auto equivalent_flip = stabilizer.flip[child_flip];
-                                const auto equivalent_twist = symmetry.phase1().twist_conjugate(
-                                    child_twist, stabilizer.symmetry);
+                                const auto equivalent_twist =
+                                    symmetry.phase1().twist_conjugate(child_twist, stabilizer.symmetry);
                                 claim((static_cast<std::uint64_t>(child_class) * 2048U + equivalent_flip) * 2187U +
                                       equivalent_twist);
                             }
@@ -509,8 +510,9 @@ void build_strong_pattern_database(const std::filesystem::path &path, const Coor
         std::fill(next.begin(), next.end(), 0);
         write_checkpoint(checkpoint, distances.get(), depth, discovered);
         std::cerr << "strong-pdb metric=QTM depth=" << depth << " frontier=" << layer_count
-                  << " discovered=" << discovered << " elapsed="
-                  << std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count() << "s\n";
+                  << " discovered=" << discovered
+                  << " elapsed=" << std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count()
+                  << "s\n";
     }
     if (!std::filesystem::exists(checkpoint))
         write_checkpoint(checkpoint, distances.get(), depth, discovered);

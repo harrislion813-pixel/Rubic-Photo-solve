@@ -369,8 +369,7 @@ std::optional<TailHit> find_compact_entry(const std::uint64_t *keys, const std::
     }
 }
 
-template <std::size_t N>
-std::array<std::uint8_t, N> unrank_permutation_array(std::uint32_t rank) noexcept {
+template <std::size_t N> std::array<std::uint8_t, N> unrank_permutation_array(std::uint32_t rank) noexcept {
     std::array<std::uint8_t, N> digits{}, available{}, result{};
     for (int index = static_cast<int>(N) - 1; index >= 0; --index) {
         const auto base = static_cast<std::uint32_t>(N - static_cast<std::size_t>(index));
@@ -454,8 +453,7 @@ TailDatabase::TailDatabase(const std::filesystem::path &path) {
     const std::uint64_t data_bytes = header->slot_count * entry_bytes + bloom_bytes;
     bool checksum_valid = false;
     if (size.QuadPart == static_cast<LONGLONG>(sizeof(TailHeader) + data_bytes)) {
-        if (bloom_format && header->reserved[2] ==
-                                (qtm_format ? kQtmBloomChecksumMarker : kBloomChecksumMarker)) {
+        if (bloom_format && header->reserved[2] == (qtm_format ? kQtmBloomChecksumMarker : kBloomChecksumMarker)) {
             const auto *keys = view_ + sizeof(TailHeader);
             const auto *metadata = keys + header->slot_count * sizeof(std::uint64_t);
             const auto *bloom = metadata + header->slot_count * sizeof(std::uint32_t);
@@ -475,14 +473,12 @@ TailDatabase::TailDatabase(const std::filesystem::path &path) {
             checksum_valid = header->reserved[0] == checksum_bytes(view_ + sizeof(TailHeader), data_bytes);
         }
     }
-    const bool qtm_count_valid = !qtm_format ||
-                                 (header->depth != 7 && header->depth != 8) ||
+    const bool qtm_count_valid = !qtm_format || (header->depth != 7 && header->depth != 8) ||
                                  header->state_count == (header->depth == 7 ? 9205558ULL : 86049153ULL);
     const bool valid = header->magic == kMagic && (legacy || compact || bloom_format) &&
-                       header->header_size == sizeof(TailHeader) &&
-                       header->metric == (qtm_format ? 2U : 1U) &&
-                       header->depth <= (qtm_format ? 8U : 7U) &&
-                       header->slot_count > 0 && (header->slot_count & (header->slot_count - 1)) == 0 &&
+                       header->header_size == sizeof(TailHeader) && header->metric == (qtm_format ? 2U : 1U) &&
+                       header->depth <= (qtm_format ? 8U : 7U) && header->slot_count > 0 &&
+                       (header->slot_count & (header->slot_count - 1)) == 0 &&
                        size.QuadPart == static_cast<LONGLONG>(sizeof(TailHeader) + data_bytes) &&
                        header->state_count < header->slot_count && qtm_count_valid && checksum_valid;
     if (!valid) {
@@ -586,7 +582,8 @@ TailVerification TailDatabase::verify_all(int threads) const {
             auto &result = local[static_cast<std::size_t>(thread)];
             for (std::uint64_t slot = slot_count_ * static_cast<std::uint64_t>(thread) / threads;
                  slot < slot_count_ * static_cast<std::uint64_t>(thread + 1) / threads &&
-                 !failed.load(std::memory_order_relaxed); ++slot) {
+                 !failed.load(std::memory_order_relaxed);
+                 ++slot) {
                 const auto value = metadata[slot];
                 const auto distance = metadata_distance(value);
                 if (distance == kEmpty)
@@ -816,9 +813,8 @@ void build_tail_database(const std::filesystem::path &path, int depth, int threa
     }
     if (!MoveFileExW(temporary.c_str(), path.c_str(), MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH))
         throw windows_error("publish tail database");
-    std::cerr << "tail-db complete metric=" << metric_name(metric) << " depth=" << depth
-              << " states=" << state_count << " slots=" << slot_count
-              << " file=" << utf8_path(path) << "\n";
+    std::cerr << "tail-db complete metric=" << metric_name(metric) << " depth=" << depth << " states=" << state_count
+              << " slots=" << slot_count << " file=" << utf8_path(path) << "\n";
 }
 
 } // namespace cube

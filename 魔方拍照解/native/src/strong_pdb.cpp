@@ -29,6 +29,7 @@ namespace {
 
 constexpr std::array<char, 8> kMagic{'R', 'C', 'P', 'D', 'B', '0', '1', '\0'};
 constexpr std::uint32_t kVersion = 3;
+constexpr std::uint32_t kNibbleVersion = 4;
 constexpr std::uint32_t kMetricQtm = 2;
 constexpr std::uint32_t kPatternStrong = 11;
 constexpr std::uint32_t kCoordinateVersion = 2;
@@ -38,6 +39,10 @@ constexpr std::uint32_t kChecksumFlag = 2;
 constexpr std::array<int, 12> kQuarterMoves{0, 2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17};
 constexpr std::uint64_t kClassStride = 2048ULL * 2187ULL;
 constexpr std::uint64_t kWordCount = (kStrongPatternEntries + 63ULL) / 64ULL;
+constexpr std::uint64_t kNibbleDataBytes = kStrongPatternEntries / 2ULL;
+constexpr std::uint64_t kNibbleChunkBytes = 64ULL * 1024ULL * 1024ULL;
+constexpr std::uint64_t kNibbleChunkCount =
+    (kNibbleDataBytes + kNibbleChunkBytes - 1ULL) / kNibbleChunkBytes;
 static_assert(sizeof(std::atomic<std::uint8_t>) == 1);
 
 #pragma pack(push, 1)
@@ -81,6 +86,18 @@ bool valid_header(const StrongHeader &header, std::uint64_t file_bytes) noexcept
            header.coverage_depth < 255 && header.max_distance <= header.coverage_depth &&
            header.unknown_count <= kStrongPatternEntries &&
            ((header.flags & kCompleteFlag) != 0) == (header.unknown_count == 0) && (header.flags & kChecksumFlag) != 0;
+}
+
+bool valid_nibble_header(const StrongHeader &header, std::uint64_t file_bytes) noexcept {
+    return header.magic == kMagic && header.version == kNibbleVersion &&
+           header.header_size == sizeof(StrongHeader) + kNibbleChunkCount * sizeof(std::uint64_t) &&
+           header.metric == kMetricQtm && header.pattern == kPatternStrong &&
+           header.coordinate_version == kCoordinateVersion && header.builder_version == kBuilderVersion &&
+           header.bits_per_entry == 4 && header.entry_count == kStrongPatternEntries &&
+           header.data_bytes == kNibbleDataBytes && file_bytes == header.header_size + header.data_bytes &&
+           header.coverage_depth < 15 && header.max_distance <= 14 &&
+           header.max_distance <= header.coverage_depth && header.unknown_count == 0 &&
+           (header.flags & (kCompleteFlag | kChecksumFlag)) == (kCompleteFlag | kChecksumFlag);
 }
 
 StrongHeader make_header(int depth, std::uint64_t discovered, const std::uint8_t *data) {
@@ -159,7 +176,10 @@ struct StrongTransitions {
 } // namespace
 
 StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path) {
+    const auto started = std::chrono::steady_clock::now();
     symmetry_ = std::make_shared<SortedSliceSymmetry>();
+    symmetry_initialization_seconds_ = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - started).count();
     if (symmetry_->class_count() != 788)
         throw std::runtime_error("strong PDB symmetry class count changed");
     const auto absolute = std::filesystem::absolute(path);
@@ -169,8 +189,7 @@ StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path) 
         throw windows_error("open strong PDB");
     file_ = file;
     LARGE_INTEGER size{};
-    if (!GetFileSizeEx(file, &size) ||
-        size.QuadPart != static_cast<LONGLONG>(sizeof(StrongHeader) + kStrongPatternEntries)) {
+    if (!GetFileSizeEx(file, &size) || size.QuadPart < static_cast<LONGLONG>(sizeof(StrongHeader))) {
         CloseHandle(file);
         file_ = nullptr;
         throw std::runtime_error("strong PDB size is invalid");
@@ -191,9 +210,57 @@ StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path) 
         throw windows_error("view strong PDB");
     }
     const auto *header = reinterpret_cast<const StrongHeader *>(view_);
-    const auto *data = view_ + sizeof(StrongHeader);
-    bool valid = valid_header(*header, static_cast<std::uint64_t>(size.QuadPart));
-    if (valid) {
+    const bool nibble = valid_nibble_header(*header, static_cast<std::uint64_t>(size.QuadPart));
+    const bool byte = valid_header(*header, static_cast<std::uint64_t>(size.QuadPart));
+    const auto *data = view_ + (nibble ? header->header_size : sizeof(StrongHeader));
+    bool valid = nibble || byte;
+    if (nibble) {
+        const auto *chunk_checksums = view_ + sizeof(StrongHeader);
+        valid = checksum_bytes(chunk_checksums, kNibbleChunkCount * sizeof(std::uint64_t)) == header->checksum;
+        if (valid) {
+            struct ChunkResult { bool valid{true}; std::uint8_t maximum{}; };
+            const int thread_count = std::clamp(static_cast<int>(std::thread::hardware_concurrency()), 1, 8);
+            std::atomic<std::uint64_t> cursor{0};
+            std::vector<ChunkResult> results(static_cast<std::size_t>(thread_count));
+            std::vector<std::thread> workers;
+            workers.reserve(static_cast<std::size_t>(thread_count));
+            for (int thread = 0; thread < thread_count; ++thread)
+                workers.emplace_back([&, thread] {
+                    auto &part = results[static_cast<std::size_t>(thread)];
+                    while (part.valid) {
+                        const auto chunk = cursor.fetch_add(1, std::memory_order_relaxed);
+                        if (chunk >= kNibbleChunkCount)
+                            break;
+                        const auto offset = chunk * kNibbleChunkBytes;
+                        const auto length = std::min(kNibbleChunkBytes, kNibbleDataBytes - offset);
+                        std::uint64_t expected;
+                        std::memcpy(&expected, chunk_checksums + chunk * sizeof(expected), sizeof(expected));
+                        std::uint64_t actual = 1469598103934665603ULL;
+                        for (std::uint64_t index = 0; index < length; ++index) {
+                            const auto value = data[offset + index];
+                            actual = (actual ^ value) * 1099511628211ULL;
+                            const auto low = static_cast<std::uint8_t>(value & 15U);
+                            const auto high = static_cast<std::uint8_t>(value >> 4U);
+                            if (low == 15 || high == 15 || low > header->coverage_depth ||
+                                high > header->coverage_depth) {
+                                part.valid = false;
+                                break;
+                            }
+                            part.maximum = std::max({part.maximum, low, high});
+                        }
+                        part.valid &= actual == expected;
+                    }
+                });
+            for (auto &worker : workers)
+                worker.join();
+            std::uint8_t maximum = 0;
+            for (const auto &part : results) {
+                valid &= part.valid;
+                maximum = std::max(maximum, part.maximum);
+            }
+            valid &= maximum == header->max_distance;
+        }
+    } else if (byte) {
         std::uint64_t checksum = 1469598103934665603ULL;
         std::uint64_t unknown = 0;
         std::uint8_t maximum = 0;
@@ -221,9 +288,12 @@ StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path) 
         throw std::runtime_error("strong PDB header or checksum is invalid");
     }
     data_ = data;
+    packed_ = nibble;
     coverage_depth_ = static_cast<int>(header->coverage_depth);
     max_distance_ = static_cast<std::uint8_t>(header->max_distance);
     complete_ = (header->flags & kCompleteFlag) != 0;
+    verification_seconds_ = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - started).count() - symmetry_initialization_seconds_;
 }
 
 StrongPatternDatabase::~StrongPatternDatabase() {
@@ -236,10 +306,29 @@ StrongPatternDatabase::~StrongPatternDatabase() {
 }
 
 std::uint8_t StrongPatternDatabase::distance(std::uint16_t twist, std::uint16_t flip,
-                                             std::uint16_t sorted) const noexcept {
-    const auto coordinate = symmetry_->canonical_index(twist, flip, sorted);
-    const auto value = data_[coordinate];
+                                             std::uint16_t sorted, bool affine) const noexcept {
+    return load_distance(prepare_index(twist, flip, sorted, affine));
+}
+
+std::uint64_t StrongPatternDatabase::prepare_index(std::uint16_t twist, std::uint16_t flip,
+                                                   std::uint16_t sorted, bool affine) const noexcept {
+    return affine ? symmetry_->canonical_index(twist, flip, sorted)
+                  : symmetry_->canonical_index_reference(twist, flip, sorted);
+}
+
+std::uint8_t StrongPatternDatabase::load_distance(std::uint64_t index) const noexcept {
+    const auto value = raw_distance(index);
     return value == 255 ? static_cast<std::uint8_t>(coverage_depth_ + 1) : value;
+}
+
+void StrongPatternDatabase::prefetch(std::uint64_t index) const noexcept {
+    __builtin_prefetch(data_ + (packed_ ? index >> 1U : index), 0, 1);
+}
+
+std::uint8_t StrongPatternDatabase::raw_distance(std::uint64_t index) const noexcept {
+    if (!packed_)
+        return data_[index];
+    return static_cast<std::uint8_t>((data_[index >> 1U] >> ((index & 1U) * 4U)) & 15U);
 }
 
 std::uint16_t StrongPatternDatabase::sorted_move(std::uint16_t sorted, int move) const noexcept {
@@ -249,6 +338,11 @@ std::uint16_t StrongPatternDatabase::sorted_move(std::uint16_t sorted, int move)
 bool StrongPatternDatabase::complete() const noexcept { return complete_; }
 int StrongPatternDatabase::coverage_depth() const noexcept { return coverage_depth_; }
 std::uint8_t StrongPatternDatabase::max_distance() const noexcept { return max_distance_; }
+bool StrongPatternDatabase::packed() const noexcept { return packed_; }
+double StrongPatternDatabase::symmetry_initialization_seconds() const noexcept {
+    return symmetry_initialization_seconds_;
+}
+double StrongPatternDatabase::verification_seconds() const noexcept { return verification_seconds_; }
 
 StrongVerification StrongPatternDatabase::verify_all(const CoordinateTables &tables, int threads) const {
     if (!complete_)
@@ -271,7 +365,7 @@ StrongVerification StrongPatternDatabase::verify_all(const CoordinateTables &tab
                 for (std::uint32_t flip = 0; flip < 2048 && !failed.load(std::memory_order_relaxed); ++flip) {
                     for (std::uint32_t twist = 0; twist < 2187; ++twist) {
                         const auto index = (static_cast<std::uint64_t>(class_index) * 2048U + flip) * 2187U + twist;
-                        const auto distance = data_[index];
+                        const auto distance = raw_distance(index);
                         if (distance == 255 || (distance == 0) != (index == goal)) {
                             failed.store(true, std::memory_order_relaxed);
                             break;
@@ -287,7 +381,7 @@ StrongVerification StrongPatternDatabase::verify_all(const CoordinateTables &tab
                             const auto child_twist = transitions.next_twist[slot * 2187U + twist];
                             const auto child =
                                 (static_cast<std::uint64_t>(child_class) * 2048U + child_flip) * 2187U + child_twist;
-                            const auto next_distance = data_[child];
+                            const auto next_distance = raw_distance(child);
                             if (next_distance + 1U < distance || distance + 1U < next_distance) {
                                 failed.store(true, std::memory_order_relaxed);
                                 break;
@@ -388,6 +482,85 @@ std::pair<int, std::uint64_t> restore_checkpoint(const std::filesystem::path &pa
 }
 
 } // namespace
+
+StrongVerification convert_strong_pattern_database_to_nibble(const std::filesystem::path &source,
+                                                               const std::filesystem::path &target) {
+    if (std::filesystem::exists(target) || std::filesystem::absolute(source) == std::filesystem::absolute(target))
+        throw std::invalid_argument("nibble target must be a new file distinct from the byte source");
+    const auto source_bytes = std::filesystem::file_size(source);
+    std::ifstream input(source, std::ios::binary);
+    StrongHeader source_header;
+    input.read(reinterpret_cast<char *>(&source_header), sizeof(source_header));
+    if (!input || !valid_header(source_header, source_bytes) ||
+        (source_header.flags & kCompleteFlag) == 0 || source_header.max_distance > 14)
+        throw std::invalid_argument("nibble conversion requires a complete verified byte strong PDB with max <=14");
+    if (!target.parent_path().empty())
+        std::filesystem::create_directories(target.parent_path());
+    auto temporary = target;
+    temporary += ".writing";
+    if (std::filesystem::exists(temporary))
+        throw std::runtime_error("nibble conversion temporary file already exists");
+    std::fstream output(temporary, std::ios::binary | std::ios::in | std::ios::out | std::ios::trunc);
+    if (!output)
+        throw std::runtime_error("cannot create nibble strong PDB");
+    const std::uint32_t header_bytes =
+        static_cast<std::uint32_t>(sizeof(StrongHeader) + kNibbleChunkCount * sizeof(std::uint64_t));
+    std::vector<char> placeholder(header_bytes, 0);
+    output.write(placeholder.data(), static_cast<std::streamsize>(placeholder.size()));
+    std::vector<std::uint8_t> byte_chunk(static_cast<std::size_t>(2 * kNibbleChunkBytes));
+    std::vector<std::uint8_t> packed_chunk(static_cast<std::size_t>(kNibbleChunkBytes));
+    std::vector<std::uint64_t> chunk_checksums(static_cast<std::size_t>(kNibbleChunkCount));
+    StrongVerification verification;
+    std::uint64_t source_checksum = 1469598103934665603ULL;
+    std::uint8_t maximum = 0;
+    for (std::uint64_t chunk = 0; chunk < kNibbleChunkCount; ++chunk) {
+        const auto packed_length = std::min(kNibbleChunkBytes, kNibbleDataBytes - chunk * kNibbleChunkBytes);
+        const auto byte_length = 2 * packed_length;
+        input.read(reinterpret_cast<char *>(byte_chunk.data()), static_cast<std::streamsize>(byte_length));
+        if (!input)
+            throw std::runtime_error("byte strong PDB ended during nibble conversion");
+        for (std::uint64_t index = 0; index < packed_length; ++index) {
+            const auto low = byte_chunk[2 * index];
+            const auto high = byte_chunk[2 * index + 1];
+            source_checksum = (source_checksum ^ low) * 1099511628211ULL;
+            source_checksum = (source_checksum ^ high) * 1099511628211ULL;
+            if (low > 14 || high > 14)
+                throw std::runtime_error("byte strong PDB has unknown or out-of-range distances");
+            ++verification.distance_histogram[low];
+            ++verification.distance_histogram[high];
+            verification.entries += 2;
+            maximum = std::max({maximum, low, high});
+            packed_chunk[index] = static_cast<std::uint8_t>(low | (high << 4U));
+            if ((packed_chunk[index] & 15U) != low || (packed_chunk[index] >> 4U) != high)
+                throw std::runtime_error("nibble conversion failed round-trip verification");
+        }
+        chunk_checksums[chunk] = checksum_bytes(packed_chunk.data(), packed_length);
+        output.write(reinterpret_cast<const char *>(packed_chunk.data()), static_cast<std::streamsize>(packed_length));
+        if (!output)
+            throw std::runtime_error("cannot write nibble strong PDB chunk");
+    }
+    if (source_checksum != source_header.checksum || maximum != source_header.max_distance ||
+        verification.entries != kStrongPatternEntries)
+        throw std::runtime_error("byte strong PDB source verification failed during conversion");
+    StrongHeader target_header = source_header;
+    target_header.version = kNibbleVersion;
+    target_header.header_size = header_bytes;
+    target_header.bits_per_entry = 4;
+    target_header.data_bytes = kNibbleDataBytes;
+    target_header.checksum = checksum_bytes(reinterpret_cast<const std::uint8_t *>(chunk_checksums.data()),
+                                            kNibbleChunkCount * sizeof(std::uint64_t));
+    output.seekp(0);
+    output.write(reinterpret_cast<const char *>(&target_header), sizeof(target_header));
+    output.write(reinterpret_cast<const char *>(chunk_checksums.data()),
+                 static_cast<std::streamsize>(kNibbleChunkCount * sizeof(std::uint64_t)));
+    output.flush();
+    if (!output)
+        throw std::runtime_error("cannot finalize nibble strong PDB");
+    output.close();
+    if (!MoveFileExW(temporary.c_str(), target.c_str(), MOVEFILE_WRITE_THROUGH))
+        throw windows_error("publish nibble strong PDB");
+    return verification;
+}
 
 void build_strong_pattern_database(const std::filesystem::path &path, const CoordinateTables &tables, int threads,
                                    int coverage_depth, bool resume, double memory_limit_gib) {

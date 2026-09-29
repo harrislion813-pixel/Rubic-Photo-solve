@@ -1,0 +1,98 @@
+[
+  {
+    "name": "legal-20271000",
+    "facelets": "RFBDURUBULFRBRFLBDBUBLFLRRFFUULDRBBFDLRRLUDFUDUFDBDLDL",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271000
+    }
+  },
+  {
+    "name": "legal-20271001",
+    "facelets": "LFBLUBRBDLULRRRDBBFLFRFFUFBFLRLDDRRUDUUDLUFDLUUBBBFRDD",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271001
+    }
+  },
+  {
+    "name": "legal-20271003",
+    "facelets": "DBFUUFRFLBURBRFFBLBLURFDRDLDLDUDUBFFBRDBLDULFULLRBRUDR",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271003
+    }
+  },
+  {
+    "name": "legal-20271005",
+    "facelets": "LUFBUURLBRBUDRDDLDDFUDFLURBLBRFDUURLFLFFLFFUBLRDBBRBDR",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271005
+    }
+  },
+  {
+    "name": "legal-20271006",
+    "facelets": "DUDRUURFLFLLURRBBRBLDLFFRDLFBUDDLFFBFUDDLDUFUBBRBBRURL",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271006
+    }
+  },
+  {
+    "name": "legal-20271007",
+    "facelets": "FFLFUDFRLDBURRBRRFUUBUFDLUDFBBRDBRLDLLRFLLBFDBDULBURDU",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271007
+    }
+  },
+  {
+    "name": "legal-20271009",
+    "facelets": "RLRRUBULDLUFRRFDDUFDFRFBLRLBDBUDBRFRFFLLLUDFUDUUDBBBLB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271009
+    }
+  },
+  {
+    "name": "legal-20271013",
+    "facelets": "FBBDUUFULDRURRRRLDDFBDFDBLDUUBUDBFLRUFLDLBUBLRRRFBLFFL",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271013
+    }
+  },
+  {
+    "name": "legal-20271018",
+    "facelets": "RBBUUBDRFRLDFRUDRLRBDUFRUUFFFLFDDBLUFBBFLRUDLLDULBLBDR",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271018
+    }
+  },
+  {
+    "name": "legal-20271026",
+    "facelets": "ULRUUBFFBLRDURDRLLDLDDFBUDBFBURDDFUURRLBLRDFLBUFFBLBFR",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271026
+    }
+  },
+  {
+    "name": "legal-20271028",
+    "facelets": "RLDBUFRRUFRLDRRUUUDDLDFFDLFRBRUDFLBBUUFDLBDLBBFBUBLLRF",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271028
+    }
+  },
+  {
+    "name": "legal-20271031",
+    "facelets": "RDFRUUUUBLFUURDLFRRLDDFBDBULDBRDRRLFUUFLLRDBFLLBFBFDBB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 20271031
+    }
+  }
+]

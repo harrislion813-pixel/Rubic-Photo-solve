@@ -12,6 +12,7 @@ namespace cube {
 class CoordinateTables;
 class Phase1PatternDatabase;
 class TailDatabase;
+void prepare_fast_qtm_candidate_tables(const CoordinateTables &tables);
 
 struct FastCandidateOptions {
     MoveMetric metric{MoveMetric::QTM};

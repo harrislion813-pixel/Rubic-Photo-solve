@@ -23,13 +23,15 @@ def main() -> None:
     parser.add_argument("package", type=Path)
     parser.add_argument("--missing-strong", action="store_true",
                         help="temporarily hide the strong PDB and verify safe profile degradation")
+    parser.add_argument("--staged", action="store_true",
+                        help="exercise the packaged application's default staged asset loading")
     args = parser.parse_args()
     package = args.package.resolve()
     executable = package / "RubicPhotoSolve.exe"
     if not executable.is_file():
         raise FileNotFoundError(executable)
-    strong_asset = package / ".cache/native/strong_qtm_v3.pdb"
-    hidden_asset = package / ".cache/native/strong_qtm_v3.pdb.verification-hidden"
+    strong_asset = package / ".cache/native/strong_qtm_v4_nibble.pdb"
+    hidden_asset = package / ".cache/native/strong_qtm_v4_nibble.pdb.verification-hidden"
     if args.missing_strong:
         if hidden_asset.exists() or not strong_asset.is_file():
             raise FileNotFoundError("strong asset cannot be hidden safely")
@@ -38,8 +40,11 @@ def main() -> None:
     try:
         port_file = package / ".cache/server_port.txt"
         old_mtime = port_file.stat().st_mtime_ns if port_file.exists() else -1
+        launch_env = {**os.environ, "CUBE_NO_BROWSER": "1"}
+        if not args.staged:
+            launch_env["CUBE_NATIVE_ASSET_LOADING"] = "eager"
         process = subprocess.Popen([str(executable)], cwd=package,
-                                   env={**os.environ, "CUBE_NO_BROWSER": "1"},
+                                   env=launch_env,
                                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                                    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
         deadline = time.monotonic() + 30
@@ -102,6 +107,12 @@ def main() -> None:
         depths = [two_htm["depth"], two_qtm["depth"], three_htm["depth"], three_qtm["depth"]]
         if depths != [1, 2, 1, oracle_depth]:
             raise AssertionError(depths)
+        initial_qtm_profile = three_qtm.get("asset_profile")
+        if args.staged and not args.missing_strong:
+            ready_deadline = time.monotonic() + 30
+            while three_qtm.get("asset_profile") != "strong" and time.monotonic() < ready_deadline:
+                time.sleep(0.25)
+                three_qtm = solve(from_facelets(oracle["facelets"]), "QTM", 3, oracle_depth)
         qtm_profile = three_qtm.get("asset_profile")
         if args.missing_strong and qtm_profile == "strong":
             raise AssertionError("frozen application advertised strong despite its missing PDB")
@@ -120,6 +131,7 @@ def main() -> None:
                              second_oracle["expected_qtm_depth"])
         print(json.dumps({"ok": True, "version": version.get("version"),
                           "depths_2x2_htm_qtm_3x3_htm_qtm": depths,
+                          "initial_qtm_asset_profile": initial_qtm_profile,
                           "qtm_asset_profile": qtm_profile,
                           "cancel_status": cancelled["status"],
                           "after_cancel_qtm_depth": after_cancel["depth"]}))

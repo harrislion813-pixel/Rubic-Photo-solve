@@ -139,7 +139,11 @@ class NativeBinaryTests(NativeCommandMixin, unittest.TestCase):
             cube = cube.apply_move_index(MOVE_INDEX[name])
         expected = quarter_turn_oracle(4)[cube]
         for flags in ((), ("--transposition",), ("--transposition", "--tt-every-node"),
-                      ("--legacy-split",), ("--no-direction-probe",), ("--inverse-direction",)):
+                      ("--legacy-split",), ("--no-direction-probe",), ("--inverse-direction",),
+                      ("--dual-policy=root",), ("--dual-policy=selective",),
+                      ("--dual-policy=all", "--bpmx=on"), ("--bpmx=on",),
+                      ("--qtm-axis-rule=off",), ("--qtm-axis-rule=phase1",),
+                      ("--qtm-axis-rule=strong",)):
             with self.subTest(flags=flags):
                 result = self.run_native("solve", to_facelets(cube), "--metric", "QTM",
                                          "--max-depth", str(expected), "--threads", "4",

@@ -1,0 +1,578 @@
+{
+  "date": "2026-09-29",
+  "git_commit": "660988c25ef35244c5a002f16b03236aa4df2342",
+  "scope": "Planning evidence only; production solver and assets were not modified.",
+  "acceptance_source": {
+    "summary": "docs/benchmarks/qtm-strong-acceptance-public-2026-09-29.json",
+    "summary_sha256": "6a115e3341ef83d7bb2a3b6f60c5006269a524ff1c64b26b0a03ed99abbad2d8",
+    "raw": ".cache\\qtm-acceptance-strong-public48x3x60.json",
+    "raw_sha256": "96da71903bd4e7dfd84633674f7b654230d408db8135a43b0f495461ab273455",
+    "raw_matches_report": true
+  },
+  "current_acceptance": {
+    "runs": 144,
+    "proof_successes": 80,
+    "proof_success_rate": 0.5555555555555556,
+    "par2_seconds": 62.827126346528026,
+    "peak_working_set_bytes": 5470461952,
+    "cold_start_p50_seconds": 5.228843849996338,
+    "worker_idle_fraction_p50": 4.3704672728671176e-07,
+    "worker_node_balance_p95": 1.0731466902888915
+  },
+  "historical_b0_par2_seconds": 90.00022747152788,
+  "old_goal_par2_seconds": 45.00011373576394,
+  "legal32_totals": {
+    "nodes": 4432102179,
+    "generated_candidates": 59160722068,
+    "phase1_queries": 128676840396,
+    "corner_queries": 26571574323,
+    "strong_queries": 41721041368,
+    "strong_rejects": 19033406666,
+    "tail_queries": 113493,
+    "tail_hits": 44
+  },
+  "legal32_runs": 96,
+  "legal32_proofs": 44,
+  "legal32_inverse_direction_runs": 0,
+  "legal32_cases": {
+    "legal-20271000": {
+      "completed": 0,
+      "median_wall_seconds": 60.00097459999961,
+      "depths": [
+        -1,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271001": {
+      "completed": 0,
+      "median_wall_seconds": 60.000763000003644,
+      "depths": [
+        -1,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271002": {
+      "completed": 0,
+      "median_wall_seconds": 60.00173350000114,
+      "depths": [
+        -1,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271003": {
+      "completed": 1,
+      "median_wall_seconds": 60.001079699999536,
+      "depths": [
+        -1,
+        21,
+        -1
+      ],
+      "completed_depths": [
+        20,
+        20,
+        20
+      ]
+    },
+    "legal-20271004": {
+      "completed": 0,
+      "median_wall_seconds": 60.001056400011294,
+      "depths": [
+        -1,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271005": {
+      "completed": 3,
+      "median_wall_seconds": 49.726410800009035,
+      "depths": [
+        20,
+        20,
+        20
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271006": {
+      "completed": 0,
+      "median_wall_seconds": 60.00104589998955,
+      "depths": [
+        -1,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        20,
+        20,
+        20
+      ]
+    },
+    "legal-20271007": {
+      "completed": 2,
+      "median_wall_seconds": 31.8552367999946,
+      "depths": [
+        21,
+        21,
+        -1
+      ],
+      "completed_depths": [
+        20,
+        20,
+        20
+      ]
+    },
+    "legal-20271008": {
+      "completed": 3,
+      "median_wall_seconds": 3.340466900001047,
+      "depths": [
+        19,
+        19,
+        19
+      ],
+      "completed_depths": [
+        18,
+        18,
+        18
+      ]
+    },
+    "legal-20271009": {
+      "completed": 0,
+      "median_wall_seconds": 60.000768199999584,
+      "depths": [
+        -1,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        20,
+        20,
+        20
+      ]
+    },
+    "legal-20271010": {
+      "completed": 0,
+      "median_wall_seconds": 60.00080650000018,
+      "depths": [
+        -1,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        20,
+        20,
+        20
+      ]
+    },
+    "legal-20271011": {
+      "completed": 3,
+      "median_wall_seconds": 4.290582699992228,
+      "depths": [
+        19,
+        19,
+        19
+      ],
+      "completed_depths": [
+        18,
+        18,
+        18
+      ]
+    },
+    "legal-20271012": {
+      "completed": 0,
+      "median_wall_seconds": 60.00133559999813,
+      "depths": [
+        -1,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        20,
+        20,
+        20
+      ]
+    },
+    "legal-20271013": {
+      "completed": 3,
+      "median_wall_seconds": 21.0426218000066,
+      "depths": [
+        21,
+        21,
+        21
+      ],
+      "completed_depths": [
+        20,
+        20,
+        20
+      ]
+    },
+    "legal-20271014": {
+      "completed": 3,
+      "median_wall_seconds": 30.499639300003764,
+      "depths": [
+        20,
+        20,
+        20
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271015": {
+      "completed": 3,
+      "median_wall_seconds": 37.64747890000581,
+      "depths": [
+        20,
+        20,
+        20
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271016": {
+      "completed": 0,
+      "median_wall_seconds": 60.00142290000804,
+      "depths": [
+        -1,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        20,
+        20,
+        20
+      ]
+    },
+    "legal-20271017": {
+      "completed": 0,
+      "median_wall_seconds": 60.001826699997764,
+      "depths": [
+        -1,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        20,
+        20,
+        20
+      ]
+    },
+    "legal-20271018": {
+      "completed": 3,
+      "median_wall_seconds": 2.8318989999970654,
+      "depths": [
+        20,
+        20,
+        20
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271019": {
+      "completed": 0,
+      "median_wall_seconds": 60.00150749999739,
+      "depths": [
+        -1,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271020": {
+      "completed": 0,
+      "median_wall_seconds": 60.00099559999944,
+      "depths": [
+        -1,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271021": {
+      "completed": 3,
+      "median_wall_seconds": 38.74659640000027,
+      "depths": [
+        20,
+        20,
+        20
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271022": {
+      "completed": 1,
+      "median_wall_seconds": 60.00053910000133,
+      "depths": [
+        -1,
+        21,
+        -1
+      ],
+      "completed_depths": [
+        20,
+        20,
+        20
+      ]
+    },
+    "legal-20271023": {
+      "completed": 0,
+      "median_wall_seconds": 60.001481300001615,
+      "depths": [
+        -1,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271024": {
+      "completed": 1,
+      "median_wall_seconds": 60.00056069999118,
+      "depths": [
+        21,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        20,
+        20,
+        20
+      ]
+    },
+    "legal-20271025": {
+      "completed": 1,
+      "median_wall_seconds": 60.00055440000142,
+      "depths": [
+        21,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        20,
+        20,
+        20
+      ]
+    },
+    "legal-20271026": {
+      "completed": 3,
+      "median_wall_seconds": 12.423571399995126,
+      "depths": [
+        20,
+        20,
+        20
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271027": {
+      "completed": 3,
+      "median_wall_seconds": 40.95524660000228,
+      "depths": [
+        21,
+        21,
+        21
+      ],
+      "completed_depths": [
+        20,
+        20,
+        20
+      ]
+    },
+    "legal-20271028": {
+      "completed": 3,
+      "median_wall_seconds": 54.49226230000204,
+      "depths": [
+        20,
+        20,
+        20
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271029": {
+      "completed": 0,
+      "median_wall_seconds": 60.0009057999996,
+      "depths": [
+        -1,
+        -1,
+        -1
+      ],
+      "completed_depths": [
+        20,
+        20,
+        20
+      ]
+    },
+    "legal-20271030": {
+      "completed": 3,
+      "median_wall_seconds": 50.529882100003306,
+      "depths": [
+        20,
+        20,
+        20
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    },
+    "legal-20271031": {
+      "completed": 2,
+      "median_wall_seconds": 41.08960810001008,
+      "depths": [
+        20,
+        -1,
+        20
+      ],
+      "completed_depths": [
+        19,
+        19,
+        19
+      ]
+    }
+  },
+  "coordinate_probe": {
+    "scope": "coordinate-only; no PDB accesses or solver speedup claim",
+    "checked": 3329536,
+    "extra_offset_bytes": 380160,
+    "runs": [
+      {
+        "variant": "current",
+        "queries": 4194304,
+        "seconds": 0.61785,
+        "checksum": 7251256320520136
+      },
+      {
+        "variant": "affine",
+        "queries": 4194304,
+        "seconds": 0.0051034,
+        "checksum": 7251256320520136
+      },
+      {
+        "variant": "current",
+        "queries": 4194304,
+        "seconds": 0.618105,
+        "checksum": 7251256320520136
+      },
+      {
+        "variant": "affine",
+        "queries": 4194304,
+        "seconds": 0.0050254,
+        "checksum": 7251256320520136
+      },
+      {
+        "variant": "current",
+        "queries": 4194304,
+        "seconds": 0.616804,
+        "checksum": 7251256320520136
+      },
+      {
+        "variant": "affine",
+        "queries": 4194304,
+        "seconds": 0.0051109,
+        "checksum": 7251256320520136
+      }
+    ],
+    "source": "docs/benchmarks/qtm-round2-coordinate-probe.cpp",
+    "source_sha256": "af23084ec6ee71dc320444e632288becebfbc42eb834da39c96a90a8ea26035e",
+    "compiler_flags": "-std=c++20 -O3 -march=x86-64 -mtune=generic -flto -DNDEBUG -pthread -static",
+    "median_current_seconds": 0.61785,
+    "median_affine_seconds": 0.0051034,
+    "coordinate_only_ratio": 121.0663479249128
+  },
+  "local_binary_sha256": "261d0afff67d1641d985d2587843c11c7130ca2edf9d4623eb69b5d6d04422fb",
+  "build_info_source_mismatches": [
+    "strong_pdb.hpp",
+    "solver.cpp",
+    "tail.hpp",
+    "solver.hpp",
+    "pdb.cpp",
+    "strong_pdb.cpp",
+    "strong_coords.cpp",
+    "tail.cpp",
+    "strong_coords.hpp",
+    "pdb.hpp",
+    "fast.cpp",
+    "main.cpp"
+  ],
+  "note_build_mismatch": "The retained binary matches prior acceptance; later release formatting changed source bytes. Rebuild an isolated baseline before claiming current-source speedups.",
+  "strong_asset": {
+    "path": ".cache/native/strong_qtm_v3.pdb",
+    "bytes": 3529433168,
+    "sha256": "5fd01f50d6e40db2056e9b525836c0178cebffe0c5aa6b6083f274ec8e05115a",
+    "entries": 3529433088,
+    "complete": true,
+    "max_distance": 14,
+    "histogram": [
+      1,
+      1,
+      7,
+      51,
+      431,
+      3854,
+      35507,
+      325020,
+      2934047,
+      25747635,
+      207655303,
+      1182828613,
+      1938902770,
+      170992792,
+      7056
+    ]
+  },
+  "nibble_data_bytes_estimate": 1764716544
+}

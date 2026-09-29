@@ -26,6 +26,8 @@ class SortedSliceSymmetry {
     [[nodiscard]] std::uint16_t flip_conjugate(std::uint16_t flip, std::uint16_t sorted, int symmetry) const noexcept;
     [[nodiscard]] std::uint64_t canonical_index(std::uint16_t twist, std::uint16_t flip,
                                                 std::uint16_t sorted) const noexcept;
+    [[nodiscard]] std::uint64_t canonical_index_reference(std::uint16_t twist, std::uint16_t flip,
+                                                          std::uint16_t sorted) const noexcept;
     [[nodiscard]] std::uint16_t class_count() const noexcept;
     [[nodiscard]] const Phase1Symmetry &phase1() const noexcept;
 
@@ -37,6 +39,8 @@ class SortedSliceSymmetry {
     std::vector<std::uint8_t> raw_to_symmetry_;
     std::vector<std::uint16_t> representatives_;
     std::vector<std::uint16_t> stabilizers_;
+    std::vector<std::uint16_t> representative_flip_offsets_;
+    std::vector<std::uint64_t> class_bases_;
 };
 
 } // namespace cube

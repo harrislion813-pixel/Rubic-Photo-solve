@@ -21,7 +21,7 @@ $assets = @(
     @{ Name = "tail_qtm_depth7_v5.pdb"; Verify = @("verify-tail-pdb") }
 )
 if ($Profile -eq "Strong") {
-    $assets += @{ Name = "strong_qtm_v3.pdb"; Verify = @("verify-strong-pdb") }
+    $assets += @{ Name = "strong_qtm_v4_nibble.pdb"; Verify = @("verify-strong-pdb") }
     $assets += @{ Name = "tail_qtm_depth8_v5.pdb"; Verify = @("verify-tail-pdb") }
 }
 

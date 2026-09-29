@@ -22,6 +22,11 @@ class EdgePatternDatabase;
 class Phase1PatternDatabase;
 class TailDatabase;
 class StrongPatternDatabase;
+class NativeOptimalSolver;
+
+enum class DirectionPolicy { Off, Legacy, Bounded };
+enum class DualPolicy { Off, Root, Selective, All };
+enum class PdbQueryOrder { Legacy, Interleaved, StrongFirst };
 
 struct CoordinateState {
     std::uint64_t edges{};
@@ -41,12 +46,17 @@ struct CoordinateState {
 struct CoordinateFeatures {
     MoveMetric metric{MoveMetric::HTM};
     const StrongPatternDatabase *strong_pdb{nullptr};
+    bool affine_coordinates{true};
+    PdbQueryOrder query_order{PdbQueryOrder::StrongFirst};
+    bool prefetch_strong{false};
     bool axis_coordinates{true};
     bool edge_pattern_a{true};
     bool edge_pattern_b{true};
     bool small_phase1{true};
     bool small_corner{true};
     bool strengthen_axes{true};
+    bool qtm_phase1_axis_rule{true};
+    bool qtm_strong_axis_rule{true};
     bool staged_expansion{true};
 };
 
@@ -62,6 +72,10 @@ struct SearchCounters {
     std::uint64_t tt_stores{};
     std::array<std::uint64_t, 3> axis_rejects{};
     std::uint64_t equality_rejects{};
+    std::uint64_t strong_equality_rejects{};
+    std::uint64_t dual_queries{};
+    std::uint64_t dual_rejects{};
+    std::uint64_t bpmx_rejects{};
     std::uint64_t corner_rejects{};
     std::uint64_t edge_rejects{};
     std::uint64_t strong_rejects{};
@@ -95,7 +109,7 @@ class CoordinateTables {
                                       const Phase1PatternDatabase *phase1_pdb, const CornerPatternDatabase *corner_pdb,
                                       std::span<const EdgePatternDatabase *const> edge_pdbs, std::uint8_t cutoff,
                                       const CoordinateFeatures &features, SearchCounters &counters) const noexcept;
-    [[nodiscard]] CubieCube materialize(const CoordinateState &state) const;
+    [[nodiscard]] CubieCube materialize(const CoordinateState &state) const noexcept;
 
     [[nodiscard]] std::uint16_t corner_move(std::uint16_t coordinate, int move) const noexcept;
     [[nodiscard]] std::uint16_t twist_move(std::uint16_t coordinate, int move) const noexcept;
@@ -157,10 +171,18 @@ struct SolverOptions {
     std::size_t transposition_limit_per_thread{500'000};
     bool use_transposition{false};
     bool use_direction_probe{true};
+    DirectionPolicy direction_policy{DirectionPolicy::Bounded};
+    DualPolicy dual_policy{DualPolicy::Off};
+    bool bpmx{false};
     bool use_qtm_parity{true};
     bool strengthen_axes{true};
+    bool qtm_phase1_axis_rule{true};
+    bool qtm_strong_axis_rule{true};
     bool omit_covered_small_tables{true};
     bool staged_expansion{true};
+    bool affine_coordinates{true};
+    PdbQueryOrder query_order{PdbQueryOrder::StrongFirst};
+    bool prefetch_strong{false};
     bool inverse_direction{false};
     bool use_native_candidate{true};
     bool adaptive_split{true};
@@ -170,6 +192,7 @@ struct SolverOptions {
     const std::atomic<bool> *cancel_requested{nullptr};
     std::vector<int> incumbent_moves;
     std::function<std::vector<int>()> incumbent_callback;
+    std::function<std::shared_ptr<const NativeOptimalSolver>()> asset_snapshot_callback;
     std::function<void(const std::vector<int> &)> candidate_callback;
     std::function<void(const NativeSearchProgress &)> progress_callback;
 };
@@ -182,6 +205,13 @@ struct NativeSolveResult {
     bool timed_out{false};
     bool cancelled{false};
     bool inverse_direction{false};
+    int direction_forward_lower_bound{};
+    int direction_inverse_lower_bound{};
+    std::uint64_t direction_probe_forward_generated{};
+    std::uint64_t direction_probe_inverse_generated{};
+    std::uint64_t direction_probe_forward_rejected{};
+    std::uint64_t direction_probe_inverse_rejected{};
+    double direction_probe_seconds{};
     double elapsed_seconds{0.0};
     std::uint64_t nodes{0};
     std::uint64_t split_nodes{0};
@@ -196,9 +226,12 @@ struct NativeSolveResult {
     int candidate_improvements{0};
     int candidate_window_replacements{0};
     double first_candidate_seconds{-1.0};
+    double candidate_worker_done_seconds{-1.0};
+    double proof_worker_return_seconds{-1.0};
     int completed_depth{-1};
     SearchCounters counters;
     std::vector<WorkerStatistics> workers;
+    std::shared_ptr<const NativeOptimalSolver> asset_snapshot;
 };
 
 class NativeOptimalSolver {
@@ -224,6 +257,9 @@ class NativeOptimalSolver {
     [[nodiscard]] MoveMetric phase1_pdb_metric(MoveMetric metric) const noexcept;
     [[nodiscard]] bool corner_pdb_complete(MoveMetric metric) const noexcept;
     [[nodiscard]] bool phase1_pdb_complete(MoveMetric metric) const noexcept;
+    [[nodiscard]] const CoordinateTables &coordinate_tables() const noexcept;
+    [[nodiscard]] double strong_symmetry_initialization_seconds() const noexcept;
+    [[nodiscard]] double strong_verification_seconds() const noexcept;
     [[nodiscard]] NativeSolveResult solve(const CubieCube &cube, const SolverOptions &options) const;
 
   private:

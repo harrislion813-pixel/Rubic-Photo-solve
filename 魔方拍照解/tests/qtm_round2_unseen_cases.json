@@ -1,0 +1,290 @@
+[
+  {
+    "name": "unseen-2026092900",
+    "facelets": "FUFRUDFUULBULRDBURDFBLFFFBDRRLDDLUUDUFLDLBRLDLBRRBFBRB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092900
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092901",
+    "facelets": "LBULUBBFRBDFFRDLRBLUDUFLULDFUFFDUDDUBBDDLBRRLRRULBRRFF",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092901
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092902",
+    "facelets": "RDLUUFLRBRRDFRBBFUBUULFLDRDRDLLDDDLLFFUBLBRUBFBUUBRFDF",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092902
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092903",
+    "facelets": "UUFDUDBRLFFRURFBRFDBDBFRLUDBBLFDDUUDFLRBLDRLUULLRBLRFB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092903
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092904",
+    "facelets": "RFRDURBLLFUFRRFFBDRBDLFBULURULDDUBFLBBULLFLRFDUDRBDBDU",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092904
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092905",
+    "facelets": "FDFBULRRFUFDLRDFUDBFRRFUBLLRBDFDRUDLLUDDLBBUURRUFBBBLL",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092905
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092906",
+    "facelets": "DFLRURRDLDBULRUBDFFBBFFFFLULBRDDRDBLRFUULDRLUBUBRBLDUF",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092906
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092907",
+    "facelets": "ULUUUUBDFDRRLRBULBDBLRFBDFLFDFUDFLDLRFRRLFBLRBDFUBBURD",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092907
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092908",
+    "facelets": "DBBRUFUDBUURDRFDFBRBLLFRLUFULLBDRFUUBBFFLDDUFDLLDBLRRR",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092908
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092909",
+    "facelets": "UFBDUFDUDLLLURBLFDBRFBFLFRFUBUDDRBFRBBLRLURLRUURLBDFDD",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092909
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092910",
+    "facelets": "URBLUBLFURLRDRLFBLUDFUFLDDDBBRRDRBFDBFFRLBLULDFRUBDFUU",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092910
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092911",
+    "facelets": "LFDLURULBUBBDRFRRDRULBFLDDFLRDUDURDLUBFLLUBFFRDFRBFBBU",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092911
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092912",
+    "facelets": "DLBBURURLBUDURDRFLFBUDFBDLBRUUDDUURDFLLLLFFBBLFRRBDFFR",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092912
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092913",
+    "facelets": "LURUUFUFULLFBRLLFBBDBRFRDRDBDFFDURLRULRBLUURLDBFDBDDBF",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092913
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092914",
+    "facelets": "UBLUUFLRRFDFLRFBBBFUUDFDRFDDRLRDLDDULLDULBBBFUUBLBFRRR",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092914
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092915",
+    "facelets": "DURFUURRLBLURRRBFLBUUBFFRBUDURBDLDBFLDDLLLLDFFFFDBDURB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092915
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092916",
+    "facelets": "ULDBUFBUDLLLBRFRRRDRFFFDRFUDUFBDDLBBFRRLLRUUFBULDBDULB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092916
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092917",
+    "facelets": "FDFDUUURRFBLURLDDRLDUFFLBRRLBFFDBRRBLFBFLLDRDDLUBBUUUB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092917
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092918",
+    "facelets": "DFBFUDLBRDRRLRRFFUUUFFFUDDRBBUDDRULBLDFRLLRLLDUFBBULBB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092918
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092919",
+    "facelets": "DRDDUFURFUDRBRUDLBBURRFDFDFLRLFDBUURBLRFLBBLUFFLBBUDLL",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092919
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092920",
+    "facelets": "BRLDURRLDFFULRRFULUBRRFFLBRFDUFDLFBBDLBDLDUUDBBRUBFDUL",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092920
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092921",
+    "facelets": "UDBFUFDBRUULFRBLULFUBBFRUDDFRFFDRRRBRDRULLDLLULFDBLDBB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092921
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092922",
+    "facelets": "RLFRURLDULDRFRBLLDFBBFFULLBUBDBDDRRBDUDFLLBUFUUFRBDRFU",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092922
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092923",
+    "facelets": "LLBLUBFDDLLLRRLUUBRFFBFFUDRRBBBDFBURUFDDLUDRFUUFDBRDRL",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092923
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092924",
+    "facelets": "FUBBUFURFRURURFBFLFFDRFLRDLULURDDDDBUULLLBFDBDRRLBBDBL",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092924
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092925",
+    "facelets": "BURDUUUFLFBDBRDUURLRDUFRFFLRDFLDLFDBLLBLLFRBDBRDRBFUBU",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092925
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092926",
+    "facelets": "FFRDUULBURRBDRDBUDBRFDFLRFRDRDUDFDLLLFUBLBFBFULURBLBUL",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092926
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092927",
+    "facelets": "BRUBURBULFBFDRLRFLLLDLFFUDDLBBUDURDFRLDULDFRBRFUFBBURD",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092927
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092928",
+    "facelets": "BFFDUDRLBDBDRRULBLFURFFFDDBLRDLDRBUFULUFLLUBFRULBBDURR",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092928
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092929",
+    "facelets": "BDUDURFUFUBBBRRLRFDFRRFUDDBRFDBDFUUDRBLFLDLLBLLUUBLRLF",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092929
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092930",
+    "facelets": "FRBUUFDDLBRRFRLBDLFFUDFURRDFBLFDLRBFDRRULBBLUDDLBBLUUU",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092930
+    },
+    "expected_qtm_depth": null
+  },
+  {
+    "name": "unseen-2026092931",
+    "facelets": "BDFRUFDLDBRDBRDFLULDLFFLDURRFUDDUURLUUFBLLRBBRRLFBUFBB",
+    "source": {
+      "kind": "independent_legal_state_rng",
+      "seed": 2026092931
+    },
+    "expected_qtm_depth": null
+  }
+]

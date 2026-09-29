@@ -128,6 +128,7 @@ def prepare_optimal_job(
             "_deadline": deadline,
             "_started_at": created,
             "_done": threading.Event(),
+            "_candidate_or_done": threading.Event(),
             "_incumbent_moves": quick_result.moves if quick_result is not None else None,
             "engine": "pending",
             "solution_generation_seconds": 0.0,
@@ -196,7 +197,7 @@ def update_job(job_id: str, **values: object) -> None:
         job["updated_at"] = time.time()
 
 
-def update_job_candidate(job_id: str, result) -> None:
+def update_job_candidate(job_id: str, result, *, native_found_seconds: float | None = None) -> None:
     with JOBS_LOCK:
         job = JOBS.get(job_id)
         if job is None:
@@ -208,6 +209,10 @@ def update_job_candidate(job_id: str, result) -> None:
                        candidate_result=result_payload(candidate), updated_at=time.time())
             if job.get("first_candidate_seconds") is None:
                 job["first_candidate_seconds"] = round(time.monotonic() - job["_started_at"], 3)
+                if native_found_seconds is not None:
+                    job["native_candidate_found_seconds"] = native_found_seconds
+                job["python_candidate_received_seconds"] = time.monotonic() - job["_started_at"]
+            job["_candidate_or_done"].set()
 
 
 def run_optimal_job(
@@ -239,7 +244,8 @@ def run_optimal_job(
         def report_progress(progress: dict) -> None:
             if progress.get("type") == "candidate":
                 update_job_candidate(job_id, SolveResult(progress["moves"], progress["cost"], metric,
-                                                         time.monotonic() - started, False))
+                                                         time.monotonic() - started, False),
+                                     native_found_seconds=progress.get("native_found_seconds"))
                 if progress.get("asset_profile"):
                     update_job(job_id, asset_profile=progress["asset_profile"])
                 return
@@ -344,6 +350,7 @@ def run_optimal_job(
             if job is not None:
                 job["proof_elapsed_seconds"] = round(time.monotonic() - started, 3)
                 job["_done"].set()
+                job["_candidate_or_done"].set()
 
 
 class ExclusiveThreadingHTTPServer(ThreadingHTTPServer):
@@ -521,6 +528,7 @@ class AppHandler(BaseHTTPRequestHandler):
                     job.update(status="budget_exhausted", result=exhausted, engine="direct",
                                proof_elapsed_seconds=0.0, _started=True)
                     job["_done"].set()
+                    job["_candidate_or_done"].set()
                 self._send_json({"ok": True, "job_id": job_id, "proof_status": "budget_exhausted",
                                  "max_depth": max_depth, **exhausted})
                 return
@@ -533,11 +541,13 @@ class AppHandler(BaseHTTPRequestHandler):
                                                      metric=metric)
                 start_optimal_job(job_id, worker)
                 with JOBS_LOCK:
-                    done = JOBS[job_id]["_done"]
-                done.wait(min(QUICK_OPTIMAL_PROBE_SECONDS, timeout_seconds or QUICK_OPTIMAL_PROBE_SECONDS))
+                    candidate_or_done = JOBS[job_id]["_candidate_or_done"]
+                candidate_or_done.wait(min(QUICK_OPTIMAL_PROBE_SECONDS, timeout_seconds or QUICK_OPTIMAL_PROBE_SECONDS))
                 with JOBS_LOCK:
                     snapshot = dict(JOBS[job_id])
-                    generate = not snapshot.get("_generator_started") and snapshot["status"] in {"queued", "running"}
+                    generate = (not snapshot.get("_generator_started") and
+                                snapshot["status"] in {"queued", "running"} and
+                                snapshot.get("candidate_result") is None)
                     if generate:
                         JOBS[job_id]["_generator_started"] = True
                 if snapshot["status"] == "complete":
@@ -563,7 +573,7 @@ class AppHandler(BaseHTTPRequestHandler):
                     update_job(job_id, solution_generation_seconds=generation_seconds)
                     if quick_result is None and metric == "QTM" and native_qtm_candidate_available():
                         probe_remaining = 0.2 if deadline is None else max(0.0, min(0.2, deadline - time.monotonic()))
-                        done.wait(probe_remaining)
+                        candidate_or_done.wait(probe_remaining)
                 with JOBS_LOCK:
                     snapshot = dict(JOBS[job_id])
                 if snapshot["status"] == "complete":
@@ -628,6 +638,9 @@ class AppHandler(BaseHTTPRequestHandler):
                 "asset_profile": snapshot.get("asset_profile") or (snapshot.get("result") or {}).get("asset_profile"),
                 "solution_generation_seconds": snapshot.get("solution_generation_seconds", 0.0),
                 "first_candidate_seconds": snapshot.get("first_candidate_seconds"),
+                "native_candidate_found_seconds": snapshot.get("native_candidate_found_seconds"),
+                "python_candidate_received_seconds": snapshot.get("python_candidate_received_seconds"),
+                "http_sent_seconds": time.monotonic() - request_started,
                 "request_elapsed_seconds": round(time.monotonic() - request_started, 3),
             }
             if quick_payload:

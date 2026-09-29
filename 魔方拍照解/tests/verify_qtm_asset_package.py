@@ -60,7 +60,7 @@ def main() -> None:
                "--qtm-tail-pdb", str(assets / ("tail_qtm_depth8_v5.pdb" if manifest["profile"] == "strong"
                                                 else "tail_qtm_depth7_v5.pdb"))]
     if manifest["profile"] == "strong":
-        command += ["--strong-pdb", str(assets / "strong_qtm_v3.pdb")]
+        command += ["--strong-pdb", str(assets / "strong_qtm_v4_nibble.pdb")]
     process = subprocess.Popen(command, cwd=ROOT, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE, text=True, encoding="utf-8",
                                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))

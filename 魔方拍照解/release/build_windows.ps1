@@ -28,7 +28,7 @@ $qtmAssetNames = @()
 if ($QtmProfile -ne "None") {
     $qtmAssetNames = @("corner_qtm_v3.pdb", "phase1_qtm_v3.pdb", "tail_qtm_depth7_v5.pdb")
     if ($QtmProfile -eq "Strong") {
-        $qtmAssetNames += @("strong_qtm_v3.pdb", "tail_qtm_depth8_v5.pdb")
+        $qtmAssetNames += @("strong_qtm_v4_nibble.pdb", "tail_qtm_depth8_v5.pdb")
     }
 }
 $pythonTables = Join-Path $projectRoot ".cache\solver_tables_v3.pkl"
@@ -139,7 +139,7 @@ try {
         throw "Release dependencies are missing. Run: $Python -m pip install -r requirements-release.txt"
     }
 
-    $workDirectory = Join-Path $projectRoot ".release-build"
+    $workDirectory = Join-Path $OutputDirectory ".pyinstaller-work"
     $packageName = "RubicPhotoSolve"
     New-Item -ItemType Directory -Force -Path $workDirectory, $OutputDirectory | Out-Null
     Write-Progress -Activity "Building Windows release" -Status "Freezing Python and OpenCV" -PercentComplete 45

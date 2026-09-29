@@ -103,6 +103,7 @@ class Service:
         )
         self.lines = queue.Queue()
         self.errors = []
+        self.asset_events = []
 
         def read_stdout():
             for line in self.process.stdout:
@@ -153,6 +154,9 @@ class Service:
                 continue
             if event.get("type") == "candidate":
                 candidates.append({"at_seconds": time.perf_counter() - started, **event})
+                continue
+            if event.get("type") == "asset_ready":
+                self.asset_events.append({"at_seconds": time.perf_counter() - started, **event})
                 continue
             if not event.get("ok"):
                 raise RuntimeError(event)
@@ -240,7 +244,15 @@ def main():
     allowed_flags = {"--no-qtm-parity", "--no-axis-strengthening", "--keep-small-tables",
                      "--no-native-candidate", "--legacy-split", "--tt-every-node",
                      "--no-staged-expansion", "--no-direction-probe", "--inverse-direction",
-                     "--transposition", "--no-transposition"}
+                     "--transposition", "--no-transposition",
+                     *(f"--coordinate-kernel={value}" for value in ("reference", "affine")),
+                     *(f"--qtm-axis-rule={value}" for value in ("off", "phase1", "strong", "both")),
+                     *(f"--direction-policy={value}" for value in ("off", "legacy", "bounded")),
+                     *(f"--dual-policy={value}" for value in ("off", "root", "selective", "all")),
+                     "--bpmx=off", "--bpmx=on"}
+    allowed_flags.update(f"--pdb-query-order={value}" for value in ("legacy", "interleaved", "strong-first"))
+    allowed_flags.update(("--pdb-prefetch=off", "--pdb-prefetch=on"))
+    allowed_flags.update(("--asset-loading=eager", "--asset-loading=staged"))
     if (not set(variants) <= choices.keys() or args.repeats < 1 or args.timeout <= 0 or args.startup_timeout <= 0
             or args.max_cost is not None and not 0 <= args.max_cost <= default_max_depth(3, args.metric)
             or not set(args.native_flag) <= allowed_flags):

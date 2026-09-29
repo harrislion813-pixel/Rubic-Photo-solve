@@ -67,6 +67,15 @@ SortedSliceSymmetry::SortedSliceSymmetry() {
             if (conjugate(representatives_[class_index], symmetry) == representatives_[class_index])
                 stabilizers_[class_index] |= static_cast<std::uint16_t>(1U << symmetry);
 
+    representative_flip_offsets_.resize(kSortedSliceCount);
+    class_bases_.resize(kSortedSliceCount);
+    for (std::uint16_t sorted = 0; sorted < kSortedSliceCount; ++sorted) {
+        const int symmetry = raw_to_symmetry_[sorted];
+        representative_flip_offsets_[sorted] =
+            flip_conjugate(0, sorted, symmetry) ^ phase1_.flip_conjugate(0, symmetry);
+        class_bases_[sorted] = static_cast<std::uint64_t>(raw_to_class_[sorted]) * 2048ULL * 2187ULL;
+    }
+
     // Check the joint slice/flip projection against full legal cubies, not only
     // against synthetic coordinates with arbitrary other edge assignments.
     CubieCube probe;
@@ -120,9 +129,19 @@ std::uint16_t SortedSliceSymmetry::flip_conjugate(std::uint16_t flip, std::uint1
 std::uint64_t SortedSliceSymmetry::canonical_index(std::uint16_t twist, std::uint16_t flip,
                                                    std::uint16_t sorted) const noexcept {
     const auto symmetry = symmetry_to_representative(sorted);
-    const auto canonical_flip = flip_conjugate(flip, sorted, symmetry);
+    // Edge conjugation is affine over the eleven independent EO bits. The
+    // twelfth bit is their XOR, so its transformed contribution is linear too.
+    // Edge identities from the sorted slice affect only the fixed offset.
+    const auto canonical_flip = phase1_.flip_conjugate(flip, symmetry) ^ representative_flip_offsets_[sorted];
     const auto canonical_twist = phase1_.twist_conjugate(twist, symmetry);
-    return (static_cast<std::uint64_t>(class_index(sorted)) * 2048U + canonical_flip) * 2187U + canonical_twist;
+    return class_bases_[sorted] + static_cast<std::uint64_t>(canonical_flip) * 2187ULL + canonical_twist;
+}
+
+std::uint64_t SortedSliceSymmetry::canonical_index_reference(std::uint16_t twist, std::uint16_t flip,
+                                                             std::uint16_t sorted) const noexcept {
+    const auto symmetry = symmetry_to_representative(sorted);
+    return (static_cast<std::uint64_t>(class_index(sorted)) * 2048ULL +
+            flip_conjugate(flip, sorted, symmetry)) * 2187ULL + phase1_.twist_conjugate(twist, symmetry);
 }
 
 std::uint16_t SortedSliceSymmetry::class_count() const noexcept {

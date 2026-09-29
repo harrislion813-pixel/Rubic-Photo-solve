@@ -1,13 +1,15 @@
 param(
     [switch]$ProfileGuided,
     [switch]$Portable,
-    [string]$Compiler
+    [string]$Compiler,
+    [string]$OutputDirectory
 )
 
 $ErrorActionPreference = "Stop"
 
-$buildDirectory = Join-Path $PSScriptRoot "build"
+$buildDirectory = if ($OutputDirectory) { $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($OutputDirectory) } else { Join-Path $PSScriptRoot "build" }
 $target = Join-Path $buildDirectory "cube_solver.exe"
+$compilerOutput = [System.IO.Path]::GetRelativePath($PSScriptRoot, $target)
 
 function Resolve-CompilerPath {
     param([string]$RequestedCompiler)
@@ -33,6 +35,7 @@ function Resolve-CompilerPath {
 $compilerPath = Resolve-CompilerPath $Compiler
 
 if ($ProfileGuided) {
+    if ($OutputDirectory) { throw "-OutputDirectory is not supported with -ProfileGuided" }
     & (Join-Path $PSScriptRoot "build_profiled.ps1") -Compiler $compilerPath
     if ($LASTEXITCODE -ne 0) {
         throw "Profile-guided native solver build failed with exit code $LASTEXITCODE"
@@ -69,7 +72,7 @@ try {
         -pthread `
         -static `
         -municode `
-        -o build\cube_solver.exe
+        -o $compilerOutput
 } finally {
     Pop-Location
 }

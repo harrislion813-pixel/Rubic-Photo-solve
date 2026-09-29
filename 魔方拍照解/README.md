@@ -51,7 +51,7 @@
 6. 保持命令行窗口打开。看到类似下面的输出说明服务已启动：
 
    ```text
-   魔方最短解应用 1.6.2 已启动: http://127.0.0.1:8765/
+   魔方最短解应用 1.7.0 已启动: http://127.0.0.1:8765/
    ```
 
 7. 浏览器通常会自动打开；没有自动打开时，把终端打印的完整地址复制到浏览器。
@@ -131,7 +131,7 @@ python server.py
 Invoke-RestMethod http://127.0.0.1:8765/api/version
 ```
 
-预期返回 `ok=True`、`version=1.6.2`。随后用浏览器打开同一地址的根路径。
+预期返回 `ok=True`、`version=1.7.0`。随后用浏览器打开同一地址的根路径。
 
 #### 第 7 步：停止服务
 
@@ -467,7 +467,7 @@ QTM 在专用资产存在时使用完整 Corner/Phase-1 PDB 与 QTM Tail；强�
 用于检查服务是否可用以及前后端版本：
 
 ```json
-{"ok": true, "version": "1.6.2"}
+{"ok": true, "version": "1.7.0"}
 ```
 
 ### `POST /api/detect`
@@ -531,7 +531,7 @@ node tests\two_by_two_color.test.js
 node tests\solver_ui.test.js
 python -m pytest -ra
 python -m compileall cube_app server.py windows_launcher.py
-python release\check_version.py --tag v1.6.2
+python release\check_version.py --tag v1.7.0
 ```
 
 CI 对 `cube_app` 和 `server.py` 执行至少 70% 的分支覆盖率门禁；依赖本地 EXE/PDB 或实拍图片的测试会在缺少资源时跳过。当前仓库未必包含 `tests/initial/` 实拍素材，因此看到 real-image 用例被跳过是预期行为。
@@ -587,6 +587,7 @@ python tests\benchmark_native.py --metric QTM --cases all --timeout 60 --output 
 `--no-axis-strengthening`、`--keep-small-tables`、`--no-staged-expansion` 可独立对照；`--inverse-direction` 用于逆向回归。`baseline` 是当前代码关闭优化后的对照，包含新状态表示和统计，不能等同于历史 EXE。独立 PGO 训练集见 `tests/native_pgo_cases.json`，验收集见 `tests/native_cases.json`。交付范围、实测结果与实验项见[性能重构记录](docs/performance-refactor-2026-09-27.md)。
 
 三阶 QTM 强配置的实现、完整验收、公开难例压力组、资产包验证和未达目标见[QTM 强优化报告](docs/qtm-strong-optimization-report.md)。
+第二轮优化改进、固定集验收和仍未达到的目标见[QTM 第二轮报告](docs/qtm-next-optimization-report.md)。
 
 C++ 格式检查使用项目根目录的 `.clang-format`：
 
@@ -621,7 +622,7 @@ git tag --list "v*" --sort=-version:refname
 编辑 `cube_app/__init__.py`：
 
 ```python
-__version__ = "1.6.2"
+__version__ = "1.7.0"
 ```
 
 不要在 `pyproject.toml` 再写静态版本；它会从 `cube_app.__version__` 动态读取。
@@ -641,10 +642,10 @@ __version__ = "1.6.2"
 ### 第 5 步：检查版本一致性
 
 ```powershell
-.\.venv\Scripts\python.exe release\check_version.py --tag v1.6.2
+.\.venv\Scripts\python.exe release\check_version.py --tag v1.7.0
 ```
 
-脚本会检查语义化版本、Python 包配置、前端版本占位符、`CHANGELOG.md` 和标签名称。预期只输出 `1.6.2`。
+脚本会检查语义化版本、Python 包配置、前端版本占位符、`CHANGELOG.md` 和标签名称。预期只输出 `1.7.0`。
 
 ### 第 6 步：运行完整检查
 
@@ -662,7 +663,7 @@ git diff --check
 git diff
 git add -- ..\README.md README.md CHANGELOG.md cube_app native release docs tests server.py web pyproject.toml
 git diff --cached
-git commit -m "Release v1.6.2 with HTM and QTM optimal solving"
+git commit -m "Release v1.7.0 with HTM and QTM optimal solving"
 ```
 
 提交文件应覆盖当前版本的全部改动。以后发布时应按 `git status` 的实际改动调整文件列表。提交前必须检查 `git diff --cached`，确保本次文件全部纳入且无关文件没有混入。
@@ -688,16 +689,16 @@ git status --short
 ### 第 10 步：确认产物和标签
 
 ```powershell
-Get-Item .\dist\RubicPhotoSolve-1.6.2-windows-x64.zip
-Get-FileHash .\dist\RubicPhotoSolve-1.6.2-windows-x64.zip -Algorithm SHA256
-git show --no-patch v1.6.2
+Get-Item .\dist\RubicPhotoSolve-1.7.0-windows-x64.zip
+Get-FileHash .\dist\RubicPhotoSolve-1.7.0-windows-x64.zip -Algorithm SHA256
+git show --no-patch v1.7.0
 ```
 
 ### 第 11 步：推送提交和标签
 
 ```powershell
 git push origin main
-git push origin v1.6.2
+git push origin v1.7.0
 ```
 
 只有推送 `v*` 标签才会触发 GitHub Release 发布任务。只推送 `main` 不会创建 Release。
@@ -705,7 +706,7 @@ git push origin v1.6.2
 ### 第 12 步：检查 GitHub Actions 和 Release
 
 1. 打开仓库的 Actions 页面；
-2. 找到分支为 `v1.6.2` 的 CI 运行；
+2. 找到分支为 `v1.7.0` 的 CI 运行；
 3. 等待 Version、Lint、Python、Frontend 和 Native Windows 全部通过；
 4. `Publish GitHub Release` 随后下载经过测试的 Artifact；
 5. 在 Releases 页面确认标题、标签和 ZIP 文件名一致。
@@ -775,13 +776,13 @@ git diff
 
 按顺序检查：
 
-1. `git tag --list v1.6.2` 能看到本地标签；
-2. `git ls-remote --tags origin refs/tags/v1.6.2` 能看到远程标签；
-3. GitHub Actions 中存在 `headBranch=v1.6.2` 的运行；
+1. `git tag --list v1.7.0` 能看到本地标签；
+2. `git ls-remote --tags origin refs/tags/v1.7.0` 能看到远程标签；
+3. GitHub Actions 中存在 `headBranch=v1.7.0` 的运行；
 4. 所有 Python、前端和 Windows Native 作业成功；
 5. `Publish GitHub Release` 没有因前置失败而跳过。
 
-本地创建标签不会自动上传，必须执行 `git push origin v1.6.2`。
+本地创建标签不会自动上传，必须执行 `git push origin v1.7.0`。
 
 ### CI 显示很多 `SKIPPED`
 

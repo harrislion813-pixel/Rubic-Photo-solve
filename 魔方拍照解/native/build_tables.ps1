@@ -60,6 +60,11 @@ try {
             $strongThreads = [Math]::Min(8, $threads)
             & $solver build-strong-pdb ".cache\native\strong_qtm_v3.pdb" --metric QTM --threads $strongThreads @resumeFlag --memory-limit-gib $MemoryLimitGiB
             if ($LASTEXITCODE -ne 0) { throw "QTM strong PDB generation failed" }
+            $nibbleStrong = ".cache\native\strong_qtm_v4_nibble.pdb"
+            if (-not (Test-Path -LiteralPath $nibbleStrong -PathType Leaf)) {
+                & $solver convert-strong-pdb ".cache\native\strong_qtm_v3.pdb" $nibbleStrong --encoding=nibble --verify-all
+                if ($LASTEXITCODE -ne 0) { throw "QTM strong PDB nibble conversion failed" }
+            }
             & $solver build-tail-pdb ".cache\native\tail_qtm_depth8_v5.pdb" --metric QTM --depth 8 --threads $threads
             if ($LASTEXITCODE -ne 0) { throw "QTM Tail-8 generation failed" }
         }

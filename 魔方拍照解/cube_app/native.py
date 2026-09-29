@@ -17,7 +17,7 @@ from .runtime import application_root
 
 ROOT = application_root()
 NATIVE_ROOT = ROOT / "native"
-NATIVE_EXE = NATIVE_ROOT / "build" / "cube_solver.exe"
+NATIVE_EXE = ROOT / os.environ["CUBE_NATIVE_EXE"] if os.environ.get("CUBE_NATIVE_EXE") else NATIVE_ROOT / "build" / "cube_solver.exe"
 NATIVE_CACHE = ROOT / ".cache" / "native"
 CORNER_PDB = NATIVE_CACHE / "corner_htm_v2.pdb"
 PHASE1_PDB = NATIVE_CACHE / "phase1_sym_htm_v2.pdb"
@@ -26,6 +26,7 @@ QTM_PHASE1_PDB = NATIVE_CACHE / "phase1_qtm_v3.pdb"
 QTM_EDGE_PDB_A = NATIVE_CACHE / "edge_a_qtm_v3.pdb"
 QTM_EDGE_PDB_B = NATIVE_CACHE / "edge_b_qtm_v3.pdb"
 QTM_STRONG_PDB = NATIVE_CACHE / "strong_qtm_v3.pdb"
+QTM_STRONG_PDB_NIBBLE = NATIVE_CACHE / "strong_qtm_v4_nibble.pdb"
 QTM_TAIL_PDB_8 = NATIVE_CACHE / "tail_qtm_depth8_v5.pdb"
 QTM_TAIL_PDB_7 = NATIVE_CACHE / "tail_qtm_depth7_v5.pdb"
 EDGE_PDB_A = NATIVE_CACHE / "edge_a_htm_v2.pdb"
@@ -77,24 +78,45 @@ class _PersistentNativeSolver:
 
     @staticmethod
     def _command() -> list[str]:
+        profile = os.environ.get("CUBE_QTM_ASSET_PROFILE", "strong").strip().lower()
+        if profile not in {"base", "standard", "strong", "partial", "fallback"}:
+            raise NativeSolverError(f"unknown QTM asset profile: {profile}")
+        loading = os.environ.get("CUBE_NATIVE_ASSET_LOADING", "staged").strip().lower()
+        if loading not in {"eager", "staged"}:
+            raise NativeSolverError(f"unknown native asset loading mode: {loading}")
         command = [
             str(NATIVE_EXE),
             "serve",
             "--pdb",
             str(CORNER_PDB.relative_to(ROOT)),
+            f"--asset-loading={loading}",
         ]
         if PHASE1_PDB.is_file():
             command.extend(("--phase1-pdb", str(PHASE1_PDB.relative_to(ROOT))))
-        if QTM_CORNER_PDB.is_file():
-            command.extend(("--qtm-pdb", str(QTM_CORNER_PDB.relative_to(ROOT))))
-        if QTM_PHASE1_PDB.is_file():
-            command.extend(("--qtm-phase1-pdb", str(QTM_PHASE1_PDB.relative_to(ROOT))))
-        if QTM_STRONG_PDB.is_file() and _strong_pdb_is_complete(QTM_STRONG_PDB):
-            command.extend(("--strong-pdb", str(QTM_STRONG_PDB.relative_to(ROOT))))
+        qtm_corner = NATIVE_CACHE / "corner_qtm_depth3_v3.pdb" if profile == "partial" else QTM_CORNER_PDB
+        qtm_phase1 = NATIVE_CACHE / "phase1_qtm_depth3_v3.pdb" if profile == "partial" else QTM_PHASE1_PDB
+        if profile != "fallback" and qtm_corner.is_file():
+            command.extend(("--qtm-pdb", str(qtm_corner.relative_to(ROOT))))
+        if profile != "fallback" and qtm_phase1.is_file():
+            command.extend(("--qtm-phase1-pdb", str(qtm_phase1.relative_to(ROOT))))
+        if profile == "strong":
+            preferred = os.environ.get("CUBE_QTM_STRONG_FORMAT", "auto").strip().lower()
+            if preferred not in {"auto", "byte", "nibble"}:
+                raise NativeSolverError(f"unknown strong PDB encoding: {preferred}")
+            choices = (QTM_STRONG_PDB_NIBBLE, QTM_STRONG_PDB) if preferred == "auto" else (
+                (QTM_STRONG_PDB_NIBBLE,) if preferred == "nibble" else (QTM_STRONG_PDB,))
+            strong = next((path for path in choices if path.is_file() and _strong_pdb_is_complete(path)), None)
+            if strong is not None:
+                command.extend(("--strong-pdb", str(strong.relative_to(ROOT))))
+                if (preferred == "auto" and strong == QTM_STRONG_PDB_NIBBLE and QTM_STRONG_PDB.is_file()
+                        and _strong_pdb_is_complete(QTM_STRONG_PDB)):
+                    command.extend(("--strong-pdb-fallback", str(QTM_STRONG_PDB.relative_to(ROOT))))
         if TAIL_PDB.is_file():
             command.extend(("--tail-pdb", str(TAIL_PDB.relative_to(ROOT))))
-        if QTM_TAIL_PDB is not None:
-            command.extend(("--qtm-tail-pdb", str(QTM_TAIL_PDB.relative_to(ROOT))))
+        qtm_tail = (QTM_TAIL_PDB_8 if profile == "strong" else QTM_TAIL_PDB_7
+                    if profile == "standard" else None)
+        if qtm_tail is not None and qtm_tail.is_file():
+            command.extend(("--qtm-tail-pdb", str(qtm_tail.relative_to(ROOT))))
         use_edge_pdbs = os.environ.get("CUBE_NATIVE_EDGE_PDBS", "").strip().lower() in {"1", "true", "yes"}
         for flag, path in zip(
             (
@@ -301,6 +323,11 @@ class _PersistentNativeSolver:
                 except json.JSONDecodeError as exc:
                     self._stop_locked()
                     raise NativeSolverError("native solver service returned invalid JSON") from exc
+                if event.get("type") == "asset_ready" and self._ready is not None:
+                    assets = self._ready.setdefault("assets", {}).setdefault("QTM", {})
+                    assets.update(profile=event.get("profile"), strong=event.get("strong"),
+                                  tail_depth=event.get("tail_depth"))
+                    continue
                 if event.get("request_id") != request_id:
                     continue
                 if event.get("type") == "candidate":
@@ -317,7 +344,7 @@ class _PersistentNativeSolver:
                         self._stop_locked()
                         raise NativeSolverError("native candidate failed whole-cube verification")
                     if progress_callback is not None:
-                        profile = ((self._ready or {}).get("assets") or {}).get(metric, {}).get("profile")
+                        profile = event.get("asset_profile") or ((self._ready or {}).get("assets") or {}).get(metric, {}).get("profile")
                         progress_callback({**event, "engine": "native-cpp", "asset_profile": profile})
                     continue
                 if event.get("type") == "progress":
@@ -325,7 +352,7 @@ class _PersistentNativeSolver:
                         self._stop_locked()
                         raise NativeSolverError("native solver progress metric does not match the request")
                     if progress_callback is not None:
-                        profile = ((self._ready or {}).get("assets") or {}).get(metric, {}).get("profile")
+                        profile = event.get("asset_profile") or ((self._ready or {}).get("assets") or {}).get(metric, {}).get("profile")
                         progress_callback({**event, "engine": "native-cpp", "asset_profile": profile})
                     continue
                 if event.get("type") == "error" or not event.get("ok"):
@@ -399,6 +426,12 @@ def _validated_result(cube: CubieCube, payload: dict, metric: str = "HTM") -> di
         "generated_candidates": int(payload.get("generated_candidates", 0)),
         "phase1_queries": int(payload.get("phase1_queries", 0)),
         "corner_queries": int(payload.get("corner_queries", 0)),
+        "candidate_phase1_nodes": int(payload.get("candidate_phase1_nodes", 0)),
+        "candidate_phase2_nodes": int(payload.get("candidate_phase2_nodes", 0)),
+        "candidate_worker_done_seconds": payload.get("candidate_worker_done_seconds"),
+        "proof_worker_return_seconds": payload.get("proof_worker_return_seconds"),
+        "proof_worker_busy_seconds": round(sum(float(worker.get("busy_seconds", 0.0))
+                                               for worker in payload.get("workers", [])), 3),
         "engine": "native-cpp",
         "asset_profile": payload.get("asset_profile"),
     }

@@ -52,6 +52,8 @@ def main() -> None:
     parser.add_argument("--metric", choices=("HTM", "QTM"), default="QTM")
     parser.add_argument("--profile", choices=("base", "standard", "strong", "partial", "fallback"),
                         default="strong")
+    parser.add_argument("--binary", type=Path, default=ROOT / "native/build/cube_solver.exe")
+    parser.add_argument("--asset-loading", choices=("eager", "staged"), default="eager")
     args = parser.parse_args()
     if not 0.1 <= args.timeout <= 3600:
         parser.error("timeout must be 0.1..3600 seconds")
@@ -63,7 +65,10 @@ def main() -> None:
     old_mtime = port_file.stat().st_mtime_ns if port_file.exists() else -1
     started = time.monotonic()
     process = subprocess.Popen([str(ROOT / ".venv/Scripts/python.exe"), "server.py"], cwd=ROOT,
-                               env={**os.environ, "CUBE_NO_BROWSER": "1"},
+                               env={**os.environ, "CUBE_NO_BROWSER": "1",
+                                    "CUBE_QTM_ASSET_PROFILE": args.profile,
+                                    "CUBE_NATIVE_ASSET_LOADING": args.asset_loading,
+                                    "CUBE_NATIVE_EXE": str(args.binary.resolve())},
                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
     try:
@@ -79,10 +84,11 @@ def main() -> None:
             raise TimeoutError("HTTP server did not create a new port file")
         if not get(base + "/api/version").get("ok"):
             raise AssertionError("HTTP version check failed")
-        output = {"schema_version": 1, "metric": args.metric, "profile": args.profile,
+        output = {"schema_version": 2, "metric": args.metric, "profile": args.profile,
+                  "asset_loading": args.asset_loading,
                   "timeout": args.timeout,
                   "cases_file": file_metadata(args.cases_file),
-                  "native_binary": file_metadata(ROOT / "native/build/cube_solver.exe"),
+                  "native_binary": file_metadata(args.binary),
                   "server_startup_seconds": time.monotonic() - started, "runs": []}
         args.output.parent.mkdir(parents=True, exist_ok=True)
         oracle = next(case for case in json.loads(args.cases_file.read_text(encoding="utf-8"))
@@ -100,7 +106,7 @@ def main() -> None:
         cold_result = cold.get("result") or cold
         if valid_cost(cold_cube, cold_result, args.metric) is None or cold_status != "complete":
             raise AssertionError(f"cold native warmup failed: {cold}")
-        if cold_result.get("asset_profile") != args.profile:
+        if args.asset_loading == "eager" and cold_result.get("asset_profile") != args.profile:
             raise AssertionError(f"unexpected cold asset profile: {cold_result.get('asset_profile')}")
         output["first_request"] = {"case": oracle["name"], "seconds": time.monotonic() - cold_started,
                                    "status": cold_status, "depth": cold_result["depth"],
@@ -130,12 +136,29 @@ def main() -> None:
                     best_cost = cost if best_cost is None else min(best_cost, cost)
                     if first_candidate is None:
                         first_candidate = time.monotonic() - request_started
+            native_detail = final.get("result") or final
+            proof_busy = native_detail.get("proof_worker_busy_seconds")
+            if proof_busy is None:
+                workers = (final.get("progress") or {}).get("workers")
+                if isinstance(workers, list):
+                    proof_busy = round(sum(float(worker.get("busy_seconds", 0.0)) for worker in workers), 3)
             run = {"case": case["name"], "status": status, "request_seconds": request_seconds,
                    "total_seconds": time.monotonic() - request_started, "first_candidate_seconds": first_candidate,
+                   "native_candidate_found_seconds": (final.get("native_candidate_found_seconds") or
+                                                       response.get("native_candidate_found_seconds")),
+                   "python_candidate_received_seconds": (final.get("python_candidate_received_seconds") or
+                                                         response.get("python_candidate_received_seconds")),
+                   "http_sent_seconds": response.get("http_sent_seconds"),
                    "candidate_cost": best_cost, "engine": final.get("engine"),
                    "asset_profile": (final.get("result") or final).get("asset_profile") or final.get("asset_profile"),
-                   "proof_depth": (final.get("result") or final).get("depth") if status == "complete" else None}
-            if run["asset_profile"] != args.profile:
+                   "proof_depth": (final.get("result") or final).get("depth") if status == "complete" else None,
+                   "proof_elapsed_seconds": final.get("proof_elapsed_seconds"),
+                   "proof_worker_busy_seconds": proof_busy,
+                   "candidate_worker_done_seconds": native_detail.get("candidate_worker_done_seconds"),
+                   "proof_worker_return_seconds": native_detail.get("proof_worker_return_seconds"),
+                   "candidate_phase1_nodes": native_detail.get("candidate_phase1_nodes"),
+                   "candidate_phase2_nodes": native_detail.get("candidate_phase2_nodes")}
+            if args.asset_loading == "eager" and run["asset_profile"] != args.profile:
                 raise AssertionError(f"unexpected asset profile for {case['name']}: {run['asset_profile']}")
             output["runs"].append(run)
             args.output.write_text(json.dumps(output, indent=2), encoding="utf-8")

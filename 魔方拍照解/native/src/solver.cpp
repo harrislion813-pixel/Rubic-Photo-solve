@@ -499,9 +499,8 @@ bool check_stop(SearchControl &control, WorkerContext &worker) {
     return false;
 }
 
-int dual_bound(const CoordinateTables &tables, const CoordinateState &state,
-               const Phase1PatternDatabase *phase1_pdb, const CornerPatternDatabase *corner_pdb,
-               const CoordinateFeatures &features) noexcept {
+int dual_bound(const CoordinateTables &tables, const CoordinateState &state, const Phase1PatternDatabase *phase1_pdb,
+               const CornerPatternDatabase *corner_pdb, const CoordinateFeatures &features) noexcept {
     // Cubie reconstruction uses stack arrays only. Inversion changes the side
     // on which moves act, so inverse coordinates are extracted afresh rather
     // than updated with the forward right-multiplication tables.
@@ -512,11 +511,11 @@ int dual_bound(const CoordinateTables &tables, const CoordinateState &state,
     if (phase1_pdb)
         bound = std::max<int>(bound, phase1_pdb->distance(twist, flip, slice_comb_coord(inverse)));
     if (corner_pdb)
-        bound = std::max<int>(bound, corner_pdb->distance(
-            static_cast<std::uint32_t>(corner_perm_coord(inverse)) * kTwistCount + twist));
+        bound = std::max<int>(
+            bound, corner_pdb->distance(static_cast<std::uint32_t>(corner_perm_coord(inverse)) * kTwistCount + twist));
     if (features.strong_pdb)
-        bound = std::max<int>(bound, features.strong_pdb->distance(
-            twist, flip, sorted_slice_coord(inverse), features.affine_coordinates));
+        bound = std::max<int>(bound, features.strong_pdb->distance(twist, flip, sorted_slice_coord(inverse),
+                                                                   features.affine_coordinates));
     return bound;
 }
 
@@ -544,9 +543,10 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
     ++worker.pending_nodes;
     if (check_stop(control, worker))
         return false;
-    int propagated_heuristic = known_heuristic >= 0 ? known_heuristic :
-        tables.heuristic(state, phase1_pdb, corner_pdb, edge_pdbs,
-                         static_cast<std::uint8_t>(depth_left), features, &worker.counters);
+    int propagated_heuristic =
+        known_heuristic >= 0 ? known_heuristic
+                             : tables.heuristic(state, phase1_pdb, corner_pdb, edge_pdbs,
+                                                static_cast<std::uint8_t>(depth_left), features, &worker.counters);
     if (propagated_heuristic > depth_left) {
         return false;
     }
@@ -610,26 +610,23 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
             if (next_depth < 0)
                 continue;
             CoordinateState child;
-            int child_heuristic =
-                tables.expand(state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
-                              static_cast<std::uint8_t>(next_depth), features, worker.counters);
+            int child_heuristic = tables.expand(state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
+                                                static_cast<std::uint8_t>(next_depth), features, worker.counters);
             if (child_heuristic <= next_depth)
-                child_heuristic = maybe_dual_bound(tables, child, child_heuristic, next_depth,
-                                                   phase1_pdb, corner_pdb, features, options, worker.counters);
+                child_heuristic = maybe_dual_bound(tables, child, child_heuristic, next_depth, phase1_pdb, corner_pdb,
+                                                   features, options, worker.counters);
             if (options.bpmx) {
-                propagated_heuristic = std::max(propagated_heuristic,
-                                                child_heuristic - options.move_costs[move]);
+                propagated_heuristic = std::max(propagated_heuristic, child_heuristic - options.move_costs[move]);
                 if (propagated_heuristic > depth_left) {
                     ++worker.counters.bpmx_rejects;
                     return false;
                 }
-                child_heuristic = std::max<int>(child_heuristic,
-                                                propagated_heuristic - options.move_costs[move]);
+                child_heuristic = std::max<int>(child_heuristic, propagated_heuristic - options.move_costs[move]);
             }
             if (child_heuristic > next_depth)
                 continue;
-            candidates[candidate_count++] = Candidate{std::move(child), move, face, next_depth,
-                                                      static_cast<std::uint8_t>(child_heuristic)};
+            candidates[candidate_count++] =
+                Candidate{std::move(child), move, face, next_depth, static_cast<std::uint8_t>(child_heuristic)};
         }
         std::stable_sort(candidates.begin(), candidates.begin() + candidate_count,
                          [&](const Candidate &left, const Candidate &right) {
@@ -663,12 +660,11 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
         if (next_depth < 0)
             continue;
         CoordinateState child;
-        int child_heuristic =
-            tables.expand(state, move, child, phase1_pdb, corner_pdb, edge_pdbs, static_cast<std::uint8_t>(next_depth),
-                          features, worker.counters);
+        int child_heuristic = tables.expand(state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
+                                            static_cast<std::uint8_t>(next_depth), features, worker.counters);
         if (child_heuristic <= next_depth)
-            child_heuristic = maybe_dual_bound(tables, child, child_heuristic, next_depth,
-                                               phase1_pdb, corner_pdb, features, options, worker.counters);
+            child_heuristic = maybe_dual_bound(tables, child, child_heuristic, next_depth, phase1_pdb, corner_pdb,
+                                               features, options, worker.counters);
         if (options.bpmx) {
             propagated_heuristic = std::max(propagated_heuristic, child_heuristic - options.move_costs[move]);
             if (propagated_heuristic > depth_left) {
@@ -719,8 +715,8 @@ std::vector<SearchTask> split_task(const CoordinateTables &tables, const Phase1P
         int child_heuristic = tables.expand(task.state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
                                             static_cast<std::uint8_t>(next_depth), features, worker.counters);
         if (child_heuristic <= next_depth)
-            child_heuristic = maybe_dual_bound(tables, child, child_heuristic, next_depth,
-                                               phase1_pdb, corner_pdb, features, options, worker.counters);
+            child_heuristic = maybe_dual_bound(tables, child, child_heuristic, next_depth, phase1_pdb, corner_pdb,
+                                               features, options, worker.counters);
         if (options.bpmx) {
             propagated_heuristic = std::max(propagated_heuristic, child_heuristic - options.move_costs[move]);
             if (propagated_heuristic > task.depth_left) {
@@ -732,8 +728,8 @@ std::vector<SearchTask> split_task(const CoordinateTables &tables, const Phase1P
         }
         if (child_heuristic > next_depth)
             continue;
-        SearchTask child_task{std::move(child), next_depth, face,
-                              static_cast<std::uint8_t>(child_heuristic), task.path};
+        SearchTask child_task{std::move(child), next_depth, face, static_cast<std::uint8_t>(child_heuristic),
+                              task.path};
         child_task.path.push_back(move);
         children.push_back(std::move(child_task));
     }
@@ -836,8 +832,9 @@ parallel_depth_search(const CoordinateTables &tables, const Phase1PatternDatabas
     };
     pool.run(worker_function, thread_count, [&] {
         if (candidate_done && candidate_done->load(std::memory_order_acquire) && pool.activate_one())
-            control.proof_worker_return_seconds.store(std::chrono::duration<double>(
-                std::chrono::steady_clock::now() - control.started_at).count(), std::memory_order_relaxed);
+            control.proof_worker_return_seconds.store(
+                std::chrono::duration<double>(std::chrono::steady_clock::now() - control.started_at).count(),
+                std::memory_order_relaxed);
         if (snapshot)
             snapshot();
     });
@@ -855,12 +852,10 @@ struct DirectionProbeSample {
 };
 
 DirectionProbeSample sample_direction(const CoordinateTables &tables, const CoordinateState &initial,
-                                      const Phase1PatternDatabase *phase1_pdb,
-                                      const CornerPatternDatabase *corner_pdb,
+                                      const Phase1PatternDatabase *phase1_pdb, const CornerPatternDatabase *corner_pdb,
                                       std::span<const EdgePatternDatabase *const> edge_pdbs,
                                       const CoordinateFeatures &features, const SolverOptions &options, int depth,
-                                      std::uint64_t node_limit,
-                                      std::chrono::steady_clock::time_point deadline) {
+                                      std::uint64_t node_limit, std::chrono::steady_clock::time_point deadline) {
     DirectionProbeSample sample;
     SearchCounters counters;
     const auto walk = [&](const auto &self, const CoordinateState &state, int remaining, int last_face) -> bool {
@@ -1112,8 +1107,7 @@ std::uint8_t CoordinateTables::evaluate(CoordinateState &state, const Coordinate
             return result;
         }
     }
-    const bool alternative_order = features.strong_pdb != nullptr &&
-                                   features.query_order != PdbQueryOrder::Legacy;
+    const bool alternative_order = features.strong_pdb != nullptr && features.query_order != PdbQueryOrder::Legacy;
     if (alternative_order) {
         std::array<std::uint8_t, 3> phase_values{};
         std::array<std::uint8_t, 3> strong_values{};
@@ -1130,9 +1124,9 @@ std::uint8_t CoordinateTables::evaluate(CoordinateState &state, const Coordinate
         const auto query_phase = [&](int axis) {
             ensure_axis(axis);
             ++counters.phase1_queries;
-            phase_values[axis] = axis == 0 ? phase1_pdb->distance(state.twist, state.flip, state.slice) :
-                phase1_pdb->distance(state.axis_twist[axis - 1], state.axis_flip[axis - 1],
-                                     state.axis_slice[axis - 1]);
+            phase_values[axis] = axis == 0 ? phase1_pdb->distance(state.twist, state.flip, state.slice)
+                                           : phase1_pdb->distance(state.axis_twist[axis - 1], state.axis_flip[axis - 1],
+                                                                  state.axis_slice[axis - 1]);
             result = std::max(result, phase_values[axis]);
             if (result > cutoff) {
                 ++counters.axis_rejects[axis];
@@ -1152,11 +1146,12 @@ std::uint8_t CoordinateTables::evaluate(CoordinateState &state, const Coordinate
                 }
             }
             ++counters.strong_queries;
-            strong_values[axis] = axis == 0 ?
-                features.strong_pdb->distance(state.twist, state.flip, state.sorted_slice,
-                                              features.affine_coordinates) :
-                features.strong_pdb->distance(state.axis_twist[axis - 1], state.axis_flip[axis - 1],
-                                              state.axis_sorted_slice[axis - 1], features.affine_coordinates);
+            strong_values[axis] =
+                axis == 0
+                    ? features.strong_pdb->distance(state.twist, state.flip, state.sorted_slice,
+                                                    features.affine_coordinates)
+                    : features.strong_pdb->distance(state.axis_twist[axis - 1], state.axis_flip[axis - 1],
+                                                    state.axis_sorted_slice[axis - 1], features.affine_coordinates);
             result = std::max(result, strong_values[axis]);
             if (result > cutoff) {
                 ++counters.strong_rejects;
@@ -1164,8 +1159,7 @@ std::uint8_t CoordinateTables::evaluate(CoordinateState &state, const Coordinate
             }
             return true;
         };
-        const bool skip_phase = features.query_order == PdbQueryOrder::StrongFirst &&
-                                features.strong_pdb->complete();
+        const bool skip_phase = features.query_order == PdbQueryOrder::StrongFirst && features.strong_pdb->complete();
         if (features.query_order == PdbQueryOrder::Interleaved) {
             for (int axis = 0; axis < 3; ++axis) {
                 if (phase1_pdb && !query_phase(axis))
@@ -1183,8 +1177,8 @@ std::uint8_t CoordinateTables::evaluate(CoordinateState &state, const Coordinate
                         return result;
         }
         if (phase1_pdb && !skip_phase && features.strengthen_axes &&
-            (features.metric != MoveMetric::QTM || features.qtm_phase1_axis_rule) &&
-            phase_values[0] > 0 && phase_values[0] == phase_values[1] && phase_values[1] == phase_values[2]) {
+            (features.metric != MoveMetric::QTM || features.qtm_phase1_axis_rule) && phase_values[0] > 0 &&
+            phase_values[0] == phase_values[1] && phase_values[1] == phase_values[2]) {
             result = std::max(result, static_cast<std::uint8_t>(phase_values[0] + 1));
             if (result > cutoff) {
                 ++counters.equality_rejects;
@@ -1211,8 +1205,8 @@ std::uint8_t CoordinateTables::evaluate(CoordinateState &state, const Coordinate
         }
         if (corner_pdb != nullptr) {
             ++counters.corner_queries;
-            result = std::max(result, corner_pdb->distance(
-                static_cast<std::uint32_t>(state.corner_perm) * kTwistCount + state.twist));
+            result = std::max(result, corner_pdb->distance(static_cast<std::uint32_t>(state.corner_perm) * kTwistCount +
+                                                           state.twist));
             if (result > cutoff) {
                 ++counters.corner_rejects;
                 return result;
@@ -1220,74 +1214,105 @@ std::uint8_t CoordinateTables::evaluate(CoordinateState &state, const Coordinate
         }
     }
     if (!alternative_order) {
-    if (phase1_pdb != nullptr) {
-        std::array<std::uint8_t, 3> axis_values{};
-        ++counters.phase1_queries;
-        axis_values[0] = phase1_pdb->distance(state.twist, state.flip, state.slice);
-        result = std::max(result, axis_values[0]);
-        if (result > cutoff) {
-            ++counters.axis_rejects[0];
-            return result;
-        }
-        for (int axis = 0; axis < kAxisRotationCount; ++axis) {
-            if (parent != nullptr) {
-                const int mapped = axis_rotation_move_maps()[axis][move];
-                state.axis_twist[axis] = twist_move(parent->axis_twist[axis], mapped);
-                state.axis_flip[axis] = flip_move(parent->axis_flip[axis], mapped);
-                state.axis_slice[axis] = slice_move(parent->axis_slice[axis], mapped);
-            }
+        if (phase1_pdb != nullptr) {
+            std::array<std::uint8_t, 3> axis_values{};
             ++counters.phase1_queries;
-            axis_values[axis + 1] =
-                phase1_pdb->distance(state.axis_twist[axis], state.axis_flip[axis], state.axis_slice[axis]);
-            result = std::max(result, axis_values[axis + 1]);
+            axis_values[0] = phase1_pdb->distance(state.twist, state.flip, state.slice);
+            result = std::max(result, axis_values[0]);
             if (result > cutoff) {
-                ++counters.axis_rejects[axis + 1];
+                ++counters.axis_rejects[0];
                 return result;
             }
-        }
-        // Only independent subgroup bounds participate; the all-zero case must stay zero.
-        // Expand a QTM solution into unit quarter turns. Just before its last
-        // turn, one axis projection is already at its abstract goal: that
-        // last face turn belongs to the corresponding goal subgroup. Thus a
-        // solution of cost L gives at least one axis bound <= L-1. If all
-        // three bounds equal n>0, the full cost is at least n+1.
-        if (features.strengthen_axes && (features.metric != MoveMetric::QTM || features.qtm_phase1_axis_rule) &&
-            axis_values[0] > 0 && axis_values[0] == axis_values[1] &&
-            axis_values[1] == axis_values[2]) {
-            result = std::max(result, static_cast<std::uint8_t>(axis_values[0] + 1));
-            if (result > cutoff) {
-                ++counters.equality_rejects;
-                return result;
-            }
-        }
-    }
-    if (parent != nullptr)
-        state.corner_perm = corner_move(parent->corner_perm, move);
-    if (features.small_corner || corner_pdb == nullptr) {
-        ++counters.small_queries;
-        result = std::max(result, corner[state.corner_perm]);
-        if (result > cutoff) {
-            ++counters.corner_rejects;
-            return result;
-        }
-    }
-    if (corner_pdb != nullptr) {
-        ++counters.corner_queries;
-        result = std::max(
-            result, corner_pdb->distance(static_cast<std::uint32_t>(state.corner_perm) * kTwistCount + state.twist));
-        if (result > cutoff) {
-            ++counters.corner_rejects;
-            return result;
-        }
-    }
-    if (features.strong_pdb != nullptr) {
-        if (parent != nullptr) {
-            state.sorted_slice = features.strong_pdb->sorted_move(parent->sorted_slice, move);
-        }
-        std::array<std::uint64_t, 3> prefetched_indices{};
-        if (features.prefetch_strong) {
             for (int axis = 0; axis < kAxisRotationCount; ++axis) {
                 if (parent != nullptr) {
+                    const int mapped = axis_rotation_move_maps()[axis][move];
+                    state.axis_twist[axis] = twist_move(parent->axis_twist[axis], mapped);
+                    state.axis_flip[axis] = flip_move(parent->axis_flip[axis], mapped);
+                    state.axis_slice[axis] = slice_move(parent->axis_slice[axis], mapped);
+                }
+                ++counters.phase1_queries;
+                axis_values[axis + 1] =
+                    phase1_pdb->distance(state.axis_twist[axis], state.axis_flip[axis], state.axis_slice[axis]);
+                result = std::max(result, axis_values[axis + 1]);
+                if (result > cutoff) {
+                    ++counters.axis_rejects[axis + 1];
+                    return result;
+                }
+            }
+            // Only independent subgroup bounds participate; the all-zero case must stay zero.
+            // Expand a QTM solution into unit quarter turns. Just before its last
+            // turn, one axis projection is already at its abstract goal: that
+            // last face turn belongs to the corresponding goal subgroup. Thus a
+            // solution of cost L gives at least one axis bound <= L-1. If all
+            // three bounds equal n>0, the full cost is at least n+1.
+            if (features.strengthen_axes && (features.metric != MoveMetric::QTM || features.qtm_phase1_axis_rule) &&
+                axis_values[0] > 0 && axis_values[0] == axis_values[1] && axis_values[1] == axis_values[2]) {
+                result = std::max(result, static_cast<std::uint8_t>(axis_values[0] + 1));
+                if (result > cutoff) {
+                    ++counters.equality_rejects;
+                    return result;
+                }
+            }
+        }
+        if (parent != nullptr)
+            state.corner_perm = corner_move(parent->corner_perm, move);
+        if (features.small_corner || corner_pdb == nullptr) {
+            ++counters.small_queries;
+            result = std::max(result, corner[state.corner_perm]);
+            if (result > cutoff) {
+                ++counters.corner_rejects;
+                return result;
+            }
+        }
+        if (corner_pdb != nullptr) {
+            ++counters.corner_queries;
+            result = std::max(result, corner_pdb->distance(static_cast<std::uint32_t>(state.corner_perm) * kTwistCount +
+                                                           state.twist));
+            if (result > cutoff) {
+                ++counters.corner_rejects;
+                return result;
+            }
+        }
+        if (features.strong_pdb != nullptr) {
+            if (parent != nullptr) {
+                state.sorted_slice = features.strong_pdb->sorted_move(parent->sorted_slice, move);
+            }
+            std::array<std::uint64_t, 3> prefetched_indices{};
+            if (features.prefetch_strong) {
+                for (int axis = 0; axis < kAxisRotationCount; ++axis) {
+                    if (parent != nullptr) {
+                        const int mapped = axis_rotation_move_maps()[axis][move];
+                        if (phase1_pdb == nullptr) {
+                            state.axis_twist[axis] = twist_move(parent->axis_twist[axis], mapped);
+                            state.axis_flip[axis] = flip_move(parent->axis_flip[axis], mapped);
+                            state.axis_slice[axis] = slice_move(parent->axis_slice[axis], mapped);
+                        }
+                        state.axis_sorted_slice[axis] =
+                            features.strong_pdb->sorted_move(parent->axis_sorted_slice[axis], mapped);
+                    }
+                }
+                prefetched_indices[0] = features.strong_pdb->prepare_index(state.twist, state.flip, state.sorted_slice,
+                                                                           features.affine_coordinates);
+                for (int axis = 0; axis < kAxisRotationCount; ++axis)
+                    prefetched_indices[axis + 1] =
+                        features.strong_pdb->prepare_index(state.axis_twist[axis], state.axis_flip[axis],
+                                                           state.axis_sorted_slice[axis], features.affine_coordinates);
+                for (const auto index : prefetched_indices)
+                    features.strong_pdb->prefetch(index);
+            }
+            std::array<std::uint8_t, 3> strong_axis_values{};
+            ++counters.strong_queries;
+            strong_axis_values[0] = features.prefetch_strong
+                                        ? features.strong_pdb->load_distance(prefetched_indices[0])
+                                        : features.strong_pdb->distance(state.twist, state.flip, state.sorted_slice,
+                                                                        features.affine_coordinates);
+            result = std::max(result, strong_axis_values[0]);
+            if (result > cutoff) {
+                ++counters.strong_rejects;
+                return result;
+            }
+            for (int axis = 0; axis < kAxisRotationCount; ++axis) {
+                if (parent != nullptr && !features.prefetch_strong) {
                     const int mapped = axis_rotation_move_maps()[axis][move];
                     if (phase1_pdb == nullptr) {
                         state.axis_twist[axis] = twist_move(parent->axis_twist[axis], mapped);
@@ -1297,65 +1322,33 @@ std::uint8_t CoordinateTables::evaluate(CoordinateState &state, const Coordinate
                     state.axis_sorted_slice[axis] =
                         features.strong_pdb->sorted_move(parent->axis_sorted_slice[axis], mapped);
                 }
-            }
-            prefetched_indices[0] = features.strong_pdb->prepare_index(
-                state.twist, state.flip, state.sorted_slice, features.affine_coordinates);
-            for (int axis = 0; axis < kAxisRotationCount; ++axis)
-                prefetched_indices[axis + 1] = features.strong_pdb->prepare_index(
-                    state.axis_twist[axis], state.axis_flip[axis], state.axis_sorted_slice[axis],
-                    features.affine_coordinates);
-            for (const auto index : prefetched_indices)
-                features.strong_pdb->prefetch(index);
-        }
-        std::array<std::uint8_t, 3> strong_axis_values{};
-        ++counters.strong_queries;
-        strong_axis_values[0] = features.prefetch_strong ?
-            features.strong_pdb->load_distance(prefetched_indices[0]) :
-            features.strong_pdb->distance(state.twist, state.flip, state.sorted_slice,
-                                          features.affine_coordinates);
-        result = std::max(result, strong_axis_values[0]);
-        if (result > cutoff) {
-            ++counters.strong_rejects;
-            return result;
-        }
-        for (int axis = 0; axis < kAxisRotationCount; ++axis) {
-            if (parent != nullptr && !features.prefetch_strong) {
-                const int mapped = axis_rotation_move_maps()[axis][move];
-                if (phase1_pdb == nullptr) {
-                    state.axis_twist[axis] = twist_move(parent->axis_twist[axis], mapped);
-                    state.axis_flip[axis] = flip_move(parent->axis_flip[axis], mapped);
-                    state.axis_slice[axis] = slice_move(parent->axis_slice[axis], mapped);
+                ++counters.strong_queries;
+                strong_axis_values[axis + 1] =
+                    features.prefetch_strong
+                        ? features.strong_pdb->load_distance(prefetched_indices[axis + 1])
+                        : features.strong_pdb->distance(state.axis_twist[axis], state.axis_flip[axis],
+                                                        state.axis_sorted_slice[axis], features.affine_coordinates);
+                result = std::max(result, strong_axis_values[axis + 1]);
+                if (result > cutoff) {
+                    ++counters.strong_rejects;
+                    return result;
                 }
-                state.axis_sorted_slice[axis] =
-                    features.strong_pdb->sorted_move(parent->axis_sorted_slice[axis], mapped);
             }
-            ++counters.strong_queries;
-            strong_axis_values[axis + 1] = features.prefetch_strong ?
-                features.strong_pdb->load_distance(prefetched_indices[axis + 1]) :
-                features.strong_pdb->distance(state.axis_twist[axis], state.axis_flip[axis],
-                                              state.axis_sorted_slice[axis], features.affine_coordinates);
-            result = std::max(result, strong_axis_values[axis + 1]);
-            if (result > cutoff) {
-                ++counters.strong_rejects;
-                return result;
-            }
-        }
-        // The sorted-slice target for an axis consists of the four edges in
-        // the plane perpendicular to it, including their order. From the
-        // solved cube, a quarter turn about that axis leaves this target,
-        // twist and flip at their goals. Apply the last-turn argument above;
-        // arbitrary forward right moves need not preserve the projection.
-        if (features.metric == MoveMetric::QTM && features.strengthen_axes &&
-            features.qtm_strong_axis_rule && strong_axis_values[0] > 0 &&
-            strong_axis_values[0] == strong_axis_values[1] &&
-            strong_axis_values[1] == strong_axis_values[2]) {
-            result = std::max(result, static_cast<std::uint8_t>(strong_axis_values[0] + 1));
-            if (result > cutoff) {
-                ++counters.strong_equality_rejects;
-                return result;
+            // The sorted-slice target for an axis consists of the four edges in
+            // the plane perpendicular to it, including their order. From the
+            // solved cube, a quarter turn about that axis leaves this target,
+            // twist and flip at their goals. Apply the last-turn argument above;
+            // arbitrary forward right moves need not preserve the projection.
+            if (features.metric == MoveMetric::QTM && features.strengthen_axes && features.qtm_strong_axis_rule &&
+                strong_axis_values[0] > 0 && strong_axis_values[0] == strong_axis_values[1] &&
+                strong_axis_values[1] == strong_axis_values[2]) {
+                result = std::max(result, static_cast<std::uint8_t>(strong_axis_values[0] + 1));
+                if (result > cutoff) {
+                    ++counters.strong_equality_rejects;
+                    return result;
+                }
             }
         }
-    }
     }
     if (parent != nullptr) {
         state.edges = move_edges(parent->edges, move);
@@ -1603,10 +1596,11 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
     if (options.metric == MoveMetric::QTM || searching_inverse)
         inverse_initial = tables_->from_cube(cube.inverse(), features);
     CoordinateState active_initial = searching_inverse ? *inverse_initial : forward_initial;
-    const int forward_lower_bound = tables_->heuristic(
-        forward_initial, active_phase1, active_corner, edge_pdb_views, 255, features);
-    const int inverse_lower_bound = inverse_initial ? tables_->heuristic(
-        *inverse_initial, active_phase1, active_corner, edge_pdb_views, 255, features) : forward_lower_bound;
+    const int forward_lower_bound =
+        tables_->heuristic(forward_initial, active_phase1, active_corner, edge_pdb_views, 255, features);
+    const int inverse_lower_bound = inverse_initial ? tables_->heuristic(*inverse_initial, active_phase1, active_corner,
+                                                                         edge_pdb_views, 255, features)
+                                                    : forward_lower_bound;
     result.direction_forward_lower_bound = forward_lower_bound;
     result.direction_inverse_lower_bound = inverse_lower_bound;
     int lower_bound = std::max(forward_lower_bound, inverse_lower_bound);
@@ -1619,35 +1613,35 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
     int effective_max = options.max_depth;
     if (!incumbent.empty())
         effective_max = std::min(effective_max, solution_cost(incumbent, options.metric) - 1);
-    if (options.use_direction_probe && options.direction_policy == DirectionPolicy::Bounded &&
-        !searching_inverse && inverse_initial && inverse_lower_bound > forward_lower_bound) {
+    if (options.use_direction_probe && options.direction_policy == DirectionPolicy::Bounded && !searching_inverse &&
+        inverse_initial && inverse_lower_bound > forward_lower_bound) {
         active_initial = *inverse_initial;
         searching_inverse = true;
     }
-    if (options.use_direction_probe && options.direction_policy == DirectionPolicy::Bounded &&
-        !searching_inverse && inverse_initial && lower_bound <= effective_max) {
+    if (options.use_direction_probe && options.direction_policy == DirectionPolicy::Bounded && !searching_inverse &&
+        inverse_initial && lower_bound <= effective_max) {
         int sample_depth = std::min(effective_max, std::max(lower_bound, 17));
         if (parity_search && ((sample_depth ^ root_parity) & 1))
             --sample_depth;
-        const double budget_seconds = options.timeout_seconds == 0 ? 0.1 :
-            std::min(0.1, options.timeout_seconds * 0.01);
+        const double budget_seconds =
+            options.timeout_seconds == 0 ? 0.1 : std::min(0.1, options.timeout_seconds * 0.01);
         if (sample_depth >= lower_bound && budget_seconds >= 0.005) {
             const auto probe_started = std::chrono::steady_clock::now();
             const auto half_budget = std::chrono::duration_cast<std::chrono::steady_clock::duration>(
                 std::chrono::duration<double>(budget_seconds * 0.5));
-            const auto forward_probe = sample_direction(
-                *tables_, forward_initial, active_phase1, active_corner, edge_pdb_views, features, options,
-                sample_depth, 50'000, probe_started + half_budget);
+            const auto forward_probe =
+                sample_direction(*tables_, forward_initial, active_phase1, active_corner, edge_pdb_views, features,
+                                 options, sample_depth, 50'000, probe_started + half_budget);
             const auto inverse_probe_started = std::chrono::steady_clock::now();
-            const auto inverse_probe = sample_direction(
-                *tables_, *inverse_initial, active_phase1, active_corner, edge_pdb_views, features, options,
-                sample_depth, 50'000, inverse_probe_started + half_budget);
+            const auto inverse_probe =
+                sample_direction(*tables_, *inverse_initial, active_phase1, active_corner, edge_pdb_views, features,
+                                 options, sample_depth, 50'000, inverse_probe_started + half_budget);
             result.direction_probe_forward_generated = forward_probe.generated;
             result.direction_probe_inverse_generated = inverse_probe.generated;
             result.direction_probe_forward_rejected = forward_probe.rejected;
             result.direction_probe_inverse_rejected = inverse_probe.rejected;
-            result.direction_probe_seconds = std::chrono::duration<double>(
-                std::chrono::steady_clock::now() - probe_started).count();
+            result.direction_probe_seconds =
+                std::chrono::duration<double>(std::chrono::steady_clock::now() - probe_started).count();
             bool choose_inverse = false;
             if (inverse_probe.found != forward_probe.found)
                 choose_inverse = inverse_probe.found;
@@ -1656,8 +1650,10 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
             else if (inverse_probe.complete && forward_probe.complete)
                 choose_inverse = inverse_probe.generated < forward_probe.generated;
             else if (std::min(forward_probe.generated, inverse_probe.generated) >= 1000) {
-                const double forward_reject_rate = static_cast<double>(forward_probe.rejected) / forward_probe.generated;
-                const double inverse_reject_rate = static_cast<double>(inverse_probe.rejected) / inverse_probe.generated;
+                const double forward_reject_rate =
+                    static_cast<double>(forward_probe.rejected) / forward_probe.generated;
+                const double inverse_reject_rate =
+                    static_cast<double>(inverse_probe.rejected) / inverse_probe.generated;
                 choose_inverse = inverse_reject_rate > forward_reject_rate + 0.02;
             }
             if (choose_inverse) {
@@ -1667,8 +1663,8 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         }
     }
     const bool probe_enabled = options.use_direction_probe && options.direction_policy == DirectionPolicy::Legacy &&
-                               !searching_inverse &&
-                               solution_cost(incumbent, options.metric) >= 18 && effective_max >= 17;
+                               !searching_inverse && solution_cost(incumbent, options.metric) >= 18 &&
+                               effective_max >= 17;
     const int probe_depth = probe_enabled ? std::max(lower_bound, std::min(16, effective_max - 2)) : -1;
     bool direction_probed = false;
     const int thread_count = std::clamp(
@@ -1684,15 +1680,19 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
     std::atomic<bool> candidate_cancel{false};
     std::jthread candidate_thread;
     const bool can_generate_candidate = options.metric == MoveMetric::QTM && options.use_native_candidate &&
-        active_phase1 != nullptr && active_phase1->metric() == MoveMetric::QTM && active_phase1->complete();
+                                        active_phase1 != nullptr && active_phase1->metric() == MoveMetric::QTM &&
+                                        active_phase1->complete();
     if (can_generate_candidate) {
         candidate_done.store(false, std::memory_order_relaxed);
         auto run_candidate = [&] {
             try {
                 FastCandidateOptions candidate_options;
-                candidate_options.timeout_seconds = thread_count == 1
-                    ? (options.timeout_seconds == 0 ? 0.5 : std::min(0.5, std::max(0.05, options.timeout_seconds * 0.1)))
-                    : (options.timeout_seconds == 0 ? 3.0 : std::min(3.0, std::max(0.05, options.timeout_seconds * 0.6)));
+                candidate_options.timeout_seconds =
+                    thread_count == 1
+                        ? (options.timeout_seconds == 0 ? 0.5
+                                                        : std::min(0.5, std::max(0.05, options.timeout_seconds * 0.1)))
+                        : (options.timeout_seconds == 0 ? 3.0
+                                                        : std::min(3.0, std::max(0.05, options.timeout_seconds * 0.6)));
                 candidate_options.incumbent_cost = incumbent.empty() ? 100 : solution_cost(incumbent, MoveMetric::QTM);
                 candidate_options.cancel_requested = &candidate_cancel;
                 candidate_options.local_tail = active_tail;
@@ -1719,8 +1719,9 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
             } catch (const std::exception &) {
                 // Candidate generation is opportunistic; exact proof remains authoritative.
             }
-            candidate_done_seconds.store(std::chrono::duration<double>(
-                std::chrono::steady_clock::now() - started).count(), std::memory_order_relaxed);
+            candidate_done_seconds.store(
+                std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count(),
+                std::memory_order_relaxed);
             candidate_done.store(true, std::memory_order_release);
         };
         if (thread_count == 1)
@@ -1822,8 +1823,8 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         auto snapshot = [&] {
             if (options.incumbent_callback) {
                 auto updated = options.incumbent_callback();
-                if (!updated.empty() &&
-                    (incumbent.empty() || solution_cost(updated, options.metric) < solution_cost(incumbent, options.metric))) {
+                if (!updated.empty() && (incumbent.empty() || solution_cost(updated, options.metric) <
+                                                                  solution_cost(incumbent, options.metric))) {
                     validate_incumbent(updated);
                     incumbent = std::move(updated);
                     const int cost = solution_cost(incumbent, options.metric);
@@ -1835,10 +1836,9 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
             report(depth, nodes_before, split_before, iteration_started);
         };
         const int proof_threads = std::max(1, thread_count - !candidate_done.load(std::memory_order_acquire));
-        auto solution =
-            parallel_depth_search(*tables_, active_phase1, active_corner, edge_pdb_views, active_tail, features,
-                                  active_initial, depth, options, proof_threads, control, pool, snapshot,
-                                  proof_threads < thread_count ? &candidate_done : nullptr);
+        auto solution = parallel_depth_search(*tables_, active_phase1, active_corner, edge_pdb_views, active_tail,
+                                              features, active_initial, depth, options, proof_threads, control, pool,
+                                              snapshot, proof_threads < thread_count ? &candidate_done : nullptr);
         const auto primary_nodes = control.nodes.load() - nodes_before;
         if (!solution && !control.timed_out.load() && !cancelled() && !direction_probed && depth == probe_depth) {
             direction_probed = true;

@@ -125,11 +125,9 @@ void print_counters_json(std::ostream &output, const cube::SearchCounters &count
            << ",\"axis_rejects\":[" << counters.axis_rejects[0] << ',' << counters.axis_rejects[1] << ','
            << counters.axis_rejects[2] << ']' << ",\"equality_rejects\":" << counters.equality_rejects
            << ",\"strong_equality_rejects\":" << counters.strong_equality_rejects
-           << ",\"dual_queries\":" << counters.dual_queries
-           << ",\"dual_rejects\":" << counters.dual_rejects
-           << ",\"bpmx_rejects\":" << counters.bpmx_rejects
-           << ",\"corner_rejects\":" << counters.corner_rejects << ",\"edge_rejects\":" << counters.edge_rejects
-           << ",\"workers\":[";
+           << ",\"dual_queries\":" << counters.dual_queries << ",\"dual_rejects\":" << counters.dual_rejects
+           << ",\"bpmx_rejects\":" << counters.bpmx_rejects << ",\"corner_rejects\":" << counters.corner_rejects
+           << ",\"edge_rejects\":" << counters.edge_rejects << ",\"workers\":[";
     for (std::size_t i = 0; i < workers.size(); ++i) {
         if (i)
             output << ',';
@@ -141,8 +139,8 @@ void print_counters_json(std::ostream &output, const cube::SearchCounters &count
     output << ']';
 }
 
-void print_progress_json(std::ostream &output, const cube::NativeSearchProgress &progress,
-                         const std::string &id = "", const char *profile = "") {
+void print_progress_json(std::ostream &output, const cube::NativeSearchProgress &progress, const std::string &id = "",
+                         const char *profile = "") {
     output << "{\"type\":\"progress\",\"lower_bound\":" << progress.lower_bound << ",\"metric\":\""
            << cube::metric_name(progress.metric) << "\""
            << ",\"upper_bound\":" << progress.upper_bound << ",\"current_depth\":" << progress.current_depth
@@ -441,11 +439,10 @@ int wmain(int argc, wchar_t **wide_argv) {
             return 0;
         }
         if (command == "convert-strong-pdb") {
-            if (argc != 6 || std::string(argv[4]) != "--encoding=nibble" ||
-                std::string(argv[5]) != "--verify-all")
+            if (argc != 6 || std::string(argv[4]) != "--encoding=nibble" || std::string(argv[5]) != "--verify-all")
                 throw std::invalid_argument("expected SOURCE TARGET --encoding=nibble --verify-all");
-            const auto verification = cube::convert_strong_pattern_database_to_nibble(
-                cube::path_from_utf8(argv[2]), cube::path_from_utf8(argv[3]));
+            const auto verification = cube::convert_strong_pattern_database_to_nibble(cube::path_from_utf8(argv[2]),
+                                                                                      cube::path_from_utf8(argv[3]));
             std::cout << "{\"ok\":true,\"entries\":" << verification.entries << ",\"histogram\":[";
             for (int distance = 0; distance <= 14; ++distance) {
                 if (distance)
@@ -857,13 +854,13 @@ int wmain(int argc, wchar_t **wide_argv) {
                     solver->load_edge_pdb(group, qtm_edge_pdb_paths[group], cube::MoveMetric::QTM);
             if (!tail_pdb_path.empty())
                 solver->load_tail_database(tail_pdb_path);
-            const double base_initialization_seconds = std::chrono::duration<double>(
-                std::chrono::steady_clock::now() - initialization_started).count();
+            const double base_initialization_seconds =
+                std::chrono::duration<double>(std::chrono::steady_clock::now() - initialization_started).count();
             const auto candidate_tables_started = std::chrono::steady_clock::now();
             if (!qtm_phase1_pdb_path.empty())
                 cube::prepare_fast_qtm_candidate_tables(solver->coordinate_tables());
-            const double candidate_tables_seconds = std::chrono::duration<double>(
-                std::chrono::steady_clock::now() - candidate_tables_started).count();
+            const double candidate_tables_seconds =
+                std::chrono::duration<double>(std::chrono::steady_clock::now() - candidate_tables_started).count();
             double strong_initialization_seconds = 0.0;
             double tail_initialization_seconds = 0.0;
             if (!staged_asset_loading) {
@@ -876,24 +873,25 @@ int wmain(int argc, wchar_t **wide_argv) {
                             throw;
                         solver->load_strong_pdb(strong_pdb_fallback_path);
                     }
-                strong_initialization_seconds = std::chrono::duration<double>(
-                    std::chrono::steady_clock::now() - stage_started).count();
+                strong_initialization_seconds =
+                    std::chrono::duration<double>(std::chrono::steady_clock::now() - stage_started).count();
                 stage_started = std::chrono::steady_clock::now();
                 if (!qtm_tail_pdb_path.empty())
                     solver->load_tail_database(qtm_tail_pdb_path, cube::MoveMetric::QTM);
-                tail_initialization_seconds = std::chrono::duration<double>(
-                    std::chrono::steady_clock::now() - stage_started).count();
+                tail_initialization_seconds =
+                    std::chrono::duration<double>(std::chrono::steady_clock::now() - stage_started).count();
             }
             std::atomic<std::shared_ptr<cube::NativeOptimalSolver>> active_solver{solver};
             std::cout << "{\"ok\":true,\"type\":\"ready\",\"protocol_version\":3,\"proof_version\":3,\"metrics\":["
                          "\"HTM\",\"QTM\"],\"asset_loading\":\""
-                      << (staged_asset_loading ? "staged" : "eager") << "\",\"base_initialization_seconds\":"
-                      << base_initialization_seconds << ",\"strong_initialization_seconds\":"
-                      << strong_initialization_seconds << ",\"tail_initialization_seconds\":"
-                      << tail_initialization_seconds << ",\"candidate_tables_seconds\":"
-                      << candidate_tables_seconds << ",\"strong_symmetry_seconds\":"
-                      << solver->strong_symmetry_initialization_seconds() << ",\"strong_verification_seconds\":"
-                      << solver->strong_verification_seconds() << ",\"assets\":{";
+                      << (staged_asset_loading ? "staged" : "eager")
+                      << "\",\"base_initialization_seconds\":" << base_initialization_seconds
+                      << ",\"strong_initialization_seconds\":" << strong_initialization_seconds
+                      << ",\"tail_initialization_seconds\":" << tail_initialization_seconds
+                      << ",\"candidate_tables_seconds\":" << candidate_tables_seconds
+                      << ",\"strong_symmetry_seconds\":" << solver->strong_symmetry_initialization_seconds()
+                      << ",\"strong_verification_seconds\":" << solver->strong_verification_seconds()
+                      << ",\"assets\":{";
             for (const auto metric : {cube::MoveMetric::HTM, cube::MoveMetric::QTM}) {
                 if (metric == cube::MoveMetric::QTM)
                     std::cout << ',';
@@ -925,15 +923,16 @@ int wmain(int argc, wchar_t **wide_argv) {
                                                    const char *stage, double seconds) {
                         active_solver.store(snapshot, std::memory_order_release);
                         std::lock_guard lock(output_mutex);
-                        std::cout << "{\"ok\":true,\"type\":\"asset_ready\",\"metric\":\"QTM\",\"stage\":\""
-                                  << stage << "\",\"seconds\":" << seconds << ",\"profile\":\""
-                                  << asset_profile(*snapshot, cube::MoveMetric::QTM) << "\",\"strong\":"
-                                  << (snapshot->has_strong_pdb() ? "true" : "false") << ",\"tail_depth\":"
-                                  << snapshot->tail_database_depth(cube::MoveMetric::QTM)
+                        std::cout << "{\"ok\":true,\"type\":\"asset_ready\",\"metric\":\"QTM\",\"stage\":\"" << stage
+                                  << "\",\"seconds\":" << seconds << ",\"profile\":\""
+                                  << asset_profile(*snapshot, cube::MoveMetric::QTM)
+                                  << "\",\"strong\":" << (snapshot->has_strong_pdb() ? "true" : "false")
+                                  << ",\"tail_depth\":" << snapshot->tail_database_depth(cube::MoveMetric::QTM)
                                   << ",\"strong_symmetry_seconds\":"
                                   << snapshot->strong_symmetry_initialization_seconds()
-                                  << ",\"strong_verification_seconds\":"
-                                  << snapshot->strong_verification_seconds() << "}\n" << std::flush;
+                                  << ",\"strong_verification_seconds\":" << snapshot->strong_verification_seconds()
+                                  << "}\n"
+                                  << std::flush;
                     };
                     if (!strong_pdb_path.empty()) {
                         const auto stage_started = std::chrono::steady_clock::now();
@@ -947,8 +946,10 @@ int wmain(int argc, wchar_t **wide_argv) {
                                 next->load_strong_pdb(strong_pdb_fallback_path);
                             }
                             latest = std::move(next);
-                            publish_asset(latest, "strong", std::chrono::duration<double>(
-                                std::chrono::steady_clock::now() - stage_started).count());
+                            publish_asset(
+                                latest, "strong",
+                                std::chrono::duration<double>(std::chrono::steady_clock::now() - stage_started)
+                                    .count());
                         } catch (const std::exception &error) {
                             std::cerr << "strong PDB staged load failed: " << error.what() << '\n';
                         }
@@ -959,8 +960,10 @@ int wmain(int argc, wchar_t **wide_argv) {
                             auto next = std::make_shared<cube::NativeOptimalSolver>(*latest);
                             next->load_tail_database(qtm_tail_pdb_path, cube::MoveMetric::QTM);
                             latest = std::move(next);
-                            publish_asset(latest, "tail", std::chrono::duration<double>(
-                                std::chrono::steady_clock::now() - stage_started).count());
+                            publish_asset(
+                                latest, "tail",
+                                std::chrono::duration<double>(std::chrono::steady_clock::now() - stage_started)
+                                    .count());
                         } catch (const std::exception &error) {
                             std::cerr << "QTM tail staged load failed: " << error.what() << '\n';
                         }
@@ -1037,7 +1040,8 @@ int wmain(int argc, wchar_t **wide_argv) {
                     };
                     const auto search_solver = active_solver.load(std::memory_order_acquire);
                     const auto candidate_started = std::chrono::steady_clock::now();
-                    options.candidate_callback = [&, id, candidate_started, search_solver](const std::vector<int> &moves) {
+                    options.candidate_callback = [&, id, candidate_started,
+                                                  search_solver](const std::vector<int> &moves) {
                         const int cost = cube::solution_cost(moves, cube::MoveMetric::QTM);
                         {
                             std::lock_guard lock(incumbent_mutex);
@@ -1046,11 +1050,11 @@ int wmain(int argc, wchar_t **wide_argv) {
                         }
                         std::lock_guard lock(output_mutex);
                         std::cout << "{\"ok\":true,\"type\":\"candidate\",\"request_id\":" << std::quoted(id)
-                                  << ",\"metric\":\"QTM\",\"cost\":" << cost
-                                  << ",\"native_found_seconds\":"
-                                  << std::chrono::duration<double>(std::chrono::steady_clock::now() - candidate_started).count()
-                                  << ",\"asset_profile\":\""
-                                  << asset_profile(*search_solver, cube::MoveMetric::QTM) << "\""
+                                  << ",\"metric\":\"QTM\",\"cost\":" << cost << ",\"native_found_seconds\":"
+                                  << std::chrono::duration<double>(std::chrono::steady_clock::now() - candidate_started)
+                                         .count()
+                                  << ",\"asset_profile\":\"" << asset_profile(*search_solver, cube::MoveMetric::QTM)
+                                  << "\""
                                   << ",\"moves\":";
                         print_moves_json(std::cout, moves);
                         std::cout << "}\n" << std::flush;
@@ -1076,7 +1080,8 @@ int wmain(int argc, wchar_t **wide_argv) {
                             std::lock_guard lock(output_mutex);
                             running.store(false);
                             print_result_json(std::cout, result,
-                                              result.asset_snapshot ? *result.asset_snapshot : *search_solver, true, id);
+                                              result.asset_snapshot ? *result.asset_snapshot : *search_solver, true,
+                                              id);
                         } catch (const std::exception &error) {
                             std::lock_guard lock(output_mutex);
                             running.store(false);

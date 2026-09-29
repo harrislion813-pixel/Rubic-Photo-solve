@@ -140,8 +140,9 @@ std::uint64_t SortedSliceSymmetry::canonical_index(std::uint16_t twist, std::uin
 std::uint64_t SortedSliceSymmetry::canonical_index_reference(std::uint16_t twist, std::uint16_t flip,
                                                              std::uint16_t sorted) const noexcept {
     const auto symmetry = symmetry_to_representative(sorted);
-    return (static_cast<std::uint64_t>(class_index(sorted)) * 2048ULL +
-            flip_conjugate(flip, sorted, symmetry)) * 2187ULL + phase1_.twist_conjugate(twist, symmetry);
+    return (static_cast<std::uint64_t>(class_index(sorted)) * 2048ULL + flip_conjugate(flip, sorted, symmetry)) *
+               2187ULL +
+           phase1_.twist_conjugate(twist, symmetry);
 }
 
 std::uint16_t SortedSliceSymmetry::class_count() const noexcept {

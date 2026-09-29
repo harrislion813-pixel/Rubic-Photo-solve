@@ -27,8 +27,8 @@ class StrongPatternDatabase {
 
     [[nodiscard]] std::uint8_t distance(std::uint16_t twist, std::uint16_t flip, std::uint16_t sorted,
                                         bool affine = true) const noexcept;
-    [[nodiscard]] std::uint64_t prepare_index(std::uint16_t twist, std::uint16_t flip,
-                                              std::uint16_t sorted, bool affine = true) const noexcept;
+    [[nodiscard]] std::uint64_t prepare_index(std::uint16_t twist, std::uint16_t flip, std::uint16_t sorted,
+                                              bool affine = true) const noexcept;
     [[nodiscard]] std::uint8_t load_distance(std::uint64_t index) const noexcept;
     void prefetch(std::uint64_t index) const noexcept;
     [[nodiscard]] std::uint16_t sorted_move(std::uint16_t sorted, int move) const noexcept;
@@ -55,8 +55,8 @@ class StrongPatternDatabase {
     double verification_seconds_{};
 };
 
-[[nodiscard]] StrongVerification convert_strong_pattern_database_to_nibble(
-    const std::filesystem::path &source, const std::filesystem::path &target);
+[[nodiscard]] StrongVerification convert_strong_pattern_database_to_nibble(const std::filesystem::path &source,
+                                                                           const std::filesystem::path &target);
 
 void build_strong_pattern_database(const std::filesystem::path &path, const CoordinateTables &tables, int threads = 8,
                                    int coverage_depth = 254, bool resume = false, double memory_limit_gib = 12.0);

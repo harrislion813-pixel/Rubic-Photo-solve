@@ -321,9 +321,7 @@ class Search {
 
 } // namespace
 
-void prepare_fast_qtm_candidate_tables(const CoordinateTables &tables) {
-    (void)phase2_tables(tables);
-}
+void prepare_fast_qtm_candidate_tables(const CoordinateTables &tables) { (void)phase2_tables(tables); }
 
 FastCandidateResult find_fast_qtm_candidate(const CubieCube &cube, const CoordinateTables &tables,
                                             const Phase1PatternDatabase &phase1_pdb,
@@ -360,9 +358,10 @@ FastCandidateResult find_fast_qtm_candidate(const CubieCube &cube, const Coordin
         // Give every orientation an early chance to find the first solution.
         // Once one exists, spend the remaining deadline on quality improvements.
         const double fair_share = remaining / (variants.size() - index);
-        variant.timeout_seconds = result.moves.empty()
-            ? std::min(remaining, std::max(0.02, std::min(fair_share, options.timeout_seconds * 0.2)))
-            : fair_share;
+        variant.timeout_seconds =
+            result.moves.empty()
+                ? std::min(remaining, std::max(0.02, std::min(fair_share, options.timeout_seconds * 0.2)))
+                : fair_share;
         variant.on_improved = [&](const std::vector<int> &path) {
             std::vector<int> mapped = path;
             if (axis >= 0) {

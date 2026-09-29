@@ -41,8 +41,7 @@ constexpr std::uint64_t kClassStride = 2048ULL * 2187ULL;
 constexpr std::uint64_t kWordCount = (kStrongPatternEntries + 63ULL) / 64ULL;
 constexpr std::uint64_t kNibbleDataBytes = kStrongPatternEntries / 2ULL;
 constexpr std::uint64_t kNibbleChunkBytes = 64ULL * 1024ULL * 1024ULL;
-constexpr std::uint64_t kNibbleChunkCount =
-    (kNibbleDataBytes + kNibbleChunkBytes - 1ULL) / kNibbleChunkBytes;
+constexpr std::uint64_t kNibbleChunkCount = (kNibbleDataBytes + kNibbleChunkBytes - 1ULL) / kNibbleChunkBytes;
 static_assert(sizeof(std::atomic<std::uint8_t>) == 1);
 
 #pragma pack(push, 1)
@@ -95,8 +94,8 @@ bool valid_nibble_header(const StrongHeader &header, std::uint64_t file_bytes) n
            header.coordinate_version == kCoordinateVersion && header.builder_version == kBuilderVersion &&
            header.bits_per_entry == 4 && header.entry_count == kStrongPatternEntries &&
            header.data_bytes == kNibbleDataBytes && file_bytes == header.header_size + header.data_bytes &&
-           header.coverage_depth < 15 && header.max_distance <= 14 &&
-           header.max_distance <= header.coverage_depth && header.unknown_count == 0 &&
+           header.coverage_depth < 15 && header.max_distance <= 14 && header.max_distance <= header.coverage_depth &&
+           header.unknown_count == 0 &&
            (header.flags & (kCompleteFlag | kChecksumFlag)) == (kCompleteFlag | kChecksumFlag);
 }
 
@@ -178,8 +177,8 @@ struct StrongTransitions {
 StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path) {
     const auto started = std::chrono::steady_clock::now();
     symmetry_ = std::make_shared<SortedSliceSymmetry>();
-    symmetry_initialization_seconds_ = std::chrono::duration<double>(
-        std::chrono::steady_clock::now() - started).count();
+    symmetry_initialization_seconds_ =
+        std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count();
     if (symmetry_->class_count() != 788)
         throw std::runtime_error("strong PDB symmetry class count changed");
     const auto absolute = std::filesystem::absolute(path);
@@ -218,7 +217,10 @@ StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path) 
         const auto *chunk_checksums = view_ + sizeof(StrongHeader);
         valid = checksum_bytes(chunk_checksums, kNibbleChunkCount * sizeof(std::uint64_t)) == header->checksum;
         if (valid) {
-            struct ChunkResult { bool valid{true}; std::uint8_t maximum{}; };
+            struct ChunkResult {
+                bool valid{true};
+                std::uint8_t maximum{};
+            };
             const int thread_count = std::clamp(static_cast<int>(std::thread::hardware_concurrency()), 1, 8);
             std::atomic<std::uint64_t> cursor{0};
             std::vector<ChunkResult> results(static_cast<std::size_t>(thread_count));
@@ -292,8 +294,8 @@ StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path) 
     coverage_depth_ = static_cast<int>(header->coverage_depth);
     max_distance_ = static_cast<std::uint8_t>(header->max_distance);
     complete_ = (header->flags & kCompleteFlag) != 0;
-    verification_seconds_ = std::chrono::duration<double>(
-        std::chrono::steady_clock::now() - started).count() - symmetry_initialization_seconds_;
+    verification_seconds_ = std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count() -
+                            symmetry_initialization_seconds_;
 }
 
 StrongPatternDatabase::~StrongPatternDatabase() {
@@ -305,13 +307,13 @@ StrongPatternDatabase::~StrongPatternDatabase() {
         CloseHandle(static_cast<HANDLE>(file_));
 }
 
-std::uint8_t StrongPatternDatabase::distance(std::uint16_t twist, std::uint16_t flip,
-                                             std::uint16_t sorted, bool affine) const noexcept {
+std::uint8_t StrongPatternDatabase::distance(std::uint16_t twist, std::uint16_t flip, std::uint16_t sorted,
+                                             bool affine) const noexcept {
     return load_distance(prepare_index(twist, flip, sorted, affine));
 }
 
-std::uint64_t StrongPatternDatabase::prepare_index(std::uint16_t twist, std::uint16_t flip,
-                                                   std::uint16_t sorted, bool affine) const noexcept {
+std::uint64_t StrongPatternDatabase::prepare_index(std::uint16_t twist, std::uint16_t flip, std::uint16_t sorted,
+                                                   bool affine) const noexcept {
     return affine ? symmetry_->canonical_index(twist, flip, sorted)
                   : symmetry_->canonical_index_reference(twist, flip, sorted);
 }
@@ -484,15 +486,15 @@ std::pair<int, std::uint64_t> restore_checkpoint(const std::filesystem::path &pa
 } // namespace
 
 StrongVerification convert_strong_pattern_database_to_nibble(const std::filesystem::path &source,
-                                                               const std::filesystem::path &target) {
+                                                             const std::filesystem::path &target) {
     if (std::filesystem::exists(target) || std::filesystem::absolute(source) == std::filesystem::absolute(target))
         throw std::invalid_argument("nibble target must be a new file distinct from the byte source");
     const auto source_bytes = std::filesystem::file_size(source);
     std::ifstream input(source, std::ios::binary);
     StrongHeader source_header;
     input.read(reinterpret_cast<char *>(&source_header), sizeof(source_header));
-    if (!input || !valid_header(source_header, source_bytes) ||
-        (source_header.flags & kCompleteFlag) == 0 || source_header.max_distance > 14)
+    if (!input || !valid_header(source_header, source_bytes) || (source_header.flags & kCompleteFlag) == 0 ||
+        source_header.max_distance > 14)
         throw std::invalid_argument("nibble conversion requires a complete verified byte strong PDB with max <=14");
     if (!target.parent_path().empty())
         std::filesystem::create_directories(target.parent_path());

@@ -11,6 +11,7 @@ native/build/
 native/htm/build/
 native/qtm/build/
 assets/
+asset-manifest.json
 initial/
 result/
 dist/

@@ -39,7 +39,7 @@ def main() -> None:
         prepare_qtm(str(qtm_cache))
     if first != [digest(path) for path in paths]:
         raise RuntimeError("runtime fallback cache changed on a second load")
-    print("Prepared stable Python fallback caches:", *(str(path) for path in paths))
+    print("Prepared stable Python fallback caches:", *(path.relative_to(root).as_posix() for path in paths))
 
 
 if __name__ == "__main__":

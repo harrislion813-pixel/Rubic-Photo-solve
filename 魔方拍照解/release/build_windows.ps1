@@ -8,6 +8,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$env:PYTHONUTF8 = "1"
 if (-not $Profile) { throw "Select the release acceptance profile with -Profile HtmFull or -Profile QtmStrong." }
 $projectRoot = Split-Path -Parent $PSScriptRoot
 if (-not $Python) {

@@ -15,7 +15,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "release"))
 from cube_app.cubie import CubieCube, MOVE_INDEX, to_facelets  # noqa: E402
 from cube_app.metrics import solution_cost  # noqa: E402
-from cube_app.solvers.htm.two_by_two import is_solved_2x2  # noqa: E402
+from cube_app.solvers.htm.two_by_two import is_solved_2x2, to_facelets_2x2  # noqa: E402
 from verify_installation import verify  # noqa: E402
 from package_release import inspect_portable  # noqa: E402
 
@@ -53,7 +53,7 @@ def run(root, command, qtm):
                 for size in (2, 3):
                     cube = CubieCube().apply_move_index(MOVE_INDEX["R2"])
                     response = request(base, "/api/solve",
-                                       {"cube_size": size, "facelets": to_facelets(cube),
+                                       {"cube_size": size, "facelets": to_facelets_2x2(cube) if size == 2 else to_facelets(cube),
                                         "metric": metric, "timeout_seconds": 40})
                     until = time.monotonic() + 45
                     while response.get("proof_status") != "complete":

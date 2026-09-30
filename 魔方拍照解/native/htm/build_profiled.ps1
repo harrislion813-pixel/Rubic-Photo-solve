@@ -1,5 +1,6 @@
 param(
     [string]$Compiler = "C:\msys64\ucrt64\bin\g++.exe",
+    [switch]$Portable,
     [ValidateRange(0.1, 5.0)][double]$TrainingTimeout = 5
 )
 
@@ -31,8 +32,8 @@ New-Item -ItemType Directory -Force -Path $profileDirectory | Out-Null
 $common = @(
     "-std=c++20",
     "-O3",
-    "-march=native",
-    "-mtune=native",
+    $(if ($Portable) { "-march=x86-64" } else { "-march=native" }),
+    $(if ($Portable) { "-mtune=generic" } else { "-mtune=native" }),
     "-flto",
     "-fprofile-update=atomic",
     "-DNDEBUG",
@@ -65,7 +66,7 @@ try {
             $trainingPython = Join-Path $projectRoot ".venv\Scripts\python.exe"
             if (-not (Test-Path -LiteralPath $trainingPython)) { $trainingPython = "python" }
             & $trainingPython tests\benchmark_isolation_short.py --binary $trainingTarget `
-                --metric HTM --bound 16 --cases pgo16,known18 --repeats 1 --timeout $TrainingTimeout `
+                --metric HTM --bound 16 --bound-pgo 15 --cases pgo16,known18 --repeats 1 --timeout $TrainingTimeout `
                 --label htm-pgo-training `
                 --output .cache\htm-pgo-training.json
             $trainingExitCode = $LASTEXITCODE
@@ -85,6 +86,7 @@ try {
         compiler = (& $compiler --version | Select-Object -First 1)
         flags = ($common -join " ") + " -fprofile-use -fprofile-correction"
         profile_guided = $true
+        portable = [bool]$Portable
         built_at = [DateTime]::UtcNow.ToString("o")
         binary_sha256 = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash
         training_cases_sha256 = (Get-FileHash -LiteralPath (Join-Path $projectRoot "tests\native_pgo_cases.json") -Algorithm SHA256).Hash

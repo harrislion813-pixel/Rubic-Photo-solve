@@ -23,6 +23,7 @@ class Phase1PatternDatabase;
 class TailDatabase;
 class StrongPatternDatabase;
 class NativeOptimalSolver;
+class LoaderControl;
 
 enum class DirectionPolicy { Off, Legacy, Bounded };
 enum class DualPolicy { Off, Root, Selective, All };
@@ -49,6 +50,7 @@ struct CoordinateFeatures {
     bool affine_coordinates{true};
     PdbQueryOrder query_order{PdbQueryOrder::StrongFirst};
     bool prefetch_strong{false};
+    bool maintain_slice{true};
     bool axis_coordinates{true};
     bool edge_pattern_a{true};
     bool edge_pattern_b{true};
@@ -67,6 +69,9 @@ struct SearchCounters {
     std::uint64_t corner_queries{};
     std::uint64_t edge_queries{};
     std::uint64_t strong_queries{};
+    std::uint64_t strong_prefetches{};
+    std::uint64_t slice_updates{};
+    std::uint64_t slice_updates_skipped{};
     std::uint64_t tt_keys{};
     std::uint64_t tt_lookups{};
     std::uint64_t tt_stores{};
@@ -183,6 +188,8 @@ struct SolverOptions {
     bool affine_coordinates{true};
     PdbQueryOrder query_order{PdbQueryOrder::StrongFirst};
     bool prefetch_strong{false};
+    bool omit_strong_slice{false};
+    bool strong_upgrade_restart{false};
     bool inverse_direction{false};
     bool use_native_candidate{true};
     bool adaptive_split{true};
@@ -193,6 +200,10 @@ struct SolverOptions {
     std::vector<int> incumbent_moves;
     std::function<std::vector<int>()> incumbent_callback;
     std::function<std::shared_ptr<const NativeOptimalSolver>()> asset_snapshot_callback;
+    std::function<void(const NativeOptimalSolver &, int, double, double, std::uint64_t)> asset_adopted_callback;
+    std::function<int()> loader_threads_callback;
+    std::function<void(int, int, int)> thread_activity_callback;
+    std::function<void(int, std::uint64_t, double)> upgrade_callback;
     std::function<void(const std::vector<int> &)> candidate_callback;
     std::function<void(const NativeSearchProgress &)> progress_callback;
 };
@@ -229,6 +240,9 @@ struct NativeSolveResult {
     double candidate_worker_done_seconds{-1.0};
     double proof_worker_return_seconds{-1.0};
     int completed_depth{-1};
+    int strong_upgrade_restarts{};
+    std::uint64_t upgrade_discarded_generated{};
+    double upgrade_stop_seconds{};
     SearchCounters counters;
     std::vector<WorkerStatistics> workers;
     std::shared_ptr<const NativeOptimalSolver> asset_snapshot;
@@ -243,8 +257,9 @@ class NativeOptimalSolver {
     void load_edge_pdb(int group, const std::filesystem::path &path, std::optional<MoveMetric> expected = std::nullopt);
     void load_edge_pdbs(const std::filesystem::path &path_a, const std::filesystem::path &path_b);
     void load_extra_edge_pdbs(const std::filesystem::path &path_c, const std::filesystem::path &path_d);
-    void load_tail_database(const std::filesystem::path &path, MoveMetric expected_metric = MoveMetric::HTM);
-    void load_strong_pdb(const std::filesystem::path &path);
+    void load_tail_database(const std::filesystem::path &path, MoveMetric expected_metric = MoveMetric::HTM,
+                            LoaderControl *loader = nullptr);
+    void load_strong_pdb(const std::filesystem::path &path, LoaderControl *loader = nullptr);
     [[nodiscard]] bool has_corner_pdb(MoveMetric metric = MoveMetric::HTM) const noexcept;
     [[nodiscard]] bool has_phase1_pdb(MoveMetric metric = MoveMetric::HTM) const noexcept;
     [[nodiscard]] bool has_edge_pdbs(MoveMetric metric = MoveMetric::HTM) const noexcept;

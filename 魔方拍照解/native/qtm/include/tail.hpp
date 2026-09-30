@@ -10,6 +10,7 @@
 #include <vector>
 
 namespace cube {
+class LoaderControl;
 
 struct TailHit {
     std::uint8_t distance{};
@@ -31,7 +32,7 @@ struct TailVerification {
 
 class TailDatabase {
   public:
-    explicit TailDatabase(const std::filesystem::path &path);
+    explicit TailDatabase(const std::filesystem::path &path, LoaderControl *loader = nullptr);
     ~TailDatabase();
 
     TailDatabase(const TailDatabase &) = delete;

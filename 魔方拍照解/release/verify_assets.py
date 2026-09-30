@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import struct
+import sys
 from pathlib import Path
 
 HTM = (
@@ -92,11 +93,22 @@ def main() -> None:
         if not path.is_file() or path.stat().st_size < 1024:
             raise FileNotFoundError(f"missing release asset: {path}")
         files[relative] = metadata(path)
+    sys.path.insert(0, str(root))
+    from cube_app import __version__
+    engines = ('htm', 'qtm') if args.profile == 'QtmStrong' else ('htm',)
+    builds = {engine:json.loads((root/f'native/{engine}/build/build-info.json').read_text(encoding='utf-8-sig')) for engine in engines}
+    for engine, info in builds.items():
+        if not info.get('portable') or info['binary_sha256'].lower() != files[f'native/{engine}/build/cube_solver_{engine}.exe']['sha256']:
+            raise ValueError(f'{engine} build-info does not match executable')
+    sources = sorted((root/'cube_app').rglob('*.py')) + sorted((root/'web').glob('*'))
+    sources += [root/'server.py', root/'windows_launcher.py', root/'pyproject.toml']
     manifest = {
         "profile": args.profile,
-        "app_version": "1.8.0",
-        "htm_source": "ae73ca81af1ed077c059f3345377190bf0ce2882",
-        "qtm_source": "c01d90dcbc449faf3b6128020e71655a0a47960b" if args.profile == "QtmStrong" else None,
+        "app_version": __version__,
+        "native_builds": builds,
+        "application_source_sha256": {p.relative_to(root).as_posix():metadata(p)["sha256"] for p in sources if p.is_file()},
+        "htm_frozen_origin": "ae73ca81af1ed077c059f3345377190bf0ce2882",
+        "qtm_frozen_origin": "c01d90dcbc449faf3b6128020e71655a0a47960b" if args.profile == "QtmStrong" else None,
         "files": files,
     }
     args.write.parent.mkdir(parents=True, exist_ok=True)

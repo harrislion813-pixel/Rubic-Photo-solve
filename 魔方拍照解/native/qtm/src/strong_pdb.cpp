@@ -1,4 +1,5 @@
 #include "strong_pdb.hpp"
+#include "loader.hpp"
 
 #include "paths.hpp"
 #include "solver.hpp"
@@ -174,9 +175,10 @@ struct StrongTransitions {
 
 } // namespace
 
-StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path) {
+StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path, LoaderControl *loader) {
+    LoaderControl::Participant coordinator(loader);
     const auto started = std::chrono::steady_clock::now();
-    symmetry_ = std::make_shared<SortedSliceSymmetry>();
+    symmetry_ = std::make_shared<SortedSliceSymmetry>([&] { coordinator.checkpoint(); });
     symmetry_initialization_seconds_ =
         std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count();
     if (symmetry_->class_count() != 788)
@@ -221,15 +223,19 @@ StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path) 
                 bool valid{true};
                 std::uint8_t maximum{};
             };
-            const int thread_count = std::clamp(static_cast<int>(std::thread::hardware_concurrency()), 1, 8);
+            const int thread_count = std::clamp(
+                loader && loader->threads > 0 ? loader->threads : static_cast<int>(std::thread::hardware_concurrency()),
+                1, 8);
             std::atomic<std::uint64_t> cursor{0};
             std::vector<ChunkResult> results(static_cast<std::size_t>(thread_count));
             std::vector<std::thread> workers;
             workers.reserve(static_cast<std::size_t>(thread_count));
             for (int thread = 0; thread < thread_count; ++thread)
                 workers.emplace_back([&, thread] {
+                    LoaderControl::Participant participant(loader);
                     auto &part = results[static_cast<std::size_t>(thread)];
                     while (part.valid) {
+                        participant.checkpoint();
                         const auto chunk = cursor.fetch_add(1, std::memory_order_relaxed);
                         if (chunk >= kNibbleChunkCount)
                             break;
@@ -253,8 +259,10 @@ StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path) 
                         part.valid &= actual == expected;
                     }
                 });
+            coordinator.suspend();
             for (auto &worker : workers)
                 worker.join();
+            coordinator.resume();
             std::uint8_t maximum = 0;
             for (const auto &part : results) {
                 valid &= part.valid;
@@ -267,6 +275,8 @@ StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path) 
         std::uint64_t unknown = 0;
         std::uint8_t maximum = 0;
         for (std::uint64_t index = 0; index < kStrongPatternEntries; ++index) {
+            if (index % (4ULL << 20U) == 0)
+                coordinator.checkpoint();
             const auto distance = data[index];
             checksum = (checksum ^ distance) * 1099511628211ULL;
             if (distance == 255)

@@ -1,0 +1,10 @@
+{
+  "wheel": "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\.cache\\review-wheel\\rubic_photo_solve-1.8.0-py3-none-any.whl",
+  "sha256": "eff435330377d945d27e51978da47ef86c60c7aa300a6140b18159f4f7315f67",
+  "solver_entries": 20,
+  "isolated_imports": "passed",
+  "installed": {
+    "version": "1.8.0",
+    "module": "C:\\Users\\harriron\\AppData\\Local\\Temp\\cube-wheel-f42no9_8\\venv\\Lib\\site-packages\\cube_app\\__init__.py"
+  }
+}

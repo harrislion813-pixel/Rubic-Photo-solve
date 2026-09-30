@@ -25,15 +25,26 @@ try {
 
     $htmExe = Join-Path $projectRoot "native\htm\build\cube_solver_htm.exe"
     $qtmExe = Join-Path $projectRoot "native\qtm\build\cube_solver_qtm.exe"
-    if (-not (Test-Path -LiteralPath $htmExe)) {
-        if ($SkipNativeBuild) { throw "HTM EXE is missing." }
-        & (Join-Path $projectRoot "native\htm\build.ps1") | Out-Host
-        if ($LASTEXITCODE -ne 0) { throw "HTM native build failed." }
-    }
-    if ($Profile -eq "QtmStrong" -and -not (Test-Path -LiteralPath $qtmExe)) {
-        if ($SkipNativeBuild) { throw "QTM EXE is missing." }
-        & (Join-Path $projectRoot "native\qtm\build.ps1") -Portable | Out-Host
-        if ($LASTEXITCODE -ne 0) { throw "QTM native build failed." }
+    $engines = if ($Profile -eq "QtmStrong") { @("htm", "qtm") } else { @("htm") }
+    foreach ($engine in $engines) {
+        $nativeRoot = Join-Path $projectRoot "native\$engine"
+        $nativeExe = Join-Path $nativeRoot "build\cube_solver_$engine.exe"
+        $buildInfoPath = Join-Path $nativeRoot "build\build-info.json"
+        $validBuild = (Test-Path -LiteralPath $nativeExe) -and (Test-Path -LiteralPath $buildInfoPath)
+        if ($validBuild) {
+            $buildInfo = Get-Content -Raw -LiteralPath $buildInfoPath | ConvertFrom-Json
+            $validBuild = $buildInfo.portable -eq $true -and $buildInfo.binary_sha256 -eq (Get-FileHash -LiteralPath $nativeExe -Algorithm SHA256).Hash
+            foreach ($source in Get-ChildItem (Join-Path $nativeRoot "src"), (Join-Path $nativeRoot "include") -File -Recurse) {
+                if (-not $buildInfo.source_sha256 -or $buildInfo.source_sha256.($source.Name) -ne (Get-FileHash -LiteralPath $source.FullName -Algorithm SHA256).Hash) {
+                    $validBuild = $false
+                }
+            }
+        }
+        if (-not $validBuild) {
+            if ($SkipNativeBuild) { throw "$engine EXE needs a portable build matching the current sources and build-info." }
+            & (Join-Path $nativeRoot "build.ps1") -Portable | Out-Host
+            if ($LASTEXITCODE -ne 0) { throw "$engine native build failed." }
+        }
     }
     $htmAssets = @(
         "assets\htm\v1\corner_htm_v2.pdb",
@@ -70,6 +81,7 @@ try {
     $pyArgs = @(
         "-m", "PyInstaller", "--noconfirm", "--clean", "--onedir",
         "--name", $packageName,
+        "--exclude-module", "numpy._core._multiarray_tests",
         "--distpath", $OutputDirectory,
         "--workpath", (Join-Path $workDirectory "work"),
         "--specpath", $workDirectory
@@ -80,7 +92,10 @@ try {
     if ($LASTEXITCODE -ne 0) { throw "PyInstaller build failed." }
 
     $packageRoot = Join-Path $OutputDirectory $packageName
-    Copy-Item -LiteralPath (Join-Path $projectRoot "web") -Destination (Join-Path $packageRoot "web") -Recurse -Force
+    New-Item -ItemType Directory -Force -Path (Join-Path $packageRoot "web") | Out-Null
+    foreach ($name in @("index.html", "app.js", "color.js", "solver-client.js", "styles.css")) {
+        Copy-Item -LiteralPath (Join-Path $projectRoot "web\$name") -Destination (Join-Path $packageRoot "web\$name") -Force
+    }
     $selected = (Get-Content -Raw -LiteralPath $manifest | ConvertFrom-Json).files.PSObject.Properties.Name
     foreach ($relative in $selected) {
         $source = Join-Path $projectRoot $relative
@@ -91,6 +106,13 @@ try {
     Copy-Item -LiteralPath $manifest -Destination (Join-Path $packageRoot "asset-manifest.json") -Force
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot "README-Windows.txt") -Destination $packageRoot -Force
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot "启动魔方求解器.cmd") -Destination $packageRoot -Force
+    Copy-Item -LiteralPath (Join-Path $projectRoot "README.md") -Destination $packageRoot -Force
+    Copy-Item -LiteralPath (Join-Path $projectRoot "CHANGELOG.md") -Destination $packageRoot -Force
+    Copy-Item -LiteralPath (Join-Path $PSScriptRoot "verify_installation.ps1") -Destination $packageRoot -Force
+    Copy-Item -LiteralPath (Join-Path $PSScriptRoot "校验安装.cmd") -Destination $packageRoot -Force
+    if ($Profile -eq "QtmStrong") {
+        Copy-Item -LiteralPath (Join-Path $PSScriptRoot "启动QTM完整强表.cmd") -Destination $packageRoot -Force
+    }
     Set-Content -LiteralPath (Join-Path $packageRoot "VERSION.txt") -Value $version -Encoding ascii
     $archive = Join-Path $OutputDirectory "RubicPhotoSolve-$version-$Profile-windows-x64.zip"
     & $Python release\zip64_package.py $packageRoot $archive

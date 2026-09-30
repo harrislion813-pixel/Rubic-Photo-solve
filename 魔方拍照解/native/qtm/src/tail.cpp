@@ -1,4 +1,5 @@
 #include "tail.hpp"
+#include "loader.hpp"
 #include "paths.hpp"
 
 #define WIN32_LEAN_AND_MEAN
@@ -86,19 +87,22 @@ std::uint64_t mix_checksum(std::uint64_t value) noexcept {
     return value ^ (value >> 31U);
 }
 
-std::uint64_t checksum_bytes_parallel(const std::uint8_t *data, std::uint64_t size) {
+std::uint64_t checksum_bytes_parallel(const std::uint8_t *data, std::uint64_t size, LoaderControl *loader = nullptr) {
     constexpr std::uint64_t chunk_bytes = 4ULL << 20U;
     const std::size_t chunk_count = static_cast<std::size_t>((size + chunk_bytes - 1) / chunk_bytes);
     if (chunk_count == 0)
         return checksum_bytes(data, size);
     std::vector<std::uint64_t> hashes(chunk_count);
     std::atomic<std::size_t> cursor{0};
-    const int thread_count = std::clamp(static_cast<int>(std::thread::hardware_concurrency()), 1, 32);
+    const int thread_count = std::clamp(
+        loader && loader->threads > 0 ? loader->threads : static_cast<int>(std::thread::hardware_concurrency()), 1, 32);
     std::vector<std::thread> workers;
     workers.reserve(thread_count);
     for (int thread = 0; thread < thread_count; ++thread) {
         workers.emplace_back([&] {
+            LoaderControl::Participant participant(loader);
             while (true) {
+                participant.checkpoint();
                 const std::size_t chunk = cursor.fetch_add(1, std::memory_order_relaxed);
                 if (chunk >= chunk_count)
                     break;
@@ -413,7 +417,8 @@ bool valid_existing_file(const std::filesystem::path &path, int requested_depth,
 
 } // namespace
 
-TailDatabase::TailDatabase(const std::filesystem::path &path) {
+TailDatabase::TailDatabase(const std::filesystem::path &path, LoaderControl *loader) {
+    LoaderControl::Participant coordinator(loader);
     const auto absolute = std::filesystem::absolute(path);
     HANDLE file = CreateFileW(absolute.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
                               FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -451,6 +456,7 @@ TailDatabase::TailDatabase(const std::filesystem::path &path) {
     const std::uint64_t entry_bytes = legacy ? sizeof(LegacyTailEntry) : 12U;
     const std::uint64_t bloom_bytes = bloom_format ? bloom_word_count(header->slot_count) * sizeof(std::uint64_t) : 0;
     const std::uint64_t data_bytes = header->slot_count * entry_bytes + bloom_bytes;
+    coordinator.suspend();
     bool checksum_valid = false;
     if (size.QuadPart == static_cast<LONGLONG>(sizeof(TailHeader) + data_bytes)) {
         if (bloom_format && header->reserved[2] == (qtm_format ? kQtmBloomChecksumMarker : kBloomChecksumMarker)) {
@@ -458,21 +464,30 @@ TailDatabase::TailDatabase(const std::filesystem::path &path) {
             const auto *metadata = keys + header->slot_count * sizeof(std::uint64_t);
             const auto *bloom = metadata + header->slot_count * sizeof(std::uint32_t);
             const std::uint64_t metadata_checksum =
-                checksum_bytes_parallel(metadata, header->slot_count * sizeof(std::uint32_t));
-            const std::uint64_t bloom_checksum = checksum_bytes_parallel(bloom, bloom_bytes);
-            checksum_valid =
-                header->reserved[0] == checksum_bytes_parallel(keys, header->slot_count * sizeof(std::uint64_t)) &&
-                header->reserved[1] == mix_checksum(metadata_checksum ^ std::rotl(bloom_checksum, 17));
+                checksum_bytes_parallel(metadata, header->slot_count * sizeof(std::uint32_t), loader);
+            const std::uint64_t bloom_checksum = checksum_bytes_parallel(bloom, bloom_bytes, loader);
+            checksum_valid = header->reserved[0] ==
+                                 checksum_bytes_parallel(keys, header->slot_count * sizeof(std::uint64_t), loader) &&
+                             header->reserved[1] == mix_checksum(metadata_checksum ^ std::rotl(bloom_checksum, 17));
         } else if (compact && header->reserved[2] == kParallelChecksumMarker) {
             const auto *keys = view_ + sizeof(TailHeader);
             const auto *metadata = keys + header->slot_count * sizeof(std::uint64_t);
-            checksum_valid =
-                header->reserved[0] == checksum_bytes_parallel(keys, header->slot_count * sizeof(std::uint64_t)) &&
-                header->reserved[1] == checksum_bytes_parallel(metadata, header->slot_count * sizeof(std::uint32_t));
+            checksum_valid = header->reserved[0] ==
+                                 checksum_bytes_parallel(keys, header->slot_count * sizeof(std::uint64_t), loader) &&
+                             header->reserved[1] ==
+                                 checksum_bytes_parallel(metadata, header->slot_count * sizeof(std::uint32_t), loader);
         } else {
-            checksum_valid = header->reserved[0] == checksum_bytes(view_ + sizeof(TailHeader), data_bytes);
+            LoaderControl::Participant participant(loader);
+            std::uint64_t actual = 1469598103934665603ULL;
+            for (std::uint64_t offset = 0; offset < data_bytes; offset += 4ULL << 20U) {
+                participant.checkpoint();
+                actual = checksum_bytes(view_ + sizeof(TailHeader) + offset, std::min(4ULL << 20U, data_bytes - offset),
+                                        actual);
+            }
+            checksum_valid = header->reserved[0] == actual;
         }
     }
+    coordinator.resume();
     const bool qtm_count_valid = !qtm_format || (header->depth != 7 && header->depth != 8) ||
                                  header->state_count == (header->depth == 7 ? 9205558ULL : 86049153ULL);
     const bool valid = header->magic == kMagic && (legacy || compact || bloom_format) &&

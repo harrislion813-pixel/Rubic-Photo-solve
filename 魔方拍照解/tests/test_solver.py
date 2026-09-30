@@ -9,9 +9,9 @@ from unittest import mock
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-import cube_app.optimal as optimal
+import cube_app.solvers.htm.optimal as optimal
 from cube_app.cubie import CubieCube, MOVE_INDEX
-from cube_app.fast import FastTwoPhaseSolver
+from cube_app.solvers.htm.fast import FastTwoPhaseSolver
 
 
 def scrambled(sequence: str) -> CubieCube:
@@ -30,7 +30,8 @@ def apply_solution(cube: CubieCube, moves: list[str]) -> CubieCube:
 class OptimalSolverTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.solver = optimal.OptimalSolver(ROOT / ".cache")
+        cls.solver = optimal.OptimalSolver(ROOT / ".cache" / "htm")
+        _ = cls.solver.tables
 
     def test_known_short_optimal_depths(self) -> None:
         cases = {
@@ -98,7 +99,7 @@ class OptimalSolverTests(unittest.TestCase):
 class FastTwoPhaseSolverTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.solver = FastTwoPhaseSolver(ROOT / ".cache")
+        cls.solver = FastTwoPhaseSolver(ROOT / ".cache" / "htm")
         _ = cls.solver.tables
 
     def test_returns_valid_non_optimal_solution_for_deep_state(self) -> None:

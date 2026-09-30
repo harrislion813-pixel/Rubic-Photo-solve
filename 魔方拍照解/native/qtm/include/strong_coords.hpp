@@ -4,6 +4,7 @@
 #include "symmetry.hpp"
 
 #include <cstdint>
+#include <functional>
 #include <vector>
 
 namespace cube {
@@ -15,7 +16,7 @@ inline constexpr std::uint16_t kSortedSliceCount = 495U * 24U;
 
 class SortedSliceSymmetry {
   public:
-    SortedSliceSymmetry();
+    explicit SortedSliceSymmetry(const std::function<void()> &checkpoint = {});
 
     [[nodiscard]] std::uint16_t moved(std::uint16_t sorted, int move) const noexcept;
     [[nodiscard]] std::uint16_t conjugate(std::uint16_t sorted, int symmetry) const noexcept;

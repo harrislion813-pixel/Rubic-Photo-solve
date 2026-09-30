@@ -26,6 +26,24 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def fixed_layer(run: dict) -> dict:
+    result = run["result"]
+    if result.get("type") == "error":
+        if result.get("error") != "no solution found within max depth":
+            raise AssertionError(f"native diagnostic failed: {result}")
+        # Frozen HTM v2 reports exhausted bounds as an error after the final complete
+        # progress frame. Preserve the frame and use its actual counters.
+        if not run["progress"]:
+            raise AssertionError("HTM exhausted bound lacks a complete-layer frame")
+        result = run["progress"][-1]
+    if result.get("completed_depth", -1) < run["bound"]:
+        raise AssertionError("diagnostic did not completely exclude the requested bound")
+    if result.get("optimal") or result.get("found") or result.get("timed_out") or result.get("cancelled"):
+        raise AssertionError("diagnostic did not run a complete exclusion tree")
+    return {key: result.get(key) for key in ("completed_depth", "nodes", "split_nodes", "generated_candidates",
+                                           "phase1_queries", "corner_queries", "strong_queries", "elapsed_seconds")}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--binary", type=Path, required=True)
@@ -38,6 +56,10 @@ def main() -> None:
     parser.add_argument("--timeout", type=float, default=5)
     parser.add_argument("--threads", type=int, default=min(32, max(1, (os.cpu_count() or 1) - 1)))
     parser.add_argument("--label", required=True)
+    parser.add_argument("--direction", choices=("off", "legacy", "bounded"), default="off")
+    parser.add_argument("--dual", choices=("off", "root", "selective", "all"), default="off")
+    parser.add_argument("--query-order", choices=("legacy", "interleaved", "strong-first"), default="strong-first")
+    parser.add_argument("--extra", nargs="*", default=[])
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if args.repeats < 1 or args.timeout > 5 or args.timeout <= 0 or not 1 <= args.threads <= 32:
@@ -63,8 +85,11 @@ def main() -> None:
             "--qtm-phase1-pdb", str(paths["qtm_phase1"]),
             "--strong-pdb", str(paths["strong"]),
             "--qtm-tail-pdb", str(paths["qtm_tail"]),
-            "--asset-loading=eager", "--no-proof-cache",
+            "--asset-loading=eager", "--no-proof-cache", "--no-native-candidate",
+            f"--direction-policy={args.direction}", f"--dual-policy={args.dual}",
+            f"--pdb-query-order={args.query_order}",
         ]
+    command += args.extra
     cache = ROOT / ".cache" / args.metric.lower() / (
         "coordinates_htm_v1.bin" if args.metric == "HTM" else "coordinates_dual_v2.bin"
     )
@@ -110,6 +135,8 @@ def main() -> None:
         "case_bounds": {"pgo16": args.bound_pgo or args.bound, "known18": args.bound_known or args.bound},
         "timeout_seconds": args.timeout, "threads": args.threads, "binary": str(binary),
         "binary_sha256": sha256(binary),
+        "command": command, "initial_incumbent": [],
+        "proof_cache": False, "native_candidate": False,
         "assets": {name: {"bytes": path.stat().st_size, "sha256": sha256(path)}
                    for name, path in paths.items()},
         "cases": [], "startup_seconds": None, "ready": None, "runs": [],
@@ -138,7 +165,8 @@ def main() -> None:
                 if args.metric == "QTM":
                     fields += ["QTM", ""]
                 else:
-                    fields += [""]
+                    # HTM v2 has no cache-disable flag. Legacy framing reruns the full tree.
+                    fields = [to_facelets(state), str(bound), str(args.timeout), str(args.threads), ""]
                 assert process.stdin is not None
                 before = time.perf_counter()
                 process.stdin.write("\t".join(fields) + "\n")
@@ -146,9 +174,9 @@ def main() -> None:
                 progress = []
                 while True:
                     item = event(args.timeout + 10)
-                    if item.get("request_id") != request_id:
+                    if args.metric == "QTM" and item.get("request_id") != request_id:
                         continue
-                    if item.get("type") in {"progress", "candidate", "asset_ready"}:
+                    if item.get("type") in {"progress", "candidate", "asset_ready", "asset_adopted", "thread_activity", "strong_upgrade"}:
                         progress.append(item)
                         continue
                     run = {
@@ -158,6 +186,13 @@ def main() -> None:
                         "result": item, "progress": progress,
                     }
                     output["runs"].append(run)
+                    args.output.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
+                    if args.metric == "QTM" and (item.get("candidate_phase1_nodes", 0)
+                                                  or item.get("candidate_phase2_nodes", 0)):
+                        raise AssertionError("pure proof diagnostic ran candidate search")
+                    if item.get("optimal"):
+                        raise AssertionError("select a bound below the optimal cost; solution-ended runs are not fixed trees")
+                    run["fixed_layer"] = fixed_layer(run)
                     args.output.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")
                     print(json.dumps({"case": case["name"], "repeat": repeat,
                                       "wall_seconds": run["wall_seconds"],

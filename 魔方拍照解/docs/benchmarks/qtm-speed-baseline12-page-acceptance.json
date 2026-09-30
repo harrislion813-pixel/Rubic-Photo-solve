@@ -1,0 +1,22 @@
+{
+  "root": "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\.cache\\qtm-speed-baseline-replay",
+  "manifest": {
+    "kind": "frozen actual dirty source replay",
+    "version": "1.8.0"
+  },
+  "archive_sha256": null,
+  "url": "http://127.0.0.1:8765",
+  "timeout_seconds": 30,
+  "production_poll_seconds": 1,
+  "runs": [],
+  "server_log": [
+    {
+      "wall_ms": 1790764088537.5142,
+      "line": "ħ����̽�Ӧ�� 1.8.0 ������: http://127.0.0.1:8765/"
+    },
+    {
+      "wall_ms": 1790764088537.5452,
+      "line": "�״��������� HTM ��֦���������ĵȴ����� Ctrl+C ֹͣ��"
+    }
+  ]
+}

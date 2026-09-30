@@ -7,14 +7,14 @@ import unittest
 import random
 import tempfile
 
-from cube_app.two_by_two_tables import CACHE_NAME, ENTRIES, load_or_build
+from cube_app.solvers.htm.two_by_two_tables import CACHE_NAME, ENTRIES, load_or_build
 
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from cube_app.cubie import CubieCube, MOVE_INDEX, MOVE_NAMES
-from cube_app.two_by_two import (
+from cube_app.solvers.htm.two_by_two import (
     TwoByTwoSolver,
     from_facelets_2x2,
     is_solved_2x2,

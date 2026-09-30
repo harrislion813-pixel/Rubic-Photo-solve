@@ -1,5 +1,6 @@
 #include "cube.hpp"
 #include "fast.hpp"
+#include "loader.hpp"
 #include "paths.hpp"
 #include "pdb.hpp"
 #include "solver.hpp"
@@ -40,6 +41,8 @@ const char *asset_profile(const cube::NativeOptimalSolver &solver, cube::MoveMet
                           solver.phase1_pdb_metric(metric) == metric && solver.phase1_pdb_complete(metric);
     if (qtm_base && solver.has_strong_pdb(metric) && solver.tail_database_depth(metric) >= 8)
         return "strong";
+    if (qtm_base && solver.has_strong_pdb(metric))
+        return "strong-no-tail";
     if (qtm_base && solver.tail_database_depth(metric) >= 7)
         return "standard";
     if (qtm_base)
@@ -120,10 +123,12 @@ void print_counters_json(std::ostream &output, const cube::SearchCounters &count
     output << ",\"generated_candidates\":" << counters.generated << ",\"small_pdb_queries\":" << counters.small_queries
            << ",\"phase1_queries\":" << counters.phase1_queries << ",\"corner_queries\":" << counters.corner_queries
            << ",\"edge_queries\":" << counters.edge_queries << ",\"strong_queries\":" << counters.strong_queries
-           << ",\"tt_keys\":" << counters.tt_keys << ",\"tt_lookups\":" << counters.tt_lookups
-           << ",\"tt_stores\":" << counters.tt_stores << ",\"strong_rejects\":" << counters.strong_rejects
-           << ",\"axis_rejects\":[" << counters.axis_rejects[0] << ',' << counters.axis_rejects[1] << ','
-           << counters.axis_rejects[2] << ']' << ",\"equality_rejects\":" << counters.equality_rejects
+           << ",\"strong_prefetches\":" << counters.strong_prefetches << ",\"slice_updates\":" << counters.slice_updates
+           << ",\"slice_updates_skipped\":" << counters.slice_updates_skipped << ",\"tt_keys\":" << counters.tt_keys
+           << ",\"tt_lookups\":" << counters.tt_lookups << ",\"tt_stores\":" << counters.tt_stores
+           << ",\"strong_rejects\":" << counters.strong_rejects << ",\"axis_rejects\":[" << counters.axis_rejects[0]
+           << ',' << counters.axis_rejects[1] << ',' << counters.axis_rejects[2] << ']'
+           << ",\"equality_rejects\":" << counters.equality_rejects
            << ",\"strong_equality_rejects\":" << counters.strong_equality_rejects
            << ",\"dual_queries\":" << counters.dual_queries << ",\"dual_rejects\":" << counters.dual_rejects
            << ",\"bpmx_rejects\":" << counters.bpmx_rejects << ",\"corner_rejects\":" << counters.corner_rejects
@@ -213,6 +218,9 @@ void print_result_json(std::ostream &output, const cube::NativeSolveResult &resu
            << asset_profile(solver, result.metric) << "\""
            << ",\"tail_depth\":" << solver.tail_database_depth(result.metric)
            << ",\"completed_depth\":" << result.completed_depth;
+    output << ",\"strong_upgrade_restarts\":" << result.strong_upgrade_restarts
+           << ",\"upgrade_discarded_generated\":" << result.upgrade_discarded_generated
+           << ",\"upgrade_stop_seconds\":" << result.upgrade_stop_seconds;
     print_counters_json(output, result.counters, result.workers);
     output << "}\n" << std::flush;
 }
@@ -254,6 +262,14 @@ bool tuning_option(const std::string &option, cube::SolverOptions &options) {
         options.query_order = cube::PdbQueryOrder::Interleaved;
     else if (option == "--pdb-query-order=strong-first")
         options.query_order = cube::PdbQueryOrder::StrongFirst;
+    else if (option == "--strong-slice=omit")
+        options.omit_strong_slice = true;
+    else if (option == "--strong-slice=keep")
+        options.omit_strong_slice = false;
+    else if (option == "--strong-upgrade=restart")
+        options.strong_upgrade_restart = true;
+    else if (option == "--strong-upgrade=boundary")
+        options.strong_upgrade_restart = false;
     else if (option == "--pdb-prefetch=on")
         options.prefetch_strong = true;
     else if (option == "--pdb-prefetch=off")
@@ -378,6 +394,17 @@ void check_heuristic(int argc, char **argv) {
                 if ((bound <= cutoff) != (full_bound <= cutoff) ||
                     (bound <= cutoff && tables.materialize(child) != child_cube))
                     throw std::runtime_error("staged expansion differs from full evaluation");
+            }
+            auto omitted = features;
+            omitted.maintain_slice = !(strong && strong->complete() && !features.small_phase1 && phase1);
+            for (std::uint8_t cutoff = 0; cutoff <= 30; ++cutoff) {
+                cube::CoordinateState reference, optimized;
+                const auto a = tables.expand(coordinates, move, reference, phase1.get(), corner.get(), {}, cutoff,
+                                             features, counters);
+                const auto b = tables.expand(coordinates, move, optimized, phase1.get(), corner.get(), {}, cutoff,
+                                             omitted, counters);
+                if (a != b || (b <= cutoff && tables.materialize(optimized) != child_cube))
+                    throw std::runtime_error("slice omission changed a bound or accepted state");
             }
             // An independent unit-cost oracle: QTM expands only quarter turns and allows repeated faces.
             if (depth < depth_limit && cube::move_cost(move, metric) == 1 &&
@@ -783,6 +810,9 @@ int wmain(int argc, wchar_t **wide_argv) {
             cube::SolverOptions defaults;
             bool use_proof_cache = true;
             bool staged_asset_loading = false;
+            bool loader_managed = false;
+            bool shared_loader_budget = false;
+            int loader_threads = 0;
             std::filesystem::path pdb_path;
             std::filesystem::path phase1_pdb_path;
             std::filesystem::path qtm_pdb_path;
@@ -821,7 +851,17 @@ int wmain(int argc, wchar_t **wide_argv) {
                     staged_asset_loading = true;
                 else if (option == "--asset-loading=eager")
                     staged_asset_loading = false;
-                else if (option == "--no-proof-cache")
+                else if (option == "--loader-managed")
+                    loader_managed = true;
+                else if (option == "--loader-budget=shared")
+                    shared_loader_budget = true;
+                else if (option == "--loader-budget=independent")
+                    shared_loader_budget = false;
+                else if (option == "--loader-threads" && index + 1 < argc) {
+                    loader_threads = std::stoi(argv[++index]);
+                    if (loader_threads < 1 || loader_threads > 8)
+                        throw std::invalid_argument("loader threads must be 1..8");
+                } else if (option == "--no-proof-cache")
                     use_proof_cache = false;
                 else if (tuning_option(option, defaults))
                     continue;
@@ -863,6 +903,8 @@ int wmain(int argc, wchar_t **wide_argv) {
                 std::chrono::duration<double>(std::chrono::steady_clock::now() - candidate_tables_started).count();
             double strong_initialization_seconds = 0.0;
             double tail_initialization_seconds = 0.0;
+            double strong_ready_elapsed_seconds = -1.0;
+            double tail_ready_elapsed_seconds = -1.0;
             if (!staged_asset_loading) {
                 auto stage_started = std::chrono::steady_clock::now();
                 if (!strong_pdb_path.empty())
@@ -875,21 +917,37 @@ int wmain(int argc, wchar_t **wide_argv) {
                     }
                 strong_initialization_seconds =
                     std::chrono::duration<double>(std::chrono::steady_clock::now() - stage_started).count();
+                if (solver->has_strong_pdb())
+                    strong_ready_elapsed_seconds =
+                        std::chrono::duration<double>(std::chrono::steady_clock::now() - initialization_started)
+                            .count();
                 stage_started = std::chrono::steady_clock::now();
                 if (!qtm_tail_pdb_path.empty())
                     solver->load_tail_database(qtm_tail_pdb_path, cube::MoveMetric::QTM);
                 tail_initialization_seconds =
                     std::chrono::duration<double>(std::chrono::steady_clock::now() - stage_started).count();
+                if (solver->has_tail_database(cube::MoveMetric::QTM))
+                    tail_ready_elapsed_seconds =
+                        std::chrono::duration<double>(std::chrono::steady_clock::now() - initialization_started)
+                            .count();
             }
             std::atomic<std::shared_ptr<cube::NativeOptimalSolver>> active_solver{solver};
-            std::cout << "{\"ok\":true,\"type\":\"ready\",\"protocol_version\":3,\"proof_version\":3,\"metrics\":["
-                         "\"QTM\"],\"asset_loading\":\""
-                      << (staged_asset_loading ? "staged" : "eager")
-                      << "\",\"base_initialization_seconds\":" << base_initialization_seconds
-                      << ",\"strong_initialization_seconds\":" << strong_initialization_seconds
-                      << ",\"tail_initialization_seconds\":" << tail_initialization_seconds
-                      << ",\"candidate_tables_seconds\":" << candidate_tables_seconds
-                      << ",\"strong_symmetry_seconds\":" << solver->strong_symmetry_initialization_seconds()
+            std::cout
+                << "{\"ok\":true,\"type\":\"ready\",\"protocol_version\":3,\"proof_version\":3,\"metrics\":["
+                   "\"QTM\"],\"asset_loading\":\""
+                << (staged_asset_loading ? "staged" : "eager")
+                << "\",\"base_initialization_seconds\":" << base_initialization_seconds
+                << ",\"strong_initialization_seconds\":" << strong_initialization_seconds
+                << ",\"tail_initialization_seconds\":" << tail_initialization_seconds
+                << ",\"candidate_tables_seconds\":" << candidate_tables_seconds
+                << ",\"base_ready_elapsed_seconds\":" << base_initialization_seconds
+                << ",\"total_initialization_seconds\":"
+                << std::chrono::duration<double>(std::chrono::steady_clock::now() - initialization_started).count();
+            if (strong_ready_elapsed_seconds >= 0)
+                std::cout << ",\"strong_ready_elapsed_seconds\":" << strong_ready_elapsed_seconds;
+            if (tail_ready_elapsed_seconds >= 0)
+                std::cout << ",\"tail_ready_elapsed_seconds\":" << tail_ready_elapsed_seconds;
+            std::cout << ",\"strong_symmetry_seconds\":" << solver->strong_symmetry_initialization_seconds()
                       << ",\"strong_verification_seconds\":" << solver->strong_verification_seconds()
                       << ",\"assets\":{";
             for (const auto metric : {cube::MoveMetric::QTM}) {
@@ -913,6 +971,19 @@ int wmain(int argc, wchar_t **wide_argv) {
             std::atomic<bool> cancel{false};
             std::mutex output_mutex;
             std::mutex incumbent_mutex;
+            cube::LoaderControl loader(loader_threads, loader_managed);
+            std::atomic<bool> loader_active{false};
+            std::atomic<bool> loader_budget_suspended{false};
+            const auto begin_stage = [&](const char *stage, const std::filesystem::path &path) {
+                loader_active.store(true);
+                if (loader_managed)
+                    loader.request_pause();
+                std::lock_guard lock(output_mutex);
+                std::cout << "{\"ok\":true,\"type\":\"loader_stage\",\"stage\":" << std::quoted(stage)
+                          << ",\"mapped_bytes\":" << std::filesystem::file_size(path)
+                          << ",\"loader_threads\":" << (loader_threads ? loader_threads : 8) << "}\n"
+                          << std::flush;
+            };
             std::thread asset_loader;
             if (staged_asset_loading && (!strong_pdb_path.empty() || !qtm_tail_pdb_path.empty())) {
                 asset_loader = std::thread([&] {
@@ -925,6 +996,7 @@ int wmain(int argc, wchar_t **wide_argv) {
                                   << "\",\"seconds\":" << seconds << ",\"profile\":\""
                                   << asset_profile(*snapshot, cube::MoveMetric::QTM)
                                   << "\",\"strong\":" << (snapshot->has_strong_pdb() ? "true" : "false")
+                                  << ",\"snapshot_id\":" << reinterpret_cast<std::uintptr_t>(snapshot.get())
                                   << ",\"tail_depth\":" << snapshot->tail_database_depth(cube::MoveMetric::QTM)
                                   << ",\"strong_symmetry_seconds\":"
                                   << snapshot->strong_symmetry_initialization_seconds()
@@ -933,15 +1005,16 @@ int wmain(int argc, wchar_t **wide_argv) {
                                   << std::flush;
                     };
                     if (!strong_pdb_path.empty()) {
+                        begin_stage("strong", strong_pdb_path);
                         const auto stage_started = std::chrono::steady_clock::now();
                         try {
                             auto next = std::make_shared<cube::NativeOptimalSolver>(*latest);
                             try {
-                                next->load_strong_pdb(strong_pdb_path);
+                                next->load_strong_pdb(strong_pdb_path, &loader);
                             } catch (const std::exception &) {
                                 if (strong_pdb_fallback_path.empty())
                                     throw;
-                                next->load_strong_pdb(strong_pdb_fallback_path);
+                                next->load_strong_pdb(strong_pdb_fallback_path, &loader);
                             }
                             latest = std::move(next);
                             publish_asset(
@@ -953,10 +1026,11 @@ int wmain(int argc, wchar_t **wide_argv) {
                         }
                     }
                     if (!qtm_tail_pdb_path.empty()) {
+                        begin_stage("tail", qtm_tail_pdb_path);
                         const auto stage_started = std::chrono::steady_clock::now();
                         try {
                             auto next = std::make_shared<cube::NativeOptimalSolver>(*latest);
-                            next->load_tail_database(qtm_tail_pdb_path, cube::MoveMetric::QTM);
+                            next->load_tail_database(qtm_tail_pdb_path, cube::MoveMetric::QTM, &loader);
                             latest = std::move(next);
                             publish_asset(
                                 latest, "tail",
@@ -966,6 +1040,9 @@ int wmain(int argc, wchar_t **wide_argv) {
                             std::cerr << "QTM tail staged load failed: " << error.what() << '\n';
                         }
                     }
+                    loader_active.store(false);
+                    std::lock_guard lock(output_mutex);
+                    std::cout << "{\"ok\":true,\"type\":\"loader_done\"}\n" << std::flush;
                 });
             }
             std::vector<int> incumbent;
@@ -979,6 +1056,25 @@ int wmain(int argc, wchar_t **wide_argv) {
                 std::string id;
                 try {
                     const auto fields = split_tabs(request);
+                    if (fields.size() == 2 && fields[0] == "loader_pause") {
+                        const bool paused = loader.pause_for(std::chrono::milliseconds(500));
+                        std::lock_guard lock(output_mutex);
+                        std::cout << "{\"ok\":true,\"type\":\"loader_paused\",\"token\":" << std::quoted(fields[1])
+                                  << ",\"paused\":" << (paused ? "true" : "false")
+                                  << ",\"executing\":" << loader.executing() << "}\n"
+                                  << std::flush;
+                        continue;
+                    }
+                    if (fields.size() == 2 && fields[0] == "loader_deny") {
+                        loader.request_pause();
+                        loader_budget_suspended.store(true);
+                        continue;
+                    }
+                    if (fields.size() == 2 && fields[0] == "loader_resume") {
+                        loader_budget_suspended.store(false);
+                        loader.resume();
+                        continue;
+                    }
                     if (fields.size() == 2 && fields[0] == "cancel") {
                         if (fields[1] == active_id)
                             cancel.store(true);
@@ -1025,6 +1121,26 @@ int wmain(int argc, wchar_t **wide_argv) {
                     incumbent = options.incumbent_moves;
                     cancel.store(false);
                     options.cancel_requested = &cancel;
+                    if (shared_loader_budget)
+                        options.loader_threads_callback = [&] {
+                            return loader_active.load() && !loader_budget_suspended.load()
+                                       ? (loader_threads ? loader_threads : 8)
+                                       : 0;
+                        };
+                    options.thread_activity_callback = [&, id](int loading, int candidate, int proof) {
+                        std::lock_guard lock(output_mutex);
+                        std::cout << "{\"ok\":true,\"type\":\"thread_activity\",\"request_id\":" << std::quoted(id)
+                                  << ",\"loader\":" << loader.executing() << ",\"loader_reserved\":" << loading
+                                  << ",\"candidate\":" << candidate << ",\"proof\":" << proof << "}\n"
+                                  << std::flush;
+                    };
+                    options.upgrade_callback = [&, id](int depth, std::uint64_t discarded, double stop_seconds) {
+                        std::lock_guard lock(output_mutex);
+                        std::cout << "{\"ok\":true,\"type\":\"strong_upgrade\",\"request_id\":" << std::quoted(id)
+                                  << ",\"current_depth\":" << depth << ",\"discarded_generated\":" << discarded
+                                  << ",\"stop_seconds\":" << stop_seconds << "}\n"
+                                  << std::flush;
+                    };
                     const auto key =
                         cube::to_facelets(active_state) + ":" + cube::metric_name(options.metric) + ":proof3";
                     const auto previous = proofs.find(key);
@@ -1062,11 +1178,27 @@ int wmain(int argc, wchar_t **wide_argv) {
                     running.store(true);
                     search = std::thread([&, options, id, key, framed, state = active_state, search_solver]() mutable {
                         int completed = options.completed_depth;
+                        std::string adopted_profile = asset_profile(*search_solver, options.metric);
+                        options.asset_adopted_callback = [&](const cube::NativeOptimalSolver &snapshot, int depth,
+                                                             double interrupted_seconds, double remaining,
+                                                             std::uint64_t generated) {
+                            adopted_profile = asset_profile(snapshot, options.metric);
+                            std::lock_guard lock(output_mutex);
+                            std::cout << "{\"ok\":true,\"type\":\"asset_adopted\",\"request_id\":" << std::quoted(id)
+                                      << ",\"metric\":\"QTM\",\"profile\":" << std::quoted(adopted_profile)
+                                      << ",\"strong\":" << (snapshot.has_strong_pdb() ? "true" : "false")
+                                      << ",\"snapshot_id\":" << reinterpret_cast<std::uintptr_t>(&snapshot)
+                                      << ",\"current_depth\":" << depth
+                                      << ",\"interrupted_layer_seconds\":" << interrupted_seconds
+                                      << ",\"remaining_seconds\":" << remaining
+                                      << ",\"generated_candidates\":" << generated
+                                      << ",\"tail_depth\":" << snapshot.tail_database_depth(options.metric) << "}\n"
+                                      << std::flush;
+                        };
                         options.progress_callback = [&](const cube::NativeSearchProgress &progress) {
                             completed = std::max(completed, progress.completed_depth);
                             std::lock_guard lock(output_mutex);
-                            print_progress_json(std::cout, progress, id,
-                                                asset_profile(*search_solver, progress.metric));
+                            print_progress_json(std::cout, progress, id, adopted_profile.c_str());
                         };
                         try {
                             const auto result = search_solver->solve(state, options);
@@ -1100,6 +1232,7 @@ int wmain(int argc, wchar_t **wide_argv) {
             cancel.store(true);
             if (search.joinable())
                 search.join();
+            loader.resume();
             if (asset_loader.joinable())
                 asset_loader.join();
             return 0;

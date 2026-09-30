@@ -15,8 +15,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from cube_app.cubie import CubieCube, MOVE_INDEX, to_facelets
-from cube_app.native import native_solver_available
-from cube_app.optimal import SolveResult, invert_moves
+from cube_app.solvers.htm.native import native_solver_available
+from cube_app.solvers.htm.optimal import SolveResult, invert_moves
 from server import AppHandler, ExclusiveThreadingHTTPServer, HOST, JOBS, JOBS_LOCK, PROBE_SOLVER, prepare_optimal_job
 
 

@@ -11,6 +11,7 @@
 namespace cube {
 
 class CoordinateTables;
+class LoaderControl;
 inline constexpr std::uint64_t kStrongPatternEntries = 788ULL * 2048ULL * 2187ULL;
 
 struct StrongVerification {
@@ -20,7 +21,7 @@ struct StrongVerification {
 
 class StrongPatternDatabase {
   public:
-    explicit StrongPatternDatabase(const std::filesystem::path &path);
+    explicit StrongPatternDatabase(const std::filesystem::path &path, LoaderControl *loader = nullptr);
     ~StrongPatternDatabase();
     StrongPatternDatabase(const StrongPatternDatabase &) = delete;
     StrongPatternDatabase &operator=(const StrongPatternDatabase &) = delete;

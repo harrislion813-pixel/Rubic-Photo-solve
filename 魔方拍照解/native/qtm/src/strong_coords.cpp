@@ -28,10 +28,12 @@ CubieCube cube_from_sorted_slice(std::uint16_t coordinate) {
     return cube;
 }
 
-SortedSliceSymmetry::SortedSliceSymmetry() {
+SortedSliceSymmetry::SortedSliceSymmetry(const std::function<void()> &checkpoint) {
     moves_.resize(static_cast<std::size_t>(kSortedSliceCount) * 18U);
     conjugates_.resize(static_cast<std::size_t>(kSortedSliceCount) * kPhase1SymmetryCount);
     for (std::uint16_t raw = 0; raw < kSortedSliceCount; ++raw) {
+        if (checkpoint && raw % 64 == 0)
+            checkpoint();
         const auto cube = cube_from_sorted_slice(raw);
         for (int move = 0; move < 18; ++move)
             moves_[static_cast<std::size_t>(raw) * 18U + move] = sorted_slice_coord(cube.apply_move(move));
@@ -42,6 +44,8 @@ SortedSliceSymmetry::SortedSliceSymmetry() {
     raw_to_class_.resize(kSortedSliceCount, std::numeric_limits<std::uint16_t>::max());
     raw_to_symmetry_.resize(kSortedSliceCount);
     for (std::uint16_t raw = 0; raw < kSortedSliceCount; ++raw) {
+        if (checkpoint && raw % 64 == 0)
+            checkpoint();
         std::uint16_t representative_raw = raw;
         std::uint8_t symmetry_to_rep = 0;
         for (int symmetry = 1; symmetry < kPhase1SymmetryCount; ++symmetry) {
@@ -70,6 +74,8 @@ SortedSliceSymmetry::SortedSliceSymmetry() {
     representative_flip_offsets_.resize(kSortedSliceCount);
     class_bases_.resize(kSortedSliceCount);
     for (std::uint16_t sorted = 0; sorted < kSortedSliceCount; ++sorted) {
+        if (checkpoint && sorted % 64 == 0)
+            checkpoint();
         const int symmetry = raw_to_symmetry_[sorted];
         representative_flip_offsets_[sorted] =
             flip_conjugate(0, sorted, symmetry) ^ phase1_.flip_conjugate(0, symmetry);

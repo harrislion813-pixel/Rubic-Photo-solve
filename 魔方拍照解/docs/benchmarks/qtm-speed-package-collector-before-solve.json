@@ -1,0 +1,23 @@
+{
+  "root": "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\.cache\\qtm-speed-package-acceptance\\RubicPhotoSolve",
+  "manifest": {
+    "status": "verified",
+    "profile": "QtmStrong",
+    "files": 21
+  },
+  "archive_sha256": "a3b6c8fa7a58e46a72d08a10536c61cd560b102aa295cffe058980153eb8a6db",
+  "url": "http://127.0.0.1:8765",
+  "timeout_seconds": 30,
+  "production_poll_seconds": 1,
+  "runs": [],
+  "server_log": [
+    {
+      "wall_ms": 1790764287110.1921,
+      "line": "ħ����̽�Ӧ�� 1.9.0 ������: http://127.0.0.1:8765/"
+    },
+    {
+      "wall_ms": 1790764287110.2288,
+      "line": "�״��������� HTM ��֦���������ĵȴ����� Ctrl+C ֹͣ��"
+    }
+  ]
+}

@@ -27,7 +27,7 @@ from cube_app.solvers.htm.native import (
 from cube_app.solvers.htm.optimal import OptimalSolver, SearchCancelled, SearchTimeout
 from cube_app.runtime import application_root
 from cube_app.solvers.htm.two_by_two import TwoByTwoSolver
-from cube_app.solvers.resource_broker import BROKER
+from cube_app.solvers.resource_broker import BROKER, ResourceCancelled
 
 try:
     from cube_app.detection import DetectionPipeline
@@ -195,7 +195,7 @@ def run_optimal_job(
     acquired = False
     htm_claimed = False
     try:
-        BROKER.enter_htm()
+        BROKER.enter_htm(deadline=deadline, cancel_event=cancel_event)
         htm_claimed = True
         while not acquired:
             if cancel_event is not None and cancel_event.is_set():
@@ -275,9 +275,9 @@ def run_optimal_job(
         if cancel_event is not None and cancel_event.is_set():
             raise SearchCancelled("搜索已取消。")
         update_job(job_id, status="complete", result={**result_payload(result), "engine": "python"})
-    except SearchCancelled as exc:
+    except (SearchCancelled, ResourceCancelled) as exc:
         update_job(job_id, status="cancelled", message=str(exc))
-    except SearchTimeout as exc:
+    except (SearchTimeout, TimeoutError) as exc:
         update_job(job_id, status="timeout", message=str(exc))
     except Exception as exc:  # pragma: no cover - background safety net.
         update_job(job_id, status="error", message=str(exc))
@@ -328,6 +328,9 @@ class AppHandler(BaseHTTPRequestHandler):
                 self._send_json({"ok": True, **snapshot} if snapshot is not None
                                 else {"ok": False, "error": "求解任务不存在或已过期"},
                                 status=200 if snapshot is not None else 404)
+                if snapshot is not None:
+                    BACKEND.mark_http_return(job_id, candidate_included=snapshot.get("candidate_result") is not None,
+                                             initial=False)
                 return
             with JOBS_LOCK:
                 job = JOBS.get(job_id)
@@ -448,6 +451,7 @@ class AppHandler(BaseHTTPRequestHandler):
             self._send_json({"error": "Not found"}, status=404)
             return
         htm_claimed = False
+        request_started = time.monotonic()
         try:
             payload = self._read_json()
             facelets = str(payload.get("facelets", ""))
@@ -467,6 +471,7 @@ class AppHandler(BaseHTTPRequestHandler):
                 not math.isfinite(timeout_seconds) or not 0.1 <= timeout_seconds <= 3600
             ):
                 raise ValueError("timeout_seconds 必须在 0.1 到 3600 秒之间。")
+            deadline = None if timeout_seconds is None else request_started + timeout_seconds
             if metric == "QTM":
                 if not qtm_installed():
                     self._send_json({"ok": False, "metric": "QTM",
@@ -475,34 +480,38 @@ class AppHandler(BaseHTTPRequestHandler):
                 from cube_app.solvers.qtm.backend import BACKEND, QtmUnavailable
 
                 try:
-                    result = BACKEND.submit(facelets, cube_size, max_depth, timeout_seconds or 180)
+                    result = BACKEND.submit(facelets, cube_size, max_depth, timeout_seconds,
+                                            started=request_started)
                 except QtmUnavailable as exc:
                     self._send_json({"ok": False, "metric": "QTM", "error": str(exc)}, status=503)
                     return
                 self._send_json(result)
+                if result.get("job_id"):
+                    BACKEND.mark_http_return(result["job_id"], candidate_included=result.get("depth") is not None)
                 return
-            BROKER.enter_htm()
+            resource_wait_seconds = BROKER.enter_htm(deadline=deadline)
             htm_claimed = True
+            remaining_seconds(deadline)
             if cube_size == 2:
                 result = TWO_BY_TWO_SOLVER.solve_facelets(
                     facelets,
                     max_depth=min(max_depth, 11),
-                    timeout_seconds=timeout_seconds,
+                    timeout_seconds=remaining_seconds(deadline),
                 )
-                self._send_json({"ok": True, **result_payload(result), "proof_status": "complete"})
+                self._send_json({"ok": True, **result_payload(result), "proof_status": "complete",
+                                 "resource_wait_seconds": resource_wait_seconds})
                 return
 
             cube = from_facelets(facelets)
 
-            request_started = time.monotonic()
-            deadline = None if timeout_seconds is None else request_started + timeout_seconds
             quick_result = None
             if native_solver_available():
                 job_id, worker = prepare_optimal_job(cube, None, max_depth, timeout_seconds, deadline=deadline)
                 start_optimal_job(job_id, worker)
                 with JOBS_LOCK:
                     done = JOBS[job_id]["_done"]
-                done.wait(min(QUICK_OPTIMAL_PROBE_SECONDS, timeout_seconds or QUICK_OPTIMAL_PROBE_SECONDS))
+                done.wait(min(QUICK_OPTIMAL_PROBE_SECONDS,
+                              remaining_seconds(deadline) or QUICK_OPTIMAL_PROBE_SECONDS))
                 with JOBS_LOCK:
                     snapshot = dict(JOBS[job_id])
                     generate = not snapshot.get("_generator_started") and snapshot["status"] in {"queued", "running"}
@@ -515,6 +524,7 @@ class AppHandler(BaseHTTPRequestHandler):
                             **snapshot["result"],
                             "proof_status": "complete",
                             "solution_generation_seconds": 0.0,
+                            "resource_wait_seconds": resource_wait_seconds,
                             "proof_elapsed_seconds": snapshot.get("proof_elapsed_seconds", 0.0),
                         }
                     )
@@ -543,6 +553,7 @@ class AppHandler(BaseHTTPRequestHandler):
                             **snapshot["result"],
                             "proof_status": "complete",
                             "solution_generation_seconds": snapshot["solution_generation_seconds"],
+                            "resource_wait_seconds": resource_wait_seconds,
                             "proof_elapsed_seconds": snapshot.get("proof_elapsed_seconds", 0.0),
                         }
                     )
@@ -564,7 +575,8 @@ class AppHandler(BaseHTTPRequestHandler):
                     result = None
                 if result is not None:
                     self._send_json(
-                        {"ok": True, **result_payload(result), "engine": "python", "proof_status": "complete"}
+                        {"ok": True, **result_payload(result), "engine": "python", "proof_status": "complete",
+                         "resource_wait_seconds": resource_wait_seconds}
                     )
                     return
                 try:
@@ -584,6 +596,7 @@ class AppHandler(BaseHTTPRequestHandler):
                 "engine": snapshot["engine"],
                 "solution_generation_seconds": snapshot.get("solution_generation_seconds", 0.0),
                 "request_elapsed_seconds": round(time.monotonic() - request_started, 3),
+                "resource_wait_seconds": resource_wait_seconds,
             }
             if quick_payload:
                 response.update(quick_payload)

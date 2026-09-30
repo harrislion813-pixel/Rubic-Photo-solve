@@ -1,0 +1,5654 @@
+{
+  "asset_loading": "adapter-default-staged",
+  "threads": 15,
+  "events": [
+    {
+      "observed_at": 23167.484,
+      "event": {
+        "ok": true,
+        "type": "engine_ready",
+        "protocol_version": 3,
+        "proof_version": 3,
+        "metrics": [
+          "QTM"
+        ],
+        "asset_loading": "staged",
+        "base_initialization_seconds": 1.43469,
+        "strong_initialization_seconds": 0,
+        "tail_initialization_seconds": 0,
+        "candidate_tables_seconds": 0.0394936,
+        "base_ready_elapsed_seconds": 1.4444100000003783,
+        "total_initialization_seconds": 1.47428,
+        "strong_symmetry_seconds": 0,
+        "strong_verification_seconds": 0,
+        "assets": {
+          "QTM": {
+            "corner": true,
+            "corner_metric": "QTM",
+            "corner_complete": true,
+            "phase1": true,
+            "phase1_metric": "QTM",
+            "phase1_complete": true,
+            "edge_count": 0,
+            "tail": false,
+            "strong": false,
+            "tail_depth": 0,
+            "profile": "base"
+          }
+        },
+        "client_startup_seconds": 1.4840000000003783,
+        "client_process_started_at": 23166.0
+      }
+    },
+    {
+      "observed_at": 23167.484,
+      "event": {
+        "ok": true,
+        "type": "asset_adopted",
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "metric": "QTM",
+        "profile": "base",
+        "strong": false,
+        "tail_depth": 0
+      }
+    },
+    {
+      "observed_at": 23167.5,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 26,
+        "current_depth": 12,
+        "completed_depth": 11,
+        "iteration_nodes": 0,
+        "iteration_split_nodes": 0,
+        "nodes": 0,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.010569,
+        "elapsed_seconds": 0.010569,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 0,
+        "small_pdb_queries": 0,
+        "phase1_queries": 0,
+        "corner_queries": 0,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          0,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 0,
+        "edge_rejects": 0,
+        "workers": [],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23167.5,
+      "event": {
+        "ok": true,
+        "type": "asset_adopted",
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "metric": "QTM",
+        "profile": "base",
+        "strong": false,
+        "tail_depth": 0
+      }
+    },
+    {
+      "observed_at": 23167.5,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 26,
+        "current_depth": 12,
+        "completed_depth": 13,
+        "iteration_nodes": 0,
+        "iteration_split_nodes": 165,
+        "nodes": 0,
+        "split_nodes": 165,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.000263,
+        "elapsed_seconds": 0.010868,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 165,
+        "small_pdb_queries": 0,
+        "phase1_queries": 258,
+        "corner_queries": 13,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          98,
+          41,
+          10
+        ],
+        "equality_rejects": 3,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 2,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 0,
+            "generated": 27,
+            "busy_seconds": 3.9e-05,
+            "idle_seconds": 8.5e-05,
+            "tasks": 2,
+            "longest_task_seconds": 3.1e-05,
+            "queue_lock_wait_seconds": 8.5e-05
+          },
+          {
+            "nodes": 0,
+            "generated": 12,
+            "busy_seconds": 2e-06,
+            "idle_seconds": 7.6e-05,
+            "tasks": 1,
+            "longest_task_seconds": 2e-06,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 87,
+            "busy_seconds": 7.5e-05,
+            "idle_seconds": 5.5e-05,
+            "tasks": 6,
+            "longest_task_seconds": 5.6e-05,
+            "queue_lock_wait_seconds": 2e-06
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 7.1e-05,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 39,
+            "busy_seconds": 6.3e-05,
+            "idle_seconds": 5.5e-05,
+            "tasks": 3,
+            "longest_task_seconds": 4.8e-05,
+            "queue_lock_wait_seconds": 1.1e-05
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.000108,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 9.3e-05,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.000108,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 1e-06
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 8.7e-05,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 1.9e-05
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 2e-05,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.000107,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 1.6e-05
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23167.5,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 26,
+        "current_depth": 14,
+        "completed_depth": 15,
+        "iteration_nodes": 864,
+        "iteration_split_nodes": 705,
+        "nodes": 864,
+        "split_nodes": 870,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.000398,
+        "elapsed_seconds": 0.011323,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 12372,
+        "small_pdb_queries": 0,
+        "phase1_queries": 19422,
+        "corner_queries": 1138,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          7799,
+          2267,
+          714
+        ],
+        "equality_rejects": 511,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 154,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 39,
+            "generated": 630,
+            "busy_seconds": 0.000132,
+            "idle_seconds": 0.000228,
+            "tasks": 16,
+            "longest_task_seconds": 2.6e-05,
+            "queue_lock_wait_seconds": 1e-06
+          },
+          {
+            "nodes": 53,
+            "generated": 711,
+            "busy_seconds": 0.000215,
+            "idle_seconds": 0.000153,
+            "tasks": 1,
+            "longest_task_seconds": 0.000215,
+            "queue_lock_wait_seconds": 6.1e-05
+          },
+          {
+            "nodes": 86,
+            "generated": 1146,
+            "busy_seconds": 0.000301,
+            "idle_seconds": 3.6e-05,
+            "tasks": 1,
+            "longest_task_seconds": 0.000301,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 60,
+            "generated": 798,
+            "busy_seconds": 0.000266,
+            "idle_seconds": 9e-05,
+            "tasks": 1,
+            "longest_task_seconds": 0.000266,
+            "queue_lock_wait_seconds": 6.8e-05
+          },
+          {
+            "nodes": 60,
+            "generated": 816,
+            "busy_seconds": 0.000161,
+            "idle_seconds": 0.000175,
+            "tasks": 2,
+            "longest_task_seconds": 0.000153,
+            "queue_lock_wait_seconds": 5.3e-05
+          },
+          {
+            "nodes": 73,
+            "generated": 996,
+            "busy_seconds": 0.000205,
+            "idle_seconds": 0.000146,
+            "tasks": 2,
+            "longest_task_seconds": 0.000174,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 43,
+            "generated": 678,
+            "busy_seconds": 0.000128,
+            "idle_seconds": 0.000201,
+            "tasks": 21,
+            "longest_task_seconds": 2.5e-05,
+            "queue_lock_wait_seconds": 3e-06
+          },
+          {
+            "nodes": 72,
+            "generated": 984,
+            "busy_seconds": 0.000186,
+            "idle_seconds": 0.000156,
+            "tasks": 2,
+            "longest_task_seconds": 0.000179,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 40,
+            "generated": 639,
+            "busy_seconds": 0.00017,
+            "idle_seconds": 0.000175,
+            "tasks": 16,
+            "longest_task_seconds": 4.3e-05,
+            "queue_lock_wait_seconds": 6.1e-05
+          },
+          {
+            "nodes": 164,
+            "generated": 2163,
+            "busy_seconds": 0.000319,
+            "idle_seconds": 3e-05,
+            "tasks": 1,
+            "longest_task_seconds": 0.000319,
+            "queue_lock_wait_seconds": 4e-06
+          },
+          {
+            "nodes": 49,
+            "generated": 690,
+            "busy_seconds": 0.00014,
+            "idle_seconds": 0.00021,
+            "tasks": 5,
+            "longest_task_seconds": 0.000119,
+            "queue_lock_wait_seconds": 3.1e-05
+          },
+          {
+            "nodes": 43,
+            "generated": 666,
+            "busy_seconds": 0.000143,
+            "idle_seconds": 0.000201,
+            "tasks": 15,
+            "longest_task_seconds": 4.2e-05,
+            "queue_lock_wait_seconds": 6.3e-05
+          },
+          {
+            "nodes": 41,
+            "generated": 654,
+            "busy_seconds": 0.00023,
+            "idle_seconds": 0.000102,
+            "tasks": 11,
+            "longest_task_seconds": 7.5e-05,
+            "queue_lock_wait_seconds": 6.4e-05
+          },
+          {
+            "nodes": 41,
+            "generated": 636,
+            "busy_seconds": 0.000132,
+            "idle_seconds": 0.000221,
+            "tasks": 16,
+            "longest_task_seconds": 2.9e-05,
+            "queue_lock_wait_seconds": 3e-06
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23167.515,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 26,
+        "current_depth": 16,
+        "completed_depth": 17,
+        "iteration_nodes": 84506,
+        "iteration_split_nodes": 1698,
+        "nodes": 85370,
+        "split_nodes": 2568,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.012712,
+        "elapsed_seconds": 0.024074,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 1142487,
+        "small_pdb_queries": 0,
+        "phase1_queries": 1781889,
+        "corner_queries": 100702,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          726818,
+          194417,
+          73396
+        ],
+        "equality_rejects": 47981,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 14317,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 6492,
+            "generated": 86802,
+            "busy_seconds": 0.012463,
+            "idle_seconds": 0.000166,
+            "tasks": 69,
+            "longest_task_seconds": 0.001907,
+            "queue_lock_wait_seconds": 2.9e-05
+          },
+          {
+            "nodes": 6258,
+            "generated": 83739,
+            "busy_seconds": 0.012412,
+            "idle_seconds": 0.000232,
+            "tasks": 84,
+            "longest_task_seconds": 0.001524,
+            "queue_lock_wait_seconds": 2.5e-05
+          },
+          {
+            "nodes": 6198,
+            "generated": 82833,
+            "busy_seconds": 0.012378,
+            "idle_seconds": 0.000265,
+            "tasks": 65,
+            "longest_task_seconds": 0.001832,
+            "queue_lock_wait_seconds": 7.1e-05
+          },
+          {
+            "nodes": 6353,
+            "generated": 85032,
+            "busy_seconds": 0.012586,
+            "idle_seconds": 7.1e-05,
+            "tasks": 56,
+            "longest_task_seconds": 0.001255,
+            "queue_lock_wait_seconds": 4.9e-05
+          },
+          {
+            "nodes": 6299,
+            "generated": 84102,
+            "busy_seconds": 0.012419,
+            "idle_seconds": 0.000221,
+            "tasks": 45,
+            "longest_task_seconds": 0.001879,
+            "queue_lock_wait_seconds": 7.6e-05
+          },
+          {
+            "nodes": 6294,
+            "generated": 84240,
+            "busy_seconds": 0.012628,
+            "idle_seconds": 6e-06,
+            "tasks": 90,
+            "longest_task_seconds": 0.001481,
+            "queue_lock_wait_seconds": 4e-06
+          },
+          {
+            "nodes": 6198,
+            "generated": 82956,
+            "busy_seconds": 0.012422,
+            "idle_seconds": 0.000229,
+            "tasks": 75,
+            "longest_task_seconds": 0.002461,
+            "queue_lock_wait_seconds": 0.000144
+          },
+          {
+            "nodes": 6064,
+            "generated": 81084,
+            "busy_seconds": 0.012399,
+            "idle_seconds": 0.000253,
+            "tasks": 69,
+            "longest_task_seconds": 0.002295,
+            "queue_lock_wait_seconds": 0.000196
+          },
+          {
+            "nodes": 6422,
+            "generated": 85836,
+            "busy_seconds": 0.012549,
+            "idle_seconds": 9.8e-05,
+            "tasks": 70,
+            "longest_task_seconds": 0.001838,
+            "queue_lock_wait_seconds": 9.5e-05
+          },
+          {
+            "nodes": 5958,
+            "generated": 79683,
+            "busy_seconds": 0.01245,
+            "idle_seconds": 0.000193,
+            "tasks": 72,
+            "longest_task_seconds": 0.001494,
+            "queue_lock_wait_seconds": 4e-06
+          },
+          {
+            "nodes": 6105,
+            "generated": 81585,
+            "busy_seconds": 0.012414,
+            "idle_seconds": 0.000222,
+            "tasks": 63,
+            "longest_task_seconds": 0.001733,
+            "queue_lock_wait_seconds": 0.0001
+          },
+          {
+            "nodes": 3532,
+            "generated": 47406,
+            "busy_seconds": 0.012415,
+            "idle_seconds": 0.000259,
+            "tasks": 17,
+            "longest_task_seconds": 0.00783,
+            "queue_lock_wait_seconds": 0.000111
+          },
+          {
+            "nodes": 6094,
+            "generated": 81474,
+            "busy_seconds": 0.012517,
+            "idle_seconds": 0.000121,
+            "tasks": 56,
+            "longest_task_seconds": 0.001829,
+            "queue_lock_wait_seconds": 8.8e-05
+          },
+          {
+            "nodes": 6239,
+            "generated": 83343,
+            "busy_seconds": 0.012368,
+            "idle_seconds": 0.000266,
+            "tasks": 65,
+            "longest_task_seconds": 0.001895,
+            "queue_lock_wait_seconds": 0.000105
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23167.531,
+      "event": {
+        "ok": true,
+        "type": "candidate",
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "metric": "QTM",
+        "cost": 34,
+        "native_found_seconds": 0.033903,
+        "asset_profile": "base",
+        "moves": [
+          "B'",
+          "R",
+          "F",
+          "D",
+          "R",
+          "B",
+          "D'",
+          "B",
+          "L",
+          "B",
+          "U",
+          "L2",
+          "D'",
+          "F2",
+          "B2",
+          "U'",
+          "B2",
+          "L2",
+          "U",
+          "B2",
+          "U",
+          "R2",
+          "L2",
+          "F2",
+          "U'"
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23167.531,
+      "event": {
+        "ok": true,
+        "type": "candidate",
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "metric": "QTM",
+        "cost": 32,
+        "native_found_seconds": 0.0436,
+        "asset_profile": "base",
+        "moves": [
+          "R'",
+          "B'",
+          "L'",
+          "D'",
+          "R",
+          "L",
+          "F'",
+          "B'",
+          "L'",
+          "D'",
+          "F",
+          "R2",
+          "D'",
+          "R2",
+          "L2",
+          "U",
+          "B2",
+          "R2",
+          "D'",
+          "B2",
+          "D'",
+          "R2",
+          "U",
+          "L2"
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23167.531,
+      "event": {
+        "ok": true,
+        "type": "candidate",
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "metric": "QTM",
+        "cost": 30,
+        "native_found_seconds": 0.043809,
+        "asset_profile": "base",
+        "moves": [
+          "R'",
+          "B'",
+          "L'",
+          "D'",
+          "R",
+          "L",
+          "F'",
+          "B'",
+          "L'",
+          "D'",
+          "F'",
+          "R2",
+          "U",
+          "F2",
+          "U",
+          "B2",
+          "D",
+          "B2",
+          "U",
+          "F2",
+          "R2",
+          "D",
+          "R2"
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23167.531,
+      "event": {
+        "ok": true,
+        "type": "candidate",
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "metric": "QTM",
+        "cost": 28,
+        "native_found_seconds": 0.047735,
+        "asset_profile": "base",
+        "moves": [
+          "R'",
+          "F",
+          "R'",
+          "B",
+          "L",
+          "U",
+          "B",
+          "R'",
+          "U'",
+          "F'",
+          "U",
+          "R",
+          "F",
+          "R2",
+          "U'",
+          "F2",
+          "U",
+          "B2",
+          "U'",
+          "F2",
+          "U",
+          "L2",
+          "D"
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23167.531,
+      "event": {
+        "ok": true,
+        "type": "candidate",
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "metric": "QTM",
+        "cost": 26,
+        "native_found_seconds": 0.049031,
+        "asset_profile": "base",
+        "moves": [
+          "F'",
+          "B'",
+          "D",
+          "F2",
+          "B'",
+          "D'",
+          "L",
+          "U'",
+          "B'",
+          "U'",
+          "B'",
+          "R'",
+          "U'",
+          "R2",
+          "U2",
+          "R2",
+          "U2",
+          "L2",
+          "F2"
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23167.781,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 25,
+        "current_depth": 18,
+        "completed_depth": 17,
+        "iteration_nodes": 1961984,
+        "iteration_split_nodes": 1068,
+        "nodes": 2047354,
+        "split_nodes": 3636,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.272628,
+        "elapsed_seconds": 0.296766,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 27335466,
+        "small_pdb_queries": 0,
+        "phase1_queries": 42164055,
+        "corner_queries": 2373567,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          17854025,
+          4137044,
+          1823912
+        ],
+        "equality_rejects": 1147835,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 323703,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 147456,
+            "generated": 1967789,
+            "busy_seconds": 0.254136,
+            "idle_seconds": 1e-06,
+            "tasks": 9,
+            "longest_task_seconds": 0.120717,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 143360,
+            "generated": 1914656,
+            "busy_seconds": 0.247351,
+            "idle_seconds": 6.9e-05,
+            "tasks": 9,
+            "longest_task_seconds": 0.132267,
+            "queue_lock_wait_seconds": 6.8e-05
+          },
+          {
+            "nodes": 143360,
+            "generated": 1914398,
+            "busy_seconds": 0.236332,
+            "idle_seconds": 5.5e-05,
+            "tasks": 10,
+            "longest_task_seconds": 0.12184,
+            "queue_lock_wait_seconds": 5.5e-05
+          },
+          {
+            "nodes": 139264,
+            "generated": 1859116,
+            "busy_seconds": 0.195205,
+            "idle_seconds": 0.000108,
+            "tasks": 14,
+            "longest_task_seconds": 0.080089,
+            "queue_lock_wait_seconds": 0.000107
+          },
+          {
+            "nodes": 135168,
+            "generated": 1804300,
+            "busy_seconds": 0.133989,
+            "idle_seconds": 3.3e-05,
+            "tasks": 7,
+            "longest_task_seconds": 0.13184,
+            "queue_lock_wait_seconds": 3.3e-05
+          },
+          {
+            "nodes": 139264,
+            "generated": 1858701,
+            "busy_seconds": 0.205877,
+            "idle_seconds": 7.4e-05,
+            "tasks": 5,
+            "longest_task_seconds": 0.106782,
+            "queue_lock_wait_seconds": 5e-06
+          },
+          {
+            "nodes": 135168,
+            "generated": 1804700,
+            "busy_seconds": 0.25521,
+            "idle_seconds": 0.000145,
+            "tasks": 7,
+            "longest_task_seconds": 0.116574,
+            "queue_lock_wait_seconds": 0.000144
+          },
+          {
+            "nodes": 139264,
+            "generated": 1859718,
+            "busy_seconds": 0.156067,
+            "idle_seconds": 6.9e-05,
+            "tasks": 14,
+            "longest_task_seconds": 0.103866,
+            "queue_lock_wait_seconds": 6.9e-05
+          },
+          {
+            "nodes": 139264,
+            "generated": 1859397,
+            "busy_seconds": 0.176286,
+            "idle_seconds": 7e-05,
+            "tasks": 17,
+            "longest_task_seconds": 0.118423,
+            "queue_lock_wait_seconds": 7e-05
+          },
+          {
+            "nodes": 139264,
+            "generated": 1859387,
+            "busy_seconds": 0.254723,
+            "idle_seconds": 1.4e-05,
+            "tasks": 26,
+            "longest_task_seconds": 0.101022,
+            "queue_lock_wait_seconds": 1.3e-05
+          },
+          {
+            "nodes": 139264,
+            "generated": 1859170,
+            "busy_seconds": 0.20309,
+            "idle_seconds": 0.000121,
+            "tasks": 9,
+            "longest_task_seconds": 0.093505,
+            "queue_lock_wait_seconds": 0.00012
+          },
+          {
+            "nodes": 135168,
+            "generated": 1804347,
+            "busy_seconds": 0.165873,
+            "idle_seconds": 2.1e-05,
+            "tasks": 10,
+            "longest_task_seconds": 0.156058,
+            "queue_lock_wait_seconds": 1e-06
+          },
+          {
+            "nodes": 143360,
+            "generated": 1914142,
+            "busy_seconds": 0.25774,
+            "idle_seconds": 4.2e-05,
+            "tasks": 15,
+            "longest_task_seconds": 0.111542,
+            "queue_lock_wait_seconds": 4.1e-05
+          },
+          {
+            "nodes": 143360,
+            "generated": 1913158,
+            "busy_seconds": 0.139314,
+            "idle_seconds": 1e-06,
+            "tasks": 18,
+            "longest_task_seconds": 0.081167,
+            "queue_lock_wait_seconds": 1e-06
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23167.859,
+      "event": {
+        "ok": true,
+        "type": "candidate",
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "metric": "QTM",
+        "cost": 24,
+        "native_found_seconds": 0.372422,
+        "asset_profile": "base",
+        "moves": [
+          "U",
+          "L",
+          "F",
+          "U'",
+          "D'",
+          "B'",
+          "R'",
+          "L",
+          "B2",
+          "U'",
+          "B2",
+          "R",
+          "B",
+          "L2",
+          "U2",
+          "F",
+          "U2",
+          "D2"
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23168.046,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 23,
+        "current_depth": 18,
+        "completed_depth": 17,
+        "iteration_nodes": 3850240,
+        "iteration_split_nodes": 1206,
+        "nodes": 3935610,
+        "split_nodes": 3774,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.532735,
+        "elapsed_seconds": 0.556873,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 52541036,
+        "small_pdb_queries": 0,
+        "phase1_queries": 81503329,
+        "corner_queries": 4604942,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          33853241,
+          8416438,
+          3478561
+        ],
+        "equality_rejects": 2188901,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 666638,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 282624,
+            "generated": 3772165,
+            "busy_seconds": 0.42483,
+            "idle_seconds": 2e-06,
+            "tasks": 14,
+            "longest_task_seconds": 0.141034,
+            "queue_lock_wait_seconds": 1e-06
+          },
+          {
+            "nodes": 282624,
+            "generated": 3773178,
+            "busy_seconds": 0.498098,
+            "idle_seconds": 7e-05,
+            "tasks": 29,
+            "longest_task_seconds": 0.132267,
+            "queue_lock_wait_seconds": 6.9e-05
+          },
+          {
+            "nodes": 278528,
+            "generated": 3719053,
+            "busy_seconds": 0.431113,
+            "idle_seconds": 5.7e-05,
+            "tasks": 21,
+            "longest_task_seconds": 0.136825,
+            "queue_lock_wait_seconds": 5.6e-05
+          },
+          {
+            "nodes": 266240,
+            "generated": 3553809,
+            "busy_seconds": 0.433173,
+            "idle_seconds": 0.00011,
+            "tasks": 30,
+            "longest_task_seconds": 0.151196,
+            "queue_lock_wait_seconds": 0.000108
+          },
+          {
+            "nodes": 266240,
+            "generated": 3555126,
+            "busy_seconds": 0.476468,
+            "idle_seconds": 3.5e-05,
+            "tasks": 22,
+            "longest_task_seconds": 0.147624,
+            "queue_lock_wait_seconds": 3.4e-05
+          },
+          {
+            "nodes": 274432,
+            "generated": 3662258,
+            "busy_seconds": 0.434571,
+            "idle_seconds": 7.6e-05,
+            "tasks": 20,
+            "longest_task_seconds": 0.106782,
+            "queue_lock_wait_seconds": 6e-06
+          },
+          {
+            "nodes": 266240,
+            "generated": 3554286,
+            "busy_seconds": 0.474303,
+            "idle_seconds": 0.000145,
+            "tasks": 18,
+            "longest_task_seconds": 0.14644,
+            "queue_lock_wait_seconds": 0.000144
+          },
+          {
+            "nodes": 278528,
+            "generated": 3719342,
+            "busy_seconds": 0.43964,
+            "idle_seconds": 7e-05,
+            "tasks": 17,
+            "longest_task_seconds": 0.149196,
+            "queue_lock_wait_seconds": 6.9e-05
+          },
+          {
+            "nodes": 278528,
+            "generated": 3718609,
+            "busy_seconds": 0.43747,
+            "idle_seconds": 7.1e-05,
+            "tasks": 20,
+            "longest_task_seconds": 0.138726,
+            "queue_lock_wait_seconds": 7e-05
+          },
+          {
+            "nodes": 270336,
+            "generated": 3608607,
+            "busy_seconds": 0.436469,
+            "idle_seconds": 1.4e-05,
+            "tasks": 29,
+            "longest_task_seconds": 0.150741,
+            "queue_lock_wait_seconds": 1.3e-05
+          },
+          {
+            "nodes": 278528,
+            "generated": 3718894,
+            "busy_seconds": 0.473369,
+            "idle_seconds": 0.000123,
+            "tasks": 26,
+            "longest_task_seconds": 0.113764,
+            "queue_lock_wait_seconds": 0.000121
+          },
+          {
+            "nodes": 266240,
+            "generated": 3554275,
+            "busy_seconds": 0.435195,
+            "idle_seconds": 2.3e-05,
+            "tasks": 26,
+            "longest_task_seconds": 0.156058,
+            "queue_lock_wait_seconds": 2e-06
+          },
+          {
+            "nodes": 282624,
+            "generated": 3771967,
+            "busy_seconds": 0.42944,
+            "idle_seconds": 4.2e-05,
+            "tasks": 17,
+            "longest_task_seconds": 0.162018,
+            "queue_lock_wait_seconds": 4.1e-05
+          },
+          {
+            "nodes": 278528,
+            "generated": 3716980,
+            "busy_seconds": 0.426756,
+            "idle_seconds": 2e-06,
+            "tasks": 21,
+            "longest_task_seconds": 0.150056,
+            "queue_lock_wait_seconds": 1e-06
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23168.312,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 23,
+        "current_depth": 18,
+        "completed_depth": 17,
+        "iteration_nodes": 5791744,
+        "iteration_split_nodes": 1419,
+        "nodes": 5877114,
+        "split_nodes": 3987,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.80758,
+        "elapsed_seconds": 0.831718,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 78458669,
+        "small_pdb_queries": 0,
+        "phase1_queries": 121557318,
+        "corner_queries": 6938242,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          50621266,
+          12579877,
+          5043966
+        ],
+        "equality_rejects": 3276558,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 1058387,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 421888,
+            "generated": 5632441,
+            "busy_seconds": 0.795626,
+            "idle_seconds": 4e-06,
+            "tasks": 31,
+            "longest_task_seconds": 0.147144,
+            "queue_lock_wait_seconds": 2e-06
+          },
+          {
+            "nodes": 425984,
+            "generated": 5686907,
+            "busy_seconds": 0.626777,
+            "idle_seconds": 7e-05,
+            "tasks": 30,
+            "longest_task_seconds": 0.132267,
+            "queue_lock_wait_seconds": 6.9e-05
+          },
+          {
+            "nodes": 417792,
+            "generated": 5578126,
+            "busy_seconds": 0.797503,
+            "idle_seconds": 5.8e-05,
+            "tasks": 33,
+            "longest_task_seconds": 0.164039,
+            "queue_lock_wait_seconds": 5.7e-05
+          },
+          {
+            "nodes": 397312,
+            "generated": 5304905,
+            "busy_seconds": 0.632328,
+            "idle_seconds": 0.000112,
+            "tasks": 55,
+            "longest_task_seconds": 0.151196,
+            "queue_lock_wait_seconds": 0.00011
+          },
+          {
+            "nodes": 401408,
+            "generated": 5360237,
+            "busy_seconds": 0.779227,
+            "idle_seconds": 3.7e-05,
+            "tasks": 42,
+            "longest_task_seconds": 0.147624,
+            "queue_lock_wait_seconds": 3.5e-05
+          },
+          {
+            "nodes": 409600,
+            "generated": 5466189,
+            "busy_seconds": 0.626525,
+            "idle_seconds": 7.6e-05,
+            "tasks": 29,
+            "longest_task_seconds": 0.122412,
+            "queue_lock_wait_seconds": 7e-06
+          },
+          {
+            "nodes": 401408,
+            "generated": 5359144,
+            "busy_seconds": 0.630156,
+            "idle_seconds": 0.000146,
+            "tasks": 22,
+            "longest_task_seconds": 0.14644,
+            "queue_lock_wait_seconds": 0.000144
+          },
+          {
+            "nodes": 421888,
+            "generated": 5632656,
+            "busy_seconds": 0.78714,
+            "idle_seconds": 7.2e-05,
+            "tasks": 43,
+            "longest_task_seconds": 0.149196,
+            "queue_lock_wait_seconds": 7e-05
+          },
+          {
+            "nodes": 409600,
+            "generated": 5469395,
+            "busy_seconds": 0.780929,
+            "idle_seconds": 7.1e-05,
+            "tasks": 26,
+            "longest_task_seconds": 0.138726,
+            "queue_lock_wait_seconds": 7e-05
+          },
+          {
+            "nodes": 405504,
+            "generated": 5412220,
+            "busy_seconds": 0.641353,
+            "idle_seconds": 1.4e-05,
+            "tasks": 31,
+            "longest_task_seconds": 0.150741,
+            "queue_lock_wait_seconds": 1.3e-05
+          },
+          {
+            "nodes": 421888,
+            "generated": 5631187,
+            "busy_seconds": 0.620993,
+            "idle_seconds": 0.000123,
+            "tasks": 29,
+            "longest_task_seconds": 0.128967,
+            "queue_lock_wait_seconds": 0.000122
+          },
+          {
+            "nodes": 397312,
+            "generated": 5303943,
+            "busy_seconds": 0.773569,
+            "idle_seconds": 2.6e-05,
+            "tasks": 60,
+            "longest_task_seconds": 0.156058,
+            "queue_lock_wait_seconds": 3e-06
+          },
+          {
+            "nodes": 434176,
+            "generated": 5794199,
+            "busy_seconds": 0.799084,
+            "idle_seconds": 4.4e-05,
+            "tasks": 29,
+            "longest_task_seconds": 0.162018,
+            "queue_lock_wait_seconds": 4.2e-05
+          },
+          {
+            "nodes": 425984,
+            "generated": 5684633,
+            "busy_seconds": 0.798165,
+            "idle_seconds": 6e-06,
+            "tasks": 59,
+            "longest_task_seconds": 0.172543,
+            "queue_lock_wait_seconds": 4e-06
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23168.609,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 23,
+        "current_depth": 18,
+        "completed_depth": 17,
+        "iteration_nodes": 7294976,
+        "iteration_split_nodes": 1875,
+        "nodes": 7380346,
+        "split_nodes": 4443,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 1.098634,
+        "elapsed_seconds": 1.122771,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 98527242,
+        "small_pdb_queries": 0,
+        "phase1_queries": 153049509,
+        "corner_queries": 8724482,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          63209805,
+          16117620,
+          6373621
+        ],
+        "equality_rejects": 4103385,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 1340952,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 528384,
+            "generated": 7055057,
+            "busy_seconds": 1.080335,
+            "idle_seconds": 7e-06,
+            "tasks": 63,
+            "longest_task_seconds": 0.147144,
+            "queue_lock_wait_seconds": 4e-06
+          },
+          {
+            "nodes": 532480,
+            "generated": 7109199,
+            "busy_seconds": 1.094574,
+            "idle_seconds": 7.3e-05,
+            "tasks": 67,
+            "longest_task_seconds": 0.185615,
+            "queue_lock_wait_seconds": 7.1e-05
+          },
+          {
+            "nodes": 520192,
+            "generated": 6944809,
+            "busy_seconds": 1.093996,
+            "idle_seconds": 6.1e-05,
+            "tasks": 67,
+            "longest_task_seconds": 0.164039,
+            "queue_lock_wait_seconds": 5.9e-05
+          },
+          {
+            "nodes": 495616,
+            "generated": 6617560,
+            "busy_seconds": 1.092996,
+            "idle_seconds": 0.000115,
+            "tasks": 97,
+            "longest_task_seconds": 0.204376,
+            "queue_lock_wait_seconds": 0.000111
+          },
+          {
+            "nodes": 528384,
+            "generated": 7056118,
+            "busy_seconds": 1.085412,
+            "idle_seconds": 4e-05,
+            "tasks": 80,
+            "longest_task_seconds": 0.147624,
+            "queue_lock_wait_seconds": 3.7e-05
+          },
+          {
+            "nodes": 532480,
+            "generated": 7106153,
+            "busy_seconds": 1.064903,
+            "idle_seconds": 7.9e-05,
+            "tasks": 54,
+            "longest_task_seconds": 0.224264,
+            "queue_lock_wait_seconds": 9e-06
+          },
+          {
+            "nodes": 512000,
+            "generated": 6836131,
+            "busy_seconds": 1.08347,
+            "idle_seconds": 0.000147,
+            "tasks": 41,
+            "longest_task_seconds": 0.233138,
+            "queue_lock_wait_seconds": 0.000146
+          },
+          {
+            "nodes": 524288,
+            "generated": 6998981,
+            "busy_seconds": 1.071429,
+            "idle_seconds": 7.5e-05,
+            "tasks": 88,
+            "longest_task_seconds": 0.149196,
+            "queue_lock_wait_seconds": 7.2e-05
+          },
+          {
+            "nodes": 512000,
+            "generated": 6836875,
+            "busy_seconds": 1.062529,
+            "idle_seconds": 7.4e-05,
+            "tasks": 52,
+            "longest_task_seconds": 0.138726,
+            "queue_lock_wait_seconds": 7.2e-05
+          },
+          {
+            "nodes": 507904,
+            "generated": 6778705,
+            "busy_seconds": 1.095931,
+            "idle_seconds": 1.8e-05,
+            "tasks": 67,
+            "longest_task_seconds": 0.218769,
+            "queue_lock_wait_seconds": 1.5e-05
+          },
+          {
+            "nodes": 544768,
+            "generated": 7270551,
+            "busy_seconds": 1.079251,
+            "idle_seconds": 0.000126,
+            "tasks": 58,
+            "longest_task_seconds": 0.240292,
+            "queue_lock_wait_seconds": 0.000124
+          },
+          {
+            "nodes": 499712,
+            "generated": 6670447,
+            "busy_seconds": 1.076046,
+            "idle_seconds": 2.9e-05,
+            "tasks": 92,
+            "longest_task_seconds": 0.156058,
+            "queue_lock_wait_seconds": 6e-06
+          },
+          {
+            "nodes": 528384,
+            "generated": 7051836,
+            "busy_seconds": 1.064695,
+            "idle_seconds": 4.8e-05,
+            "tasks": 70,
+            "longest_task_seconds": 0.162018,
+            "queue_lock_wait_seconds": 4.5e-05
+          },
+          {
+            "nodes": 528384,
+            "generated": 7052333,
+            "busy_seconds": 1.091479,
+            "idle_seconds": 9e-06,
+            "tasks": 89,
+            "longest_task_seconds": 0.172543,
+            "queue_lock_wait_seconds": 6e-06
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23168.703,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 23,
+        "current_depth": 18,
+        "completed_depth": 19,
+        "iteration_nodes": 7790844,
+        "iteration_split_nodes": 3372,
+        "nodes": 7876214,
+        "split_nodes": 5940,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 1.19393,
+        "elapsed_seconds": 1.218068,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 105147546,
+        "small_pdb_queries": 0,
+        "phase1_queries": 163493625,
+        "corner_queries": 9304455,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          67350445,
+          17258569,
+          6861357
+        ],
+        "equality_rejects": 4376202,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 1424319,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 558531,
+            "generated": 7457435,
+            "busy_seconds": 1.192067,
+            "idle_seconds": 0.001699,
+            "tasks": 227,
+            "longest_task_seconds": 0.147144,
+            "queue_lock_wait_seconds": 3.4e-05
+          },
+          {
+            "nodes": 565237,
+            "generated": 7546477,
+            "busy_seconds": 1.192148,
+            "idle_seconds": 0.001656,
+            "tasks": 216,
+            "longest_task_seconds": 0.185615,
+            "queue_lock_wait_seconds": 0.000138
+          },
+          {
+            "nodes": 553453,
+            "generated": 7388824,
+            "busy_seconds": 1.192044,
+            "idle_seconds": 0.00169,
+            "tasks": 220,
+            "longest_task_seconds": 0.164039,
+            "queue_lock_wait_seconds": 0.000183
+          },
+          {
+            "nodes": 530906,
+            "generated": 7088380,
+            "busy_seconds": 1.191938,
+            "idle_seconds": 0.001784,
+            "tasks": 230,
+            "longest_task_seconds": 0.204376,
+            "queue_lock_wait_seconds": 0.000142
+          },
+          {
+            "nodes": 568392,
+            "generated": 7590643,
+            "busy_seconds": 1.192012,
+            "idle_seconds": 0.001714,
+            "tasks": 274,
+            "longest_task_seconds": 0.147624,
+            "queue_lock_wait_seconds": 5e-05
+          },
+          {
+            "nodes": 578860,
+            "generated": 7725446,
+            "busy_seconds": 1.192002,
+            "idle_seconds": 0.001632,
+            "tasks": 245,
+            "longest_task_seconds": 0.224264,
+            "queue_lock_wait_seconds": 1.8e-05
+          },
+          {
+            "nodes": 546647,
+            "generated": 7298564,
+            "busy_seconds": 1.191898,
+            "idle_seconds": 0.001868,
+            "tasks": 221,
+            "longest_task_seconds": 0.233138,
+            "queue_lock_wait_seconds": 0.000162
+          },
+          {
+            "nodes": 562800,
+            "generated": 7513361,
+            "busy_seconds": 1.193636,
+            "idle_seconds": 7.9e-05,
+            "tasks": 154,
+            "longest_task_seconds": 0.149196,
+            "queue_lock_wait_seconds": 7.4e-05
+          },
+          {
+            "nodes": 548088,
+            "generated": 7318450,
+            "busy_seconds": 1.192557,
+            "idle_seconds": 0.00122,
+            "tasks": 143,
+            "longest_task_seconds": 0.138726,
+            "queue_lock_wait_seconds": 0.00015
+          },
+          {
+            "nodes": 541702,
+            "generated": 7230138,
+            "busy_seconds": 1.192061,
+            "idle_seconds": 0.001659,
+            "tasks": 227,
+            "longest_task_seconds": 0.218769,
+            "queue_lock_wait_seconds": 5.7e-05
+          },
+          {
+            "nodes": 580347,
+            "generated": 7745250,
+            "busy_seconds": 1.193239,
+            "idle_seconds": 0.00052,
+            "tasks": 128,
+            "longest_task_seconds": 0.240292,
+            "queue_lock_wait_seconds": 0.000155
+          },
+          {
+            "nodes": 527214,
+            "generated": 7037893,
+            "busy_seconds": 1.192113,
+            "idle_seconds": 0.001632,
+            "tasks": 213,
+            "longest_task_seconds": 0.156058,
+            "queue_lock_wait_seconds": 5.7e-05
+          },
+          {
+            "nodes": 567064,
+            "generated": 7568180,
+            "busy_seconds": 1.192064,
+            "idle_seconds": 0.001713,
+            "tasks": 148,
+            "longest_task_seconds": 0.162018,
+            "queue_lock_wait_seconds": 5.1e-05
+          },
+          {
+            "nodes": 561603,
+            "generated": 7496018,
+            "busy_seconds": 1.192102,
+            "idle_seconds": 0.00163,
+            "tasks": 262,
+            "longest_task_seconds": 0.172543,
+            "queue_lock_wait_seconds": 8.8e-05
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23168.968,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 23,
+        "current_depth": 20,
+        "completed_depth": 19,
+        "iteration_nodes": 1347584,
+        "iteration_split_nodes": 1113,
+        "nodes": 9223798,
+        "split_nodes": 7053,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.257885,
+        "elapsed_seconds": 1.476029,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 123133561,
+        "small_pdb_queries": 0,
+        "phase1_queries": 191602500,
+        "corner_queries": 10912157,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          78737739,
+          20333193,
+          8040015
+        ],
+        "equality_rejects": 5113953,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 1682584,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 106496,
+            "generated": 1422418,
+            "busy_seconds": 8.6e-05,
+            "idle_seconds": 0.000109,
+            "tasks": 8,
+            "longest_task_seconds": 3.4e-05,
+            "queue_lock_wait_seconds": 7.7e-05
+          },
+          {
+            "nodes": 86016,
+            "generated": 1147631,
+            "busy_seconds": 9.3e-05,
+            "idle_seconds": 8.2e-05,
+            "tasks": 9,
+            "longest_task_seconds": 4.4e-05,
+            "queue_lock_wait_seconds": 1.7e-05
+          },
+          {
+            "nodes": 98304,
+            "generated": 1311936,
+            "busy_seconds": 3.6e-05,
+            "idle_seconds": 0.000153,
+            "tasks": 5,
+            "longest_task_seconds": 1.3e-05,
+            "queue_lock_wait_seconds": 8.3e-05
+          },
+          {
+            "nodes": 90112,
+            "generated": 1202381,
+            "busy_seconds": 0.000119,
+            "idle_seconds": 7.7e-05,
+            "tasks": 10,
+            "longest_task_seconds": 2.8e-05,
+            "queue_lock_wait_seconds": 4.1e-05
+          },
+          {
+            "nodes": 73728,
+            "generated": 984078,
+            "busy_seconds": 6.1e-05,
+            "idle_seconds": 0.00011,
+            "tasks": 7,
+            "longest_task_seconds": 1.8e-05,
+            "queue_lock_wait_seconds": 5.7e-05
+          },
+          {
+            "nodes": 110592,
+            "generated": 1476048,
+            "busy_seconds": 0.000137,
+            "idle_seconds": 5.3e-05,
+            "tasks": 11,
+            "longest_task_seconds": 6.5e-05,
+            "queue_lock_wait_seconds": 5.2e-05
+          },
+          {
+            "nodes": 118784,
+            "generated": 1584368,
+            "busy_seconds": 0.000128,
+            "idle_seconds": 6.4e-05,
+            "tasks": 4,
+            "longest_task_seconds": 9e-05,
+            "queue_lock_wait_seconds": 2.3e-05
+          },
+          {
+            "nodes": 118784,
+            "generated": 1585111,
+            "busy_seconds": 7.3e-05,
+            "idle_seconds": 0.000103,
+            "tasks": 6,
+            "longest_task_seconds": 3.6e-05,
+            "queue_lock_wait_seconds": 5.1e-05
+          },
+          {
+            "nodes": 98304,
+            "generated": 1310826,
+            "busy_seconds": 7.9e-05,
+            "idle_seconds": 0.000126,
+            "tasks": 5,
+            "longest_task_seconds": 3.3e-05,
+            "queue_lock_wait_seconds": 5.8e-05
+          },
+          {
+            "nodes": 90112,
+            "generated": 1203730,
+            "busy_seconds": 0.001148,
+            "idle_seconds": 8e-05,
+            "tasks": 7,
+            "longest_task_seconds": 0.001081,
+            "queue_lock_wait_seconds": 2.4e-05
+          },
+          {
+            "nodes": 86016,
+            "generated": 1148484,
+            "busy_seconds": 5.1e-05,
+            "idle_seconds": 0.000133,
+            "tasks": 8,
+            "longest_task_seconds": 9e-06,
+            "queue_lock_wait_seconds": 0.000133
+          },
+          {
+            "nodes": 77824,
+            "generated": 1039065,
+            "busy_seconds": 7e-05,
+            "idle_seconds": 0.00012,
+            "tasks": 6,
+            "longest_task_seconds": 3.9e-05,
+            "queue_lock_wait_seconds": 4.7e-05
+          },
+          {
+            "nodes": 81920,
+            "generated": 1093978,
+            "busy_seconds": 8.6e-05,
+            "idle_seconds": 9.2e-05,
+            "tasks": 7,
+            "longest_task_seconds": 3.3e-05,
+            "queue_lock_wait_seconds": 4e-05
+          },
+          {
+            "nodes": 110592,
+            "generated": 1475961,
+            "busy_seconds": 7.6e-05,
+            "idle_seconds": 5.9e-05,
+            "tasks": 4,
+            "longest_task_seconds": 3.5e-05,
+            "queue_lock_wait_seconds": 5.9e-05
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23169.25,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 23,
+        "current_depth": 20,
+        "completed_depth": 19,
+        "iteration_nodes": 2859008,
+        "iteration_split_nodes": 1113,
+        "nodes": 10735222,
+        "split_nodes": 7053,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.551362,
+        "elapsed_seconds": 1.769507,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 143303895,
+        "small_pdb_queries": 0,
+        "phase1_queries": 222847786,
+        "corner_queries": 12701944,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          91677521,
+          23719345,
+          9257351
+        ],
+        "equality_rejects": 5951230,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 1960975,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 229376,
+            "generated": 3064220,
+            "busy_seconds": 8.6e-05,
+            "idle_seconds": 0.000109,
+            "tasks": 8,
+            "longest_task_seconds": 3.4e-05,
+            "queue_lock_wait_seconds": 7.7e-05
+          },
+          {
+            "nodes": 188416,
+            "generated": 2514344,
+            "busy_seconds": 9.3e-05,
+            "idle_seconds": 8.2e-05,
+            "tasks": 9,
+            "longest_task_seconds": 4.4e-05,
+            "queue_lock_wait_seconds": 1.7e-05
+          },
+          {
+            "nodes": 200704,
+            "generated": 2678514,
+            "busy_seconds": 3.6e-05,
+            "idle_seconds": 0.000153,
+            "tasks": 5,
+            "longest_task_seconds": 1.3e-05,
+            "queue_lock_wait_seconds": 8.3e-05
+          },
+          {
+            "nodes": 180224,
+            "generated": 2404535,
+            "busy_seconds": 0.000119,
+            "idle_seconds": 7.7e-05,
+            "tasks": 10,
+            "longest_task_seconds": 2.8e-05,
+            "queue_lock_wait_seconds": 4.1e-05
+          },
+          {
+            "nodes": 159744,
+            "generated": 2131869,
+            "busy_seconds": 6.1e-05,
+            "idle_seconds": 0.00011,
+            "tasks": 7,
+            "longest_task_seconds": 1.8e-05,
+            "queue_lock_wait_seconds": 5.7e-05
+          },
+          {
+            "nodes": 237568,
+            "generated": 3170768,
+            "busy_seconds": 0.000137,
+            "idle_seconds": 5.3e-05,
+            "tasks": 11,
+            "longest_task_seconds": 6.5e-05,
+            "queue_lock_wait_seconds": 5.2e-05
+          },
+          {
+            "nodes": 245760,
+            "generated": 3278288,
+            "busy_seconds": 0.000128,
+            "idle_seconds": 6.4e-05,
+            "tasks": 4,
+            "longest_task_seconds": 9e-05,
+            "queue_lock_wait_seconds": 2.3e-05
+          },
+          {
+            "nodes": 237568,
+            "generated": 3169948,
+            "busy_seconds": 7.3e-05,
+            "idle_seconds": 0.000103,
+            "tasks": 6,
+            "longest_task_seconds": 3.6e-05,
+            "queue_lock_wait_seconds": 5.1e-05
+          },
+          {
+            "nodes": 221184,
+            "generated": 2950521,
+            "busy_seconds": 7.9e-05,
+            "idle_seconds": 0.000126,
+            "tasks": 5,
+            "longest_task_seconds": 3.3e-05,
+            "queue_lock_wait_seconds": 5.8e-05
+          },
+          {
+            "nodes": 192512,
+            "generated": 2569931,
+            "busy_seconds": 0.001148,
+            "idle_seconds": 8e-05,
+            "tasks": 7,
+            "longest_task_seconds": 0.001081,
+            "queue_lock_wait_seconds": 2.4e-05
+          },
+          {
+            "nodes": 188416,
+            "generated": 2514446,
+            "busy_seconds": 5.1e-05,
+            "idle_seconds": 0.000133,
+            "tasks": 8,
+            "longest_task_seconds": 9e-06,
+            "queue_lock_wait_seconds": 0.000133
+          },
+          {
+            "nodes": 167936,
+            "generated": 2241749,
+            "busy_seconds": 7e-05,
+            "idle_seconds": 0.00012,
+            "tasks": 6,
+            "longest_task_seconds": 3.9e-05,
+            "queue_lock_wait_seconds": 4.7e-05
+          },
+          {
+            "nodes": 167936,
+            "generated": 2242472,
+            "busy_seconds": 8.6e-05,
+            "idle_seconds": 9.2e-05,
+            "tasks": 7,
+            "longest_task_seconds": 3.3e-05,
+            "queue_lock_wait_seconds": 4e-05
+          },
+          {
+            "nodes": 241664,
+            "generated": 3224744,
+            "busy_seconds": 7.6e-05,
+            "idle_seconds": 5.9e-05,
+            "tasks": 4,
+            "longest_task_seconds": 3.5e-05,
+            "queue_lock_wait_seconds": 5.9e-05
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23169.531,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 23,
+        "current_depth": 20,
+        "completed_depth": 19,
+        "iteration_nodes": 4243456,
+        "iteration_split_nodes": 1113,
+        "nodes": 12119670,
+        "split_nodes": 7053,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.826281,
+        "elapsed_seconds": 2.044426,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 161781388,
+        "small_pdb_queries": 0,
+        "phase1_queries": 251577814,
+        "corner_queries": 14336399,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          103422210,
+          26932418,
+          10374321
+        ],
+        "equality_rejects": 6719536,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 2211001,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 331776,
+            "generated": 4432055,
+            "busy_seconds": 8.6e-05,
+            "idle_seconds": 0.000109,
+            "tasks": 8,
+            "longest_task_seconds": 3.4e-05,
+            "queue_lock_wait_seconds": 7.7e-05
+          },
+          {
+            "nodes": 282624,
+            "generated": 3772276,
+            "busy_seconds": 9.3e-05,
+            "idle_seconds": 8.2e-05,
+            "tasks": 9,
+            "longest_task_seconds": 4.4e-05,
+            "queue_lock_wait_seconds": 1.7e-05
+          },
+          {
+            "nodes": 290816,
+            "generated": 3880651,
+            "busy_seconds": 3.6e-05,
+            "idle_seconds": 0.000153,
+            "tasks": 5,
+            "longest_task_seconds": 1.3e-05,
+            "queue_lock_wait_seconds": 8.3e-05
+          },
+          {
+            "nodes": 253952,
+            "generated": 3388605,
+            "busy_seconds": 0.000119,
+            "idle_seconds": 7.7e-05,
+            "tasks": 10,
+            "longest_task_seconds": 2.8e-05,
+            "queue_lock_wait_seconds": 4.1e-05
+          },
+          {
+            "nodes": 245760,
+            "generated": 3279612,
+            "busy_seconds": 6.1e-05,
+            "idle_seconds": 0.00011,
+            "tasks": 7,
+            "longest_task_seconds": 1.8e-05,
+            "queue_lock_wait_seconds": 5.7e-05
+          },
+          {
+            "nodes": 360448,
+            "generated": 4811036,
+            "busy_seconds": 0.000137,
+            "idle_seconds": 5.3e-05,
+            "tasks": 11,
+            "longest_task_seconds": 6.5e-05,
+            "queue_lock_wait_seconds": 5.2e-05
+          },
+          {
+            "nodes": 360448,
+            "generated": 4808749,
+            "busy_seconds": 0.000128,
+            "idle_seconds": 6.4e-05,
+            "tasks": 4,
+            "longest_task_seconds": 9e-05,
+            "queue_lock_wait_seconds": 2.3e-05
+          },
+          {
+            "nodes": 348160,
+            "generated": 4645203,
+            "busy_seconds": 7.3e-05,
+            "idle_seconds": 0.000103,
+            "tasks": 6,
+            "longest_task_seconds": 3.6e-05,
+            "queue_lock_wait_seconds": 5.1e-05
+          },
+          {
+            "nodes": 335872,
+            "generated": 4480475,
+            "busy_seconds": 7.9e-05,
+            "idle_seconds": 0.000126,
+            "tasks": 5,
+            "longest_task_seconds": 3.3e-05,
+            "queue_lock_wait_seconds": 5.8e-05
+          },
+          {
+            "nodes": 282624,
+            "generated": 3772946,
+            "busy_seconds": 0.001148,
+            "idle_seconds": 8e-05,
+            "tasks": 7,
+            "longest_task_seconds": 0.001081,
+            "queue_lock_wait_seconds": 2.4e-05
+          },
+          {
+            "nodes": 282624,
+            "generated": 3771165,
+            "busy_seconds": 5.1e-05,
+            "idle_seconds": 0.000133,
+            "tasks": 8,
+            "longest_task_seconds": 9e-06,
+            "queue_lock_wait_seconds": 0.000133
+          },
+          {
+            "nodes": 253952,
+            "generated": 3390371,
+            "busy_seconds": 7e-05,
+            "idle_seconds": 0.00012,
+            "tasks": 6,
+            "longest_task_seconds": 3.9e-05,
+            "queue_lock_wait_seconds": 4.7e-05
+          },
+          {
+            "nodes": 258048,
+            "generated": 3445574,
+            "busy_seconds": 8.6e-05,
+            "idle_seconds": 9.2e-05,
+            "tasks": 7,
+            "longest_task_seconds": 3.3e-05,
+            "queue_lock_wait_seconds": 4e-05
+          },
+          {
+            "nodes": 356352,
+            "generated": 4755124,
+            "busy_seconds": 7.6e-05,
+            "idle_seconds": 5.9e-05,
+            "tasks": 4,
+            "longest_task_seconds": 3.5e-05,
+            "queue_lock_wait_seconds": 5.9e-05
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23169.796,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 23,
+        "current_depth": 20,
+        "completed_depth": 19,
+        "iteration_nodes": 5713920,
+        "iteration_split_nodes": 1113,
+        "nodes": 13590134,
+        "split_nodes": 7053,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 1.099098,
+        "elapsed_seconds": 2.317242,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 181408080,
+        "small_pdb_queries": 0,
+        "phase1_queries": 282213280,
+        "corner_queries": 16069848,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          115799893,
+          30421665,
+          11588354
+        ],
+        "equality_rejects": 7531817,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 2473997,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 450560,
+            "generated": 6017967,
+            "busy_seconds": 8.6e-05,
+            "idle_seconds": 0.000109,
+            "tasks": 8,
+            "longest_task_seconds": 3.4e-05,
+            "queue_lock_wait_seconds": 7.7e-05
+          },
+          {
+            "nodes": 380928,
+            "generated": 5083601,
+            "busy_seconds": 9.3e-05,
+            "idle_seconds": 8.2e-05,
+            "tasks": 9,
+            "longest_task_seconds": 4.4e-05,
+            "queue_lock_wait_seconds": 1.7e-05
+          },
+          {
+            "nodes": 393216,
+            "generated": 5247946,
+            "busy_seconds": 3.6e-05,
+            "idle_seconds": 0.000153,
+            "tasks": 5,
+            "longest_task_seconds": 1.3e-05,
+            "queue_lock_wait_seconds": 8.3e-05
+          },
+          {
+            "nodes": 356352,
+            "generated": 4754930,
+            "busy_seconds": 0.000119,
+            "idle_seconds": 7.7e-05,
+            "tasks": 10,
+            "longest_task_seconds": 2.8e-05,
+            "queue_lock_wait_seconds": 4.1e-05
+          },
+          {
+            "nodes": 335872,
+            "generated": 4482687,
+            "busy_seconds": 6.1e-05,
+            "idle_seconds": 0.00011,
+            "tasks": 7,
+            "longest_task_seconds": 1.8e-05,
+            "queue_lock_wait_seconds": 5.7e-05
+          },
+          {
+            "nodes": 487424,
+            "generated": 6506206,
+            "busy_seconds": 0.000137,
+            "idle_seconds": 5.3e-05,
+            "tasks": 11,
+            "longest_task_seconds": 6.5e-05,
+            "queue_lock_wait_seconds": 5.2e-05
+          },
+          {
+            "nodes": 479232,
+            "generated": 6394367,
+            "busy_seconds": 0.000128,
+            "idle_seconds": 6.4e-05,
+            "tasks": 4,
+            "longest_task_seconds": 9e-05,
+            "queue_lock_wait_seconds": 2.3e-05
+          },
+          {
+            "nodes": 466944,
+            "generated": 6230229,
+            "busy_seconds": 7.3e-05,
+            "idle_seconds": 0.000103,
+            "tasks": 6,
+            "longest_task_seconds": 3.6e-05,
+            "queue_lock_wait_seconds": 5.1e-05
+          },
+          {
+            "nodes": 438272,
+            "generated": 5846266,
+            "busy_seconds": 7.9e-05,
+            "idle_seconds": 0.000126,
+            "tasks": 5,
+            "longest_task_seconds": 3.3e-05,
+            "queue_lock_wait_seconds": 5.8e-05
+          },
+          {
+            "nodes": 380928,
+            "generated": 5085103,
+            "busy_seconds": 0.001148,
+            "idle_seconds": 8e-05,
+            "tasks": 7,
+            "longest_task_seconds": 0.001081,
+            "queue_lock_wait_seconds": 2.4e-05
+          },
+          {
+            "nodes": 376832,
+            "generated": 5028702,
+            "busy_seconds": 5.1e-05,
+            "idle_seconds": 0.000133,
+            "tasks": 8,
+            "longest_task_seconds": 9e-06,
+            "queue_lock_wait_seconds": 0.000133
+          },
+          {
+            "nodes": 352256,
+            "generated": 4703357,
+            "busy_seconds": 7e-05,
+            "idle_seconds": 0.00012,
+            "tasks": 6,
+            "longest_task_seconds": 3.9e-05,
+            "queue_lock_wait_seconds": 4.7e-05
+          },
+          {
+            "nodes": 348160,
+            "generated": 4648376,
+            "busy_seconds": 8.6e-05,
+            "idle_seconds": 9.2e-05,
+            "tasks": 7,
+            "longest_task_seconds": 3.3e-05,
+            "queue_lock_wait_seconds": 4e-05
+          },
+          {
+            "nodes": 466944,
+            "generated": 6230797,
+            "busy_seconds": 1.055822,
+            "idle_seconds": 6e-05,
+            "tasks": 5,
+            "longest_task_seconds": 1.055746,
+            "queue_lock_wait_seconds": 5.9e-05
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23170.062,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 23,
+        "current_depth": 20,
+        "completed_depth": 19,
+        "iteration_nodes": 7151616,
+        "iteration_split_nodes": 1113,
+        "nodes": 15027830,
+        "split_nodes": 7053,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 1.360744,
+        "elapsed_seconds": 2.578888,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 200597237,
+        "small_pdb_queries": 0,
+        "phase1_queries": 311989616,
+        "corner_queries": 17766705,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          128096483,
+          33619626,
+          12796972
+        ],
+        "equality_rejects": 8320950,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 2733054,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 561152,
+            "generated": 7495040,
+            "busy_seconds": 1.160044,
+            "idle_seconds": 0.000109,
+            "tasks": 9,
+            "longest_task_seconds": 1.159958,
+            "queue_lock_wait_seconds": 7.7e-05
+          },
+          {
+            "nodes": 475136,
+            "generated": 6341301,
+            "busy_seconds": 9.3e-05,
+            "idle_seconds": 8.2e-05,
+            "tasks": 9,
+            "longest_task_seconds": 4.4e-05,
+            "queue_lock_wait_seconds": 1.7e-05
+          },
+          {
+            "nodes": 483328,
+            "generated": 6449963,
+            "busy_seconds": 3.6e-05,
+            "idle_seconds": 0.000153,
+            "tasks": 5,
+            "longest_task_seconds": 1.3e-05,
+            "queue_lock_wait_seconds": 8.3e-05
+          },
+          {
+            "nodes": 446464,
+            "generated": 5956999,
+            "busy_seconds": 0.000119,
+            "idle_seconds": 7.7e-05,
+            "tasks": 10,
+            "longest_task_seconds": 2.8e-05,
+            "queue_lock_wait_seconds": 4.1e-05
+          },
+          {
+            "nodes": 425984,
+            "generated": 5685665,
+            "busy_seconds": 6.1e-05,
+            "idle_seconds": 0.00011,
+            "tasks": 7,
+            "longest_task_seconds": 1.8e-05,
+            "queue_lock_wait_seconds": 5.7e-05
+          },
+          {
+            "nodes": 573440,
+            "generated": 7653587,
+            "busy_seconds": 0.000137,
+            "idle_seconds": 5.3e-05,
+            "tasks": 11,
+            "longest_task_seconds": 6.5e-05,
+            "queue_lock_wait_seconds": 5.2e-05
+          },
+          {
+            "nodes": 569344,
+            "generated": 7597591,
+            "busy_seconds": 0.000128,
+            "idle_seconds": 6.4e-05,
+            "tasks": 4,
+            "longest_task_seconds": 9e-05,
+            "queue_lock_wait_seconds": 2.3e-05
+          },
+          {
+            "nodes": 585728,
+            "generated": 7815479,
+            "busy_seconds": 7.3e-05,
+            "idle_seconds": 0.000103,
+            "tasks": 6,
+            "longest_task_seconds": 3.6e-05,
+            "queue_lock_wait_seconds": 5.1e-05
+          },
+          {
+            "nodes": 548864,
+            "generated": 7321973,
+            "busy_seconds": 7.9e-05,
+            "idle_seconds": 0.000126,
+            "tasks": 5,
+            "longest_task_seconds": 3.3e-05,
+            "queue_lock_wait_seconds": 5.8e-05
+          },
+          {
+            "nodes": 466944,
+            "generated": 6233689,
+            "busy_seconds": 0.001148,
+            "idle_seconds": 8e-05,
+            "tasks": 7,
+            "longest_task_seconds": 0.001081,
+            "queue_lock_wait_seconds": 2.4e-05
+          },
+          {
+            "nodes": 466944,
+            "generated": 6231696,
+            "busy_seconds": 5.1e-05,
+            "idle_seconds": 0.000133,
+            "tasks": 8,
+            "longest_task_seconds": 9e-06,
+            "queue_lock_wait_seconds": 0.000133
+          },
+          {
+            "nodes": 446464,
+            "generated": 5960904,
+            "busy_seconds": 7e-05,
+            "idle_seconds": 0.00012,
+            "tasks": 6,
+            "longest_task_seconds": 3.9e-05,
+            "queue_lock_wait_seconds": 4.7e-05
+          },
+          {
+            "nodes": 442368,
+            "generated": 5906525,
+            "busy_seconds": 8.6e-05,
+            "idle_seconds": 9.2e-05,
+            "tasks": 7,
+            "longest_task_seconds": 3.3e-05,
+            "queue_lock_wait_seconds": 4e-05
+          },
+          {
+            "nodes": 565248,
+            "generated": 7542196,
+            "busy_seconds": 1.055822,
+            "idle_seconds": 6e-05,
+            "tasks": 5,
+            "longest_task_seconds": 1.055746,
+            "queue_lock_wait_seconds": 5.9e-05
+          },
+          {
+            "nodes": 94208,
+            "generated": 1257083,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 1,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23170.343,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 23,
+        "current_depth": 20,
+        "completed_depth": 19,
+        "iteration_nodes": 8671232,
+        "iteration_split_nodes": 1113,
+        "nodes": 16547446,
+        "split_nodes": 7053,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 1.632942,
+        "elapsed_seconds": 2.851087,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 220876879,
+        "small_pdb_queries": 0,
+        "phase1_queries": 343441019,
+        "corner_queries": 19570958,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          141133693,
+          36932729,
+          14090662
+        ],
+        "equality_rejects": 9152336,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 3017784,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 675840,
+            "generated": 9025860,
+            "busy_seconds": 1.160044,
+            "idle_seconds": 0.000109,
+            "tasks": 9,
+            "longest_task_seconds": 1.159958,
+            "queue_lock_wait_seconds": 7.7e-05
+          },
+          {
+            "nodes": 577536,
+            "generated": 7707405,
+            "busy_seconds": 9.3e-05,
+            "idle_seconds": 8.2e-05,
+            "tasks": 9,
+            "longest_task_seconds": 4.4e-05,
+            "queue_lock_wait_seconds": 1.7e-05
+          },
+          {
+            "nodes": 585728,
+            "generated": 7814956,
+            "busy_seconds": 3.6e-05,
+            "idle_seconds": 0.000153,
+            "tasks": 5,
+            "longest_task_seconds": 1.3e-05,
+            "queue_lock_wait_seconds": 8.3e-05
+          },
+          {
+            "nodes": 536576,
+            "generated": 7159293,
+            "busy_seconds": 0.000119,
+            "idle_seconds": 7.7e-05,
+            "tasks": 10,
+            "longest_task_seconds": 2.8e-05,
+            "queue_lock_wait_seconds": 4.1e-05
+          },
+          {
+            "nodes": 520192,
+            "generated": 6942860,
+            "busy_seconds": 6.1e-05,
+            "idle_seconds": 0.00011,
+            "tasks": 7,
+            "longest_task_seconds": 1.8e-05,
+            "queue_lock_wait_seconds": 5.7e-05
+          },
+          {
+            "nodes": 679936,
+            "generated": 9074680,
+            "busy_seconds": 0.000137,
+            "idle_seconds": 5.3e-05,
+            "tasks": 11,
+            "longest_task_seconds": 6.5e-05,
+            "queue_lock_wait_seconds": 5.2e-05
+          },
+          {
+            "nodes": 671744,
+            "generated": 8964065,
+            "busy_seconds": 0.000128,
+            "idle_seconds": 6.4e-05,
+            "tasks": 4,
+            "longest_task_seconds": 9e-05,
+            "queue_lock_wait_seconds": 2.3e-05
+          },
+          {
+            "nodes": 696320,
+            "generated": 9291631,
+            "busy_seconds": 7.3e-05,
+            "idle_seconds": 0.000103,
+            "tasks": 6,
+            "longest_task_seconds": 3.6e-05,
+            "queue_lock_wait_seconds": 5.1e-05
+          },
+          {
+            "nodes": 671744,
+            "generated": 8961495,
+            "busy_seconds": 7.9e-05,
+            "idle_seconds": 0.000126,
+            "tasks": 5,
+            "longest_task_seconds": 3.3e-05,
+            "queue_lock_wait_seconds": 5.8e-05
+          },
+          {
+            "nodes": 569344,
+            "generated": 7600722,
+            "busy_seconds": 0.001148,
+            "idle_seconds": 8e-05,
+            "tasks": 7,
+            "longest_task_seconds": 0.001081,
+            "queue_lock_wait_seconds": 2.4e-05
+          },
+          {
+            "nodes": 552960,
+            "generated": 7379356,
+            "busy_seconds": 5.1e-05,
+            "idle_seconds": 0.000133,
+            "tasks": 8,
+            "longest_task_seconds": 9e-06,
+            "queue_lock_wait_seconds": 0.000133
+          },
+          {
+            "nodes": 540672,
+            "generated": 7218773,
+            "busy_seconds": 7e-05,
+            "idle_seconds": 0.00012,
+            "tasks": 6,
+            "longest_task_seconds": 3.9e-05,
+            "queue_lock_wait_seconds": 4.7e-05
+          },
+          {
+            "nodes": 536576,
+            "generated": 7164149,
+            "busy_seconds": 8.6e-05,
+            "idle_seconds": 9.2e-05,
+            "tasks": 7,
+            "longest_task_seconds": 3.3e-05,
+            "queue_lock_wait_seconds": 4e-05
+          },
+          {
+            "nodes": 667648,
+            "generated": 8909071,
+            "busy_seconds": 1.055822,
+            "idle_seconds": 6e-05,
+            "tasks": 5,
+            "longest_task_seconds": 1.055746,
+            "queue_lock_wait_seconds": 5.9e-05
+          },
+          {
+            "nodes": 188416,
+            "generated": 2515017,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 1,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23170.625,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 23,
+        "current_depth": 20,
+        "completed_depth": 19,
+        "iteration_nodes": 10215424,
+        "iteration_split_nodes": 1113,
+        "nodes": 18091638,
+        "split_nodes": 7053,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 1.914753,
+        "elapsed_seconds": 3.132897,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 241484748,
+        "small_pdb_queries": 0,
+        "phase1_queries": 375155663,
+        "corner_queries": 21388881,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          154564003,
+          40181081,
+          15347920
+        ],
+        "equality_rejects": 10006365,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 3291455,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 798720,
+            "generated": 10665016,
+            "busy_seconds": 1.160044,
+            "idle_seconds": 0.000109,
+            "tasks": 9,
+            "longest_task_seconds": 1.159958,
+            "queue_lock_wait_seconds": 7.7e-05
+          },
+          {
+            "nodes": 679936,
+            "generated": 9073970,
+            "busy_seconds": 9.3e-05,
+            "idle_seconds": 8.2e-05,
+            "tasks": 9,
+            "longest_task_seconds": 4.4e-05,
+            "queue_lock_wait_seconds": 1.7e-05
+          },
+          {
+            "nodes": 675840,
+            "generated": 9017309,
+            "busy_seconds": 3.6e-05,
+            "idle_seconds": 0.000153,
+            "tasks": 5,
+            "longest_task_seconds": 1.3e-05,
+            "queue_lock_wait_seconds": 8.3e-05
+          },
+          {
+            "nodes": 634880,
+            "generated": 8470747,
+            "busy_seconds": 0.000119,
+            "idle_seconds": 7.7e-05,
+            "tasks": 10,
+            "longest_task_seconds": 2.8e-05,
+            "queue_lock_wait_seconds": 4.1e-05
+          },
+          {
+            "nodes": 618496,
+            "generated": 8254887,
+            "busy_seconds": 1.665715,
+            "idle_seconds": 0.00011,
+            "tasks": 8,
+            "longest_task_seconds": 1.665654,
+            "queue_lock_wait_seconds": 5.7e-05
+          },
+          {
+            "nodes": 774144,
+            "generated": 10332666,
+            "busy_seconds": 0.000137,
+            "idle_seconds": 5.3e-05,
+            "tasks": 11,
+            "longest_task_seconds": 6.5e-05,
+            "queue_lock_wait_seconds": 5.2e-05
+          },
+          {
+            "nodes": 765952,
+            "generated": 10222088,
+            "busy_seconds": 0.000128,
+            "idle_seconds": 6.4e-05,
+            "tasks": 4,
+            "longest_task_seconds": 9e-05,
+            "queue_lock_wait_seconds": 2.3e-05
+          },
+          {
+            "nodes": 815104,
+            "generated": 10875692,
+            "busy_seconds": 7.3e-05,
+            "idle_seconds": 0.000103,
+            "tasks": 6,
+            "longest_task_seconds": 3.6e-05,
+            "queue_lock_wait_seconds": 5.1e-05
+          },
+          {
+            "nodes": 794624,
+            "generated": 10602224,
+            "busy_seconds": 1.739322,
+            "idle_seconds": 0.000126,
+            "tasks": 6,
+            "longest_task_seconds": 1.739243,
+            "queue_lock_wait_seconds": 5.8e-05
+          },
+          {
+            "nodes": 659456,
+            "generated": 8803924,
+            "busy_seconds": 0.001148,
+            "idle_seconds": 8e-05,
+            "tasks": 7,
+            "longest_task_seconds": 0.001081,
+            "queue_lock_wait_seconds": 2.4e-05
+          },
+          {
+            "nodes": 655360,
+            "generated": 8745828,
+            "busy_seconds": 5.1e-05,
+            "idle_seconds": 0.000133,
+            "tasks": 8,
+            "longest_task_seconds": 9e-06,
+            "queue_lock_wait_seconds": 0.000133
+          },
+          {
+            "nodes": 638976,
+            "generated": 8531006,
+            "busy_seconds": 7e-05,
+            "idle_seconds": 0.00012,
+            "tasks": 6,
+            "longest_task_seconds": 3.9e-05,
+            "queue_lock_wait_seconds": 4.7e-05
+          },
+          {
+            "nodes": 638976,
+            "generated": 8530910,
+            "busy_seconds": 1.812852,
+            "idle_seconds": 9.2e-05,
+            "tasks": 8,
+            "longest_task_seconds": 1.812767,
+            "queue_lock_wait_seconds": 4e-05
+          },
+          {
+            "nodes": 765952,
+            "generated": 10220623,
+            "busy_seconds": 1.055822,
+            "idle_seconds": 6e-05,
+            "tasks": 5,
+            "longest_task_seconds": 1.055746,
+            "queue_lock_wait_seconds": 5.9e-05
+          },
+          {
+            "nodes": 299008,
+            "generated": 3990312,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 1,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23170.906,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 23,
+        "current_depth": 20,
+        "completed_depth": 19,
+        "iteration_nodes": 11718656,
+        "iteration_split_nodes": 1113,
+        "nodes": 19594870,
+        "split_nodes": 7053,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 2.185957,
+        "elapsed_seconds": 3.404102,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 261545382,
+        "small_pdb_queries": 0,
+        "phase1_queries": 406086554,
+        "corner_queries": 23163552,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          167662812,
+          43234474,
+          16664564
+        ],
+        "equality_rejects": 10823482,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 3562881,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 917504,
+            "generated": 12251035,
+            "busy_seconds": 1.160044,
+            "idle_seconds": 0.000109,
+            "tasks": 9,
+            "longest_task_seconds": 1.159958,
+            "queue_lock_wait_seconds": 7.7e-05
+          },
+          {
+            "nodes": 774144,
+            "generated": 10330849,
+            "busy_seconds": 9.3e-05,
+            "idle_seconds": 8.2e-05,
+            "tasks": 9,
+            "longest_task_seconds": 4.4e-05,
+            "queue_lock_wait_seconds": 1.7e-05
+          },
+          {
+            "nodes": 774144,
+            "generated": 10328595,
+            "busy_seconds": 3.6e-05,
+            "idle_seconds": 0.000153,
+            "tasks": 5,
+            "longest_task_seconds": 1.3e-05,
+            "queue_lock_wait_seconds": 8.3e-05
+          },
+          {
+            "nodes": 733184,
+            "generated": 9782117,
+            "busy_seconds": 0.000119,
+            "idle_seconds": 7.7e-05,
+            "tasks": 10,
+            "longest_task_seconds": 2.8e-05,
+            "queue_lock_wait_seconds": 4.1e-05
+          },
+          {
+            "nodes": 708608,
+            "generated": 9457866,
+            "busy_seconds": 1.665715,
+            "idle_seconds": 0.00011,
+            "tasks": 8,
+            "longest_task_seconds": 1.665654,
+            "queue_lock_wait_seconds": 5.7e-05
+          },
+          {
+            "nodes": 876544,
+            "generated": 11698721,
+            "busy_seconds": 0.000137,
+            "idle_seconds": 5.3e-05,
+            "tasks": 11,
+            "longest_task_seconds": 6.5e-05,
+            "queue_lock_wait_seconds": 5.2e-05
+          },
+          {
+            "nodes": 864256,
+            "generated": 11533647,
+            "busy_seconds": 0.000128,
+            "idle_seconds": 6.4e-05,
+            "tasks": 4,
+            "longest_task_seconds": 9e-05,
+            "queue_lock_wait_seconds": 2.3e-05
+          },
+          {
+            "nodes": 937984,
+            "generated": 12515895,
+            "busy_seconds": 7.3e-05,
+            "idle_seconds": 0.000103,
+            "tasks": 6,
+            "longest_task_seconds": 3.6e-05,
+            "queue_lock_wait_seconds": 5.1e-05
+          },
+          {
+            "nodes": 901120,
+            "generated": 12023554,
+            "busy_seconds": 1.739322,
+            "idle_seconds": 0.000126,
+            "tasks": 6,
+            "longest_task_seconds": 1.739243,
+            "queue_lock_wait_seconds": 5.8e-05
+          },
+          {
+            "nodes": 761856,
+            "generated": 10171208,
+            "busy_seconds": 0.001148,
+            "idle_seconds": 8e-05,
+            "tasks": 7,
+            "longest_task_seconds": 0.001081,
+            "queue_lock_wait_seconds": 2.4e-05
+          },
+          {
+            "nodes": 745472,
+            "generated": 9948052,
+            "busy_seconds": 5.1e-05,
+            "idle_seconds": 0.000133,
+            "tasks": 8,
+            "longest_task_seconds": 9e-06,
+            "queue_lock_wait_seconds": 0.000133
+          },
+          {
+            "nodes": 733184,
+            "generated": 9788937,
+            "busy_seconds": 7e-05,
+            "idle_seconds": 0.00012,
+            "tasks": 6,
+            "longest_task_seconds": 3.9e-05,
+            "queue_lock_wait_seconds": 4.7e-05
+          },
+          {
+            "nodes": 729088,
+            "generated": 9733414,
+            "busy_seconds": 1.812852,
+            "idle_seconds": 9.2e-05,
+            "tasks": 8,
+            "longest_task_seconds": 1.812767,
+            "queue_lock_wait_seconds": 4e-05
+          },
+          {
+            "nodes": 864256,
+            "generated": 11532294,
+            "busy_seconds": 1.055822,
+            "idle_seconds": 6e-05,
+            "tasks": 5,
+            "longest_task_seconds": 1.055746,
+            "queue_lock_wait_seconds": 5.9e-05
+          },
+          {
+            "nodes": 397312,
+            "generated": 5301652,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 1,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23171.0,
+      "event": {
+        "type": "progress",
+        "lower_bound": 12,
+        "metric": "QTM",
+        "upper_bound": 23,
+        "current_depth": 20,
+        "completed_depth": 19,
+        "iteration_nodes": 12367050,
+        "iteration_split_nodes": 1113,
+        "nodes": 20243264,
+        "split_nodes": 7053,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 2.298109,
+        "elapsed_seconds": 3.516253,
+        "found": false,
+        "timed_out": true,
+        "cancelled": false,
+        "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+        "asset_profile": "base",
+        "generated_candidates": 270201454,
+        "small_pdb_queries": 0,
+        "phase1_queries": 419463169,
+        "corner_queries": 23927455,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          173301127,
+          44549445,
+          17247186
+        ],
+        "equality_rejects": 11179743,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 3678391,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 963681,
+            "generated": 12867865,
+            "busy_seconds": 2.297824,
+            "idle_seconds": 0.000109,
+            "tasks": 9,
+            "longest_task_seconds": 1.159958,
+            "queue_lock_wait_seconds": 7.7e-05
+          },
+          {
+            "nodes": 817981,
+            "generated": 10916307,
+            "busy_seconds": 2.297822,
+            "idle_seconds": 8.2e-05,
+            "tasks": 9,
+            "longest_task_seconds": 2.297728,
+            "queue_lock_wait_seconds": 1.7e-05
+          },
+          {
+            "nodes": 817220,
+            "generated": 10903227,
+            "busy_seconds": 2.297754,
+            "idle_seconds": 0.000153,
+            "tasks": 5,
+            "longest_task_seconds": 2.297718,
+            "queue_lock_wait_seconds": 8.3e-05
+          },
+          {
+            "nodes": 775504,
+            "generated": 10346308,
+            "busy_seconds": 2.297837,
+            "idle_seconds": 7.7e-05,
+            "tasks": 10,
+            "longest_task_seconds": 2.297718,
+            "queue_lock_wait_seconds": 4.1e-05
+          },
+          {
+            "nodes": 750836,
+            "generated": 10021734,
+            "busy_seconds": 2.297815,
+            "idle_seconds": 0.00011,
+            "tasks": 8,
+            "longest_task_seconds": 1.665654,
+            "queue_lock_wait_seconds": 5.7e-05
+          },
+          {
+            "nodes": 918002,
+            "generated": 12252555,
+            "busy_seconds": 2.297856,
+            "idle_seconds": 5.3e-05,
+            "tasks": 11,
+            "longest_task_seconds": 2.29772,
+            "queue_lock_wait_seconds": 5.2e-05
+          },
+          {
+            "nodes": 907228,
+            "generated": 12107463,
+            "busy_seconds": 2.297863,
+            "idle_seconds": 6.4e-05,
+            "tasks": 4,
+            "longest_task_seconds": 2.297735,
+            "queue_lock_wait_seconds": 2.3e-05
+          },
+          {
+            "nodes": 983199,
+            "generated": 13119405,
+            "busy_seconds": 2.297797,
+            "idle_seconds": 0.000103,
+            "tasks": 6,
+            "longest_task_seconds": 2.297725,
+            "queue_lock_wait_seconds": 5.1e-05
+          },
+          {
+            "nodes": 957271,
+            "generated": 12773735,
+            "busy_seconds": 2.297864,
+            "idle_seconds": 0.000126,
+            "tasks": 6,
+            "longest_task_seconds": 1.739243,
+            "queue_lock_wait_seconds": 5.8e-05
+          },
+          {
+            "nodes": 797287,
+            "generated": 10644614,
+            "busy_seconds": 2.297878,
+            "idle_seconds": 8e-05,
+            "tasks": 7,
+            "longest_task_seconds": 2.29673,
+            "queue_lock_wait_seconds": 2.4e-05
+          },
+          {
+            "nodes": 787415,
+            "generated": 10507979,
+            "busy_seconds": 2.297779,
+            "idle_seconds": 0.000133,
+            "tasks": 8,
+            "longest_task_seconds": 2.297728,
+            "queue_lock_wait_seconds": 0.000133
+          },
+          {
+            "nodes": 771672,
+            "generated": 10302684,
+            "busy_seconds": 2.297784,
+            "idle_seconds": 0.00012,
+            "tasks": 6,
+            "longest_task_seconds": 2.297713,
+            "queue_lock_wait_seconds": 4.7e-05
+          },
+          {
+            "nodes": 773120,
+            "generated": 10320711,
+            "busy_seconds": 2.297849,
+            "idle_seconds": 9.2e-05,
+            "tasks": 8,
+            "longest_task_seconds": 1.812767,
+            "queue_lock_wait_seconds": 4e-05
+          },
+          {
+            "nodes": 904793,
+            "generated": 12072796,
+            "busy_seconds": 2.297799,
+            "idle_seconds": 6e-05,
+            "tasks": 5,
+            "longest_task_seconds": 1.241978,
+            "queue_lock_wait_seconds": 5.9e-05
+          },
+          {
+            "nodes": 441841,
+            "generated": 5896525,
+            "busy_seconds": 1.198884,
+            "idle_seconds": 0.0,
+            "tasks": 1,
+            "longest_task_seconds": 1.198884,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23172.609,
+      "event": {
+        "ok": true,
+        "type": "engine_ready",
+        "protocol_version": 3,
+        "proof_version": 3,
+        "metrics": [
+          "QTM"
+        ],
+        "asset_loading": "staged",
+        "base_initialization_seconds": 1.43611,
+        "strong_initialization_seconds": 0,
+        "tail_initialization_seconds": 0,
+        "candidate_tables_seconds": 0.0398135,
+        "base_ready_elapsed_seconds": 1.46008,
+        "total_initialization_seconds": 1.47603,
+        "strong_symmetry_seconds": 0,
+        "strong_verification_seconds": 0,
+        "assets": {
+          "QTM": {
+            "corner": true,
+            "corner_metric": "QTM",
+            "corner_complete": true,
+            "phase1": true,
+            "phase1_metric": "QTM",
+            "phase1_complete": true,
+            "edge_count": 0,
+            "tail": false,
+            "strong": false,
+            "tail_depth": 0,
+            "profile": "base"
+          }
+        },
+        "client_startup_seconds": 1.5,
+        "client_process_started_at": 23171.109
+      }
+    },
+    {
+      "observed_at": 23172.609,
+      "event": {
+        "ok": true,
+        "type": "asset_adopted",
+        "request_id": "e013586a42d34a309e749b81b4261056",
+        "metric": "QTM",
+        "profile": "base",
+        "strong": false,
+        "tail_depth": 0
+      }
+    },
+    {
+      "observed_at": 23172.609,
+      "event": {
+        "type": "progress",
+        "lower_bound": 2,
+        "metric": "QTM",
+        "upper_bound": 2,
+        "current_depth": 2,
+        "completed_depth": 1,
+        "iteration_nodes": 0,
+        "iteration_split_nodes": 0,
+        "nodes": 0,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.000363,
+        "elapsed_seconds": 0.000363,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "e013586a42d34a309e749b81b4261056",
+        "asset_profile": "base",
+        "generated_candidates": 0,
+        "small_pdb_queries": 0,
+        "phase1_queries": 0,
+        "corner_queries": 0,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          0,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 0,
+        "edge_rejects": 0,
+        "workers": [],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23172.609,
+      "event": {
+        "ok": true,
+        "type": "asset_adopted",
+        "request_id": "e013586a42d34a309e749b81b4261056",
+        "metric": "QTM",
+        "profile": "base",
+        "strong": false,
+        "tail_depth": 0
+      }
+    },
+    {
+      "observed_at": 23172.609,
+      "event": {
+        "type": "progress",
+        "lower_bound": 2,
+        "metric": "QTM",
+        "upper_bound": 2,
+        "current_depth": 2,
+        "completed_depth": 1,
+        "iteration_nodes": 3,
+        "iteration_split_nodes": 0,
+        "nodes": 3,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.000192,
+        "elapsed_seconds": 0.000589,
+        "found": true,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "e013586a42d34a309e749b81b4261056",
+        "asset_profile": "base",
+        "generated_candidates": 15,
+        "small_pdb_queries": 0,
+        "phase1_queries": 28,
+        "corner_queries": 6,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          10,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 3,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 3,
+            "generated": 15,
+            "busy_seconds": 6e-06,
+            "idle_seconds": 0.0,
+            "tasks": 1,
+            "longest_task_seconds": 6e-06,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23174.125,
+      "event": {
+        "ok": true,
+        "type": "engine_ready",
+        "protocol_version": 3,
+        "proof_version": 3,
+        "metrics": [
+          "QTM"
+        ],
+        "asset_loading": "staged",
+        "base_initialization_seconds": 1.41222,
+        "strong_initialization_seconds": 0,
+        "tail_initialization_seconds": 0,
+        "candidate_tables_seconds": 0.0403054,
+        "base_ready_elapsed_seconds": 1.4285900000009604,
+        "total_initialization_seconds": 1.45263,
+        "strong_symmetry_seconds": 0,
+        "strong_verification_seconds": 0,
+        "assets": {
+          "QTM": {
+            "corner": true,
+            "corner_metric": "QTM",
+            "corner_complete": true,
+            "phase1": true,
+            "phase1_metric": "QTM",
+            "phase1_complete": true,
+            "edge_count": 0,
+            "tail": false,
+            "strong": false,
+            "tail_depth": 0,
+            "profile": "base"
+          }
+        },
+        "client_startup_seconds": 1.4690000000009604,
+        "client_process_started_at": 23172.656
+      }
+    },
+    {
+      "observed_at": 23174.125,
+      "event": {
+        "ok": true,
+        "type": "asset_adopted",
+        "request_id": "e6fac6a1b21e4839a64a70b8d727274d",
+        "metric": "QTM",
+        "profile": "base",
+        "strong": false,
+        "tail_depth": 0
+      }
+    },
+    {
+      "observed_at": 23174.125,
+      "event": {
+        "type": "progress",
+        "lower_bound": 2,
+        "metric": "QTM",
+        "upper_bound": 2,
+        "current_depth": 2,
+        "completed_depth": 1,
+        "iteration_nodes": 0,
+        "iteration_split_nodes": 0,
+        "nodes": 0,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.000451,
+        "elapsed_seconds": 0.000451,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "e6fac6a1b21e4839a64a70b8d727274d",
+        "asset_profile": "base",
+        "generated_candidates": 0,
+        "small_pdb_queries": 0,
+        "phase1_queries": 0,
+        "corner_queries": 0,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          0,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 0,
+        "edge_rejects": 0,
+        "workers": [],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23174.125,
+      "event": {
+        "ok": true,
+        "type": "asset_adopted",
+        "request_id": "e6fac6a1b21e4839a64a70b8d727274d",
+        "metric": "QTM",
+        "profile": "base",
+        "strong": false,
+        "tail_depth": 0
+      }
+    },
+    {
+      "observed_at": 23174.125,
+      "event": {
+        "ok": true,
+        "type": "candidate",
+        "request_id": "e6fac6a1b21e4839a64a70b8d727274d",
+        "metric": "QTM",
+        "cost": 2,
+        "native_found_seconds": 0.000587,
+        "asset_profile": "base",
+        "moves": [
+          "R2"
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23174.125,
+      "event": {
+        "type": "progress",
+        "lower_bound": 2,
+        "metric": "QTM",
+        "upper_bound": 2,
+        "current_depth": 2,
+        "completed_depth": 1,
+        "iteration_nodes": 0,
+        "iteration_split_nodes": 0,
+        "nodes": 0,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.00025,
+        "elapsed_seconds": 0.000747,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "e6fac6a1b21e4839a64a70b8d727274d",
+        "asset_profile": "base",
+        "generated_candidates": 0,
+        "small_pdb_queries": 0,
+        "phase1_queries": 0,
+        "corner_queries": 0,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          0,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 0,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23175.64,
+      "event": {
+        "ok": true,
+        "type": "engine_ready",
+        "protocol_version": 3,
+        "proof_version": 3,
+        "metrics": [
+          "QTM"
+        ],
+        "asset_loading": "staged",
+        "base_initialization_seconds": 1.41774,
+        "strong_initialization_seconds": 0,
+        "tail_initialization_seconds": 0,
+        "candidate_tables_seconds": 0.0393441,
+        "base_ready_elapsed_seconds": 1.4295500000009604,
+        "total_initialization_seconds": 1.45719,
+        "strong_symmetry_seconds": 0,
+        "strong_verification_seconds": 0,
+        "assets": {
+          "QTM": {
+            "corner": true,
+            "corner_metric": "QTM",
+            "corner_complete": true,
+            "phase1": true,
+            "phase1_metric": "QTM",
+            "phase1_complete": true,
+            "edge_count": 0,
+            "tail": false,
+            "strong": false,
+            "tail_depth": 0,
+            "profile": "base"
+          }
+        },
+        "client_startup_seconds": 1.4690000000009604,
+        "client_process_started_at": 23174.171
+      }
+    },
+    {
+      "observed_at": 23175.64,
+      "event": {
+        "ok": true,
+        "type": "asset_adopted",
+        "request_id": "841c9f2545c748c897b15b213cf5d214",
+        "metric": "QTM",
+        "profile": "base",
+        "strong": false,
+        "tail_depth": 0
+      }
+    },
+    {
+      "observed_at": 23175.64,
+      "event": {
+        "type": "progress",
+        "lower_bound": 2,
+        "metric": "QTM",
+        "upper_bound": 2,
+        "current_depth": 2,
+        "completed_depth": 1,
+        "iteration_nodes": 0,
+        "iteration_split_nodes": 0,
+        "nodes": 0,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.000364,
+        "elapsed_seconds": 0.000364,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "841c9f2545c748c897b15b213cf5d214",
+        "asset_profile": "base",
+        "generated_candidates": 0,
+        "small_pdb_queries": 0,
+        "phase1_queries": 0,
+        "corner_queries": 0,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          0,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 0,
+        "edge_rejects": 0,
+        "workers": [],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23175.64,
+      "event": {
+        "ok": true,
+        "type": "asset_adopted",
+        "request_id": "841c9f2545c748c897b15b213cf5d214",
+        "metric": "QTM",
+        "profile": "base",
+        "strong": false,
+        "tail_depth": 0
+      }
+    },
+    {
+      "observed_at": 23175.64,
+      "event": {
+        "type": "progress",
+        "lower_bound": 2,
+        "metric": "QTM",
+        "upper_bound": 2,
+        "current_depth": 2,
+        "completed_depth": 1,
+        "iteration_nodes": 3,
+        "iteration_split_nodes": 0,
+        "nodes": 3,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.000208,
+        "elapsed_seconds": 0.000601,
+        "found": true,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "841c9f2545c748c897b15b213cf5d214",
+        "asset_profile": "base",
+        "generated_candidates": 15,
+        "small_pdb_queries": 0,
+        "phase1_queries": 28,
+        "corner_queries": 6,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          10,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 3,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 8e-06,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 8e-06
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 7e-06,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 3,
+            "generated": 15,
+            "busy_seconds": 6e-06,
+            "idle_seconds": 0.0,
+            "tasks": 1,
+            "longest_task_seconds": 6e-06,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23175.64,
+      "event": {
+        "ok": true,
+        "type": "engine_ready",
+        "protocol_version": 3,
+        "proof_version": 3,
+        "metrics": [
+          "QTM"
+        ],
+        "asset_loading": "staged",
+        "base_initialization_seconds": 1.41774,
+        "strong_initialization_seconds": 0,
+        "tail_initialization_seconds": 0,
+        "candidate_tables_seconds": 0.0393441,
+        "base_ready_elapsed_seconds": 1.4295500000009604,
+        "total_initialization_seconds": 1.45719,
+        "strong_symmetry_seconds": 0,
+        "strong_verification_seconds": 0,
+        "assets": {
+          "QTM": {
+            "corner": true,
+            "corner_metric": "QTM",
+            "corner_complete": true,
+            "phase1": true,
+            "phase1_metric": "QTM",
+            "phase1_complete": true,
+            "edge_count": 0,
+            "tail": false,
+            "strong": false,
+            "tail_depth": 0,
+            "profile": "base"
+          }
+        },
+        "client_startup_seconds": 1.4690000000009604,
+        "client_process_started_at": 23174.171,
+        "client_search_started_at": 23175.64
+      }
+    },
+    {
+      "observed_at": 23175.64,
+      "event": {
+        "ok": true,
+        "type": "asset_adopted",
+        "request_id": "5399a0fdd8c84b2bb4d33a9d55fe5286",
+        "metric": "QTM",
+        "profile": "base",
+        "strong": false,
+        "tail_depth": 0
+      }
+    },
+    {
+      "observed_at": 23175.64,
+      "event": {
+        "type": "progress",
+        "lower_bound": 2,
+        "metric": "QTM",
+        "upper_bound": 2,
+        "current_depth": 2,
+        "completed_depth": 1,
+        "iteration_nodes": 0,
+        "iteration_split_nodes": 0,
+        "nodes": 0,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.000242,
+        "elapsed_seconds": 0.000242,
+        "found": false,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "5399a0fdd8c84b2bb4d33a9d55fe5286",
+        "asset_profile": "base",
+        "generated_candidates": 0,
+        "small_pdb_queries": 0,
+        "phase1_queries": 0,
+        "corner_queries": 0,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          0,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 0,
+        "edge_rejects": 0,
+        "workers": [],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23175.64,
+      "event": {
+        "ok": true,
+        "type": "asset_adopted",
+        "request_id": "5399a0fdd8c84b2bb4d33a9d55fe5286",
+        "metric": "QTM",
+        "profile": "base",
+        "strong": false,
+        "tail_depth": 0
+      }
+    },
+    {
+      "observed_at": 23175.64,
+      "event": {
+        "ok": true,
+        "type": "candidate",
+        "request_id": "5399a0fdd8c84b2bb4d33a9d55fe5286",
+        "metric": "QTM",
+        "cost": 2,
+        "native_found_seconds": 0.000372,
+        "asset_profile": "base",
+        "moves": [
+          "R2"
+        ],
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "observed_at": 23175.64,
+      "event": {
+        "type": "progress",
+        "lower_bound": 2,
+        "metric": "QTM",
+        "upper_bound": 2,
+        "current_depth": 2,
+        "completed_depth": 1,
+        "iteration_nodes": 3,
+        "iteration_split_nodes": 0,
+        "nodes": 3,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "iteration_seconds": 0.000323,
+        "elapsed_seconds": 0.000588,
+        "found": true,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "5399a0fdd8c84b2bb4d33a9d55fe5286",
+        "asset_profile": "base",
+        "generated_candidates": 15,
+        "small_pdb_queries": 0,
+        "phase1_queries": 28,
+        "corner_queries": 6,
+        "edge_queries": 0,
+        "strong_queries": 0,
+        "tt_keys": 0,
+        "tt_lookups": 0,
+        "tt_stores": 0,
+        "strong_rejects": 0,
+        "axis_rejects": [
+          10,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "strong_equality_rejects": 0,
+        "dual_queries": 0,
+        "dual_rejects": 0,
+        "bpmx_rejects": 0,
+        "corner_rejects": 3,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 3,
+            "generated": 15,
+            "busy_seconds": 2e-06,
+            "idle_seconds": 0.0,
+            "tasks": 1,
+            "longest_task_seconds": 2e-06,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0,
+            "tasks": 0,
+            "longest_task_seconds": 0.0,
+            "queue_lock_wait_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    }
+  ],
+  "case": "initial-1",
+  "initial": {
+    "ok": true,
+    "job_id": "qtm-50fb873a334e45068399e1305ec38709",
+    "metric": "QTM",
+    "proof_status": "running",
+    "optimal": false,
+    "engine": "qtm-native",
+    "engine_id": "qtm-native",
+    "engine_version": "c01d90d",
+    "asset_profile": "pending",
+    "request_elapsed_seconds": 0.75,
+    "moves": [],
+    "solution": "",
+    "depth": null,
+    "cost": null
+  },
+  "final": {
+    "job_id": "qtm-50fb873a334e45068399e1305ec38709",
+    "metric": "QTM",
+    "status": "timeout",
+    "optimal": false,
+    "candidate_result": {
+      "moves": [
+        "U",
+        "L",
+        "F",
+        "U'",
+        "D'",
+        "B'",
+        "R'",
+        "L",
+        "B2",
+        "U'",
+        "B2",
+        "R",
+        "B",
+        "L2",
+        "U2",
+        "F",
+        "U2",
+        "D2"
+      ],
+      "solution": "U L F U' D' B' R' L B2 U' B2 R B L2 U2 F U2 D2",
+      "depth": 24,
+      "cost": 24,
+      "metric": "QTM",
+      "optimal": false,
+      "status": "candidate"
+    },
+    "result": null,
+    "progress": {
+      "type": "progress",
+      "lower_bound": 12,
+      "metric": "QTM",
+      "upper_bound": 23,
+      "current_depth": 20,
+      "completed_depth": 19,
+      "iteration_nodes": 12367050,
+      "iteration_split_nodes": 1113,
+      "nodes": 20243264,
+      "split_nodes": 7053,
+      "transposition_hits": 0,
+      "tail_queries": 0,
+      "tail_bloom_rejects": 0,
+      "tail_exact_queries": 0,
+      "tail_probes": 0,
+      "tail_hits": 0,
+      "iteration_seconds": 2.298109,
+      "elapsed_seconds": 3.516253,
+      "found": false,
+      "timed_out": true,
+      "cancelled": false,
+      "request_id": "f5378f4225b841e2aa8d18cb4d5f2679",
+      "asset_profile": "base",
+      "generated_candidates": 270201454,
+      "small_pdb_queries": 0,
+      "phase1_queries": 419463169,
+      "corner_queries": 23927455,
+      "edge_queries": 0,
+      "strong_queries": 0,
+      "tt_keys": 0,
+      "tt_lookups": 0,
+      "tt_stores": 0,
+      "strong_rejects": 0,
+      "axis_rejects": [
+        173301127,
+        44549445,
+        17247186
+      ],
+      "equality_rejects": 11179743,
+      "strong_equality_rejects": 0,
+      "dual_queries": 0,
+      "dual_rejects": 0,
+      "bpmx_rejects": 0,
+      "corner_rejects": 3678391,
+      "edge_rejects": 0,
+      "workers": [
+        {
+          "nodes": 963681,
+          "generated": 12867865,
+          "busy_seconds": 2.297824,
+          "idle_seconds": 0.000109,
+          "tasks": 9,
+          "longest_task_seconds": 1.159958,
+          "queue_lock_wait_seconds": 7.7e-05
+        },
+        {
+          "nodes": 817981,
+          "generated": 10916307,
+          "busy_seconds": 2.297822,
+          "idle_seconds": 8.2e-05,
+          "tasks": 9,
+          "longest_task_seconds": 2.297728,
+          "queue_lock_wait_seconds": 1.7e-05
+        },
+        {
+          "nodes": 817220,
+          "generated": 10903227,
+          "busy_seconds": 2.297754,
+          "idle_seconds": 0.000153,
+          "tasks": 5,
+          "longest_task_seconds": 2.297718,
+          "queue_lock_wait_seconds": 8.3e-05
+        },
+        {
+          "nodes": 775504,
+          "generated": 10346308,
+          "busy_seconds": 2.297837,
+          "idle_seconds": 7.7e-05,
+          "tasks": 10,
+          "longest_task_seconds": 2.297718,
+          "queue_lock_wait_seconds": 4.1e-05
+        },
+        {
+          "nodes": 750836,
+          "generated": 10021734,
+          "busy_seconds": 2.297815,
+          "idle_seconds": 0.00011,
+          "tasks": 8,
+          "longest_task_seconds": 1.665654,
+          "queue_lock_wait_seconds": 5.7e-05
+        },
+        {
+          "nodes": 918002,
+          "generated": 12252555,
+          "busy_seconds": 2.297856,
+          "idle_seconds": 5.3e-05,
+          "tasks": 11,
+          "longest_task_seconds": 2.29772,
+          "queue_lock_wait_seconds": 5.2e-05
+        },
+        {
+          "nodes": 907228,
+          "generated": 12107463,
+          "busy_seconds": 2.297863,
+          "idle_seconds": 6.4e-05,
+          "tasks": 4,
+          "longest_task_seconds": 2.297735,
+          "queue_lock_wait_seconds": 2.3e-05
+        },
+        {
+          "nodes": 983199,
+          "generated": 13119405,
+          "busy_seconds": 2.297797,
+          "idle_seconds": 0.000103,
+          "tasks": 6,
+          "longest_task_seconds": 2.297725,
+          "queue_lock_wait_seconds": 5.1e-05
+        },
+        {
+          "nodes": 957271,
+          "generated": 12773735,
+          "busy_seconds": 2.297864,
+          "idle_seconds": 0.000126,
+          "tasks": 6,
+          "longest_task_seconds": 1.739243,
+          "queue_lock_wait_seconds": 5.8e-05
+        },
+        {
+          "nodes": 797287,
+          "generated": 10644614,
+          "busy_seconds": 2.297878,
+          "idle_seconds": 8e-05,
+          "tasks": 7,
+          "longest_task_seconds": 2.29673,
+          "queue_lock_wait_seconds": 2.4e-05
+        },
+        {
+          "nodes": 787415,
+          "generated": 10507979,
+          "busy_seconds": 2.297779,
+          "idle_seconds": 0.000133,
+          "tasks": 8,
+          "longest_task_seconds": 2.297728,
+          "queue_lock_wait_seconds": 0.000133
+        },
+        {
+          "nodes": 771672,
+          "generated": 10302684,
+          "busy_seconds": 2.297784,
+          "idle_seconds": 0.00012,
+          "tasks": 6,
+          "longest_task_seconds": 2.297713,
+          "queue_lock_wait_seconds": 4.7e-05
+        },
+        {
+          "nodes": 773120,
+          "generated": 10320711,
+          "busy_seconds": 2.297849,
+          "idle_seconds": 9.2e-05,
+          "tasks": 8,
+          "longest_task_seconds": 1.812767,
+          "queue_lock_wait_seconds": 4e-05
+        },
+        {
+          "nodes": 904793,
+          "generated": 12072796,
+          "busy_seconds": 2.297799,
+          "idle_seconds": 6e-05,
+          "tasks": 5,
+          "longest_task_seconds": 1.241978,
+          "queue_lock_wait_seconds": 5.9e-05
+        },
+        {
+          "nodes": 441841,
+          "generated": 5896525,
+          "busy_seconds": 1.198884,
+          "idle_seconds": 0.0,
+          "tasks": 1,
+          "longest_task_seconds": 1.198884,
+          "queue_lock_wait_seconds": 0.0
+        }
+      ],
+      "engine": "native-cpp"
+    },
+    "engine_id": "qtm-native",
+    "engine_version": "c01d90d",
+    "asset_profile": "base",
+    "queue_seconds": 0.0,
+    "startup_seconds": 1.4840000000003783,
+    "base_ready_seconds": 1.4444100000000617,
+    "strong_ready_seconds": null,
+    "tail_ready_seconds": null,
+    "strong_adopted_seconds": null,
+    "tail_adopted_seconds": null,
+    "search_started_seconds": 1.4840000000003783,
+    "first_candidate_seconds": 1.5309999999990396,
+    "native_search_seconds": null,
+    "proof_wall_seconds": null,
+    "resource_hold_seconds": 5.109000000000378,
+    "python_fallback_seconds": null,
+    "http_return_seconds": 0.75,
+    "candidate_delivery_seconds": null,
+    "request_elapsed_seconds": 5.109000000000378
+  },
+  "after_default": {
+    "threads": 15,
+    "htm_holders": 0,
+    "qtm_active": false,
+    "last_yield_seconds": 0.0,
+    "yield_faults": 0
+  },
+  "immediate_release": [
+    {
+      "wall_seconds": 1.5309999999990396,
+      "job": {
+        "job_id": "qtm-67a8122935a14d4390e3aa9697648878",
+        "metric": "QTM",
+        "status": "complete",
+        "optimal": true,
+        "candidate_result": null,
+        "result": {
+          "moves": [
+            "R2"
+          ],
+          "solution": "R2",
+          "depth": 2,
+          "metric": "QTM",
+          "status": "complete",
+          "optimal": true,
+          "inverse_direction": false,
+          "elapsed_seconds": 0.0007,
+          "nodes": 3,
+          "split_nodes": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "completed_depth": 1,
+          "generated_candidates": 15,
+          "phase1_queries": 28,
+          "corner_queries": 6,
+          "candidate_phase1_nodes": 0,
+          "candidate_phase2_nodes": 0,
+          "candidate_worker_done_seconds": 0.000654,
+          "proof_worker_return_seconds": -1.0,
+          "proof_worker_busy_seconds": 0.0,
+          "engine": "native-cpp",
+          "asset_profile": "base",
+          "cost": 2,
+          "engine_id": "qtm-native",
+          "engine_version": "c01d90d"
+        },
+        "progress": {
+          "type": "progress",
+          "lower_bound": 2,
+          "metric": "QTM",
+          "upper_bound": 2,
+          "current_depth": 2,
+          "completed_depth": 1,
+          "iteration_nodes": 3,
+          "iteration_split_nodes": 0,
+          "nodes": 3,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000192,
+          "elapsed_seconds": 0.000589,
+          "found": true,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "e013586a42d34a309e749b81b4261056",
+          "asset_profile": "base",
+          "generated_candidates": 15,
+          "small_pdb_queries": 0,
+          "phase1_queries": 28,
+          "corner_queries": 6,
+          "edge_queries": 0,
+          "strong_queries": 0,
+          "tt_keys": 0,
+          "tt_lookups": 0,
+          "tt_stores": 0,
+          "strong_rejects": 0,
+          "axis_rejects": [
+            10,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "strong_equality_rejects": 0,
+          "dual_queries": 0,
+          "dual_rejects": 0,
+          "bpmx_rejects": 0,
+          "corner_rejects": 3,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 3,
+              "generated": 15,
+              "busy_seconds": 6e-06,
+              "idle_seconds": 0.0,
+              "tasks": 1,
+              "longest_task_seconds": 6e-06,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            }
+          ],
+          "engine": "native-cpp"
+        },
+        "engine_id": "qtm-native",
+        "engine_version": "c01d90d",
+        "asset_profile": "base",
+        "queue_seconds": 0.0,
+        "startup_seconds": 1.5,
+        "base_ready_seconds": 1.460080000000744,
+        "strong_ready_seconds": null,
+        "tail_ready_seconds": null,
+        "strong_adopted_seconds": null,
+        "tail_adopted_seconds": null,
+        "search_started_seconds": 1.5,
+        "first_candidate_seconds": null,
+        "native_search_seconds": 0.0007,
+        "proof_wall_seconds": 0.0007,
+        "resource_hold_seconds": 1.5309999999990396,
+        "python_fallback_seconds": null,
+        "http_return_seconds": 0.75,
+        "candidate_delivery_seconds": null,
+        "request_elapsed_seconds": 1.5309999999990396
+      }
+    },
+    {
+      "wall_seconds": 1.5309999999990396,
+      "job": {
+        "job_id": "qtm-d666afd2b15843d2a93d532114b0dfeb",
+        "metric": "QTM",
+        "status": "complete",
+        "optimal": true,
+        "candidate_result": {
+          "moves": [
+            "R2"
+          ],
+          "solution": "R2",
+          "depth": 2,
+          "cost": 2,
+          "metric": "QTM",
+          "optimal": false,
+          "status": "candidate"
+        },
+        "result": {
+          "moves": [
+            "R2"
+          ],
+          "solution": "R2",
+          "depth": 2,
+          "metric": "QTM",
+          "status": "complete",
+          "optimal": true,
+          "inverse_direction": false,
+          "elapsed_seconds": 0.000866,
+          "nodes": 0,
+          "split_nodes": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "completed_depth": 1,
+          "generated_candidates": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "candidate_phase1_nodes": 5118,
+          "candidate_phase2_nodes": 2,
+          "candidate_worker_done_seconds": 0.000819,
+          "proof_worker_return_seconds": -1.0,
+          "proof_worker_busy_seconds": 0.0,
+          "engine": "native-cpp",
+          "asset_profile": "base",
+          "cost": 2,
+          "engine_id": "qtm-native",
+          "engine_version": "c01d90d"
+        },
+        "progress": {
+          "type": "progress",
+          "lower_bound": 2,
+          "metric": "QTM",
+          "upper_bound": 2,
+          "current_depth": 2,
+          "completed_depth": 1,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.00025,
+          "elapsed_seconds": 0.000747,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "e6fac6a1b21e4839a64a70b8d727274d",
+          "asset_profile": "base",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "strong_queries": 0,
+          "tt_keys": 0,
+          "tt_lookups": 0,
+          "tt_stores": 0,
+          "strong_rejects": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "strong_equality_rejects": 0,
+          "dual_queries": 0,
+          "dual_rejects": 0,
+          "bpmx_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            }
+          ],
+          "engine": "native-cpp"
+        },
+        "engine_id": "qtm-native",
+        "engine_version": "c01d90d",
+        "asset_profile": "base",
+        "queue_seconds": 0.0,
+        "startup_seconds": 1.4690000000009604,
+        "base_ready_seconds": 1.4285899999995308,
+        "strong_ready_seconds": null,
+        "tail_ready_seconds": null,
+        "strong_adopted_seconds": null,
+        "tail_adopted_seconds": null,
+        "search_started_seconds": 1.4690000000009604,
+        "first_candidate_seconds": 1.4690000000009604,
+        "native_search_seconds": 0.000866,
+        "proof_wall_seconds": 0.000866,
+        "resource_hold_seconds": 1.514999999999418,
+        "python_fallback_seconds": null,
+        "http_return_seconds": 0.75,
+        "candidate_delivery_seconds": null,
+        "request_elapsed_seconds": 1.514999999999418
+      }
+    }
+  ],
+  "reuse_prototype": {
+    "idle_limit_seconds": 20,
+    "memory_limit_bytes": 1073741824,
+    "runs": [
+      {
+        "wall_seconds": 1.4690000000009604,
+        "result": {
+          "moves": [
+            "R2"
+          ],
+          "solution": "R2",
+          "depth": 2,
+          "metric": "QTM",
+          "status": "complete",
+          "optimal": true,
+          "inverse_direction": false,
+          "elapsed_seconds": 0.000711,
+          "nodes": 3,
+          "split_nodes": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "completed_depth": 1,
+          "generated_candidates": 15,
+          "phase1_queries": 28,
+          "corner_queries": 6,
+          "candidate_phase1_nodes": 0,
+          "candidate_phase2_nodes": 0,
+          "candidate_worker_done_seconds": 0.000665,
+          "proof_worker_return_seconds": -1.0,
+          "proof_worker_busy_seconds": 0.0,
+          "engine": "native-cpp",
+          "asset_profile": "base"
+        },
+        "peak_memory_bytes": 592949248
+      },
+      {
+        "wall_seconds": 0.0,
+        "result": {
+          "moves": [
+            "R2"
+          ],
+          "solution": "R2",
+          "depth": 2,
+          "metric": "QTM",
+          "status": "complete",
+          "optimal": true,
+          "inverse_direction": false,
+          "elapsed_seconds": 0.000704,
+          "nodes": 3,
+          "split_nodes": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "completed_depth": 1,
+          "generated_candidates": 15,
+          "phase1_queries": 28,
+          "corner_queries": 6,
+          "candidate_phase1_nodes": 6142,
+          "candidate_phase2_nodes": 2,
+          "candidate_worker_done_seconds": 0.000668,
+          "proof_worker_return_seconds": -1.0,
+          "proof_worker_busy_seconds": 0.0,
+          "engine": "native-cpp",
+          "asset_profile": "base"
+        },
+        "peak_memory_bytes": 592949248
+      }
+    ],
+    "htm_cleanup_extra_seconds": 0.0470000000022992,
+    "htm_broker_wait_seconds": 0.0,
+    "htm_result": {
+      "moves": [
+        "R2"
+      ],
+      "solution": "R2",
+      "depth": 1,
+      "metric": "HTM",
+      "optimal": true,
+      "inverse_direction": false,
+      "elapsed_seconds": 0.001,
+      "nodes": 1,
+      "split_nodes": 0,
+      "tail_queries": 1,
+      "tail_bloom_rejects": 0,
+      "tail_exact_queries": 1,
+      "tail_probes": 1,
+      "tail_hits": 1,
+      "completed_depth": 0,
+      "generated_candidates": 0,
+      "phase1_queries": 3,
+      "corner_queries": 1,
+      "engine": "native-cpp"
+    }
+  },
+  "broker_final": {
+    "threads": 15,
+    "htm_holders": 0,
+    "qtm_active": false,
+    "last_yield_seconds": 0.0,
+    "yield_faults": 0
+  }
+}

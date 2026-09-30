@@ -13,6 +13,7 @@ from collections.abc import Callable
 from ...cubie import CubieCube, MOVE_INDEX, to_facelets
 from ...metrics import normalize_metric, resolve_max_depth, solution_cost
 from ...runtime import application_root
+from .memory import sample_memory, within_limit
 
 
 ROOT = application_root()
@@ -58,6 +59,10 @@ class NativeSolverError(RuntimeError):
     pass
 
 
+class NativeSolverResourceLimit(NativeSolverError):
+    pass
+
+
 class NativeSolverCancelled(NativeSolverError):
     pass
 
@@ -77,9 +82,27 @@ class _PersistentNativeSolver:
         self._ready: dict | None = None
         self._last_ready: dict | None = None
         self._started_at: float | None = None
+        self._state = threading.RLock()
+        self._write_lock = threading.Lock()
+        self._generation = 0
+        self._request_threads = min(32, max(1, (os.cpu_count() or 1) - 1))
+        self._busy = False
+        self._closing = False
+        self._idle_until: float | None = None
+        self._idle_epoch = 0
+        self._configuration = None
+        self._pending_stage: dict | None = None
+        self._loader_paused = threading.Event()
+        self._pause_token: str | None = None
+        self._loader_done = False
+        self._memory_limit = 1 << 30
+        self._service_events: list[dict] = []
+        self._memory_samples: list[dict] = []
+        self._monitor: threading.Thread | None = None
+        self._eviction_reason: str | None = None
+        self._on_evicted: Callable[[], None] | None = None
 
-    @staticmethod
-    def _command() -> list[str]:
+    def _command(self) -> list[str]:
         profile = os.environ.get("CUBE_QTM_ASSET_PROFILE", "strong").strip().lower()
         if profile not in {"base", "standard", "strong", "partial", "fallback"}:
             raise NativeSolverError(f"unknown QTM asset profile: {profile}")
@@ -139,11 +162,33 @@ class _PersistentNativeSolver:
                            ("--qtm-edge-pdb-b", QTM_EDGE_PDB_B)):
             if use_edge_pdbs and path.is_file():
                 command.extend((flag, str(path.relative_to(ROOT))))
+        # Each mechanism has a separate rollback/diagnostic switch.
+        command += ['--loader-managed', '--loader-threads', str(max(1, min(int(os.environ.get('CUBE_QTM_LOADER_THREADS', '4')), self._request_threads - 2))),
+                    '--loader-budget=' + os.environ.get('CUBE_QTM_LOADER_BUDGET', 'shared'),
+                    '--strong-upgrade=' + os.environ.get('CUBE_QTM_STRONG_UPGRADE', 'boundary'),
+                    '--strong-slice=' + os.environ.get('CUBE_QTM_STRONG_SLICE', 'keep'),
+                    '--pdb-prefetch=' + os.environ.get('CUBE_QTM_PREFETCH', 'off')]
         return command
 
     def _start_locked(self, deadline: float | None, cancel_event: threading.Event | None) -> None:
         startup_started = time.monotonic()
         self._started_at = startup_started
+        with self._state:
+            self._generation += 1
+            generation = self._generation
+            self._idle_epoch += 1
+            self._idle_until = None
+            self._pending_stage = None
+            self._loader_done = False
+            self._loader_paused.clear()
+            self._memory_limit = (int(os.environ.get('CUBE_QTM_STRONG_IDLE_BYTES', str(8 << 30))) if
+                os.environ.get('CUBE_NATIVE_ASSET_LOADING', 'staged') == 'eager' and
+                os.environ.get('CUBE_QTM_ASSET_PROFILE', 'strong') == 'strong' else
+                int(os.environ.get('CUBE_QTM_BASE_IDLE_BYTES', str(1 << 30))))
+            self._service_events = []
+            self._memory_samples = []
+            self._eviction_reason = None
+            self._configuration = self._config_identity()
         self._last_ready = None
         creation_flags = getattr(subprocess, "CREATE_NO_WINDOW", 0)
         try:
@@ -174,7 +219,33 @@ class _PersistentNativeSolver:
             assert process.stdout is not None
             try:
                 for line in process.stdout:
-                    lines.put(line.strip())
+                    raw = line.strip()
+                    try:
+                        event = json.loads(raw)
+                    except json.JSONDecodeError:
+                        lines.put(raw)
+                        continue
+                    if event.get('type') in {'asset_ready', 'loader_stage', 'loader_done', 'loader_paused'}:
+                        with self._state:
+                            if self._generation != generation or self._process is not process:
+                                continue
+                            event['generation_id'] = generation
+                            self._service_events.append({'seconds': time.monotonic() - startup_started, 'event': event})
+                            self._service_events[:] = self._service_events[-1024:]
+                            if event['type'] == 'asset_ready':
+                                self._record_asset_ready(event)
+                            elif event['type'] == 'loader_stage':
+                                self._pending_stage = event
+                                if self._busy:
+                                    self._admit_loader_locked(process, generation)
+                            elif event['type'] == 'loader_done':
+                                self._loader_done = True
+                                self._pending_stage = None
+                            elif event.get('token') == self._pause_token and event.get('paused'):
+                                self._loader_paused.set()
+                    # Request frames still use their request_id; the service dispatcher
+                    # continues consuming service events while no solve loop exists.
+                    lines.put(raw)
             finally:
                 lines.put(None)
 
@@ -189,6 +260,9 @@ class _PersistentNativeSolver:
         self._stderr_reader = threading.Thread(target=read_stderr, name="cube-native-service-stderr", daemon=True)
         self._reader.start()
         self._stderr_reader.start()
+        self._monitor = threading.Thread(target=self._watch_generation, args=(process, generation),
+                                         name=f'qtm-memory-{generation}', daemon=True)
+        self._monitor.start()
         startup_deadline = min(time.monotonic() + 30, deadline) if deadline is not None else time.monotonic() + 30
         while True:
             if cancel_event is not None and cancel_event.is_set():
@@ -227,13 +301,44 @@ class _PersistentNativeSolver:
             self._stop_locked()
             raise NativeSolverError("QTM native service does not match protocol 3 / proof 3")
         ready["client_startup_seconds"] = time.monotonic() - startup_started
+        ready["client_process_started_at"] = startup_started
+        # Native offsets start after process launch; align them to the client clock.
+        native_total = ready.get("total_initialization_seconds")
+        launch_seconds = max(0.0, ready["client_startup_seconds"] - native_total) if native_total is not None else None
+        for stage in ("base", "strong", "tail"):
+            field = stage + "_ready_elapsed_seconds"
+            offset = ready.get(field)
+            if offset is not None and launch_seconds is not None:
+                ready[field] = launch_seconds + offset
+        if "base_ready_elapsed_seconds" not in ready:
+            # Old binaries expose only the ready handshake; don't mislabel a load duration.
+            ready["base_ready_elapsed_seconds"] = ready["client_startup_seconds"]
+        qtm_assets = ready.get("assets", {}).get("QTM", {})
+        for stage, present in (("strong", qtm_assets.get("strong")), ("tail", qtm_assets.get("tail"))):
+            if present:
+                ready.setdefault(stage + "_ready_elapsed_seconds", ready["client_startup_seconds"])
         self._ready = ready
         self._last_ready = ready
 
+    def _record_asset_ready(self, event: dict) -> None:
+        if self._ready is None:
+            return
+        assets = self._ready.setdefault("assets", {}).setdefault("QTM", {})
+        assets.update(profile=event.get("profile"), strong=event.get("strong"),
+                      tail_depth=event.get("tail_depth"))
+        stage = event.get("stage")
+        if stage in {"base", "strong", "tail"} and self._started_at is not None:
+            self._ready.setdefault(stage + "_ready_elapsed_seconds", time.monotonic() - self._started_at)
+
     def _stop_locked(self) -> None:
-        process = self._process
-        self._process = None
-        self._ready = None
+        with self._state:
+            process = self._process
+            self._closing = process is not None
+            self._generation += 1
+            self._idle_epoch += 1
+            self._idle_until = None
+            self._process = None
+            self._ready = None
         if process is None:
             return
         if process.poll() is None:
@@ -251,14 +356,25 @@ class _PersistentNativeSolver:
         if self._stderr_reader is not None:
             self._stderr_reader.join(timeout=2)
         self._lines = None
+        if self._monitor is not None and self._monitor is not threading.current_thread():
+            self._monitor.join(timeout=.5)
+        if self._on_evicted is not None:
+            self._on_evicted()
+            self._on_evicted = None
+        with self._state:
+            self._closing = False
 
     def _send_locked(self, message: str) -> None:
         assert self._process is not None and self._process.stdin is not None
         try:
-            self._process.stdin.write(message)
-            self._process.stdin.flush()
+            with self._write_lock:
+                self._process.stdin.write(message)
+                self._process.stdin.flush()
         except (BrokenPipeError, OSError) as exc:
-            self._stop_locked()
+            if threading.current_thread() is self._reader:
+                self.stop_now(self._generation)
+            else:
+                self._stop_locked()
             raise NativeSolverError("native solver service stopped unexpectedly") from exc
 
     def solve(
@@ -286,10 +402,35 @@ class _PersistentNativeSolver:
                 raise NativeSolverCancelled("native solver search was cancelled")
             if deadline is not None and time.monotonic() >= deadline:
                 raise NativeSolverTimeout("native solver deadline expired")
+            with self._state:
+                self._request_threads = worker_count
+                self._busy = True
+                self._idle_until = None
+                self._idle_epoch += 1
+            request_startup = time.monotonic()
+            warm_reused = self._process is not None and self._process.poll() is None
+            if self._process is not None and self._configuration is not None and self._configuration != self._config_identity():
+                self._eviction_reason = 'configuration_changed'
+                self._stop_locked()
+                warm_reused = False
             if self._process is None or self._process.poll() is not None:
                 self._stop_locked()
                 self._start_locked(deadline, cancel_event)
             assert self._process is not None and self._process.stdin is not None and self._lines is not None
+            if self._ready is not None:
+                self._ready["client_request_startup_seconds"] = time.monotonic() - request_startup
+                self._ready["warm_reused"] = warm_reused
+            if progress_callback is not None:
+                progress_callback({**(self._ready or {}), "type": "engine_ready"})
+            with self._state:
+                if self._pending_stage is not None:
+                    self._admit_loader_locked(self._process, self._generation)
+                elif not self._loader_done and (self._ready or {}).get('loader_control'):
+                    self._send_locked(f'loader_resume\t{self._generation}\n')
+            if cancel_event is not None and cancel_event.is_set():
+                raise NativeSolverCancelled("native request cancelled before search")
+            if deadline is not None and time.monotonic() >= deadline:
+                raise NativeSolverTimeout("native deadline expired before search")
             incumbent = " ".join(incumbent_moves or [])
             request_id = uuid.uuid4().hex
             remaining = 0 if deadline is None else max(0.000001, deadline - time.monotonic())
@@ -297,6 +438,8 @@ class _PersistentNativeSolver:
                 f"solve\t{request_id}\t{to_facelets(cube)}\t{max_depth}\t{remaining}\t{worker_count}\t{metric}\t{incumbent}\n"
             )
             self._send_locked(request)
+            if self._ready is not None:
+                self._ready["client_search_started_at"] = time.monotonic()
 
             stop_reason = None
             stop_sent_at = None
@@ -329,6 +472,8 @@ class _PersistentNativeSolver:
                         self._stderr_lines[-1] if self._stderr_lines else "native solver service stopped unexpectedly"
                     )
                     self._stop_locked()
+                    if self._eviction_reason == "memory_limit":
+                        raise NativeSolverResourceLimit("QTM process exceeded its memory allowance")
                     raise NativeSolverError(message)
                 try:
                     event = json.loads(line)
@@ -336,15 +481,19 @@ class _PersistentNativeSolver:
                     self._stop_locked()
                     raise NativeSolverError("native solver service returned invalid JSON") from exc
                 if event.get("type") == "asset_ready" and self._ready is not None:
-                    assets = self._ready.setdefault("assets", {}).setdefault("QTM", {})
-                    assets.update(profile=event.get("profile"), strong=event.get("strong"),
-                                  tail_depth=event.get("tail_depth"))
-                    if self._started_at is not None:
-                        self._ready["strong_ready_elapsed_seconds"] = time.monotonic() - self._started_at
+                    self._record_asset_ready(event)
                     if progress_callback is not None:
                         progress_callback({**event, "engine": "native-cpp"})
                     continue
                 if event.get("request_id") != request_id:
+                    continue
+                if event.get("type") in {'thread_activity', 'strong_upgrade'}:
+                    if progress_callback is not None:
+                        progress_callback(event)
+                    continue
+                if event.get("type") == "asset_adopted":
+                    if progress_callback is not None:
+                        progress_callback(event)
                     continue
                 if event.get("type") == "candidate":
                     moves = event.get("moves")
@@ -374,19 +523,127 @@ class _PersistentNativeSolver:
                 if event.get("type") == "error" or not event.get("ok"):
                     raise NativeSolverError(str(event.get("error", "native solver failed")))
                 if event.get("type") == "result":
+                    if self._ready is not None:
+                        self._ready["native_search_seconds"] = event.get("elapsed_seconds")
+                        self._ready["native_proof_busy_seconds"] = sum(
+                            float(worker.get("busy_seconds", 0.0)) for worker in event.get("workers", [])
+                        )
                     if stop_reason is not None:
                         raise stop_reason
                     return event
         finally:
+            with self._state:
+                self._busy = False
             self._lock.release()
+
+    def _config_identity(self):
+        command = tuple(self._command())
+        identities = []
+        for value in command:
+            path = ROOT / value
+            if path.is_file():
+                stat = path.stat()
+                identities.append((str(path), stat.st_size, stat.st_mtime_ns))
+        # Metadata only triggers eviction. All data is revalidated on reopening.
+        return command, tuple(identities)
+
+    def _admit_loader_locked(self, process, generation) -> None:
+        stage = self._pending_stage
+        if stage is None or not self._busy or generation != self._generation or process is not self._process:
+            return
+        memory = sample_memory(process.pid)
+        limit = int(os.environ.get('CUBE_QTM_STRONG_IDLE_BYTES', str(8 << 30)))
+        reserve = int(os.environ.get('CUBE_QTM_MEMORY_RESERVE_BYTES', str(2 << 30)))
+        mapped = int(stage.get('mapped_bytes', 0))
+        # A resumed stage has already reserved its mapping; do not charge it twice.
+        extra = 0 if stage.get('admitted') else mapped
+        admitted = bool(self._request_threads >= 3 and memory and max(memory['working_set'], memory['private_bytes']) + extra <= limit
+                        and memory['available_bytes'] >= extra + reserve)
+        self._service_events.append({'seconds': time.monotonic() - (self._started_at or time.monotonic()),
+                                     'event': {'type':'memory_admission', 'stage':stage.get('stage'),
+                                               'admitted':admitted, 'memory':memory,
+                                               'mapped_bytes':mapped, 'limit_bytes':limit}})
+        if admitted:
+            stage['admitted'] = True
+            self._memory_limit = limit
+            self._send_locked(f'loader_resume\t{generation}\n')
+        else:
+            self._send_locked(f'loader_deny\t{generation}\n')
+            self._eviction_reason = 'loading_memory_or_thread_admission_denied'
+            # Continue with the validated snapshot, but never retain a denied loader.
+
+    def _watch_generation(self, process, generation) -> None:
+        while process.poll() is None:
+            memory = sample_memory(process.pid)
+            with self._state:
+                if generation != self._generation or process is not self._process:
+                    return
+                now = time.monotonic()
+                self._memory_samples.append({'seconds':now - (self._started_at or now), **(memory or {})})
+                self._memory_samples[:] = self._memory_samples[-2048:]
+                reserve = int(os.environ.get('CUBE_QTM_MEMORY_RESERVE_BYTES', str(2 << 30)))
+                overflow = not within_limit(memory, self._memory_limit, reserve)
+                expired = self._idle_until is not None and now >= self._idle_until
+                epoch = self._idle_epoch
+                busy = self._busy
+                if overflow or expired:
+                    self._eviction_reason = 'memory_limit' if overflow else 'idle_ttl'
+            if overflow or expired:
+                if busy:
+                    self.stop_now(generation)
+                else:
+                    if not self.evict_generation(generation, epoch):
+                        continue
+                return
+            time.sleep(.25)
+
+    def evict_generation(self, generation: int, idle_epoch: int | None = None) -> bool:
+        with self._lock:
+            with self._state:
+                if generation != self._generation or (idle_epoch is not None and idle_epoch != self._idle_epoch):
+                    return False
+                if self._busy:
+                    return False
+            self._stop_locked()
+            return True
+
+    def retain_idle(self) -> bool:
+        if os.environ.get('CUBE_QTM_REUSE', 'bounded').lower() != 'bounded':
+            return False
+        with self._lock:
+            process = self._process
+            if process is None or process.poll() is not None or self._eviction_reason:
+                return False
+            with self._state:
+                generation = self._generation
+                self._pause_token = uuid.uuid4().hex
+                self._loader_paused.clear()
+                self._send_locked(f'loader_pause\t{self._pause_token}\n')
+            if not self._loader_paused.wait(.8):
+                self._eviction_reason = 'loader_pause_unacknowledged'
+                return False
+            with self._state:
+                memory = sample_memory(process.pid)
+                reserve = int(os.environ.get('CUBE_QTM_MEMORY_RESERVE_BYTES', str(2 << 30)))
+                strong = (self._ready or {}).get('assets', {}).get('QTM', {}).get('strong', False)
+                self._memory_limit = int(os.environ.get('CUBE_QTM_STRONG_IDLE_BYTES', str(8 << 30))) if strong else int(os.environ.get('CUBE_QTM_BASE_IDLE_BYTES', str(1 << 30)))
+                if generation != self._generation or not within_limit(memory, self._memory_limit, reserve):
+                    self._eviction_reason = 'idle_memory_admission_denied'
+                    return False
+                self._idle_epoch += 1
+                self._idle_until = time.monotonic() + 20
+                return True
 
     def close(self) -> None:
         with self._lock:
             self._stop_locked()
 
-    def stop_now(self) -> None:
+    def stop_now(self, generation: int | None = None) -> None:
         """Break a slow QTM proof so an HTM request can take the CPU."""
-        process = self._process
+        with self._state:
+            if generation is not None and generation != self._generation:
+                return
+            process = self._process
         if process is not None and process.poll() is None:
             try:
                 process.terminate()
@@ -399,7 +656,13 @@ class _PersistentNativeSolver:
                     raise
 
     def diagnostics(self) -> dict:
-        return dict(self._ready or self._last_ready or {})
+        with self._state:
+            return {**(self._ready or self._last_ready or {}),
+                    'generation_id': self._generation, 'resident_state': 'EVICTING' if self._closing else 'BUSY' if self._busy else
+                    'IDLE' if self._idle_until is not None else 'COLD' if self._process is None else 'STARTING',
+                    'idle_epoch': self._idle_epoch, 'idle_until': self._idle_until,
+                    'eviction_reason': self._eviction_reason, 'loader_done': self._loader_done,
+                    'service_events': list(self._service_events), 'memory_samples': list(self._memory_samples)}
 
 
 _PERSISTENT_SOLVER = _PersistentNativeSolver()
@@ -408,6 +671,20 @@ atexit.register(_PERSISTENT_SOLVER.close)
 
 def release_assets() -> None:
     _PERSISTENT_SOLVER.close()
+
+
+def retain_assets() -> bool:
+    return _PERSISTENT_SOLVER.retain_idle()
+
+
+def resident_callback(broker) -> Callable[[], None]:
+    bridge = _PERSISTENT_SOLVER
+    with bridge._state:
+        generation = bridge._generation
+        def stop():
+            bridge.evict_generation(generation)
+        bridge._on_evicted = lambda: broker.clear_qtm_resident(stop)
+        return stop
 
 
 def force_yield() -> None:
@@ -459,7 +736,7 @@ def _validated_result(cube: CubieCube, payload: dict, metric: str = "HTM") -> di
         "status": payload.get("status", "complete"),
         "optimal": bool(payload.get("optimal")),
         "inverse_direction": bool(payload.get("inverse_direction")),
-        "elapsed_seconds": round(float(payload.get("elapsed_seconds", 0.0)), 3),
+        "elapsed_seconds": float(payload.get("elapsed_seconds", 0.0)),
         "nodes": int(payload.get("nodes", 0)),
         "split_nodes": int(payload.get("split_nodes", 0)),
         "tail_queries": int(payload.get("tail_queries", 0)),

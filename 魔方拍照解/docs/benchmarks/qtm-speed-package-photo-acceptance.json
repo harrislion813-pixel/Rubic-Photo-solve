@@ -1,0 +1,2302 @@
+{
+  "label": "QtmStrong-1.9.0-new",
+  "package": "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\.cache\\qtm-speed-package-acceptance\\RubicPhotoSolve",
+  "cases": [
+    {
+      "name": "initial-1",
+      "images": [
+        {
+          "path": "initial/U1.jpg",
+          "sha256": "0468f18dee7213c7454ab88a0089ebd654d2fd81f9d28adbc44aabe4f4f9e5a9"
+        },
+        {
+          "path": "initial/R1.jpg",
+          "sha256": "ea51eb086c43d53c1e6c71a0267968501dec6c5977405e49ca6a1b190317d1cc"
+        },
+        {
+          "path": "initial/F1.jpg",
+          "sha256": "39cf975edb912b2340617929b32adc05d713215c6583fc5356483edb49c36f96"
+        },
+        {
+          "path": "initial/D1.jpg",
+          "sha256": "8765adda42e38cae78ec2813ac97bf6e4c9875156f26a92edd333a4fc05a0947"
+        },
+        {
+          "path": "initial/L1.jpg",
+          "sha256": "4cfad774df7f1376df7c272096d1ffb60824e44d5469aa87526f34390ef8a8d7"
+        },
+        {
+          "path": "initial/B1.jpg",
+          "sha256": "b2036e6435e14b915be9aa37ea01a18711bdf39c269eaf05fcc991fcaef5a9ea"
+        }
+      ],
+      "detections": {
+        "U": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.13263659179210663,
+              0.2412046641111374
+            ],
+            [
+              0.8839647769927979,
+              0.2776280641555786
+            ],
+            [
+              0.8116664290428162,
+              0.6783128976821899
+            ],
+            [
+              0.09752732515335083,
+              0.6667200326919556
+            ]
+          ],
+          "confidence": 90,
+          "method": "grid-fit-9",
+          "score": 0.8115,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 523.02,
+            "mean_brightness": 104.91,
+            "contrast": 62.48,
+            "dark_fraction": 0.0139,
+            "bright_fraction": 0.0056
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.13263659179210663,
+                  0.2412046641111374
+                ],
+                [
+                  0.8839647769927979,
+                  0.2776280641555786
+                ],
+                [
+                  0.8116664290428162,
+                  0.6783128976821899
+                ],
+                [
+                  0.09752732515335083,
+                  0.6667200326919556
+                ]
+              ],
+              "confidence": 90,
+              "method": "grid-fit-9",
+              "score": 0.8115,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 523.02,
+                "mean_brightness": 104.91,
+                "contrast": 62.48,
+                "dark_fraction": 0.0139,
+                "bright_fraction": 0.0056
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.3722778856754303,
+                  0.3858799934387207
+                ],
+                [
+                  0.6282132267951965,
+                  0.3885636329650879
+                ],
+                [
+                  0.6965686678886414,
+                  0.537952721118927
+                ],
+                [
+                  0.36432957649230957,
+                  0.5594218373298645
+                ]
+              ],
+              "confidence": 5,
+              "method": "cell-cluster-8",
+              "score": 0.0898,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 135.97,
+                "mean_brightness": 131.09,
+                "contrast": 62.26,
+                "dark_fraction": 0.0393,
+                "bright_fraction": 0.0012
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.2636752724647522,
+                  0.0
+                ],
+                [
+                  0.9983844757080078,
+                  0.15407271683216095
+                ],
+                [
+                  0.9983844757080078,
+                  0.7040272951126099
+                ],
+                [
+                  0.06117122992873192,
+                  0.6960999965667725
+                ]
+              ],
+              "confidence": 20,
+              "method": "edge-28",
+              "score": 0.0,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 670.84,
+                "mean_brightness": 136.69,
+                "contrast": 66.95,
+                "dark_fraction": 0.0062,
+                "bright_fraction": 0.0034
+              }
+            }
+          ],
+          "app_version": "1.9.0",
+          "fallback_used": false
+        },
+        "R": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.055663347244262695,
+              0.19289790093898773
+            ],
+            [
+              0.9157719016075134,
+              0.21714547276496887
+            ],
+            [
+              0.8341496586799622,
+              0.676793098449707
+            ],
+            [
+              0.026324788108468056,
+              0.6713764667510986
+            ]
+          ],
+          "confidence": 96,
+          "method": "grid-fit-8",
+          "score": 0.935,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 128.69,
+            "mean_brightness": 99.6,
+            "contrast": 62.53,
+            "dark_fraction": 0.0163,
+            "bright_fraction": 0.0003
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.055663347244262695,
+                  0.19289790093898773
+                ],
+                [
+                  0.9157719016075134,
+                  0.21714547276496887
+                ],
+                [
+                  0.8341496586799622,
+                  0.676793098449707
+                ],
+                [
+                  0.026324788108468056,
+                  0.6713764667510986
+                ]
+              ],
+              "confidence": 96,
+              "method": "grid-fit-8",
+              "score": 0.935,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 128.69,
+                "mean_brightness": 99.6,
+                "contrast": 62.53,
+                "dark_fraction": 0.0163,
+                "bright_fraction": 0.0003
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.03016364388167858,
+                  0.06877884268760681
+                ],
+                [
+                  0.7467495203018188,
+                  0.0
+                ],
+                [
+                  0.9983844757080078,
+                  0.2225530594587326
+                ],
+                [
+                  0.3104475140571594,
+                  0.4093180000782013
+                ]
+              ],
+              "confidence": 42,
+              "method": "cell-cluster-9",
+              "score": 0.4144,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 116.62,
+                "mean_brightness": 104.5,
+                "contrast": 72.63,
+                "dark_fraction": 0.0079,
+                "bright_fraction": 0.0111
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.24149924516677856,
+                  0.04124363884329796
+                ],
+                [
+                  0.6118901371955872,
+                  0.0233527310192585
+                ],
+                [
+                  0.9663845300674438,
+                  0.16648000478744507
+                ],
+                [
+                  0.9298222661018372,
+                  0.23983271420001984
+                ]
+              ],
+              "confidence": 24,
+              "method": "cell-cluster-8",
+              "score": 0.412,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 91.74,
+                "mean_brightness": 141.66,
+                "contrast": 80.76,
+                "dark_fraction": 0.0,
+                "bright_fraction": 0.062
+              }
+            }
+          ],
+          "app_version": "1.9.0",
+          "fallback_used": false
+        },
+        "F": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.16715197265148163,
+              0.21803048253059387
+            ],
+            [
+              0.8993661403656006,
+              0.23043455183506012
+            ],
+            [
+              0.8705952167510986,
+              0.6325448155403137
+            ],
+            [
+              0.1742498278617859,
+              0.6290985345840454
+            ]
+          ],
+          "confidence": 97,
+          "method": "grid-fit-7",
+          "score": 0.9399,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 218.29,
+            "mean_brightness": 150.23,
+            "contrast": 65.45,
+            "dark_fraction": 0.0055,
+            "bright_fraction": 0.0996
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.16715197265148163,
+                  0.21803048253059387
+                ],
+                [
+                  0.8993661403656006,
+                  0.23043455183506012
+                ],
+                [
+                  0.8705952167510986,
+                  0.6325448155403137
+                ],
+                [
+                  0.1742498278617859,
+                  0.6290985345840454
+                ]
+              ],
+              "confidence": 97,
+              "method": "grid-fit-7",
+              "score": 0.9399,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 218.29,
+                "mean_brightness": 150.23,
+                "contrast": 65.45,
+                "dark_fraction": 0.0055,
+                "bright_fraction": 0.0996
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.018707619979977608,
+                  0.11403636634349823
+                ],
+                [
+                  0.9771566987037659,
+                  0.2510545551776886
+                ],
+                [
+                  0.8561873435974121,
+                  0.6272000074386597
+                ],
+                [
+                  0.018707619979977608,
+                  0.6367999911308289
+                ]
+              ],
+              "confidence": 76,
+              "method": "adaptive",
+              "score": 0.569,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 273.47,
+                "mean_brightness": 141.53,
+                "contrast": 72.52,
+                "dark_fraction": 0.0318,
+                "bright_fraction": 0.0843
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.4130638539791107,
+                  0.3346519470214844
+                ],
+                [
+                  0.686510443687439,
+                  0.3666459918022156
+                ],
+                [
+                  0.6368748545646667,
+                  0.5763842463493347
+                ],
+                [
+                  0.36613571643829346,
+                  0.507317841053009
+                ]
+              ],
+              "confidence": 1,
+              "method": "cell-cluster-5",
+              "score": 0.0,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 37.86,
+                "mean_brightness": 102.6,
+                "contrast": 47.31,
+                "dark_fraction": 0.0317,
+                "bright_fraction": 0.0005
+              }
+            }
+          ],
+          "app_version": "1.9.0",
+          "fallback_used": false
+        },
+        "D": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.2257254421710968,
+              0.2193630188703537
+            ],
+            [
+              0.9248194694519043,
+              0.2482195496559143
+            ],
+            [
+              0.8349627256393433,
+              0.6123259663581848
+            ],
+            [
+              0.24516582489013672,
+              0.6124266982078552
+            ]
+          ],
+          "confidence": 94,
+          "method": "grid-fit-8",
+          "score": 0.8939,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 488.58,
+            "mean_brightness": 131.46,
+            "contrast": 57.3,
+            "dark_fraction": 0.0005,
+            "bright_fraction": 0.0126
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.2257254421710968,
+                  0.2193630188703537
+                ],
+                [
+                  0.9248194694519043,
+                  0.2482195496559143
+                ],
+                [
+                  0.8349627256393433,
+                  0.6123259663581848
+                ],
+                [
+                  0.24516582489013672,
+                  0.6124266982078552
+                ]
+              ],
+              "confidence": 94,
+              "method": "grid-fit-8",
+              "score": 0.8939,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 488.58,
+                "mean_brightness": 131.46,
+                "contrast": 57.3,
+                "dark_fraction": 0.0005,
+                "bright_fraction": 0.0126
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.26538291573524475,
+                  0.11974500119686127
+                ],
+                [
+                  0.8959939479827881,
+                  0.13128085434436798
+                ],
+                [
+                  0.9661126732826233,
+                  0.5385031700134277
+                ],
+                [
+                  0.1624070554971695,
+                  0.5296036005020142
+                ]
+              ],
+              "confidence": 55,
+              "method": "grid-fit-7",
+              "score": 0.6331,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 786.53,
+                "mean_brightness": 134.36,
+                "contrast": 64.15,
+                "dark_fraction": 0.0003,
+                "bright_fraction": 0.0123
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.3334631621837616,
+                  0.0
+                ],
+                [
+                  0.9983844757080078,
+                  0.0
+                ],
+                [
+                  0.9983844757080078,
+                  0.3837881088256836
+                ],
+                [
+                  0.3334631621837616,
+                  0.3837881088256836
+                ]
+              ],
+              "confidence": 35,
+              "method": "cell-cluster-12",
+              "score": 0.2778,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 977.6,
+                "mean_brightness": 125.35,
+                "contrast": 71.06,
+                "dark_fraction": 0.0001,
+                "bright_fraction": 0.013
+              }
+            }
+          ],
+          "app_version": "1.9.0",
+          "fallback_used": false
+        },
+        "L": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.13260753452777863,
+              0.19244158267974854
+            ],
+            [
+              0.9024765491485596,
+              0.2215602546930313
+            ],
+            [
+              0.823314368724823,
+              0.6499935388565063
+            ],
+            [
+              0.11348003149032593,
+              0.6242418885231018
+            ]
+          ],
+          "confidence": 91,
+          "method": "grid-fit-9",
+          "score": 0.8373,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 175.24,
+            "mean_brightness": 123.62,
+            "contrast": 53.85,
+            "dark_fraction": 0.0104,
+            "bright_fraction": 0.038
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.13260753452777863,
+                  0.19244158267974854
+                ],
+                [
+                  0.9024765491485596,
+                  0.2215602546930313
+                ],
+                [
+                  0.823314368724823,
+                  0.6499935388565063
+                ],
+                [
+                  0.11348003149032593,
+                  0.6242418885231018
+                ]
+              ],
+              "confidence": 91,
+              "method": "grid-fit-9",
+              "score": 0.8373,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 175.24,
+                "mean_brightness": 123.62,
+                "contrast": 53.85,
+                "dark_fraction": 0.0104,
+                "bright_fraction": 0.038
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.5369469523429871,
+                  0.09109574556350708
+                ],
+                [
+                  0.915816068649292,
+                  0.0
+                ],
+                [
+                  0.9044756293296814,
+                  0.3127429187297821
+                ],
+                [
+                  0.5868887901306152,
+                  0.5475375056266785
+                ]
+              ],
+              "confidence": 9,
+              "method": "cell-cluster-6",
+              "score": 0.0,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 223.18,
+                "mean_brightness": 134.97,
+                "contrast": 64.88,
+                "dark_fraction": 0.0001,
+                "bright_fraction": 0.0133
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.3587602972984314,
+                  0.32833895087242126
+                ],
+                [
+                  0.7574251890182495,
+                  0.34512633085250854
+                ],
+                [
+                  0.7169276475906372,
+                  0.6496719717979431
+                ],
+                [
+                  0.3182626962661743,
+                  0.6328845620155334
+                ]
+              ],
+              "confidence": 8,
+              "method": "cell-cluster-6",
+              "score": 0.0,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 78.15,
+                "mean_brightness": 126.46,
+                "contrast": 52.92,
+                "dark_fraction": 0.0258,
+                "bright_fraction": 0.006
+              }
+            }
+          ],
+          "app_version": "1.9.0",
+          "fallback_used": false
+        },
+        "B": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.18233627080917358,
+              0.15659216046333313
+            ],
+            [
+              0.9593952298164368,
+              0.1381053924560547
+            ],
+            [
+              0.8834882974624634,
+              0.5837234258651733
+            ],
+            [
+              0.21265259385108948,
+              0.5763669610023499
+            ]
+          ],
+          "confidence": 93,
+          "method": "grid-fit-7",
+          "score": 0.8704,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 392.56,
+            "mean_brightness": 111.42,
+            "contrast": 55.65,
+            "dark_fraction": 0.0082,
+            "bright_fraction": 0.0112
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.18233627080917358,
+                  0.15659216046333313
+                ],
+                [
+                  0.9593952298164368,
+                  0.1381053924560547
+                ],
+                [
+                  0.8834882974624634,
+                  0.5837234258651733
+                ],
+                [
+                  0.21265259385108948,
+                  0.5763669610023499
+                ]
+              ],
+              "confidence": 93,
+              "method": "grid-fit-7",
+              "score": 0.8704,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 392.56,
+                "mean_brightness": 111.42,
+                "contrast": 55.65,
+                "dark_fraction": 0.0082,
+                "bright_fraction": 0.0112
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.0,
+                  0.015454545617103577
+                ],
+                [
+                  0.9983844757080078,
+                  0.023636363446712494
+                ],
+                [
+                  0.8707593083381653,
+                  0.5745454430580139
+                ],
+                [
+                  0.20516963303089142,
+                  0.5727272629737854
+                ]
+              ],
+              "confidence": 41,
+              "method": "edge-55",
+              "score": 0.2366,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 742.79,
+                "mean_brightness": 115.88,
+                "contrast": 59.94,
+                "dark_fraction": 0.0063,
+                "bright_fraction": 0.0113
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.456432968378067,
+                  0.17583274841308594
+                ],
+                [
+                  0.9301519393920898,
+                  0.16152001917362213
+                ],
+                [
+                  0.8188756704330444,
+                  0.779650866985321
+                ],
+                [
+                  0.2291114777326584,
+                  0.5739054083824158
+                ]
+              ],
+              "confidence": 29,
+              "method": "cell-cluster-9",
+              "score": 0.1571,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 280.07,
+                "mean_brightness": 101.46,
+                "contrast": 58.58,
+                "dark_fraction": 0.0131,
+                "bright_fraction": 0.0137
+              }
+            }
+          ],
+          "app_version": "1.9.0",
+          "fallback_used": false
+        }
+      },
+      "classification": {
+        "labels": {
+          "U": "FBBBUDURR",
+          "R": "FBRFRDUFD",
+          "F": "LUUFFDUUR",
+          "D": "FLBBDLDDR",
+          "L": "DLBRLULUL",
+          "B": "DRLRBFFLB"
+        },
+        "quality": {
+          "valid": true,
+          "reasons": [],
+          "minimumPrototypeDistance": 51.51350569979123,
+          "ambiguousFraction": 0.041666666666666664,
+          "lowInformationFraction": 0.041666666666666664,
+          "stickerConfidence": [
+            {
+              "confidence": 1,
+              "margin": 52.442175449046246,
+              "cost": 9.286116243520391,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 49.24428180373762,
+              "cost": 7.717872181421122,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 33.02596774186455,
+              "cost": 20.75104350580592,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 50.18942889373815,
+              "cost": 8.936629790548958,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 37.53463643831273,
+              "cost": 15.847420818884398,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 51.42158739256038,
+              "cost": 0.16318576495488454,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 53.47813550620196,
+              "cost": 15.056014587660561,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 65.50240366488931,
+              "cost": 0,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 61.065258417649325,
+              "cost": 0,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 50.750195904168486,
+              "cost": 4.255321068254853,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 32.524457682380124,
+              "cost": 19.47021703746293,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 58.48698398606666,
+              "cost": 3.10397294658233,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 51.32884029124999,
+              "cost": 8.088988908769789,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 49.49716155538991,
+              "cost": 1.8254490059963508,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 55.670363703956745,
+              "cost": 5.4570371863346105,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 62.53494993621884,
+              "cost": 0,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 65.50240366488931,
+              "cost": 0,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 51.51160761231771,
+              "cost": 1.04540599071347,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 51.212872842273164,
+              "cost": 3.643794542892478,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 58.04295113342372,
+              "cost": 4.273600495575044,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 36.732308844938984,
+              "cost": 16.67302883658981,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 51.072973315756755,
+              "cost": 0.2475379703239498,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 51.51350569979123,
+              "cost": 0,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 44.603819012378054,
+              "cost": 13.393939001182723,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 50.03766856543597,
+              "cost": 9.312002551656072,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 45.76660784144033,
+              "cost": 19.926271337467934,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 23.370883097617146,
+              "cost": 17.78933993406742,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 43.9444200527647,
+              "cost": 6.9781174607996075,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 15.501929472572712,
+              "cost": 51.2923146858936,
+              "low": true
+            },
+            {
+              "confidence": 1,
+              "margin": 60.681682102142716,
+              "cost": 5.170457464927178,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 61.68665015217,
+              "cost": 5.249071640611957,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 12.033316720462985,
+              "cost": 28.33995786386732,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 57.8329605591569,
+              "cost": 5.6061306814854035,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 43.087583107134755,
+              "cost": 12.200931284983705,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 30.851157271313003,
+              "cost": 17.054682676082702,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 63.11849383243799,
+              "cost": 5.022690697389632,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 50.95812756383585,
+              "cost": 3.342117819004071,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 46.658076211113155,
+              "cost": 10.55834078673129,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 49.429583007563096,
+              "cost": 1.8290883519516183,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 60.666976936712,
+              "cost": 4.508315765007149,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 59.446767552061615,
+              "cost": 4.173063249038907,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 60.84900919268118,
+              "cost": 3.5891276353471553,
+              "low": false
+            },
+            {
+              "confidence": 0.48688017079476065,
+              "margin": 4.30320256192141,
+              "cost": 56.510086604682385,
+              "low": true
+            },
+            {
+              "confidence": 1,
+              "margin": 65.39015318302087,
+              "cost": 3.326506886532946,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 27.142517699379837,
+              "cost": 24.348682837157902,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 51.35136500884253,
+              "cost": 9.611551871440163,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 64.98420470349103,
+              "cost": 2.585103409013729,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 33.53361583019728,
+              "cost": 17.723328616074763,
+              "low": false
+            }
+          ],
+          "mappingValid": true
+        }
+      },
+      "facelets": "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+      "reference_facelets": "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+      "matches_reference": true
+    },
+    {
+      "name": "initial-12",
+      "images": [
+        {
+          "path": "initial/U12.jpg",
+          "sha256": "1a303c3dc49c4df0d2fd84e6276401add66dbf467fb1ff2d7fcd8756e3b92cb6"
+        },
+        {
+          "path": "initial/R12.jpg",
+          "sha256": "de31ab25d0fde13623b37a4576d8cc2b1db939b5f018f2bb48432d4238d61566"
+        },
+        {
+          "path": "initial/F12.jpg",
+          "sha256": "1b44911c260a06fe8040c614f7f9cf6a99a1200ed885ac9168715e772e9531d3"
+        },
+        {
+          "path": "initial/D12.jpg",
+          "sha256": "3a5c508dc85582faff30a730f683b43f8f404294581c41ec48f2b8023591ddc9"
+        },
+        {
+          "path": "initial/L12.jpg",
+          "sha256": "f0b06ae5bbc8a0dc07ebeb44fa1c809ed0f7b8fb040409ef9baefa4389bf9ba7"
+        },
+        {
+          "path": "initial/B12.jpg",
+          "sha256": "b33430c9e0bf22ebe6c0da50b7e5701c5ff097c0230a10b445a25258174926d9"
+        }
+      ],
+      "detections": {
+        "U": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.1212025061249733,
+              0.3428572118282318
+            ],
+            [
+              0.9158897995948792,
+              0.350783109664917
+            ],
+            [
+              0.9105111360549927,
+              0.8190015554428101
+            ],
+            [
+              0.046765994280576706,
+              0.7894432544708252
+            ]
+          ],
+          "confidence": 83,
+          "method": "grid-fit-9",
+          "score": 0.842,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 1053.06,
+            "mean_brightness": 120.53,
+            "contrast": 57.02,
+            "dark_fraction": 0.0133,
+            "bright_fraction": 0.0072
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.1212025061249733,
+                  0.3428572118282318
+                ],
+                [
+                  0.9158897995948792,
+                  0.350783109664917
+                ],
+                [
+                  0.9105111360549927,
+                  0.8190015554428101
+                ],
+                [
+                  0.046765994280576706,
+                  0.7894432544708252
+                ]
+              ],
+              "confidence": 83,
+              "method": "grid-fit-9",
+              "score": 0.842,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1053.06,
+                "mean_brightness": 120.53,
+                "contrast": 57.02,
+                "dark_fraction": 0.0133,
+                "bright_fraction": 0.0072
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.9983844757080078,
+                  0.06478749960660934
+                ],
+                [
+                  0.9983844757080078,
+                  0.5137189030647278
+                ],
+                [
+                  0.0,
+                  0.5289541482925415
+                ]
+              ],
+              "confidence": 57,
+              "method": "cell-cluster-12",
+              "score": 0.6707,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 707.91,
+                "mean_brightness": 124.31,
+                "contrast": 60.28,
+                "dark_fraction": 0.0031,
+                "bright_fraction": 0.0067
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.01922454498708248,
+                  0.22569091618061066
+                ],
+                [
+                  0.9776736497879028,
+                  0.21609091758728027
+                ],
+                [
+                  0.9063328504562378,
+                  0.8112909197807312
+                ],
+                [
+                  0.01922454498708248,
+                  0.9814727306365967
+                ]
+              ],
+              "confidence": 52,
+              "method": "color",
+              "score": 0.5795,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1253.18,
+                "mean_brightness": 130.46,
+                "contrast": 53.54,
+                "dark_fraction": 0.0071,
+                "bright_fraction": 0.0056
+              }
+            }
+          ],
+          "app_version": "1.9.0",
+          "fallback_used": false
+        },
+        "R": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.08164522051811218,
+              0.3700675964355469
+            ],
+            [
+              0.8788909912109375,
+              0.35109904408454895
+            ],
+            [
+              0.978473424911499,
+              0.8542894124984741
+            ],
+            [
+              0.06342785060405731,
+              0.8182020783424377
+            ]
+          ],
+          "confidence": 95,
+          "method": "grid-fit-7",
+          "score": 0.9177,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 443.71,
+            "mean_brightness": 111.76,
+            "contrast": 49.44,
+            "dark_fraction": 0.0083,
+            "bright_fraction": 0.0043
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.08164522051811218,
+                  0.3700675964355469
+                ],
+                [
+                  0.8788909912109375,
+                  0.35109904408454895
+                ],
+                [
+                  0.978473424911499,
+                  0.8542894124984741
+                ],
+                [
+                  0.06342785060405731,
+                  0.8182020783424377
+                ]
+              ],
+              "confidence": 95,
+              "method": "grid-fit-7",
+              "score": 0.9177,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 443.71,
+                "mean_brightness": 111.76,
+                "contrast": 49.44,
+                "dark_fraction": 0.0083,
+                "bright_fraction": 0.0043
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.26656240224838257,
+                  0.0
+                ],
+                [
+                  0.9740939736366272,
+                  0.0
+                ],
+                [
+                  0.9307757019996643,
+                  0.8819618821144104
+                ],
+                [
+                  0.0030430315528064966,
+                  0.8718050718307495
+                ]
+              ],
+              "confidence": 55,
+              "method": "cell-cluster-13",
+              "score": 0.6312,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1555.09,
+                "mean_brightness": 116.85,
+                "contrast": 58.89,
+                "dark_fraction": 0.0043,
+                "bright_fraction": 0.007
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.04200322926044464,
+                  0.32181817293167114
+                ],
+                [
+                  0.9983844757080078,
+                  0.37909090518951416
+                ],
+                [
+                  0.7108238935470581,
+                  0.9990909099578857
+                ],
+                [
+                  0.0,
+                  0.9872727394104004
+                ]
+              ],
+              "confidence": 51,
+              "method": "edge-28",
+              "score": 0.5565,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 694.44,
+                "mean_brightness": 124.69,
+                "contrast": 51.06,
+                "dark_fraction": 0.0052,
+                "bright_fraction": 0.0015
+              }
+            }
+          ],
+          "app_version": "1.9.0",
+          "fallback_used": false
+        },
+        "F": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.04601611942052841,
+              0.2946971654891968
+            ],
+            [
+              0.9983844757080078,
+              0.3402320444583893
+            ],
+            [
+              0.9617529511451721,
+              0.8650313019752502
+            ],
+            [
+              0.005503665190190077,
+              0.8302788734436035
+            ]
+          ],
+          "confidence": 97,
+          "method": "grid-fit-7",
+          "score": 0.9461,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 676.27,
+            "mean_brightness": 126.12,
+            "contrast": 59.62,
+            "dark_fraction": 0.0097,
+            "bright_fraction": 0.0055
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.04601611942052841,
+                  0.2946971654891968
+                ],
+                [
+                  0.9983844757080078,
+                  0.3402320444583893
+                ],
+                [
+                  0.9617529511451721,
+                  0.8650313019752502
+                ],
+                [
+                  0.005503665190190077,
+                  0.8302788734436035
+                ]
+              ],
+              "confidence": 97,
+              "method": "grid-fit-7",
+              "score": 0.9461,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 676.27,
+                "mean_brightness": 126.12,
+                "contrast": 59.62,
+                "dark_fraction": 0.0097,
+                "bright_fraction": 0.0055
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.01812601089477539,
+                  0.2934090793132782
+                ],
+                [
+                  0.9765751361846924,
+                  0.28555455803871155
+                ],
+                [
+                  0.7997738122940063,
+                  0.984609067440033
+                ],
+                [
+                  0.01812601089477539,
+                  0.984609067440033
+                ]
+              ],
+              "confidence": 78,
+              "method": "color-close-15",
+              "score": 0.594,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 602.26,
+                "mean_brightness": 119.53,
+                "contrast": 57.98,
+                "dark_fraction": 0.0076,
+                "bright_fraction": 0.0005
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.12035925686359406,
+                  0.0
+                ],
+                [
+                  0.9983844757080078,
+                  0.0
+                ],
+                [
+                  0.976848840713501,
+                  0.7208293676376343
+                ],
+                [
+                  0.03458026051521301,
+                  0.6861112713813782
+                ]
+              ],
+              "confidence": 35,
+              "method": "cell-cluster-9",
+              "score": 0.276,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1114.22,
+                "mean_brightness": 116.07,
+                "contrast": 65.76,
+                "dark_fraction": 0.008,
+                "bright_fraction": 0.0058
+              }
+            }
+          ],
+          "app_version": "1.9.0",
+          "fallback_used": false
+        },
+        "D": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.01800394058227539,
+              0.3235338628292084
+            ],
+            [
+              0.9983844757080078,
+              0.3298989236354828
+            ],
+            [
+              0.9833191633224487,
+              0.8812485933303833
+            ],
+            [
+              0.0,
+              0.8935806751251221
+            ]
+          ],
+          "confidence": 94,
+          "method": "grid-fit-7",
+          "score": 0.892,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 268.76,
+            "mean_brightness": 138.85,
+            "contrast": 51.35,
+            "dark_fraction": 0.0001,
+            "bright_fraction": 0.0035
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.01800394058227539,
+                  0.3235338628292084
+                ],
+                [
+                  0.9983844757080078,
+                  0.3298989236354828
+                ],
+                [
+                  0.9833191633224487,
+                  0.8812485933303833
+                ],
+                [
+                  0.0,
+                  0.8935806751251221
+                ]
+              ],
+              "confidence": 94,
+              "method": "grid-fit-7",
+              "score": 0.892,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 268.76,
+                "mean_brightness": 138.85,
+                "contrast": 51.35,
+                "dark_fraction": 0.0001,
+                "bright_fraction": 0.0035
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.29805201292037964,
+                  0.0
+                ],
+                [
+                  0.9110093712806702,
+                  0.0020875479094684124
+                ],
+                [
+                  0.9055258631706238,
+                  0.1650165617465973
+                ],
+                [
+                  0.2925684154033661,
+                  0.1584838628768921
+                ]
+              ],
+              "confidence": 23,
+              "method": "cell-cluster-5",
+              "score": 0.3149,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 477.32,
+                "mean_brightness": 116.24,
+                "contrast": 70.21,
+                "dark_fraction": 0.0028,
+                "bright_fraction": 0.0031
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.9983844757080078,
+                  0.0
+                ],
+                [
+                  0.9983844757080078,
+                  0.1700499951839447
+                ],
+                [
+                  0.0,
+                  0.1700499951839447
+                ]
+              ],
+              "confidence": 27,
+              "method": "edge-90",
+              "score": 0.2596,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1117.56,
+                "mean_brightness": 110.3,
+                "contrast": 72.92,
+                "dark_fraction": 0.0016,
+                "bright_fraction": 0.005
+              }
+            }
+          ],
+          "app_version": "1.9.0",
+          "fallback_used": false
+        },
+        "L": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.04125310853123665,
+              0.2803363800048828
+            ],
+            [
+              0.9685713052749634,
+              0.3048842251300812
+            ],
+            [
+              0.9448463320732117,
+              0.8153623938560486
+            ],
+            [
+              0.04293113201856613,
+              0.8069769144058228
+            ]
+          ],
+          "confidence": 93,
+          "method": "grid-fit-9",
+          "score": 0.9474,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 999.61,
+            "mean_brightness": 139.63,
+            "contrast": 51.05,
+            "dark_fraction": 0.0047,
+            "bright_fraction": 0.0022
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.04125310853123665,
+                  0.2803363800048828
+                ],
+                [
+                  0.9685713052749634,
+                  0.3048842251300812
+                ],
+                [
+                  0.9448463320732117,
+                  0.8153623938560486
+                ],
+                [
+                  0.04293113201856613,
+                  0.8069769144058228
+                ]
+              ],
+              "confidence": 93,
+              "method": "grid-fit-9",
+              "score": 0.9474,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 999.61,
+                "mean_brightness": 139.63,
+                "contrast": 51.05,
+                "dark_fraction": 0.0047,
+                "bright_fraction": 0.0022
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.005563862156122923,
+                  0.0
+                ],
+                [
+                  0.8545750975608826,
+                  0.028177740052342415
+                ],
+                [
+                  0.9596251249313354,
+                  0.6687467694282532
+                ],
+                [
+                  0.03484008088707924,
+                  0.6542104482650757
+                ]
+              ],
+              "confidence": 60,
+              "method": "cell-cluster-11",
+              "score": 0.7294,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 836.65,
+                "mean_brightness": 128.2,
+                "contrast": 63.42,
+                "dark_fraction": 0.0065,
+                "bright_fraction": 0.0018
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.04080776870250702,
+                  0.020021820440888405
+                ],
+                [
+                  0.795896589756012,
+                  0.030756378546357155
+                ],
+                [
+                  0.9421453475952148,
+                  0.4726617932319641
+                ],
+                [
+                  0.07736997306346893,
+                  0.4565599858760834
+                ]
+              ],
+              "confidence": 49,
+              "method": "cell-cluster-8",
+              "score": 0.5344,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 397.47,
+                "mean_brightness": 125.29,
+                "contrast": 68.03,
+                "dark_fraction": 0.0049,
+                "bright_fraction": 0.0012
+              }
+            }
+          ],
+          "app_version": "1.9.0",
+          "fallback_used": false
+        },
+        "B": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.1519019901752472,
+              0.3457355499267578
+            ],
+            [
+              0.971113383769989,
+              0.36451441049575806
+            ],
+            [
+              0.952870786190033,
+              0.8469989895820618
+            ],
+            [
+              0.12975117564201355,
+              0.8121209144592285
+            ]
+          ],
+          "confidence": 97,
+          "method": "grid-fit-7",
+          "score": 0.9449,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 376.54,
+            "mean_brightness": 123.9,
+            "contrast": 49.26,
+            "dark_fraction": 0.0114,
+            "bright_fraction": 0.0031
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.1519019901752472,
+                  0.3457355499267578
+                ],
+                [
+                  0.971113383769989,
+                  0.36451441049575806
+                ],
+                [
+                  0.952870786190033,
+                  0.8469989895820618
+                ],
+                [
+                  0.12975117564201355,
+                  0.8121209144592285
+                ]
+              ],
+              "confidence": 97,
+              "method": "grid-fit-7",
+              "score": 0.9449,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 376.54,
+                "mean_brightness": 123.9,
+                "contrast": 49.26,
+                "dark_fraction": 0.0114,
+                "bright_fraction": 0.0031
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.0,
+                  0.25346365571022034
+                ],
+                [
+                  0.9983844757080078,
+                  0.24968184530735016
+                ],
+                [
+                  0.9764297604560852,
+                  0.8368090987205505
+                ],
+                [
+                  0.013715703971683979,
+                  0.9990909099578857
+                ]
+              ],
+              "confidence": 52,
+              "method": "edge-28",
+              "score": 0.5855,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 565.93,
+                "mean_brightness": 123.17,
+                "contrast": 46.75,
+                "dark_fraction": 0.0073,
+                "bright_fraction": 0.0022
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.9450646042823792,
+                  0.0
+                ],
+                [
+                  0.9485087990760803,
+                  0.6892845630645752
+                ],
+                [
+                  0.11844103783369064,
+                  0.6718409061431885
+                ]
+              ],
+              "confidence": 50,
+              "method": "cell-cluster-12",
+              "score": 0.5523,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1414.46,
+                "mean_brightness": 103.25,
+                "contrast": 53.16,
+                "dark_fraction": 0.0101,
+                "bright_fraction": 0.0022
+              }
+            }
+          ],
+          "app_version": "1.9.0",
+          "fallback_used": false
+        }
+      },
+      "classification": {
+        "labels": {
+          "U": "FRUFUDBRF",
+          "R": "LBBFRURRB",
+          "F": "LUUBFDDBB",
+          "D": "FRULDDDLR",
+          "L": "UUDULLFFR",
+          "B": "LFRLBBDDL"
+        },
+        "quality": {
+          "valid": true,
+          "reasons": [],
+          "minimumPrototypeDistance": 57.0521852074668,
+          "ambiguousFraction": 0,
+          "lowInformationFraction": 0.020833333333333332,
+          "stickerConfidence": [
+            {
+              "confidence": 1,
+              "margin": 61.09421520655548,
+              "cost": 4.876339596440337,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 56.98652310308746,
+              "cost": 4.541944052173809,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 56.932332372465076,
+              "cost": 1.2098172966356335,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 58.98808173651566,
+              "cost": 8.140906980624031,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 62.38964254396117,
+              "cost": 2.8929138987431164,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 53.62170660729794,
+              "cost": 6.783780882920098,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 52.73526451452781,
+              "cost": 12.743209225401744,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 55.40142534391362,
+              "cost": 6.8597397630607375,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 56.676930184046185,
+              "cost": 12.738407853160211,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 55.43226266354862,
+              "cost": 4.072938992641687,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 50.25427060951395,
+              "cost": 6.007104450322712,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 63.73504845393048,
+              "cost": 3.691532560239301,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 54.934983109504735,
+              "cost": 2.6417777969187872,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 62.723283932296575,
+              "cost": 5.565683109237743,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 53.390325308376,
+              "cost": 13.77922738756191,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 48.33518305624051,
+              "cost": 5.936124175876405,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 58.08041964679176,
+              "cost": 9.445465828003515,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 57.0521852074668,
+              "cost": 0,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 56.989940330835786,
+              "cost": 0.7363186310405354,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 55.613860514189824,
+              "cost": 5.540797205726912,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 60.10703234037256,
+              "cost": 5.128399624824915,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 62.655269750802546,
+              "cost": 5.853477831677022,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 54.738591964938244,
+              "cost": 5.771363238565923,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 53.74956695540652,
+              "cost": 5.001549875826827,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 65.73374645228515,
+              "cost": 0,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 55.109852977672446,
+              "cost": 10.503143127461943,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 56.78946472551226,
+              "cost": 1.0962109454913587,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 66.69337940309973,
+              "cost": 3.7667424555356384,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 63.49592164024171,
+              "cost": 2.4841853287012805,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 64.18399513212572,
+              "cost": 5.001093705207362,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 68.4063200572437,
+              "cost": 0.9987142758047765,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 59.672417339709476,
+              "cost": 4.8820358240544355,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 54.86740950962772,
+              "cost": 1.6479952827830346,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 55.77643365146733,
+              "cost": 1.0644749947963463,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 65.19467543684704,
+              "cost": 0,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 54.65144226039192,
+              "cost": 1.7042234355615113,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 55.762575292617726,
+              "cost": 10.109794323066453,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 60.96885411343717,
+              "cost": 6.048367305579925,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 65.05159828422042,
+              "cost": 0.8105327436660761,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 63.57907483146907,
+              "cost": 0,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 69.75526363095119,
+              "cost": 0,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 57.5173311022466,
+              "cost": 6.346160112136314,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 60.11272582156313,
+              "cost": 1.7529835549231676,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 68.83793694216602,
+              "cost": 1.4303432330951962,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 57.0521852074668,
+              "cost": 0,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 64.71419329939886,
+              "cost": 5.84176563977022,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 64.47353022481602,
+              "cost": 5.248499408600078,
+              "low": false
+            },
+            {
+              "confidence": 1,
+              "margin": 59.88442188945157,
+              "cost": 5.976713816170161,
+              "low": false
+            }
+          ],
+          "mappingValid": true
+        }
+      },
+      "facelets": "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+      "reference_facelets": "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+      "matches_reference": true
+    }
+  ],
+  "server_log": [
+    "ħ����̽�Ӧ�� 1.9.0 ������: http://127.0.0.1:8765/",
+    "�״��������� HTM ��֦���������ĵȴ����� Ctrl+C ֹͣ��"
+  ]
+}

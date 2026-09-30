@@ -1,5 +1,7 @@
 # HTM 回退与 QTM 隔离实施报告
 
+后续复审修复与固定完整层诊断见 [QTM 隔离复审修复与短验收](htm-qtm-isolation-followup-report.md)。下文保留原 `b68da78` 的实施与最终 ZIP 记录；其中性能结论的适用范围以后续报告为准。
+
 日期：2026-09-30。实施分支：`codex/htm-rollback-qtm-isolation`。本报告对应本地版本 `1.8.0`，没有远程发布或改写原有历史。验收范围遵循[实施方案](ai-htm-rollback-qtm-isolation-plan.md)第 5 节；用户要求缩短验收后，没有再增加长求解。
 
 ## 结论

@@ -1,12 +1,15 @@
 param(
     [switch]$ProfileGuided,
-    [string]$Compiler
+    [switch]$Portable,
+    [string]$Compiler,
+    [string]$OutputDirectory
 )
 
 $ErrorActionPreference = "Stop"
 
-$buildDirectory = Join-Path $PSScriptRoot "build"
+$buildDirectory = if ($OutputDirectory) { $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($OutputDirectory) } else { Join-Path $PSScriptRoot "build" }
 $target = Join-Path $buildDirectory "cube_solver_htm.exe"
+$compilerOutput = [System.IO.Path]::GetRelativePath($PSScriptRoot, $target)
 
 function Resolve-CompilerPath {
     param([string]$RequestedCompiler)
@@ -32,7 +35,8 @@ function Resolve-CompilerPath {
 $compilerPath = Resolve-CompilerPath $Compiler
 
 if ($ProfileGuided) {
-    & (Join-Path $PSScriptRoot "build_profiled.ps1") -Compiler $compilerPath
+    if ($OutputDirectory) { throw "-OutputDirectory is not supported with -ProfileGuided" }
+    & (Join-Path $PSScriptRoot "build_profiled.ps1") -Compiler $compilerPath -Portable:$Portable
     if ($LASTEXITCODE -ne 0) {
         throw "Profile-guided native solver build failed with exit code $LASTEXITCODE"
     }
@@ -42,14 +46,14 @@ if ($ProfileGuided) {
 $env:PATH = (Split-Path -Parent $compilerPath) + ";" + $env:PATH
 New-Item -ItemType Directory -Force -Path $buildDirectory | Out-Null
 Write-Host "Using C++ compiler: $compilerPath"
+$architectureFlags = if ($Portable) { @("-march=x86-64", "-mtune=generic") } else { @("-march=native", "-mtune=native") }
 
 Push-Location $PSScriptRoot
 try {
     & $compilerPath `
         -std=c++20 `
         -O3 `
-        -march=native `
-        -mtune=native `
+        @architectureFlags `
         -flto `
         -DNDEBUG `
         -Wall `
@@ -65,7 +69,7 @@ try {
         -pthread `
         -static `
         -municode `
-        -o build\cube_solver_htm.exe
+        -o $compilerOutput
 } finally {
     Pop-Location
 }
@@ -76,7 +80,8 @@ if ($LASTEXITCODE -ne 0) {
 
 $buildInfo = [ordered]@{
     compiler = (& $compilerPath --version | Select-Object -First 1)
-    flags = "-std=c++20 -O3 -march=native -mtune=native -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode"
+    flags = "-std=c++20 -O3 $($architectureFlags -join ' ') -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode"
+    portable = [bool]$Portable
     profile_guided = $false
     built_at = [DateTime]::UtcNow.ToString("o")
     binary_sha256 = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash

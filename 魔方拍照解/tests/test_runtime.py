@@ -6,7 +6,7 @@ from pathlib import Path
 from unittest import mock
 
 from cube_app.runtime import application_root
-from cube_app.two_by_two import TwoByTwoSolver
+from cube_app.solvers.htm.two_by_two import TwoByTwoSolver
 
 
 class RuntimePathTests(unittest.TestCase):

@@ -1,0 +1,36 @@
+[
+  {
+    "name": "initial-1",
+    "clicked_wall_ms": 1790763924243,
+    "first_candidate_wall_ms": 1790763927334,
+    "terminal_wall_ms": 1790764014246,
+    "solution": "U L F U' D' B' R' L B2 U' B2 R B L2 U2 F U2 D2",
+    "detail": "已严格排除 ≤ 19 步；累计 188,997,244 节点，27.4s；最短性尚未证明",
+    "status": "当前候选可执行，严格最短尚未证明",
+    "terminal_observation_is_upper_bound": true,
+    "candidate_cost": 24,
+    "candidate_replayed": true,
+    "completed_depth": 19,
+    "strict_optimal": false,
+    "http_ledger_available": false,
+    "timing_is_observation_upper_bound": true,
+    "not_used_for_cross_version_speed_comparison": true
+  },
+  {
+    "name": "initial-12",
+    "clicked_wall_ms": 1790764130002,
+    "first_candidate_wall_ms": 1790764132073,
+    "terminal_wall_ms": 1790764178528,
+    "solution": "F' U B' L2 U' B U D B' U D' B' U L F' R2 B' U2 B' F2",
+    "detail": "已严格排除 ≤ 19 步；累计 197,477,038 节点，28.0s；最短性尚未证明",
+    "status": "当前候选可执行，严格最短尚未证明",
+    "terminal_observation_is_upper_bound": true,
+    "candidate_cost": 24,
+    "candidate_replayed": true,
+    "completed_depth": 19,
+    "strict_optimal": false,
+    "http_ledger_available": false,
+    "timing_is_observation_upper_bound": true,
+    "not_used_for_cross_version_speed_comparison": true
+  }
+]

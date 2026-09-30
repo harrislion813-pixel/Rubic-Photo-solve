@@ -10,9 +10,9 @@ import unittest
 
 import pytest
 
-from cube_app.coords import get_corner_perm, get_flip, get_slice_comb, get_twist
+from cube_app.solvers.htm.coords import get_corner_perm, get_flip, get_slice_comb, get_twist
 from cube_app.cubie import CubieCube, MOVE_INDEX, to_facelets
-from cube_app.optimal import invert_moves
+from cube_app.solvers.htm.optimal import invert_moves
 from cube_app.solvers.htm.native import NATIVE_EXE, native_solver_available
 from cube_app.solvers.htm.native import solve_native
 from cube_app.solvers.htm.native import NativeSolverCancelled, NativeSolverTimeout, _PERSISTENT_SOLVER

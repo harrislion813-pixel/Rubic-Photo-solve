@@ -53,7 +53,7 @@ class OptimalSolverTests(unittest.TestCase):
         optimal._PARALLEL_MIN_DEPTH = 1
         try:
             cube = scrambled("R U F2")
-            solver = optimal.OptimalSolver(ROOT / ".cache", parallel=True, max_workers=2)
+            solver = optimal.OptimalSolver(ROOT / ".cache" / "htm", parallel=True, max_workers=2)
             result = solver.solve_cube(cube, timeout_seconds=10)
         finally:
             optimal._PARALLEL_MIN_DEPTH = previous_threshold
@@ -68,7 +68,7 @@ class OptimalSolverTests(unittest.TestCase):
         context.Pool.side_effect = PermissionError(5, "Access is denied")
         try:
             cube = scrambled("R U F2")
-            solver = optimal.OptimalSolver(ROOT / ".cache", parallel=True, max_workers=2)
+            solver = optimal.OptimalSolver(ROOT / ".cache" / "htm", parallel=True, max_workers=2)
             with mock.patch.object(optimal.multiprocessing, "get_context", return_value=context):
                 result = solver.solve_cube(cube, timeout_seconds=10, progress_callback=events.append)
         finally:

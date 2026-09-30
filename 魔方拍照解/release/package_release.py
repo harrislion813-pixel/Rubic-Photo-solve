@@ -110,7 +110,7 @@ def distribute(portable, output):
     command += f"if((Get-AssetHash $temp) -ne '{identity}'){{throw 'Merged ZIP verification failed.'}}; "
     command += "Move-Item -LiteralPath $temp -Destination $target; Write-Host 'ZIP verified. Extract it and start the app.'"
     encoded = base64.b64encode(command.encode("utf-16le")).decode()
-    helper = output / "合并QTM便携包.cmd"
+    helper = output / "QTM.cmd"
     helper.write_text('@echo off\r\ncd /d "%~dp0"\r\npowershell.exe -NoProfile -ExecutionPolicy Bypass -EncodedCommand '
                       + encoded + '\r\nif errorlevel 1 echo Merge failed. Keep this window and read the error.\r\npause\r\n', encoding="ascii")
     return parts + [helper]

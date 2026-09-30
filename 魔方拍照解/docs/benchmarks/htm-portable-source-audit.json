@@ -1,0 +1,88 @@
+{
+  "source": "ae73ca81af1ed077c059f3345377190bf0ce2882",
+  "files": {
+    "include/cube.hpp": {
+      "git_sha256": "6346aa5bdcf355ea9efc6836905032e78e1359f4813d4674cf9c82e45ecbcef9",
+      "worktree_sha256": "1f98383cb71cb16e5b0b8c0bc52cd221f9ca3a02a31cfcfeac33dcdde805b83e",
+      "equal_except_line_endings": true
+    },
+    "include/paths.hpp": {
+      "git_sha256": "fb3ecd78d63c5ab1d3fb183c4f9822b9c0a1a0da3133561c14f09c56828de786",
+      "worktree_sha256": "567c2d959576f77d234df379130b4db20c0bbe91a45088590158d9a4f05b845f",
+      "equal_except_line_endings": true
+    },
+    "include/pdb.hpp": {
+      "git_sha256": "08dcd2edb1cb222af602cddee0b86585b554c3638d05b779f8fe2bf489c8e7cf",
+      "worktree_sha256": "5cbd76d0125e1f2510ec536e16468804a3d7ac9ab752853fb5b4919c66274428",
+      "equal_except_line_endings": true
+    },
+    "include/solver.hpp": {
+      "git_sha256": "9aeeb00addf92ca3435db0d3d6762ecf15791574d41406d9d00f0819c237770d",
+      "worktree_sha256": "188234ad4d6585cf7cd7fee02f4754bc236acac88e481d03dc317645fbf0fd64",
+      "equal_except_line_endings": true
+    },
+    "include/symmetry.hpp": {
+      "git_sha256": "b53c16c7892dc9473e7059eaa5935b9ba1d44a96bfae99291802770303757d2e",
+      "worktree_sha256": "25ea953fc6a8fd7aa91cee2456116419348135f8bc2205fdc825711306c37fe4",
+      "equal_except_line_endings": true
+    },
+    "include/tail.hpp": {
+      "git_sha256": "3b302610376ad768ba643fb28833fff6c122c40a491cd9132950794e771e7948",
+      "worktree_sha256": "5095e0e59025d44dd9d9c05a8d104df180a90c3993db18c4153b56840cd94f2a",
+      "equal_except_line_endings": true
+    },
+    "src/cube.cpp": {
+      "git_sha256": "f94564ac640c96cfe52b18a3d012958271fc08ab7e5eba64b77c49ba9b06ebaf",
+      "worktree_sha256": "3c7501a3e18bace61cab5690c99b7c0b85967c51e946f61c982d41c25a7d6b4a",
+      "equal_except_line_endings": true
+    },
+    "src/main.cpp": {
+      "git_sha256": "ef22ff88c0b05e5065738f69523392305e3efb1b9ff2b626dcd42e10ef3a17ec",
+      "worktree_sha256": "d9f5911bec72ebc6fbb0da9a45167e1654815b0f02293d44b6f93cf663600b84",
+      "equal_except_line_endings": true
+    },
+    "src/pdb.cpp": {
+      "git_sha256": "9b7e79985ae95379e08bba36384a4ec2a91f2fee13ec1fd5a82abc506d14537e",
+      "worktree_sha256": "03fb90e8f656c26974e59ff6fcb8edb4df999025e1ff88528688bc3d97b4793a",
+      "equal_except_line_endings": true
+    },
+    "src/solver.cpp": {
+      "git_sha256": "59adba16d16707f1fa9bbd8db2efb0e166a1cdfa1a25863522025dafbd9f3589",
+      "worktree_sha256": "5e0445466519fc1692be718a0434203368b5cd9d23cc93c7a884cbd55d00c875",
+      "equal_except_line_endings": true
+    },
+    "src/symmetry.cpp": {
+      "git_sha256": "de8fa95bdfc02ee0ca4123ffa719bcadda74119a48f73332ea3829c22c29355f",
+      "worktree_sha256": "a350071e2187a539bfc3028c0147eb63ab95ec8827b3f421ee6f7866a6f94bcf",
+      "equal_except_line_endings": true
+    },
+    "src/tail.cpp": {
+      "git_sha256": "50db764ca374041ce275c69e370350475e6e96e4ae35861aaacc73f928748f52",
+      "worktree_sha256": "ec479533cf48e61e58857b184142b8b2aabbdc134e3e719a32746ee69522135b",
+      "equal_except_line_endings": true
+    }
+  },
+  "build_script": "current portable HTM build.ps1",
+  "build_info": {
+    "compiler": "g++.exe (Rev5, Built by MSYS2 project) 16.1.0",
+    "flags": "-std=c++20 -O3 -march=x86-64 -mtune=generic -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode",
+    "portable": true,
+    "profile_guided": false,
+    "built_at": "2026-09-30T08:18:53.6356780Z",
+    "binary_sha256": "1C904DA5FD700E5AF7088DA283AEC584BB02C2D841E5B2736A977F771100872A",
+    "source_sha256": {
+      "main.cpp": "EF22FF88C0B05E5065738F69523392305E3EFB1B9FF2B626DCD42E10EF3A17EC",
+      "cube.cpp": "F94564AC640C96CFE52B18A3D012958271FC08AB7E5EBA64B77C49BA9B06EBAF",
+      "symmetry.hpp": "B53C16C7892DC9473E7059EAA5935B9BA1D44A96BFAE99291802770303757D2E",
+      "pdb.hpp": "08DCD2EDB1CB222AF602CDDEE0B86585B554C3638D05B779F8FE2BF489C8E7CF",
+      "solver.cpp": "59ADBA16D16707F1FA9BBD8DB2EFB0E166A1CDFA1A25863522025DAFBD9F3589",
+      "tail.cpp": "50DB764CA374041CE275C69E370350475E6E96E4AE35861AAACC73F928748F52",
+      "paths.hpp": "FB3ECD78D63C5AB1D3FB183C4F9822B9C0A1A0DA3133561C14F09C56828DE786",
+      "symmetry.cpp": "DE8FA95BDFC02EE0CA4123FFA719BCADDA74119A48F73332EA3829C22C29355F",
+      "solver.hpp": "9AEEB00ADDF92CA3435DB0D3D6762ECF15791574D41406D9D00F0819C237770D",
+      "pdb.cpp": "9B7E79985AE95379E08BBA36384A4EC2A91F2FEE13EC1FD5A82ABC506D14537E",
+      "cube.hpp": "6346AA5BDCF355EA9EFC6836905032E78E1359F4813D4674CF9C82E45ECBCEF9",
+      "tail.hpp": "3B302610376AD768BA643FB28833FFF6C122C40A491CD9132950794E771E7948"
+    }
+  }
+}

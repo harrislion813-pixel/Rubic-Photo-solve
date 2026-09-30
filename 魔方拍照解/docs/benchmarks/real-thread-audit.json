@@ -1,0 +1,54 @@
+{
+  "htm-h0-real.json": {
+    "recorded_runner_threads_field": 4,
+    "cases": [
+      {
+        "name": "initial-1",
+        "observed_worker_frames": 15
+      },
+      {
+        "name": "initial-12",
+        "observed_worker_frames": 15
+      }
+    ]
+  },
+  "htm-h1-real-release.json": {
+    "recorded_runner_threads_field": 15,
+    "cases": [
+      {
+        "name": "initial-1",
+        "observed_worker_frames": 15
+      },
+      {
+        "name": "initial-12",
+        "observed_worker_frames": 15
+      }
+    ]
+  },
+  "qtm-q0-real.json": {
+    "recorded_runner_threads_field": 15,
+    "cases": [
+      {
+        "name": "initial-1",
+        "observed_worker_frames": 15
+      },
+      {
+        "name": "initial-12",
+        "observed_worker_frames": 15
+      }
+    ]
+  },
+  "qtm-q1-real-release.json": {
+    "recorded_runner_threads_field": 15,
+    "cases": [
+      {
+        "name": "initial-1",
+        "observed_worker_frames": 15
+      },
+      {
+        "name": "initial-12",
+        "observed_worker_frames": 15
+      }
+    ]
+  }
+}

@@ -94,15 +94,21 @@ jobs:
         if: matrix.python-version != '3.12'
         run: pytest -ra -m "not native_pdb and not native_slow"
 
-      - name: Run branch coverage gate
+      - name: Run stable HTM and shared branch coverage gate
         if: matrix.python-version == '3.12'
         run: >-
           pytest -ra
           -m "not native_binary and not native_pdb and not native_slow and not vision_real"
-          --cov=cube_app --cov=server --cov-branch --cov-report=term-missing
+          --cov --cov-branch --cov-report=term-missing
 
       - name: Compile Python sources
         run: python -m compileall -q cube_app server.py windows_launcher.py
+
+      - name: Build and verify installed wheel
+        if: matrix.python-version == '3.12'
+        run: |
+          python -m pip wheel . --no-deps --wheel-dir .cache/wheel
+          python tests/check_wheel_install.py .cache/wheel
 
   frontend-tests:
     name: Frontend (Node.js 20)
@@ -159,14 +165,14 @@ jobs:
       - name: Check C++ formatting
         run: |
           $clangFormat = "${{ steps.msys2.outputs.msys2-location }}\ucrt64\bin\clang-format.exe"
-          $files = Get-ChildItem native\src, native\include -Recurse -File -Include *.cpp, *.hpp
+          $files = Get-ChildItem native\htm\src, native\htm\include, native\qtm\src, native\qtm\include -Recurse -File -Include *.cpp, *.hpp
           & $clangFormat --dry-run --Werror --style=file $files.FullName
           if ($LASTEXITCODE -ne 0) {
             throw "clang-format check failed with exit code $LASTEXITCODE"
           }
 
       - name: Build native solver
-        run: .\native\build.ps1 -Portable -Compiler "${{ steps.msys2.outputs.msys2-location }}\ucrt64\bin\g++.exe"
+        run: .\native\htm\build.ps1 -Portable -Compiler "${{ steps.msys2.outputs.msys2-location }}\ucrt64\bin\g++.exe"
 
       - name: Run required native binary tests
         env:
@@ -177,19 +183,28 @@ jobs:
         id: native-pdb-cache
         uses: actions/cache@v4
         with:
-          path: 魔方拍照解/.cache/native
-          key: native-pdb-v2-${{ runner.os }}-ucrt64-${{ hashFiles('魔方拍照解/native/src/**', '魔方拍照解/native/include/**', '魔方拍照解/native/build_tables.ps1') }}
+          path: 魔方拍照解/assets/htm/v1
+          key: htm-full-v1-${{ runner.os }}-ucrt64-${{ hashFiles('魔方拍照解/native/htm/src/**', '魔方拍照解/native/htm/include/**', '魔方拍照解/native/htm/build_tables.ps1') }}
 
       - name: Build required PDBs on cache miss
         if: steps.native-pdb-cache.outputs.cache-hit != 'true'
-        run: .\native\build_tables.ps1 -CiMinimal
+        run: .\native\htm\build_tables.ps1
+
+      - name: Prepare separate HTM runtime caches
+        run: |
+          New-Item -ItemType Directory -Force .cache\htm | Out-Null
+          $env:CUBE_NATIVE_COORDINATE_CACHE = (Join-Path (Get-Location).Path ".cache\htm\coordinates_htm_v1.bin")
+          .\native\htm\build\cube_solver_htm.exe check-heuristic --depth 0
+          python -c "from cube_app.solvers.htm.tables import load_or_build_tables; load_or_build_tables('.cache/htm')"
+          python -m cube_app.solvers.htm.two_by_two_tables --cache-dir .cache/htm
 
       - name: Verify required native assets
         run: |
           $required = @(
-            "native\build\cube_solver.exe",
-            ".cache\native\corner_htm_v2.pdb",
-            ".cache\native\phase1_sym_htm_v2.pdb"
+            "native\htm\build\cube_solver_htm.exe",
+            "assets\htm\v1\corner_htm_v2.pdb",
+            "assets\htm\v1\phase1_sym_htm_v2.pdb",
+            "assets\htm\v1\tail_depth6_v4.pdb"
           )
           foreach ($path in $required) {
             if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
@@ -203,34 +218,35 @@ jobs:
         run: pytest -ra -m native_pdb
 
       - name: Build Windows portable package
-        run: .\release\build_windows.ps1 -Python python -SkipNativeBuild -SkipTableBuild
+        run: .\release\build_windows.ps1 -Profile HtmFull -Python python -SkipNativeBuild -SkipTableBuild
 
       - name: Upload Windows portable package
         uses: actions/upload-artifact@v4
         with:
           name: RubicPhotoSolve-${{ needs.version-check.outputs.version }}-windows-x64
-          path: 魔方拍照解/dist/RubicPhotoSolve-*-windows-x64.zip
+          path: 魔方拍照解/dist/HtmFull/RubicPhotoSolve-*-HtmFull-windows-x64.zip
           if-no-files-found: error
 
-  publish-release:
-    name: Publish GitHub Release
+  prepare-release-draft:
+    name: Prepare release draft after checks
     if: startsWith(github.ref, 'refs/tags/v')
     needs: [version-check, lint, python-tests, frontend-tests, native-windows]
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     permissions:
       contents: write
-
+    defaults:
+      run:
+        working-directory: .
     steps:
-      - name: Download tested Windows package
-        uses: actions/download-artifact@v4
-        with:
-          name: RubicPhotoSolve-${{ needs.version-check.outputs.version }}-windows-x64
-          path: release-assets
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v3
-        with:
-          name: Cube Lens v${{ needs.version-check.outputs.version }}
-          generate_release_notes: true
-          files: release-assets/*.zip
+      - name: Reserve draft without publishing an incomplete release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          if ! gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release create "$RELEASE_TAG" --verify-tag --draft \
+              --title "Cube Lens $RELEASE_TAG" \
+              --notes "Release checks passed. Attach verified HtmFull, QtmStrong, clean source and SHA256SUMS before publishing."
+          fi

@@ -1,0 +1,215 @@
+{
+  "label": "final-default-hot",
+  "metric": "QTM",
+  "bound": 19,
+  "case_bounds": {
+    "pgo16": 19,
+    "known18": 18
+  },
+  "timeout_seconds": 5,
+  "threads": 15,
+  "binary": "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+  "binary_sha256": "b3e2a755a77caf96a8a55f9ef15bbd444d44506a3dac6a2cfb16d258c8cc2d28",
+  "command": [
+    "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+    "serve",
+    "--pdb",
+    "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\corner_htm_v2.pdb",
+    "--phase1-pdb",
+    "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_sym_htm_v2.pdb",
+    "--tail-pdb",
+    "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_depth6_v4.pdb",
+    "--qtm-pdb",
+    "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\corner_qtm_v3.pdb",
+    "--qtm-phase1-pdb",
+    "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+    "--strong-pdb",
+    "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\strong_qtm_v4_nibble.pdb",
+    "--qtm-tail-pdb",
+    "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+    "--asset-loading=eager",
+    "--no-proof-cache",
+    "--no-native-candidate",
+    "--direction-policy=off",
+    "--dual-policy=off",
+    "--pdb-query-order=strong-first"
+  ],
+  "initial_incumbent": [],
+  "proof_cache": false,
+  "native_candidate": false,
+  "assets": {
+    "corner": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb"
+    },
+    "phase1": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f"
+    },
+    "tail": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74"
+    },
+    "qtm_corner": {
+      "bytes": 88179920,
+      "sha256": "070f1314a7b68955ed3e84a3de5b6e2ede20385f0775a334ec9f1d470f0e08d0"
+    },
+    "qtm_phase1": {
+      "bytes": 140908490,
+      "sha256": "7606158cd7ccb4c1d49db7aab45fe25fbad21580aab8742648ae3e29567e6a11"
+    },
+    "strong": {
+      "bytes": 1764716840,
+      "sha256": "12de7580c0b59728fdb559bc0eb1c50adf9e724ec681b1bfb144efe392829e9c"
+    },
+    "qtm_tail": {
+      "bytes": 1677721664,
+      "sha256": "35e3d345cd16e3efa16ceecb398b583f825d66a4e42dbc1856466338353a1687"
+    }
+  },
+  "cases": [
+    {
+      "name": "pgo16",
+      "facelets": "RFLLURLRRDFULRRBDLUBFUFULDRDLDRDBFFDUBFULFRUBBLBDBBFDU"
+    },
+    {
+      "name": "known18",
+      "facelets": "UDBBURFBBUFULRUBFFDLLRFFDLDRULLDDRRDFRLULUUDBRBLBBFRDF"
+    }
+  ],
+  "startup_seconds": 9.34260130000257,
+  "ready": {
+    "ok": true,
+    "type": "ready",
+    "protocol_version": 3,
+    "proof_version": 3,
+    "metrics": [
+      "QTM"
+    ],
+    "asset_loading": "eager",
+    "base_initialization_seconds": 1.4422,
+    "strong_initialization_seconds": 7.65925,
+    "tail_initialization_seconds": 0.123674,
+    "candidate_tables_seconds": 0.0406051,
+    "base_ready_elapsed_seconds": 1.4422,
+    "total_initialization_seconds": 9.26585,
+    "strong_ready_elapsed_seconds": 9.14205,
+    "tail_ready_elapsed_seconds": 9.26572,
+    "strong_symmetry_seconds": 0.52044,
+    "strong_verification_seconds": 7.13879,
+    "assets": {
+      "QTM": {
+        "corner": true,
+        "corner_metric": "QTM",
+        "corner_complete": true,
+        "phase1": true,
+        "phase1_metric": "QTM",
+        "phase1_complete": true,
+        "edge_count": 0,
+        "tail": true,
+        "strong": true,
+        "tail_depth": 8,
+        "profile": "strong"
+      }
+    }
+  },
+  "runs": [
+    {
+      "case": "pgo16",
+      "repeat": 0,
+      "bound": 19,
+      "wall_seconds": 0.0006035000005795155,
+      "result": {
+        "ok": true,
+        "type": "thread_activity",
+        "request_id": "pgo16-0",
+        "loader": 0,
+        "loader_reserved": 0,
+        "candidate": 0,
+        "proof": 15
+      },
+      "progress": [
+        {
+          "ok": true,
+          "type": "asset_adopted",
+          "request_id": "pgo16-0",
+          "metric": "QTM",
+          "profile": "strong",
+          "strong": true,
+          "snapshot_id": 2403805315040,
+          "current_depth": -1,
+          "interrupted_layer_seconds": 0,
+          "remaining_seconds": 5,
+          "generated_candidates": 0,
+          "tail_depth": 8
+        },
+        {
+          "type": "progress",
+          "lower_bound": 13,
+          "metric": "QTM",
+          "upper_bound": 19,
+          "current_depth": 13,
+          "completed_depth": 12,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000302,
+          "elapsed_seconds": 0.000302,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "pgo16-0",
+          "asset_profile": "strong",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "strong_queries": 0,
+          "strong_prefetches": 0,
+          "slice_updates": 0,
+          "slice_updates_skipped": 0,
+          "tt_keys": 0,
+          "tt_lookups": 0,
+          "tt_stores": 0,
+          "strong_rejects": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "strong_equality_rejects": 0,
+          "dual_queries": 0,
+          "dual_rejects": 0,
+          "bpmx_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "ok": true,
+          "type": "asset_adopted",
+          "request_id": "pgo16-0",
+          "metric": "QTM",
+          "profile": "strong",
+          "strong": true,
+          "snapshot_id": 2403805315040,
+          "current_depth": 13,
+          "interrupted_layer_seconds": 0.0,
+          "remaining_seconds": 4.999665,
+          "generated_candidates": 0,
+          "tail_depth": 8
+        }
+      ]
+    }
+  ],
+  "stderr": []
+}

@@ -24,8 +24,8 @@ release = [
     "pyinstaller==6.21.0",
 ]
 
-[tool.setuptools]
-packages = ["cube_app"]
+[tool.setuptools.packages.find]
+include = ["cube_app*"]
 
 [tool.setuptools.dynamic]
 version = {attr = "cube_app.__version__"}
@@ -59,7 +59,13 @@ select = ["E4", "E7", "E9", "F"]
 
 [tool.coverage.run]
 branch = true
-source = ["cube_app", "server"]
+# Stable HTM and shared production path; experimental QTM correctness and lifecycle
+# are checked separately. Historical top-level solver copies are not active engines.
+source = [
+    "cube_app.solvers.htm", "cube_app.solvers.resource_broker",
+    "cube_app.cubie", "cube_app.detection", "cube_app.vision",
+    "cube_app.runtime", "cube_app.metrics", "server",
+]
 
 [tool.coverage.report]
 fail_under = 70

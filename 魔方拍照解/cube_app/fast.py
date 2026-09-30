@@ -13,8 +13,7 @@ from .coords import (
     get_twist,
     perm_to_rank,
 )
-from .cubie import CubieCube, MOVE_INDEX, MOVE_NAMES, from_facelets
-from .metrics import MOVE_COSTS, normalize_metric, solution_cost
+from .cubie import CubieCube, MOVE_NAMES, from_facelets
 from .optimal import (
     SolveResult,
     SearchTimeout,
@@ -28,7 +27,7 @@ from .tables import SolverTables, load_or_build_tables
 
 
 class FastTwoPhaseSolver:
-    """Find a feasible metric-aware two-phase solution without claiming optimality."""
+    """Find a short HTM solution quickly without claiming optimality."""
 
     def __init__(
         self,
@@ -53,24 +52,18 @@ class FastTwoPhaseSolver:
         self,
         facelets: str,
         timeout_seconds: float | None = 5.0,
-        metric: str = "HTM",
     ) -> SolveResult:
-        return self.solve_cube(from_facelets(facelets), timeout_seconds=timeout_seconds, metric=metric)
+        return self.solve_cube(from_facelets(facelets), timeout_seconds=timeout_seconds)
 
     def solve_cube(
         self,
         cube: CubieCube,
         timeout_seconds: float | None = 5.0,
-        metric: str = "HTM",
     ) -> SolveResult:
-        metric = normalize_metric(metric)
-        prices = MOVE_COSTS[metric]
-        phase1_limit = self.max_phase1_depth * (2 if metric == "QTM" else 1)
-        phase2_limit = self.max_phase2_depth * (2 if metric == "QTM" else 1)
         started = time.monotonic()
         deadline = None if timeout_seconds is None else started + timeout_seconds
         if cube.is_solved():
-            return SolveResult([], 0, metric, time.monotonic() - started, True)
+            return SolveResult([], 0, "HTM", time.monotonic() - started, True)
 
         tables = self.tables
         twist = get_twist(cube)
@@ -82,7 +75,7 @@ class FastTwoPhaseSolver:
 
         best: list[int] | None = None
         first_phase1_depth: int | None = None
-        for phase1_depth in range(lower, phase1_limit + 1):
+        for phase1_depth in range(lower, self.max_phase1_depth + 1):
             best = self._search_phase1(
                 twist,
                 flip,
@@ -95,11 +88,8 @@ class FastTwoPhaseSolver:
                 [],
                 deadline,
                 tables,
-                prices,
-                phase2_limit,
             )
             if best is not None:
-                best = self._normalize_moves(best)
                 first_phase1_depth = phase1_depth
                 break
 
@@ -107,7 +97,7 @@ class FastTwoPhaseSolver:
             best_holder = [best]
             transposition: dict[int, int] = {}
             try:
-                for phase1_depth in range(first_phase1_depth, phase1_limit + 1):
+                for phase1_depth in range(first_phase1_depth, self.max_phase1_depth + 1):
                     self._improve_phase1(
                         twist,
                         flip,
@@ -122,22 +112,14 @@ class FastTwoPhaseSolver:
                         tables,
                         best_holder,
                         transposition,
-                        prices,
-                        phase2_limit,
                     )
             except SearchTimeout:
                 pass
             best = best_holder[0]
 
         if best is not None:
-            best = self._normalize_moves(best)
             moves = [MOVE_NAMES[move_idx] for move_idx in best]
-            verified = cube
-            for move in moves:
-                verified = verified.apply_move_index(MOVE_INDEX[move])
-            if not verified.is_solved():
-                raise RuntimeError("快速两阶段候选未复原原魔方。")
-            return SolveResult(moves, solution_cost(moves, metric), metric, time.monotonic() - started, False)
+            return SolveResult(moves, len(moves), "HTM", time.monotonic() - started, False)
 
         raise SearchTimeout("快速两阶段搜索未在限制内找到解法；严格搜索仍可继续。")
 
@@ -156,8 +138,6 @@ class FastTwoPhaseSolver:
         tables: SolverTables,
         best_holder: list[list[int]],
         transposition: dict[int, int],
-        prices: tuple[int, ...],
-        phase2_limit: int,
     ) -> None:
         self._check_deadline(deadline)
         if heuristic > depth_left:
@@ -175,33 +155,29 @@ class FastTwoPhaseSolver:
                     [((edge_pack >> (position * 4)) & 0xF) - 8 for position in range(8, 12)]
                 )
                 phase2_lower = self._phase2_heuristic(tables, corner_perm, ep8, slice_perm)
-                remaining_limit = min(phase2_limit, sum(prices[move] for move in best_holder[0]) -
-                                      sum(prices[move] for move in path) - 1)
-                for phase2_depth in range(phase2_lower, remaining_limit + 1):
+                phase2_limit = min(self.max_phase2_depth, len(best_holder[0]) - len(path) - 1)
+                for phase2_depth in range(phase2_lower, phase2_limit + 1):
                     result = self._search_phase2(
                         corner_perm,
                         ep8,
                         slice_perm,
                         phase2_lower,
                         phase2_depth,
-                        6,
+                        last_face,
                         path,
                         deadline,
                         tables,
-                        prices,
                     )
                     if result is not None:
-                        best_holder[0] = self._normalize_moves(result)
+                        best_holder[0] = result
                         break
             if len(transposition) < 2_000_000:
                 transposition[key] = depth_left
             return
 
-        children: list[tuple[int, int, int, int, int, int, int, int, int]] = []
+        next_depth = depth_left - 1
+        children: list[tuple[int, int, int, int, int, int, int, int]] = []
         for move_idx, face in _ALLOWED_MOVES[last_face]:
-            next_depth = depth_left - prices[move_idx]
-            if next_depth < 0:
-                continue
             ntwist = tables.twist_move[twist][move_idx]
             nflip = tables.flip_move[flip][move_idx]
             nslice = tables.slice_comb_move[slice_comb][move_idx]
@@ -218,13 +194,12 @@ class FastTwoPhaseSolver:
                     nslice,
                     tables.corner_perm_all_move[corner_perm][move_idx],
                     _move_edge_pack(edge_pack, move_idx),
-                    next_depth,
                 )
             )
-        children.sort(key=lambda child: (child[0] + prices[child[1]], child[1]))
+        children.sort(key=lambda child: (child[0], child[1]))
 
         for child in children:
-            child_heuristic, move_idx, face, ntwist, nflip, nslice, ncorner, nedge_pack, next_depth = child
+            child_heuristic, move_idx, face, ntwist, nflip, nslice, ncorner, nedge_pack = child
             path.append(move_idx)
             self._improve_phase1(
                 ntwist,
@@ -240,8 +215,6 @@ class FastTwoPhaseSolver:
                 tables,
                 best_holder,
                 transposition,
-                prices,
-                phase2_limit,
             )
             path.pop()
 
@@ -278,8 +251,6 @@ class FastTwoPhaseSolver:
         path: list[int],
         deadline: float | None,
         tables: SolverTables,
-        prices: tuple[int, ...],
-        phase2_limit: int,
     ) -> list[int] | None:
         self._check_deadline(deadline)
         if heuristic > depth_left:
@@ -292,18 +263,17 @@ class FastTwoPhaseSolver:
                 [((edge_pack >> (position * 4)) & 0xF) - 8 for position in range(8, 12)]
             )
             phase2_lower = self._phase2_heuristic(tables, corner_perm, ep8, slice_perm)
-            for phase2_depth in range(phase2_lower, phase2_limit + 1):
+            for phase2_depth in range(phase2_lower, self.max_phase2_depth + 1):
                 result = self._search_phase2(
                     corner_perm,
                     ep8,
                     slice_perm,
                     phase2_lower,
                     phase2_depth,
-                    6,
+                    last_face,
                     path,
                     deadline,
                     tables,
-                    prices,
                 )
                 if result is not None:
                     return result
@@ -313,10 +283,8 @@ class FastTwoPhaseSolver:
         flip_move = tables.flip_move
         slice_move = tables.slice_comb_move
         corner_move = tables.corner_perm_all_move
+        next_depth = depth_left - 1
         for move_idx, face in _ALLOWED_MOVES[last_face]:
-            next_depth = depth_left - prices[move_idx]
-            if next_depth < 0:
-                continue
             ntwist = twist_move[twist][move_idx]
             nflip = flip_move[flip][move_idx]
             nslice = slice_move[slice_comb][move_idx]
@@ -337,8 +305,6 @@ class FastTwoPhaseSolver:
                 path,
                 deadline,
                 tables,
-                prices,
-                phase2_limit,
             )
             if result is not None:
                 return result
@@ -356,7 +322,6 @@ class FastTwoPhaseSolver:
         path: list[int],
         deadline: float | None,
         tables: SolverTables,
-        prices: tuple[int, ...],
     ) -> list[int] | None:
         self._check_deadline(deadline)
         if heuristic > depth_left:
@@ -366,10 +331,8 @@ class FastTwoPhaseSolver:
         if depth_left == 0:
             return None
 
+        next_depth = depth_left - 1
         for phase2_col, move_idx, face in _ALLOWED_PHASE2_MOVES[last_face]:
-            next_depth = depth_left - prices[move_idx]
-            if next_depth < 0:
-                continue
             ncp = tables.corner_perm_move[cp][phase2_col]
             nep8 = tables.edge8_perm_move[ep8][phase2_col]
             nslice = tables.slice_perm_move[slice_perm][phase2_col]
@@ -388,25 +351,11 @@ class FastTwoPhaseSolver:
                 path,
                 deadline,
                 tables,
-                prices,
             )
             if result is not None:
                 return result
             path.pop()
         return None
-
-    @staticmethod
-    def _normalize_moves(moves: list[int]) -> list[int]:
-        result: list[int] = []
-        for move in moves:
-            if not result or result[-1] // 3 != move // 3:
-                result.append(move)
-                continue
-            power = (result[-1] % 3 + 1 + move % 3 + 1) % 4
-            result.pop()
-            if power:
-                result.append(move // 3 * 3 + power - 1)
-        return result
 
     @staticmethod
     def _check_deadline(deadline: float | None) -> None:

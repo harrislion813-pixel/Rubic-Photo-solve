@@ -19,7 +19,7 @@ FACE_ORDER = "URFDLB"
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--group", choices=("1", "2", "3", "4", "5", "6", "7"), default=None)
+parser.add_argument("--group", choices=("1", "2", "3", "4", "5", "6", "7", "12"), default=None)
 args = parser.parse_args()
 
 

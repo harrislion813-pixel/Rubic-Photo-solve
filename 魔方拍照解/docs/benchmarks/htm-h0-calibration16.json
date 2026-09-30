@@ -1,0 +1,2019 @@
+{
+  "label": "H0-calibration16",
+  "metric": "HTM",
+  "bound": 16,
+  "timeout_seconds": 5.0,
+  "threads": 4,
+  "binary": "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\native\\build\\cube_solver.exe",
+  "binary_sha256": "c9f531de8b1c593b55f79cd32ebe8cba321ce4725d6c1c596786ee7d19154093",
+  "assets": {
+    "corner": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb"
+    },
+    "phase1": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f"
+    },
+    "tail": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74"
+    }
+  },
+  "cases": [
+    {
+      "name": "pgo16",
+      "facelets": "RFLLURLRRDFULRRBDLUBFUFULDRDLDRDBFFDUBFULFRUBBLBDBBFDU"
+    },
+    {
+      "name": "known18",
+      "facelets": "UDBBURFBBUFULRUBFFDLLRFFDLDRULLDDRRDFRLULUUDBRBLBBFRDF"
+    }
+  ],
+  "startup_seconds": 0.6837805999966804,
+  "ready": {
+    "ok": true,
+    "type": "ready",
+    "protocol_version": 2,
+    "proof_version": 1
+  },
+  "runs": [
+    {
+      "case": "pgo16",
+      "repeat": 0,
+      "wall_seconds": 1.2798870999831706,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "pgo16-0",
+        "status": "complete",
+        "inverse_direction": false,
+        "moves": [
+          "D",
+          "L'",
+          "D",
+          "F2",
+          "D2",
+          "L'",
+          "U'",
+          "R",
+          "U2",
+          "F2",
+          "L",
+          "F'",
+          "U2",
+          "L",
+          "U",
+          "B"
+        ],
+        "solution": "D L' D F2 D2 L' U' R U2 F2 L F' U2 L U B",
+        "depth": 16,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 1.279589,
+        "nodes": 5979329,
+        "split_nodes": 22269,
+        "transposition_hits": 0,
+        "tail_queries": 1200,
+        "tail_bloom_rejects": 1170,
+        "tail_exact_queries": 30,
+        "tail_probes": 64,
+        "tail_hits": 1,
+        "corner_pdb": true,
+        "phase1_pdb": true,
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": true,
+        "completed_depth": 15,
+        "generated_candidates": 79836882,
+        "small_pdb_queries": 0,
+        "phase1_queries": 126792014,
+        "corner_queries": 6667462,
+        "edge_queries": 0,
+        "axis_rejects": [
+          48989975,
+          14743530,
+          4757030
+        ],
+        "equality_rejects": 4680501,
+        "corner_rejects": 684525,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 1315709,
+            "generated": 17564167,
+            "busy_seconds": 1.113321,
+            "idle_seconds": 2e-06
+          },
+          {
+            "nodes": 1282420,
+            "generated": 17119351,
+            "busy_seconds": 1.11329,
+            "idle_seconds": 1e-06
+          },
+          {
+            "nodes": 1310899,
+            "generated": 17493122,
+            "busy_seconds": 1.113222,
+            "idle_seconds": 1e-06
+          },
+          {
+            "nodes": 1311025,
+            "generated": 17499422,
+            "busy_seconds": 1.113258,
+            "idle_seconds": 1e-06
+          }
+        ]
+      },
+      "progress": [
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 10,
+          "completed_depth": 9,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.9e-05,
+          "elapsed_seconds": 1.9e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "pgo16-0",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 10,
+          "completed_depth": 10,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 18,
+          "nodes": 0,
+          "split_nodes": 18,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000504,
+          "elapsed_seconds": 0.000622,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "pgo16-0",
+          "generated_candidates": 18,
+          "small_pdb_queries": 0,
+          "phase1_queries": 22,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            15,
+            2,
+            1
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 18,
+              "busy_seconds": 0.000251,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.000239
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.000205
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.000178
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 11,
+          "completed_depth": 11,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 177,
+          "nodes": 0,
+          "split_nodes": 195,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000319,
+          "elapsed_seconds": 0.000985,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "pgo16-0",
+          "generated_candidates": 195,
+          "small_pdb_queries": 0,
+          "phase1_queries": 290,
+          "corner_queries": 13,
+          "edge_queries": 0,
+          "axis_rejects": [
+            132,
+            31,
+            4
+          ],
+          "equality_rejects": 15,
+          "corner_rejects": 1,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 165,
+              "busy_seconds": 4.5e-05,
+              "idle_seconds": 1.5e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 12,
+              "busy_seconds": 1.4e-05,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 12,
+          "completed_depth": 12,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 3252,
+          "nodes": 0,
+          "split_nodes": 3447,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000466,
+          "elapsed_seconds": 0.001474,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "pgo16-0",
+          "generated_candidates": 3447,
+          "small_pdb_queries": 0,
+          "phase1_queries": 5346,
+          "corner_queries": 277,
+          "edge_queries": 0,
+          "axis_rejects": [
+            2189,
+            617,
+            126
+          ],
+          "equality_rejects": 238,
+          "corner_rejects": 24,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 849,
+              "busy_seconds": 0.00026,
+              "idle_seconds": 1.1e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 831,
+              "busy_seconds": 0.000151,
+              "idle_seconds": 6.7e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 855,
+              "busy_seconds": 0.000215,
+              "idle_seconds": 3.1e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 717,
+              "busy_seconds": 0.00014,
+              "idle_seconds": 5e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 13,
+          "completed_depth": 13,
+          "iteration_nodes": 3211,
+          "iteration_split_nodes": 5277,
+          "nodes": 3211,
+          "split_nodes": 8724,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.001634,
+          "elapsed_seconds": 0.003131,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "pgo16-0",
+          "generated_candidates": 51801,
+          "small_pdb_queries": 0,
+          "phase1_queries": 82176,
+          "corner_queries": 4480,
+          "edge_queries": 0,
+          "axis_rejects": [
+            32161,
+            9580,
+            2526
+          ],
+          "equality_rejects": 3279,
+          "corner_rejects": 398,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 795,
+              "generated": 12057,
+              "busy_seconds": 0.00137,
+              "idle_seconds": 4.1e-05
+            },
+            {
+              "nodes": 793,
+              "generated": 11913,
+              "busy_seconds": 0.001343,
+              "idle_seconds": 4e-05
+            },
+            {
+              "nodes": 860,
+              "generated": 12969,
+              "busy_seconds": 0.001293,
+              "idle_seconds": 6.1e-05
+            },
+            {
+              "nodes": 763,
+              "generated": 11415,
+              "busy_seconds": 0.001301,
+              "idle_seconds": 2e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 14,
+          "completed_depth": 14,
+          "iteration_nodes": 50802,
+          "iteration_split_nodes": 6009,
+          "nodes": 54013,
+          "split_nodes": 14733,
+          "transposition_hits": 0,
+          "tail_queries": 13,
+          "tail_bloom_rejects": 13,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.011952,
+          "elapsed_seconds": 0.015104,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "pgo16-0",
+          "generated_candidates": 736638,
+          "small_pdb_queries": 0,
+          "phase1_queries": 1165972,
+          "corner_queries": 61846,
+          "edge_queries": 0,
+          "axis_rejects": [
+            454230,
+            137624,
+            39704
+          ],
+          "equality_rejects": 43948,
+          "corner_rejects": 6024,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 12980,
+              "generated": 174951,
+              "busy_seconds": 0.011579,
+              "idle_seconds": 0.000124
+            },
+            {
+              "nodes": 12708,
+              "generated": 170676,
+              "busy_seconds": 0.011605,
+              "idle_seconds": 4.1e-05
+            },
+            {
+              "nodes": 12613,
+              "generated": 170382,
+              "busy_seconds": 0.011589,
+              "idle_seconds": 6.5e-05
+            },
+            {
+              "nodes": 12501,
+              "generated": 168828,
+              "busy_seconds": 0.011546,
+              "idle_seconds": 6.3e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 15,
+          "completed_depth": 15,
+          "iteration_nodes": 705263,
+          "iteration_split_nodes": 7110,
+          "nodes": 759276,
+          "split_nodes": 21843,
+          "transposition_hits": 0,
+          "tail_queries": 147,
+          "tail_bloom_rejects": 140,
+          "tail_exact_queries": 7,
+          "tail_probes": 14,
+          "tail_hits": 0,
+          "iteration_seconds": 0.150747,
+          "elapsed_seconds": 0.165886,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "pgo16-0",
+          "generated_candidates": 10160820,
+          "small_pdb_queries": 0,
+          "phase1_queries": 16126348,
+          "corner_queries": 846681,
+          "edge_queries": 0,
+          "axis_rejects": [
+            6228053,
+            1904449,
+            584574
+          ],
+          "equality_rejects": 598544,
+          "corner_rejects": 84297,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 182322,
+              "generated": 2436468,
+              "busy_seconds": 0.150312,
+              "idle_seconds": 7.3e-05
+            },
+            {
+              "nodes": 170517,
+              "generated": 2279700,
+              "busy_seconds": 0.150297,
+              "idle_seconds": 3.4e-05
+            },
+            {
+              "nodes": 171338,
+              "generated": 2289309,
+              "busy_seconds": 0.150243,
+              "idle_seconds": 8.1e-05
+            },
+            {
+              "nodes": 181086,
+              "generated": 2418705,
+              "busy_seconds": 0.150207,
+              "idle_seconds": 5.7e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 1257472,
+          "iteration_split_nodes": 321,
+          "nodes": 2016748,
+          "split_nodes": 22164,
+          "transposition_hits": 0,
+          "tail_queries": 388,
+          "tail_bloom_rejects": 378,
+          "tail_exact_queries": 10,
+          "tail_probes": 21,
+          "tail_hits": 0,
+          "iteration_seconds": 0.27011,
+          "elapsed_seconds": 0.43603,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "pgo16-0",
+          "generated_candidates": 26942299,
+          "small_pdb_queries": 0,
+          "phase1_queries": 42859917,
+          "corner_queries": 2268474,
+          "edge_queries": 0,
+          "axis_rejects": [
+            16503658,
+            4964200,
+            1625232
+          ],
+          "equality_rejects": 1582247,
+          "corner_rejects": 248196,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 315392,
+              "generated": 4209285,
+              "busy_seconds": 0.260254,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 303104,
+              "generated": 4045884,
+              "busy_seconds": 0.264537,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 315392,
+              "generated": 4207096,
+              "busy_seconds": 0.229521,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 323584,
+              "generated": 4319214,
+              "busy_seconds": 0.254574,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 2490368,
+          "iteration_split_nodes": 351,
+          "nodes": 3249644,
+          "split_nodes": 22194,
+          "transposition_hits": 0,
+          "tail_queries": 649,
+          "tail_bloom_rejects": 637,
+          "tail_exact_queries": 12,
+          "tail_probes": 26,
+          "tail_hits": 0,
+          "iteration_seconds": 0.537167,
+          "elapsed_seconds": 0.703088,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "pgo16-0",
+          "generated_candidates": 43397032,
+          "small_pdb_queries": 0,
+          "phase1_queries": 68722391,
+          "corner_queries": 3650483,
+          "edge_queries": 0,
+          "axis_rejects": [
+            26759207,
+            7954914,
+            2506055
+          ],
+          "equality_rejects": 2527914,
+          "corner_rejects": 397294,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 618496,
+              "generated": 8258043,
+              "busy_seconds": 0.510732,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 610304,
+              "generated": 8146027,
+              "busy_seconds": 0.533491,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 634880,
+              "generated": 8468526,
+              "busy_seconds": 0.531019,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 626688,
+              "generated": 8363616,
+              "busy_seconds": 0.530718,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 3731456,
+          "iteration_split_nodes": 381,
+          "nodes": 4490732,
+          "split_nodes": 22224,
+          "transposition_hits": 0,
+          "tail_queries": 868,
+          "tail_bloom_rejects": 851,
+          "tail_exact_queries": 17,
+          "tail_probes": 37,
+          "tail_hits": 0,
+          "iteration_seconds": 0.803278,
+          "elapsed_seconds": 0.969199,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "pgo16-0",
+          "generated_candidates": 59965359,
+          "small_pdb_queries": 0,
+          "phase1_queries": 95060223,
+          "corner_queries": 5009830,
+          "edge_queries": 0,
+          "axis_rejects": [
+            36859226,
+            11122133,
+            3461677
+          ],
+          "equality_rejects": 3514070,
+          "corner_rejects": 515536,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 933888,
+              "generated": 12467868,
+              "busy_seconds": 0.777651,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 917504,
+              "generated": 12247801,
+              "busy_seconds": 0.797516,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 933888,
+              "generated": 12460441,
+              "busy_seconds": 0.786773,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 946176,
+              "generated": 12628429,
+              "busy_seconds": 0.789671,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 4993024,
+          "iteration_split_nodes": 426,
+          "nodes": 5752300,
+          "split_nodes": 22269,
+          "transposition_hits": 0,
+          "tail_queries": 1181,
+          "tail_bloom_rejects": 1153,
+          "tail_exact_queries": 28,
+          "tail_probes": 57,
+          "tail_hits": 0,
+          "iteration_seconds": 1.068731,
+          "elapsed_seconds": 1.234652,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "pgo16-0",
+          "generated_candidates": 76803664,
+          "small_pdb_queries": 0,
+          "phase1_queries": 121962843,
+          "corner_queries": 6419513,
+          "edge_queries": 0,
+          "axis_rejects": [
+            47148731,
+            14155517,
+            4579336
+          ],
+          "equality_rejects": 4502177,
+          "corner_rejects": 663603,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1261568,
+              "generated": 16840584,
+              "busy_seconds": 1.048508,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1224704,
+              "generated": 16348771,
+              "busy_seconds": 1.036696,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1253376,
+              "generated": 16724670,
+              "busy_seconds": 1.058042,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1253376,
+              "generated": 16728819,
+              "busy_seconds": 1.058056,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 5220053,
+          "iteration_split_nodes": 426,
+          "nodes": 5979329,
+          "split_nodes": 22269,
+          "transposition_hits": 0,
+          "tail_queries": 1200,
+          "tail_bloom_rejects": 1170,
+          "tail_exact_queries": 30,
+          "tail_probes": 64,
+          "tail_hits": 1,
+          "iteration_seconds": 1.113632,
+          "elapsed_seconds": 1.279552,
+          "found": true,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "pgo16-0",
+          "generated_candidates": 79836882,
+          "small_pdb_queries": 0,
+          "phase1_queries": 126792014,
+          "corner_queries": 6667462,
+          "edge_queries": 0,
+          "axis_rejects": [
+            48989975,
+            14743530,
+            4757030
+          ],
+          "equality_rejects": 4680501,
+          "corner_rejects": 684525,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1315709,
+              "generated": 17564167,
+              "busy_seconds": 1.113321,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1282420,
+              "generated": 17119351,
+              "busy_seconds": 1.11329,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1310899,
+              "generated": 17493122,
+              "busy_seconds": 1.113222,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 1311025,
+              "generated": 17499422,
+              "busy_seconds": 1.113258,
+              "idle_seconds": 1e-06
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "known18",
+      "repeat": 0,
+      "wall_seconds": 3.1845978000201285,
+      "result": {
+        "ok": false,
+        "type": "error",
+        "request_id": "known18-0",
+        "error": "no solution found within max depth"
+      },
+      "progress": [
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 10,
+          "completed_depth": 9,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.4e-05,
+          "elapsed_seconds": 1.4e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 10,
+          "completed_depth": 10,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 42,
+          "nodes": 0,
+          "split_nodes": 42,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000242,
+          "elapsed_seconds": 0.000272,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 42,
+          "small_pdb_queries": 0,
+          "phase1_queries": 67,
+          "corner_queries": 2,
+          "edge_queries": 0,
+          "axis_rejects": [
+            28,
+            3,
+            3
+          ],
+          "equality_rejects": 6,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 42,
+              "busy_seconds": 5e-06,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 11,
+          "completed_depth": 11,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 459,
+          "nodes": 0,
+          "split_nodes": 501,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000437,
+          "elapsed_seconds": 0.000731,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 501,
+          "small_pdb_queries": 0,
+          "phase1_queries": 839,
+          "corner_queries": 43,
+          "edge_queries": 0,
+          "axis_rejects": [
+            307,
+            50,
+            56
+          ],
+          "equality_rejects": 45,
+          "corner_rejects": 7,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 333,
+              "busy_seconds": 5.2e-05,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 0,
+              "generated": 126,
+              "busy_seconds": 1.1e-05,
+              "idle_seconds": 1.7e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 12,
+          "completed_depth": 12,
+          "iteration_nodes": 27,
+          "iteration_split_nodes": 6642,
+          "nodes": 27,
+          "split_nodes": 7143,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000601,
+          "elapsed_seconds": 0.001362,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 7503,
+          "small_pdb_queries": 0,
+          "phase1_queries": 11916,
+          "corner_queries": 650,
+          "edge_queries": 0,
+          "axis_rejects": [
+            4863,
+            897,
+            652
+          ],
+          "equality_rejects": 451,
+          "corner_rejects": 80,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 12,
+              "generated": 1986,
+              "busy_seconds": 0.000284,
+              "idle_seconds": 7.2e-05
+            },
+            {
+              "nodes": 7,
+              "generated": 1956,
+              "busy_seconds": 0.000264,
+              "idle_seconds": 7e-05
+            },
+            {
+              "nodes": 7,
+              "generated": 1710,
+              "busy_seconds": 0.000229,
+              "idle_seconds": 6.2e-05
+            },
+            {
+              "nodes": 1,
+              "generated": 1350,
+              "busy_seconds": 0.000246,
+              "idle_seconds": 2.9e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 13,
+          "completed_depth": 13,
+          "iteration_nodes": 6167,
+          "iteration_split_nodes": 7260,
+          "nodes": 6194,
+          "split_nodes": 14403,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.002406,
+          "elapsed_seconds": 0.00379,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 96915,
+          "small_pdb_queries": 0,
+          "phase1_queries": 155230,
+          "corner_queries": 8697,
+          "edge_queries": 0,
+          "axis_rejects": [
+            61844,
+            12649,
+            8209
+          ],
+          "equality_rejects": 5790,
+          "corner_rejects": 1152,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1265,
+              "generated": 18825,
+              "busy_seconds": 0.002151,
+              "idle_seconds": 4e-05
+            },
+            {
+              "nodes": 1330,
+              "generated": 19341,
+              "busy_seconds": 0.002103,
+              "idle_seconds": 5.9e-05
+            },
+            {
+              "nodes": 1839,
+              "generated": 26268,
+              "busy_seconds": 0.002039,
+              "idle_seconds": 7e-05
+            },
+            {
+              "nodes": 1733,
+              "generated": 24978,
+              "busy_seconds": 0.002055,
+              "idle_seconds": 2.7e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 14,
+          "completed_depth": 14,
+          "iteration_nodes": 83867,
+          "iteration_split_nodes": 7608,
+          "nodes": 90061,
+          "split_nodes": 22011,
+          "transposition_hits": 0,
+          "tail_queries": 14,
+          "tail_bloom_rejects": 14,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.017146,
+          "elapsed_seconds": 0.020956,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 1223190,
+          "small_pdb_queries": 0,
+          "phase1_queries": 1961606,
+          "corner_queries": 107340,
+          "edge_queries": 0,
+          "axis_rejects": [
+            768090,
+            174070,
+            101144
+          ],
+          "equality_rejects": 73308,
+          "corner_rejects": 14874,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 21722,
+              "generated": 291678,
+              "busy_seconds": 0.016769,
+              "idle_seconds": 7.3e-05
+            },
+            {
+              "nodes": 21567,
+              "generated": 289176,
+              "busy_seconds": 0.01677,
+              "idle_seconds": 4.6e-05
+            },
+            {
+              "nodes": 19360,
+              "generated": 260679,
+              "busy_seconds": 0.0167,
+              "idle_seconds": 7.4e-05
+            },
+            {
+              "nodes": 21218,
+              "generated": 284742,
+              "busy_seconds": 0.016657,
+              "idle_seconds": 7.2e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 15,
+          "completed_depth": 15,
+          "iteration_nodes": 1078721,
+          "iteration_split_nodes": 6984,
+          "nodes": 1168782,
+          "split_nodes": 28995,
+          "transposition_hits": 0,
+          "tail_queries": 217,
+          "tail_bloom_rejects": 213,
+          "tail_exact_queries": 4,
+          "tail_probes": 8,
+          "tail_hits": 0,
+          "iteration_seconds": 0.219266,
+          "elapsed_seconds": 0.240258,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 15623073,
+          "small_pdb_queries": 0,
+          "phase1_queries": 25153436,
+          "corner_queries": 1364780,
+          "edge_queries": 0,
+          "axis_rejects": [
+            9664944,
+            2390380,
+            1280304
+          ],
+          "equality_rejects": 924160,
+          "corner_rejects": 192338,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 258736,
+              "generated": 3455757,
+              "busy_seconds": 0.21889,
+              "idle_seconds": 2.7e-05
+            },
+            {
+              "nodes": 257803,
+              "generated": 3440502,
+              "busy_seconds": 0.218843,
+              "idle_seconds": 4.9e-05
+            },
+            {
+              "nodes": 285533,
+              "generated": 3811206,
+              "busy_seconds": 0.218762,
+              "idle_seconds": 7.3e-05
+            },
+            {
+              "nodes": 276649,
+              "generated": 3692418,
+              "busy_seconds": 0.218767,
+              "idle_seconds": 5.2e-05
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 1216512,
+          "iteration_split_nodes": 306,
+          "nodes": 2385294,
+          "split_nodes": 29301,
+          "transposition_hits": 0,
+          "tail_queries": 433,
+          "tail_bloom_rejects": 425,
+          "tail_exact_queries": 8,
+          "tail_probes": 17,
+          "tail_hits": 0,
+          "iteration_seconds": 0.256855,
+          "elapsed_seconds": 0.497146,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 31854760,
+          "small_pdb_queries": 0,
+          "phase1_queries": 51396087,
+          "corner_queries": 2794476,
+          "edge_queries": 0,
+          "axis_rejects": [
+            19576906,
+            5018926,
+            2584060
+          ],
+          "equality_rejects": 1881907,
+          "corner_rejects": 405141,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 299008,
+              "generated": 3990177,
+              "busy_seconds": 0.205651,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 303104,
+              "generated": 4042855,
+              "busy_seconds": 0.174453,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 303104,
+              "generated": 4045670,
+              "busy_seconds": 0.231724,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 311296,
+              "generated": 4152985,
+              "busy_seconds": 0.212071,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 2449408,
+          "iteration_split_nodes": 336,
+          "nodes": 3618190,
+          "split_nodes": 29331,
+          "transposition_hits": 0,
+          "tail_queries": 644,
+          "tail_bloom_rejects": 634,
+          "tail_exact_queries": 10,
+          "tail_probes": 28,
+          "tail_hits": 0,
+          "iteration_seconds": 0.521466,
+          "elapsed_seconds": 0.761756,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 48314745,
+          "small_pdb_queries": 0,
+          "phase1_queries": 78129574,
+          "corner_queries": 4204073,
+          "edge_queries": 0,
+          "axis_rejects": [
+            29451129,
+            7917026,
+            3877262
+          ],
+          "equality_rejects": 2866796,
+          "corner_rejects": 581796,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 614400,
+              "generated": 8200780,
+              "busy_seconds": 0.508388,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 598016,
+              "generated": 7980665,
+              "busy_seconds": 0.514395,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 606208,
+              "generated": 8092833,
+              "busy_seconds": 0.514424,
+              "idle_seconds": 1e-06
+            },
+            {
+              "nodes": 630784,
+              "generated": 8417394,
+              "busy_seconds": 0.493693,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 3760128,
+          "iteration_split_nodes": 366,
+          "nodes": 4928910,
+          "split_nodes": 29361,
+          "transposition_hits": 0,
+          "tail_queries": 906,
+          "tail_bloom_rejects": 892,
+          "tail_exact_queries": 14,
+          "tail_probes": 37,
+          "tail_hits": 0,
+          "iteration_seconds": 0.79091,
+          "elapsed_seconds": 1.0312,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 65796701,
+          "small_pdb_queries": 0,
+          "phase1_queries": 105660034,
+          "corner_queries": 5666511,
+          "edge_queries": 0,
+          "axis_rejects": [
+            40549909,
+            10634961,
+            5049605
+          ],
+          "equality_rejects": 3897285,
+          "corner_rejects": 733508,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 950272,
+              "generated": 12679787,
+              "busy_seconds": 0.760069,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 917504,
+              "generated": 12240078,
+              "busy_seconds": 0.767658,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 929792,
+              "generated": 12409026,
+              "busy_seconds": 0.755417,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 962560,
+              "generated": 12844737,
+              "busy_seconds": 0.773516,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 4943872,
+          "iteration_split_nodes": 396,
+          "nodes": 6112654,
+          "split_nodes": 29391,
+          "transposition_hits": 0,
+          "tail_queries": 1245,
+          "tail_bloom_rejects": 1221,
+          "tail_exact_queries": 24,
+          "tail_probes": 66,
+          "tail_hits": 0,
+          "iteration_seconds": 1.057011,
+          "elapsed_seconds": 1.2973,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 81594094,
+          "small_pdb_queries": 0,
+          "phase1_queries": 131306024,
+          "corner_queries": 7034471,
+          "edge_queries": 0,
+          "axis_rejects": [
+            50134734,
+            13211575,
+            6381183
+          ],
+          "equality_rejects": 4833726,
+          "corner_rejects": 917662,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1257472,
+              "generated": 16778817,
+              "busy_seconds": 1.044771,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1220608,
+              "generated": 16282936,
+              "busy_seconds": 1.048968,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1220608,
+              "generated": 16291301,
+              "busy_seconds": 1.033667,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 1245184,
+              "generated": 16617967,
+              "busy_seconds": 1.012407,
+              "idle_seconds": 1e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 6111232,
+          "iteration_split_nodes": 411,
+          "nodes": 7280014,
+          "split_nodes": 29406,
+          "transposition_hits": 0,
+          "tail_queries": 1490,
+          "tail_bloom_rejects": 1461,
+          "tail_exact_queries": 29,
+          "tail_probes": 89,
+          "tail_hits": 0,
+          "iteration_seconds": 1.321955,
+          "elapsed_seconds": 1.562245,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 97170416,
+          "small_pdb_queries": 0,
+          "phase1_queries": 156611619,
+          "corner_queries": 8408711,
+          "edge_queries": 0,
+          "axis_rejects": [
+            59624320,
+            15655825,
+            7748153
+          ],
+          "equality_rejects": 5735019,
+          "corner_rejects": 1124572,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1548288,
+              "generated": 20660740,
+              "busy_seconds": 1.24367,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1507328,
+              "generated": 20109266,
+              "busy_seconds": 1.297457,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1527808,
+              "generated": 20389037,
+              "busy_seconds": 1.268961,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1527808,
+              "generated": 20388300,
+              "busy_seconds": 1.266758,
+              "idle_seconds": 2e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 7344128,
+          "iteration_split_nodes": 426,
+          "nodes": 8512910,
+          "split_nodes": 29421,
+          "transposition_hits": 0,
+          "tail_queries": 1800,
+          "tail_bloom_rejects": 1767,
+          "tail_exact_queries": 33,
+          "tail_probes": 99,
+          "tail_hits": 0,
+          "iteration_seconds": 1.588135,
+          "elapsed_seconds": 1.828425,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 113618251,
+          "small_pdb_queries": 0,
+          "phase1_queries": 183250926,
+          "corner_queries": 9848065,
+          "edge_queries": 0,
+          "axis_rejects": [
+            69775242,
+            18058251,
+            9260466
+          ],
+          "equality_rejects": 6677863,
+          "corner_rejects": 1330974,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1867776,
+              "generated": 24924163,
+              "busy_seconds": 1.569772,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1802240,
+              "generated": 24044932,
+              "busy_seconds": 1.57703,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 1839104,
+              "generated": 24540902,
+              "busy_seconds": 1.548611,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 1835008,
+              "generated": 24485181,
+              "busy_seconds": 1.584647,
+              "idle_seconds": 2e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 8712192,
+          "iteration_split_nodes": 453,
+          "nodes": 9880974,
+          "split_nodes": 29448,
+          "transposition_hits": 0,
+          "tail_queries": 2099,
+          "tail_bloom_rejects": 2058,
+          "tail_exact_queries": 41,
+          "tail_probes": 126,
+          "tail_hits": 0,
+          "iteration_seconds": 1.853055,
+          "elapsed_seconds": 2.093345,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 131878079,
+          "small_pdb_queries": 0,
+          "phase1_queries": 212139799,
+          "corner_queries": 11424004,
+          "edge_queries": 0,
+          "axis_rejects": [
+            81342408,
+            20814599,
+            10569126
+          ],
+          "equality_rejects": 7729601,
+          "corner_rejects": 1538805,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 2199552,
+              "generated": 29354055,
+              "busy_seconds": 1.846128,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 2150400,
+              "generated": 28690500,
+              "busy_seconds": 1.837219,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 2174976,
+              "generated": 29022729,
+              "busy_seconds": 1.845558,
+              "idle_seconds": 3e-06
+            },
+            {
+              "nodes": 2187264,
+              "generated": 29187722,
+              "busy_seconds": 1.820411,
+              "idle_seconds": 2e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 10027008,
+          "iteration_split_nodes": 477,
+          "nodes": 11195790,
+          "split_nodes": 29472,
+          "transposition_hits": 0,
+          "tail_queries": 2432,
+          "tail_bloom_rejects": 2383,
+          "tail_exact_queries": 49,
+          "tail_probes": 136,
+          "tail_hits": 0,
+          "iteration_seconds": 2.119121,
+          "elapsed_seconds": 2.359411,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 149417764,
+          "small_pdb_queries": 0,
+          "phase1_queries": 240977670,
+          "corner_queries": 12975968,
+          "edge_queries": 0,
+          "axis_rejects": [
+            91766008,
+            23748637,
+            12189299
+          ],
+          "equality_rejects": 8739529,
+          "corner_rejects": 1775985,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 2560000,
+              "generated": 34162356,
+              "busy_seconds": 2.066353,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 2482176,
+              "generated": 33117284,
+              "busy_seconds": 2.087441,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 2478080,
+              "generated": 33066257,
+              "busy_seconds": 2.059168,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 2506752,
+              "generated": 33448794,
+              "busy_seconds": 2.111231,
+              "idle_seconds": 2e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 11235328,
+          "iteration_split_nodes": 501,
+          "nodes": 12404110,
+          "split_nodes": 29496,
+          "transposition_hits": 0,
+          "tail_queries": 2768,
+          "tail_bloom_rejects": 2707,
+          "tail_exact_queries": 61,
+          "tail_probes": 162,
+          "tail_hits": 0,
+          "iteration_seconds": 2.384392,
+          "elapsed_seconds": 2.624682,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 165544150,
+          "small_pdb_queries": 0,
+          "phase1_queries": 267352329,
+          "corner_queries": 14402407,
+          "edge_queries": 0,
+          "axis_rejects": [
+            101448679,
+            26387848,
+            13619806
+          ],
+          "equality_rejects": 9687105,
+          "corner_rejects": 1994069,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 2863104,
+              "generated": 38207311,
+              "busy_seconds": 2.339429,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 2781184,
+              "generated": 37106221,
+              "busy_seconds": 2.362595,
+              "idle_seconds": 5e-06
+            },
+            {
+              "nodes": 2789376,
+              "generated": 37219034,
+              "busy_seconds": 2.323976,
+              "idle_seconds": 4e-06
+            },
+            {
+              "nodes": 2801664,
+              "generated": 37388511,
+              "busy_seconds": 2.334592,
+              "idle_seconds": 3e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 12447744,
+          "iteration_split_nodes": 513,
+          "nodes": 13616526,
+          "split_nodes": 29508,
+          "transposition_hits": 0,
+          "tail_queries": 3037,
+          "tail_bloom_rejects": 2970,
+          "tail_exact_queries": 67,
+          "tail_probes": 182,
+          "tail_hits": 0,
+          "iteration_seconds": 2.649928,
+          "elapsed_seconds": 2.890218,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 181722173,
+          "small_pdb_queries": 0,
+          "phase1_queries": 293323355,
+          "corner_queries": 15827252,
+          "edge_queries": 0,
+          "axis_rejects": [
+            111421050,
+            29006212,
+            14828644
+          ],
+          "equality_rejects": 10640731,
+          "corner_rejects": 2206462,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 3153920,
+              "generated": 42088547,
+              "busy_seconds": 2.628483,
+              "idle_seconds": 5e-06
+            },
+            {
+              "nodes": 3092480,
+              "generated": 41260822,
+              "busy_seconds": 2.616072,
+              "idle_seconds": 5e-06
+            },
+            {
+              "nodes": 3080192,
+              "generated": 41100562,
+              "busy_seconds": 2.631338,
+              "idle_seconds": 5e-06
+            },
+            {
+              "nodes": 3121152,
+              "generated": 41649169,
+              "busy_seconds": 2.647316,
+              "idle_seconds": 3e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 15,
+          "iteration_nodes": 13770752,
+          "iteration_split_nodes": 777,
+          "nodes": 14939534,
+          "split_nodes": 29772,
+          "transposition_hits": 0,
+          "tail_queries": 3392,
+          "tail_bloom_rejects": 3320,
+          "tail_exact_queries": 72,
+          "tail_probes": 196,
+          "tail_hits": 0,
+          "iteration_seconds": 2.915501,
+          "elapsed_seconds": 3.155791,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 199379748,
+          "small_pdb_queries": 0,
+          "phase1_queries": 321810719,
+          "corner_queries": 17361743,
+          "edge_queries": 0,
+          "axis_rejects": [
+            122131485,
+            32071417,
+            16146810
+          ],
+          "equality_rejects": 11670247,
+          "corner_rejects": 2417729,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 3477504,
+              "generated": 46407063,
+              "busy_seconds": 2.910084,
+              "idle_seconds": 7e-06
+            },
+            {
+              "nodes": 3428352,
+              "generated": 45741773,
+              "busy_seconds": 2.909241,
+              "idle_seconds": 8e-06
+            },
+            {
+              "nodes": 3428352,
+              "generated": 45748200,
+              "busy_seconds": 2.911023,
+              "idle_seconds": 7e-06
+            },
+            {
+              "nodes": 3436544,
+              "generated": 45859639,
+              "busy_seconds": 2.910254,
+              "idle_seconds": 5e-06
+            }
+          ]
+        },
+        {
+          "type": "progress",
+          "lower_bound": 10,
+          "upper_bound": 16,
+          "current_depth": 16,
+          "completed_depth": 16,
+          "iteration_nodes": 13922423,
+          "iteration_split_nodes": 4599,
+          "nodes": 15091205,
+          "split_nodes": 33594,
+          "transposition_hits": 0,
+          "tail_queries": 3454,
+          "tail_bloom_rejects": 3382,
+          "tail_exact_queries": 72,
+          "tail_probes": 196,
+          "tail_hits": 0,
+          "iteration_seconds": 2.94393,
+          "elapsed_seconds": 3.18422,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "known18-0",
+          "generated_candidates": 201407415,
+          "small_pdb_queries": 0,
+          "phase1_queries": 325107979,
+          "corner_queries": 17543732,
+          "edge_queries": 0,
+          "axis_rejects": [
+            123338520,
+            32445275,
+            16291161
+          ],
+          "equality_rejects": 11791410,
+          "corner_rejects": 2447338,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 3515765,
+              "generated": 46918593,
+              "busy_seconds": 2.943437,
+              "idle_seconds": 9.3e-05
+            },
+            {
+              "nodes": 3465634,
+              "generated": 46240482,
+              "busy_seconds": 2.94341,
+              "idle_seconds": 0.000106
+            },
+            {
+              "nodes": 3467481,
+              "generated": 46270938,
+              "busy_seconds": 2.943432,
+              "idle_seconds": 5.2e-05
+            },
+            {
+              "nodes": 3473543,
+              "generated": 46354329,
+              "busy_seconds": 2.94335,
+              "idle_seconds": 8.5e-05
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "stderr": []
+}

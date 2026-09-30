@@ -1,0 +1,22 @@
+{
+  "binary_sha256": "b3e2a755a77caf96a8a55f9ef15bbd444d44506a3dac6a2cfb16d258c8cc2d28",
+  "command": [
+    "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+    "check-heuristic",
+    "--metric",
+    "QTM",
+    "--depth",
+    "3",
+    "--pdb",
+    "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\corner_qtm_v3.pdb",
+    "--phase1-pdb",
+    "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+    "--strong-pdb",
+    "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\strong_qtm_v4_nibble.pdb"
+  ],
+  "wall_seconds": 9.257399900001474,
+  "exit_code": 0,
+  "stdout": "{\"ok\":true,\"checked\":1195,\"depth\":3,\"metric\":\"QTM\",\"small_pdb_queries\":0}\n",
+  "stderr": "",
+  "scope": "Independent quarter-turn BFS depth 3; all cutoffs 0..30; keep/omit equality and accepted materialization"
+}

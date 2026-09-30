@@ -8,10 +8,13 @@ htmlcov/
 node_modules/
 *.egg-info/
 native/build/
+native/htm/build/
+native/qtm/build/
+assets/
 initial/
 result/
 dist/
 .release-build/
-
-# Personal Codex configuration
+build/
 .codex/
+.agents/

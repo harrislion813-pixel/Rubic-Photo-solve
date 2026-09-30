@@ -6,7 +6,7 @@ from array import array
 from pathlib import Path
 from unittest.mock import patch
 
-from cube_app.tables import CACHE_VERSION, SolverTables, load_or_build_tables
+from cube_app.solvers.htm.tables import CACHE_VERSION, SolverTables, load_or_build_tables
 
 
 def empty_tables() -> SolverTables:
@@ -35,7 +35,7 @@ class TableCacheTests(unittest.TestCase):
             cache_path.write_bytes(b"not a pickle")
             expected = empty_tables()
 
-            with patch("cube_app.tables.build_tables", return_value=expected) as builder:
+            with patch("cube_app.solvers.htm.tables.build_tables", return_value=expected) as builder:
                 actual = load_or_build_tables(directory)
 
             self.assertIs(actual, expected)

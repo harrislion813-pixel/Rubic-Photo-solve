@@ -1,0 +1,45 @@
+{
+  "profile": "HtmFull",
+  "app_version": "1.8.0",
+  "htm_source": "ae73ca81af1ed077c059f3345377190bf0ce2882",
+  "qtm_source": null,
+  "files": {
+    "native/htm/build/cube_solver_htm.exe": {
+      "bytes": 3839002,
+      "sha256": "fa26db5d4433804f54da5c7635a0bdfebd37855c7881dccf931c9b1082295942"
+    },
+    "assets/htm/v1/corner_htm_v2.pdb": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb",
+      "metric": "HTM",
+      "format_version": 2,
+      "complete": true
+    },
+    "assets/htm/v1/phase1_sym_htm_v2.pdb": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f",
+      "metric": "HTM",
+      "format_version": 2,
+      "complete": true
+    },
+    "assets/htm/v1/tail_depth6_v4.pdb": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74",
+      "metric": "HTM",
+      "depth": 6,
+      "format_version": 4
+    },
+    ".cache/htm/solver_tables_v3.pkl": {
+      "bytes": 13798733,
+      "sha256": "ef5cbf1656bcdda4f787de52566c2f063244b2164c8c71e2e1daa445a51efb69"
+    },
+    ".cache/htm/two_by_two_htm_v1.bin": {
+      "bytes": 3778042,
+      "sha256": "4ebf9e7ee3cfb76bab4b5e0703d608bcdfabe758661d23fd041a4cb90eeb399d"
+    },
+    ".cache/htm/coordinates_htm_v1.bin": {
+      "bytes": 8237445,
+      "sha256": "7d46f7519a1c68dd27118ecaca9a94e458ca4506215cb2cc83c7efb86e6bee08"
+    }
+  }
+}

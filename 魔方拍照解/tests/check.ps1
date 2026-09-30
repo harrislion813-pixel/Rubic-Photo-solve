@@ -23,13 +23,13 @@ try {
     & $python release\check_version.py
     if ($LASTEXITCODE -ne 0) { throw "Version consistency check failed with exit code $LASTEXITCODE" }
     node tests\recognition.test.js
-    if ($LASTEXITCODE -ne 0) { throw "Recognition frontend tests failed with exit code $LASTEXITCODE" }
+    if ($LASTEXITCODE -ne 0) { throw "Recognition frontend tests failed." }
     node tests\color.test.js
-    if ($LASTEXITCODE -ne 0) { throw "Color frontend tests failed with exit code $LASTEXITCODE" }
+    if ($LASTEXITCODE -ne 0) { throw "Color frontend tests failed." }
     node tests\two_by_two_color.test.js
-    if ($LASTEXITCODE -ne 0) { throw "2x2 frontend tests failed with exit code $LASTEXITCODE" }
+    if ($LASTEXITCODE -ne 0) { throw "2x2 frontend tests failed." }
     node tests\solver_ui.test.js
-    if ($LASTEXITCODE -ne 0) { throw "Solver frontend tests failed with exit code $LASTEXITCODE" }
+    if ($LASTEXITCODE -ne 0) { throw "Solver frontend tests failed." }
     & $python -m ruff check .
     if ($LASTEXITCODE -ne 0) { throw "Ruff failed with exit code $LASTEXITCODE" }
     & $python -m pytest -ra

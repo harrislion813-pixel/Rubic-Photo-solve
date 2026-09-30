@@ -1,0 +1,2228 @@
+{
+  "label": "H1",
+  "metric": "HTM",
+  "package": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\H1-ui\\RubicPhotoSolve",
+  "binary_sha256": "fa26db5d4433804f54da5c7635a0bdfebd37855c7881dccf931c9b1082295942",
+  "threads": 15,
+  "runs": [
+    {
+      "scramble": "",
+      "facelets": "UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB",
+      "expected_cost": 0,
+      "wall_seconds": 0.00031170000011115917,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "shallow-0",
+        "status": "complete",
+        "inverse_direction": false,
+        "moves": [],
+        "solution": "",
+        "depth": 0,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 0.0,
+        "nodes": 0,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "corner_pdb": true,
+        "phase1_pdb": true,
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": true,
+        "completed_depth": -1,
+        "generated_candidates": 0,
+        "small_pdb_queries": 0,
+        "phase1_queries": 0,
+        "corner_queries": 0,
+        "edge_queries": 0,
+        "axis_rejects": [
+          0,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 0,
+        "edge_rejects": 0,
+        "workers": []
+      },
+      "frames": []
+    },
+    {
+      "scramble": "R",
+      "facelets": "UUFUUFUUFRRRRRRRRRFFDFFDFFDDDBDDBDDBLLLLLLLLLUBBUBBUBB",
+      "expected_cost": 1,
+      "wall_seconds": 0.0011467999997876177,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "shallow-1",
+        "status": "complete",
+        "inverse_direction": false,
+        "moves": [
+          "R'"
+        ],
+        "solution": "R'",
+        "depth": 1,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 0.000901,
+        "nodes": 1,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 1,
+        "tail_hits": 1,
+        "corner_pdb": true,
+        "phase1_pdb": true,
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": true,
+        "completed_depth": 0,
+        "generated_candidates": 0,
+        "small_pdb_queries": 0,
+        "phase1_queries": 3,
+        "corner_queries": 1,
+        "edge_queries": 0,
+        "axis_rejects": [
+          0,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 0,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 1,
+            "generated": 0,
+            "busy_seconds": 1e-05,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          }
+        ]
+      },
+      "frames": [
+        {
+          "type": "progress",
+          "lower_bound": 1,
+          "upper_bound": 3,
+          "current_depth": 1,
+          "completed_depth": 0,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 2.4e-05,
+          "elapsed_seconds": 2.4e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "shallow-1",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 1,
+          "upper_bound": 3,
+          "current_depth": 1,
+          "completed_depth": 0,
+          "iteration_nodes": 1,
+          "iteration_split_nodes": 0,
+          "nodes": 1,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 1,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 1,
+          "tail_probes": 1,
+          "tail_hits": 1,
+          "iteration_seconds": 0.000822,
+          "elapsed_seconds": 0.00087,
+          "found": true,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "shallow-1",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 3,
+          "corner_queries": 1,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1,
+              "generated": 0,
+              "busy_seconds": 1e-05,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scramble": "R2",
+      "facelets": "UUDUUDUUDRRRRRRRRRFFBFFBFFBDDUDDUDDULLLLLLLLLFBBFBBFBB",
+      "expected_cost": 1,
+      "wall_seconds": 0.0010137000003851426,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "shallow-2",
+        "status": "complete",
+        "inverse_direction": false,
+        "moves": [
+          "R2"
+        ],
+        "solution": "R2",
+        "depth": 1,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 0.000775,
+        "nodes": 1,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 1,
+        "tail_hits": 1,
+        "corner_pdb": true,
+        "phase1_pdb": true,
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": true,
+        "completed_depth": 0,
+        "generated_candidates": 0,
+        "small_pdb_queries": 0,
+        "phase1_queries": 3,
+        "corner_queries": 1,
+        "edge_queries": 0,
+        "axis_rejects": [
+          0,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 0,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 1,
+            "generated": 0,
+            "busy_seconds": 2e-06,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          }
+        ]
+      },
+      "frames": [
+        {
+          "type": "progress",
+          "lower_bound": 1,
+          "upper_bound": 3,
+          "current_depth": 1,
+          "completed_depth": 0,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.1e-05,
+          "elapsed_seconds": 1.1e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "shallow-2",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 1,
+          "upper_bound": 3,
+          "current_depth": 1,
+          "completed_depth": 0,
+          "iteration_nodes": 1,
+          "iteration_split_nodes": 0,
+          "nodes": 1,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 1,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 1,
+          "tail_probes": 1,
+          "tail_hits": 1,
+          "iteration_seconds": 0.000706,
+          "elapsed_seconds": 0.000736,
+          "found": true,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "shallow-2",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 3,
+          "corner_queries": 1,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1,
+              "generated": 0,
+              "busy_seconds": 2e-06,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scramble": "R U",
+      "facelets": "UUUUUUFFFUBBRRRRRRRRRFFDFFDDDBDDBDDBFFDLLLLLLLLLUBBUBB",
+      "expected_cost": 2,
+      "wall_seconds": 0.0009751999996296945,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "shallow-3",
+        "status": "complete",
+        "inverse_direction": false,
+        "moves": [
+          "U'",
+          "R'"
+        ],
+        "solution": "U' R'",
+        "depth": 2,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 0.000771,
+        "nodes": 1,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 1,
+        "tail_hits": 1,
+        "corner_pdb": true,
+        "phase1_pdb": true,
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": true,
+        "completed_depth": 1,
+        "generated_candidates": 0,
+        "small_pdb_queries": 0,
+        "phase1_queries": 3,
+        "corner_queries": 1,
+        "edge_queries": 0,
+        "axis_rejects": [
+          0,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 0,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 1,
+            "generated": 0,
+            "busy_seconds": 2e-06,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          }
+        ]
+      },
+      "frames": [
+        {
+          "type": "progress",
+          "lower_bound": 2,
+          "upper_bound": 3,
+          "current_depth": 2,
+          "completed_depth": 1,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.2e-05,
+          "elapsed_seconds": 1.2e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "shallow-3",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 2,
+          "upper_bound": 3,
+          "current_depth": 2,
+          "completed_depth": 1,
+          "iteration_nodes": 1,
+          "iteration_split_nodes": 0,
+          "nodes": 1,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 1,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 1,
+          "tail_probes": 1,
+          "tail_hits": 1,
+          "iteration_seconds": 0.000717,
+          "elapsed_seconds": 0.000744,
+          "found": true,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "shallow-3",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 3,
+          "corner_queries": 1,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1,
+              "generated": 0,
+              "busy_seconds": 2e-06,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scramble": "F2 D",
+      "facelets": "UUUUUUDDDLRRLRRFFFFFFFFFLLRDDUDDUDDULLRLLRBBBBBBBBBLRR",
+      "expected_cost": 2,
+      "wall_seconds": 0.0010565999996288156,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "shallow-4",
+        "status": "complete",
+        "inverse_direction": false,
+        "moves": [
+          "D'",
+          "F2"
+        ],
+        "solution": "D' F2",
+        "depth": 2,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 0.00085,
+        "nodes": 1,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 1,
+        "tail_hits": 1,
+        "corner_pdb": true,
+        "phase1_pdb": true,
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": true,
+        "completed_depth": 1,
+        "generated_candidates": 0,
+        "small_pdb_queries": 0,
+        "phase1_queries": 3,
+        "corner_queries": 1,
+        "edge_queries": 0,
+        "axis_rejects": [
+          0,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 0,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 1,
+            "generated": 0,
+            "busy_seconds": 2e-06,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          }
+        ]
+      },
+      "frames": [
+        {
+          "type": "progress",
+          "lower_bound": 2,
+          "upper_bound": 3,
+          "current_depth": 2,
+          "completed_depth": 1,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1e-05,
+          "elapsed_seconds": 1e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "shallow-4",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 2,
+          "upper_bound": 3,
+          "current_depth": 2,
+          "completed_depth": 1,
+          "iteration_nodes": 1,
+          "iteration_split_nodes": 0,
+          "nodes": 1,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 1,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 1,
+          "tail_probes": 1,
+          "tail_hits": 1,
+          "iteration_seconds": 0.000792,
+          "elapsed_seconds": 0.000821,
+          "found": true,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "shallow-4",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 3,
+          "corner_queries": 1,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 1,
+              "generated": 0,
+              "busy_seconds": 2e-06,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scramble": "R U R'",
+      "facelets": "UUUUUUFFLBRRBRRURRRRUFFUFFFDDRDDDDDDFFDLLLLLLBLLBBBBBB",
+      "expected_cost": 3,
+      "wall_seconds": 0.0010035999998763145,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "shallow-5",
+        "status": "complete",
+        "inverse_direction": false,
+        "moves": [
+          "R",
+          "U'",
+          "R'"
+        ],
+        "solution": "R U' R'",
+        "depth": 3,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 0.000799,
+        "nodes": 1,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 1,
+        "tail_hits": 1,
+        "corner_pdb": true,
+        "phase1_pdb": true,
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": true,
+        "completed_depth": 2,
+        "generated_candidates": 0,
+        "small_pdb_queries": 0,
+        "phase1_queries": 3,
+        "corner_queries": 1,
+        "edge_queries": 0,
+        "axis_rejects": [
+          0,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 0,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 1,
+            "generated": 0,
+            "busy_seconds": 2e-06,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          }
+        ]
+      },
+      "frames": [
+        {
+          "type": "progress",
+          "lower_bound": 3,
+          "upper_bound": 3,
+          "current_depth": 3,
+          "completed_depth": 2,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1e-05,
+          "elapsed_seconds": 1e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "shallow-5",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 3,
+          "upper_bound": 3,
+          "current_depth": 3,
+          "completed_depth": 2,
+          "iteration_nodes": 1,
+          "iteration_split_nodes": 0,
+          "nodes": 1,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 1,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 1,
+          "tail_probes": 1,
+          "tail_hits": 1,
+          "iteration_seconds": 0.000742,
+          "elapsed_seconds": 0.000771,
+          "found": true,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "shallow-5",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 3,
+          "corner_queries": 1,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1,
+              "generated": 0,
+              "busy_seconds": 2e-06,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scramble": "L2 B",
+      "facelets": "RRRDUUDUURRDRRDRRUBFFBFFBFFUDDUDDLLLULLULLDLLBBBBBBFFF",
+      "expected_cost": 2,
+      "wall_seconds": 0.0011252999997850566,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "shallow-6",
+        "status": "complete",
+        "inverse_direction": false,
+        "moves": [
+          "B'",
+          "L2"
+        ],
+        "solution": "B' L2",
+        "depth": 2,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 0.000933,
+        "nodes": 1,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 1,
+        "tail_hits": 1,
+        "corner_pdb": true,
+        "phase1_pdb": true,
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": true,
+        "completed_depth": 1,
+        "generated_candidates": 0,
+        "small_pdb_queries": 0,
+        "phase1_queries": 3,
+        "corner_queries": 1,
+        "edge_queries": 0,
+        "axis_rejects": [
+          0,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 0,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 1,
+            "generated": 0,
+            "busy_seconds": 2e-06,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          }
+        ]
+      },
+      "frames": [
+        {
+          "type": "progress",
+          "lower_bound": 2,
+          "upper_bound": 3,
+          "current_depth": 2,
+          "completed_depth": 1,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1e-05,
+          "elapsed_seconds": 1e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "shallow-6",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 2,
+          "upper_bound": 3,
+          "current_depth": 2,
+          "completed_depth": 1,
+          "iteration_nodes": 1,
+          "iteration_split_nodes": 0,
+          "nodes": 1,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 1,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 1,
+          "tail_probes": 1,
+          "tail_hits": 1,
+          "iteration_seconds": 0.00088,
+          "elapsed_seconds": 0.000906,
+          "found": true,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "shallow-6",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 3,
+          "corner_queries": 1,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1,
+              "generated": 0,
+              "busy_seconds": 2e-06,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scramble": "U F' R",
+      "facelets": "UUFUUFBRFDDDRRBRRBRFLRFDRFDFLBDDBDDLFFULLULLURLLUBBUBB",
+      "expected_cost": 3,
+      "wall_seconds": 0.0010185000001001754,
+      "result": {
+        "ok": true,
+        "type": "result",
+        "request_id": "shallow-7",
+        "status": "complete",
+        "inverse_direction": false,
+        "moves": [
+          "R'",
+          "F",
+          "U'"
+        ],
+        "solution": "R' F U'",
+        "depth": 3,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 0.000796,
+        "nodes": 1,
+        "split_nodes": 0,
+        "transposition_hits": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 1,
+        "tail_hits": 1,
+        "corner_pdb": true,
+        "phase1_pdb": true,
+        "edge_pdbs": false,
+        "extra_edge_pdbs": false,
+        "edge_pdb_count": 0,
+        "tail_pdb": true,
+        "completed_depth": 2,
+        "generated_candidates": 0,
+        "small_pdb_queries": 0,
+        "phase1_queries": 3,
+        "corner_queries": 1,
+        "edge_queries": 0,
+        "axis_rejects": [
+          0,
+          0,
+          0
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 0,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 1,
+            "generated": 0,
+            "busy_seconds": 2e-06,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          }
+        ]
+      },
+      "frames": [
+        {
+          "type": "progress",
+          "lower_bound": 3,
+          "upper_bound": 3,
+          "current_depth": 3,
+          "completed_depth": 2,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1e-05,
+          "elapsed_seconds": 1e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "shallow-7",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": []
+        },
+        {
+          "type": "progress",
+          "lower_bound": 3,
+          "upper_bound": 3,
+          "current_depth": 3,
+          "completed_depth": 2,
+          "iteration_nodes": 1,
+          "iteration_split_nodes": 0,
+          "nodes": 1,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 1,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 1,
+          "tail_probes": 1,
+          "tail_hits": 1,
+          "iteration_seconds": 0.000741,
+          "elapsed_seconds": 0.000766,
+          "found": true,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "shallow-7",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 3,
+          "corner_queries": 1,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1,
+              "generated": 0,
+              "busy_seconds": 2e-06,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ready": {
+    "ok": true,
+    "type": "ready",
+    "protocol_version": 2,
+    "proof_version": 1
+  },
+  "stderr": []
+}

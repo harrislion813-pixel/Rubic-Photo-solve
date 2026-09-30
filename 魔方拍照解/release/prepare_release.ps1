@@ -2,12 +2,13 @@ param(
     [string]$Python = "",
     [switch]$SkipTests,
     [switch]$SkipBuild,
-    [switch]$IncludeTailPdb,
+    [ValidateSet("HtmFull", "QtmStrong")][string]$Profile,
     [switch]$CreateTag,
     [switch]$AllowDirty
 )
 
 $ErrorActionPreference = "Stop"
+if (-not $Profile) { throw "Select -Profile HtmFull or -Profile QtmStrong." }
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $repositoryRoot = Split-Path -Parent $projectRoot
 if (-not $Python) {
@@ -35,9 +36,9 @@ try {
     }
 
     if (-not $SkipBuild) {
-        & (Join-Path $PSScriptRoot "build_windows.ps1") -Python $Python -IncludeTailPdb:$IncludeTailPdb
+        & (Join-Path $PSScriptRoot "build_windows.ps1") -Python $Python -Profile $Profile
         if ($LASTEXITCODE -ne 0) { throw "Windows release build failed with exit code $LASTEXITCODE" }
-        $archive = Join-Path $projectRoot "dist\RubicPhotoSolve-$version-windows-x64.zip"
+        $archive = Join-Path $projectRoot "dist\$Profile\RubicPhotoSolve-$version-$Profile-windows-x64.zip"
         if (-not (Test-Path -LiteralPath $archive -PathType Leaf)) { throw "Expected release archive is missing: $archive" }
         $hash = Get-FileHash -LiteralPath $archive -Algorithm SHA256
         Write-Host "Release archive: $archive"

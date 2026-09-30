@@ -51,7 +51,9 @@ def resolve_max_depth(cube_size: int, metric: str = "HTM", value: int | None = N
     diameter = default_max_depth(cube_size, metric)
     if value is None:
         return diameter
-    maximum = default_max_depth(3, metric)
+    # The public QTM request field historically accepts 40; the physical
+    # diameter still caps the work passed to the isolated engine at 26.
+    maximum = 40 if metric == "QTM" else default_max_depth(3, metric)
     if not isinstance(value, int) or isinstance(value, bool) or not 0 <= value <= maximum:
         raise ValueError(f"max_depth 必须为 0–{maximum} 的整数（{metric}）。")
     return min(value, diameter)

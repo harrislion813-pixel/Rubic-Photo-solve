@@ -1,0 +1,1178 @@
+{
+  "frozen_utc": "2026-09-30T11:07:42.237246+00:00",
+  "worktree": "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解",
+  "head": "b68da781fd3c2296e9aad0f9496c5786b6b834c5",
+  "actual_dirty_source": true,
+  "snapshot": "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\.cache\\qtm-speed-final",
+  "patch": {
+    "bytes": 136772,
+    "sha256": "00986147b74482cc5399cc1565f93dee4909ac1668ff8562f3bd495eb1f1eff8"
+  },
+  "source": {
+    "魔方拍照解/cube_app/solvers/qtm/memory.py": {
+      "bytes": 3074,
+      "sha256": "01eb6ec8892a97904ae0ecd263e68d8ffe43ba5fc9491bb5da898139de06af17"
+    },
+    "魔方拍照解/docs/ai-qtm-speed-optimization-plan-2026-09-30.md": {
+      "bytes": 18338,
+      "sha256": "4519c1d9ce1a10c963ff0cdd775752f1ceee882167084db892c5a8b82fc6c702"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h0-portable-review.json": {
+      "bytes": 198518,
+      "sha256": "adb852469d43afaba28dc7311292d4779c44c1726782ff4cb0e0eca6e71bd0d7"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h1-portable-review.json": {
+      "bytes": 194636,
+      "sha256": "82381b1a847646e4b389e833568441e1c8f6dc8f0d3100f3ee06fadbd1a5c947"
+    },
+    "魔方拍照解/docs/benchmarks/htm-portable-build-review.json": {
+      "bytes": 1437,
+      "sha256": "9b52ee7ff538a76b0a39263889a01f88c671092504b54d927e64c5472fffcc61"
+    },
+    "魔方拍照解/docs/benchmarks/htm-portable-source-audit.json": {
+      "bytes": 4723,
+      "sha256": "2534560e029ba0a4cbcb3736193d4e0302bcaddca27e0d971f580b104f25b974"
+    },
+    "魔方拍照解/docs/benchmarks/isolation-targeted-tests-review.xml": {
+      "bytes": 5695,
+      "sha256": "2dd964f655397118b2f814731f57cba6e0f919a966180fbcf6643e1552458e12"
+    },
+    "魔方拍照解/docs/benchmarks/isolation-wheel-install-review.json": {
+      "bytes": 502,
+      "sha256": "e11e8ca2a306552673c668cbe761272838cf69f9cb4f5a76112041648ad8937f"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-direction-bounded-review.json": {
+      "bytes": 182682,
+      "sha256": "edb37955720c09b6e8d9d861d57ee3f644eb4bd57ff144a200183e8468f47658"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-dual-root-review.json": {
+      "bytes": 182753,
+      "sha256": "9c7d883ace28ae4c976cccacbb2433fe9a1aada07a5e331d270c7ee1b234605f"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-isolation-review-summary.json": {
+      "bytes": 10224,
+      "sha256": "fcc4805d7c26f50d91599a2dfde9a53c56d86394536b2e3cd7bff3822f57ca7f"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-portable-build-review.json": {
+      "bytes": 2064,
+      "sha256": "70d849c5374ec14e596ebede686eb399948a7d2660a21c230fe72cef84c76e65"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q0-fixed-layer-review.json": {
+      "bytes": 178159,
+      "sha256": "16b6b87db7ff0ee6da79da5b584b7875266a8de80eeb0c5943339a4f0e0ec999"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q1-fixed-layer-review.json": {
+      "bytes": 180720,
+      "sha256": "ee6c572dbe77f12dc6a6313d7256dcd4f414dc3ef797363ed2949976adf93257"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-query-order-legacy-review.json": {
+      "bytes": 183278,
+      "sha256": "2897acb7c3b8cf10df86fb88de26dfef1323ff2c5e4f7f028ad739ec8cbf37fb"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-baseline-freeze.json": {
+      "bytes": 49434,
+      "sha256": "087d81eaf6cd7a0f026ac41e770799687a3a4ec0c49374dc34a65ddf2c735ebc"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-baseline-page-observations.json": {
+      "bytes": 1434,
+      "sha256": "0a8d615763548bfb6e5effde8072d53e1ca3837eb1edbd0da6476bc4b0141562"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-baseline-page-observer-timeout.json": {
+      "bytes": 738,
+      "sha256": "d27b877e703f12e792f0b8629649c9b6d44dc35be95155409a4f4f5e8a305f25"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-baseline12-page-acceptance.json": {
+      "bytes": 739,
+      "sha256": "34522a159f6fe199d5a395961a823c8251bd992a9128283bae75e9618fc0ed08"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-calibration.json": {
+      "bytes": 67862,
+      "sha256": "9148d9d0af994d679349a08bb88fa6e23e5ed3b8328f3281001abdc1a615f58c"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-contract-tests.xml": {
+      "bytes": 5667,
+      "sha256": "d751840878409689ba2b057bd3eaeeb8e1c90acd4cd558b2293e67902ff2f88a"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-final-fixed-layer-protocol-first-attempt.json": {
+      "bytes": 7112,
+      "sha256": "ff2cc9f390964c671161a7a9166ee50d17d72c0439b1c563e8423247eeeb6b9b"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-final-fixed-layer.json": {
+      "bytes": 310337,
+      "sha256": "07728d477aa64dfb6197f0022b4f0890995c3790add46f3e5005f75aaeb71dd7"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-final-oracle.json": {
+      "bytes": 1145,
+      "sha256": "35847490c6f8c7fee501ffa08fa07e1c93a871a59ff8872fabf82788a4f392bd"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-final-short-layer.json": {
+      "bytes": 89599,
+      "sha256": "22a850faab19d4e0f6f916a3a06d523d9255a71db1592fa6ed1a4ce746b19d43"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-fixed-baseline.json": {
+      "bytes": 286891,
+      "sha256": "b070dd94d8fd2cf2f632be77d457a1427d06d5defac061f35b71c176e141bded"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-package-build.log": {
+      "bytes": 9271,
+      "sha256": "8c8e03802b70fb903f19663c089c5749d9acc1f5e645ef05eb30ab5ddda2d693"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-package-collector-before-solve.json": {
+      "bytes": 820,
+      "sha256": "b012a87df5a47dc9594fcf155c28c91935fbe29e51f684dd21c2c36bfb262682"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-package-page-acceptance.json": {
+      "bytes": 635692,
+      "sha256": "cdd1c597e38c03ae040b05a0afade4979b63c679a26f088ded230c95bb0da088"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-package-page.jpg": {
+      "bytes": 7693,
+      "sha256": "e4ac476fb43d4cfc034ce1b7bc276a896e02a280cf9d3079d84d7528b96785ec"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-package-photo-acceptance.json": {
+      "bytes": 66980,
+      "sha256": "88e52656140145170bbd8cd45f8432560ae228eb1a9c4ad273007a4ce414e578"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-prefetch-paired.json": {
+      "bytes": 609433,
+      "sha256": "62318b464c0a3341f4d24ca39e225251bad940f3771f08b4745cefa20937faa8"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-reuse-first-attempt.json": {
+      "bytes": 335,
+      "sha256": "8fc4d6fd3aef0d61fca1949d6f953fa5a2ed25b4979d9506ae367adc4f754f0c"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-reuse-lifecycle.json": {
+      "bytes": 191755,
+      "sha256": "3757c968becf7ee7164a89b2e4cca2eda62d3496be265d78978cf9f0d401f724"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-slice-paired.json": {
+      "bytes": 609070,
+      "sha256": "c287020f10889b3475a8853ddc327b073d646ea797c9f39018d756a5703eb800"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-staged-baseline.json": {
+      "bytes": 326470,
+      "sha256": "5e7c037647d7400c2ada9f8559b9674e8f8d375e6d1d149a6718fa67a012e9e0"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-staged-final.json": {
+      "bytes": 381617,
+      "sha256": "1a4fcecd0f05bfa61023e902f68fca0a1596f9697d0cefbf4f5b202ee6d8b7f9"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-speed-summary.json": {
+      "bytes": 33001,
+      "sha256": "b8db31ba2fc32e026371ebcb92c61c1641392459d7baf428a6834b7735b82b59"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-staged-lifecycle-review.json": {
+      "bytes": 167446,
+      "sha256": "e19c8c1d4fe56ea9ce802924a951b48bfeac95b8354b9a8c1b0aa9e0b56201e8"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-staged-lifecycle-timing-review.json": {
+      "bytes": 147231,
+      "sha256": "7bbee5ec71129f479486e39734e454fcdc546f402bf8575694a20096126b677f"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-staged-preemption-ready-review.json": {
+      "bytes": 163344,
+      "sha256": "23999f35565b74eb86979c342e680d2847c156404adc0d4a2d9395e507a157b8"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-staged-preemption-review.json": {
+      "bytes": 149133,
+      "sha256": "3497c662f12696ff3d1b596f3d87e53f9bba8d684bcb6b92b1905cdcc74e6dff"
+    },
+    "魔方拍照解/docs/htm-qtm-isolation-followup-report.md": {
+      "bytes": 9469,
+      "sha256": "adc486fee73b2a95f3ba21717410b0d2b113ab33b9b3f6df72c0a9e2516699f3"
+    },
+    "魔方拍照解/docs/qtm-isolation-review-2026-09-30.md": {
+      "bytes": 11855,
+      "sha256": "ac48183faced66378f9f69d411d4af885e84981953c5f4f74e15bd40b746a863"
+    },
+    "魔方拍照解/docs/qtm-speed-optimization-report.md": {
+      "bytes": 16406,
+      "sha256": "e197377b62423f5abab462a2a2cbec0f09656982276dc4340b17201c9eb9f9ee"
+    },
+    "魔方拍照解/native/qtm/include/loader.hpp": {
+      "bytes": 1959,
+      "sha256": "e79d2aeeb1de6ccafd6fa2a8633d781312b7f464c6a4f3f151918bf2d218c8ed"
+    },
+    "魔方拍照解/tests/accept_qtm_speed_live.py": {
+      "bytes": 10267,
+      "sha256": "caa676423af6f952d7e240834ba7f3e34159c6bb433b63f840fe8018da395686"
+    },
+    "魔方拍照解/tests/benchmark_qtm_speed.py": {
+      "bytes": 5367,
+      "sha256": "30be59a4e38d6eee60680a1bfde555bf438a1220f422056ce9e10823cc242447"
+    },
+    "魔方拍照解/tests/check_qtm_speed_reuse.py": {
+      "bytes": 8006,
+      "sha256": "dcf94e3bc59db53dae97714b050d1ef44768add25944ab0c3adb4bf486d9bdc9"
+    },
+    "魔方拍照解/tests/check_qtm_speed_staged.py": {
+      "bytes": 3413,
+      "sha256": "e3cead71f78187eb1f567dad3d458aba293f188066701279ba0a1506f71017dd"
+    },
+    "魔方拍照解/tests/check_staged_isolation.py": {
+      "bytes": 8974,
+      "sha256": "ba46292ca1480fb15df2eefe7b1cc2943a98e24538eb02ef313379a565fc6efe"
+    },
+    "魔方拍照解/tests/check_wheel_install.py": {
+      "bytes": 2453,
+      "sha256": "187c65e5d8b46b4c05878a927108a8b3a7675af711e310d5027684ed9d8ce483"
+    },
+    "魔方拍照解/tests/summarize_isolation_review.py": {
+      "bytes": 5471,
+      "sha256": "1fe60cad03c2fba0133914b1b3a8da4f97c49f8f41d8cd486cc3932e6f7bd631"
+    },
+    "魔方拍照解/tests/summarize_qtm_speed.py": {
+      "bytes": 11153,
+      "sha256": "c402706c1cbf48d1b75134c54ef5ee03a12de6cb9965e112be9755e8c3227b70"
+    },
+    "魔方拍照解/tests/test_isolation_contract.py": {
+      "bytes": 11593,
+      "sha256": "b6b2d647845820b0710bbee345806fa1edde9070008380d60ecaa7435fe68329"
+    },
+    "魔方拍照解/tests/test_qtm_speed_contract.py": {
+      "bytes": 4652,
+      "sha256": "2664a20c2d08d558d8f4f4ed4f6c4c2988cd6668ceed5416e657f7f249b8b51c"
+    },
+    "魔方拍照解/tests/verify_htm_portable.py": {
+      "bytes": 3436,
+      "sha256": "4011de27fa235c5140324cd7beab4991fb625f40cb4a97e9daefe4c87f064d23"
+    },
+    ".github/workflows/ci.yml": {
+      "bytes": 8233,
+      "sha256": "65086599557ba8b2ad7ba934c3362693343cd132def5f0c1e5a0ebb90f283c79"
+    },
+    "README.md": {
+      "bytes": 25556,
+      "sha256": "5c9b035e9ee0aaf794761a94c5ba92dd8925f813b7ab45915e72745a6063be2d"
+    },
+    "魔方拍照解/.clang-format": {
+      "bytes": 69,
+      "sha256": "e7085cd354dff9bd19eb2881dc9e773ec55caa2477d8b7ae9c9f7c7b629795dc"
+    },
+    "魔方拍照解/.gitignore": {
+      "bytes": 212,
+      "sha256": "f94eb876f8833110e28821588c56ca11959c80763a38cbf1f82c53dd9924d364"
+    },
+    "魔方拍照解/CHANGELOG.md": {
+      "bytes": 4159,
+      "sha256": "fad2b938074dd7c4a9a985cd67b2bb555fa834088d4f25f77a7d9b76fa4b3cd7"
+    },
+    "魔方拍照解/README.md": {
+      "bytes": 33811,
+      "sha256": "fec9072e8815e803b5a47c2b4fc57ecf3b87b61000e158a1221c03ab06736152"
+    },
+    "魔方拍照解/cube_app/__init__.py": {
+      "bytes": 98,
+      "sha256": "5a2d61c0d719f9e02ce35336cdd8f6bb655629cfc1d449803a5ec4c473f75b8d"
+    },
+    "魔方拍照解/cube_app/coords.py": {
+      "bytes": 2981,
+      "sha256": "8dbf9feb2d0f0f0990e7b63e6f07417646d6b65c2e582dc7879cdc6b1c09864e"
+    },
+    "魔方拍照解/cube_app/cubie.py": {
+      "bytes": 11557,
+      "sha256": "e1563bb79f4511f377c90273330f5d3e0bc170c82fa9990cb1472bb81ec52635"
+    },
+    "魔方拍照解/cube_app/detection.py": {
+      "bytes": 2255,
+      "sha256": "ec871cf2cd44c9941d3186bea98e10426ca793b7c2b7f62abb413ef6f99b411b"
+    },
+    "魔方拍照解/cube_app/fast.py": {
+      "bytes": 12542,
+      "sha256": "1a6e05d1dbffef27ce624d677cfed41c7e5b098b14134cd62b1aaddefc860d2e"
+    },
+    "魔方拍照解/cube_app/metrics.py": {
+      "bytes": 2267,
+      "sha256": "b1f21315b2bf7758d9ee09f468547b206df6d306dc5c65ffff62f5d9a714ac02"
+    },
+    "魔方拍照解/cube_app/native.py": {
+      "bytes": 14975,
+      "sha256": "d935b3a6549a2c7f179f9e1fa435cf09bfeb8023798e1639595337aec5f83204"
+    },
+    "魔方拍照解/cube_app/optimal.py": {
+      "bytes": 29607,
+      "sha256": "1c3abe5911d3cf06b1e81f195d1b45d90a331008e984c58df8f2ec1499111c6d"
+    },
+    "魔方拍照解/cube_app/runtime.py": {
+      "bytes": 336,
+      "sha256": "8bb4d64175e85768b4c6803fe3a785d56085e9102bd7097f0823501b6b374781"
+    },
+    "魔方拍照解/cube_app/solvers/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "魔方拍照解/cube_app/solvers/htm/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "魔方拍照解/cube_app/solvers/htm/coords.py": {
+      "bytes": 2983,
+      "sha256": "36a20e2444aa9805a3cdb92ff84c193482efb8cc161140692baab248a092fafa"
+    },
+    "魔方拍照解/cube_app/solvers/htm/fast.py": {
+      "bytes": 12544,
+      "sha256": "ad6f542ba9a8926487d627a606637a4e53a683f8827f21522b9da2ec3f8555c8"
+    },
+    "魔方拍照解/cube_app/solvers/htm/native.py": {
+      "bytes": 15276,
+      "sha256": "3f43992e1ceda27285f989838c2d9f8f8334b8ef6b5dfcec18e4ffdb1d0bd210"
+    },
+    "魔方拍照解/cube_app/solvers/htm/optimal.py": {
+      "bytes": 29609,
+      "sha256": "291e1085b10c82a792b65807915e29667625cb284c699546a6542068ff7b5340"
+    },
+    "魔方拍照解/cube_app/solvers/htm/tables.py": {
+      "bytes": 7127,
+      "sha256": "5d182f08dbff2c55a67231d23a3fd1da6a6a8e2ff3e23aa9e7a4ce38b518aeff"
+    },
+    "魔方拍照解/cube_app/solvers/htm/two_by_two.py": {
+      "bytes": 7684,
+      "sha256": "b900c8fcf81c3432e578c7eba9037bb4d07d5d8e0a49681dfbe93215dccd1177"
+    },
+    "魔方拍照解/cube_app/solvers/htm/two_by_two_tables.py": {
+      "bytes": 5957,
+      "sha256": "08d2d00c9504ea80fd07ef118834e9cb4c1ff1efb01b36aadf20413a63f52ab1"
+    },
+    "魔方拍照解/cube_app/solvers/qtm/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "魔方拍照解/cube_app/solvers/qtm/backend.py": {
+      "bytes": 16041,
+      "sha256": "21eed64f722423cd98e81e9739e8e939a5ae55b0a6bb3895868ecc7b7ec24dbe"
+    },
+    "魔方拍照解/cube_app/solvers/qtm/coords.py": {
+      "bytes": 2983,
+      "sha256": "36a20e2444aa9805a3cdb92ff84c193482efb8cc161140692baab248a092fafa"
+    },
+    "魔方拍照解/cube_app/solvers/qtm/fast.py": {
+      "bytes": 14500,
+      "sha256": "102d97571bd683836e688053cb7aaa69f0d28f38a7e47ed3aac62040334be18b"
+    },
+    "魔方拍照解/cube_app/solvers/qtm/native.py": {
+      "bytes": 39975,
+      "sha256": "d98ac8d99303b5fdffb3ee35e49c930e7734c1c3eba86aaf3ab7ec0b06c66568"
+    },
+    "魔方拍照解/cube_app/solvers/qtm/optimal.py": {
+      "bytes": 33050,
+      "sha256": "699c6991dc592dff9f8368152cc0fdc3f260d041714a85835d38743cf145ee6b"
+    },
+    "魔方拍照解/cube_app/solvers/qtm/qtm_small.py": {
+      "bytes": 4605,
+      "sha256": "22d58efdad81ce96588ac64d5152d7a2dfb04ee907048cbda564e1b04ac3aeca"
+    },
+    "魔方拍照解/cube_app/solvers/qtm/tables.py": {
+      "bytes": 7075,
+      "sha256": "1def3644f5cba544396c895e6c369ebbf8d31cf0d41b2f05b1db8f483dfac084"
+    },
+    "魔方拍照解/cube_app/solvers/qtm/two_by_two.py": {
+      "bytes": 8769,
+      "sha256": "6e0a239595dae0d6fb3baf388ed2face14f02c9fb95643f1c2c654372ca053b6"
+    },
+    "魔方拍照解/cube_app/solvers/qtm/two_by_two_tables.py": {
+      "bytes": 7212,
+      "sha256": "80b66385df684678975015d147522627f5a17ec853270946f6f448e196b0ddb7"
+    },
+    "魔方拍照解/cube_app/solvers/resource_broker.py": {
+      "bytes": 5767,
+      "sha256": "1d44c1af5b7d91cc193449980897585eb87986ad0c02d5ce076f7cee905538c4"
+    },
+    "魔方拍照解/cube_app/tables.py": {
+      "bytes": 7125,
+      "sha256": "6eab1abce1683034411825ee67bfecee06d93666d852c47726aa1f99933f6d1a"
+    },
+    "魔方拍照解/cube_app/two_by_two.py": {
+      "bytes": 7680,
+      "sha256": "8325e56c9a6edd53a353c7c4ba089d877a7411e1de229c2362cdc0a2c0199406"
+    },
+    "魔方拍照解/cube_app/two_by_two_tables.py": {
+      "bytes": 5953,
+      "sha256": "18550744ccd796c2f6c450707cea9ea72b67d3f436cd1eebfece533b09984db3"
+    },
+    "魔方拍照解/cube_app/vision.py": {
+      "bytes": 34699,
+      "sha256": "b44361ca6b0408ec38257d3eb8bdd78de384959e3d62eb7aa58d8d1c209bde66"
+    },
+    "魔方拍照解/docs/ai-htm-rollback-qtm-isolation-plan.md": {
+      "bytes": 28774,
+      "sha256": "c701b41f6b79fd7101bcbfb01105b7f8b1067cac3b4305231592ac7e6f5716ec"
+    },
+    "魔方拍照解/docs/benchmarks/HtmFull-asset-manifest.json": {
+      "bytes": 1514,
+      "sha256": "60d0ac5286c1f34fc9eae2afbf78c030fe90dfceb3e5f8321e0775ba9ef951f5"
+    },
+    "魔方拍照解/docs/benchmarks/QtmStrong-asset-manifest.json": {
+      "bytes": 4209,
+      "sha256": "b423704ceeaf8497cd2eb0ae3a9ac6ad684de2b9e3d4b4df905baf7ca15058c5"
+    },
+    "魔方拍照解/docs/benchmarks/acceptance-config-correction.json": {
+      "bytes": 1062,
+      "sha256": "9e8e2602040ab7a84dac6b5432a14c50277eae101dde738b762a2c939519a5e0"
+    },
+    "魔方拍照解/docs/benchmarks/frozen-native-source-audit.json": {
+      "bytes": 8675,
+      "sha256": "3fb1000d8f9f4cbcc1b3fcbdf28de0ea3896e6bd77d9d300232e510312f915ff"
+    },
+    "魔方拍照解/docs/benchmarks/h0-build-info.json": {
+      "bytes": 1415,
+      "sha256": "3fcd7b5e27d77ec26bf009f472acb1b68ff7e9db055d02a2bec1e2edd8a2f9da"
+    },
+    "魔方拍照解/docs/benchmarks/h1-build-info.json": {
+      "bytes": 1415,
+      "sha256": "92b70b38ca1b3d37ca3d04e98bae9989a1ad26ecac7a4d4fb5dbcdab18791ec2"
+    },
+    "魔方拍照解/docs/benchmarks/htm-final-package-build.log": {
+      "bytes": 9247,
+      "sha256": "31499a955ed1bd6f9ae993bfb2d30ff088a7f02f26ef785e4fd081db0db94629"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h0-calibration.json": {
+      "bytes": 18284,
+      "sha256": "20b6a0d807356ff10840eec02f230207af100a1bf9c11e763dcbee524f6ad1bc"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h0-calibration16.json": {
+      "bytes": 59954,
+      "sha256": "b05c1b832d35a6287ac2cd5cc809d44e0e66dfef614f171bca08c868f58d5aa3"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h0-pgo15-retest.json": {
+      "bytes": 50332,
+      "sha256": "4a24587bf96a9cf10a5f2d48176c33b45eea41a1f1d724c7e4a2d63d89ebaabe"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h0-photos.json": {
+      "bytes": 66875,
+      "sha256": "5f3da9d091d54bb0efa881b9dc115648078d2702a8012dd25ba302fc5466010b"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h0-real-verification.json": {
+      "bytes": 461,
+      "sha256": "da8b62275b745b19d21ee39cbdd6cacdafad5fd76465feeaf2134f392678cba3"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h0-real.json": {
+      "bytes": 353756,
+      "sha256": "dc415541321373216eb9f6deabc93651df51c72bfe83c9cf4dec2819981434e2"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h0-shallow.json": {
+      "bytes": 59083,
+      "sha256": "7a6c3da1ef4299b2ac01bfd5afc4a0630929c8eed869ab6a57646bd9c8259baf"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h0-short-15.json": {
+      "bytes": 182713,
+      "sha256": "3dea594172c71194add4be98ea181a900f99dcc0bad3ef7d3a7e59c217a691f5"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h0-short.json": {
+      "bytes": 155601,
+      "sha256": "e9c5ff92e94eea29754532011e4555fadef48bc19ec455176113966d785ae824"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h1-pgo15-retest.json": {
+      "bytes": 50336,
+      "sha256": "7d4664e5b064fbc800fd43cc5fb260c10a376ab30309b03276c27a101f59d077"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h1-photos.json": {
+      "bytes": 66878,
+      "sha256": "87812142b75ca3617adb85411514521b9d6c3de556d4239210d1a8ef59de74ed"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h1-real-15.json": {
+      "bytes": 359688,
+      "sha256": "c785ccc64fe8447217b07e3f62361792671e9a6453bd6ac7b07deffe25f4ebfe"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h1-real-final.json": {
+      "bytes": 270628,
+      "sha256": "88a0d4e98f868184f324854a9a34a4010c3b0fb89110e47d11a48dd9893b4405"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h1-real-release.json": {
+      "bytes": 265581,
+      "sha256": "728ea8a7aa1e8872fe06dafc6e57b9c475bce04589606e8ec8b8c32892c7834d"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h1-real.json": {
+      "bytes": 265023,
+      "sha256": "45a3dd3b815dbd3e86d0238da479ff8de8e354df3ea9540eab359ee89364d06d"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h1-shallow.json": {
+      "bytes": 59085,
+      "sha256": "a8ce1d5eea06b4210fcceb45eef2a378fb863e473591d5dcf2218f34bbdc004f"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h1-short-15.json": {
+      "bytes": 182753,
+      "sha256": "c4ac757ef5bf43a22e599b4425f68a8e29a0f2706c8512801852e022f34745b3"
+    },
+    "魔方拍照解/docs/benchmarks/htm-h1-short.json": {
+      "bytes": 155595,
+      "sha256": "be7ef891ac537a33b0b8f8018da253fe6315e59eaba0ff76968eda08be7e8a00"
+    },
+    "魔方拍照解/docs/benchmarks/htm-only-lifecycle.json": {
+      "bytes": 2364,
+      "sha256": "afacc88068421edfade4506de277f9781b645efd059e653f24f4612def143178"
+    },
+    "魔方拍照解/docs/benchmarks/htm-qtm-initial-inventory-2026-09-30.json": {
+      "bytes": 23388,
+      "sha256": "8bf2f66573ef25d07f4c4f94bad058a30c41d5ba140cae307ebd4a7b24bce985"
+    },
+    "魔方拍照解/docs/benchmarks/htm-qtm-isolation-baseline-manifest.json": {
+      "bytes": 3740,
+      "sha256": "7d36843a42897bb3cb5e4f205880d0db0018abf5eef803470f35853087592189"
+    },
+    "魔方拍照解/docs/benchmarks/initial12-reference-grid.png": {
+      "bytes": 819629,
+      "sha256": "e7b53067ad8ce133401d280012101f61f37b764ddf05a3ab7290e1efeda82197"
+    },
+    "魔方拍照解/docs/benchmarks/isolation-api-lifecycle.json": {
+      "bytes": 11241,
+      "sha256": "63c3555c7b533e85704848d380bb3968e0493b2a9be30a7aef3da239e9d6a4ff"
+    },
+    "魔方拍照解/docs/benchmarks/packages-same-assets.json": {
+      "bytes": 6051,
+      "sha256": "296c10245d68fe8cffb57f3c02ee049dab0ed800e106eb82c756e4a85d4d1850"
+    },
+    "魔方拍照解/docs/benchmarks/pre-isolation-readme.patch": {
+      "bytes": 46362,
+      "sha256": "f17c8b2391911116fd8607682d9197a5212cdfcf3723182714ba790908c8c3d1"
+    },
+    "魔方拍照解/docs/benchmarks/q0-build-info.json": {
+      "bytes": 2064,
+      "sha256": "4d30b5bc087b2da3a07b1851de7e079e1ddbedc1ef4d8ef80c15c0682b93e979"
+    },
+    "魔方拍照解/docs/benchmarks/q1-build-info.json": {
+      "bytes": 2064,
+      "sha256": "953e763b8af069a440da00b6ff6e91faf8640a2927fcd030734ae896f904b1b7"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-final-package-build.log": {
+      "bytes": 9412,
+      "sha256": "73491c2fd6ac661a7b6e0771b5e03c43ecd904e5003371e4e2d1d453d4decc1f"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-package-lifecycle.json": {
+      "bytes": 7348,
+      "sha256": "8006054b8b1f761267f9b8b57d8d25832b5e79b87cadbc8b008559e634ee2049"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q0-calibration18.json": {
+      "bytes": 43024,
+      "sha256": "c81e1f9f1a4a26731696c343e0a9b2ac6c2fffe5435baf8af96e9a28bce7df17"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q0-calibration19.json": {
+      "bytes": 88944,
+      "sha256": "81922bc20cd0d2e118814061b34415751ac3e6e208f5f84f60c0d97ff3437954"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q0-calibration20-known.json": {
+      "bytes": 53687,
+      "sha256": "ae543bce7680c6e1b718d5d96c9515a55b10fead92b102b6192367d3325428cc"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q0-known15-retest.json": {
+      "bytes": 168098,
+      "sha256": "91cc6853cf2a258bc0f80c438e8c8f537a9a01793a3331ff89a32a24dbf51c09"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q0-known18-retest.json": {
+      "bytes": 185418,
+      "sha256": "8e2b7653a04b72700dcafc319d1741af972a243a45829a94c09da9afd49f5a33"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q0-photos.json": {
+      "bytes": 66875,
+      "sha256": "7d758234517c7f9a2e562eb55cedb053b769fd5e59e36cf3bb231240bc47eb06"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q0-real.json": {
+      "bytes": 342388,
+      "sha256": "5ed94c1f02b700d2d09dba496f6bdb86502158fd3b7900cfb78069bd37d464c7"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q0-shallow.json": {
+      "bytes": 99154,
+      "sha256": "9571194a1b2f9eaac8d1d43de472f4a3b7d06a5d4677cedfc3131629983bb330"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q0-short-15.json": {
+      "bytes": 426527,
+      "sha256": "5bd689d3b662de99284bce75429eb9910a1b7a0298fe73501964e917900be532"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q0-short.json": {
+      "bytes": 363889,
+      "sha256": "a3de918735e3908b208e54b9cc68ace471348eb8b2a1203153deaedc17701953"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q1-known15-retest.json": {
+      "bytes": 265652,
+      "sha256": "1e1e610d43d9f849753ef6c563d0b6e9af8835a04852d77f3d27c2aaf6e5fe38"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q1-known18-retest.json": {
+      "bytes": 155313,
+      "sha256": "349cbc99ba84a98bf70727efe2c7582cb376d5b1c97d53d1a9b299f75c9ee85c"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q1-photos.json": {
+      "bytes": 66878,
+      "sha256": "eaa3fc63d568a55d47119b4783fab7ff8ca9bb680ca1a305fac9e00d5e2d4e38"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q1-real-release.json": {
+      "bytes": 556488,
+      "sha256": "66a7fc0939f48abb1f4604f691d088dda7afc5822f41ccafa69cda96b3e783ba"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q1-real.json": {
+      "bytes": 431760,
+      "sha256": "a025a5d95e8a66482b7b582ada23ec9294786f9d2332d45fb857d0d0f02371db"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q1-shallow.json": {
+      "bytes": 99237,
+      "sha256": "80e9f711af357f6bc4e5352a9ce64f680fcb8b672425c7bbc88dcc423da2d5a2"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q1-short-15.json": {
+      "bytes": 438202,
+      "sha256": "1c777ede780c04a1e87b219e71183a178aaf1eb2d497da2c615e899d1ebad330"
+    },
+    "魔方拍照解/docs/benchmarks/qtm-q1-short.json": {
+      "bytes": 376703,
+      "sha256": "bb5e670e230cc048fe0d96ab4bd5599c8a9b1bcfd38ea415d4833b67e3f168d8"
+    },
+    "魔方拍照解/docs/benchmarks/real-thread-audit.json": {
+      "bytes": 1098,
+      "sha256": "714797f1c8bb611f132d193fde16b1d629a7e3cc7dd1bc335c70d40a3c192ff1"
+    },
+    "魔方拍照解/docs/htm-rollback-qtm-isolation-report.md": {
+      "bytes": 10785,
+      "sha256": "78dad3765d84e6f01efa6888e47bd09701e9cfe06f9f61d29e87b35f9e01248f"
+    },
+    "魔方拍照解/docs/performance-refactor-2026-09-27.md": {
+      "bytes": 7950,
+      "sha256": "a53f6f4435f77f9b8e42cbb058721f38fdd5838cb3b074e639c98d1bb748df6f"
+    },
+    "魔方拍照解/docs/performance-refactor-benchmark-2026-09-27.json": {
+      "bytes": 17083,
+      "sha256": "03c02f0a8efca1c394670b6d15629a29aa0b734b3b3d1423d516abcc408b2b5f"
+    },
+    "魔方拍照解/docs/performance-review-2026-09-27.md": {
+      "bytes": 19721,
+      "sha256": "34a462203d798e9d31d9049024c7300b666b5f0b58639e598cdf57559b102593"
+    },
+    "魔方拍照解/native/build.ps1": {
+      "bytes": 2845,
+      "sha256": "e366daf075c574a07bee7ee78c91a219482672d2ba7834d9bb7b02e4607b8ffc"
+    },
+    "魔方拍照解/native/build_profiled.ps1": {
+      "bytes": 4415,
+      "sha256": "7eaba78a2ffe7a6d07b1446ede29edd254c88076a19f5778ae09187ef4f35489"
+    },
+    "魔方拍照解/native/build_tables.ps1": {
+      "bytes": 2952,
+      "sha256": "013ea4ab790ea6791b30045794e5e85b47347251ed049ca06b1b86176fb8fa5a"
+    },
+    "魔方拍照解/native/htm/build.ps1": {
+      "bytes": 3336,
+      "sha256": "b205a801ee4e13225f83f4bd47c6d9cad9cfe973b631d579d706af65ab7592d6"
+    },
+    "魔方拍照解/native/htm/build_profiled.ps1": {
+      "bytes": 4486,
+      "sha256": "79b53026c1b33134e82d3f6df97830ea5e455ebaef88e19e6217078ddec88ddf"
+    },
+    "魔方拍照解/native/htm/build_tables.ps1": {
+      "bytes": 2977,
+      "sha256": "7df2bd358a84ef4b8a73d5e022e01a9541a9434d24fd9dc3952b02727db3800d"
+    },
+    "魔方拍照解/native/htm/include/cube.hpp": {
+      "bytes": 3361,
+      "sha256": "1f98383cb71cb16e5b0b8c0bc52cd221f9ca3a02a31cfcfeac33dcdde805b83e"
+    },
+    "魔方拍照解/native/htm/include/paths.hpp": {
+      "bytes": 448,
+      "sha256": "567c2d959576f77d234df379130b4db20c0bbe91a45088590158d9a4f05b845f"
+    },
+    "魔方拍照解/native/htm/include/pdb.hpp": {
+      "bytes": 3168,
+      "sha256": "5cbd76d0125e1f2510ec536e16468804a3d7ac9ab752853fb5b4919c66274428"
+    },
+    "魔方拍照解/native/htm/include/solver.hpp": {
+      "bytes": 7928,
+      "sha256": "188234ad4d6585cf7cd7fee02f4754bc236acac88e481d03dc317645fbf0fd64"
+    },
+    "魔方拍照解/native/htm/include/symmetry.hpp": {
+      "bytes": 2614,
+      "sha256": "25ea953fc6a8fd7aa91cee2456116419348135f8bc2205fdc825711306c37fe4"
+    },
+    "魔方拍照解/native/htm/include/tail.hpp": {
+      "bytes": 1517,
+      "sha256": "5095e0e59025d44dd9d9c05a8d104df180a90c3993db18c4153b56840cd94f2a"
+    },
+    "魔方拍照解/native/htm/src/cube.cpp": {
+      "bytes": 19343,
+      "sha256": "3c7501a3e18bace61cab5690c99b7c0b85967c51e946f61c982d41c25a7d6b4a"
+    },
+    "魔方拍照解/native/htm/src/main.cpp": {
+      "bytes": 34480,
+      "sha256": "d9f5911bec72ebc6fbb0da9a45167e1654815b0f02293d44b6f93cf663600b84"
+    },
+    "魔方拍照解/native/htm/src/pdb.cpp": {
+      "bytes": 38001,
+      "sha256": "03fb90e8f656c26974e59ff6fcb8edb4df999025e1ff88528688bc3d97b4793a"
+    },
+    "魔方拍照解/native/htm/src/solver.cpp": {
+      "bytes": 50804,
+      "sha256": "5e0445466519fc1692be718a0434203368b5cd9d23cc93c7a884cbd55d00c875"
+    },
+    "魔方拍照解/native/htm/src/symmetry.cpp": {
+      "bytes": 19593,
+      "sha256": "a350071e2187a539bfc3028c0147eb63ab95ec8827b3f421ee6f7866a6f94bcf"
+    },
+    "魔方拍照解/native/htm/src/tail.cpp": {
+      "bytes": 29863,
+      "sha256": "ec479533cf48e61e58857b184142b8b2aabbdc134e3e719a32746ee69522135b"
+    },
+    "魔方拍照解/native/include/cube.hpp": {
+      "bytes": 3361,
+      "sha256": "1f98383cb71cb16e5b0b8c0bc52cd221f9ca3a02a31cfcfeac33dcdde805b83e"
+    },
+    "魔方拍照解/native/include/paths.hpp": {
+      "bytes": 448,
+      "sha256": "567c2d959576f77d234df379130b4db20c0bbe91a45088590158d9a4f05b845f"
+    },
+    "魔方拍照解/native/include/pdb.hpp": {
+      "bytes": 3168,
+      "sha256": "5cbd76d0125e1f2510ec536e16468804a3d7ac9ab752853fb5b4919c66274428"
+    },
+    "魔方拍照解/native/include/solver.hpp": {
+      "bytes": 7928,
+      "sha256": "188234ad4d6585cf7cd7fee02f4754bc236acac88e481d03dc317645fbf0fd64"
+    },
+    "魔方拍照解/native/include/symmetry.hpp": {
+      "bytes": 2614,
+      "sha256": "25ea953fc6a8fd7aa91cee2456116419348135f8bc2205fdc825711306c37fe4"
+    },
+    "魔方拍照解/native/include/tail.hpp": {
+      "bytes": 1517,
+      "sha256": "5095e0e59025d44dd9d9c05a8d104df180a90c3993db18c4153b56840cd94f2a"
+    },
+    "魔方拍照解/native/qtm/build.ps1": {
+      "bytes": 3411,
+      "sha256": "768d4d32ed4f11ef73cfe0f4d54f8f97c4d3fb38094280e3b5b806a8464a8ef6"
+    },
+    "魔方拍照解/native/qtm/build_profiled.ps1": {
+      "bytes": 4778,
+      "sha256": "dc6148824102f3841d323234e51995005d16cd9c6165199987a4e9b8f1693f93"
+    },
+    "魔方拍照解/native/qtm/build_tables.ps1": {
+      "bytes": 4501,
+      "sha256": "823f495c942fa32bac3c2377f01b2634d5dbad989c2aa624e8141136ea6965ad"
+    },
+    "魔方拍照解/native/qtm/include/cube.hpp": {
+      "bytes": 3294,
+      "sha256": "6346aa5bdcf355ea9efc6836905032e78e1359f4813d4674cf9c82e45ecbcef9"
+    },
+    "魔方拍照解/native/qtm/include/fast.hpp": {
+      "bytes": 1253,
+      "sha256": "d740bcc71af3016ea082edd503a9225b22e2ff489f68c2a1702b2f64fecff826"
+    },
+    "魔方拍照解/native/qtm/include/metric.hpp": {
+      "bytes": 459,
+      "sha256": "8b9389eabd7bcc32c7f9cc554aeb29b7fe8a77aed56738e4a75a21e66029c8fb"
+    },
+    "魔方拍照解/native/qtm/include/paths.hpp": {
+      "bytes": 430,
+      "sha256": "fb3ecd78d63c5ab1d3fb183c4f9822b9c0a1a0da3133561c14f09c56828de786"
+    },
+    "魔方拍照解/native/qtm/include/pdb.hpp": {
+      "bytes": 5087,
+      "sha256": "0cd053b2678742d61e3d8ffd38b872924856cc77d380c95e29bbb5ba92dc3040"
+    },
+    "魔方拍照解/native/qtm/include/solver.hpp": {
+      "bytes": 12906,
+      "sha256": "58492fd05de8792a314681b04017f9a4029511c499e1560077024674c62c9aef"
+    },
+    "魔方拍照解/native/qtm/include/strong_coords.hpp": {
+      "bytes": 2118,
+      "sha256": "6fe1369992e88501d0b2b1aa8da0a363a09c83d001a001ff62c2c7231ab77342"
+    },
+    "魔方拍照解/native/qtm/include/strong_pdb.hpp": {
+      "bytes": 2801,
+      "sha256": "d055b5e904b1950e38d92a218d58a590c2a44c3bbee880af06fea19466bb8a14"
+    },
+    "魔方拍照解/native/qtm/include/symmetry.hpp": {
+      "bytes": 2653,
+      "sha256": "f0886a8d5a87ad7ef3cb26cb34ee56fd22470ac32f331e38c7bf0b74a6425c7e"
+    },
+    "魔方拍照解/native/qtm/include/tail.hpp": {
+      "bytes": 1998,
+      "sha256": "fdf29b49519f5259d16966887acaae9bfcf63158c92e6ebf9ba1e170d4e9c453"
+    },
+    "魔方拍照解/native/qtm/src/cube.cpp": {
+      "bytes": 18819,
+      "sha256": "f94564ac640c96cfe52b18a3d012958271fc08ab7e5eba64b77c49ba9b06ebaf"
+    },
+    "魔方拍照解/native/qtm/src/fast.cpp": {
+      "bytes": 18715,
+      "sha256": "8c771b7a5b9fa95b9e6cd922ddd9c783a12202bcc5b790b29d6f258147d0374a"
+    },
+    "魔方拍照解/native/qtm/src/main.cpp": {
+      "bytes": 81745,
+      "sha256": "9866b0734bb930d4de7e1a0afd91e748ff68b744e32c0fe34d512f7230aaefe8"
+    },
+    "魔方拍照解/native/qtm/src/pdb.cpp": {
+      "bytes": 63514,
+      "sha256": "0340599ce34eb4fb51b26e2718473e17c25561bb78490cd1fcb9780073e92cee"
+    },
+    "魔方拍照解/native/qtm/src/solver.cpp": {
+      "bytes": 103447,
+      "sha256": "bc72d75500ce8b40e4ed11c8b6935d22d9c27ab6fb3253d7219896e1a5cd2d74"
+    },
+    "魔方拍照解/native/qtm/src/strong_coords.cpp": {
+      "bytes": 8029,
+      "sha256": "7499e0d8e3486d876f8c8b775881a095c3f579eaf34e6de02538bb28ef72fe1c"
+    },
+    "魔方拍照解/native/qtm/src/strong_pdb.cpp": {
+      "bytes": 37968,
+      "sha256": "0f44203a4ef1c53892a15f5be4b572035a34f7fa6269b7b132b8fe5cd021c694"
+    },
+    "魔方拍照解/native/qtm/src/symmetry.cpp": {
+      "bytes": 19778,
+      "sha256": "127018d567461c8fff4767d4f625893942c3ee69b5bc4d920bfd73f4e6bcc186"
+    },
+    "魔方拍照解/native/qtm/src/tail.cpp": {
+      "bytes": 38612,
+      "sha256": "d3be5ca36b79930533daf6ed1a49cf0345f85db8402a3b6e2b534ae55a0c2ed8"
+    },
+    "魔方拍照解/native/src/cube.cpp": {
+      "bytes": 19343,
+      "sha256": "3c7501a3e18bace61cab5690c99b7c0b85967c51e946f61c982d41c25a7d6b4a"
+    },
+    "魔方拍照解/native/src/main.cpp": {
+      "bytes": 34480,
+      "sha256": "d9f5911bec72ebc6fbb0da9a45167e1654815b0f02293d44b6f93cf663600b84"
+    },
+    "魔方拍照解/native/src/pdb.cpp": {
+      "bytes": 38001,
+      "sha256": "03fb90e8f656c26974e59ff6fcb8edb4df999025e1ff88528688bc3d97b4793a"
+    },
+    "魔方拍照解/native/src/solver.cpp": {
+      "bytes": 50804,
+      "sha256": "5e0445466519fc1692be718a0434203368b5cd9d23cc93c7a884cbd55d00c875"
+    },
+    "魔方拍照解/native/src/symmetry.cpp": {
+      "bytes": 19593,
+      "sha256": "a350071e2187a539bfc3028c0147eb63ab95ec8827b3f421ee6f7866a6f94bcf"
+    },
+    "魔方拍照解/native/src/tail.cpp": {
+      "bytes": 29863,
+      "sha256": "ec479533cf48e61e58857b184142b8b2aabbdc134e3e719a32746ee69522135b"
+    },
+    "魔方拍照解/pyproject.toml": {
+      "bytes": 1779,
+      "sha256": "676b98a98162167b3ee76826ac250cdcaa3c4fce259304c01da80ff0fb0e62ca"
+    },
+    "魔方拍照解/release/README-Windows.txt": {
+      "bytes": 883,
+      "sha256": "a2f10335394f73436f1468a4451cb28ff262fecb6cf66c0e0c20256590970c07"
+    },
+    "魔方拍照解/release/build_windows.ps1": {
+      "bytes": 6078,
+      "sha256": "3bed9de778f0354c36cdfecd01b2bb4d782de996e72764496af4f31be60f0377"
+    },
+    "魔方拍照解/release/check_version.py": {
+      "bytes": 2481,
+      "sha256": "f9e5398cced0c5e29b525016f399e8f8ba6db71b54ed24efa2e819c1f88a5be0"
+    },
+    "魔方拍照解/release/prepare_release.ps1": {
+      "bytes": 2584,
+      "sha256": "c6e56aa39b3d20e7f8195572986dd9fb13dc3737818877b47968679a5a3eac47"
+    },
+    "魔方拍照解/release/prepare_runtime_caches.py": {
+      "bytes": 1529,
+      "sha256": "062c9b06f35c0563ac417fd6dc29952634c7a13f01853a55aecf6f1713420126"
+    },
+    "魔方拍照解/release/verify_assets.py": {
+      "bytes": 5054,
+      "sha256": "228268e16bbc6c2aa330547f50aa593a7035d674a6537a92f996430feac62ec5"
+    },
+    "魔方拍照解/release/zip64_package.py": {
+      "bytes": 1541,
+      "sha256": "c0a28ea98c796758242ac0ab995002070cbedc208450f39f62a09ee0f9706ac7"
+    },
+    "魔方拍照解/release/启动魔方求解器.cmd": {
+      "bytes": 191,
+      "sha256": "553ff0441d9e0627a97f414ee994bc7c1de5c29323250a9b6724c340a7d7fb1c"
+    },
+    "魔方拍照解/requirements-dev.txt": {
+      "bytes": 70,
+      "sha256": "5ebc44edf58ce83dded258911538c3e650ccf34a30ffafaee1d3af713760bce9"
+    },
+    "魔方拍照解/requirements-release.txt": {
+      "bytes": 42,
+      "sha256": "e7b4f7b71f6247c4e0bbe32033c4e3621b62e94bb3d5f5d4a32327420d1d6502"
+    },
+    "魔方拍照解/requirements.txt": {
+      "bytes": 104,
+      "sha256": "2b95c6f5644592d36d544615c2181f9cca039353bf047b83a465bb7d3d095b7e"
+    },
+    "魔方拍照解/server.py": {
+      "bytes": 32008,
+      "sha256": "1a977211a816ec5f78b929a3bff277c6e7b09430664c6cb715a46edc18788f82"
+    },
+    "魔方拍照解/setup-dev.ps1": {
+      "bytes": 1046,
+      "sha256": "7e5d3b2041e049706246498984bd5ce8501883715e05a3d9f5c970207e0fcc60"
+    },
+    "魔方拍照解/tests/accept_isolated_package.py": {
+      "bytes": 10457,
+      "sha256": "7cc720d2e8caf742db041b5761fd9bfb0d1130214a23cbeecd6354df83b2c038"
+    },
+    "魔方拍照解/tests/accept_package_photos.py": {
+      "bytes": 5201,
+      "sha256": "5a6367f5a8be692464faaa2a2fb688a50eed24f06763ea7c55a730b77a30e298"
+    },
+    "魔方拍照解/tests/accept_shallow_isolation.py": {
+      "bytes": 7383,
+      "sha256": "15f4585a867ded156a79b0fb51550bad28999d396cc2bf4466cf424b36dfb137"
+    },
+    "魔方拍照解/tests/audit_real_thread_counts.py": {
+      "bytes": 1395,
+      "sha256": "b0e889f58c5d1a0539ea798ade94f37f262189da9a62199da8eebe45bf924a93"
+    },
+    "魔方拍照解/tests/benchmark_isolation_short.py": {
+      "bytes": 10587,
+      "sha256": "061fd6cfa76060d3e7705bd198fe22e0a7fc950abf674d7d8571bbc23ec97f66"
+    },
+    "魔方拍照解/tests/benchmark_native.py": {
+      "bytes": 11836,
+      "sha256": "decf5d78ceb4a1963757cf21792cde039719d25848cc63a48dcb7c50a771ce52"
+    },
+    "魔方拍照解/tests/benchmark_solver.py": {
+      "bytes": 1836,
+      "sha256": "3a2054a3bb9e46785d9f297b4e564feab08ce35c4c230ccce5aefdb8854f8638"
+    },
+    "魔方拍照解/tests/benchmark_vision.py": {
+      "bytes": 3750,
+      "sha256": "e57180634cb5b76f2291fcbdfab138119b14931ab8399777b445639f218d735e"
+    },
+    "魔方拍照解/tests/check.ps1": {
+      "bytes": 1581,
+      "sha256": "7966efca1e23bea6d5a18db51734464c8cd550a9e69ee2af833f7e4f79a707e5"
+    },
+    "魔方拍照解/tests/check_frozen_native_sources.py": {
+      "bytes": 2217,
+      "sha256": "4837349d1cbf0b573b781d1978d47dde92d5e1bc8e738a3e3ceb281e6d7da821"
+    },
+    "魔方拍照解/tests/check_htm_only_package.py": {
+      "bytes": 3466,
+      "sha256": "be7979195355c01c139ec68aa03bdbff095173cae7508cb6e4f95977672cda5e"
+    },
+    "魔方拍照解/tests/check_isolation_api.py": {
+      "bytes": 6670,
+      "sha256": "308797dca00c173704fb3daec83f7977c8288a1232af5aa37e364910ee88d011"
+    },
+    "魔方拍照解/tests/check_qtm_lazy_package.py": {
+      "bytes": 3280,
+      "sha256": "bdc584db35c7d092efa390963fb63a86690d86560db98c5e2b47e411f4be19f5"
+    },
+    "魔方拍照解/tests/classify_real_case.mjs": {
+      "bytes": 620,
+      "sha256": "47f85bf119f50e01b868b633b1c2294946b33cf6f9654830d84041e7b94f6b8c"
+    },
+    "魔方拍照解/tests/color.test.js": {
+      "bytes": 4014,
+      "sha256": "c8283478ae538673dc927947caaa0a9d2951bb974d06791c2512fca265797624"
+    },
+    "魔方拍照解/tests/compare_isolated_assets.py": {
+      "bytes": 2879,
+      "sha256": "89ff766212a7f3d649935c58022f93b994554bddc6ffd9bb165bdf2fdccb6318"
+    },
+    "魔方拍照解/tests/extract_real_patches.py": {
+      "bytes": 2742,
+      "sha256": "954361f717073d66bf1a89aa51388966faf123466130e9306e62e58fa3ecec68"
+    },
+    "魔方拍照解/tests/freeze_isolation_baseline.py": {
+      "bytes": 2761,
+      "sha256": "609f3399db9c498ab941a19370ec0f879aa9e9d4c14949124d724f59165b1a77"
+    },
+    "魔方拍照解/tests/initial_solver_cases.json": {
+      "bytes": 1149,
+      "sha256": "97ac645f67e8d839b653f45b3b3fcc547a98274b8bd3ba2909c7cd07d923b8bd"
+    },
+    "魔方拍照解/tests/native_cases.json": {
+      "bytes": 626,
+      "sha256": "127ba523a950301ea73416e9b3a654eb1d8cc0933faf60f42107981ba55a6351"
+    },
+    "魔方拍照解/tests/native_pgo_cases.json": {
+      "bytes": 205,
+      "sha256": "4860c146f0da6fa1c1a10747a00b250b0de36836a3f61eadb9c3d643dc915273"
+    },
+    "魔方拍照解/tests/real_color.test.js": {
+      "bytes": 5006,
+      "sha256": "20a82525e61e831591eb0fa48adaf92af4ca9aa6ad0ea956e77a40fd3ab09daf"
+    },
+    "魔方拍照解/tests/recognition.test.js": {
+      "bytes": 8118,
+      "sha256": "19872edf886b0cfef00ab2e0ee1dd627e890c1e9078f62f0b57c34eba6f1216e"
+    },
+    "魔方拍照解/tests/render_initial12_reference.py": {
+      "bytes": 1648,
+      "sha256": "f68361b7022d4cb01ac74889fa98a636b1cdbbf7856100c0ff0801c69e106607"
+    },
+    "魔方拍照解/tests/solver_ui.test.js": {
+      "bytes": 958,
+      "sha256": "b0d494f012675ca85435c208444c021e03740217eb366efe915864eb5a91c10d"
+    },
+    "魔方拍照解/tests/test_detection_pipeline.py": {
+      "bytes": 1638,
+      "sha256": "59a373f694a85801e1268d43dd6fba1d4fc434daf09e2baa1133c7fe7a8e5e80"
+    },
+    "魔方拍照解/tests/test_hybrid_api.py": {
+      "bytes": 5261,
+      "sha256": "a48c76b7aa82e4866bdd9662806e5f62befd094819edb81b9d7a1c74a5195ef6"
+    },
+    "魔方拍照解/tests/test_native_solver.py": {
+      "bytes": 11587,
+      "sha256": "4c1b9d9729dfd2cf21ce4de5a41ea8e5b87c2ee4039ce5eed9d5eff1d7443091"
+    },
+    "魔方拍照解/tests/test_real_images.py": {
+      "bytes": 5006,
+      "sha256": "58c7f5dcb509352d2e91224eb9abac050b4269219eb8ffb5c9159d39abf1f2db"
+    },
+    "魔方拍照解/tests/test_runtime.py": {
+      "bytes": 861,
+      "sha256": "0d77a95a1f58fa79e5b8cd5e73beed499162e00cf950d01717a87ef8a968b5a2"
+    },
+    "魔方拍照解/tests/test_search_lifecycle.py": {
+      "bytes": 6753,
+      "sha256": "c8987caf5cce2f1f72cd3985a1d9652d205d25166ca77972a9f6e10bcac9a17d"
+    },
+    "魔方拍照解/tests/test_solver.py": {
+      "bytes": 4625,
+      "sha256": "cfeb6c6289a681168d4c73fb9c6afd4f2b75932c96cab63282e1ae3a32c607e5"
+    },
+    "魔方拍照解/tests/test_tables.py": {
+      "bytes": 1634,
+      "sha256": "77a31c44bc1b6905a59fda2916942860f92a1add0eb615ff2024a9da636553e4"
+    },
+    "魔方拍照解/tests/test_two_by_two.py": {
+      "bytes": 3937,
+      "sha256": "77f0af58a9105674541fde4eab190b71199806418f75664668a20f4040c4bef2"
+    },
+    "魔方拍照解/tests/test_version.py": {
+      "bytes": 2768,
+      "sha256": "8d7cd81d25e03a2dd72f7fae5e9445ed4d0558eccfbe3c7fa3f22e0b10a77a3f"
+    },
+    "魔方拍照解/tests/test_vision.py": {
+      "bytes": 4593,
+      "sha256": "c0bc4c5fc99ded735ef35557ce7926e382c398a8ae04f25829c4ad39e3272dbb"
+    },
+    "魔方拍照解/tests/two_by_two_color.test.js": {
+      "bytes": 1910,
+      "sha256": "4ea1d314026ae22771e05d36dfcacb8b6092bc6175b2190e32f86f5d76e0caba"
+    },
+    "魔方拍照解/tests/verify_legacy_real.py": {
+      "bytes": 1787,
+      "sha256": "4f320d6969f9649ba285bf9d92e6d95fe94c60269ed7163ce760d2c9dab4c9eb"
+    },
+    "魔方拍照解/tests/vision_annotations.example.json": {
+      "bytes": 334,
+      "sha256": "4ec0fc08318286ace1bbbcb27638b78b1022f4c6951a219a4cf1ecc65dd2a673"
+    },
+    "魔方拍照解/web/app.js": {
+      "bytes": 49493,
+      "sha256": "0b59689466ecf7cca3cb208644dd8e8907c0ec0e3a463c32ed05e16bda89b9f4"
+    },
+    "魔方拍照解/web/color.js": {
+      "bytes": 16458,
+      "sha256": "4e543271aee39a7910af527b2f133b04a44d5b5e1ab4abc5beb1b102305a6395"
+    },
+    "魔方拍照解/web/index.html": {
+      "bytes": 10092,
+      "sha256": "2c3a3cd292650c427c53abf58c55de6bb376c3fec1877762fac92f7447388128"
+    },
+    "魔方拍照解/web/solver-client.js": {
+      "bytes": 1342,
+      "sha256": "0f132d953cf1c5057a4604fae83f369ce7c9ea83ffa97303c8365613e0c2e78a"
+    },
+    "魔方拍照解/web/styles.css": {
+      "bytes": 22622,
+      "sha256": "cf90571d670430f56090fa8c5cd9fe2b66fd37b4666ed9bc49f375f1e025053a"
+    },
+    "魔方拍照解/windows_launcher.py": {
+      "bytes": 205,
+      "sha256": "a05e1fe24162fe050865e93ce0d65911fde12d3f919e7a061c53dbbe49c97d99"
+    }
+  },
+  "artifacts": {
+    "native/htm/build/build-info.json": {
+      "bytes": 1437,
+      "sha256": "9b52ee7ff538a76b0a39263889a01f88c671092504b54d927e64c5472fffcc61"
+    },
+    "native/htm/build/cube_solver_htm.exe": {
+      "bytes": 3832648,
+      "sha256": "d49c4924b2d73b7c028f966f4731c6dbf15f3d3e22d710e9dc0e87d63d96dff7"
+    },
+    "native/qtm/build/build-info.json": {
+      "bytes": 2151,
+      "sha256": "0fbdf7a04e795e11317c9b91792a3971f489453ed398f27792dbe00957f60eec"
+    },
+    "native/qtm/build/cube_solver_qtm.exe": {
+      "bytes": 4144460,
+      "sha256": "b3e2a755a77caf96a8a55f9ef15bbd444d44506a3dac6a2cfb16d258c8cc2d28"
+    },
+    "assets/htm/v1/corner_htm_v2.pdb": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb"
+    },
+    "assets/htm/v1/phase1_sym_htm_v2.pdb": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f"
+    },
+    "assets/htm/v1/tail_depth6_v4.pdb": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74"
+    },
+    "assets/qtm/v1/corner_htm_v2.pdb": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb"
+    },
+    "assets/qtm/v1/corner_qtm_v3.pdb": {
+      "bytes": 88179920,
+      "sha256": "070f1314a7b68955ed3e84a3de5b6e2ede20385f0775a334ec9f1d470f0e08d0"
+    },
+    "assets/qtm/v1/phase1_qtm_v3.pdb": {
+      "bytes": 140908490,
+      "sha256": "7606158cd7ccb4c1d49db7aab45fe25fbad21580aab8742648ae3e29567e6a11"
+    },
+    "assets/qtm/v1/phase1_sym_htm_v2.pdb": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f"
+    },
+    "assets/qtm/v1/strong_qtm_v4_nibble.pdb": {
+      "bytes": 1764716840,
+      "sha256": "12de7580c0b59728fdb559bc0eb1c50adf9e724ec681b1bfb144efe392829e9c"
+    },
+    "assets/qtm/v1/tail_depth6_v4.pdb": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74"
+    },
+    "assets/qtm/v1/tail_qtm_depth7_v5.pdb": {
+      "bytes": 209715264,
+      "sha256": "b03db91cb2f910fdfc74f36beed03ad40245053fbe8ac41cc8f66910654e6b2a"
+    },
+    "assets/qtm/v1/tail_qtm_depth8_v5.pdb": {
+      "bytes": 1677721664,
+      "sha256": "35e3d345cd16e3efa16ceecb398b583f825d66a4e42dbc1856466338353a1687"
+    },
+    ".cache/htm/coordinates_htm_v1.bin": {
+      "bytes": 8237445,
+      "sha256": "7d46f7519a1c68dd27118ecaca9a94e458ca4506215cb2cc83c7efb86e6bee08"
+    },
+    ".cache/htm/solver_tables_v3.pkl": {
+      "bytes": 13798733,
+      "sha256": "ef5cbf1656bcdda4f787de52566c2f063244b2164c8c71e2e1daa445a51efb69"
+    },
+    ".cache/htm/two_by_two_htm_v1.bin": {
+      "bytes": 3778042,
+      "sha256": "4ebf9e7ee3cfb76bab4b5e0703d608bcdfabe758661d23fd041a4cb90eeb399d"
+    },
+    ".cache/qtm/coordinates_dual_v2.bin": {
+      "bytes": 14853066,
+      "sha256": "c7be40e38ad69a04381238da1c181e8251bbe226d00aa05efc024cc6b11a1b2c"
+    },
+    ".cache/qtm/qtm_small_v1.bin": {
+      "bytes": 6615677,
+      "sha256": "adb2bbbe97a1e785b22177e67141c151c55f8fe9093c20afa3da8c6cb3468235"
+    },
+    ".cache/qtm/solver_tables_v3.pkl": {
+      "bytes": 13798733,
+      "sha256": "09a12511502237bdb1a7cd65425c226cffd2811eac511c7e3ba6a2721953c110"
+    },
+    ".cache/qtm/two_by_two_qtm_v1.bin": {
+      "bytes": 3778042,
+      "sha256": "e46414ad7c8bd46e2e4827766f6015890eda6a39ffdc4309296c5fa15fdd5b01"
+    }
+  },
+  "package": {
+    "path": "dist/QtmStrong-1.9.0/RubicPhotoSolve-1.9.0-QtmStrong-windows-x64.zip",
+    "sha256": "a3b6c8fa7a58e46a72d08a10536c61cd560b102aa295cffe058980153eb8a6db",
+    "bytes": 2306980881
+  },
+  "manifest_application_sources_verified": 42,
+  "all_asset_and_htm_hashes_unchanged_from_frozen_baseline": true
+}

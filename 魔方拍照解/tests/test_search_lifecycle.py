@@ -10,8 +10,8 @@ from pathlib import Path
 import pytest
 
 from cube_app.cubie import CubieCube, MOVE_INDEX
-from cube_app.native import NativeSolverError, NativeSolverTimeout, _PersistentNativeSolver
-from cube_app.optimal import SolveResult
+from cube_app.solvers.htm.native import NativeSolverError, NativeSolverTimeout, _PersistentNativeSolver
+from cube_app.solvers.htm.optimal import SolveResult
 import server
 
 
@@ -32,7 +32,7 @@ def test_benchmark_acceptance_and_training_states_are_legal():
 
 def test_native_launch_failure_is_reported_as_engine_error():
     bridge = _PersistentNativeSolver()
-    with patch("cube_app.native.subprocess.Popen", side_effect=OSError("unable to launch executable")):
+    with patch("cube_app.solvers.htm.native.subprocess.Popen", side_effect=OSError("unable to launch executable")):
         with pytest.raises(NativeSolverError, match="could not start"):
             bridge.solve(CubieCube(), 0, 1, 1, None, None, None)
 

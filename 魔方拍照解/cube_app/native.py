@@ -4,31 +4,21 @@ import atexit
 import json
 import os
 import queue
-import struct
 import subprocess
 import threading
 import time
 import uuid
 from collections.abc import Callable
 from .cubie import CubieCube, MOVE_INDEX, to_facelets
-from .metrics import normalize_metric, resolve_max_depth, solution_cost
 from .runtime import application_root
 
 
 ROOT = application_root()
 NATIVE_ROOT = ROOT / "native"
-NATIVE_EXE = ROOT / os.environ["CUBE_NATIVE_EXE"] if os.environ.get("CUBE_NATIVE_EXE") else NATIVE_ROOT / "build" / "cube_solver.exe"
+NATIVE_EXE = NATIVE_ROOT / "build" / "cube_solver.exe"
 NATIVE_CACHE = ROOT / ".cache" / "native"
 CORNER_PDB = NATIVE_CACHE / "corner_htm_v2.pdb"
 PHASE1_PDB = NATIVE_CACHE / "phase1_sym_htm_v2.pdb"
-QTM_CORNER_PDB = NATIVE_CACHE / "corner_qtm_v3.pdb"
-QTM_PHASE1_PDB = NATIVE_CACHE / "phase1_qtm_v3.pdb"
-QTM_EDGE_PDB_A = NATIVE_CACHE / "edge_a_qtm_v3.pdb"
-QTM_EDGE_PDB_B = NATIVE_CACHE / "edge_b_qtm_v3.pdb"
-QTM_STRONG_PDB = NATIVE_CACHE / "strong_qtm_v3.pdb"
-QTM_STRONG_PDB_NIBBLE = NATIVE_CACHE / "strong_qtm_v4_nibble.pdb"
-QTM_TAIL_PDB_8 = NATIVE_CACHE / "tail_qtm_depth8_v5.pdb"
-QTM_TAIL_PDB_7 = NATIVE_CACHE / "tail_qtm_depth7_v5.pdb"
 EDGE_PDB_A = NATIVE_CACHE / "edge_a_htm_v2.pdb"
 EDGE_PDB_B = NATIVE_CACHE / "edge_b_htm_v2.pdb"
 EDGE_PDB_C = NATIVE_CACHE / "edge_c_htm_v2.pdb"
@@ -41,17 +31,6 @@ TAIL_PDB_V4 = NATIVE_CACHE / "tail_depth6_v4.pdb"
 TAIL_PDB_V3 = NATIVE_CACHE / "tail_depth6_v3.pdb"
 TAIL_PDB_V2 = NATIVE_CACHE / "tail_depth6_v2.pdb"
 TAIL_PDB = next((path for path in (TAIL_PDB_V4, TAIL_PDB_V3, TAIL_PDB_V2) if path.is_file()), TAIL_PDB_V2)
-QTM_TAIL_PDB = next((path for path in (QTM_TAIL_PDB_8, QTM_TAIL_PDB_7) if path.is_file()), None)
-
-
-def _strong_pdb_is_complete(path: os.PathLike[str]) -> bool:
-    try:
-        with open(path, "rb") as source:
-            header = source.read(80)
-        return (len(header) == 80 and header[:8] == b"RCPDB01\0"
-                and struct.unpack_from("<I", header, 40)[0] & 1 != 0)
-    except OSError:
-        return False
 
 
 class NativeSolverError(RuntimeError):
@@ -74,49 +53,19 @@ class _PersistentNativeSolver:
         self._reader: threading.Thread | None = None
         self._stderr_reader: threading.Thread | None = None
         self._stderr_lines: list[str] = []
-        self._ready: dict | None = None
 
     @staticmethod
     def _command() -> list[str]:
-        profile = os.environ.get("CUBE_QTM_ASSET_PROFILE", "strong").strip().lower()
-        if profile not in {"base", "standard", "strong", "partial", "fallback"}:
-            raise NativeSolverError(f"unknown QTM asset profile: {profile}")
-        loading = os.environ.get("CUBE_NATIVE_ASSET_LOADING", "staged").strip().lower()
-        if loading not in {"eager", "staged"}:
-            raise NativeSolverError(f"unknown native asset loading mode: {loading}")
         command = [
             str(NATIVE_EXE),
             "serve",
             "--pdb",
             str(CORNER_PDB.relative_to(ROOT)),
-            f"--asset-loading={loading}",
         ]
         if PHASE1_PDB.is_file():
             command.extend(("--phase1-pdb", str(PHASE1_PDB.relative_to(ROOT))))
-        qtm_corner = NATIVE_CACHE / "corner_qtm_depth3_v3.pdb" if profile == "partial" else QTM_CORNER_PDB
-        qtm_phase1 = NATIVE_CACHE / "phase1_qtm_depth3_v3.pdb" if profile == "partial" else QTM_PHASE1_PDB
-        if profile != "fallback" and qtm_corner.is_file():
-            command.extend(("--qtm-pdb", str(qtm_corner.relative_to(ROOT))))
-        if profile != "fallback" and qtm_phase1.is_file():
-            command.extend(("--qtm-phase1-pdb", str(qtm_phase1.relative_to(ROOT))))
-        if profile == "strong":
-            preferred = os.environ.get("CUBE_QTM_STRONG_FORMAT", "auto").strip().lower()
-            if preferred not in {"auto", "byte", "nibble"}:
-                raise NativeSolverError(f"unknown strong PDB encoding: {preferred}")
-            choices = (QTM_STRONG_PDB_NIBBLE, QTM_STRONG_PDB) if preferred == "auto" else (
-                (QTM_STRONG_PDB_NIBBLE,) if preferred == "nibble" else (QTM_STRONG_PDB,))
-            strong = next((path for path in choices if path.is_file() and _strong_pdb_is_complete(path)), None)
-            if strong is not None:
-                command.extend(("--strong-pdb", str(strong.relative_to(ROOT))))
-                if (preferred == "auto" and strong == QTM_STRONG_PDB_NIBBLE and QTM_STRONG_PDB.is_file()
-                        and _strong_pdb_is_complete(QTM_STRONG_PDB)):
-                    command.extend(("--strong-pdb-fallback", str(QTM_STRONG_PDB.relative_to(ROOT))))
         if TAIL_PDB.is_file():
             command.extend(("--tail-pdb", str(TAIL_PDB.relative_to(ROOT))))
-        qtm_tail = (QTM_TAIL_PDB_8 if profile == "strong" else QTM_TAIL_PDB_7
-                    if profile == "standard" else None)
-        if qtm_tail is not None and qtm_tail.is_file():
-            command.extend(("--qtm-tail-pdb", str(qtm_tail.relative_to(ROOT))))
         use_edge_pdbs = os.environ.get("CUBE_NATIVE_EDGE_PDBS", "").strip().lower() in {"1", "true", "yes"}
         for flag, path in zip(
             (
@@ -131,10 +80,6 @@ class _PersistentNativeSolver:
             ),
             (EDGE_PDB_A, EDGE_PDB_B, EDGE_PDB_C, EDGE_PDB_D, EDGE_PDB_E, EDGE_PDB_F, EDGE_PDB_G, EDGE_PDB_H),
         ):
-            if use_edge_pdbs and path.is_file():
-                command.extend((flag, str(path.relative_to(ROOT))))
-        for flag, path in (("--qtm-edge-pdb-a", QTM_EDGE_PDB_A),
-                           ("--qtm-edge-pdb-b", QTM_EDGE_PDB_B)):
             if use_edge_pdbs and path.is_file():
                 command.extend((flag, str(path.relative_to(ROOT))))
         return command
@@ -206,22 +151,13 @@ class _PersistentNativeSolver:
         if ready.get("type") != "ready" or not ready.get("ok"):
             self._stop_locked()
             raise NativeSolverError(str(ready.get("error", "native solver service failed to start")))
-        supported_metrics = ready.get("metrics")
-        if (
-            ready.get("protocol_version", 0) != 3
-            or ready.get("proof_version", 0) != 3
-            or not isinstance(supported_metrics, list)
-            or any(not isinstance(item, str) for item in supported_metrics)
-            or not {"HTM", "QTM"}.issubset(supported_metrics)
-        ):
+        if ready.get("protocol_version", 0) < 2:
             self._stop_locked()
-            raise NativeSolverError("native service HTM/QTM capabilities do not match protocol 3 / proof 3; rebuild native/build.ps1")
-        self._ready = ready
+            raise NativeSolverError("native service protocol is outdated; rebuild native/build.ps1")
 
     def _stop_locked(self) -> None:
         process = self._process
         self._process = None
-        self._ready = None
         if process is None:
             return
         if process.poll() is None:
@@ -260,7 +196,6 @@ class _PersistentNativeSolver:
         progress_callback: Callable[[dict], None] | None,
         deadline: float | None = None,
         incumbent_provider: Callable[[], list[str] | None] | None = None,
-        metric: str = "HTM",
     ) -> dict:
         if deadline is None and timeout_seconds is not None:
             deadline = time.monotonic() + timeout_seconds
@@ -282,7 +217,7 @@ class _PersistentNativeSolver:
             request_id = uuid.uuid4().hex
             remaining = 0 if deadline is None else max(0.000001, deadline - time.monotonic())
             request = (
-                f"solve\t{request_id}\t{to_facelets(cube)}\t{max_depth}\t{remaining}\t{worker_count}\t{metric}\t{incumbent}\n"
+                f"solve\t{request_id}\t{to_facelets(cube)}\t{max_depth}\t{remaining}\t{worker_count}\t{incumbent}\n"
             )
             self._send_locked(request)
 
@@ -303,9 +238,7 @@ class _PersistentNativeSolver:
                 if stop_reason is None and incumbent_provider is not None:
                     candidate = incumbent_provider()
                     candidate_text = " ".join(candidate or [])
-                    if candidate_text and candidate_text != incumbent and (
-                        not incumbent or solution_cost(candidate or [], metric) < solution_cost(incumbent, metric)
-                    ):
+                    if candidate_text and candidate_text != incumbent:
                         self._send_locked(f"incumbent\t{request_id}\t{candidate_text}\n")
                         incumbent = candidate_text
                 try:
@@ -323,37 +256,11 @@ class _PersistentNativeSolver:
                 except json.JSONDecodeError as exc:
                     self._stop_locked()
                     raise NativeSolverError("native solver service returned invalid JSON") from exc
-                if event.get("type") == "asset_ready" and self._ready is not None:
-                    assets = self._ready.setdefault("assets", {}).setdefault("QTM", {})
-                    assets.update(profile=event.get("profile"), strong=event.get("strong"),
-                                  tail_depth=event.get("tail_depth"))
-                    continue
                 if event.get("request_id") != request_id:
                     continue
-                if event.get("type") == "candidate":
-                    moves = event.get("moves")
-                    if event.get("metric") != metric or not isinstance(moves, list) or any(
-                        not isinstance(move, str) or move not in MOVE_INDEX for move in moves
-                    ):
-                        self._stop_locked()
-                        raise NativeSolverError("native candidate frame is invalid")
-                    verified = cube
-                    for move in moves:
-                        verified = verified.apply_move_index(MOVE_INDEX[move])
-                    if not verified.is_solved() or event.get("cost") != solution_cost(moves, metric):
-                        self._stop_locked()
-                        raise NativeSolverError("native candidate failed whole-cube verification")
-                    if progress_callback is not None:
-                        profile = event.get("asset_profile") or ((self._ready or {}).get("assets") or {}).get(metric, {}).get("profile")
-                        progress_callback({**event, "engine": "native-cpp", "asset_profile": profile})
-                    continue
                 if event.get("type") == "progress":
-                    if event.get("metric") != metric:
-                        self._stop_locked()
-                        raise NativeSolverError("native solver progress metric does not match the request")
                     if progress_callback is not None:
-                        profile = event.get("asset_profile") or ((self._ready or {}).get("assets") or {}).get(metric, {}).get("profile")
-                        progress_callback({**event, "engine": "native-cpp", "asset_profile": profile})
+                        progress_callback({**event, "engine": "native-cpp"})
                     continue
                 if event.get("type") == "error" or not event.get("ok"):
                     raise NativeSolverError(str(event.get("error", "native solver failed")))
@@ -377,41 +284,25 @@ def native_solver_available() -> bool:
     return NATIVE_EXE.is_file() and all(path.is_file() for path in (CORNER_PDB, PHASE1_PDB))
 
 
-def native_qtm_candidate_available() -> bool:
-    return native_solver_available() and QTM_PHASE1_PDB.is_file()
-
-
-def _validated_result(cube: CubieCube, payload: dict, metric: str = "HTM") -> dict:
-    metric = normalize_metric(metric)
-    if payload.get("metric") != metric:
-        raise NativeSolverError("native solver result metric does not match the request")
+def _validated_result(cube: CubieCube, payload: dict) -> dict:
     if payload.get("status") == "timeout":
         raise NativeSolverTimeout("native optimal proof timed out")
     if payload.get("status") == "cancelled":
         raise NativeSolverCancelled("native solver search was cancelled")
-    moves = payload.get("moves")
-    if not isinstance(moves, list) or any(not isinstance(move, str) for move in moves):
-        raise NativeSolverError("native solver returned invalid move data")
-    no_solution = payload.get("status") == "budget_exhausted" and type(payload.get("depth")) is int and payload["depth"] == -1
-    if no_solution and (moves or payload.get("optimal")):
-        raise NativeSolverError("native solver returned an inconsistent exhausted-budget result")
+    moves = [str(move) for move in payload.get("moves", [])]
     verified = cube
     try:
         for move in moves:
             verified = verified.apply_move_index(MOVE_INDEX[move])
     except KeyError as exc:
         raise NativeSolverError(f"native solver returned unknown move: {exc.args[0]}") from exc
-    if not no_solution and not verified.is_solved():
+    if not verified.is_solved():
         raise NativeSolverError("native solver returned an invalid solution")
-    cost = solution_cost(moves, metric)
-    if not no_solution and (type(payload.get("depth")) is not int or payload["depth"] != cost):
-        raise NativeSolverError("native solver result depth does not match its move cost")
     return {
         "moves": moves,
         "solution": " ".join(moves),
-        "depth": None if no_solution else cost,
-        "metric": metric,
-        "status": payload.get("status", "complete"),
+        "depth": len(moves),
+        "metric": "HTM",
         "optimal": bool(payload.get("optimal")),
         "inverse_direction": bool(payload.get("inverse_direction")),
         "elapsed_seconds": round(float(payload.get("elapsed_seconds", 0.0)), 3),
@@ -426,21 +317,14 @@ def _validated_result(cube: CubieCube, payload: dict, metric: str = "HTM") -> di
         "generated_candidates": int(payload.get("generated_candidates", 0)),
         "phase1_queries": int(payload.get("phase1_queries", 0)),
         "corner_queries": int(payload.get("corner_queries", 0)),
-        "candidate_phase1_nodes": int(payload.get("candidate_phase1_nodes", 0)),
-        "candidate_phase2_nodes": int(payload.get("candidate_phase2_nodes", 0)),
-        "candidate_worker_done_seconds": payload.get("candidate_worker_done_seconds"),
-        "proof_worker_return_seconds": payload.get("proof_worker_return_seconds"),
-        "proof_worker_busy_seconds": round(sum(float(worker.get("busy_seconds", 0.0))
-                                               for worker in payload.get("workers", [])), 3),
         "engine": "native-cpp",
-        "asset_profile": payload.get("asset_profile"),
     }
 
 
 def solve_native(
     cube: CubieCube,
     *,
-    max_depth: int | None = None,
+    max_depth: int,
     timeout_seconds: float | None,
     incumbent_moves: list[str] | None,
     cancel_event: threading.Event | None,
@@ -448,10 +332,7 @@ def solve_native(
     progress_callback: Callable[[dict], None] | None = None,
     deadline: float | None = None,
     incumbent_provider: Callable[[], list[str] | None] | None = None,
-    metric: str = "HTM",
 ) -> dict | None:
-    metric = normalize_metric(metric)
-    max_depth = resolve_max_depth(3, metric, max_depth)
     if not native_solver_available():
         return None
 
@@ -466,6 +347,5 @@ def solve_native(
         progress_callback,
         deadline,
         incumbent_provider,
-        metric,
     )
-    return _validated_result(cube, payload, metric)
+    return _validated_result(cube, payload)

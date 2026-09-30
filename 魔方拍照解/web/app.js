@@ -3,9 +3,7 @@ import {
   classifyBalancedColors2x2,
   summarizePatchPixels,
 } from "./color.js";
-import {
-  createSolveLifecycle, createSolveSnapshot, describeSearchProgress, metricExplanation, solveKey,
-} from "./solver-client.js";
+import { describeSearchProgress } from "./solver-client.js";
 
 const FACE_ORDER = ["U", "R", "F", "D", "L", "B"];
 const APP_VERSION = document.querySelector('meta[name="app-version"]')?.content || "development";
@@ -49,14 +47,16 @@ const timeoutInput = document.querySelector("#timeoutInput");
 const cubeSizeSelect = document.querySelector("#cubeSizeSelect");
 const metricSelect = document.querySelector("#metricSelect");
 const metricChip = document.querySelector("#metricChip");
-const metricHint = document.querySelector("#metricHint");
 const pageTitle = document.querySelector("#pageTitle");
 const pageSubtitle = document.querySelector("#pageSubtitle");
 const selectedSizeText = document.querySelector("#selectedSizeText");
 const uploadProgressText = document.querySelector("#uploadProgressText");
 const uploadCount = document.querySelector("#uploadCount");
 const uploadMeterBar = document.querySelector("#uploadMeterBar");
-const solveSession = createSolveLifecycle({ cancelJob, clearTimer: clearTimeout });
+let solveGeneration = 0;
+let solvePollTimer = null;
+let activeSolveKey = null;
+let activeJobId = null;
 const cropDialog = document.querySelector("#cropDialog");
 const cropCanvas = document.querySelector("#cropCanvas");
 const cropCtx = cropCanvas.getContext("2d");
@@ -87,16 +87,27 @@ renderAll();
 solveBtn.addEventListener("click", solveCube);
 cubeSizeSelect.addEventListener("change", () => setCubeSize(Number(cubeSizeSelect.value)));
 metricSelect.addEventListener("change", () => {
-  solveSession.invalidate();
-  solveBtn.disabled = false;
-  solutionText.textContent = "计步方式已切换，点击“开始求解”重新求解";
+  solveGeneration += 1;
+  cancelActiveJob();
+  solutionText.textContent = "计步方式已切换，请重新求解当前状态。";
   depthText.textContent = "";
-  statusText.textContent = `${metricSelect.value}：等待开始求解`;
-  updateMetricLabels(metricSelect.value);
-  updateSubtitle();
+  metricChip.textContent = metricSelect.value;
+  statusText.textContent = metricSelect.value === "QTM"
+    ? "QTM 实验引擎按需启动" : "HTM 已就绪";
+  updateMetricCopy();
 });
+fetch("/api/capabilities", { cache: "no-store" }).then((response) => response.json()).then((data) => {
+  const option = metricSelect.querySelector('option[value="QTM"]');
+  option.disabled = !data.QTM;
+  option.hidden = !data.QTM;
+}).catch(() => {});
 faceletsText.addEventListener("input", () => {
-  solveSession.invalidate();
+  solveGeneration += 1;
+  cancelActiveJob();
+  if (solvePollTimer !== null) {
+    clearTimeout(solvePollTimer);
+    solvePollTimer = null;
+  }
   const compact = faceletsText.value.toUpperCase().replace(/[^URFDLB]/g, "");
   if (compact.length === 6 * cubeSize * cubeSize) {
     applyFacelets(compact, true);
@@ -173,8 +184,7 @@ function buildStickerButtons(stickerRoot, face) {
 
 function setCubeSize(size) {
   if (![2, 3].includes(size) || size === cubeSize) return;
-  solveSession.invalidate();
-  solveBtn.disabled = false;
+  cancelActiveJob();
   cubeSize = size;
   colorAssessment = { valid: true, reasons: [], source: "initial" };
   for (const face of FACE_ORDER) {
@@ -191,7 +201,7 @@ function setCubeSize(size) {
     card.querySelector(".file-input").value = "";
   }
   pageTitle.innerHTML = `${size === 2 ? "二阶" : "三阶"}魔方<br><em>拍照即解</em>`;
-  updateSubtitle();
+  updateMetricCopy();
   timeoutInput.value = size === 2 ? "10" : "180";
   selectedSizeText.textContent = `已选择 ${size} × ${size}`;
   solutionText.innerHTML = '<span class="empty-solution">完成六面录入后，解法会显示在这里</span>';
@@ -199,16 +209,15 @@ function setCubeSize(size) {
   renderAll();
 }
 
-function updateMetricLabels(metric) {
-  metricChip.textContent = metric;
-  metricHint.textContent = metricExplanation(metric);
-}
-
-function updateSubtitle() {
-  const metric = metricSelect.value;
+function updateMetricCopy() {
+  const qtm = metricSelect.value === "QTM";
   pageSubtitle.textContent = cubeSize === 2
-    ? `上传六个面照片；无中心色聚类结合角块约束自动定色，并直接返回 ${metric} 严格最短解。`
-    : `上传六个面照片，先返回可执行候选，再在后台验证以 F 面为前基准的 ${metric} 严格最短解。`;
+    ? (qtm
+      ? "上传六个面照片；QTM 实验引擎按需启动，并返回二阶严格最短解。"
+      : "上传六个面照片；无中心色聚类会结合角块约束自动定色，并直接返回 HTM 严格最短解。")
+    : (qtm
+      ? "上传六个面照片；QTM 实验引擎按需启动，先给可执行候选，再验证严格最短性。"
+      : "上传六个面照片，先返回可用快速解，再在后台验证以 F 面为前基准的 HTM 严格最短解。");
 }
 
 function drawEmptyPreview(face) {
@@ -1141,12 +1150,9 @@ function applyFacelets(facelets, manual = false) {
 
 async function solveCube() {
   const facelets = faceletsText.value.toUpperCase().replace(/[^URFDLB]/g, "");
-  const snapshot = createSolveSnapshot({
-    facelets, cube_size: cubeSize, metric: metricSelect.value,
-    timeout_seconds: Math.max(10, Number(timeoutInput.value) || 180),
-  });
-  const key = solveKey(snapshot);
-  if (solveSession.jobId && solveSession.key === key) {
+  const metric = metricSelect.value;
+  const solveKey = `${cubeSize}:${metric}:${facelets}`;
+  if (activeJobId && activeSolveKey === solveKey) {
     statusText.textContent = "继续使用当前最短性验证任务";
     return;
   }
@@ -1159,33 +1165,36 @@ async function solveCube() {
     showError(statusText, `${colorAssessment.reasons.join("；")}，已阻止自动求解`);
     return;
   }
-  solveSession.invalidate();
-  const generation = solveSession.generation;
+  cancelActiveJob();
+  const generation = ++solveGeneration;
+  if (solvePollTimer !== null) {
+    clearTimeout(solvePollTimer);
+    solvePollTimer = null;
+  }
   solveBtn.disabled = true;
-  updateMetricLabels(snapshot.metric);
-  solutionText.textContent = snapshot.cube_size === 2
-    ? `正在查询二阶 ${snapshot.metric} 严格最短解。`
-    : `正在验证 ${snapshot.metric} 严格最短解，较难状态会同时生成候选解。`;
+  solutionText.textContent = cubeSize === 2
+    ? `正在查询二阶 ${metric} 严格最短解。`
+    : "正在验证严格最短解，较难状态会同时生成快速解。";
   depthText.textContent = "";
   statusText.textContent = "求解中...";
   try {
     const response = await fetch("/api/solve", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(snapshot),
+      body: JSON.stringify({
+        facelets,
+        cube_size: cubeSize,
+        metric,
+        max_depth: cubeSize === 2 ? (metric === "QTM" ? 14 : 11) : (metric === "QTM" ? 40 : 20),
+        timeout_seconds: Math.max(10, Number(timeoutInput.value) || 180),
+      }),
     });
     const data = await response.json();
-    if (generation !== solveSession.generation) {
-      if (data.job_id) cancelJob(data.job_id);
-      return;
-    }
     if (!response.ok || !data.ok) {
       throw new Error(data.error || "求解失败");
     }
-    if (!solveSession.accepts(generation, snapshot, data)) throw new Error("返回结果的计步方式与请求不一致");
-    if (data.proof_status === "budget_exhausted") {
-      solutionText.textContent = data.solution || data.message || "当前预算内未找到解法";
-      showBudgetExhausted(data, snapshot.metric);
+    if (generation !== solveGeneration) {
+      if (data.job_id) cancelJob(data.job_id);
       return;
     }
     if (data.depth === 0) {
@@ -1203,96 +1212,85 @@ async function solveCube() {
       depthText.textContent = `${data.depth} 步，${data.metric}，当前为快速解，生成耗时 ${data.solution_generation_seconds ?? data.elapsed_seconds}s；后台正在验证最短性`;
       statusText.textContent = "快速解已生成，正在后台验证严格最短解...";
     } else {
-      depthText.textContent = `${snapshot.metric}：后台正在继续搜索`;
+      depthText.textContent = "后台正在继续搜索";
       statusText.textContent = "快速搜索尚未完成，后台继续搜索中...";
     }
 
     if (data.job_id) {
-      solveSession.jobId = data.job_id;
-      solveSession.key = key;
-      pollOptimalJob(data.job_id, generation, snapshot, data.depth != null);
+      activeJobId = data.job_id;
+      activeSolveKey = solveKey;
+      pollOptimalJob(data.job_id, generation);
     }
   } catch (error) {
-    if (generation !== solveSession.generation) return;
     showError(solutionText, error.message);
     showError(statusText, "求解失败");
   } finally {
-    if (generation === solveSession.generation) solveBtn.disabled = false;
+    solveBtn.disabled = false;
   }
 }
 
-async function pollOptimalJob(jobId, generation, snapshot, candidateAvailable = false) {
-  if (generation !== solveSession.generation) return;
+async function pollOptimalJob(jobId, generation) {
+  if (generation !== solveGeneration) return;
   try {
     const response = await fetch(`/api/solve/${encodeURIComponent(jobId)}`, { cache: "no-store" });
     const data = await response.json();
-    if (generation !== solveSession.generation) return;
+    if (generation !== solveGeneration) return;
     if (!response.ok || !data.ok) {
       throw new Error(data.error || "无法读取最短解任务状态");
-    }
-    if (!solveSession.accepts(generation, snapshot, data)) throw new Error("任务的计步方式与请求不一致");
-    const candidate = data.result || data.candidate_result;
-    if (candidate?.metric && candidate.metric !== snapshot.metric) throw new Error("候选解的计步方式与请求不一致");
-    if (candidate?.depth != null) {
-      candidateAvailable = true;
-      solutionText.textContent = candidate.solution || "已复原，无需转动";
     }
 
     if (data.status === "complete") {
       const result = data.result;
-      if (result.metric !== snapshot.metric) throw new Error("最短解的计步方式与请求不一致");
       solutionText.textContent = result.solution || "已复原，无需转动";
       depthText.textContent = `${result.depth} 步，${result.metric}，严格最短：是；解生成 ${data.solution_generation_seconds ?? 0}s，验证 ${data.proof_elapsed_seconds ?? result.elapsed_seconds}s`;
       statusText.textContent = "严格最短解已确认";
-      solveSession.pollTimer = null;
-      if (solveSession.jobId === jobId) solveSession.jobId = null;
+      solvePollTimer = null;
+      if (activeJobId === jobId) activeJobId = null;
       return;
     }
-    if (data.status === "timeout") {
-      depthText.textContent = `${snapshot.metric}：最短性验证已超时，尚未证明最短；${candidateAvailable ? "当前候选仍可执行" : "尚未找到可执行解"}`;
-      statusText.textContent = candidateAvailable ? "候选可用，但严格最短性尚未证明" : "尚未找到可执行解，严格最短性尚未证明";
-      if (!candidateAvailable) solutionText.textContent = "尚未找到可执行解";
-      solveSession.pollTimer = null;
-      if (solveSession.jobId === jobId) solveSession.jobId = null;
-      return;
-    }
-    if (data.status === "budget_exhausted") {
-      showBudgetExhausted(candidate || data, snapshot.metric);
-      solveSession.pollTimer = null;
-      if (solveSession.jobId === jobId) solveSession.jobId = null;
+    if (data.status === "timeout" || data.status === "budget_exhausted") {
+      if (data.candidate_result?.solution) solutionText.textContent = data.candidate_result.solution;
+      depthText.textContent += "；最短性尚未证明";
+      statusText.textContent = data.candidate_result
+        ? "当前候选可执行，严格最短尚未证明" : "未找到可执行解，严格最短尚未证明";
+      solvePollTimer = null;
+      if (activeJobId === jobId) activeJobId = null;
       return;
     }
     if (data.status === "error") {
-      depthText.textContent = `${snapshot.metric}：后台验证失败：${data.message || "未知错误"}；尚未证明最短`;
-      statusText.textContent = candidateAvailable ? "候选可用，后台验证失败，尚未证明最短" : "尚未找到可执行解，后台验证失败";
-      if (!candidateAvailable) solutionText.textContent = "尚未找到可执行解";
-      solveSession.pollTimer = null;
-      if (solveSession.jobId === jobId) solveSession.jobId = null;
+      depthText.textContent += `；后台验证失败：${data.message || "未知错误"}`;
+      statusText.textContent = "快速解可用，后台验证失败";
+      solvePollTimer = null;
+      if (activeJobId === jobId) activeJobId = null;
       return;
     }
     if (data.status === "cancelled") {
       statusText.textContent = "后台最短性验证已取消";
-      solveSession.pollTimer = null;
-      if (solveSession.jobId === jobId) solveSession.jobId = null;
+      solvePollTimer = null;
+      if (activeJobId === jobId) activeJobId = null;
       return;
     }
 
+    if (data.candidate_result?.solution) solutionText.textContent = data.candidate_result.solution;
     const progress = describeSearchProgress(data);
     statusText.textContent = progress.status;
     depthText.textContent = progress.detail;
-    solveSession.pollTimer = setTimeout(() => pollOptimalJob(jobId, generation, snapshot, candidateAvailable), 1000);
+    solvePollTimer = setTimeout(() => pollOptimalJob(jobId, generation), 1000);
   } catch (error) {
-    if (generation !== solveSession.generation) return;
-    statusText.textContent = `${candidateAvailable ? "候选可用" : "尚未找到可执行解"}，后台状态暂时不可用：${error.message}`;
-    solveSession.pollTimer = setTimeout(() => pollOptimalJob(jobId, generation, snapshot, candidateAvailable), 2000);
+    if (generation !== solveGeneration) return;
+    statusText.textContent = `快速解可用，后台状态暂时不可用：${error.message}`;
+    solvePollTimer = setTimeout(() => pollOptimalJob(jobId, generation), 2000);
   }
-}
-
-function showBudgetExhausted(result, metric) {
-  depthText.textContent = `${metric}：搜索预算不足，尚未证明最短${result.depth != null ? `；当前候选 ${result.depth} 步，可执行` : ""}`;
-  statusText.textContent = `${metric}：预算不足，尚未证明最短`;
 }
 
 function cancelJob(jobId) {
   fetch(`/api/solve/${encodeURIComponent(jobId)}/cancel`, { method: "POST" }).catch(() => {});
+}
+
+function cancelActiveJob() {
+  activeSolveKey = null;
+  if (!activeJobId) return;
+  const jobId = activeJobId;
+  activeJobId = null;
+  cancelJob(jobId);
 }

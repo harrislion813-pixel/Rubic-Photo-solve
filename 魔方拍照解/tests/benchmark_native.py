@@ -196,7 +196,7 @@ def summary(runs: list[dict]) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--binary", type=Path, default=ROOT / "native/build/cube_solver.exe")
+    parser.add_argument("--binary", type=Path, default=ROOT / "native/htm/build/cube_solver_htm.exe")
     parser.add_argument("--cases-file", type=Path, default=Path(__file__).with_name("native_cases.json"))
     parser.add_argument("--cases", default="repo14,pgo16,seed18,known18")
     parser.add_argument("--threads", default="16")
@@ -221,14 +221,14 @@ def main():
     for case in selected:
         state, _ = case_state(case)
         from_facelets(to_facelets(state))
-    pdb_paths = [ROOT / ".cache/native/corner_htm_v2.pdb", ROOT / ".cache/native/phase1_sym_htm_v2.pdb"]
+    pdb_paths = [ROOT / "assets/htm/v1/corner_htm_v2.pdb", ROOT / "assets/htm/v1/phase1_sym_htm_v2.pdb"]
     pdb_flags = [
         "--pdb",
         pdb_paths[0].relative_to(ROOT).as_posix(),
         "--phase1-pdb",
         pdb_paths[1].relative_to(ROOT).as_posix(),
     ]
-    tail = ROOT / ".cache/native/tail_depth6_v4.pdb"
+    tail = ROOT / "assets/htm/v1/tail_depth6_v4.pdb"
     if not args.no_tail and tail.is_file():
         pdb_paths.append(tail)
         pdb_flags += ["--tail-pdb", tail.relative_to(ROOT).as_posix()]

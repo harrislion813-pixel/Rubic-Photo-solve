@@ -13,9 +13,9 @@ import pytest
 from cube_app.coords import get_corner_perm, get_flip, get_slice_comb, get_twist
 from cube_app.cubie import CubieCube, MOVE_INDEX, to_facelets
 from cube_app.optimal import invert_moves
-from cube_app.native import NATIVE_EXE, native_solver_available
-from cube_app.native import solve_native
-from cube_app.native import NativeSolverCancelled, NativeSolverTimeout, _PERSISTENT_SOLVER
+from cube_app.solvers.htm.native import NATIVE_EXE, native_solver_available
+from cube_app.solvers.htm.native import solve_native
+from cube_app.solvers.htm.native import NativeSolverCancelled, NativeSolverTimeout, _PERSISTENT_SOLVER
 
 
 def require_or_skip(condition: bool, *, environment_variable: str, reason: str):
@@ -151,9 +151,9 @@ class NativePdbSolverTests(NativeCommandMixin, unittest.TestCase):
             "--depth",
             "4",
             "--pdb",
-            ".cache/native/corner_htm_v2.pdb",
+            "assets/htm/v1/corner_htm_v2.pdb",
             "--phase1-pdb",
-            ".cache/native/phase1_sym_htm_v2.pdb",
+            "assets/htm/v1/phase1_sym_htm_v2.pdb",
         )
         self.assertEqual(result["checked"], 46741)
         self.assertEqual(result["small_pdb_queries"], 0)
@@ -180,9 +180,9 @@ class NativePdbSolverTests(NativeCommandMixin, unittest.TestCase):
                 str(threads),
                 "--inverse-direction",
                 "--pdb",
-                ".cache/native/corner_htm_v2.pdb",
+                "assets/htm/v1/corner_htm_v2.pdb",
                 "--phase1-pdb",
-                ".cache/native/phase1_sym_htm_v2.pdb",
+                "assets/htm/v1/phase1_sym_htm_v2.pdb",
             )
             self.assertEqual(result["depth"], 2)
             self.assertTrue(result["optimal"])
@@ -245,9 +245,9 @@ class NativePdbSolverTests(NativeCommandMixin, unittest.TestCase):
             "--threads",
             "4",
             "--pdb",
-            ".cache/native/corner_htm_v2.pdb",
+            "assets/htm/v1/corner_htm_v2.pdb",
             "--phase1-pdb",
-            ".cache/native/phase1_sym_htm_v2.pdb",
+            "assets/htm/v1/phase1_sym_htm_v2.pdb",
         )
         self.assertEqual(result["depth"], 5)
         self.assertTrue(result["optimal"])

@@ -1,0 +1,102 @@
+{
+  "packages": {
+    "h0": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\H0\\RubicPhotoSolve",
+    "h1": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\H1-ui\\RubicPhotoSolve",
+    "q0": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q0\\RubicPhotoSolve",
+    "q1": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q1-ui\\RubicPhotoSolve"
+  },
+  "HTM": {
+    "corner_htm_v2.pdb": {
+      "old_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\H0\\RubicPhotoSolve\\.cache\\native\\corner_htm_v2.pdb",
+      "new_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\H1-ui\\RubicPhotoSolve\\assets\\htm\\v1\\corner_htm_v2.pdb",
+      "old_bytes": 44089988,
+      "new_bytes": 44089988,
+      "old_sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb",
+      "new_sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb",
+      "identical": true
+    },
+    "phase1_sym_htm_v2.pdb": {
+      "old_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\H0\\RubicPhotoSolve\\.cache\\native\\phase1_sym_htm_v2.pdb",
+      "new_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\H1-ui\\RubicPhotoSolve\\assets\\htm\\v1\\phase1_sym_htm_v2.pdb",
+      "old_bytes": 70454273,
+      "new_bytes": 70454273,
+      "old_sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f",
+      "new_sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f",
+      "identical": true
+    },
+    "tail_depth6_v4.pdb": {
+      "old_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\H0\\RubicPhotoSolve\\.cache\\native\\tail_depth6_v4.pdb",
+      "new_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\H1-ui\\RubicPhotoSolve\\assets\\htm\\v1\\tail_depth6_v4.pdb",
+      "old_bytes": 209715264,
+      "new_bytes": 209715264,
+      "old_sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74",
+      "new_sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74",
+      "identical": true
+    }
+  },
+  "QTM": {
+    "corner_htm_v2.pdb": {
+      "old_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q0\\RubicPhotoSolve\\.cache\\native\\corner_htm_v2.pdb",
+      "new_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q1-ui\\RubicPhotoSolve\\assets\\qtm\\v1\\corner_htm_v2.pdb",
+      "old_bytes": 44089988,
+      "new_bytes": 44089988,
+      "old_sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb",
+      "new_sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb",
+      "identical": true
+    },
+    "phase1_sym_htm_v2.pdb": {
+      "old_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q0\\RubicPhotoSolve\\.cache\\native\\phase1_sym_htm_v2.pdb",
+      "new_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q1-ui\\RubicPhotoSolve\\assets\\qtm\\v1\\phase1_sym_htm_v2.pdb",
+      "old_bytes": 70454273,
+      "new_bytes": 70454273,
+      "old_sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f",
+      "new_sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f",
+      "identical": true
+    },
+    "tail_depth6_v4.pdb": {
+      "old_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q0\\RubicPhotoSolve\\.cache\\native\\tail_depth6_v4.pdb",
+      "new_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q1-ui\\RubicPhotoSolve\\assets\\qtm\\v1\\tail_depth6_v4.pdb",
+      "old_bytes": 209715264,
+      "new_bytes": 209715264,
+      "old_sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74",
+      "new_sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74",
+      "identical": true
+    },
+    "corner_qtm_v3.pdb": {
+      "old_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q0\\RubicPhotoSolve\\.cache\\native\\corner_qtm_v3.pdb",
+      "new_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q1-ui\\RubicPhotoSolve\\assets\\qtm\\v1\\corner_qtm_v3.pdb",
+      "old_bytes": 88179920,
+      "new_bytes": 88179920,
+      "old_sha256": "070f1314a7b68955ed3e84a3de5b6e2ede20385f0775a334ec9f1d470f0e08d0",
+      "new_sha256": "070f1314a7b68955ed3e84a3de5b6e2ede20385f0775a334ec9f1d470f0e08d0",
+      "identical": true
+    },
+    "phase1_qtm_v3.pdb": {
+      "old_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q0\\RubicPhotoSolve\\.cache\\native\\phase1_qtm_v3.pdb",
+      "new_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q1-ui\\RubicPhotoSolve\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+      "old_bytes": 140908490,
+      "new_bytes": 140908490,
+      "old_sha256": "7606158cd7ccb4c1d49db7aab45fe25fbad21580aab8742648ae3e29567e6a11",
+      "new_sha256": "7606158cd7ccb4c1d49db7aab45fe25fbad21580aab8742648ae3e29567e6a11",
+      "identical": true
+    },
+    "strong_qtm_v4_nibble.pdb": {
+      "old_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q0\\RubicPhotoSolve\\.cache\\native\\strong_qtm_v4_nibble.pdb",
+      "new_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q1-ui\\RubicPhotoSolve\\assets\\qtm\\v1\\strong_qtm_v4_nibble.pdb",
+      "old_bytes": 1764716840,
+      "new_bytes": 1764716840,
+      "old_sha256": "12de7580c0b59728fdb559bc0eb1c50adf9e724ec681b1bfb144efe392829e9c",
+      "new_sha256": "12de7580c0b59728fdb559bc0eb1c50adf9e724ec681b1bfb144efe392829e9c",
+      "identical": true
+    },
+    "tail_qtm_depth8_v5.pdb": {
+      "old_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q0\\RubicPhotoSolve\\.cache\\native\\tail_qtm_depth8_v5.pdb",
+      "new_path": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\Q1-ui\\RubicPhotoSolve\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+      "old_bytes": 1677721664,
+      "new_bytes": 1677721664,
+      "old_sha256": "35e3d345cd16e3efa16ceecb398b583f825d66a4e42dbc1856466338353a1687",
+      "new_sha256": "35e3d345cd16e3efa16ceecb398b583f825d66a4e42dbc1856466338353a1687",
+      "identical": true
+    }
+  }
+}

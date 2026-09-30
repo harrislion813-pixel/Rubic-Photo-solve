@@ -1,137 +1,101 @@
 param(
+    [ValidateSet("HtmFull", "QtmStrong")][string]$Profile,
     [string]$Python = "",
     [string]$OutputDirectory = "",
     [switch]$SkipNativeBuild,
     [switch]$SkipTableBuild,
-    [switch]$IncludeTailPdb,
     [switch]$PreflightOnly
 )
 
 $ErrorActionPreference = "Stop"
+if (-not $Profile) { throw "Select the release acceptance profile with -Profile HtmFull or -Profile QtmStrong." }
 $projectRoot = Split-Path -Parent $PSScriptRoot
 if (-not $Python) {
-    $venvPython = Join-Path $projectRoot ".venv\Scripts\python.exe"
-    $Python = if (Test-Path -LiteralPath $venvPython -PathType Leaf) { $venvPython } else { "python" }
+    $venv = Join-Path $projectRoot ".venv\Scripts\python.exe"
+    $Python = if (Test-Path -LiteralPath $venv) { $venv } else { "python" }
 }
-if (-not $OutputDirectory) {
-    $OutputDirectory = Join-Path $projectRoot "dist"
-}
-
-$nativeExe = Join-Path $projectRoot "native\build\cube_solver.exe"
-$nativeCache = Join-Path $projectRoot ".cache\native"
-$cornerPdb = Join-Path $nativeCache "corner_htm_v2.pdb"
-$phase1Pdb = Join-Path $nativeCache "phase1_sym_htm_v2.pdb"
-$tailPdb = Join-Path $nativeCache "tail_depth6_v4.pdb"
-$pythonTables = Join-Path $projectRoot ".cache\solver_tables_v3.pkl"
-$twoByTwoTables = Join-Path $projectRoot ".cache\two_by_two_htm_v1.bin"
-$requiredAssets = @($nativeExe, $cornerPdb, $phase1Pdb, $pythonTables, $twoByTwoTables)
-
-function Assert-FreeSpace {
-    param([long]$RequiredBytes, [string]$Purpose)
-    $drive = (Get-Item -LiteralPath $projectRoot).PSDrive
-    if ($null -ne $drive.Free -and $drive.Free -lt $RequiredBytes) {
-        $requiredGiB = [Math]::Round($RequiredBytes / 1GB, 1)
-        $freeGiB = [Math]::Round($drive.Free / 1GB, 1)
-        throw "$Purpose requires at least $requiredGiB GiB free; drive $($drive.Name) has $freeGiB GiB."
-    }
-}
-
-function Assert-Asset {
-    param([string]$Path, [long]$MinimumBytes = 1MB)
-    if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) {
-        throw "Required release asset is missing: $Path"
-    }
-    if ((Get-Item -LiteralPath $Path).Length -lt $MinimumBytes) {
-        throw "Release asset is unexpectedly small and may be corrupt: $Path"
-    }
-}
+if (-not $OutputDirectory) { $OutputDirectory = Join-Path $projectRoot "dist\$Profile" }
+$OutputDirectory = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($OutputDirectory)
+New-Item -ItemType Directory -Force -Path $OutputDirectory | Out-Null
 
 Push-Location $projectRoot
 try {
-    & $Python -c "import sys; assert (3, 10) <= sys.version_info[:2] < (3, 15), sys.version; print(sys.version.split()[0])"
-    if ($LASTEXITCODE -ne 0) { throw "Windows releases require Python 3.10 through 3.14." }
     $version = (& $Python release\check_version.py).Trim()
-    if ($LASTEXITCODE -ne 0 -or -not $version) { throw "Application version validation failed." }
+    if ($LASTEXITCODE -ne 0 -or -not $version) { throw "Application version check failed." }
 
-    if (-not (Test-Path -LiteralPath $nativeExe -PathType Leaf)) {
-        if ($SkipNativeBuild) { throw "Native solver is missing while -SkipNativeBuild was requested." }
-        Assert-FreeSpace 300MB "Native solver compilation"
-        Write-Progress -Activity "Building Windows release" -Status "Compiling the C++ solver" -PercentComplete 10
-        & (Join-Path $projectRoot "native\build.ps1") | Out-Host
-        if ($LASTEXITCODE -ne 0) { throw "Native solver compilation failed with exit code $LASTEXITCODE" }
+    $htmExe = Join-Path $projectRoot "native\htm\build\cube_solver_htm.exe"
+    $qtmExe = Join-Path $projectRoot "native\qtm\build\cube_solver_qtm.exe"
+    if (-not (Test-Path -LiteralPath $htmExe)) {
+        if ($SkipNativeBuild) { throw "HTM EXE is missing." }
+        & (Join-Path $projectRoot "native\htm\build.ps1") | Out-Host
+        if ($LASTEXITCODE -ne 0) { throw "HTM native build failed." }
     }
-
-    if (-not (Test-Path -LiteralPath $cornerPdb -PathType Leaf) -or
-        -not (Test-Path -LiteralPath $phase1Pdb -PathType Leaf)) {
-        if ($SkipTableBuild) { throw "Required PDBs are missing while -SkipTableBuild was requested." }
-        Assert-FreeSpace 1GB "PDB generation"
-        Write-Progress -Activity "Building Windows release" -Status "Generating required pruning databases" -PercentComplete 25
-        & (Join-Path $projectRoot "native\build_tables.ps1") -CiMinimal | Out-Host
-        if ($LASTEXITCODE -ne 0) { throw "PDB generation failed with exit code $LASTEXITCODE" }
+    if ($Profile -eq "QtmStrong" -and -not (Test-Path -LiteralPath $qtmExe)) {
+        if ($SkipNativeBuild) { throw "QTM EXE is missing." }
+        & (Join-Path $projectRoot "native\qtm\build.ps1") -Portable | Out-Host
+        if ($LASTEXITCODE -ne 0) { throw "QTM native build failed." }
     }
-
-    if (-not (Test-Path -LiteralPath $pythonTables -PathType Leaf)) {
-        Write-Progress -Activity "Building Windows release" -Status "Generating Python quick-solver tables" -PercentComplete 35
-        & $Python -c "from cube_app.tables import load_or_build_tables; load_or_build_tables('.cache')"
-        if ($LASTEXITCODE -ne 0) { throw "Python solver-table generation failed with exit code $LASTEXITCODE" }
+    $htmAssets = @(
+        "assets\htm\v1\corner_htm_v2.pdb",
+        "assets\htm\v1\phase1_sym_htm_v2.pdb",
+        "assets\htm\v1\tail_depth6_v4.pdb"
+    )
+    if (@($htmAssets | Where-Object { -not (Test-Path -LiteralPath (Join-Path $projectRoot $_)) }).Count) {
+        if ($SkipTableBuild) { throw "HTM full PDB or Tail-6 is missing." }
+        & (Join-Path $projectRoot "native\htm\build_tables.ps1") | Out-Host
+        if ($LASTEXITCODE -ne 0) { throw "HTM asset build failed." }
     }
-
-    Write-Progress -Activity "Building Windows release" -Status "Preparing verified 2x2 distance tables" -PercentComplete 40
-    & $Python -m cube_app.two_by_two_tables
-    if ($LASTEXITCODE -ne 0) { throw "2x2 distance-table generation failed with exit code $LASTEXITCODE" }
-
-    foreach ($asset in $requiredAssets) { Assert-Asset $asset }
-    if ($IncludeTailPdb) { Assert-Asset $tailPdb }
-    Assert-FreeSpace 1.5GB "Portable package assembly"
-
-    if ($PreflightOnly) {
-        Write-Progress -Activity "Building Windows release" -Completed
-        Write-Host "Release preflight passed. Native solver and required PDBs are ready."
-        return
+    if ($Profile -eq "QtmStrong") {
+        $required = @(
+            "assets\qtm\v1\corner_qtm_v3.pdb",
+            "assets\qtm\v1\phase1_qtm_v3.pdb",
+            "assets\qtm\v1\strong_qtm_v4_nibble.pdb",
+            "assets\qtm\v1\tail_qtm_depth8_v5.pdb"
+        )
+        if (@($required | Where-Object { -not (Test-Path -LiteralPath (Join-Path $projectRoot $_)) }).Count) {
+            throw "QTM strong assets are missing. Prepare the separately verified QTM asset set before packaging."
+        }
     }
+    & $Python release\prepare_runtime_caches.py --profile $Profile
+    if ($LASTEXITCODE -ne 0) { throw "Python fallback cache preparation failed." }
+    $manifest = Join-Path $OutputDirectory "asset-manifest.json"
+    & $Python release\verify_assets.py --root $projectRoot --profile $Profile --write $manifest
+    if ($LASTEXITCODE -ne 0) { throw "Release asset verification failed." }
+    if ($PreflightOnly) { Write-Output $manifest; return }
 
     & $Python -c "import PyInstaller, cv2, numpy"
-    if ($LASTEXITCODE -ne 0) {
-        throw "Release dependencies are missing. Run: $Python -m pip install -r requirements-release.txt"
-    }
-
-    $workDirectory = Join-Path $projectRoot ".release-build"
+    if ($LASTEXITCODE -ne 0) { throw "PyInstaller, OpenCV or NumPy is unavailable." }
+    $workDirectory = Join-Path $projectRoot ".release-build\$Profile"
     $packageName = "RubicPhotoSolve"
-    New-Item -ItemType Directory -Force -Path $workDirectory, $OutputDirectory | Out-Null
-    Write-Progress -Activity "Building Windows release" -Status "Freezing Python and OpenCV" -PercentComplete 45
-    & $Python -m PyInstaller `
-        --noconfirm `
-        --clean `
-        --onedir `
-        --name $packageName `
-        --distpath $OutputDirectory `
-        --workpath (Join-Path $workDirectory "work") `
-        --specpath $workDirectory `
-        (Join-Path $projectRoot "windows_launcher.py")
-    if ($LASTEXITCODE -ne 0) { throw "PyInstaller failed with exit code $LASTEXITCODE" }
+    $pyArgs = @(
+        "-m", "PyInstaller", "--noconfirm", "--clean", "--onedir",
+        "--name", $packageName,
+        "--distpath", $OutputDirectory,
+        "--workpath", (Join-Path $workDirectory "work"),
+        "--specpath", $workDirectory
+    )
+    if ($Profile -eq "HtmFull") { $pyArgs += @("--exclude-module", "cube_app.solvers.qtm") }
+    $pyArgs += (Join-Path $projectRoot "windows_launcher.py")
+    & $Python @pyArgs
+    if ($LASTEXITCODE -ne 0) { throw "PyInstaller build failed." }
 
     $packageRoot = Join-Path $OutputDirectory $packageName
-    Write-Progress -Activity "Building Windows release" -Status "Copying web and solver assets" -PercentComplete 75
     Copy-Item -LiteralPath (Join-Path $projectRoot "web") -Destination (Join-Path $packageRoot "web") -Recurse -Force
-    New-Item -ItemType Directory -Force -Path (Join-Path $packageRoot "native\build") | Out-Null
-    Copy-Item -LiteralPath $nativeExe -Destination (Join-Path $packageRoot "native\build\cube_solver.exe") -Force
-    New-Item -ItemType Directory -Force -Path (Join-Path $packageRoot ".cache\native") | Out-Null
-    Copy-Item -LiteralPath $pythonTables -Destination (Join-Path $packageRoot ".cache\solver_tables_v3.pkl") -Force
-    Copy-Item -LiteralPath $twoByTwoTables -Destination (Join-Path $packageRoot ".cache\two_by_two_htm_v1.bin") -Force
-    Copy-Item -LiteralPath $cornerPdb, $phase1Pdb -Destination (Join-Path $packageRoot ".cache\native") -Force
-    if ($IncludeTailPdb) {
-        Copy-Item -LiteralPath $tailPdb -Destination (Join-Path $packageRoot ".cache\native\tail_depth6_v4.pdb") -Force
+    $selected = (Get-Content -Raw -LiteralPath $manifest | ConvertFrom-Json).files.PSObject.Properties.Name
+    foreach ($relative in $selected) {
+        $source = Join-Path $projectRoot $relative
+        $destination = Join-Path $packageRoot $relative
+        New-Item -ItemType Directory -Force -Path (Split-Path -Parent $destination) | Out-Null
+        Copy-Item -LiteralPath $source -Destination $destination -Force
     }
+    Copy-Item -LiteralPath $manifest -Destination (Join-Path $packageRoot "asset-manifest.json") -Force
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot "README-Windows.txt") -Destination $packageRoot -Force
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot "启动魔方求解器.cmd") -Destination $packageRoot -Force
     Set-Content -LiteralPath (Join-Path $packageRoot "VERSION.txt") -Value $version -Encoding ascii
-
-    $archive = Join-Path $OutputDirectory "$packageName-$version-windows-x64.zip"
-    if (Test-Path -LiteralPath $archive) { Remove-Item -LiteralPath $archive -Force }
-    Write-Progress -Activity "Building Windows release" -Status "Compressing portable package" -PercentComplete 90
-    Compress-Archive -LiteralPath $packageRoot -DestinationPath $archive -CompressionLevel Optimal
-    Write-Progress -Activity "Building Windows release" -Completed
-    Write-Host "Windows portable package created: $archive"
+    $archive = Join-Path $OutputDirectory "RubicPhotoSolve-$version-$Profile-windows-x64.zip"
+    & $Python release\zip64_package.py $packageRoot $archive
+    if ($LASTEXITCODE -ne 0) { throw "ZIP64 package failed." }
+    Write-Output $archive
 } finally {
     Pop-Location
 }

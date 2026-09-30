@@ -98,6 +98,11 @@
             </div>
           </div>
 
+          <label for="metricSelect">计步方式</label>
+          <select id="metricSelect" aria-label="计步方式">
+            <option value="HTM" selected>HTM · 180° 算一步</option>
+            <option value="QTM" disabled hidden>QTM · 180° 算两步（实验）</option>
+          </select>
           <button id="solveBtn" class="primary-btn" type="button">
             <span>开始求解</span>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" /></svg>
@@ -106,7 +111,7 @@
           <div class="solution-block">
             <div class="solution-heading">
               <span class="label">还原步骤</span>
-              <span class="metric-chip">HTM</span>
+              <span id="metricChip" class="metric-chip">HTM</span>
             </div>
             <div id="solutionText" class="solution-text" aria-live="polite">
               <span class="empty-solution">完成六面录入后，解法会显示在这里</span>

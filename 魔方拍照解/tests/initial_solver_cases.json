@@ -1,0 +1,34 @@
+[
+  {
+    "name": "initial-1",
+    "cube_size": 3,
+    "face_order": "URFDLB",
+    "faces": {
+      "U": "FBBBUDURR",
+      "R": "FBRFRDUFD",
+      "F": "LUUFFDUUR",
+      "D": "FLBBDLDDR",
+      "L": "DLBRLULUL",
+      "B": "DRLRBFFLB"
+    },
+    "facelets": "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+    "reference_source": "tests/real_color.test.js; legal cubie state rechecked",
+    "image_paths": ["initial/U1.jpg", "initial/R1.jpg", "initial/F1.jpg", "initial/D1.jpg", "initial/L1.jpg", "initial/B1.jpg"]
+  },
+  {
+    "name": "initial-12",
+    "cube_size": 3,
+    "face_order": "URFDLB",
+    "faces": {
+      "U": "FRUFUDBRF",
+      "R": "LBBFRURRB",
+      "F": "LUUBFDDBB",
+      "D": "FRULDDDLR",
+      "L": "UUDULLFFR",
+      "B": "LFRLBBDDL"
+    },
+    "facelets": "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+    "reference_source": "Six detected face grids visually checked in docs/benchmarks/initial12-reference-grid.png; color classifier agrees; legal cubie state",
+    "image_paths": ["initial/U12.jpg", "initial/R12.jpg", "initial/F12.jpg", "initial/D12.jpg", "initial/L12.jpg", "initial/B12.jpg"]
+  }
+]

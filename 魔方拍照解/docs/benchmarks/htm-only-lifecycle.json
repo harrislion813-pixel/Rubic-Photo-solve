@@ -1,0 +1,95 @@
+{
+  "package": "C:\\Users\\harriron\\Desktop\\魔方隔离验收\\H1-ui\\RubicPhotoSolve",
+  "capabilities": {
+    "ok": true,
+    "HTM": true,
+    "QTM": false,
+    "QTM_status": "unavailable"
+  },
+  "qtm_missing": {
+    "http_status": 503,
+    "ok": false,
+    "metric": "QTM",
+    "error": "QTM 实验组件未安装。"
+  },
+  "qtm_missing_job": {
+    "http_status": 404,
+    "ok": false,
+    "error": "求解任务不存在或已过期"
+  },
+  "qtm_missing_cancel": {
+    "http_status": 404,
+    "ok": false,
+    "error": "求解任务不存在或已过期"
+  },
+  "htm_two_by_two": {
+    "ok": true,
+    "moves": [
+      "R2"
+    ],
+    "solution": "R2",
+    "depth": 1,
+    "metric": "HTM",
+    "optimal": true,
+    "elapsed_seconds": 0.0,
+    "proof_status": "complete"
+  },
+  "htm_three_by_three_initial": {
+    "ok": true,
+    "moves": [
+      "R2"
+    ],
+    "solution": "R2",
+    "depth": 1,
+    "metric": "HTM",
+    "optimal": true,
+    "inverse_direction": false,
+    "elapsed_seconds": 0.001,
+    "nodes": 1,
+    "split_nodes": 0,
+    "tail_queries": 1,
+    "tail_bloom_rejects": 0,
+    "tail_exact_queries": 1,
+    "tail_probes": 1,
+    "tail_hits": 1,
+    "completed_depth": 0,
+    "generated_candidates": 0,
+    "phase1_queries": 3,
+    "corner_queries": 1,
+    "engine": "native-cpp",
+    "proof_status": "complete",
+    "solution_generation_seconds": 0.0,
+    "proof_elapsed_seconds": 0.735
+  },
+  "htm_three_by_three_final": {
+    "ok": true,
+    "moves": [
+      "R2"
+    ],
+    "solution": "R2",
+    "depth": 1,
+    "metric": "HTM",
+    "optimal": true,
+    "inverse_direction": false,
+    "elapsed_seconds": 0.001,
+    "nodes": 1,
+    "split_nodes": 0,
+    "tail_queries": 1,
+    "tail_bloom_rejects": 0,
+    "tail_exact_queries": 1,
+    "tail_probes": 1,
+    "tail_hits": 1,
+    "completed_depth": 0,
+    "generated_candidates": 0,
+    "phase1_queries": 3,
+    "corner_queries": 1,
+    "engine": "native-cpp",
+    "proof_status": "complete",
+    "solution_generation_seconds": 0.0,
+    "proof_elapsed_seconds": 0.735
+  },
+  "server_log": [
+    "ħ����̽�Ӧ�� 1.8.0 ������: http://127.0.0.1:8765/",
+    "�״��������� HTM ��֦���������ĵȴ����� Ctrl+C ֹͣ��"
+  ]
+}

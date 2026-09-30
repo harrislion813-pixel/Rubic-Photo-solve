@@ -45,6 +45,8 @@ const depthText = document.querySelector("#depthText");
 const solveBtn = document.querySelector("#solveBtn");
 const timeoutInput = document.querySelector("#timeoutInput");
 const cubeSizeSelect = document.querySelector("#cubeSizeSelect");
+const metricSelect = document.querySelector("#metricSelect");
+const metricChip = document.querySelector("#metricChip");
 const pageTitle = document.querySelector("#pageTitle");
 const pageSubtitle = document.querySelector("#pageSubtitle");
 const selectedSizeText = document.querySelector("#selectedSizeText");
@@ -84,6 +86,21 @@ renderAll();
 
 solveBtn.addEventListener("click", solveCube);
 cubeSizeSelect.addEventListener("change", () => setCubeSize(Number(cubeSizeSelect.value)));
+metricSelect.addEventListener("change", () => {
+  solveGeneration += 1;
+  cancelActiveJob();
+  solutionText.textContent = "计步方式已切换，请重新求解当前状态。";
+  depthText.textContent = "";
+  metricChip.textContent = metricSelect.value;
+  statusText.textContent = metricSelect.value === "QTM"
+    ? "QTM 实验引擎按需启动" : "HTM 已就绪";
+  updateMetricCopy();
+});
+fetch("/api/capabilities", { cache: "no-store" }).then((response) => response.json()).then((data) => {
+  const option = metricSelect.querySelector('option[value="QTM"]');
+  option.disabled = !data.QTM;
+  option.hidden = !data.QTM;
+}).catch(() => {});
 faceletsText.addEventListener("input", () => {
   solveGeneration += 1;
   cancelActiveJob();
@@ -184,14 +201,23 @@ function setCubeSize(size) {
     card.querySelector(".file-input").value = "";
   }
   pageTitle.innerHTML = `${size === 2 ? "二阶" : "三阶"}魔方<br><em>拍照即解</em>`;
-  pageSubtitle.textContent = size === 2
-    ? "上传六个面照片；无中心色聚类会结合角块约束自动定色，并直接返回 HTM 严格最短解。"
-    : "上传六个面照片，先返回可用快速解，再在后台验证以 F 面为前基准的 HTM 严格最短解。";
+  updateMetricCopy();
   timeoutInput.value = size === 2 ? "10" : "180";
   selectedSizeText.textContent = `已选择 ${size} × ${size}`;
   solutionText.innerHTML = '<span class="empty-solution">完成六面录入后，解法会显示在这里</span>';
   depthText.textContent = "";
   renderAll();
+}
+
+function updateMetricCopy() {
+  const qtm = metricSelect.value === "QTM";
+  pageSubtitle.textContent = cubeSize === 2
+    ? (qtm
+      ? "上传六个面照片；QTM 实验引擎按需启动，并返回二阶严格最短解。"
+      : "上传六个面照片；无中心色聚类会结合角块约束自动定色，并直接返回 HTM 严格最短解。")
+    : (qtm
+      ? "上传六个面照片；QTM 实验引擎按需启动，先给可执行候选，再验证严格最短性。"
+      : "上传六个面照片，先返回可用快速解，再在后台验证以 F 面为前基准的 HTM 严格最短解。");
 }
 
 function drawEmptyPreview(face) {
@@ -1124,7 +1150,8 @@ function applyFacelets(facelets, manual = false) {
 
 async function solveCube() {
   const facelets = faceletsText.value.toUpperCase().replace(/[^URFDLB]/g, "");
-  const solveKey = `${cubeSize}:${facelets}`;
+  const metric = metricSelect.value;
+  const solveKey = `${cubeSize}:${metric}:${facelets}`;
   if (activeJobId && activeSolveKey === solveKey) {
     statusText.textContent = "继续使用当前最短性验证任务";
     return;
@@ -1146,7 +1173,7 @@ async function solveCube() {
   }
   solveBtn.disabled = true;
   solutionText.textContent = cubeSize === 2
-    ? "正在查询二阶 HTM 严格最短解。"
+    ? `正在查询二阶 ${metric} 严格最短解。`
     : "正在验证严格最短解，较难状态会同时生成快速解。";
   depthText.textContent = "";
   statusText.textContent = "求解中...";
@@ -1157,7 +1184,8 @@ async function solveCube() {
       body: JSON.stringify({
         facelets,
         cube_size: cubeSize,
-        max_depth: cubeSize === 2 ? 11 : 20,
+        metric,
+        max_depth: cubeSize === 2 ? (metric === "QTM" ? 14 : 11) : (metric === "QTM" ? 40 : 20),
         timeout_seconds: Math.max(10, Number(timeoutInput.value) || 180),
       }),
     });
@@ -1220,9 +1248,11 @@ async function pollOptimalJob(jobId, generation) {
       if (activeJobId === jobId) activeJobId = null;
       return;
     }
-    if (data.status === "timeout") {
-      depthText.textContent += "；最短性验证已超时，当前快速解仍可使用";
-      statusText.textContent = "快速解可用，但严格最短性尚未证明";
+    if (data.status === "timeout" || data.status === "budget_exhausted") {
+      if (data.candidate_result?.solution) solutionText.textContent = data.candidate_result.solution;
+      depthText.textContent += "；最短性尚未证明";
+      statusText.textContent = data.candidate_result
+        ? "当前候选可执行，严格最短尚未证明" : "未找到可执行解，严格最短尚未证明";
       solvePollTimer = null;
       if (activeJobId === jobId) activeJobId = null;
       return;
@@ -1241,6 +1271,7 @@ async function pollOptimalJob(jobId, generation) {
       return;
     }
 
+    if (data.candidate_result?.solution) solutionText.textContent = data.candidate_result.solution;
     const progress = describeSearchProgress(data);
     statusText.textContent = progress.status;
     depthText.textContent = progress.detail;

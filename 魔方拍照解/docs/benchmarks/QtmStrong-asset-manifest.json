@@ -1,0 +1,120 @@
+{
+  "profile": "QtmStrong",
+  "app_version": "1.8.0",
+  "htm_source": "ae73ca81af1ed077c059f3345377190bf0ce2882",
+  "qtm_source": "c01d90dcbc449faf3b6128020e71655a0a47960b",
+  "files": {
+    "native/htm/build/cube_solver_htm.exe": {
+      "bytes": 3839002,
+      "sha256": "fa26db5d4433804f54da5c7635a0bdfebd37855c7881dccf931c9b1082295942"
+    },
+    "assets/htm/v1/corner_htm_v2.pdb": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb",
+      "metric": "HTM",
+      "format_version": 2,
+      "complete": true
+    },
+    "assets/htm/v1/phase1_sym_htm_v2.pdb": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f",
+      "metric": "HTM",
+      "format_version": 2,
+      "complete": true
+    },
+    "assets/htm/v1/tail_depth6_v4.pdb": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74",
+      "metric": "HTM",
+      "depth": 6,
+      "format_version": 4
+    },
+    ".cache/htm/solver_tables_v3.pkl": {
+      "bytes": 13798733,
+      "sha256": "ef5cbf1656bcdda4f787de52566c2f063244b2164c8c71e2e1daa445a51efb69"
+    },
+    ".cache/htm/two_by_two_htm_v1.bin": {
+      "bytes": 3778042,
+      "sha256": "4ebf9e7ee3cfb76bab4b5e0703d608bcdfabe758661d23fd041a4cb90eeb399d"
+    },
+    ".cache/htm/coordinates_htm_v1.bin": {
+      "bytes": 8237445,
+      "sha256": "7d46f7519a1c68dd27118ecaca9a94e458ca4506215cb2cc83c7efb86e6bee08"
+    },
+    "native/qtm/build/cube_solver_qtm.exe": {
+      "bytes": 4122380,
+      "sha256": "239650311a260af460c60ea48f339bcff5dbe4bb79a534a688a124dc62744abd"
+    },
+    "assets/qtm/v1/corner_htm_v2.pdb": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb",
+      "metric": "HTM",
+      "format_version": 2,
+      "complete": true
+    },
+    "assets/qtm/v1/phase1_sym_htm_v2.pdb": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f",
+      "metric": "HTM",
+      "format_version": 2,
+      "complete": true
+    },
+    "assets/qtm/v1/tail_depth6_v4.pdb": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74",
+      "metric": "HTM",
+      "depth": 6,
+      "format_version": 4
+    },
+    "assets/qtm/v1/corner_qtm_v3.pdb": {
+      "bytes": 88179920,
+      "sha256": "070f1314a7b68955ed3e84a3de5b6e2ede20385f0775a334ec9f1d470f0e08d0",
+      "metric": "QTM",
+      "format_version": 3,
+      "complete": true,
+      "coordinate_version": 1,
+      "coverage_depth": 14
+    },
+    "assets/qtm/v1/phase1_qtm_v3.pdb": {
+      "bytes": 140908490,
+      "sha256": "7606158cd7ccb4c1d49db7aab45fe25fbad21580aab8742648ae3e29567e6a11",
+      "metric": "QTM",
+      "format_version": 3,
+      "complete": true,
+      "coordinate_version": 1,
+      "coverage_depth": 13
+    },
+    "assets/qtm/v1/strong_qtm_v4_nibble.pdb": {
+      "bytes": 1764716840,
+      "sha256": "12de7580c0b59728fdb559bc0eb1c50adf9e724ec681b1bfb144efe392829e9c",
+      "metric": "QTM",
+      "format_version": 4,
+      "complete": true,
+      "coordinate_version": 2,
+      "coverage_depth": 14
+    },
+    "assets/qtm/v1/tail_qtm_depth8_v5.pdb": {
+      "bytes": 1677721664,
+      "sha256": "35e3d345cd16e3efa16ceecb398b583f825d66a4e42dbc1856466338353a1687",
+      "metric": "QTM",
+      "depth": 8,
+      "format_version": 5
+    },
+    ".cache/qtm/solver_tables_v3.pkl": {
+      "bytes": 13798733,
+      "sha256": "09a12511502237bdb1a7cd65425c226cffd2811eac511c7e3ba6a2721953c110"
+    },
+    ".cache/qtm/qtm_small_v1.bin": {
+      "bytes": 6615677,
+      "sha256": "adb2bbbe97a1e785b22177e67141c151c55f8fe9093c20afa3da8c6cb3468235"
+    },
+    ".cache/qtm/two_by_two_qtm_v1.bin": {
+      "bytes": 3778042,
+      "sha256": "e46414ad7c8bd46e2e4827766f6015890eda6a39ffdc4309296c5fa15fdd5b01"
+    },
+    ".cache/qtm/coordinates_dual_v2.bin": {
+      "bytes": 14853066,
+      "sha256": "c7be40e38ad69a04381238da1c181e8251bbe226d00aa05efc024cc6b11a1b2c"
+    }
+  }
+}

@@ -366,6 +366,8 @@ button, select { -webkit-tap-highlight-color: transparent; }
 .status-icon span { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(255, 107, 61, .12); }
 .status-block .label { color: #949e99; }
 .status-block strong { display: block; margin-top: 3px; color: #f5f5f1; font-size: 12px; line-height: 1.55; }
+.result-panel > label[for="metricSelect"] { display: block; margin: 0 16px 6px; color: #d4d9d5; font-size: 11px; }
+#metricSelect { display: block; width: calc(100% - 32px); margin: 0 16px 14px; padding: 10px 12px; border: 1px solid rgba(255,255,255,.18); border-radius: 9px; background: #26312d; color: #fff; }
 .label { display: block; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .04em; }
 
 .primary-btn {

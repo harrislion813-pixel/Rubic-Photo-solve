@@ -1,0 +1,16 @@
+{
+  "input": "C:\\Users\\harriron\\.codex\\worktrees\\htm-rollback-qtm-isolation\\Rubic-Photo-solve\\魔方拍照解\\docs\\benchmarks\\htm-h0-real.json",
+  "input_sha256": "dc415541321373216eb9f6deabc93651df51c72bfe83c9cf4dec2819981434e2",
+  "runs": [
+    {
+      "name": "initial-1",
+      "cost": 18,
+      "strict_proof_verified": true
+    },
+    {
+      "name": "initial-12",
+      "cost": 17,
+      "strict_proof_verified": true
+    }
+  ]
+}

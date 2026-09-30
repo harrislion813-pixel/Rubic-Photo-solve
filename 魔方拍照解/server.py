@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 import math
 import logging
-import os
 import mimetypes
 import errno
 import socket
@@ -17,17 +16,18 @@ from urllib.parse import urlparse
 
 from cube_app import __version__
 from cube_app.cubie import CubeStateError, CubieCube, from_facelets, to_facelets
-from cube_app.fast import FastTwoPhaseSolver
-from cube_app.native import (
+from cube_app.solvers.htm.fast import FastTwoPhaseSolver
+from cube_app.solvers.htm.native import (
     NativeSolverCancelled,
     NativeSolverError,
     NativeSolverTimeout,
     native_solver_available,
     solve_native,
 )
-from cube_app.optimal import OptimalSolver, SearchCancelled, SearchTimeout
+from cube_app.solvers.htm.optimal import OptimalSolver, SearchCancelled, SearchTimeout
 from cube_app.runtime import application_root
-from cube_app.two_by_two import TwoByTwoSolver
+from cube_app.solvers.htm.two_by_two import TwoByTwoSolver
+from cube_app.solvers.resource_broker import BROKER
 
 try:
     from cube_app.detection import DetectionPipeline
@@ -44,10 +44,10 @@ HOST = "127.0.0.1"
 PORT = 8765
 APP_VERSION = __version__
 
-SOLVER = OptimalSolver(ROOT / ".cache", parallel=True)
-PROBE_SOLVER = OptimalSolver(ROOT / ".cache", parallel=False)
-FAST_SOLVER = FastTwoPhaseSolver(ROOT / ".cache")
-TWO_BY_TWO_SOLVER = TwoByTwoSolver()
+SOLVER = OptimalSolver(ROOT / ".cache" / "htm", parallel=True)
+PROBE_SOLVER = OptimalSolver(ROOT / ".cache" / "htm", parallel=False)
+FAST_SOLVER = FastTwoPhaseSolver(ROOT / ".cache" / "htm")
+TWO_BY_TWO_SOLVER = TwoByTwoSolver(ROOT / ".cache" / "htm")
 QUICK_OPTIMAL_PROBE_SECONDS = 0.75
 QUICK_SOLVE_SECONDS = 1.5
 JOBS: dict[str, dict] = {}
@@ -56,6 +56,15 @@ OPTIMAL_SEARCH_LOCK = threading.Lock()
 QUICK_SEARCH_LOCK = threading.Lock()
 MAX_JOBS = 100
 DETECTION_PIPELINE = DetectionPipeline() if DetectionPipeline is not None else None
+
+
+def qtm_installed() -> bool:
+    assets = ROOT / "assets" / "qtm" / "v1"
+    return (
+        (ROOT / "native" / "qtm" / "build" / "cube_solver_qtm.exe").is_file()
+        and (assets / "corner_qtm_v3.pdb").is_file()
+        and (assets / "phase1_qtm_v3.pdb").is_file()
+    )
 
 
 class JobCapacityError(RuntimeError):
@@ -184,7 +193,10 @@ def run_optimal_job(
     if deadline is None and timeout_seconds is not None:
         deadline = started + timeout_seconds
     acquired = False
+    htm_claimed = False
     try:
+        BROKER.enter_htm()
+        htm_claimed = True
         while not acquired:
             if cancel_event is not None and cancel_event.is_set():
                 raise SearchCancelled("搜索已取消。")
@@ -212,7 +224,7 @@ def run_optimal_job(
                 progress_callback=report_progress,
                 deadline=deadline,
                 incumbent_provider=incumbent_provider,
-                threads=min(32, max(1, (os.cpu_count() or 1) - 1)),
+                threads=BROKER.threads,
             )
         except NativeSolverCancelled as exc:
             raise SearchCancelled(str(exc)) from exc
@@ -270,6 +282,8 @@ def run_optimal_job(
     except Exception as exc:  # pragma: no cover - background safety net.
         update_job(job_id, status="error", message=str(exc))
     finally:
+        if htm_claimed:
+            BROKER.leave_htm()
         if acquired:
             OPTIMAL_SEARCH_LOCK.release()
         with JOBS_LOCK:
@@ -297,8 +311,24 @@ class AppHandler(BaseHTTPRequestHandler):
         if path == "/api/version":
             self._send_json({"ok": True, "version": APP_VERSION})
             return
+        if path == "/api/capabilities":
+            qtm_available = qtm_installed()
+            self._send_json({"ok": True, "HTM": True, "QTM": qtm_available,
+                             "QTM_status": "experimental" if qtm_available else "unavailable"})
+            return
         if path.startswith("/api/solve/"):
             job_id = path.removeprefix("/api/solve/").strip("/")
+            if job_id.startswith("qtm-"):
+                if not qtm_installed():
+                    self._send_json({"ok": False, "error": "求解任务不存在或已过期"}, status=404)
+                    return
+                from cube_app.solvers.qtm.backend import BACKEND
+
+                snapshot = BACKEND.snapshot(job_id)
+                self._send_json({"ok": True, **snapshot} if snapshot is not None
+                                else {"ok": False, "error": "求解任务不存在或已过期"},
+                                status=200 if snapshot is not None else 404)
+                return
             with JOBS_LOCK:
                 job = JOBS.get(job_id)
                 snapshot = (
@@ -341,6 +371,17 @@ class AppHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path.startswith("/api/solve/") and parsed.path.endswith("/cancel"):
             job_id = parsed.path.removeprefix("/api/solve/").removesuffix("/cancel").strip("/")
+            if job_id.startswith("qtm-"):
+                if not qtm_installed():
+                    self._send_json({"ok": False, "error": "求解任务不存在或已过期"}, status=404)
+                    return
+                from cube_app.solvers.qtm.backend import BACKEND
+
+                snapshot = BACKEND.cancel(job_id)
+                self._send_json({"ok": True, **snapshot} if snapshot is not None
+                                else {"ok": False, "error": "求解任务不存在或已过期"},
+                                status=200 if snapshot is not None else 404)
+                return
             with JOBS_LOCK:
                 job = JOBS.get(job_id)
                 if job is None:
@@ -406,21 +447,42 @@ class AppHandler(BaseHTTPRequestHandler):
         if parsed.path != "/api/solve":
             self._send_json({"error": "Not found"}, status=404)
             return
+        htm_claimed = False
         try:
             payload = self._read_json()
             facelets = str(payload.get("facelets", ""))
             cube_size = int(payload.get("cube_size", 3))
             if cube_size not in (2, 3):
                 raise ValueError("cube_size 只能是 2 或 3。")
-            max_depth = int(payload.get("max_depth", 11 if cube_size == 2 else 20))
-            if not 0 <= max_depth <= 20:
-                raise ValueError("max_depth 必须在 0 到 20 之间。")
+            metric = str(payload.get("metric", "HTM")).upper()
+            if metric not in {"HTM", "QTM"}:
+                raise ValueError("metric 必须是 HTM 或 QTM。")
+            default_depth = (11 if cube_size == 2 else 20) if metric == "HTM" else (14 if cube_size == 2 else 40)
+            max_depth = int(payload.get("max_depth", default_depth))
+            if not 0 <= max_depth <= (20 if metric == "HTM" else 40):
+                raise ValueError("max_depth 超出所选计步方式的范围。")
             timeout = payload.get("timeout_seconds", 180)
             timeout_seconds = None if timeout in (None, 0, "0", "none") else float(timeout)
             if timeout_seconds is not None and (
                 not math.isfinite(timeout_seconds) or not 0.1 <= timeout_seconds <= 3600
             ):
                 raise ValueError("timeout_seconds 必须在 0.1 到 3600 秒之间。")
+            if metric == "QTM":
+                if not qtm_installed():
+                    self._send_json({"ok": False, "metric": "QTM",
+                                     "error": "QTM 实验组件未安装。"}, status=503)
+                    return
+                from cube_app.solvers.qtm.backend import BACKEND, QtmUnavailable
+
+                try:
+                    result = BACKEND.submit(facelets, cube_size, max_depth, timeout_seconds or 180)
+                except QtmUnavailable as exc:
+                    self._send_json({"ok": False, "metric": "QTM", "error": str(exc)}, status=503)
+                    return
+                self._send_json(result)
+                return
+            BROKER.enter_htm()
+            htm_claimed = True
             if cube_size == 2:
                 result = TWO_BY_TWO_SOLVER.solve_facelets(
                     facelets,
@@ -543,6 +605,9 @@ class AppHandler(BaseHTTPRequestHandler):
             self._send_json({"ok": False, "error": str(exc)}, status=400)
         except Exception as exc:  # pragma: no cover - keeps the local app friendly.
             self._send_json({"ok": False, "error": f"服务器内部错误：{exc}"}, status=500)
+        finally:
+            if htm_claimed:
+                BROKER.leave_htm()
 
     def log_message(self, format: str, *args: object) -> None:
         print(f"{self.address_string()} - {format % args}")

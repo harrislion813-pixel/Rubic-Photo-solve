@@ -1,0 +1,698 @@
+{
+  "date": "2026-09-30",
+  "scope": "Planning inventory only; no solver benchmarks or full image recognition were run.",
+  "user_reported_environments": [
+    "source",
+    "Windows portable"
+  ],
+  "face_order": "URFDLB",
+  "groups": 16,
+  "image_count": 96,
+  "existing_test_groups": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "uncovered_groups": [
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "cases": [
+    {
+      "name": "initial-01",
+      "group": 1,
+      "files": [
+        {
+          "path": "initial/U1.jpg",
+          "bytes": 320137,
+          "sha256": "0468f18dee7213c7454ab88a0089ebd654d2fd81f9d28adbc44aabe4f4f9e5a9"
+        },
+        {
+          "path": "initial/R1.jpg",
+          "bytes": 299495,
+          "sha256": "ea51eb086c43d53c1e6c71a0267968501dec6c5977405e49ca6a1b190317d1cc"
+        },
+        {
+          "path": "initial/F1.jpg",
+          "bytes": 287474,
+          "sha256": "39cf975edb912b2340617929b32adc05d713215c6583fc5356483edb49c36f96"
+        },
+        {
+          "path": "initial/D1.jpg",
+          "bytes": 392444,
+          "sha256": "8765adda42e38cae78ec2813ac97bf6e4c9875156f26a92edd333a4fc05a0947"
+        },
+        {
+          "path": "initial/L1.jpg",
+          "bytes": 311717,
+          "sha256": "4cfad774df7f1376df7c272096d1ffb60824e44d5469aa87526f34390ef8a8d7"
+        },
+        {
+          "path": "initial/B1.jpg",
+          "bytes": 365171,
+          "sha256": "b2036e6435e14b915be9aa37ea01a18711bdf39c269eaf05fcc991fcaef5a9ea"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": true,
+      "cube_size": 3,
+      "grid_source": "existing expectedByGroup annotation",
+      "reference_facelets": "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+      "reference_source": "tests/real_color.test.js",
+      "reference_legal": true,
+      "reference_status": "existing annotation; recognition was not rerun in this planning task"
+    },
+    {
+      "name": "initial-02",
+      "group": 2,
+      "files": [
+        {
+          "path": "initial/U2.jpg",
+          "bytes": 2443151,
+          "sha256": "794372a54bc8abb47319435dbc9e4818aa9f0ebefd9775f4966bbc23a893efe8"
+        },
+        {
+          "path": "initial/R2.jpg",
+          "bytes": 2481482,
+          "sha256": "6ce55c41cfc4c4079937def75682b8135d3a011203d39405f09ab94626905437"
+        },
+        {
+          "path": "initial/F2.jpg",
+          "bytes": 2494625,
+          "sha256": "5d43e3ce8aeb7023daf83eb83d9eff31006ba98960faad4c63bfeb225a3ca371"
+        },
+        {
+          "path": "initial/D2.jpg",
+          "bytes": 2400654,
+          "sha256": "89a7b7f0eab439c19ccad86b97eb708d1b3127557c59cf07dd35fd1fc2ae1432"
+        },
+        {
+          "path": "initial/L2.jpg",
+          "bytes": 2592714,
+          "sha256": "bf75d8d6a3cb42aab68af3f63a1bb5e006786e70936a878c36d6a7831b5aa89c"
+        },
+        {
+          "path": "initial/B2.jpg",
+          "bytes": 2466268,
+          "sha256": "2a8d225d356c04f1ced51af87730d03abd58dd1cf9660448545f12554834d6b0"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": true,
+      "cube_size": 3,
+      "grid_source": "existing expectedByGroup annotation",
+      "reference_facelets": "DLLLURLFURBUFRDLRBURFDFURRBUUDBDDRBRLUFLLLFDBBBFFBFDUD",
+      "reference_source": "tests/real_color.test.js",
+      "reference_legal": true,
+      "reference_status": "existing annotation; recognition was not rerun in this planning task"
+    },
+    {
+      "name": "initial-03",
+      "group": 3,
+      "files": [
+        {
+          "path": "initial/U3.jpg",
+          "bytes": 91690,
+          "sha256": "fff5ce09834f49f8c435893ad915f78e9c579738bd3544ce781474841052d9df"
+        },
+        {
+          "path": "initial/R3.jpg",
+          "bytes": 106344,
+          "sha256": "5d1db8cfd2696b2cd7584c149d4f16c96e7e38f770a5b951b22b8702db6766e4"
+        },
+        {
+          "path": "initial/F3.jpg",
+          "bytes": 108055,
+          "sha256": "2718bcb5f5ba88c9aef2e7942a4a77ea792da5cdf7faed1c71deb19ae7303db5"
+        },
+        {
+          "path": "initial/D3.jpg",
+          "bytes": 84517,
+          "sha256": "bca12909c71e02c205df37ff6a65fb4317f88921f4bc253dd56cf54c6f81033a"
+        },
+        {
+          "path": "initial/L3.jpg",
+          "bytes": 109219,
+          "sha256": "8a0175dd922ce614ef72e280b0ddc3893df932dfb49f6e5ecf758cd163f53e41"
+        },
+        {
+          "path": "initial/B3.jpg",
+          "bytes": 88001,
+          "sha256": "cb9d53064019e03f54cd125f62b71850ebe3ff6801b135520cd89c42cd96ad52"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": true,
+      "cube_size": 2,
+      "grid_source": "existing real-image tests",
+      "reference_status": "existing 2x2 labels; keep separate from 3x3 proof benchmark"
+    },
+    {
+      "name": "initial-04",
+      "group": 4,
+      "files": [
+        {
+          "path": "initial/U4.jpg",
+          "bytes": 2505039,
+          "sha256": "1550ed7fc29130b8881ad747617c3ca64cef4d73f0d271a08af084fe9f868cfa"
+        },
+        {
+          "path": "initial/R4.jpg",
+          "bytes": 2495825,
+          "sha256": "b15dc54f04a38beb148db03343ebffe10f0e7e86b5cf2cf9f28914134a704613"
+        },
+        {
+          "path": "initial/F4.jpg",
+          "bytes": 2521833,
+          "sha256": "5f9c8ea3fe2428805cb17d7602f389a06bc4b0305ec861208e72346d9fbed378"
+        },
+        {
+          "path": "initial/D4.jpg",
+          "bytes": 2551201,
+          "sha256": "a9c502ce48b6b0f0f4761f9cb38687c16b7a4442889394b6c73d1fc7050f58f5"
+        },
+        {
+          "path": "initial/L4.jpg",
+          "bytes": 2559854,
+          "sha256": "f9d6ef7590ca76e6dc227fd453ad6a613622a700f467f99217f3ae72a8986608"
+        },
+        {
+          "path": "initial/B4.jpg",
+          "bytes": 2522699,
+          "sha256": "05f594cd66d9da4c91a9eaa71b7c40fec1898679e04a3c112906231c3a3d149e"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": true,
+      "cube_size": 2,
+      "grid_source": "existing real-image tests",
+      "reference_status": "existing 2x2 labels; keep separate from 3x3 proof benchmark"
+    },
+    {
+      "name": "initial-05",
+      "group": 5,
+      "files": [
+        {
+          "path": "initial/U5.jpg",
+          "bytes": 2695657,
+          "sha256": "554fe0a89fe2512ed29a2460c8dd7464250d8d415f4f311516f0e4637e26418b"
+        },
+        {
+          "path": "initial/R5.jpg",
+          "bytes": 2606002,
+          "sha256": "ba6512ea243a8366b45f4cba97f4949574f585482062cec80e9e3df4fbd64639"
+        },
+        {
+          "path": "initial/F5.jpg",
+          "bytes": 2599250,
+          "sha256": "d6260d567b1d7af8dfdd124d73c5207edb677ad1b297dbaa6e47eb0b942dff16"
+        },
+        {
+          "path": "initial/D5.jpg",
+          "bytes": 2641615,
+          "sha256": "29c8f98f925a6e3c6494f91fbde93357e73419d76e79662855a124e570c5249a"
+        },
+        {
+          "path": "initial/L5.jpg",
+          "bytes": 2706766,
+          "sha256": "bccca01c9bfeae56dc0cd89b9c0a7c5f67e231f5158df80e96c1ac238f0f3e32"
+        },
+        {
+          "path": "initial/B5.jpg",
+          "bytes": 2596270,
+          "sha256": "31c543e0a0331b3e7ba1934a3ca2165ef3375b6356fc227c07a43565b12dfe73"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": true,
+      "cube_size": 3,
+      "grid_source": "existing expectedByGroup annotation",
+      "reference_facelets": "UFBFURRBURDUBRDDRLDUFBFLDUBLLRDDFUDBFLFRLRBLFRULBBUDFL",
+      "reference_source": "tests/real_color.test.js",
+      "reference_legal": true,
+      "reference_status": "existing annotation; recognition was not rerun in this planning task"
+    },
+    {
+      "name": "initial-06",
+      "group": 6,
+      "files": [
+        {
+          "path": "initial/U6.jpg",
+          "bytes": 3154429,
+          "sha256": "e6ca2ceb74e1cc292e315bfd8012c492fbcf13f6990f95685f9a702cb2d6cd31"
+        },
+        {
+          "path": "initial/R6.jpg",
+          "bytes": 3035328,
+          "sha256": "3f58ca7d12a9276b77b9b7d2bafeb09635dc19dd9163bdbdb51fdf825c92efa4"
+        },
+        {
+          "path": "initial/F6.jpg",
+          "bytes": 3278377,
+          "sha256": "503541e2ae5fe963c6c282e9c4277653a8291e109db622815a00941f1853fedf"
+        },
+        {
+          "path": "initial/D6.jpg",
+          "bytes": 3196914,
+          "sha256": "b30856a8fe11dd887a3d4ae3efa324893dfd22fb3a6e3d9e171d775e1a17e5de"
+        },
+        {
+          "path": "initial/L6.jpg",
+          "bytes": 3264787,
+          "sha256": "c8279d736dbbcf82b3d394f3ad57264e472294154da85fbd73bf2ed25fc7dc23"
+        },
+        {
+          "path": "initial/B6.jpg",
+          "bytes": 3151079,
+          "sha256": "9bd936a6a88e1718e876dd12e518ceaa1a0b5a3708f74ca3e9d21746a7a94618"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": true,
+      "cube_size": 2,
+      "grid_source": "existing real-image tests",
+      "reference_status": "existing 2x2 labels; keep separate from 3x3 proof benchmark"
+    },
+    {
+      "name": "initial-07",
+      "group": 7,
+      "files": [
+        {
+          "path": "initial/U7.jpg",
+          "bytes": 2632244,
+          "sha256": "6bea11e0946c5fe14f05ca9d74f39814ffddfb71021c8a1dd13e063ccda48b29"
+        },
+        {
+          "path": "initial/R7.jpg",
+          "bytes": 2692879,
+          "sha256": "50b0db266420e093eabff11dc2a2e9c04a0be6179fd84c2a10d749438792bd28"
+        },
+        {
+          "path": "initial/F7.jpg",
+          "bytes": 2598458,
+          "sha256": "25d5c9fdf4ab514a460f6109e07714125e48304382b0412716d866469ab3e6b1"
+        },
+        {
+          "path": "initial/D7.jpg",
+          "bytes": 2639472,
+          "sha256": "b27dd8a975e7632b76635c4bc6abca90450062fbf61f409716faddd81bce9df9"
+        },
+        {
+          "path": "initial/L7.jpg",
+          "bytes": 2626870,
+          "sha256": "07fd638c8562d45ce5da89a995c9f9f93b9049e3371d0fc796d94c52d0d3e3b7"
+        },
+        {
+          "path": "initial/B7.jpg",
+          "bytes": 2632181,
+          "sha256": "24908440d2212804e6389b9a2d3f863364e7f031cdd370765e5a116692a50c36"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": true,
+      "cube_size": 2,
+      "grid_source": "existing real-image tests",
+      "reference_status": "existing 2x2 labels; keep separate from 3x3 proof benchmark"
+    },
+    {
+      "name": "initial-08",
+      "group": 8,
+      "files": [
+        {
+          "path": "initial/U8.jpg",
+          "bytes": 367273,
+          "sha256": "ddee9ca7e10674df008223fd7059ea2f66dee17791d876bb16c1f7d5c36c2a8a"
+        },
+        {
+          "path": "initial/R8.jpg",
+          "bytes": 2998648,
+          "sha256": "6b979d94fc3ecb2922ff4bdcb2217777d016424ca8a24665ff95118384e76453"
+        },
+        {
+          "path": "initial/F8.jpg",
+          "bytes": 2669386,
+          "sha256": "413306e107e80cf18ee795a3285265631b9ae7ed9c7179c7d7e6191425a486f9"
+        },
+        {
+          "path": "initial/D8.jpg",
+          "bytes": 2623352,
+          "sha256": "9c26be6dd742285abd73cb78f992116ad68ed9f711feabc9f4bc6dc35f585098"
+        },
+        {
+          "path": "initial/L8.jpg",
+          "bytes": 3065393,
+          "sha256": "ef4cc049734fc6544c86194f6dfa7c9f3fc35d1470d1a01afb7696c40014d394"
+        },
+        {
+          "path": "initial/B8.jpg",
+          "bytes": 2598838,
+          "sha256": "9bd8b4b55f51d0bf76163c2d41ac5ce8e3903086742caacbe923bb54ca0e398b"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": false,
+      "cube_size": 3,
+      "grid_source": "U face visually inspected in this planning task",
+      "reference_status": "six-face reference labels pending"
+    },
+    {
+      "name": "initial-09",
+      "group": 9,
+      "files": [
+        {
+          "path": "initial/U9.jpg",
+          "bytes": 2776999,
+          "sha256": "04365938f9b136c9865b52c34f95363f61cd89294111c718b9b2ccbc823146a4"
+        },
+        {
+          "path": "initial/R9.jpg",
+          "bytes": 2667902,
+          "sha256": "67ae13422a467d25f2b0b4a5188e68919c327e834ead1f85e0da0f6468cf934e"
+        },
+        {
+          "path": "initial/F9.jpg",
+          "bytes": 2620362,
+          "sha256": "db9c0f11f64d90961ce9afb8c40a1adea908a6f8cdc2037e8104eeb6a9675764"
+        },
+        {
+          "path": "initial/D9.jpg",
+          "bytes": 2608525,
+          "sha256": "4140270bf30d0ecaea548c2bea9022911af27db0c5d8c861b03098b67b70a6ff"
+        },
+        {
+          "path": "initial/L9.jpg",
+          "bytes": 2672587,
+          "sha256": "b8ccbb054b760f11ed26f404b83539e558924408f874319c04d24900972e5fdc"
+        },
+        {
+          "path": "initial/B9.jpg",
+          "bytes": 2697878,
+          "sha256": "9924eefb512b00f860335776289513cbbe94ee33f3bf40ac024f4683adeefebf"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": false,
+      "cube_size": null,
+      "grid_source": "pending image inspection",
+      "reference_status": "six-face reference labels pending"
+    },
+    {
+      "name": "initial-10",
+      "group": 10,
+      "files": [
+        {
+          "path": "initial/U10.jpg",
+          "bytes": 2794965,
+          "sha256": "863f68318202461b682f227f754965f98093288c4450eba10e41e512c98be540"
+        },
+        {
+          "path": "initial/R10.jpg",
+          "bytes": 2822915,
+          "sha256": "c2aa38023d1c1e14fa8d647093347aeb989339c8a7c090d915aa3b1f4230e2ab"
+        },
+        {
+          "path": "initial/F10.jpg",
+          "bytes": 2659114,
+          "sha256": "d2076d2c96b12449e4bbc4e3df0bed8c2c7e5dcf4559475490607f7e544dda68"
+        },
+        {
+          "path": "initial/D10.jpg",
+          "bytes": 2792522,
+          "sha256": "3e648b514583e69078d03bd2143c03208b8876f97e9414a7df638a9f1f62a255"
+        },
+        {
+          "path": "initial/L10.jpg",
+          "bytes": 2731892,
+          "sha256": "0a4e268159c973346fb936deb68b0780808d88d9c74854508e087a10a37751df"
+        },
+        {
+          "path": "initial/B10.jpg",
+          "bytes": 2824026,
+          "sha256": "b3fccc8a386a4bf952080ba149e93d39ba1b64a4cd917c6eec5fd58beac8b25c"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": false,
+      "cube_size": null,
+      "grid_source": "pending image inspection",
+      "reference_status": "six-face reference labels pending"
+    },
+    {
+      "name": "initial-11",
+      "group": 11,
+      "files": [
+        {
+          "path": "initial/U11.jpg",
+          "bytes": 3042021,
+          "sha256": "2a32f194fb198448779e30c04e24e2485f11e741cb487b497547bb3d44561219"
+        },
+        {
+          "path": "initial/R11.jpg",
+          "bytes": 2676094,
+          "sha256": "b46199241a14aaf6b1709a2978ff575fcf68d13f1bb72c56b47c6ff503e9db5e"
+        },
+        {
+          "path": "initial/F11.jpg",
+          "bytes": 2938170,
+          "sha256": "163fed55b4724da27649b49eb0d42a69bcc3855c2f717015e2d652ed9e228b9c"
+        },
+        {
+          "path": "initial/D11.jpg",
+          "bytes": 2693549,
+          "sha256": "2ef8bcfde9f721496cfdb020f4bed6975513b7023a5261d9e9a9536f77c6b060"
+        },
+        {
+          "path": "initial/L11.jpg",
+          "bytes": 3309290,
+          "sha256": "b30e6b2236fdd66105bac5cfa5cb7006fcafa9fcfc1d718b998f329142788201"
+        },
+        {
+          "path": "initial/B11.jpg",
+          "bytes": 2952223,
+          "sha256": "e5419debafaac6e4694819d923d022bd2cf414b5ce669626bc408a016601a43f"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": false,
+      "cube_size": null,
+      "grid_source": "pending image inspection",
+      "reference_status": "six-face reference labels pending"
+    },
+    {
+      "name": "initial-12",
+      "group": 12,
+      "files": [
+        {
+          "path": "initial/U12.jpg",
+          "bytes": 2882930,
+          "sha256": "1a303c3dc49c4df0d2fd84e6276401add66dbf467fb1ff2d7fcd8756e3b92cb6"
+        },
+        {
+          "path": "initial/R12.jpg",
+          "bytes": 3042023,
+          "sha256": "de31ab25d0fde13623b37a4576d8cc2b1db939b5f018f2bb48432d4238d61566"
+        },
+        {
+          "path": "initial/F12.jpg",
+          "bytes": 2895958,
+          "sha256": "1b44911c260a06fe8040c614f7f9cf6a99a1200ed885ac9168715e772e9531d3"
+        },
+        {
+          "path": "initial/D12.jpg",
+          "bytes": 3349015,
+          "sha256": "3a5c508dc85582faff30a730f683b43f8f404294581c41ec48f2b8023591ddc9"
+        },
+        {
+          "path": "initial/L12.jpg",
+          "bytes": 3519484,
+          "sha256": "f0b06ae5bbc8a0dc07ebeb44fa1c809ed0f7b8fb040409ef9baefa4389bf9ba7"
+        },
+        {
+          "path": "initial/B12.jpg",
+          "bytes": 2963909,
+          "sha256": "b33430c9e0bf22ebe6c0da50b7e5701c5ff097c0230a10b445a25258174926d9"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": false,
+      "cube_size": 3,
+      "grid_source": "U face visually inspected in this planning task",
+      "reference_status": "six-face reference labels pending"
+    },
+    {
+      "name": "initial-13",
+      "group": 13,
+      "files": [
+        {
+          "path": "initial/U13.jpg",
+          "bytes": 3605588,
+          "sha256": "a3f04fa817adb2a8f6787b9205f26e429df3f1e221743bfc713c551f735e6391"
+        },
+        {
+          "path": "initial/R13.jpg",
+          "bytes": 3466587,
+          "sha256": "8ba3fd8536f0c5987ca9388dcbbe898ec71f191c0dc769a9b6e453381c8a4613"
+        },
+        {
+          "path": "initial/F13.jpg",
+          "bytes": 3436894,
+          "sha256": "8e45086e66f744cb13a713a4585342fc65587254c4f2109d37e7e0eeae7dd32d"
+        },
+        {
+          "path": "initial/D13.jpg",
+          "bytes": 3412642,
+          "sha256": "0d00bc9bfe4a7d0e4e73cf9021fe7d70b859c96eaf5dd6cba78974fe81860422"
+        },
+        {
+          "path": "initial/L13.jpg",
+          "bytes": 3388833,
+          "sha256": "9ee2ade7c31f6bb957c76edfe7ecee70bf679b311be49a2e569c7631b383f274"
+        },
+        {
+          "path": "initial/B13.jpg",
+          "bytes": 3424673,
+          "sha256": "ab903feae141c071f785a6d344776595fb20bfe9b5268cca32a324323bdebd9e"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": false,
+      "cube_size": null,
+      "grid_source": "pending image inspection",
+      "reference_status": "six-face reference labels pending"
+    },
+    {
+      "name": "initial-14",
+      "group": 14,
+      "files": [
+        {
+          "path": "initial/U14.jpg",
+          "bytes": 3152326,
+          "sha256": "bd3416d67908b8f7866c0375bdd4347d94df24d37ee7fa378119205a790d961a"
+        },
+        {
+          "path": "initial/R14.jpg",
+          "bytes": 3176463,
+          "sha256": "f8f9e4fa57f5b5539f0f5b189e91485256da4f31838429f2099074c540061062"
+        },
+        {
+          "path": "initial/F14.jpg",
+          "bytes": 3122936,
+          "sha256": "28d124096767bdf1db7b178ca7e8c5de4566b178305ad9d097937dfcfb097201"
+        },
+        {
+          "path": "initial/D14.jpg",
+          "bytes": 3123301,
+          "sha256": "9fb4adb1503998733c7a78430565292d98f5af4a8d61b2439ad84f8c1d168e73"
+        },
+        {
+          "path": "initial/L14.jpg",
+          "bytes": 3261711,
+          "sha256": "5896cba83500b43f4fabbd4d4c3edb749e6ace40797176db62c9cbb111a6d423"
+        },
+        {
+          "path": "initial/B14.jpg",
+          "bytes": 3171622,
+          "sha256": "08ed1a961bcbf43e7f8065aa7251f01db27dca692fb504834a58fef883dd6694"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": false,
+      "cube_size": null,
+      "grid_source": "pending image inspection",
+      "reference_status": "six-face reference labels pending"
+    },
+    {
+      "name": "initial-15",
+      "group": 15,
+      "files": [
+        {
+          "path": "initial/U15.jpg",
+          "bytes": 3559325,
+          "sha256": "f3946151772b811be450e217807211c104abad9deb8a9a4d03e61bb1ceeabdf5"
+        },
+        {
+          "path": "initial/R15.jpg",
+          "bytes": 3512624,
+          "sha256": "d8af0d74ee1cd93443825f2fc203c35aa7a5a0ca2e581e0b31d3c0e9e8bcd2ff"
+        },
+        {
+          "path": "initial/F15.jpg",
+          "bytes": 3475475,
+          "sha256": "e018faed69b52dc7f8d2bcd08f96084a82ba06307cca8c39023cfab453371fd9"
+        },
+        {
+          "path": "initial/D15.jpg",
+          "bytes": 3463936,
+          "sha256": "47bc33c7c61d466991126f4b1c26f435ec4f1cf4fbbb3df4868d17b58083d07d"
+        },
+        {
+          "path": "initial/L15.jpg",
+          "bytes": 3545229,
+          "sha256": "304345e5fd27db12bb91aa1d1c3b15dd05b57ac510fcccf40d88fb3a05377f6f"
+        },
+        {
+          "path": "initial/B15.jpg",
+          "bytes": 3551826,
+          "sha256": "ff6d81094c4cd72f6d8bf6bce1d97b2cf0fb91c2647bb0131fc1cc1b9d9a1d11"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": false,
+      "cube_size": null,
+      "grid_source": "pending image inspection",
+      "reference_status": "six-face reference labels pending"
+    },
+    {
+      "name": "initial-16",
+      "group": 16,
+      "files": [
+        {
+          "path": "initial/U16.jpg",
+          "bytes": 3354473,
+          "sha256": "bcd6198405de7c9abba9263e9a8714d2cda8e76f0d248aedf084bf37e9f6afb6"
+        },
+        {
+          "path": "initial/R16.jpg",
+          "bytes": 3414969,
+          "sha256": "965770c9d1dbf6686d27a1d224e32e9bffe66e6b9136c1929c6cede48b05202a"
+        },
+        {
+          "path": "initial/F16.jpg",
+          "bytes": 3397835,
+          "sha256": "651a5270217eebf1e024c5524d35fceff8ab050e05d2cedb5db7147af6f4e5ac"
+        },
+        {
+          "path": "initial/D16.jpg",
+          "bytes": 3344914,
+          "sha256": "f1f705270fb5b8069dd3e1fb4c64627c73052545c9564a64314ddbf82cc97566"
+        },
+        {
+          "path": "initial/L16.jpg",
+          "bytes": 3305504,
+          "sha256": "97feb4cde80f3ddf9a3e94c1837042c99bb0b03e6230be370f1da1ba0eed12cb"
+        },
+        {
+          "path": "initial/B16.jpg",
+          "bytes": 3375564,
+          "sha256": "0c4cf54c045856342a287d0085b6b0e894699f28572e0fe0423a4d058238db01"
+        }
+      ],
+      "complete_six_faces": true,
+      "included_in_current_real_image_test": false,
+      "cube_size": 3,
+      "grid_source": "U face visually inspected in this planning task",
+      "reference_status": "six-face reference labels pending"
+    }
+  ]
+}

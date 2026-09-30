@@ -1,0 +1,18 @@
+{
+  "reason": "The frozen R0 manifest recorded a provisional four-thread setting before the H0/Q0 application request path was inspected. Both legacy server versions pass min(32, cpu_count - 1) native workers, which is 15 on this 16-logical-processor machine. The final old/new package comparison and short diagnostic therefore use 15 threads.",
+  "final_native_threads": 15,
+  "logical_processors": 16,
+  "source_evidence": [
+    "git show ae73ca81af1ed077c059f3345377190bf0ce2882:魔方拍照解/server.py",
+    "git show c01d90dcbc449faf3b6128020e71655a0a47960b:魔方拍照解/server.py",
+    "docs/benchmarks/real-thread-audit.json"
+  ],
+  "superseded_calibration": [
+    "htm-h0-short.json",
+    "htm-h1-short.json",
+    "qtm-q0-short.json",
+    "qtm-q1-short.json"
+  ],
+  "baseline_runs_reused": ["htm-h0-real.json", "qtm-q0-real.json"],
+  "note": "The H0 real-run JSON has a hardcoded threads=4 metadata field from an earlier runner revision. Each actual native progress frame contains 15 worker entries; the raw file is preserved without alteration."
+}

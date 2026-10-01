@@ -97,6 +97,13 @@ def test_htm_http_resource_wait_consumes_budget(http, monkeypatch, cube_size):
     observed = {}
     broker = ResourceBroker(1)
     original_enter = broker.enter_htm
+    original_leave = broker.leave_htm
+    released = threading.Event()
+
+    def leave_htm():
+        original_leave()
+        if broker.snapshot()["htm_holders"] == 0:
+            released.set()
 
     def delayed_enter(**kwargs):
         time.sleep(0.06)
@@ -113,6 +120,7 @@ def test_htm_http_resource_wait_consumes_budget(http, monkeypatch, cube_size):
         return {"moves": [], "solution": "", "depth": 0, "optimal": True, "metric": "HTM"}
 
     monkeypatch.setattr(broker, "enter_htm", delayed_enter)
+    monkeypatch.setattr(broker, "leave_htm", leave_htm)
     monkeypatch.setattr(server, "BROKER", broker)
     monkeypatch.setattr(server.TWO_BY_TWO_SOLVER, "solve_facelets", solve_2x2)
     monkeypatch.setattr(server, "native_solver_available", lambda: True)
@@ -121,6 +129,8 @@ def test_htm_http_resource_wait_consumes_budget(http, monkeypatch, cube_size):
     assert result["optimal"]
     # Windows monotonic readings can be quantized; the original bug passes 0.2.
     assert 0 < observed["timeout"] < 0.18
+    # The HTTP body can arrive before the handler's finally block runs.
+    assert released.wait(2), "HTM claim was not released after the response"
     assert broker.snapshot()["htm_holders"] == 0
 
 

@@ -262,7 +262,7 @@ jobs:
         env:
           REQUIRE_QTM_BINARY: "1"
         run: >-
-          pytest -ra tests/test_native_qtm.py tests/test_qtm_speed_contract.py
+          python -m pytest -ra tests/test_native_qtm.py tests/test_qtm_speed_contract.py
           tests/test_isolation_contract.py tests/test_qtm_backend.py
           -m "not qtm_full_assets" --junitxml=.cache/qtm-native.xml
       - name: Restore versioned full QTM release assets
@@ -277,7 +277,7 @@ jobs:
         env:
           REQUIRE_QTM_BINARY: "1"
           REQUIRE_QTM_STRONG: "1"
-        run: pytest -ra tests/test_native_qtm.py -m qtm_full_assets --junitxml=.cache/qtm-full.xml
+        run: python -m pytest -ra tests/test_native_qtm.py -m qtm_full_assets --junitxml=.cache/qtm-full.xml
       - name: Upload QTM gate evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -285,6 +285,7 @@ jobs:
           name: qtm-native-gates
           path: 魔方拍照解/.cache/qtm-*.xml
           if-no-files-found: error
+          include-hidden-files: true
 
   prepare-release-draft:
     name: Prepare release draft after checks

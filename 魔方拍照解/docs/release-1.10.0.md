@@ -30,3 +30,5 @@
 前期 QTM 升级的历史实验记录保持原测试时点，见 [升级报告](qtm-production-upgrade-report-2026-10-01.md)。正式功能状态不代表任意状态固定时间保证，也不据两组实拍宣称普遍性能达标。
 
 本轮最终证据见 `docs/benchmarks/release-1.10.0/`。远端 CI 与发布状态以对应 GitHub run 和 Release 页面为准。
+
+首轮远端 CI 发现独立 QTM 作业通过 `pytest.exe` 启动时缺少应用根目录，无法导入 `server`；改为 `python -m pytest`，同时显式允许上传 `.cache` 下的门禁 XML。Linux 3.14 另暴露 HTTP 响应与 handler finally 清理的测试竞态；测试改为等待真实 `leave_htm` 完成事件后验证零租约，保留预算消耗与资源释放断言。两项修正仅涉及 CI/测试，运行代码和已验收发布 ZIP 不变。

@@ -20,6 +20,7 @@
 #include <deque>
 #include <exception>
 #include <filesystem>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <memory>
@@ -59,6 +60,16 @@ int parse_integer(const std::string &value) {
     if (consumed != value.size())
         throw std::invalid_argument("expected an integer: " + value);
     return parsed;
+}
+
+cube::StrongValidationMode parse_strong_validation(const std::string &value) {
+    if (value == "legacy")
+        return cube::StrongValidationMode::Legacy;
+    if (value == "fused")
+        return cube::StrongValidationMode::Fused;
+    if (value == "split")
+        return cube::StrongValidationMode::Split;
+    throw std::invalid_argument("strong validation must be legacy, fused or split");
 }
 
 void print_usage() {
@@ -160,6 +171,7 @@ void print_progress_json(std::ostream &output, const cube::NativeSearchProgress 
            << ",\"found\":" << (progress.found ? "true" : "false")
            << ",\"timed_out\":" << (progress.timed_out ? "true" : "false")
            << ",\"cancelled\":" << (progress.cancelled ? "true" : "false");
+    output << ",\"phase\":" << std::quoted(progress.phase);
     if (!id.empty())
         output << ",\"request_id\":" << std::quoted(id);
     if (profile[0] != '\0')
@@ -221,6 +233,11 @@ void print_result_json(std::ostream &output, const cube::NativeSolveResult &resu
     output << ",\"strong_upgrade_restarts\":" << result.strong_upgrade_restarts
            << ",\"upgrade_discarded_generated\":" << result.upgrade_discarded_generated
            << ",\"upgrade_stop_seconds\":" << result.upgrade_stop_seconds;
+    output << ",\"base_proof_seconds\":" << result.base_proof_seconds
+           << ",\"base_last_used_seconds\":" << result.base_last_used_seconds
+           << ",\"strong_wait_seconds\":" << result.strong_wait_seconds
+           << ",\"base_window_yields\":" << result.base_window_yields
+           << ",\"base_window_discarded_generated\":" << result.base_window_discarded_generated;
     print_counters_json(output, result.counters, result.workers);
     output << "}\n" << std::flush;
 }
@@ -270,7 +287,17 @@ bool tuning_option(const std::string &option, cube::SolverOptions &options) {
         options.strong_upgrade_restart = true;
     else if (option == "--strong-upgrade=boundary")
         options.strong_upgrade_restart = false;
-    else if (option == "--pdb-prefetch=on")
+    else if (option == "--proof-schedule=strong-first")
+        options.strong_first_proof = true;
+    else if (option == "--proof-schedule=overlap")
+        options.strong_first_proof = false;
+    else if (option.starts_with("--base-proof-window=")) {
+        std::size_t consumed = 0;
+        const auto value = option.substr(20);
+        options.base_proof_window_seconds = std::stod(value, &consumed);
+        if (consumed != value.size())
+            throw std::invalid_argument("invalid base proof window");
+    } else if (option == "--pdb-prefetch=on")
         options.prefetch_strong = true;
     else if (option == "--pdb-prefetch=off")
         options.prefetch_strong = false;
@@ -448,6 +475,37 @@ int wmain(int argc, wchar_t **wide_argv) {
             return 2;
         }
         const std::string command = argv[1];
+        if (command == "check-strong-chunk") {
+            if (argc < 3)
+                throw std::invalid_argument("check-strong-chunk requires a data file");
+            int coverage = 14;
+            auto mode = cube::StrongValidationMode::Split;
+            for (int index = 3; index < argc; ++index) {
+                const std::string option = argv[index];
+                if (option == "--coverage-depth" && index + 1 < argc)
+                    coverage = parse_integer(argv[++index]);
+                else if (option.starts_with("--strong-validation="))
+                    mode = parse_strong_validation(option.substr(20));
+                else
+                    throw std::invalid_argument("unknown strong chunk check option");
+            }
+            if (coverage < 0 || coverage > 14)
+                throw std::invalid_argument("nibble coverage must be 0..14");
+            const auto path = cube::path_from_utf8(argv[2]);
+            const auto size = std::filesystem::file_size(path);
+            if (size > (64ULL << 20U))
+                throw std::invalid_argument("strong chunk diagnostic accepts at most 64 MiB");
+            std::vector<std::uint8_t> bytes(static_cast<std::size_t>(size));
+            std::ifstream input(path, std::ios::binary);
+            if (!input.read(reinterpret_cast<char *>(bytes.data()), static_cast<std::streamsize>(size)))
+                throw std::runtime_error("cannot read strong chunk");
+            const auto checked = cube::validate_strong_chunk(bytes, static_cast<std::uint8_t>(coverage), mode);
+            std::cout << "{\"ok\":true,\"valid\":" << (checked.valid ? "true" : "false")
+                      << ",\"checksum\":" << checked.checksum << ",\"maximum\":" << static_cast<int>(checked.maximum)
+                      << ",\"checksum_seconds\":" << checked.checksum_seconds
+                      << ",\"nibble_seconds\":" << checked.nibble_seconds << "}\n";
+            return 0;
+        }
         if (command == "check-heuristic") {
             check_heuristic(argc, argv);
             return 0;
@@ -813,8 +871,12 @@ int wmain(int argc, wchar_t **wide_argv) {
             bool loader_managed = false;
             bool shared_loader_budget = false;
             int loader_threads = 0;
+            std::string strong_validation = "legacy";
             std::filesystem::path pdb_path;
             std::filesystem::path phase1_pdb_path;
+            std::filesystem::path fallback_pdb_path;
+            std::filesystem::path fallback_phase1_pdb_path;
+            std::filesystem::path fallback_tail_pdb_path;
             std::filesystem::path qtm_pdb_path;
             std::filesystem::path qtm_phase1_pdb_path;
             std::filesystem::path strong_pdb_path;
@@ -831,6 +893,12 @@ int wmain(int argc, wchar_t **wide_argv) {
                     pdb_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--phase1-pdb" && index + 1 < argc)
                     phase1_pdb_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--fallback-pdb" && index + 1 < argc)
+                    fallback_pdb_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--fallback-phase1-pdb" && index + 1 < argc)
+                    fallback_phase1_pdb_path = cube::path_from_utf8(argv[++index]);
+                else if (option == "--fallback-tail-pdb" && index + 1 < argc)
+                    fallback_tail_pdb_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--qtm-pdb" && index + 1 < argc)
                     qtm_pdb_path = cube::path_from_utf8(argv[++index]);
                 else if (option == "--qtm-phase1-pdb" && index + 1 < argc)
@@ -853,6 +921,8 @@ int wmain(int argc, wchar_t **wide_argv) {
                     staged_asset_loading = false;
                 else if (option == "--loader-managed")
                     loader_managed = true;
+                else if (option.starts_with("--strong-validation="))
+                    strong_validation = option.substr(20);
                 else if (option == "--loader-budget=shared")
                     shared_loader_budget = true;
                 else if (option == "--loader-budget=independent")
@@ -876,15 +946,62 @@ int wmain(int argc, wchar_t **wide_argv) {
             }
 
             const auto initialization_started = std::chrono::steady_clock::now();
+            const auto validation_mode = parse_strong_validation(strong_validation);
             auto solver = std::make_shared<cube::NativeOptimalSolver>();
+            struct InitializationStep {
+                std::string name;
+                double seconds;
+                std::uintmax_t mapped_bytes;
+                std::string error;
+            };
+            std::vector<InitializationStep> initialization_steps;
+            initialization_steps.push_back(
+                {"coordinates",
+                 std::chrono::duration<double>(std::chrono::steady_clock::now() - initialization_started).count(), 0,
+                 ""});
+            const auto load_asset = [&](const char *name, const std::filesystem::path &path, const auto &load,
+                                        bool allow_failure = false) {
+                if (path.empty())
+                    return;
+                const auto stage_started = std::chrono::steady_clock::now();
+                std::string error;
+                try {
+                    load();
+                } catch (const std::exception &failure) {
+                    if (!allow_failure)
+                        throw;
+                    error = failure.what();
+                }
+                initialization_steps.push_back(
+                    {name, std::chrono::duration<double>(std::chrono::steady_clock::now() - stage_started).count(),
+                     error.empty() ? std::filesystem::file_size(path) : 0, error});
+            };
             if (!phase1_pdb_path.empty())
-                solver->load_phase1_pdb(phase1_pdb_path, cube::MoveMetric::HTM);
+                load_asset("htm_phase1", phase1_pdb_path,
+                           [&] { solver->load_phase1_pdb(phase1_pdb_path, cube::MoveMetric::HTM); });
             if (!qtm_phase1_pdb_path.empty())
-                solver->load_phase1_pdb(qtm_phase1_pdb_path, cube::MoveMetric::QTM);
+                load_asset(
+                    "qtm_phase1", qtm_phase1_pdb_path,
+                    [&] { solver->load_phase1_pdb(qtm_phase1_pdb_path, cube::MoveMetric::QTM); },
+                    !fallback_phase1_pdb_path.empty());
             if (!pdb_path.empty())
-                solver->load_corner_pdb(pdb_path, cube::MoveMetric::HTM);
+                load_asset("htm_corner", pdb_path, [&] { solver->load_corner_pdb(pdb_path, cube::MoveMetric::HTM); });
             if (!qtm_pdb_path.empty())
-                solver->load_corner_pdb(qtm_pdb_path, cube::MoveMetric::QTM);
+                load_asset(
+                    "qtm_corner", qtm_pdb_path, [&] { solver->load_corner_pdb(qtm_pdb_path, cube::MoveMetric::QTM); },
+                    !fallback_pdb_path.empty());
+            if ((!solver->has_phase1_pdb(cube::MoveMetric::QTM) ||
+                 solver->phase1_pdb_metric(cube::MoveMetric::QTM) != cube::MoveMetric::QTM) &&
+                !fallback_phase1_pdb_path.empty())
+                load_asset(
+                    "fallback_phase1", fallback_phase1_pdb_path,
+                    [&] { solver->load_phase1_pdb(fallback_phase1_pdb_path, cube::MoveMetric::HTM); }, true);
+            if ((!solver->has_corner_pdb(cube::MoveMetric::QTM) ||
+                 solver->corner_pdb_metric(cube::MoveMetric::QTM) != cube::MoveMetric::QTM) &&
+                !fallback_pdb_path.empty())
+                load_asset(
+                    "fallback_corner", fallback_pdb_path,
+                    [&] { solver->load_corner_pdb(fallback_pdb_path, cube::MoveMetric::HTM); }, true);
             for (int group = 0; group < 8; ++group) {
                 if (!edge_pdb_paths[group].empty())
                     solver->load_edge_pdb(group, edge_pdb_paths[group], cube::MoveMetric::HTM);
@@ -893,11 +1010,23 @@ int wmain(int argc, wchar_t **wide_argv) {
                 if (!qtm_edge_pdb_paths[group].empty())
                     solver->load_edge_pdb(group, qtm_edge_pdb_paths[group], cube::MoveMetric::QTM);
             if (!tail_pdb_path.empty())
-                solver->load_tail_database(tail_pdb_path);
+                load_asset("htm_tail", tail_pdb_path, [&] { solver->load_tail_database(tail_pdb_path); });
+            const bool qtm_base = solver->has_phase1_pdb(cube::MoveMetric::QTM) &&
+                                  solver->phase1_pdb_metric(cube::MoveMetric::QTM) == cube::MoveMetric::QTM &&
+                                  solver->phase1_pdb_complete(cube::MoveMetric::QTM) &&
+                                  solver->has_corner_pdb(cube::MoveMetric::QTM) &&
+                                  solver->corner_pdb_metric(cube::MoveMetric::QTM) == cube::MoveMetric::QTM &&
+                                  solver->corner_pdb_complete(cube::MoveMetric::QTM);
+            if (!qtm_base && !fallback_tail_pdb_path.empty())
+                load_asset(
+                    "fallback_tail", fallback_tail_pdb_path,
+                    [&] { solver->load_tail_database(fallback_tail_pdb_path); }, true);
             const double base_initialization_seconds =
                 std::chrono::duration<double>(std::chrono::steady_clock::now() - initialization_started).count();
             const auto candidate_tables_started = std::chrono::steady_clock::now();
-            if (!qtm_phase1_pdb_path.empty())
+            if (solver->has_phase1_pdb(cube::MoveMetric::QTM) &&
+                solver->phase1_pdb_metric(cube::MoveMetric::QTM) == cube::MoveMetric::QTM &&
+                solver->phase1_pdb_complete(cube::MoveMetric::QTM))
                 cube::prepare_fast_qtm_candidate_tables(solver->coordinate_tables());
             const double candidate_tables_seconds =
                 std::chrono::duration<double>(std::chrono::steady_clock::now() - candidate_tables_started).count();
@@ -905,16 +1034,22 @@ int wmain(int argc, wchar_t **wide_argv) {
             double tail_initialization_seconds = 0.0;
             double strong_ready_elapsed_seconds = -1.0;
             double tail_ready_elapsed_seconds = -1.0;
+            cube::LoaderControl eager_loader(loader_threads);
             if (!staged_asset_loading) {
                 auto stage_started = std::chrono::steady_clock::now();
                 if (!strong_pdb_path.empty())
-                    try {
-                        solver->load_strong_pdb(strong_pdb_path);
-                    } catch (const std::exception &) {
-                        if (strong_pdb_fallback_path.empty())
-                            throw;
-                        solver->load_strong_pdb(strong_pdb_fallback_path);
-                    }
+                    load_asset(
+                        "strong", strong_pdb_path,
+                        [&] {
+                            try {
+                                solver->load_strong_pdb(strong_pdb_path, &eager_loader, validation_mode);
+                            } catch (const std::exception &) {
+                                if (strong_pdb_fallback_path.empty())
+                                    throw;
+                                solver->load_strong_pdb(strong_pdb_fallback_path, &eager_loader, validation_mode);
+                            }
+                        },
+                        true);
                 strong_initialization_seconds =
                     std::chrono::duration<double>(std::chrono::steady_clock::now() - stage_started).count();
                 if (solver->has_strong_pdb())
@@ -923,7 +1058,10 @@ int wmain(int argc, wchar_t **wide_argv) {
                             .count();
                 stage_started = std::chrono::steady_clock::now();
                 if (!qtm_tail_pdb_path.empty())
-                    solver->load_tail_database(qtm_tail_pdb_path, cube::MoveMetric::QTM);
+                    load_asset(
+                        "qtm_tail", qtm_tail_pdb_path,
+                        [&] { solver->load_tail_database(qtm_tail_pdb_path, cube::MoveMetric::QTM, &eager_loader); },
+                        true);
                 tail_initialization_seconds =
                     std::chrono::duration<double>(std::chrono::steady_clock::now() - stage_started).count();
                 if (solver->has_tail_database(cube::MoveMetric::QTM))
@@ -940,7 +1078,7 @@ int wmain(int argc, wchar_t **wide_argv) {
                 << ",\"strong_initialization_seconds\":" << strong_initialization_seconds
                 << ",\"tail_initialization_seconds\":" << tail_initialization_seconds
                 << ",\"candidate_tables_seconds\":" << candidate_tables_seconds
-                << ",\"base_ready_elapsed_seconds\":" << base_initialization_seconds
+                << ",\"base_ready_elapsed_seconds\":" << base_initialization_seconds + candidate_tables_seconds
                 << ",\"total_initialization_seconds\":"
                 << std::chrono::duration<double>(std::chrono::steady_clock::now() - initialization_started).count();
             if (strong_ready_elapsed_seconds >= 0)
@@ -949,7 +1087,21 @@ int wmain(int argc, wchar_t **wide_argv) {
                 std::cout << ",\"tail_ready_elapsed_seconds\":" << tail_ready_elapsed_seconds;
             std::cout << ",\"strong_symmetry_seconds\":" << solver->strong_symmetry_initialization_seconds()
                       << ",\"strong_verification_seconds\":" << solver->strong_verification_seconds()
-                      << ",\"assets\":{";
+                      << ",\"strong_validation\":" << std::quoted(strong_validation)
+                      << ",\"proof_schedule\":" << std::quoted(defaults.strong_first_proof ? "strong-first" : "overlap")
+                      << ",\"strong_mapping_seconds\":" << solver->strong_mapping_seconds()
+                      << ",\"strong_checksum_worker_seconds\":" << solver->strong_checksum_worker_seconds()
+                      << ",\"strong_nibble_worker_seconds\":" << solver->strong_nibble_worker_seconds()
+                      << ",\"initialization_steps\":[";
+            for (std::size_t index = 0; index < initialization_steps.size(); ++index) {
+                if (index)
+                    std::cout << ',';
+                const auto &step = initialization_steps[index];
+                std::cout << "{\"asset\":" << std::quoted(step.name) << ",\"seconds\":" << step.seconds
+                          << ",\"mapped_bytes\":" << step.mapped_bytes << ",\"error\":" << std::quoted(step.error)
+                          << '}';
+            }
+            std::cout << "],\"assets\":{";
             for (const auto metric : {cube::MoveMetric::QTM}) {
                 std::cout << '\"' << cube::metric_name(metric)
                           << "\":{\"corner\":" << (solver->has_corner_pdb(metric) ? "true" : "false")
@@ -974,6 +1126,8 @@ int wmain(int argc, wchar_t **wide_argv) {
             cube::LoaderControl loader(loader_threads, loader_managed);
             std::atomic<bool> loader_active{false};
             std::atomic<bool> loader_budget_suspended{false};
+            std::atomic<bool> request_loader_allowed{true};
+            std::atomic<bool> strong_loading{staged_asset_loading && !strong_pdb_path.empty()};
             const auto begin_stage = [&](const char *stage, const std::filesystem::path &path) {
                 loader_active.store(true);
                 if (loader_managed)
@@ -1001,6 +1155,11 @@ int wmain(int argc, wchar_t **wide_argv) {
                                   << ",\"strong_symmetry_seconds\":"
                                   << snapshot->strong_symmetry_initialization_seconds()
                                   << ",\"strong_verification_seconds\":" << snapshot->strong_verification_seconds()
+                                  << ",\"strong_validation\":" << std::quoted(strong_validation)
+                                  << ",\"strong_mapping_seconds\":" << snapshot->strong_mapping_seconds()
+                                  << ",\"strong_checksum_worker_seconds\":"
+                                  << snapshot->strong_checksum_worker_seconds()
+                                  << ",\"strong_nibble_worker_seconds\":" << snapshot->strong_nibble_worker_seconds()
                                   << "}\n"
                                   << std::flush;
                     };
@@ -1010,11 +1169,11 @@ int wmain(int argc, wchar_t **wide_argv) {
                         try {
                             auto next = std::make_shared<cube::NativeOptimalSolver>(*latest);
                             try {
-                                next->load_strong_pdb(strong_pdb_path, &loader);
+                                next->load_strong_pdb(strong_pdb_path, &loader, validation_mode);
                             } catch (const std::exception &) {
                                 if (strong_pdb_fallback_path.empty())
                                     throw;
-                                next->load_strong_pdb(strong_pdb_fallback_path, &loader);
+                                next->load_strong_pdb(strong_pdb_fallback_path, &loader, validation_mode);
                             }
                             latest = std::move(next);
                             publish_asset(
@@ -1023,7 +1182,12 @@ int wmain(int argc, wchar_t **wide_argv) {
                                     .count());
                         } catch (const std::exception &error) {
                             std::cerr << "strong PDB staged load failed: " << error.what() << '\n';
+                            std::lock_guard lock(output_mutex);
+                            std::cout << "{\"ok\":false,\"type\":\"asset_error\",\"stage\":\"strong\",\"error\":"
+                                      << std::quoted(error.what()) << "}\n"
+                                      << std::flush;
                         }
+                        strong_loading.store(false, std::memory_order_release);
                     }
                     if (!qtm_tail_pdb_path.empty()) {
                         begin_stage("tail", qtm_tail_pdb_path);
@@ -1038,6 +1202,10 @@ int wmain(int argc, wchar_t **wide_argv) {
                                     .count());
                         } catch (const std::exception &error) {
                             std::cerr << "QTM tail staged load failed: " << error.what() << '\n';
+                            std::lock_guard lock(output_mutex);
+                            std::cout << "{\"ok\":false,\"type\":\"asset_error\",\"stage\":\"tail\",\"error\":"
+                                      << std::quoted(error.what()) << "}\n"
+                                      << std::flush;
                         }
                     }
                     loader_active.store(false);
@@ -1071,8 +1239,10 @@ int wmain(int argc, wchar_t **wide_argv) {
                         continue;
                     }
                     if (fields.size() == 2 && fields[0] == "loader_resume") {
-                        loader_budget_suspended.store(false);
-                        loader.resume();
+                        if (!running.load() || request_loader_allowed.load()) {
+                            loader_budget_suspended.store(false);
+                            loader.resume();
+                        }
                         continue;
                     }
                     if (fields.size() == 2 && fields[0] == "cancel") {
@@ -1121,6 +1291,20 @@ int wmain(int argc, wchar_t **wide_argv) {
                     incumbent = options.incumbent_moves;
                     cancel.store(false);
                     options.cancel_requested = &cancel;
+                    const int request_threads =
+                        options.threads > 0 ? options.threads
+                                            : static_cast<int>(std::max(1U, std::thread::hardware_concurrency()));
+                    const bool allow_loader =
+                        !shared_loader_budget || request_threads >= (loader_threads ? loader_threads : 8) + 2;
+                    request_loader_allowed.store(allow_loader);
+                    if (!allow_loader) {
+                        loader_budget_suspended.store(true);
+                        if (!loader.pause_for(std::chrono::milliseconds(500)))
+                            throw std::runtime_error("loader could not yield the requested thread quota");
+                    }
+                    options.strong_loading_callback = [&] {
+                        return strong_loading.load(std::memory_order_acquire) && !loader_budget_suspended.load();
+                    };
                     if (shared_loader_budget)
                         options.loader_threads_callback = [&] {
                             return loader_active.load() && !loader_budget_suspended.load()

@@ -1,0 +1,218 @@
+{
+  "profile": "QtmStrong",
+  "app_version": "1.9.0",
+  "native_builds": {
+    "htm": {
+      "compiler": "g++.exe (Rev5, Built by MSYS2 project) 16.1.0",
+      "flags": "-std=c++20 -O3 -march=x86-64 -mtune=generic -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode",
+      "portable": true,
+      "profile_guided": false,
+      "built_at": "2026-10-01T04:42:57.2421764Z",
+      "binary_sha256": "E6C0574CDECCE36A30CFE572BB6A13A47228247C1FE05F520E77992D5F107797",
+      "source_sha256": {
+        "pdb.hpp": "5CBD76D0125E1F2510EC536E16468804A3D7AC9AB752853FB5B4919C66274428",
+        "cube.cpp": "3C7501A3E18BACE61CAB5690C99B7C0B85967C51E946F61C982D41C25A7D6B4A",
+        "solver.hpp": "188234AD4D6585CF7CD7FEE02F4754BC236ACAC88E481D03DC317645FBF0FD64",
+        "pdb.cpp": "03FB90E8F656C26974E59FF6FCB8EDB4DF999025E1FF88528688BC3D97B4793A",
+        "solver.cpp": "5E0445466519FC1692BE718A0434203368B5CD9D23CC93C7A884CBD55D00C875",
+        "paths.hpp": "567C2D959576F77D234DF379130B4DB20C0BBE91A45088590158D9A4F05B845F",
+        "tail.cpp": "EC479533CF48E61E58857B184142B8B2AABBDC134E3E719A32746EE69522135B",
+        "symmetry.hpp": "25EA953FC6A8FD7AA91CEE2456116419348135F8BC2205FDC825711306C37FE4",
+        "cube.hpp": "1F98383CB71CB16E5B0B8C0BC52CD221F9CA3A02A31CFCFEAC33DCDDE805B83E",
+        "symmetry.cpp": "A350071E2187A539BFC3028C0147EB63AB95EC8827B3F421EE6F7866A6F94BCF",
+        "main.cpp": "D9F5911BEC72EBC6FBB0DA9A45167E1654815B0F02293D44B6F93CF663600B84",
+        "tail.hpp": "5095E0E59025D44DD9D9C05A8D104DF180A90C3993DB18C4153B56840CD94F2A"
+      }
+    },
+    "qtm": {
+      "compiler": "g++.exe (Rev5, Built by MSYS2 project) 16.1.0",
+      "flags": "-std=c++20 -O3 -march=x86-64 -mtune=generic -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode",
+      "portable": true,
+      "profile_guided": false,
+      "built_at": "2026-10-01T04:23:13.3561678Z",
+      "binary_sha256": "8C2912C43E267EA32AC9DAEA77902BC2258D91EF35F6A456E92C165734D5376A",
+      "source_sha256": {
+        "strong_coords.hpp": "6FE1369992E88501D0B2B1AA8DA0A363A09C83D001A001FF62C2C7231AB77342",
+        "symmetry.cpp": "A360E07B2C672999BC5C4F2EA9FA14945D8DAF2F2080213E45EFBA952F6B9F2B",
+        "paths.hpp": "567C2D959576F77D234DF379130B4DB20C0BBE91A45088590158D9A4F05B845F",
+        "solver.cpp": "A6E650DCB665CD48A43E2541CC734DAB351BBE49103A7BA12630F96FDEB1B51D",
+        "main.cpp": "81189452CBB974BB494C121051A5945CBD44959FE227687BB747875FF4FC240E",
+        "tail.cpp": "A622F7FE538F38031853F254C50AC1E04ADE1C72468E7205D7ABE7F73EEB297C",
+        "pdb.cpp": "0340599CE34EB4FB51B26E2718473E17C25561BB78490CD1FCB9780073E92CEE",
+        "cube.hpp": "1F98383CB71CB16E5B0B8C0BC52CD221F9CA3A02A31CFCFEAC33DCDDE805B83E",
+        "pdb.hpp": "D272129C84249B94E163A29EA415BF2C495E9F514AEA0F659D273FAB6614631E",
+        "symmetry.hpp": "E700FE6FE637E73680AC2E61C8CD3CE9FB51188DFCB1982BC1B784DDD8073F04",
+        "tail.hpp": "FDF29B49519F5259D16966887ACAAE9BFCF63158C92E6EBF9BA1E170D4E9C453",
+        "strong_pdb.cpp": "3E4A1C4FE65F3D778210226FB0C3A6C72B2FF1C12013DEE0D5D4F900EC6120AF",
+        "strong_coords.cpp": "AC34ABC3C45132BDAD8B85A0F6282B33792BD8B60E8DB0599AFD9425FA9231F6",
+        "strong_pdb.hpp": "C168B95419DDDC6F978130FC6BA9CCAECAEF47CBCBD7FCB1562AB194DA964870",
+        "fast.cpp": "7E8F7254CA49C9996B6E4CCA18734D3DB409B394CE0832D8C4D6BAB40BF8E1AA",
+        "metric.hpp": "C3A9AE9DB86AB3AB35EC4564502060D81CD8871B4856C975E735A5B51CCF1BE3",
+        "solver.hpp": "42336F4BD8025E21EE8A84495A246BFCE758659A0FB3E2CD434641BE450F0765",
+        "fast.hpp": "A19D06A1BE56CD1E0238CE960E3E558E8BFE7179D68CDA24A02CFAA3022906EF",
+        "cube.cpp": "3C7501A3E18BACE61CAB5690C99B7C0B85967C51E946F61C982D41C25A7D6B4A",
+        "loader.hpp": "FAC4CCD5DDFB7339430ABC9B5140AB4A122D50DD23A3E08F1C91E65115BAD28E"
+      }
+    }
+  },
+  "application_source_sha256": {
+    "cube_app/__init__.py": "5a2d61c0d719f9e02ce35336cdd8f6bb655629cfc1d449803a5ec4c473f75b8d",
+    "cube_app/coords.py": "8dbf9feb2d0f0f0990e7b63e6f07417646d6b65c2e582dc7879cdc6b1c09864e",
+    "cube_app/cubie.py": "e1563bb79f4511f377c90273330f5d3e0bc170c82fa9990cb1472bb81ec52635",
+    "cube_app/detection.py": "ec871cf2cd44c9941d3186bea98e10426ca793b7c2b7f62abb413ef6f99b411b",
+    "cube_app/fast.py": "1a6e05d1dbffef27ce624d677cfed41c7e5b098b14134cd62b1aaddefc860d2e",
+    "cube_app/metrics.py": "80e5c2af6f415119870760a8799edb9a1544b6ab7da030e37f5078438cb2dd94",
+    "cube_app/native.py": "d935b3a6549a2c7f179f9e1fa435cf09bfeb8023798e1639595337aec5f83204",
+    "cube_app/optimal.py": "1c3abe5911d3cf06b1e81f195d1b45d90a331008e984c58df8f2ec1499111c6d",
+    "cube_app/runtime.py": "8bb4d64175e85768b4c6803fe3a785d56085e9102bd7097f0823501b6b374781",
+    "cube_app/solvers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cube_app/solvers/htm/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cube_app/solvers/htm/coords.py": "36a20e2444aa9805a3cdb92ff84c193482efb8cc161140692baab248a092fafa",
+    "cube_app/solvers/htm/fast.py": "ad6f542ba9a8926487d627a606637a4e53a683f8827f21522b9da2ec3f8555c8",
+    "cube_app/solvers/htm/native.py": "3f43992e1ceda27285f989838c2d9f8f8334b8ef6b5dfcec18e4ffdb1d0bd210",
+    "cube_app/solvers/htm/optimal.py": "291e1085b10c82a792b65807915e29667625cb284c699546a6542068ff7b5340",
+    "cube_app/solvers/htm/tables.py": "5d182f08dbff2c55a67231d23a3fd1da6a6a8e2ff3e23aa9e7a4ce38b518aeff",
+    "cube_app/solvers/htm/two_by_two.py": "b900c8fcf81c3432e578c7eba9037bb4d07d5d8e0a49681dfbe93215dccd1177",
+    "cube_app/solvers/htm/two_by_two_tables.py": "08d2d00c9504ea80fd07ef118834e9cb4c1ff1efb01b36aadf20413a63f52ab1",
+    "cube_app/solvers/qtm/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cube_app/solvers/qtm/backend.py": "17cdf866a927ee7224565974fe3e202d15787ecb20e86d28a8c92d1a2dc4682e",
+    "cube_app/solvers/qtm/coords.py": "36a20e2444aa9805a3cdb92ff84c193482efb8cc161140692baab248a092fafa",
+    "cube_app/solvers/qtm/fast.py": "b3ed073108585468c9488358a5b4009d27454df0137f8c4fc2572c71ef8b5f07",
+    "cube_app/solvers/qtm/memory.py": "f7b97f6284b26f139064bfb08d973058b307f1ace03166799fca87a550bc6665",
+    "cube_app/solvers/qtm/native.py": "aff19a816822df5d824144ed76e32d6502d07839ee68be11c83b60e56721a3a8",
+    "cube_app/solvers/qtm/optimal.py": "699c6991dc592dff9f8368152cc0fdc3f260d041714a85835d38743cf145ee6b",
+    "cube_app/solvers/qtm/qtm_small.py": "91d6cb39a84fb29e14a4d9eddf588547e940cce7a9b5851a0c4d4622fbd32325",
+    "cube_app/solvers/qtm/tables.py": "5d182f08dbff2c55a67231d23a3fd1da6a6a8e2ff3e23aa9e7a4ce38b518aeff",
+    "cube_app/solvers/qtm/two_by_two.py": "6e0a239595dae0d6fb3baf388ed2face14f02c9fb95643f1c2c654372ca053b6",
+    "cube_app/solvers/qtm/two_by_two_tables.py": "80b66385df684678975015d147522627f5a17ec853270946f6f448e196b0ddb7",
+    "cube_app/solvers/resource_broker.py": "1d44c1af5b7d91cc193449980897585eb87986ad0c02d5ce076f7cee905538c4",
+    "cube_app/tables.py": "03e56aa312eba6e01e451df9f67e270e4a4392ee0911fedb899c8b49f7fbfd3e",
+    "cube_app/two_by_two.py": "8325e56c9a6edd53a353c7c4ba089d877a7411e1de229c2362cdc0a2c0199406",
+    "cube_app/two_by_two_tables.py": "18550744ccd796c2f6c450707cea9ea72b67d3f436cd1eebfece533b09984db3",
+    "cube_app/vision.py": "b44361ca6b0408ec38257d3eb8bdd78de384959e3d62eb7aa58d8d1c209bde66",
+    "web/app.js": "584ea2b4ffc649bc367f771d6b195fade0136b73870819cb0dc2631e6ffef91b",
+    "web/color.js": "31c731b930a6db3a6b3e66c19bc46d54e1a16813d96c7794091bf7c901125e9a",
+    "web/index.html": "2c3a3cd292650c427c53abf58c55de6bb376c3fec1877762fac92f7447388128",
+    "web/solver-client.js": "0eaa92338ba59135806abe69aea5ac42a8e715982c7322a6472067a542e64fb6",
+    "web/styles.css": "cf90571d670430f56090fa8c5cd9fe2b66fd37b4666ed9bc49f375f1e025053a",
+    "server.py": "92a3fb99d1a606f21f9d17b00d45b1d9ddea15dcc538df40898a1bde265d99ed",
+    "windows_launcher.py": "a05e1fe24162fe050865e93ce0d65911fde12d3f919e7a061c53dbbe49c97d99",
+    "pyproject.toml": "c50d7bca6eaf49fce4be7175dbea3e03488a93be53a085216abf5412e3da474e"
+  },
+  "htm_frozen_origin": "ae73ca81af1ed077c059f3345377190bf0ce2882",
+  "qtm_frozen_origin": "c01d90dcbc449faf3b6128020e71655a0a47960b",
+  "files": {
+    "native/htm/build/cube_solver_htm.exe": {
+      "bytes": 3832648,
+      "sha256": "e6c0574cdecce36a30cfe572bb6a13a47228247c1fe05f520e77992d5f107797"
+    },
+    "assets/htm/v1/corner_htm_v2.pdb": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb",
+      "metric": "HTM",
+      "format_version": 2,
+      "complete": true
+    },
+    "assets/htm/v1/phase1_sym_htm_v2.pdb": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f",
+      "metric": "HTM",
+      "format_version": 2,
+      "complete": true
+    },
+    "assets/htm/v1/tail_depth6_v4.pdb": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74",
+      "metric": "HTM",
+      "depth": 6,
+      "format_version": 4
+    },
+    ".cache/htm/solver_tables_v3.pkl": {
+      "bytes": 13798733,
+      "sha256": "ef5cbf1656bcdda4f787de52566c2f063244b2164c8c71e2e1daa445a51efb69"
+    },
+    ".cache/htm/two_by_two_htm_v1.bin": {
+      "bytes": 3778042,
+      "sha256": "4ebf9e7ee3cfb76bab4b5e0703d608bcdfabe758661d23fd041a4cb90eeb399d"
+    },
+    ".cache/htm/coordinates_htm_v1.bin": {
+      "bytes": 8237445,
+      "sha256": "7d46f7519a1c68dd27118ecaca9a94e458ca4506215cb2cc83c7efb86e6bee08"
+    },
+    "native/qtm/build/cube_solver_qtm.exe": {
+      "bytes": 4197115,
+      "sha256": "8c2912c43e267ea32ac9daea77902bc2258d91ef35f6a456e92c165734d5376a"
+    },
+    "assets/qtm/v1/corner_htm_v2.pdb": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb",
+      "metric": "HTM",
+      "format_version": 2,
+      "complete": true
+    },
+    "assets/qtm/v1/phase1_sym_htm_v2.pdb": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f",
+      "metric": "HTM",
+      "format_version": 2,
+      "complete": true
+    },
+    "assets/qtm/v1/tail_depth6_v4.pdb": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74",
+      "metric": "HTM",
+      "depth": 6,
+      "format_version": 4
+    },
+    "assets/qtm/v1/corner_qtm_v3.pdb": {
+      "bytes": 88179920,
+      "sha256": "070f1314a7b68955ed3e84a3de5b6e2ede20385f0775a334ec9f1d470f0e08d0",
+      "metric": "QTM",
+      "format_version": 3,
+      "complete": true,
+      "coordinate_version": 1,
+      "coverage_depth": 14
+    },
+    "assets/qtm/v1/phase1_qtm_v3.pdb": {
+      "bytes": 140908490,
+      "sha256": "7606158cd7ccb4c1d49db7aab45fe25fbad21580aab8742648ae3e29567e6a11",
+      "metric": "QTM",
+      "format_version": 3,
+      "complete": true,
+      "coordinate_version": 1,
+      "coverage_depth": 13
+    },
+    "assets/qtm/v1/strong_qtm_v4_nibble.pdb": {
+      "bytes": 1764716840,
+      "sha256": "12de7580c0b59728fdb559bc0eb1c50adf9e724ec681b1bfb144efe392829e9c",
+      "metric": "QTM",
+      "format_version": 4,
+      "complete": true,
+      "coordinate_version": 2,
+      "coverage_depth": 14
+    },
+    "assets/qtm/v1/tail_qtm_depth8_v5.pdb": {
+      "bytes": 1677721664,
+      "sha256": "35e3d345cd16e3efa16ceecb398b583f825d66a4e42dbc1856466338353a1687",
+      "metric": "QTM",
+      "depth": 8,
+      "format_version": 5
+    },
+    ".cache/qtm/solver_tables_v3.pkl": {
+      "bytes": 13798733,
+      "sha256": "09a12511502237bdb1a7cd65425c226cffd2811eac511c7e3ba6a2721953c110"
+    },
+    ".cache/qtm/qtm_small_v1.bin": {
+      "bytes": 6615677,
+      "sha256": "adb2bbbe97a1e785b22177e67141c151c55f8fe9093c20afa3da8c6cb3468235"
+    },
+    ".cache/qtm/two_by_two_qtm_v1.bin": {
+      "bytes": 3778042,
+      "sha256": "e46414ad7c8bd46e2e4827766f6015890eda6a39ffdc4309296c5fa15fdd5b01"
+    },
+    ".cache/qtm/coordinates_dual_v2.bin": {
+      "bytes": 14853066,
+      "sha256": "c7be40e38ad69a04381238da1c181e8251bbe226d00aa05efc024cc6b11a1b2c"
+    }
+  }
+}

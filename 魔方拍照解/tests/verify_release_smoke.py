@@ -13,6 +13,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "release"))
+from cube_app import __version__  # noqa: E402
 from cube_app.cubie import CubieCube, MOVE_INDEX, to_facelets  # noqa: E402
 from cube_app.metrics import solution_cost  # noqa: E402
 from cube_app.solvers.htm.two_by_two import is_solved_2x2, to_facelets_2x2  # noqa: E402
@@ -28,10 +29,10 @@ def request(base, endpoint, body=None):
         return json.load(response)
 
 
-def run(root, command, qtm):
+def run(root, command, qtm, expected_qtm_profile="strong"):
     environment = {k: v for k, v in os.environ.items() if not k.startswith("CUBE_") and k != "PYTHONPATH"}
     environment.update(CUBE_QTM_ASSET_PROFILE="strong", CUBE_QTM_STRONG_FORMAT="nibble",
-                       CUBE_NATIVE_ASSET_LOADING="eager")
+                       CUBE_NATIVE_ASSET_LOADING="eager", CUBE_NO_BROWSER="1")
     port_file = root / ".cache/server_port.txt"
     port_file.unlink(missing_ok=True)
     result = {}
@@ -45,9 +46,10 @@ def run(root, command, qtm):
                     raise RuntimeError(f"server failed to start: {root}")
                 time.sleep(.1)
             base = port_file.read_text().strip().rstrip("/")
-            assert request(base, "/api/version")["version"] == "1.9.0"
+            assert request(base, "/api/version")["version"] == __version__
             capabilities = request(base, "/api/capabilities")
             assert capabilities["QTM"] is qtm
+            assert capabilities["QTM_status"] == ("stable" if qtm else "unavailable")
             result["capabilities"] = capabilities
             for metric in (("HTM", "QTM") if qtm else ("HTM",)):
                 for size in (2, 3):
@@ -68,8 +70,8 @@ def run(root, command, qtm):
                         cube = cube.apply_move_index(MOVE_INDEX[move])
                     assert (is_solved_2x2(cube) if size == 2 else cube.is_solved())
                     assert solution_cost(response["moves"], metric) == response["depth"]
-                    if metric == "QTM" and size == 3:
-                        assert response.get("asset_profile") == "strong", response
+                    if metric == "QTM" and size == 3 and expected_qtm_profile is not None:
+                        assert response.get("asset_profile") == expected_qtm_profile, response
                     result[f"{size}x{size}-{metric}"] = {"depth": response["depth"],
                         "optimal": response["optimal"], "asset_profile": response.get("asset_profile")}
         finally:

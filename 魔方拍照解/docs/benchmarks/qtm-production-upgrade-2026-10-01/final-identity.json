@@ -1,0 +1,183 @@
+{
+  "head": "931662805df003aeaeadad419fe10296961c94d2",
+  "status": "M ../.github/workflows/ci.yml\n M CHANGELOG.md\n M README.md\n M cube_app/solvers/qtm/backend.py\n M cube_app/solvers/qtm/native.py\n M native/qtm/include/solver.hpp\n M native/qtm/include/strong_pdb.hpp\n M native/qtm/src/main.cpp\n M native/qtm/src/solver.cpp\n M native/qtm/src/strong_pdb.cpp\n M pyproject.toml\n M release/README-Windows.txt\n M server.py\n M tests/check_qtm_speed_reuse.py\n M tests/solver_ui.test.js\n M tests/test_isolation_contract.py\n M web/app.js\n M web/solver-client.js\n?? docs/benchmarks/qtm-production-review-2026-10-01/\n?? docs/qtm-optimization-review-2026-09-30.md\n?? docs/qtm-production-readiness-plan-2026-10-01.md\n?? tests/accept_qtm_production.py\n?? tests/freeze_qtm_production.py\n?? tests/probe_qtm_loading.py\n?? tests/probe_qtm_production.py\n?? tests/test_native_qtm.py\n?? tests/test_qtm_backend.py\n?? tests/verify_qtm_production_page.cjs",
+  "system": "Windows-11-10.0.26200-SP0",
+  "files": {
+    "native\\qtm\\build\\cube_solver_qtm.exe": {
+      "bytes": 4197115,
+      "sha256": "8c2912c43e267ea32ac9daea77902bc2258d91ef35f6a456e92c165734d5376a"
+    },
+    "native\\qtm\\build\\build-info.json": {
+      "bytes": 2151,
+      "sha256": "c6b4733af8f75346cde85a4b17ca58e66844eb6aaba1be469f04346645e38714"
+    },
+    "asset-manifest.json": {
+      "bytes": 12370,
+      "sha256": "4d6b347fa8742db2e41aa22fa4c43edf9943a2d1cc4cf48b1ee036baf804e185"
+    },
+    "native\\qtm\\src\\cube.cpp": {
+      "bytes": 19343,
+      "sha256": "3c7501a3e18bace61cab5690c99b7c0b85967c51e946f61c982d41c25a7d6b4a"
+    },
+    "native\\qtm\\src\\fast.cpp": {
+      "bytes": 19116,
+      "sha256": "7e8f7254ca49c9996b6e4cca18734d3db409b394ce0832d8c4d6bab40bf8e1aa"
+    },
+    "native\\qtm\\src\\main.cpp": {
+      "bytes": 94269,
+      "sha256": "81189452cbb974bb494c121051a5945cbd44959fe227687bb747875ff4fc240e"
+    },
+    "native\\qtm\\src\\pdb.cpp": {
+      "bytes": 63514,
+      "sha256": "0340599ce34eb4fb51b26e2718473e17c25561bb78490cd1fcb9780073e92cee"
+    },
+    "native\\qtm\\src\\solver.cpp": {
+      "bytes": 110184,
+      "sha256": "a6e650dcb665cd48a43e2541cc734dab351bbe49103a7ba12630f96fdeb1b51d"
+    },
+    "native\\qtm\\src\\strong_coords.cpp": {
+      "bytes": 8068,
+      "sha256": "ac34abc3c45132bdad8b85a0f6282b33792bd8b60e8db0599afd9425fa9231f6"
+    },
+    "native\\qtm\\src\\strong_pdb.cpp": {
+      "bytes": 40604,
+      "sha256": "3e4a1c4fe65f3d778210226fb0c3a6c72b2ff1c12013dee0d5d4f900ec6120af"
+    },
+    "native\\qtm\\src\\symmetry.cpp": {
+      "bytes": 20203,
+      "sha256": "a360e07b2c672999bc5c4f2ea9fa14945d8daf2f2080213e45efba952f6b9f2b"
+    },
+    "native\\qtm\\src\\tail.cpp": {
+      "bytes": 38757,
+      "sha256": "a622f7fe538f38031853f254c50ac1e04ade1c72468e7205d7abe7f73eeb297c"
+    },
+    "native\\qtm\\include\\cube.hpp": {
+      "bytes": 3361,
+      "sha256": "1f98383cb71cb16e5b0b8c0bc52cd221f9ca3a02a31cfcfeac33dcdde805b83e"
+    },
+    "native\\qtm\\include\\fast.hpp": {
+      "bytes": 1297,
+      "sha256": "a19d06a1be56cd1e0238ce960e3e558e8bfe7179d68cda24a02cfaa3022906ef"
+    },
+    "native\\qtm\\include\\loader.hpp": {
+      "bytes": 2079,
+      "sha256": "fac4ccd5ddfb7339430abc9b5140ab4a122d50dd23a3e08f1c91e65115bad28e"
+    },
+    "native\\qtm\\include\\metric.hpp": {
+      "bytes": 474,
+      "sha256": "c3a9ae9db86ab3ab35ec4564502060d81cd8871b4856c975e735a5b51ccf1be3"
+    },
+    "native\\qtm\\include\\paths.hpp": {
+      "bytes": 448,
+      "sha256": "567c2d959576f77d234df379130b4db20c0bbe91a45088590158d9a4f05b845f"
+    },
+    "native\\qtm\\include\\pdb.hpp": {
+      "bytes": 5215,
+      "sha256": "d272129c84249b94e163a29ea415bf2c495e9f514aea0f659d273fab6614631e"
+    },
+    "native\\qtm\\include\\solver.hpp": {
+      "bytes": 13625,
+      "sha256": "42336f4bd8025e21ee8a84495a246bfce758659a0fb3e2cd434641be450f0765"
+    },
+    "native\\qtm\\include\\strong_coords.hpp": {
+      "bytes": 2118,
+      "sha256": "6fe1369992e88501d0b2b1aa8da0a363a09c83d001a001ff62c2c7231ab77342"
+    },
+    "native\\qtm\\include\\strong_pdb.hpp": {
+      "bytes": 3696,
+      "sha256": "c168b95419dddc6f978130fc6ba9ccaecaef47cbcbd7fcb1562ab194da964870"
+    },
+    "native\\qtm\\include\\symmetry.hpp": {
+      "bytes": 2712,
+      "sha256": "e700fe6fe637e73680ac2e61c8cd3ce9fb51188dfcb1982bc1b784ddd8073f04"
+    },
+    "native\\qtm\\include\\tail.hpp": {
+      "bytes": 1998,
+      "sha256": "fdf29b49519f5259d16966887acaae9bfcf63158c92e6ebf9ba1e170d4e9c453"
+    },
+    "assets\\qtm\\v1\\corner_htm_v2.pdb": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb"
+    },
+    "assets\\qtm\\v1\\corner_qtm_v3.pdb": {
+      "bytes": 88179920,
+      "sha256": "070f1314a7b68955ed3e84a3de5b6e2ede20385f0775a334ec9f1d470f0e08d0"
+    },
+    "assets\\qtm\\v1\\phase1_qtm_v3.pdb": {
+      "bytes": 140908490,
+      "sha256": "7606158cd7ccb4c1d49db7aab45fe25fbad21580aab8742648ae3e29567e6a11"
+    },
+    "assets\\qtm\\v1\\phase1_sym_htm_v2.pdb": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f"
+    },
+    "assets\\qtm\\v1\\strong_qtm_v4_nibble.pdb": {
+      "bytes": 1764716840,
+      "sha256": "12de7580c0b59728fdb559bc0eb1c50adf9e724ec681b1bfb144efe392829e9c"
+    },
+    "assets\\qtm\\v1\\tail_depth6_v4.pdb": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74"
+    },
+    "assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb": {
+      "bytes": 1677721664,
+      "sha256": "35e3d345cd16e3efa16ceecb398b583f825d66a4e42dbc1856466338353a1687"
+    },
+    "native\\htm\\build\\cube_solver_htm.exe": {
+      "bytes": 3832648,
+      "sha256": "e6c0574cdecce36a30cfe572bb6a13a47228247c1fe05f520e77992d5f107797"
+    },
+    "native\\htm\\build\\build-info.json": {
+      "bytes": 1437,
+      "sha256": "55f618610de080c3d168c24582641a83947995b2c009bc82139b9654b01d9d85"
+    },
+    "native\\htm\\src\\cube.cpp": {
+      "bytes": 19343,
+      "sha256": "3c7501a3e18bace61cab5690c99b7c0b85967c51e946f61c982d41c25a7d6b4a"
+    },
+    "native\\htm\\src\\main.cpp": {
+      "bytes": 34480,
+      "sha256": "d9f5911bec72ebc6fbb0da9a45167e1654815b0f02293d44b6f93cf663600b84"
+    },
+    "native\\htm\\src\\pdb.cpp": {
+      "bytes": 38001,
+      "sha256": "03fb90e8f656c26974e59ff6fcb8edb4df999025e1ff88528688bc3d97b4793a"
+    },
+    "native\\htm\\src\\solver.cpp": {
+      "bytes": 50804,
+      "sha256": "5e0445466519fc1692be718a0434203368b5cd9d23cc93c7a884cbd55d00c875"
+    },
+    "native\\htm\\src\\symmetry.cpp": {
+      "bytes": 19593,
+      "sha256": "a350071e2187a539bfc3028c0147eb63ab95ec8827b3f421ee6f7866a6f94bcf"
+    },
+    "native\\htm\\src\\tail.cpp": {
+      "bytes": 29863,
+      "sha256": "ec479533cf48e61e58857b184142b8b2aabbdc134e3e719a32746ee69522135b"
+    },
+    "native\\htm\\include\\cube.hpp": {
+      "bytes": 3361,
+      "sha256": "1f98383cb71cb16e5b0b8c0bc52cd221f9ca3a02a31cfcfeac33dcdde805b83e"
+    },
+    "native\\htm\\include\\paths.hpp": {
+      "bytes": 448,
+      "sha256": "567c2d959576f77d234df379130b4db20c0bbe91a45088590158d9a4f05b845f"
+    },
+    "native\\htm\\include\\pdb.hpp": {
+      "bytes": 3168,
+      "sha256": "5cbd76d0125e1f2510ec536e16468804a3d7ac9ab752853fb5b4919c66274428"
+    },
+    "native\\htm\\include\\solver.hpp": {
+      "bytes": 7928,
+      "sha256": "188234ad4d6585cf7cd7fee02f4754bc236acac88e481d03dc317645fbf0fd64"
+    },
+    "native\\htm\\include\\symmetry.hpp": {
+      "bytes": 2614,
+      "sha256": "25ea953fc6a8fd7aa91cee2456116419348135f8bc2205fdc825711306c37fe4"
+    },
+    "native\\htm\\include\\tail.hpp": {
+      "bytes": 1517,
+      "sha256": "5095e0e59025d44dd9d9c05a8d104df180a90c3993db18c4153b56840cd94f2a"
+    }
+  }
+}

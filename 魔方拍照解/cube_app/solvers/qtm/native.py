@@ -112,12 +112,12 @@ class _PersistentNativeSolver:
         command = [
             str(NATIVE_EXE),
             "serve",
-            "--pdb",
-            str(CORNER_PDB.relative_to(ROOT)),
             f"--asset-loading={loading}",
         ]
+        if CORNER_PDB.is_file():
+            command.extend(("--fallback-pdb", str(CORNER_PDB.relative_to(ROOT))))
         if PHASE1_PDB.is_file():
-            command.extend(("--phase1-pdb", str(PHASE1_PDB.relative_to(ROOT))))
+            command.extend(("--fallback-phase1-pdb", str(PHASE1_PDB.relative_to(ROOT))))
         qtm_corner = NATIVE_CACHE / "corner_qtm_depth3_v3.pdb" if profile == "partial" else QTM_CORNER_PDB
         qtm_phase1 = NATIVE_CACHE / "phase1_qtm_depth3_v3.pdb" if profile == "partial" else QTM_PHASE1_PDB
         if profile != "fallback" and qtm_corner.is_file():
@@ -137,7 +137,7 @@ class _PersistentNativeSolver:
                         and _strong_pdb_is_complete(QTM_STRONG_PDB)):
                     command.extend(("--strong-pdb-fallback", str(QTM_STRONG_PDB.relative_to(ROOT))))
         if TAIL_PDB.is_file():
-            command.extend(("--tail-pdb", str(TAIL_PDB.relative_to(ROOT))))
+            command.extend(("--fallback-tail-pdb", str(TAIL_PDB.relative_to(ROOT))))
         qtm_tail = (QTM_TAIL_PDB_8 if profile == "strong" else QTM_TAIL_PDB_7
                     if profile == "standard" else None)
         if qtm_tail is not None and qtm_tail.is_file():
@@ -163,8 +163,11 @@ class _PersistentNativeSolver:
             if use_edge_pdbs and path.is_file():
                 command.extend((flag, str(path.relative_to(ROOT))))
         # Each mechanism has a separate rollback/diagnostic switch.
-        command += ['--loader-managed', '--loader-threads', str(max(1, min(int(os.environ.get('CUBE_QTM_LOADER_THREADS', '4')), self._request_threads - 2))),
+        command += ['--loader-managed', '--loader-threads', str(max(1, min(8, int(os.environ.get('CUBE_QTM_LOADER_THREADS', '8')), self._request_threads - 2))),
                     '--loader-budget=' + os.environ.get('CUBE_QTM_LOADER_BUDGET', 'shared'),
+                    '--proof-schedule=' + os.environ.get('CUBE_QTM_PROOF_SCHEDULE', 'strong-first'),
+                    '--strong-validation=' + os.environ.get('CUBE_QTM_STRONG_VALIDATION', 'legacy'),
+                    '--base-proof-window=' + os.environ.get('CUBE_QTM_BASE_PROOF_WINDOW', '0.3'),
                     '--strong-upgrade=' + os.environ.get('CUBE_QTM_STRONG_UPGRADE', 'boundary'),
                     '--strong-slice=' + os.environ.get('CUBE_QTM_STRONG_SLICE', 'keep'),
                     '--pdb-prefetch=' + os.environ.get('CUBE_QTM_PREFETCH', 'off')]
@@ -225,7 +228,7 @@ class _PersistentNativeSolver:
                     except json.JSONDecodeError:
                         lines.put(raw)
                         continue
-                    if event.get('type') in {'asset_ready', 'loader_stage', 'loader_done', 'loader_paused'}:
+                    if event.get('type') in {'asset_ready', 'asset_error', 'loader_stage', 'loader_done', 'loader_paused'}:
                         with self._state:
                             if self._generation != generation or self._process is not process:
                                 continue
@@ -484,6 +487,10 @@ class _PersistentNativeSolver:
                     self._record_asset_ready(event)
                     if progress_callback is not None:
                         progress_callback({**event, "engine": "native-cpp"})
+                    continue
+                if event.get("type") == "asset_error":
+                    if progress_callback is not None:
+                        progress_callback(event)
                     continue
                 if event.get("request_id") != request_id:
                     continue
@@ -752,6 +759,11 @@ def _validated_result(cube: CubieCube, payload: dict, metric: str = "HTM") -> di
         "candidate_phase2_nodes": int(payload.get("candidate_phase2_nodes", 0)),
         "candidate_worker_done_seconds": payload.get("candidate_worker_done_seconds"),
         "proof_worker_return_seconds": payload.get("proof_worker_return_seconds"),
+        "base_proof_seconds": payload.get("base_proof_seconds"),
+        "base_last_used_seconds": payload.get("base_last_used_seconds"),
+        "strong_wait_seconds": payload.get("strong_wait_seconds"),
+        "base_window_yields": payload.get("base_window_yields", 0),
+        "base_window_discarded_generated": payload.get("base_window_discarded_generated", 0),
         "proof_worker_busy_seconds": round(sum(float(worker.get("busy_seconds", 0.0))
                                                for worker in payload.get("workers", [])), 3),
         "engine": "native-cpp",

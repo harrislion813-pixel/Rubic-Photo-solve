@@ -1,0 +1,48 @@
+{
+  "profile": "QtmStrong",
+  "version": "1.10.0",
+  "asset_count": 19,
+  "powershell_verification": "passed",
+  "http": {
+    "capabilities": {
+      "ok": true,
+      "HTM": true,
+      "QTM": true,
+      "QTM_status": "stable",
+      "QTM_sizes": {
+        "2": {
+          "available": true,
+          "profile": "exact-2x2",
+          "asset_state": "unverified",
+          "adopted_profile": null
+        },
+        "3": {
+          "available": true,
+          "base_asset_state": "unverified",
+          "strong_asset_state": "unverified",
+          "adopted_profile": null
+        }
+      }
+    },
+    "2x2-HTM": {
+      "depth": 1,
+      "optimal": true,
+      "asset_profile": null
+    },
+    "3x3-HTM": {
+      "depth": 1,
+      "optimal": true,
+      "asset_profile": null
+    },
+    "2x2-QTM": {
+      "depth": 2,
+      "optimal": true,
+      "asset_profile": "exact-2x2"
+    },
+    "3x3-QTM": {
+      "depth": 2,
+      "optimal": true,
+      "asset_profile": "strong"
+    }
+  }
+}

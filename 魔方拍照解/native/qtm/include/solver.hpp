@@ -2,6 +2,7 @@
 
 #include "cube.hpp"
 #include "metric.hpp"
+#include "strong_pdb.hpp"
 
 #include <atomic>
 #include <chrono>
@@ -145,6 +146,7 @@ class CoordinateTables {
 
 struct NativeSearchProgress {
     MoveMetric metric{MoveMetric::HTM};
+    const char *phase{"proving"};
     int lower_bound{};
     int upper_bound{};
     int current_depth{};
@@ -190,6 +192,8 @@ struct SolverOptions {
     bool prefetch_strong{false};
     bool omit_strong_slice{false};
     bool strong_upgrade_restart{false};
+    bool strong_first_proof{false};
+    double base_proof_window_seconds{0.3};
     bool inverse_direction{false};
     bool use_native_candidate{true};
     bool adaptive_split{true};
@@ -202,6 +206,7 @@ struct SolverOptions {
     std::function<std::shared_ptr<const NativeOptimalSolver>()> asset_snapshot_callback;
     std::function<void(const NativeOptimalSolver &, int, double, double, std::uint64_t)> asset_adopted_callback;
     std::function<int()> loader_threads_callback;
+    std::function<bool()> strong_loading_callback;
     std::function<void(int, int, int)> thread_activity_callback;
     std::function<void(int, std::uint64_t, double)> upgrade_callback;
     std::function<void(const std::vector<int> &)> candidate_callback;
@@ -243,6 +248,11 @@ struct NativeSolveResult {
     int strong_upgrade_restarts{};
     std::uint64_t upgrade_discarded_generated{};
     double upgrade_stop_seconds{};
+    double base_proof_seconds{};
+    double base_last_used_seconds{-1.0};
+    double strong_wait_seconds{};
+    int base_window_yields{};
+    std::uint64_t base_window_discarded_generated{};
     SearchCounters counters;
     std::vector<WorkerStatistics> workers;
     std::shared_ptr<const NativeOptimalSolver> asset_snapshot;
@@ -259,7 +269,8 @@ class NativeOptimalSolver {
     void load_extra_edge_pdbs(const std::filesystem::path &path_c, const std::filesystem::path &path_d);
     void load_tail_database(const std::filesystem::path &path, MoveMetric expected_metric = MoveMetric::HTM,
                             LoaderControl *loader = nullptr);
-    void load_strong_pdb(const std::filesystem::path &path, LoaderControl *loader = nullptr);
+    void load_strong_pdb(const std::filesystem::path &path, LoaderControl *loader = nullptr,
+                         StrongValidationMode mode = StrongValidationMode::Legacy);
     [[nodiscard]] bool has_corner_pdb(MoveMetric metric = MoveMetric::HTM) const noexcept;
     [[nodiscard]] bool has_phase1_pdb(MoveMetric metric = MoveMetric::HTM) const noexcept;
     [[nodiscard]] bool has_edge_pdbs(MoveMetric metric = MoveMetric::HTM) const noexcept;
@@ -275,6 +286,9 @@ class NativeOptimalSolver {
     [[nodiscard]] const CoordinateTables &coordinate_tables() const noexcept;
     [[nodiscard]] double strong_symmetry_initialization_seconds() const noexcept;
     [[nodiscard]] double strong_verification_seconds() const noexcept;
+    [[nodiscard]] double strong_mapping_seconds() const noexcept;
+    [[nodiscard]] double strong_checksum_worker_seconds() const noexcept;
+    [[nodiscard]] double strong_nibble_worker_seconds() const noexcept;
     [[nodiscard]] NativeSolveResult solve(const CubieCube &cube, const SolverOptions &options) const;
 
   private:

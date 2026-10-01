@@ -1,0 +1,670 @@
+{
+  "review_date": "2026-10-01",
+  "timezone": "Asia/Shanghai",
+  "head": "931662805df003aeaeadad419fe10296961c94d2",
+  "scope": "Source/documentation review; no production changes, no rebuilt binaries or release package",
+  "app_version": "1.9.0",
+  "installed_python_metadata_version": "1.6.2",
+  "qtm_binary_sha256": "e74002b9c7c03506d28d12ff2dc122cb95d904349666497253c605181f3316df",
+  "qtm_build_info_from_import_manifest": {
+    "compiler": "g++.exe (Rev5, Built by MSYS2 project) 16.1.0",
+    "flags": "-std=c++20 -O3 -march=x86-64 -mtune=generic -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode",
+    "portable": true,
+    "profile_guided": false,
+    "built_at": "2026-09-30T12:33:19.1347925Z",
+    "binary_sha256": "E74002B9C7C03506D28D12FF2DC122CB95D904349666497253C605181F3316DF",
+    "source_sha256": {
+      "pdb.hpp": "0CD053B2678742D61E3D8FFD38B872924856CC77D380C95E29BBB5BA92DC3040",
+      "main.cpp": "3A20BA5EDAF3A43B6140B7314369E6237EAC9F7D87AE4778C1B22BF0F97E9CD1",
+      "fast.cpp": "8C771B7A5B9FA95B9E6CD922DDD9C783A12202BCC5B790B29D6F258147D0374A",
+      "symmetry.hpp": "F0886A8D5A87AD7EF3CB26CB34EE56FD22470AC32F331E38C7BF0B74A6425C7E",
+      "cube.cpp": "F94564AC640C96CFE52B18A3D012958271FC08AB7E5EBA64B77C49BA9B06EBAF",
+      "strong_pdb.cpp": "AA40A3E02106A1D744BA33023A7264F095C6920626F881A2305CD5C3228E7F15",
+      "cube.hpp": "6346AA5BDCF355EA9EFC6836905032E78E1359F4813D4674CF9C82E45ECBCEF9",
+      "symmetry.cpp": "127018D567461C8FFF4767D4F625893942C3EE69B5BC4D920BFD73F4E6BCC186",
+      "paths.hpp": "FB3ECD78D63C5AB1D3FB183C4F9822B9C0A1A0DA3133561C14F09C56828DE786",
+      "strong_coords.hpp": "6FE1369992E88501D0B2B1AA8DA0A363A09C83D001A001FF62C2C7231AB77342",
+      "fast.hpp": "D740BCC71AF3016EA082EDD503A9225B22E2FF489F68C2A1702B2F64FECFF826",
+      "pdb.cpp": "0340599CE34EB4FB51B26E2718473E17C25561BB78490CD1FCB9780073E92CEE",
+      "solver.hpp": "FA1967C96B7D4DEE12A35E9A058ECD53B307B0E89197DBA086E346C2B31D5058",
+      "loader.hpp": "5B2233139DD0B04B3F9528EEC5699F201C430181AAD352AFF308541B9F8A8EF8",
+      "tail.cpp": "A622F7FE538F38031853F254C50AC1E04ADE1C72468E7205D7ABE7F73EEB297C",
+      "tail.hpp": "FDF29B49519F5259D16966887ACAAE9BFCF63158C92E6EBF9BA1E170D4E9C453",
+      "strong_pdb.hpp": "D055B5E904B1950E38D92A218D58A590C2A44C3BBEE880AF06FEA19466BB8A14",
+      "solver.cpp": "C06132145D899B7EEDE4C0DA62502ECC525F50C4A80EE4C97D3244CF5350673D",
+      "strong_coords.cpp": "AC34ABC3C45132BDAD8B85A0F6282B33792BD8B60E8DB0599AFD9425FA9231F6",
+      "metric.hpp": "8B9389EABD7BCC32C7F9CC554AEB29B7FE8A77AED56738E4A75A21E66029C8FB"
+    }
+  },
+  "native_source_audit": [
+    {
+      "file": "native/qtm/include/cube.hpp",
+      "source_sha256": "1f98383cb71cb16e5b0b8c0bc52cd221f9ca3a02a31cfcfeac33dcdde805b83e",
+      "manifest_source_sha256": "6346aa5bdcf355ea9efc6836905032e78e1359f4813d4674cf9c82e45ecbcef9",
+      "match": "LF"
+    },
+    {
+      "file": "native/qtm/include/fast.hpp",
+      "source_sha256": "a19d06a1be56cd1e0238ce960e3e558e8bfe7179d68cda24a02cfaa3022906ef",
+      "manifest_source_sha256": "d740bcc71af3016ea082edd503a9225b22e2ff489f68c2a1702b2f64fecff826",
+      "match": "LF"
+    },
+    {
+      "file": "native/qtm/include/loader.hpp",
+      "source_sha256": "fac4ccd5ddfb7339430abc9b5140ab4a122d50dd23a3e08f1c91e65115bad28e",
+      "manifest_source_sha256": "5b2233139dd0b04b3f9528eec5699f201c430181aad352aff308541b9f8a8ef8",
+      "match": "LF"
+    },
+    {
+      "file": "native/qtm/include/metric.hpp",
+      "source_sha256": "c3a9ae9db86ab3ab35ec4564502060d81cd8871b4856c975e735a5b51ccf1be3",
+      "manifest_source_sha256": "8b9389eabd7bcc32c7f9cc554aeb29b7fe8a77aed56738e4a75a21e66029c8fb",
+      "match": "LF"
+    },
+    {
+      "file": "native/qtm/include/paths.hpp",
+      "source_sha256": "567c2d959576f77d234df379130b4db20c0bbe91a45088590158d9a4f05b845f",
+      "manifest_source_sha256": "fb3ecd78d63c5ab1d3fb183c4f9822b9c0a1a0da3133561c14f09c56828de786",
+      "match": "LF"
+    },
+    {
+      "file": "native/qtm/include/pdb.hpp",
+      "source_sha256": "d272129c84249b94e163a29ea415bf2c495e9f514aea0f659d273fab6614631e",
+      "manifest_source_sha256": "0cd053b2678742d61e3d8ffd38b872924856cc77d380c95e29bbb5ba92dc3040",
+      "match": "LF"
+    },
+    {
+      "file": "native/qtm/include/solver.hpp",
+      "source_sha256": "fa1967c96b7d4dee12a35e9a058ecd53b307b0e89197dba086e346c2b31d5058",
+      "manifest_source_sha256": "fa1967c96b7d4dee12a35e9a058ecd53b307b0e89197dba086e346c2b31d5058",
+      "match": "bytes"
+    },
+    {
+      "file": "native/qtm/include/strong_coords.hpp",
+      "source_sha256": "6fe1369992e88501d0b2b1aa8da0a363a09c83d001a001ff62c2c7231ab77342",
+      "manifest_source_sha256": "6fe1369992e88501d0b2b1aa8da0a363a09c83d001a001ff62c2c7231ab77342",
+      "match": "bytes"
+    },
+    {
+      "file": "native/qtm/include/strong_pdb.hpp",
+      "source_sha256": "d055b5e904b1950e38d92a218d58a590c2a44c3bbee880af06fea19466bb8a14",
+      "manifest_source_sha256": "d055b5e904b1950e38d92a218d58a590c2a44c3bbee880af06fea19466bb8a14",
+      "match": "bytes"
+    },
+    {
+      "file": "native/qtm/include/symmetry.hpp",
+      "source_sha256": "e700fe6fe637e73680ac2e61c8cd3ce9fb51188dfcb1982bc1b784ddd8073f04",
+      "manifest_source_sha256": "f0886a8d5a87ad7ef3cb26cb34ee56fd22470ac32f331e38c7bf0b74a6425c7e",
+      "match": "LF"
+    },
+    {
+      "file": "native/qtm/include/tail.hpp",
+      "source_sha256": "fdf29b49519f5259d16966887acaae9bfcf63158c92e6ebf9ba1e170d4e9c453",
+      "manifest_source_sha256": "fdf29b49519f5259d16966887acaae9bfcf63158c92e6ebf9ba1e170d4e9c453",
+      "match": "bytes"
+    },
+    {
+      "file": "native/qtm/src/cube.cpp",
+      "source_sha256": "3c7501a3e18bace61cab5690c99b7c0b85967c51e946f61c982d41c25a7d6b4a",
+      "manifest_source_sha256": "f94564ac640c96cfe52b18a3d012958271fc08ab7e5eba64b77c49ba9b06ebaf",
+      "match": "LF"
+    },
+    {
+      "file": "native/qtm/src/fast.cpp",
+      "source_sha256": "7e8f7254ca49c9996b6e4cca18734d3db409b394ce0832d8c4d6bab40bf8e1aa",
+      "manifest_source_sha256": "8c771b7a5b9fa95b9e6cd922ddd9c783a12202bcc5b790b29d6f258147d0374a",
+      "match": "LF"
+    },
+    {
+      "file": "native/qtm/src/main.cpp",
+      "source_sha256": "3a20ba5edaf3a43b6140b7314369e6237eac9f7d87ae4778c1b22bf0f97e9cd1",
+      "manifest_source_sha256": "3a20ba5edaf3a43b6140b7314369e6237eac9f7d87ae4778c1b22bf0f97e9cd1",
+      "match": "bytes"
+    },
+    {
+      "file": "native/qtm/src/pdb.cpp",
+      "source_sha256": "0340599ce34eb4fb51b26e2718473e17c25561bb78490cd1fcb9780073e92cee",
+      "manifest_source_sha256": "0340599ce34eb4fb51b26e2718473e17c25561bb78490cd1fcb9780073e92cee",
+      "match": "bytes"
+    },
+    {
+      "file": "native/qtm/src/solver.cpp",
+      "source_sha256": "c06132145d899b7eede4c0da62502ecc525f50c4a80ee4c97d3244cf5350673d",
+      "manifest_source_sha256": "c06132145d899b7eede4c0da62502ecc525f50c4a80ee4c97d3244cf5350673d",
+      "match": "bytes"
+    },
+    {
+      "file": "native/qtm/src/strong_coords.cpp",
+      "source_sha256": "ac34abc3c45132bdad8b85a0f6282b33792bd8b60e8db0599afd9425fa9231f6",
+      "manifest_source_sha256": "ac34abc3c45132bdad8b85a0f6282b33792bd8b60e8db0599afd9425fa9231f6",
+      "match": "bytes"
+    },
+    {
+      "file": "native/qtm/src/strong_pdb.cpp",
+      "source_sha256": "aa40a3e02106a1d744ba33023a7264f095c6920626f881a2305cd5c3228e7f15",
+      "manifest_source_sha256": "aa40a3e02106a1d744ba33023a7264f095c6920626f881a2305cd5c3228e7f15",
+      "match": "bytes"
+    },
+    {
+      "file": "native/qtm/src/symmetry.cpp",
+      "source_sha256": "a360e07b2c672999bc5c4f2ea9fa14945d8daf2f2080213e45efba952f6b9f2b",
+      "manifest_source_sha256": "127018d567461c8fff4767d4f625893942c3ee69b5bc4d920bfd73f4e6bcc186",
+      "match": "LF"
+    },
+    {
+      "file": "native/qtm/src/tail.cpp",
+      "source_sha256": "a622f7fe538f38031853f254c50ac1e04ade1c72468e7205d7abe7f73eeb297c",
+      "manifest_source_sha256": "a622f7fe538f38031853f254c50ac1e04ade1c72468e7205d7abe7f73eeb297c",
+      "match": "bytes"
+    }
+  ],
+  "asset_audit": [
+    {
+      "name": "corner",
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb",
+      "manifest_match": "assets/qtm/v1/corner_htm_v2.pdb"
+    },
+    {
+      "name": "phase1",
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f",
+      "manifest_match": "assets/qtm/v1/phase1_sym_htm_v2.pdb"
+    },
+    {
+      "name": "tail",
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74",
+      "manifest_match": "assets/qtm/v1/tail_depth6_v4.pdb"
+    },
+    {
+      "name": "qtm_corner",
+      "bytes": 88179920,
+      "sha256": "070f1314a7b68955ed3e84a3de5b6e2ede20385f0775a334ec9f1d470f0e08d0",
+      "manifest_match": "assets/qtm/v1/corner_qtm_v3.pdb"
+    },
+    {
+      "name": "qtm_phase1",
+      "bytes": 140908490,
+      "sha256": "7606158cd7ccb4c1d49db7aab45fe25fbad21580aab8742648ae3e29567e6a11",
+      "manifest_match": "assets/qtm/v1/phase1_qtm_v3.pdb"
+    },
+    {
+      "name": "strong",
+      "bytes": 1764716840,
+      "sha256": "12de7580c0b59728fdb559bc0eb1c50adf9e724ec681b1bfb144efe392829e9c",
+      "manifest_match": "assets/qtm/v1/strong_qtm_v4_nibble.pdb"
+    },
+    {
+      "name": "qtm_tail",
+      "bytes": 1677721664,
+      "sha256": "35e3d345cd16e3efa16ceecb398b583f825d66a4e42dbc1856466338353a1687",
+      "manifest_match": "assets/qtm/v1/tail_qtm_depth8_v5.pdb"
+    }
+  ],
+  "tests": {
+    "passed": 39,
+    "failed": 1,
+    "failures": [
+      {
+        "classname": "tests.test_version.VersionTests",
+        "name": "test_python_metadata_uses_the_canonical_version",
+        "message": "AssertionError: '1.6.2' != '1.9.0'\n- 1.6.2\n+ 1.9.0"
+      }
+    ],
+    "command": ".venv/Scripts/python.exe -m pytest -q tests/test_qtm_speed_contract.py tests/test_isolation_contract.py tests/test_search_lifecycle.py tests/test_version.py -p no:cacheprovider --junitxml=.cache/qtm-review-2026-10-01/contracts.xml"
+  },
+  "heuristic_oracle": {
+    "ok": true,
+    "checked": 1195,
+    "depth": 3,
+    "metric": "QTM",
+    "command": "native/qtm/build/cube_solver_qtm.exe check-heuristic --metric QTM --depth 3 --pdb assets/qtm/v1/corner_qtm_v3.pdb --phase1-pdb assets/qtm/v1/phase1_qtm_v3.pdb --strong-pdb assets/qtm/v1/strong_qtm_v4_nibble.pdb"
+  },
+  "fixed_layers": [
+    {
+      "name": "pgo16",
+      "facelets": "RFLLURLRRDFULRRBDLUBFUFULDRDLDRDBFFDUBFULFRUBBLBDBBFDU",
+      "requested_cost": 19,
+      "median_wall_seconds": 1.5460870999959297,
+      "runs": [
+        {
+          "repeat": 0,
+          "wall_seconds": 1.556574999995064,
+          "fixed_layer": {
+            "completed_depth": 20,
+            "nodes": 9367869,
+            "split_nodes": 7359,
+            "generated_candidates": 125074875,
+            "phase1_queries": 0,
+            "corner_queries": 9586779,
+            "strong_queries": 184723314,
+            "elapsed_seconds": 1.555967
+          }
+        },
+        {
+          "repeat": 1,
+          "wall_seconds": 1.5270280000040657,
+          "fixed_layer": {
+            "completed_depth": 20,
+            "nodes": 9367881,
+            "split_nodes": 7185,
+            "generated_candidates": 125074875,
+            "phase1_queries": 0,
+            "corner_queries": 9586542,
+            "strong_queries": 184722603,
+            "elapsed_seconds": 1.526401
+          }
+        },
+        {
+          "repeat": 2,
+          "wall_seconds": 1.5460870999959297,
+          "fixed_layer": {
+            "completed_depth": 20,
+            "nodes": 9367858,
+            "split_nodes": 7479,
+            "generated_candidates": 125074875,
+            "phase1_queries": 0,
+            "corner_queries": 9586810,
+            "strong_queries": 184723407,
+            "elapsed_seconds": 1.54549
+          }
+        }
+      ]
+    },
+    {
+      "name": "known18",
+      "facelets": "UDBBURFBBUFULRUBFFDLLRFFDLDRULLDDRRDFRLULUUDBRBLBBFRDF",
+      "requested_cost": 18,
+      "median_wall_seconds": 0.16734280000673607,
+      "runs": [
+        {
+          "repeat": 0,
+          "wall_seconds": 0.16734280000673607,
+          "fixed_layer": {
+            "completed_depth": 19,
+            "nodes": 1023351,
+            "split_nodes": 5001,
+            "generated_candidates": 13660095,
+            "phase1_queries": 0,
+            "corner_queries": 1053466,
+            "strong_queries": 20305901,
+            "elapsed_seconds": 0.166717
+          }
+        },
+        {
+          "repeat": 1,
+          "wall_seconds": 0.16724030000477796,
+          "fixed_layer": {
+            "completed_depth": 19,
+            "nodes": 1023335,
+            "split_nodes": 5202,
+            "generated_candidates": 13660095,
+            "phase1_queries": 0,
+            "corner_queries": 1053484,
+            "strong_queries": 20305955,
+            "elapsed_seconds": 0.166675
+          }
+        },
+        {
+          "repeat": 2,
+          "wall_seconds": 0.17575409999699332,
+          "fixed_layer": {
+            "completed_depth": 19,
+            "nodes": 1023343,
+            "split_nodes": 5136,
+            "generated_candidates": 13660095,
+            "phase1_queries": 0,
+            "corner_queries": 1053715,
+            "strong_queries": 20306648,
+            "elapsed_seconds": 0.175102
+          }
+        }
+      ]
+    }
+  ],
+  "http_diagnostic": [
+    {
+      "loading": "staged",
+      "case": {
+        "name": "initial-12",
+        "cube_size": 3,
+        "face_order": "URFDLB",
+        "faces": {
+          "U": "FRUFUDBRF",
+          "R": "LBBFRURRB",
+          "F": "LUUBFDDBB",
+          "D": "FRULDDDLR",
+          "L": "UUDULLFFR",
+          "B": "LFRLBBDDL"
+        },
+        "facelets": "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+        "reference_source": "Six detected face grids visually checked in docs/benchmarks/initial12-reference-grid.png; color classifier agrees; legal cubie state",
+        "image_paths": [
+          "initial/U12.jpg",
+          "initial/R12.jpg",
+          "initial/F12.jpg",
+          "initial/D12.jpg",
+          "initial/L12.jpg",
+          "initial/B12.jpg"
+        ]
+      },
+      "scope": "source HTTP; 100 ms observer polling; not production browser or release ZIP",
+      "cold_or_warm": "new process; OS file cache not cleared; prior asset reads",
+      "settings": {
+        "CUBE_QTM_ASSET_PROFILE": "strong",
+        "CUBE_QTM_STRONG_FORMAT": "nibble",
+        "CUBE_NATIVE_ASSET_LOADING": "staged",
+        "CUBE_QTM_REUSE": "off",
+        "CUBE_QTM_STRONG_UPGRADE": "boundary",
+        "CUBE_QTM_STRONG_SLICE": "keep",
+        "CUBE_QTM_PREFETCH": "off",
+        "CUBE_QTM_LOADER_THREADS": "4",
+        "CUBE_QTM_LOADER_BUDGET": "shared",
+        "CUBE_NATIVE_EDGE_PDBS": "off",
+        "CUBE_QTM_BASE_IDLE_BYTES": "1073741824",
+        "CUBE_QTM_STRONG_IDLE_BYTES": "8589934592",
+        "CUBE_QTM_MEMORY_RESERVE_BYTES": "2147483648"
+      },
+      "threads": 15,
+      "timeout_seconds": 30,
+      "binary_sha256": "e74002b9c7c03506d28d12ff2dc122cb95d904349666497253c605181f3316df",
+      "status": "complete",
+      "optimal": true,
+      "startup_seconds": 1.5469999999986612,
+      "first_candidate_seconds": 1.5469999999986612,
+      "strong_ready_seconds": 9.10899999999674,
+      "strong_adopted_seconds": null,
+      "tail_ready_seconds": 9.577999999994063,
+      "tail_adopted_seconds": null,
+      "native_search_seconds": 25.566233,
+      "request_elapsed_seconds": 27.452999999994063,
+      "asset_profile": "base",
+      "candidate_result": {
+        "moves": [
+          "F'",
+          "U",
+          "B'",
+          "L2",
+          "U'",
+          "B",
+          "U",
+          "D",
+          "B'",
+          "U",
+          "D'",
+          "B'",
+          "U",
+          "L",
+          "F'",
+          "R2",
+          "B'",
+          "U2",
+          "B'",
+          "F2"
+        ],
+        "solution": "F' U B' L2 U' B U D B' U D' B' U L F' R2 B' U2 B' F2",
+        "depth": 24,
+        "cost": 24,
+        "metric": "QTM",
+        "optimal": false,
+        "status": "candidate",
+        "asset_profile": "base"
+      },
+      "result": {
+        "moves": [
+          "L'",
+          "D",
+          "L",
+          "D",
+          "U",
+          "B'",
+          "R'",
+          "F'",
+          "D",
+          "U'",
+          "L'",
+          "R'",
+          "D",
+          "U2",
+          "R",
+          "D",
+          "L'",
+          "B'",
+          "R'"
+        ],
+        "solution": "L' D L D U B' R' F' D U' L' R' D U2 R D L' B' R'",
+        "depth": 20,
+        "metric": "QTM",
+        "status": "complete",
+        "optimal": true,
+        "inverse_direction": true,
+        "elapsed_seconds": 25.566233,
+        "nodes": 172781345,
+        "split_nodes": 5631,
+        "tail_queries": 0,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 0,
+        "tail_probes": 0,
+        "tail_hits": 0,
+        "completed_depth": 19,
+        "generated_candidates": 2306161206,
+        "phase1_queries": 3529185738,
+        "corner_queries": 203487751,
+        "candidate_phase1_nodes": 12066214,
+        "candidate_phase2_nodes": 561754,
+        "candidate_worker_done_seconds": 3.00171,
+        "proof_worker_return_seconds": 3.024568,
+        "proof_worker_busy_seconds": 334.021,
+        "engine": "native-cpp",
+        "asset_profile": "base",
+        "cost": 20,
+        "engine_id": "qtm-native",
+        "engine_version": "1.9.0"
+      },
+      "generated_candidates": 2306161206,
+      "strong_queries": 0,
+      "tail_queries": 0,
+      "longest_task_seconds": 13.762981,
+      "replay": {
+        "solved": true,
+        "cost": 20
+      },
+      "broker_after_cleanup": {
+        "threads": 15,
+        "htm_holders": 0,
+        "qtm_active": false,
+        "qtm_resident": false,
+        "last_yield_seconds": 0.0,
+        "yield_faults": 0
+      }
+    },
+    {
+      "loading": "eager",
+      "case": {
+        "name": "initial-12",
+        "cube_size": 3,
+        "face_order": "URFDLB",
+        "faces": {
+          "U": "FRUFUDBRF",
+          "R": "LBBFRURRB",
+          "F": "LUUBFDDBB",
+          "D": "FRULDDDLR",
+          "L": "UUDULLFFR",
+          "B": "LFRLBBDDL"
+        },
+        "facelets": "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+        "reference_source": "Six detected face grids visually checked in docs/benchmarks/initial12-reference-grid.png; color classifier agrees; legal cubie state",
+        "image_paths": [
+          "initial/U12.jpg",
+          "initial/R12.jpg",
+          "initial/F12.jpg",
+          "initial/D12.jpg",
+          "initial/L12.jpg",
+          "initial/B12.jpg"
+        ]
+      },
+      "scope": "source HTTP; 100 ms observer polling; not production browser or release ZIP",
+      "cold_or_warm": "new process; OS file cache not cleared; prior asset reads",
+      "settings": {
+        "CUBE_QTM_ASSET_PROFILE": "strong",
+        "CUBE_QTM_STRONG_FORMAT": "nibble",
+        "CUBE_NATIVE_ASSET_LOADING": "eager",
+        "CUBE_QTM_REUSE": "off",
+        "CUBE_QTM_STRONG_UPGRADE": "boundary",
+        "CUBE_QTM_STRONG_SLICE": "keep",
+        "CUBE_QTM_PREFETCH": "off",
+        "CUBE_QTM_LOADER_THREADS": "4",
+        "CUBE_QTM_LOADER_BUDGET": "shared",
+        "CUBE_NATIVE_EDGE_PDBS": "off",
+        "CUBE_QTM_BASE_IDLE_BYTES": "1073741824",
+        "CUBE_QTM_STRONG_IDLE_BYTES": "8589934592",
+        "CUBE_QTM_MEMORY_RESERVE_BYTES": "2147483648"
+      },
+      "threads": 15,
+      "timeout_seconds": 30,
+      "binary_sha256": "e74002b9c7c03506d28d12ff2dc122cb95d904349666497253c605181f3316df",
+      "status": "complete",
+      "optimal": true,
+      "startup_seconds": 9.578000000001339,
+      "first_candidate_seconds": 9.593000000000757,
+      "strong_ready_seconds": 9.447540000001027,
+      "strong_adopted_seconds": 9.578000000001339,
+      "tail_ready_seconds": 9.57789000000048,
+      "tail_adopted_seconds": 9.578000000001339,
+      "native_search_seconds": 7.39523,
+      "request_elapsed_seconds": 17.31199999999808,
+      "asset_profile": "strong",
+      "candidate_result": {
+        "moves": [
+          "F'",
+          "U",
+          "B'",
+          "L2",
+          "U'",
+          "B",
+          "U",
+          "D",
+          "B'",
+          "U",
+          "D'",
+          "B'",
+          "U",
+          "L",
+          "F'",
+          "R2",
+          "B'",
+          "U2",
+          "B'",
+          "F2"
+        ],
+        "solution": "F' U B' L2 U' B U D B' U D' B' U L F' R2 B' U2 B' F2",
+        "depth": 24,
+        "cost": 24,
+        "metric": "QTM",
+        "optimal": false,
+        "status": "candidate",
+        "asset_profile": "strong"
+      },
+      "result": {
+        "moves": [
+          "L'",
+          "D",
+          "L",
+          "U",
+          "D",
+          "B'",
+          "R'",
+          "F'",
+          "U'",
+          "D",
+          "R'",
+          "L'",
+          "D",
+          "U'",
+          "U'",
+          "R",
+          "D",
+          "L'",
+          "B'",
+          "R'"
+        ],
+        "solution": "L' D L U D B' R' F' U' D R' L' D U' U' R D L' B' R'",
+        "depth": 20,
+        "metric": "QTM",
+        "status": "complete",
+        "optimal": true,
+        "inverse_direction": false,
+        "elapsed_seconds": 7.39523,
+        "nodes": 43117394,
+        "split_nodes": 5754,
+        "tail_queries": 1005,
+        "tail_bloom_rejects": 948,
+        "tail_exact_queries": 57,
+        "tail_probes": 250,
+        "tail_hits": 1,
+        "completed_depth": 19,
+        "generated_candidates": 575579201,
+        "phase1_queries": 0,
+        "corner_queries": 44213931,
+        "candidate_phase1_nodes": 9698902,
+        "candidate_phase2_nodes": 561578,
+        "candidate_worker_done_seconds": 3.014607,
+        "proof_worker_return_seconds": 3.180182,
+        "proof_worker_busy_seconds": 104.523,
+        "engine": "native-cpp",
+        "asset_profile": "strong",
+        "cost": 20,
+        "engine_id": "qtm-native",
+        "engine_version": "1.9.0"
+      },
+      "generated_candidates": 575579201,
+      "strong_queries": 862603530,
+      "tail_queries": 1005,
+      "longest_task_seconds": 2.782945,
+      "replay": {
+        "solved": true,
+        "cost": 20
+      },
+      "broker_after_cleanup": {
+        "threads": 15,
+        "htm_holders": 0,
+        "qtm_active": false,
+        "qtm_resident": false,
+        "last_yield_seconds": 0.0,
+        "yield_faults": 0
+      }
+    }
+  ],
+  "eager_request_time_reduction_fraction": 0.36939496594172505,
+  "limitations": [
+    "Each loading mode used one run of initial-12, staged then eager, both new processes.",
+    "No OS cache flush, no locked CPU frequency, no statistically supported cross-version speedup.",
+    "This is HTTP source probing with 100 ms polling, not production browser or packaged-release validation.",
+    "Loading mode also changes effective loader concurrency, search direction and the solution-ending search tree.",
+    "Tests and native performance runs were sequential; no concurrent tests or builds during timed search.",
+    "The preserved HTTP probe differs from the executed copy only in automatic repository-root discovery and lint-only import comments."
+  ],
+  "evidence_files": {
+    "fixed-layers.json": {
+      "bytes": 310112,
+      "sha256": "c15e5347e60980c4e0d033728f02084a148a81690a94b5c59a3deb007fb2f8b0"
+    },
+    "http-staged.json": {
+      "bytes": 670461,
+      "sha256": "b779ba32dbbb9fee75693d1f78f78de4def746d6cc90dc3f2e9718c1f48dcaef"
+    },
+    "http-eager.json": {
+      "bytes": 228433,
+      "sha256": "b82453dfe8438c27d8aa88356d65fe150d78c8c28bb0d98f6a37d8d2356792b2"
+    },
+    "contracts.xml": {
+      "bytes": 5887,
+      "sha256": "2b70957ed84749afdac438ec51e1421a70f0d2d4817856bf9064b08a6bc53cc7"
+    },
+    "http_probe.py": {
+      "bytes": 4626,
+      "sha256": "bce92ef0fe3cc53a8c39b052cedb9618acba260ff822e714590f1f82cd023cff"
+    }
+  }
+}

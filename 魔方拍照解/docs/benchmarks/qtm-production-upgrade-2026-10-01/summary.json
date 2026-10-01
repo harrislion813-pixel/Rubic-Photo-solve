@@ -1,0 +1,193 @@
+{
+  "date": "2026-10-01",
+  "scope": "first planned upgrade package; experimental QTM; no broad qualification",
+  "reference_machine": {
+    "cpu": "AMD Ryzen 7 9700X",
+    "physical_cores": 8,
+    "logical_processors": 16,
+    "threads": 15,
+    "memory_gib": 32,
+    "os": "Windows 11 26200"
+  },
+  "hot_fixed_pair": {
+    "pgo16": {
+      "median_seconds": {
+        "baseline": 1.4447852999992392,
+        "current": 1.4502973999997266
+      },
+      "current_over_baseline": 1.0038151689392814,
+      "generated_candidates": 125074875,
+      "completed_depth": [
+        20
+      ]
+    },
+    "known18": {
+      "median_seconds": {
+        "baseline": 0.15793670000039128,
+        "current": 0.15762809999978344
+      },
+      "current_over_baseline": 0.9980460526235696,
+      "generated_candidates": 13660095,
+      "completed_depth": [
+        19
+      ]
+    }
+  },
+  "package_cases": [
+    {
+      "case": "initial-1",
+      "page_wall_seconds": 17.093323599999998,
+      "page_first_candidate_seconds": 1.796299999999814,
+      "strict_proof_verified": true,
+      "cost": 22,
+      "replays": [
+        {
+          "solved": true,
+          "cost": 24,
+          "optimal_claim": false
+        },
+        {
+          "solved": true,
+          "cost": 22,
+          "optimal_claim": true
+        }
+      ],
+      "first_candidate_seconds": 0.9219999999995707,
+      "strong_ready_seconds": 1.780999999999949,
+      "strong_adopted_seconds": 1.7969999999995707,
+      "tail_adopted_seconds": 2.094000000000051,
+      "request_elapsed_seconds": 16.17199999999957,
+      "asset_profile": "strong"
+    },
+    {
+      "case": "initial-12",
+      "page_wall_seconds": 7.9283459,
+      "page_first_candidate_seconds": 1.7732000000001866,
+      "strict_proof_verified": true,
+      "cost": 20,
+      "replays": [
+        {
+          "solved": true,
+          "cost": 24,
+          "optimal_claim": false
+        },
+        {
+          "solved": true,
+          "cost": 20,
+          "optimal_claim": true
+        }
+      ],
+      "first_candidate_seconds": 0.8280000000004293,
+      "strong_ready_seconds": 1.719000000000051,
+      "strong_adopted_seconds": 1.7340000000003783,
+      "tail_adopted_seconds": 2.0780000000004293,
+      "request_elapsed_seconds": 7.655999999999949,
+      "asset_profile": "strong"
+    }
+  ],
+  "package_identity": {
+    "archive": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\qtm-production\\候选包\\RubicPhotoSolve-1.9.0-QtmStrong-windows-x64.zip",
+    "archive_sha256": "fe660398348c36f9f2caa181e828042dfd91dec408912b78928588a15c5af480",
+    "package": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\qtm-production\\验收 魔方\\RubicPhotoSolve",
+    "manifest": {
+      "status": "verified",
+      "profile": "QtmStrong",
+      "files": 19
+    },
+    "launcher_sha256": "553ff0441d9e0627a97f414ee994bc7c1de5c29323250a9b6724c340a7d7fb1c",
+    "exe_sha256": "558c45b50e36e589618b2534c07864be83e1ae7810791ac8cc31c0ef893cd988",
+    "native_builds": {
+      "htm": {
+        "compiler": "g++.exe (Rev5, Built by MSYS2 project) 16.1.0",
+        "flags": "-std=c++20 -O3 -march=x86-64 -mtune=generic -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode",
+        "portable": true,
+        "profile_guided": false,
+        "built_at": "2026-10-01T04:42:57.2421764Z",
+        "binary_sha256": "E6C0574CDECCE36A30CFE572BB6A13A47228247C1FE05F520E77992D5F107797",
+        "source_sha256": {
+          "pdb.hpp": "5CBD76D0125E1F2510EC536E16468804A3D7AC9AB752853FB5B4919C66274428",
+          "cube.cpp": "3C7501A3E18BACE61CAB5690C99B7C0B85967C51E946F61C982D41C25A7D6B4A",
+          "solver.hpp": "188234AD4D6585CF7CD7FEE02F4754BC236ACAC88E481D03DC317645FBF0FD64",
+          "pdb.cpp": "03FB90E8F656C26974E59FF6FCB8EDB4DF999025E1FF88528688BC3D97B4793A",
+          "solver.cpp": "5E0445466519FC1692BE718A0434203368B5CD9D23CC93C7A884CBD55D00C875",
+          "paths.hpp": "567C2D959576F77D234DF379130B4DB20C0BBE91A45088590158D9A4F05B845F",
+          "tail.cpp": "EC479533CF48E61E58857B184142B8B2AABBDC134E3E719A32746EE69522135B",
+          "symmetry.hpp": "25EA953FC6A8FD7AA91CEE2456116419348135F8BC2205FDC825711306C37FE4",
+          "cube.hpp": "1F98383CB71CB16E5B0B8C0BC52CD221F9CA3A02A31CFCFEAC33DCDDE805B83E",
+          "symmetry.cpp": "A350071E2187A539BFC3028C0147EB63AB95EC8827B3F421EE6F7866A6F94BCF",
+          "main.cpp": "D9F5911BEC72EBC6FBB0DA9A45167E1654815B0F02293D44B6F93CF663600B84",
+          "tail.hpp": "5095E0E59025D44DD9D9C05A8D104DF180A90C3993DB18C4153B56840CD94F2A"
+        }
+      },
+      "qtm": {
+        "compiler": "g++.exe (Rev5, Built by MSYS2 project) 16.1.0",
+        "flags": "-std=c++20 -O3 -march=x86-64 -mtune=generic -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode",
+        "portable": true,
+        "profile_guided": false,
+        "built_at": "2026-10-01T04:23:13.3561678Z",
+        "binary_sha256": "8C2912C43E267EA32AC9DAEA77902BC2258D91EF35F6A456E92C165734D5376A",
+        "source_sha256": {
+          "strong_coords.hpp": "6FE1369992E88501D0B2B1AA8DA0A363A09C83D001A001FF62C2C7231AB77342",
+          "symmetry.cpp": "A360E07B2C672999BC5C4F2EA9FA14945D8DAF2F2080213E45EFBA952F6B9F2B",
+          "paths.hpp": "567C2D959576F77D234DF379130B4DB20C0BBE91A45088590158D9A4F05B845F",
+          "solver.cpp": "A6E650DCB665CD48A43E2541CC734DAB351BBE49103A7BA12630F96FDEB1B51D",
+          "main.cpp": "81189452CBB974BB494C121051A5945CBD44959FE227687BB747875FF4FC240E",
+          "tail.cpp": "A622F7FE538F38031853F254C50AC1E04ADE1C72468E7205D7ABE7F73EEB297C",
+          "pdb.cpp": "0340599CE34EB4FB51B26E2718473E17C25561BB78490CD1FCB9780073E92CEE",
+          "cube.hpp": "1F98383CB71CB16E5B0B8C0BC52CD221F9CA3A02A31CFCFEAC33DCDDE805B83E",
+          "pdb.hpp": "D272129C84249B94E163A29EA415BF2C495E9F514AEA0F659D273FAB6614631E",
+          "symmetry.hpp": "E700FE6FE637E73680AC2E61C8CD3CE9FB51188DFCB1982BC1B784DDD8073F04",
+          "tail.hpp": "FDF29B49519F5259D16966887ACAAE9BFCF63158C92E6EBF9BA1E170D4E9C453",
+          "strong_pdb.cpp": "3E4A1C4FE65F3D778210226FB0C3A6C72B2FF1C12013DEE0D5D4F900EC6120AF",
+          "strong_coords.cpp": "AC34ABC3C45132BDAD8B85A0F6282B33792BD8B60E8DB0599AFD9425FA9231F6",
+          "strong_pdb.hpp": "C168B95419DDDC6F978130FC6BA9CCAECAEF47CBCBD7FCB1562AB194DA964870",
+          "fast.cpp": "7E8F7254CA49C9996B6E4CCA18734D3DB409B394CE0832D8C4D6BAB40BF8E1AA",
+          "metric.hpp": "C3A9AE9DB86AB3AB35EC4564502060D81CD8871B4856C975E735A5B51CCF1BE3",
+          "solver.hpp": "42336F4BD8025E21EE8A84495A246BFCE758659A0FB3E2CD434641BE450F0765",
+          "fast.hpp": "A19D06A1BE56CD1E0238CE960E3E558E8BFE7179D68CDA24A02CFAA3022906EF",
+          "cube.cpp": "3C7501A3E18BACE61CAB5690C99B7C0B85967C51E946F61C982D41C25A7D6B4A",
+          "loader.hpp": "FAC4CCD5DDFB7339430ABC9B5140AB4A122D50DD23A3E08F1C91E65115BAD28E"
+        }
+      }
+    },
+    "source_identity_verified": true
+  },
+  "evidence_files": [
+    "baseline-contracts.xml",
+    "baseline-fixed.json",
+    "baseline-http.json",
+    "baseline-identity.json",
+    "contracts.xml",
+    "current-fixed.json",
+    "final-fixed-pair-preflight.json",
+    "final-fixed-pair.json",
+    "final-identity.json",
+    "final-native-bounded.xml",
+    "final-native-gates.xml",
+    "final-python-coverage.xml",
+    "htm-bounded-gates.xml",
+    "initial-1-mobile.png",
+    "initial-12-desktop.png",
+    "lifecycle-first-attempt.json",
+    "lifecycle.json",
+    "loading-scans.json",
+    "native-full-gates.xml",
+    "native-gates.xml",
+    "package-identity.json",
+    "package-page.json",
+    "package-source-manifest.json",
+    "pre-package-identity.json",
+    "python-tests.xml",
+    "scanned-strong-first-8-http.json",
+    "scanned-strong-first-http.json",
+    "strong-first-http.json",
+    "strong-gate.xml",
+    "summary.json"
+  ],
+  "limitations": [
+    "OS disk cache not cleared",
+    "one cold request per configuration/state; no population success rate",
+    "no 12-state qualification or second hardware target",
+    "no PGO or new pruning/PDB introduced"
+  ]
+}

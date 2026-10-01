@@ -9,6 +9,7 @@ import socket
 import threading
 import time
 import uuid
+import importlib.util
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -65,6 +66,27 @@ def qtm_installed() -> bool:
         and (assets / "corner_qtm_v3.pdb").is_file()
         and (assets / "phase1_qtm_v3.pdb").is_file()
     )
+
+
+def qtm_module_installed() -> bool:
+    try:
+        return importlib.util.find_spec("cube_app.solvers.qtm") is not None
+    except (ImportError, ValueError):
+        return False
+
+
+def qtm_capabilities() -> dict:
+    assets = ROOT / "assets" / "qtm" / "v1"
+    exact = ROOT / ".cache" / "qtm" / "two_by_two_qtm_v1.bin"
+    return {
+        "2": {"available": qtm_module_installed(), "profile": "exact-2x2",
+              "asset_state": "unverified" if exact.is_file() else "not_loaded", "adopted_profile": None},
+        "3": {"available": qtm_installed(),
+              "base_asset_state": "unverified" if qtm_installed() else "missing",
+              "strong_asset_state": "unverified" if any((assets / name).is_file() for name in
+                                     ("strong_qtm_v4_nibble.pdb", "strong_qtm_v3.pdb")) else "missing",
+              "adopted_profile": None},
+    }
 
 
 class JobCapacityError(RuntimeError):
@@ -314,12 +336,13 @@ class AppHandler(BaseHTTPRequestHandler):
         if path == "/api/capabilities":
             qtm_available = qtm_installed()
             self._send_json({"ok": True, "HTM": True, "QTM": qtm_available,
-                             "QTM_status": "experimental" if qtm_available else "unavailable"})
+                             "QTM_status": "stable" if qtm_available else "unavailable",
+                             "QTM_sizes": qtm_capabilities()})
             return
         if path.startswith("/api/solve/"):
             job_id = path.removeprefix("/api/solve/").strip("/")
             if job_id.startswith("qtm-"):
-                if not qtm_installed():
+                if not qtm_module_installed():
                     self._send_json({"ok": False, "error": "求解任务不存在或已过期"}, status=404)
                     return
                 from cube_app.solvers.qtm.backend import BACKEND
@@ -375,7 +398,7 @@ class AppHandler(BaseHTTPRequestHandler):
         if parsed.path.startswith("/api/solve/") and parsed.path.endswith("/cancel"):
             job_id = parsed.path.removeprefix("/api/solve/").removesuffix("/cancel").strip("/")
             if job_id.startswith("qtm-"):
-                if not qtm_installed():
+                if not qtm_module_installed():
                     self._send_json({"ok": False, "error": "求解任务不存在或已过期"}, status=404)
                     return
                 from cube_app.solvers.qtm.backend import BACKEND
@@ -473,16 +496,16 @@ class AppHandler(BaseHTTPRequestHandler):
                 raise ValueError("timeout_seconds 必须在 0.1 到 3600 秒之间。")
             deadline = None if timeout_seconds is None else request_started + timeout_seconds
             if metric == "QTM":
-                if not qtm_installed():
+                if not qtm_module_installed() or (cube_size == 3 and not qtm_installed()):
                     self._send_json({"ok": False, "metric": "QTM",
-                                     "error": "QTM 实验组件未安装。"}, status=503)
+                                     "error": "QTM 组件未安装，请按 README 生成运行表或使用完整便携包。"}, status=503)
                     return
-                from cube_app.solvers.qtm.backend import BACKEND, QtmUnavailable
+                from cube_app.solvers.qtm.backend import BACKEND, QtmUnavailable, QtmJobCapacityError
 
                 try:
                     result = BACKEND.submit(facelets, cube_size, max_depth, timeout_seconds,
                                             started=request_started)
-                except QtmUnavailable as exc:
+                except (QtmUnavailable, QtmJobCapacityError) as exc:
                     self._send_json({"ok": False, "metric": "QTM", "error": str(exc)}, status=503)
                     return
                 self._send_json(result)

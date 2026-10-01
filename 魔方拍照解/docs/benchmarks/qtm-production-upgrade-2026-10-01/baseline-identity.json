@@ -1,0 +1,125 @@
+{
+  "head": "931662805df003aeaeadad419fe10296961c94d2",
+  "status": "?? docs/benchmarks/qtm-production-review-2026-10-01/\n?? docs/qtm-optimization-review-2026-09-30.md\n?? docs/qtm-production-readiness-plan-2026-10-01.md\n?? tests/freeze_qtm_production.py",
+  "system": "Windows-11-10.0.26200-SP0",
+  "files": {
+    "native\\qtm\\build\\cube_solver_qtm.exe": {
+      "bytes": 4144460,
+      "sha256": "e74002b9c7c03506d28d12ff2dc122cb95d904349666497253c605181f3316df"
+    },
+    "native\\qtm\\build\\build-info.json": null,
+    "asset-manifest.json": {
+      "bytes": 12370,
+      "sha256": "4d6b347fa8742db2e41aa22fa4c43edf9943a2d1cc4cf48b1ee036baf804e185"
+    },
+    "native\\qtm\\src\\cube.cpp": {
+      "bytes": 19343,
+      "sha256": "3c7501a3e18bace61cab5690c99b7c0b85967c51e946f61c982d41c25a7d6b4a"
+    },
+    "native\\qtm\\src\\fast.cpp": {
+      "bytes": 19116,
+      "sha256": "7e8f7254ca49c9996b6e4cca18734d3db409b394ce0832d8c4d6bab40bf8e1aa"
+    },
+    "native\\qtm\\src\\main.cpp": {
+      "bytes": 82252,
+      "sha256": "3a20ba5edaf3a43b6140b7314369e6237eac9f7d87ae4778c1b22bf0f97e9cd1"
+    },
+    "native\\qtm\\src\\pdb.cpp": {
+      "bytes": 63514,
+      "sha256": "0340599ce34eb4fb51b26e2718473e17c25561bb78490cd1fcb9780073e92cee"
+    },
+    "native\\qtm\\src\\solver.cpp": {
+      "bytes": 104208,
+      "sha256": "c06132145d899b7eede4c0da62502ecc525f50c4a80ee4c97d3244cf5350673d"
+    },
+    "native\\qtm\\src\\strong_coords.cpp": {
+      "bytes": 8068,
+      "sha256": "ac34abc3c45132bdad8b85a0f6282b33792bd8b60e8db0599afd9425fa9231f6"
+    },
+    "native\\qtm\\src\\strong_pdb.cpp": {
+      "bytes": 38020,
+      "sha256": "aa40a3e02106a1d744ba33023a7264f095c6920626f881a2305cd5c3228e7f15"
+    },
+    "native\\qtm\\src\\symmetry.cpp": {
+      "bytes": 20203,
+      "sha256": "a360e07b2c672999bc5c4f2ea9fa14945d8daf2f2080213e45efba952f6b9f2b"
+    },
+    "native\\qtm\\src\\tail.cpp": {
+      "bytes": 38757,
+      "sha256": "a622f7fe538f38031853f254c50ac1e04ade1c72468e7205d7abe7f73eeb297c"
+    },
+    "native\\qtm\\include\\cube.hpp": {
+      "bytes": 3361,
+      "sha256": "1f98383cb71cb16e5b0b8c0bc52cd221f9ca3a02a31cfcfeac33dcdde805b83e"
+    },
+    "native\\qtm\\include\\fast.hpp": {
+      "bytes": 1297,
+      "sha256": "a19d06a1be56cd1e0238ce960e3e558e8bfe7179d68cda24a02cfaa3022906ef"
+    },
+    "native\\qtm\\include\\loader.hpp": {
+      "bytes": 2079,
+      "sha256": "fac4ccd5ddfb7339430abc9b5140ab4a122d50dd23a3e08f1c91e65115bad28e"
+    },
+    "native\\qtm\\include\\metric.hpp": {
+      "bytes": 474,
+      "sha256": "c3a9ae9db86ab3ab35ec4564502060d81cd8871b4856c975e735a5b51ccf1be3"
+    },
+    "native\\qtm\\include\\paths.hpp": {
+      "bytes": 448,
+      "sha256": "567c2d959576f77d234df379130b4db20c0bbe91a45088590158d9a4f05b845f"
+    },
+    "native\\qtm\\include\\pdb.hpp": {
+      "bytes": 5215,
+      "sha256": "d272129c84249b94e163a29ea415bf2c495e9f514aea0f659d273fab6614631e"
+    },
+    "native\\qtm\\include\\solver.hpp": {
+      "bytes": 12935,
+      "sha256": "fa1967c96b7d4dee12a35e9a058ecd53b307b0e89197dba086e346c2b31d5058"
+    },
+    "native\\qtm\\include\\strong_coords.hpp": {
+      "bytes": 2118,
+      "sha256": "6fe1369992e88501d0b2b1aa8da0a363a09c83d001a001ff62c2c7231ab77342"
+    },
+    "native\\qtm\\include\\strong_pdb.hpp": {
+      "bytes": 2801,
+      "sha256": "d055b5e904b1950e38d92a218d58a590c2a44c3bbee880af06fea19466bb8a14"
+    },
+    "native\\qtm\\include\\symmetry.hpp": {
+      "bytes": 2712,
+      "sha256": "e700fe6fe637e73680ac2e61c8cd3ce9fb51188dfcb1982bc1b784ddd8073f04"
+    },
+    "native\\qtm\\include\\tail.hpp": {
+      "bytes": 1998,
+      "sha256": "fdf29b49519f5259d16966887acaae9bfcf63158c92e6ebf9ba1e170d4e9c453"
+    },
+    "assets\\qtm\\v1\\corner_htm_v2.pdb": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb"
+    },
+    "assets\\qtm\\v1\\corner_qtm_v3.pdb": {
+      "bytes": 88179920,
+      "sha256": "070f1314a7b68955ed3e84a3de5b6e2ede20385f0775a334ec9f1d470f0e08d0"
+    },
+    "assets\\qtm\\v1\\phase1_qtm_v3.pdb": {
+      "bytes": 140908490,
+      "sha256": "7606158cd7ccb4c1d49db7aab45fe25fbad21580aab8742648ae3e29567e6a11"
+    },
+    "assets\\qtm\\v1\\phase1_sym_htm_v2.pdb": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f"
+    },
+    "assets\\qtm\\v1\\strong_qtm_v4_nibble.pdb": {
+      "bytes": 1764716840,
+      "sha256": "12de7580c0b59728fdb559bc0eb1c50adf9e724ec681b1bfb144efe392829e9c"
+    },
+    "assets\\qtm\\v1\\tail_depth6_v4.pdb": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74"
+    },
+    "assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb": {
+      "bytes": 1677721664,
+      "sha256": "35e3d345cd16e3efa16ceecb398b583f825d66a4e42dbc1856466338353a1687"
+    }
+  },
+  "saved_binary": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\qtm-production\\baseline\\cube_solver_qtm.exe"
+}

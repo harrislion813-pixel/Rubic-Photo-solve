@@ -146,9 +146,14 @@ def main():
         report['scenarios']['memory_limit_eviction'] = {'request':memory_request,
             'injected_limit_bytes':100 << 20, 'diagnostics':bridge.diagnostics(), 'broker':BROKER.snapshot()}
         save()
+        # The monitor clears its process reference before finishing stream cleanup.
+        native.release_assets()
 
         # A dead service must not be reused; old generation cleanup cannot close its replacement.
         fault = shallow()
+        report['scenarios']['fault_and_generation'] = {'fault':fault}
+        save()
+        assert fault['job']['resident_retained'] and bridge._process is not None, fault
         old_generation = bridge._generation
         bridge._process.kill()
         bridge._process.wait(2)

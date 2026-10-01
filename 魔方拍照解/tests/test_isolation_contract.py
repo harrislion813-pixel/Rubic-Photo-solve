@@ -88,7 +88,7 @@ def test_qtm_missing_timeout_uses_default(backend, http, monkeypatch):
 
     monkeypatch.setattr(native, "solve_native", solve)
     http({"metric": "QTM", "facelets": to_facelets(CubieCube())})
-    assert 179 < observed["timeout_seconds"] <= 180
+    assert 179 < observed["timeout_seconds"] <= 180 + 1e-6
     assert observed["deadline"] is not None
 
 

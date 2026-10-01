@@ -2,7 +2,7 @@ param(
     [string]$Python = "",
     [switch]$SkipTests,
     [switch]$SkipBuild,
-    [ValidateSet("HtmFull", "QtmStrong")][string]$Profile,
+    [ValidateSet("HtmFull", "QtmStrong")][string]$Profile = "QtmStrong",
     [switch]$CreateTag,
     [switch]$AllowDirty
 )
@@ -52,7 +52,7 @@ try {
         Write-Host "Created tag $tag. Push it with: git push origin $tag"
     } else {
         Write-Host "Release $version is ready for review. After committing, run:"
-        Write-Host ".\release\prepare_release.ps1 -CreateTag"
+        Write-Host ".\release\prepare_release.ps1 -Profile $Profile -CreateTag"
         Write-Host "git push origin $tag"
     }
 } finally {

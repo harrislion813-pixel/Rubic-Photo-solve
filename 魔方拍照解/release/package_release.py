@@ -14,7 +14,8 @@ sys.path.insert(0, str(ROOT))
 from cube_app import __version__  # noqa: E402
 
 WEB = ("index.html", "app.js", "color.js", "solver-client.js", "styles.css")
-USER_SCRIPTS = ("import_runtime.py", "verify_installation.py")
+USER_SCRIPTS = ("prepare_runtime_caches.py", "verify_assets.py", "verify_installation.py")
+SHARED_MODULES = ("__init__.py", "cubie.py", "detection.py", "metrics.py", "runtime.py", "vision.py")
 
 
 def digest(path):
@@ -27,8 +28,10 @@ def digest(path):
 
 def source_archive(output):
     name = f"RubicPhotoSolve-{__version__}-source"
-    paths = [ROOT / p for p in ("README.md", "CHANGELOG.md", "requirements.txt", "server.py", "windows_launcher.py")]
-    paths += sorted((ROOT / "cube_app").rglob("*.py"))
+    paths = [ROOT / p for p in ("README.md", "CHANGELOG.md", "requirements.txt", "pyproject.toml",
+                                "server.py", "windows_launcher.py")]
+    paths += [ROOT / "cube_app" / p for p in SHARED_MODULES]
+    paths += sorted((ROOT / "cube_app" / "solvers").rglob("*.py"))
     paths += [ROOT / "web" / p for p in WEB]
     paths += [ROOT / "release" / p for p in USER_SCRIPTS]
     for engine in ("htm", "qtm"):
@@ -119,7 +122,7 @@ def distribute(portable, output):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--htm", type=Path, required=True)
+    parser.add_argument("--htm", type=Path, help="Optional HTM-only package; the default release integrates QTM")
     parser.add_argument("--qtm", type=Path, required=True)
     args = parser.parse_args()
     output = args.output.resolve()
@@ -127,7 +130,8 @@ def main():
         parser.error("use an empty output directory")
     output.mkdir(parents=True, exist_ok=True)
     products = [source_archive(output)]
-    products += distribute(args.htm.resolve(), output)
+    if args.htm:
+        products += distribute(args.htm.resolve(), output)
     products += distribute(args.qtm.resolve(), output)
     (output / "SHA256SUMS.txt").write_text(
         "".join(f"{digest(path)}  {path.name}\n" for path in sorted(products)), encoding="utf-8")

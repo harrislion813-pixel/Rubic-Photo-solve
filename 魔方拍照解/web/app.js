@@ -3,7 +3,7 @@ import {
   classifyBalancedColors2x2,
   summarizePatchPixels,
 } from "./color.js";
-import { describeSearchProgress } from "./solver-client.js";
+import { describeQtmTiming, describeSearchProgress } from "./solver-client.js";
 
 const FACE_ORDER = ["U", "R", "F", "D", "L", "B"];
 const APP_VERSION = document.querySelector('meta[name="app-version"]')?.content || "development";
@@ -93,13 +93,25 @@ metricSelect.addEventListener("change", () => {
   depthText.textContent = "";
   metricChip.textContent = metricSelect.value;
   statusText.textContent = metricSelect.value === "QTM"
-    ? "QTM 实验引擎按需启动" : "HTM 已就绪";
+    ? "QTM 引擎按需启动" : "HTM 已就绪";
   updateMetricCopy();
 });
-fetch("/api/capabilities", { cache: "no-store" }).then((response) => response.json()).then((data) => {
+let solverCapabilities = null;
+function updateQtmAvailability() {
+  if (!solverCapabilities) return;
   const option = metricSelect.querySelector('option[value="QTM"]');
-  option.disabled = !data.QTM;
-  option.hidden = !data.QTM;
+  const available = solverCapabilities.QTM_sizes?.[String(cubeSize)]?.available ?? solverCapabilities.QTM;
+  option.disabled = !available;
+  option.hidden = !available;
+  if (!available && metricSelect.value === "QTM") {
+    metricSelect.value = "HTM";
+    metricChip.textContent = "HTM";
+  }
+}
+fetch("/api/capabilities", { cache: "no-store" }).then((response) => response.json()).then((data) => {
+  solverCapabilities = data;
+  updateQtmAvailability();
+  updateMetricCopy();
 }).catch(() => {});
 faceletsText.addEventListener("input", () => {
   solveGeneration += 1;
@@ -186,6 +198,7 @@ function setCubeSize(size) {
   if (![2, 3].includes(size) || size === cubeSize) return;
   cancelActiveJob();
   cubeSize = size;
+  updateQtmAvailability();
   colorAssessment = { valid: true, reasons: [], source: "initial" };
   for (const face of FACE_ORDER) {
     state[face].stickers = Array(size * size).fill(face);
@@ -213,10 +226,10 @@ function updateMetricCopy() {
   const qtm = metricSelect.value === "QTM";
   pageSubtitle.textContent = cubeSize === 2
     ? (qtm
-      ? "上传六个面照片；QTM 实验引擎按需启动，并返回二阶严格最短解。"
+      ? "上传六个面照片；QTM 引擎按需启动，并返回二阶严格最短解。"
       : "上传六个面照片；无中心色聚类会结合角块约束自动定色，并直接返回 HTM 严格最短解。")
     : (qtm
-      ? "上传六个面照片；QTM 实验引擎按需启动，先给可执行候选，再验证严格最短性。"
+      ? "上传六个面照片；QTM 引擎按需启动，先给可执行候选，再验证严格最短性。"
       : "上传六个面照片，先返回可用快速解，再在后台验证以 F 面为前基准的 HTM 严格最短解。");
 }
 
@@ -1206,10 +1219,14 @@ async function solveCube() {
     }
 
     if (data.optimal) {
-      depthText.textContent = `${data.depth} 步，${data.metric}，严格最短：是，验证耗时 ${data.proof_elapsed_seconds ?? data.elapsed_seconds}s`;
+      depthText.textContent = data.metric === "QTM"
+        ? `${data.depth} 步，QTM，严格最短：是；${describeQtmTiming(data)}`
+        : `${data.depth} 步，${data.metric}，严格最短：是，验证耗时 ${data.proof_elapsed_seconds ?? data.elapsed_seconds}s`;
       statusText.textContent = "严格最短解已确认";
     } else if (data.depth !== null) {
-      depthText.textContent = `${data.depth} 步，${data.metric}，当前为快速解，生成耗时 ${data.solution_generation_seconds ?? data.elapsed_seconds}s；后台正在验证最短性`;
+      depthText.textContent = data.metric === "QTM"
+        ? `${data.depth} 步，QTM，当前为候选解；${describeQtmTiming(data)}；后台正在验证最短性`
+        : `${data.depth} 步，${data.metric}，当前为快速解，生成耗时 ${data.solution_generation_seconds ?? data.elapsed_seconds}s；后台正在验证最短性`;
       statusText.textContent = "快速解已生成，正在后台验证严格最短解...";
     } else {
       depthText.textContent = "后台正在继续搜索";
@@ -1242,7 +1259,9 @@ async function pollOptimalJob(jobId, generation) {
     if (data.status === "complete") {
       const result = data.result;
       solutionText.textContent = result.solution || "已复原，无需转动";
-      depthText.textContent = `${result.depth} 步，${result.metric}，严格最短：是；解生成 ${data.solution_generation_seconds ?? 0}s，验证 ${data.proof_elapsed_seconds ?? result.elapsed_seconds}s`;
+      depthText.textContent = result.metric === "QTM"
+        ? `${result.depth} 步，QTM，严格最短：是；${describeQtmTiming(data, result)}`
+        : `${result.depth} 步，${result.metric}，严格最短：是；解生成 ${data.solution_generation_seconds ?? 0}s，验证 ${data.proof_elapsed_seconds ?? result.elapsed_seconds}s`;
       statusText.textContent = "严格最短解已确认";
       solvePollTimer = null;
       if (activeJobId === jobId) activeJobId = null;

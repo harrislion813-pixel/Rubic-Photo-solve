@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("HtmFull", "QtmStrong")][string]$Profile,
+    [ValidateSet("HtmFull", "QtmStrong")][string]$Profile = "QtmStrong",
     [string]$Python = "",
     [string]$OutputDirectory = "",
     [switch]$SkipNativeBuild,

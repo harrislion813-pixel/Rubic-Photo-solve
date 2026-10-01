@@ -5,9 +5,10 @@ from __future__ import annotations
 import threading
 import time
 import uuid
+from copy import deepcopy
 
 from ... import __version__
-from ...cubie import from_facelets
+from ...cubie import from_facelets, to_facelets
 from ...metrics import resolve_max_depth, solution_cost
 from ...runtime import application_root
 from ..resource_broker import BROKER
@@ -18,10 +19,58 @@ class QtmUnavailable(RuntimeError):
     pass
 
 
+class QtmJobCapacityError(RuntimeError):
+    pass
+
+
+TERMINAL = {"complete", "timeout", "cancelled", "error", "budget_exhausted"}
+MAX_JOBS = 100
+TERMINAL_TTL_SECONDS = 600
+MAX_DIAGNOSTIC_ITEMS = 64
+
+
 class QtmBackend:
-    def __init__(self) -> None:
+    def __init__(self, max_jobs: int = MAX_JOBS) -> None:
+        if max_jobs < 1:
+            raise ValueError("QTM job capacity must be positive")
         self._lock = threading.Lock()
         self._jobs: dict[str, dict] = {}
+        self._max_jobs = max_jobs
+
+    def _prune_locked(self, *, reserve: bool = False) -> None:
+        now = time.monotonic()
+        terminal = sorted(
+            (job.get("_updated", job["_started"]), key)
+            for key, job in self._jobs.items()
+            if job["status"] in TERMINAL and job["_done"].is_set()
+        )
+        for updated, key in terminal:
+            if now - updated >= TERMINAL_TTL_SECONDS or (reserve and len(self._jobs) >= self._max_jobs):
+                self._jobs.pop(key, None)
+
+    def _public_locked(self, job: dict) -> dict:
+        result = deepcopy({key: value for key, value in job.items() if not key.startswith("_")})
+        if not job["_done"].is_set():
+            result["request_elapsed_seconds"] = time.monotonic() - job["_started"]
+        progress = job.get("progress") or {}
+        completed = progress.get("completed_depth")
+        candidate = ((job.get("result") if job.get("optimal") else job.get("candidate_result")) or job.get("result") or {})
+        lower = completed + 1 if type(completed) is int and completed >= 0 else None
+        if job.get("optimal") and job.get("result"):
+            lower = job["result"].get("cost")
+        cost = candidate.get("cost")
+        result.update(candidate_cost=cost, proven_lower_bound=lower,
+                      proof_gap=max(0, cost - lower) if cost is not None and lower is not None else None)
+        if job["status"] == "queued":
+            queued = sorted((value["_started"], key) for key, value in self._jobs.items()
+                            if value["status"] == "queued")
+            result["queue_position"] = next(index + 1 for index, (_, key) in enumerate(queued) if key == job["job_id"])
+        return result
+
+    @staticmethod
+    def _bounded_diagnostics(diagnostics: dict) -> dict:
+        return deepcopy({key: value[-MAX_DIAGNOSTIC_ITEMS:] if key in {"service_events", "memory_samples"} else value
+                         for key, value in diagnostics.items()})
 
     @staticmethod
     def available() -> bool:
@@ -32,24 +81,26 @@ class QtmBackend:
             job = self._jobs.get(job_id)
             if job is not None:
                 job.update(changes)
+                job["_updated"] = time.monotonic()
 
     def snapshot(self, job_id: str) -> dict | None:
         with self._lock:
+            self._prune_locked()
             job = self._jobs.get(job_id)
             if job is None:
                 return None
-            return {key: value for key, value in job.items() if not key.startswith("_")}
+            return self._public_locked(job)
 
     def cancel(self, job_id: str) -> dict | None:
         with self._lock:
             job = self._jobs.get(job_id)
             if job is None:
                 return None
-            if job["status"] not in {"complete", "timeout", "cancelled", "error", "budget_exhausted"}:
+            if job["status"] not in TERMINAL:
                 job["_cancel"].set()
                 job["status"] = "cancelled"
                 job["message"] = "搜索已取消。"
-            return {key: value for key, value in job.items() if not key.startswith("_")}
+            return self._public_locked(job)
 
     def submit(
         self, facelets: str, cube_size: int, max_depth: int | None, timeout: float | None,
@@ -57,8 +108,8 @@ class QtmBackend:
     ) -> dict:
         started = time.monotonic() if started is None else started
         deadline = None if timeout is None else started + timeout
-        if not self.available():
-            raise QtmUnavailable("QTM 实验组件未安装或基础表不完整。")
+        if cube_size != 2 and not self.available():
+            raise QtmUnavailable("QTM 组件未安装或基础表不完整，请按 README 生成运行表。")
         max_depth = resolve_max_depth(cube_size, "QTM", max_depth)
         if cube_size == 2:
             from .two_by_two import TwoByTwoSolver
@@ -100,14 +151,30 @@ class QtmBackend:
             "http_return_seconds": None, "candidate_delivery_seconds": None,
             "request_elapsed_seconds": 0.0, "_cancel": cancel, "_deadline": deadline,
             "_started": started, "_response_ready": threading.Event(), "_done": threading.Event(),
+            "_updated": started, "_state_key": (to_facelets(cube), max_depth, timeout),
         }
+        created = False
         with self._lock:
-            self._jobs[job_id] = job
-        worker = threading.Thread(
-            target=self._run, args=(job_id, cube, max_depth), name=f"qtm-{job_id[-8:]}",
-            daemon=True,
-        )
-        worker.start()
+            existing = next((item for item in self._jobs.values()
+                             if item["status"] in {"queued", "running"} and item.get("_state_key") == job["_state_key"]), None)
+            if existing is not None:
+                job = existing
+                job_id = existing["job_id"]
+            else:
+                self._prune_locked(reserve=True)
+                if len(self._jobs) >= self._max_jobs:
+                    raise QtmJobCapacityError("QTM 后台任务已满，请等待或取消活动任务后重试。")
+                self._jobs[job_id] = job
+                created = True
+        if created:
+            worker = threading.Thread(
+                target=self._run, args=(job_id, cube, max_depth), name=f"qtm-{job_id[-8:]}",
+                daemon=True,
+            )
+            worker.start()
+        # Equivalent retries share the original deadline; a different timeout creates another job.
+        deadline = job["_deadline"]
+        started = job["_started"]
         # Deliver a verified candidate as soon as it arrives, even while proof continues.
         wait_budget = 0.75 if deadline is None else min(0.75, max(0.0, deadline - time.monotonic()))
         job["_response_ready"].wait(timeout=wait_budget)
@@ -120,6 +187,7 @@ class QtmBackend:
             "engine_version": snapshot["engine_version"],
             "asset_profile": snapshot["asset_profile"],
             "request_elapsed_seconds": time.monotonic() - started,
+            "first_candidate_seconds": snapshot["first_candidate_seconds"],
         }
         if snapshot["result"] is not None:
             response.update(snapshot["result"])
@@ -144,7 +212,7 @@ class QtmBackend:
             if job is None:
                 return
             elapsed = time.monotonic() - job["_started"]
-            if initial:
+            if initial and job["http_return_seconds"] is None:
                 job["http_return_seconds"] = elapsed
             candidate_ready = job["first_candidate_seconds"]
             if candidate_included and candidate_ready is not None and job["candidate_delivery_seconds"] is None:
@@ -180,6 +248,10 @@ class QtmBackend:
                                 job[stage + "_ready_seconds"] = max(0.0, process_started + elapsed - started)
                     job["asset_profile"] = event.get("assets", {}).get("QTM", {}).get("profile", "pending")
                     job["ready_asset_profile"] = job["asset_profile"]
+                    job["initialization_steps"] = event.get("initialization_steps", [])
+                    failures = [step["error"] for step in job["initialization_steps"] if step.get("error")]
+                    if failures:
+                        job["asset_warning"] = "; ".join(failures)
             elif event.get("type") == "candidate":
                 moves = event["moves"]
                 candidate = {
@@ -213,6 +285,12 @@ class QtmBackend:
                         if present and job[field] is None:
                             job[field] = now - started
                     job["asset_profile"] = event.get("profile", job["asset_profile"])
+            elif event.get("type") == "asset_error":
+                self._update(job_id, asset_warning=event.get("error"))
+            elif event.get("type") == "thread_activity":
+                self._update(job_id, thread_activity=event)
+            elif event.get("type") == "strong_upgrade":
+                self._update(job_id, last_upgrade=event)
             else:
                 self._update(job_id, progress=event)
                 if event.get("type") == "progress" and event.get("asset_profile"):
@@ -275,21 +353,21 @@ class QtmBackend:
                 if not retained:
                     native.release_assets()
                 job['resident_retained'] = retained
-                job['residency'] = native.service_diagnostics()
+                job['residency'] = self._bounded_diagnostics(native.service_diagnostics())
             finally:
-                self._update(job_id, resource_hold_seconds=time.monotonic() - admitted,
-                             request_elapsed_seconds=time.monotonic() - started)
                 if retained:
                     BROKER.release_qtm(native.resident_callback(BROKER))
                 else:
                     BROKER.release_qtm()
+                self._update(job_id, resource_hold_seconds=time.monotonic() - admitted,
+                             request_elapsed_seconds=time.monotonic() - started)
                 job["_done"].set()
                 job["_response_ready"].set()
 
     def _python_fallback(self, job_id, cube, max_depth, deadline, cancel, native_error) -> None:
         from .optimal import OptimalSolver, SearchCancelled, SearchTimeout
 
-        self._update(job_id, engine_id="qtm-python", message=f"native fallback: {native_error}")
+        self._update(job_id, engine_id="qtm-python", asset_profile="python-base", message=f"native fallback: {native_error}")
         fallback_started = time.monotonic()
         try:
             result = OptimalSolver(application_root() / ".cache" / "qtm", parallel=False).solve_cube(
@@ -302,6 +380,7 @@ class QtmBackend:
                     "moves": result.moves, "solution": result.text, "depth": result.depth,
                     "cost": result.depth, "metric": "QTM", "optimal": True,
                     "engine_id": "qtm-python", "engine_version": __version__,
+                    "asset_profile": "python-base",
                 },
             )
         except (SearchTimeout, TimeoutError):

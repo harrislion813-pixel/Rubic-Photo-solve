@@ -305,6 +305,8 @@ struct SearchControl {
     std::atomic<bool> stop{false};
     std::atomic<bool> timed_out{false};
     std::atomic<bool> shortened_by_candidate{false};
+    std::atomic<bool> window_yield{false};
+    std::chrono::steady_clock::time_point proof_window_deadline{std::chrono::steady_clock::time_point::max()};
     std::atomic<double> proof_worker_return_seconds{-1.0};
     std::chrono::steady_clock::time_point started_at;
     const std::atomic<int> *candidate_cost{nullptr};
@@ -499,6 +501,12 @@ bool check_stop(SearchControl &control, WorkerContext &worker) {
     }
     if ((worker.pending_nodes & 1023U) == 0 && std::chrono::steady_clock::now() >= control.deadline) {
         control.timed_out.store(true, std::memory_order_relaxed);
+        control.stop.store(true, std::memory_order_relaxed);
+        return true;
+    }
+    if (control.proof_window_deadline != std::chrono::steady_clock::time_point::max() &&
+        (worker.pending_nodes & 1023U) == 0 && std::chrono::steady_clock::now() >= control.proof_window_deadline) {
+        control.window_yield.store(true, std::memory_order_relaxed);
         control.stop.store(true, std::memory_order_relaxed);
         return true;
     }
@@ -1508,8 +1516,9 @@ void NativeOptimalSolver::load_tail_database(const std::filesystem::path &path, 
     tail_databases_[metric_slot(database->metric())] = std::move(database);
 }
 
-void NativeOptimalSolver::load_strong_pdb(const std::filesystem::path &path, LoaderControl *loader) {
-    strong_pdb_ = std::make_shared<StrongPatternDatabase>(path, loader);
+void NativeOptimalSolver::load_strong_pdb(const std::filesystem::path &path, LoaderControl *loader,
+                                          StrongValidationMode mode) {
+    strong_pdb_ = std::make_shared<StrongPatternDatabase>(path, loader, mode);
 }
 
 bool NativeOptimalSolver::has_corner_pdb(MoveMetric metric) const noexcept {
@@ -1574,6 +1583,15 @@ double NativeOptimalSolver::strong_symmetry_initialization_seconds() const noexc
 double NativeOptimalSolver::strong_verification_seconds() const noexcept {
     return strong_pdb_ ? strong_pdb_->verification_seconds() : 0.0;
 }
+double NativeOptimalSolver::strong_mapping_seconds() const noexcept {
+    return strong_pdb_ ? strong_pdb_->mapping_seconds() : 0.0;
+}
+double NativeOptimalSolver::strong_checksum_worker_seconds() const noexcept {
+    return strong_pdb_ ? strong_pdb_->checksum_worker_seconds() : 0.0;
+}
+double NativeOptimalSolver::strong_nibble_worker_seconds() const noexcept {
+    return strong_pdb_ ? strong_pdb_->nibble_worker_seconds() : 0.0;
+}
 
 NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const SolverOptions &requested_options) const {
     SolverOptions options = requested_options;
@@ -1585,6 +1603,9 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         throw std::invalid_argument("max depth must be 0.." + std::to_string(default_max_depth(options.metric)));
     if (!std::isfinite(options.timeout_seconds) || options.timeout_seconds < 0)
         throw std::invalid_argument("timeout must be finite and nonnegative (0 means unlimited)");
+    if (!std::isfinite(options.base_proof_window_seconds) || options.base_proof_window_seconds < 0 ||
+        options.base_proof_window_seconds > 5)
+        throw std::invalid_argument("base proof window must be finite and within 0..5 seconds");
     const auto started = std::chrono::steady_clock::now();
     NativeSolveResult result;
     result.metric = options.metric;
@@ -1663,55 +1684,60 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
     int effective_max = options.max_depth;
     if (!incumbent.empty())
         effective_max = std::min(effective_max, solution_cost(incumbent, options.metric) - 1);
-    if (options.use_direction_probe && options.direction_policy == DirectionPolicy::Bounded && !searching_inverse &&
-        inverse_initial && inverse_lower_bound > forward_lower_bound) {
-        active_initial = *inverse_initial;
-        searching_inverse = true;
-    }
-    if (options.use_direction_probe && options.direction_policy == DirectionPolicy::Bounded && !searching_inverse &&
-        inverse_initial && lower_bound <= effective_max) {
-        int sample_depth = std::min(effective_max, std::max(lower_bound, 17));
-        if (parity_search && ((sample_depth ^ root_parity) & 1))
-            --sample_depth;
-        const double budget_seconds =
-            options.timeout_seconds == 0 ? 0.1 : std::min(0.1, options.timeout_seconds * 0.01);
-        if (sample_depth >= lower_bound && budget_seconds >= 0.005) {
-            const auto probe_started = std::chrono::steady_clock::now();
-            const auto half_budget = std::chrono::duration_cast<std::chrono::steady_clock::duration>(
-                std::chrono::duration<double>(budget_seconds * 0.5));
-            const auto forward_probe =
-                sample_direction(*tables_, forward_initial, active_phase1, active_corner, edge_pdb_views, features,
-                                 options, sample_depth, 50'000, probe_started + half_budget);
-            const auto inverse_probe_started = std::chrono::steady_clock::now();
-            const auto inverse_probe =
-                sample_direction(*tables_, *inverse_initial, active_phase1, active_corner, edge_pdb_views, features,
-                                 options, sample_depth, 50'000, inverse_probe_started + half_budget);
-            result.direction_probe_forward_generated = forward_probe.generated;
-            result.direction_probe_inverse_generated = inverse_probe.generated;
-            result.direction_probe_forward_rejected = forward_probe.rejected;
-            result.direction_probe_inverse_rejected = inverse_probe.rejected;
-            result.direction_probe_seconds =
-                std::chrono::duration<double>(std::chrono::steady_clock::now() - probe_started).count();
-            bool choose_inverse = false;
-            if (inverse_probe.found != forward_probe.found)
-                choose_inverse = inverse_probe.found;
-            else if (inverse_probe.complete != forward_probe.complete)
-                choose_inverse = inverse_probe.complete;
-            else if (inverse_probe.complete && forward_probe.complete)
-                choose_inverse = inverse_probe.generated < forward_probe.generated;
-            else if (std::min(forward_probe.generated, inverse_probe.generated) >= 1000) {
-                const double forward_reject_rate =
-                    static_cast<double>(forward_probe.rejected) / forward_probe.generated;
-                const double inverse_reject_rate =
-                    static_cast<double>(inverse_probe.rejected) / inverse_probe.generated;
-                choose_inverse = inverse_reject_rate > forward_reject_rate + 0.02;
-            }
-            if (choose_inverse) {
-                active_initial = *inverse_initial;
-                searching_inverse = true;
+    const auto choose_direction = [&] {
+        searching_inverse = options.inverse_direction;
+        active_initial = searching_inverse ? *inverse_initial : forward_initial;
+        if (options.use_direction_probe && options.direction_policy == DirectionPolicy::Bounded && !searching_inverse &&
+            inverse_initial && inverse_lower_bound > forward_lower_bound) {
+            active_initial = *inverse_initial;
+            searching_inverse = true;
+        }
+        if (options.use_direction_probe && options.direction_policy == DirectionPolicy::Bounded && !searching_inverse &&
+            inverse_initial && lower_bound <= effective_max) {
+            int sample_depth = std::min(effective_max, std::max(lower_bound, 17));
+            if (parity_search && ((sample_depth ^ root_parity) & 1))
+                --sample_depth;
+            const double budget_seconds =
+                options.timeout_seconds == 0 ? 0.1 : std::min(0.1, options.timeout_seconds * 0.01);
+            if (sample_depth >= lower_bound && budget_seconds >= 0.005) {
+                const auto probe_started = std::chrono::steady_clock::now();
+                const auto half_budget = std::chrono::duration_cast<std::chrono::steady_clock::duration>(
+                    std::chrono::duration<double>(budget_seconds * 0.5));
+                const auto forward_probe =
+                    sample_direction(*tables_, forward_initial, active_phase1, active_corner, edge_pdb_views, features,
+                                     options, sample_depth, 50'000, probe_started + half_budget);
+                const auto inverse_probe_started = std::chrono::steady_clock::now();
+                const auto inverse_probe =
+                    sample_direction(*tables_, *inverse_initial, active_phase1, active_corner, edge_pdb_views, features,
+                                     options, sample_depth, 50'000, inverse_probe_started + half_budget);
+                result.direction_probe_forward_generated += forward_probe.generated;
+                result.direction_probe_inverse_generated += inverse_probe.generated;
+                result.direction_probe_forward_rejected += forward_probe.rejected;
+                result.direction_probe_inverse_rejected += inverse_probe.rejected;
+                result.direction_probe_seconds +=
+                    std::chrono::duration<double>(std::chrono::steady_clock::now() - probe_started).count();
+                bool choose_inverse = false;
+                if (inverse_probe.found != forward_probe.found)
+                    choose_inverse = inverse_probe.found;
+                else if (inverse_probe.complete != forward_probe.complete)
+                    choose_inverse = inverse_probe.complete;
+                else if (inverse_probe.complete && forward_probe.complete)
+                    choose_inverse = inverse_probe.generated < forward_probe.generated;
+                else if (std::min(forward_probe.generated, inverse_probe.generated) >= 1000) {
+                    const double forward_reject_rate =
+                        static_cast<double>(forward_probe.rejected) / forward_probe.generated;
+                    const double inverse_reject_rate =
+                        static_cast<double>(inverse_probe.rejected) / inverse_probe.generated;
+                    choose_inverse = inverse_reject_rate > forward_reject_rate + 0.02;
+                }
+                if (choose_inverse) {
+                    active_initial = *inverse_initial;
+                    searching_inverse = true;
+                }
             }
         }
-    }
+    };
+    choose_direction();
     const bool probe_enabled = options.use_direction_probe && options.direction_policy == DirectionPolicy::Legacy &&
                                !searching_inverse && solution_cost(incumbent, options.metric) >= 18 &&
                                effective_max >= 17;
@@ -1734,7 +1760,7 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
                                         active_phase1->complete();
     if (can_generate_candidate) {
         candidate_done.store(false, std::memory_order_relaxed);
-        auto run_candidate = [&] {
+        auto run_candidate = [&, candidate_phase1 = active_phase1, candidate_tail = active_tail] {
             try {
                 FastCandidateOptions candidate_options;
                 candidate_options.timeout_seconds =
@@ -1743,9 +1769,16 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
                                                         : std::min(0.5, std::max(0.05, options.timeout_seconds * 0.1)))
                         : (options.timeout_seconds == 0 ? 3.0
                                                         : std::min(3.0, std::max(0.05, options.timeout_seconds * 0.6)));
+                if (options.timeout_seconds > 0)
+                    candidate_options.timeout_seconds = std::min(
+                        candidate_options.timeout_seconds,
+                        std::max(
+                            0.0,
+                            options.timeout_seconds -
+                                std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count()));
                 candidate_options.incumbent_cost = incumbent.empty() ? 100 : solution_cost(incumbent, MoveMetric::QTM);
                 candidate_options.cancel_requested = &candidate_cancel;
-                candidate_options.local_tail = active_tail;
+                candidate_options.local_tail = candidate_tail;
                 candidate_options.on_improved = [&](const std::vector<int> &moves) {
                     CubieCube verified = cube;
                     for (int move : moves)
@@ -1765,7 +1798,7 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
                     if (options.candidate_callback)
                         options.candidate_callback(moves);
                 };
-                candidate_result = find_fast_qtm_candidate(cube, *tables_, *active_phase1, candidate_options);
+                candidate_result = find_fast_qtm_candidate(cube, *tables_, *candidate_phase1, candidate_options);
             } catch (const std::exception &) {
                 // Candidate generation is opportunistic; exact proof remains authoritative.
             }
@@ -1798,11 +1831,13 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         return options.cancel_requested && options.cancel_requested->load(std::memory_order_relaxed);
     };
     auto report = [&](int depth, std::uint64_t nodes_before, std::uint64_t split_before,
-                      std::chrono::steady_clock::time_point iteration_started, bool found = false) {
+                      std::chrono::steady_clock::time_point iteration_started, bool found = false,
+                      const char *phase = "proving") {
         if (!options.progress_callback)
             return;
         NativeSearchProgress progress;
         progress.metric = options.metric;
+        progress.phase = phase;
         progress.lower_bound = lower_bound;
         progress.upper_bound = effective_max;
         progress.current_depth = depth;
@@ -1835,10 +1870,45 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         first_depth += (first_depth ^ root_parity) & 1;
     report(first_depth, 0, 0, started);
     double interrupted_layer_seconds = 0.0;
+    const auto awaiting_strong = [&] {
+        return options.strong_first_proof && !active_strong && options.strong_loading_callback &&
+               options.strong_loading_callback();
+    };
     for (int depth = first_depth; depth <= effective_max; depth += parity_search ? 2 : 1) {
+        if (awaiting_strong() && result.base_proof_seconds >= options.base_proof_window_seconds) {
+            const auto wait_started = std::chrono::steady_clock::now();
+            auto next_report = wait_started;
+            while (awaiting_strong()) {
+                const auto now = std::chrono::steady_clock::now();
+                if (cancelled() || now >= control.deadline ||
+                    best_candidate_cost.load(std::memory_order_relaxed) <= completed_depth + 1)
+                    break;
+                const auto next = options.asset_snapshot_callback ? options.asset_snapshot_callback() : nullptr;
+                if (next && next->has_strong_pdb())
+                    break;
+                if (now >= next_report) {
+                    report(depth, control.nodes.load(), control.split_nodes.load(), wait_started, false,
+                           "waiting_strong");
+                    if (options.thread_activity_callback)
+                        options.thread_activity_callback(
+                            options.loader_threads_callback ? options.loader_threads_callback() : 0,
+                            !candidate_done.load(std::memory_order_acquire), 0);
+                    next_report = now + std::chrono::milliseconds(250);
+                }
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            }
+            result.strong_wait_seconds +=
+                std::chrono::duration<double>(std::chrono::steady_clock::now() - wait_started).count();
+        }
+        if (cancelled() || std::chrono::steady_clock::now() >= control.deadline) {
+            result.cancelled = cancelled();
+            result.timed_out = !result.cancelled;
+            break;
+        }
         if (options.asset_snapshot_callback) {
             auto next_snapshot = options.asset_snapshot_callback();
             if (next_snapshot && next_snapshot.get() != active_asset_snapshot.get()) {
+                const bool adopting_strong = !active_strong && next_snapshot->has_strong_pdb();
                 active_asset_snapshot = std::move(next_snapshot);
                 active_tail = active_asset_snapshot->tail_databases_[slot].get();
                 active_strong = options.metric == MoveMetric::QTM ? active_asset_snapshot->strong_pdb_.get() : nullptr;
@@ -1857,6 +1927,8 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
                 lower_bound = std::max(forward_lower_bound, inverse_lower_bound);
                 if (parity_search)
                     lower_bound += (lower_bound ^ root_parity) & 1;
+                if (adopting_strong)
+                    choose_direction(); // A new layer may choose a direction using the newly validated tables.
                 completed_depth = std::max(completed_depth, lower_bound - 1);
                 if (depth < lower_bound)
                     depth = lower_bound;
@@ -1896,6 +1968,13 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         control.stop.store(false);
         control.timed_out.store(false);
         control.shortened_by_candidate.store(false);
+        control.window_yield.store(false);
+        control.proof_window_deadline =
+            awaiting_strong()
+                ? iteration_started +
+                      std::chrono::duration_cast<std::chrono::steady_clock::duration>(std::chrono::duration<double>(
+                          std::max(0.0, options.base_proof_window_seconds - result.base_proof_seconds)))
+                : std::chrono::steady_clock::time_point::max();
         control.current_depth = depth;
         control.solution.clear();
         bool upgrade_requested = false;
@@ -1936,6 +2015,22 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         auto solution = parallel_depth_search(*tables_, active_phase1, active_corner, edge_pdb_views, active_tail,
                                               features, active_initial, depth, options, proof_threads, control, pool,
                                               snapshot, candidate_threads ? &candidate_done : nullptr);
+        if (!active_strong) {
+            result.base_proof_seconds +=
+                std::chrono::duration<double>(std::chrono::steady_clock::now() - iteration_started).count();
+            result.base_last_used_seconds =
+                std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count();
+        }
+        if (control.window_yield.load() && !solution && !cancelled() && !control.timed_out.load() &&
+            !control.shortened_by_candidate.load()) {
+            interrupted_layer_seconds =
+                std::chrono::duration<double>(std::chrono::steady_clock::now() - iteration_started).count();
+            ++result.base_window_yields;
+            result.base_window_discarded_generated += control.counters.generated - generated_before;
+            report(depth, nodes_before, split_before, iteration_started, false, "waiting_strong");
+            depth -= parity_search ? 2 : 1;
+            continue; // The bounded window stopped before this cost layer was fully excluded.
+        }
         if (upgrade_requested && !solution && !cancelled() && !control.timed_out.load()) {
             interrupted_layer_seconds =
                 std::chrono::duration<double>(std::chrono::steady_clock::now() - iteration_started).count();

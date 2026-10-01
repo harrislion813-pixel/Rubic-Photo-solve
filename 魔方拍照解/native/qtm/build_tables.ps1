@@ -63,16 +63,16 @@ try {
             & $solver build-edge-pdb "assets\qtm\v1\edge_b_qtm${suffix}_v3.pdb" --metric QTM --group 1 --coverage-depth $coverage --threads $threads
             if ($LASTEXITCODE -ne 0) { throw "Second QTM edge PDB generation failed" }
         }
-        if (-not $CiMinimal) {
+        if (-not $CiMinimal -and -not $buildStrong) {
             & $solver build-tail-pdb "assets\qtm\v1\tail_qtm_depth7_v5.pdb" --metric QTM --depth 7 --threads $threads
             if ($LASTEXITCODE -ne 0) { throw "QTM Tail-7 generation failed" }
         }
         if ($buildStrong) {
             $strongThreads = [Math]::Min(8, $threads)
-            & $solver build-strong-pdb "assets\qtm\v1\strong_qtm_v3.pdb" --metric QTM --threads $strongThreads @resumeFlag --memory-limit-gib $MemoryLimitGiB
-            if ($LASTEXITCODE -ne 0) { throw "QTM strong PDB generation failed" }
             $nibbleStrong = "assets\qtm\v1\strong_qtm_v4_nibble.pdb"
             if (-not (Test-Path -LiteralPath $nibbleStrong -PathType Leaf)) {
+                & $solver build-strong-pdb "assets\qtm\v1\strong_qtm_v3.pdb" --metric QTM --threads $strongThreads @resumeFlag --memory-limit-gib $MemoryLimitGiB
+                if ($LASTEXITCODE -ne 0) { throw "QTM strong PDB generation failed" }
                 & $solver convert-strong-pdb "assets\qtm\v1\strong_qtm_v3.pdb" $nibbleStrong --encoding=nibble --verify-all
                 if ($LASTEXITCODE -ne 0) { throw "QTM strong PDB nibble conversion failed" }
             }

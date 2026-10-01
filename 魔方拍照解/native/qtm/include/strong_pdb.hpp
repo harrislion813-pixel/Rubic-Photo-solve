@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <filesystem>
 #include <memory>
+#include <span>
 
 namespace cube {
 
@@ -19,9 +20,23 @@ struct StrongVerification {
     std::array<std::uint64_t, 255> distance_histogram{};
 };
 
+enum class StrongValidationMode { Legacy, Fused, Split };
+
+struct StrongChunkValidation {
+    std::uint64_t checksum{1469598103934665603ULL};
+    std::uint8_t maximum{};
+    bool valid{true};
+    double checksum_seconds{};
+    double nibble_seconds{};
+};
+
+[[nodiscard]] StrongChunkValidation validate_strong_chunk(std::span<const std::uint8_t> bytes,
+                                                          std::uint8_t coverage_depth, StrongValidationMode mode);
+
 class StrongPatternDatabase {
   public:
-    explicit StrongPatternDatabase(const std::filesystem::path &path, LoaderControl *loader = nullptr);
+    explicit StrongPatternDatabase(const std::filesystem::path &path, LoaderControl *loader = nullptr,
+                                   StrongValidationMode mode = StrongValidationMode::Legacy);
     ~StrongPatternDatabase();
     StrongPatternDatabase(const StrongPatternDatabase &) = delete;
     StrongPatternDatabase &operator=(const StrongPatternDatabase &) = delete;
@@ -39,6 +54,9 @@ class StrongPatternDatabase {
     [[nodiscard]] bool packed() const noexcept;
     [[nodiscard]] double symmetry_initialization_seconds() const noexcept;
     [[nodiscard]] double verification_seconds() const noexcept;
+    [[nodiscard]] double mapping_seconds() const noexcept;
+    [[nodiscard]] double checksum_worker_seconds() const noexcept;
+    [[nodiscard]] double nibble_worker_seconds() const noexcept;
     [[nodiscard]] std::uint8_t raw_distance(std::uint64_t index) const noexcept;
     [[nodiscard]] StrongVerification verify_all(const CoordinateTables &tables, int threads = 8) const;
 
@@ -54,6 +72,9 @@ class StrongPatternDatabase {
     bool packed_{};
     double symmetry_initialization_seconds_{};
     double verification_seconds_{};
+    double mapping_seconds_{};
+    double checksum_worker_seconds_{};
+    double nibble_worker_seconds_{};
 };
 
 [[nodiscard]] StrongVerification convert_strong_pattern_database_to_nibble(const std::filesystem::path &source,

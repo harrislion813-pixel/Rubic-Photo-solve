@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="14" time="7.243" timestamp="2026-10-01T12:08:00.644751+08:00" hostname="DESKTOP-C8SGOOO"><testcase classname="tests.test_native_qtm" name="test_independent_oracle_and_half_turn_cost" time="0.164" /><testcase classname="tests.test_native_qtm" name="test_complete_nibble_scan_and_original_fnv[legacy]" time="0.061" /><testcase classname="tests.test_native_qtm" name="test_complete_nibble_scan_and_original_fnv[fused]" time="0.043" /><testcase classname="tests.test_native_qtm" name="test_complete_nibble_scan_and_original_fnv[split]" time="0.043" /><testcase classname="tests.test_native_qtm" name="test_partial_assets_retain_legal_small_bounds" time="2.856" /><testcase classname="tests.test_native_qtm" name="test_corrupt_main_asset_loads_explicit_fallback" time="0.088" /><testcase classname="tests.test_native_qtm" name="test_waiting_strong_preserves_incomplete_cost[cancel]" time="0.058" /><testcase classname="tests.test_native_qtm" name="test_waiting_strong_preserves_incomplete_cost[deadline]" time="0.441" /><testcase classname="tests.test_native_qtm" name="test_waiting_strong_preserves_incomplete_cost[deny]" time="0.439" /><testcase classname="tests.test_native_qtm" name="test_waiting_strong_preserves_incomplete_cost[corrupt]" time="0.441" /><testcase classname="tests.test_native_qtm" name="test_full_strong_gate" time="1.797"><failure message="KeyError: 'strong_queries'">binary = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/qtm-production/scan/cube_solver_qtm.exe')
+
+    @pytest.mark.qtm_full_assets
+    def test_full_strong_gate(binary):
+        paths = (native.QTM_CORNER_PDB, native.QTM_PHASE1_PDB, native.QTM_STRONG_PDB_NIBBLE, native.QTM_TAIL_PDB_8)
+        if not all(path.is_file() for path in paths):
+            if os.environ.get("REQUIRE_QTM_STRONG") == "1":
+                pytest.fail("complete QTM release assets are required for this gate")
+            pytest.skip("full strong assets belong to the separate release gate")
+        result = run(binary, "check-heuristic", "--metric", "QTM", "--depth", "3",
+                     "--pdb", paths[0], "--phase1-pdb", paths[1], "--strong-pdb", paths[2])
+&gt;       assert result["ok"] and result["checked"] == 1195 and result["strong_queries"] &gt; 0
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'strong_queries'
+
+tests\test_native_qtm.py:228: KeyError</failure></testcase><testcase classname="tests.test_native_qtm" name="test_native_small_thread_quota_uses_explicit_base_policy[1]" time="0.239" /><testcase classname="tests.test_native_qtm" name="test_native_small_thread_quota_uses_explicit_base_policy[2]" time="0.238" /><testcase classname="tests.test_native_qtm" name="test_native_small_thread_quota_uses_explicit_base_policy[3]" time="0.246" /></testsuite></testsuites>

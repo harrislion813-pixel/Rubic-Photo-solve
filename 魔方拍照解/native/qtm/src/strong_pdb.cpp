@@ -175,7 +175,49 @@ struct StrongTransitions {
 
 } // namespace
 
-StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path, LoaderControl *loader) {
+StrongChunkValidation validate_strong_chunk(std::span<const std::uint8_t> bytes, std::uint8_t coverage_depth,
+                                            StrongValidationMode mode) {
+    StrongChunkValidation result;
+    const auto started = std::chrono::steady_clock::now();
+    if (mode == StrongValidationMode::Split) {
+        result.checksum = checksum_bytes(bytes.data(), bytes.size());
+        const auto nibble_started = std::chrono::steady_clock::now();
+        result.checksum_seconds = std::chrono::duration<double>(nibble_started - started).count();
+        std::uint8_t maximum = 0;
+        for (const auto value : bytes)
+            maximum =
+                std::max({maximum, static_cast<std::uint8_t>(value & 15U), static_cast<std::uint8_t>(value >> 4U)});
+        result.maximum = maximum;
+        result.valid = maximum < 15 && maximum <= coverage_depth;
+        result.nibble_seconds =
+            std::chrono::duration<double>(std::chrono::steady_clock::now() - nibble_started).count();
+    } else {
+        static constexpr auto maxima = [] {
+            std::array<std::uint8_t, 256> values{};
+            for (std::size_t value = 0; value < values.size(); ++value)
+                values[value] = static_cast<std::uint8_t>(std::max(value & 15U, value >> 4U));
+            return values;
+        }();
+        for (const auto value : bytes) {
+            result.checksum = (result.checksum ^ value) * 1099511628211ULL;
+            if (mode == StrongValidationMode::Legacy) {
+                const auto low = static_cast<std::uint8_t>(value & 15U);
+                const auto high = static_cast<std::uint8_t>(value >> 4U);
+                if (low == 15 || high == 15 || low > coverage_depth || high > coverage_depth) {
+                    result.valid = false;
+                    break;
+                }
+                result.maximum = std::max({result.maximum, low, high});
+            } else
+                result.maximum = std::max(result.maximum, maxima[value]);
+        }
+        result.valid &= result.maximum < 15 && result.maximum <= coverage_depth;
+    }
+    return result;
+}
+
+StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path, LoaderControl *loader,
+                                             StrongValidationMode mode) {
     LoaderControl::Participant coordinator(loader);
     const auto started = std::chrono::steady_clock::now();
     symmetry_ = std::make_shared<SortedSliceSymmetry>([&] { coordinator.checkpoint(); });
@@ -183,6 +225,7 @@ StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path, 
         std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count();
     if (symmetry_->class_count() != 788)
         throw std::runtime_error("strong PDB symmetry class count changed");
+    const auto mapping_started = std::chrono::steady_clock::now();
     const auto absolute = std::filesystem::absolute(path);
     HANDLE file = CreateFileW(absolute.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
                               FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -215,6 +258,7 @@ StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path, 
     const bool byte = valid_header(*header, static_cast<std::uint64_t>(size.QuadPart));
     const auto *data = view_ + (nibble ? header->header_size : sizeof(StrongHeader));
     bool valid = nibble || byte;
+    mapping_seconds_ = std::chrono::duration<double>(std::chrono::steady_clock::now() - mapping_started).count();
     if (nibble) {
         const auto *chunk_checksums = view_ + sizeof(StrongHeader);
         valid = checksum_bytes(chunk_checksums, kNibbleChunkCount * sizeof(std::uint64_t)) == header->checksum;
@@ -222,6 +266,8 @@ StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path, 
             struct ChunkResult {
                 bool valid{true};
                 std::uint8_t maximum{};
+                double checksum_seconds{};
+                double nibble_seconds{};
             };
             const int thread_count = std::clamp(
                 loader && loader->threads > 0 ? loader->threads : static_cast<int>(std::thread::hardware_concurrency()),
@@ -243,20 +289,13 @@ StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path, 
                         const auto length = std::min(kNibbleChunkBytes, kNibbleDataBytes - offset);
                         std::uint64_t expected;
                         std::memcpy(&expected, chunk_checksums + chunk * sizeof(expected), sizeof(expected));
-                        std::uint64_t actual = 1469598103934665603ULL;
-                        for (std::uint64_t index = 0; index < length; ++index) {
-                            const auto value = data[offset + index];
-                            actual = (actual ^ value) * 1099511628211ULL;
-                            const auto low = static_cast<std::uint8_t>(value & 15U);
-                            const auto high = static_cast<std::uint8_t>(value >> 4U);
-                            if (low == 15 || high == 15 || low > header->coverage_depth ||
-                                high > header->coverage_depth) {
-                                part.valid = false;
-                                break;
-                            }
-                            part.maximum = std::max({part.maximum, low, high});
-                        }
-                        part.valid &= actual == expected;
+                        const auto checked =
+                            validate_strong_chunk({data + offset, static_cast<std::size_t>(length)},
+                                                  static_cast<std::uint8_t>(header->coverage_depth), mode);
+                        part.valid &= checked.valid && checked.checksum == expected;
+                        part.maximum = std::max(part.maximum, checked.maximum);
+                        part.checksum_seconds += checked.checksum_seconds;
+                        part.nibble_seconds += checked.nibble_seconds;
                     }
                 });
             coordinator.suspend();
@@ -267,6 +306,8 @@ StrongPatternDatabase::StrongPatternDatabase(const std::filesystem::path &path, 
             for (const auto &part : results) {
                 valid &= part.valid;
                 maximum = std::max(maximum, part.maximum);
+                checksum_worker_seconds_ += part.checksum_seconds;
+                nibble_worker_seconds_ += part.nibble_seconds;
             }
             valid &= maximum == header->max_distance;
         }
@@ -355,6 +396,9 @@ double StrongPatternDatabase::symmetry_initialization_seconds() const noexcept {
     return symmetry_initialization_seconds_;
 }
 double StrongPatternDatabase::verification_seconds() const noexcept { return verification_seconds_; }
+double StrongPatternDatabase::mapping_seconds() const noexcept { return mapping_seconds_; }
+double StrongPatternDatabase::checksum_worker_seconds() const noexcept { return checksum_worker_seconds_; }
+double StrongPatternDatabase::nibble_worker_seconds() const noexcept { return nibble_worker_seconds_; }
 
 StrongVerification StrongPatternDatabase::verify_all(const CoordinateTables &tables, int threads) const {
     if (!complete_)

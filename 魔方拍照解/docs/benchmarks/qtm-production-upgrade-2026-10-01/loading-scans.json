@@ -1,0 +1,232 @@
+{
+  "binary_sha256": "9b178d4d64bbf4b073014581ac1c3eaf6034834a10b7075a8079ba5afcd233e2",
+  "threads": 4,
+  "scope": "complete validation; OS file cache not cleared; no search",
+  "runs": [
+    {
+      "mode": "legacy",
+      "wall_seconds": 1.8745824000002358,
+      "command": [
+        "--qtm-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\corner_qtm_v3.pdb",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--strong-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\strong_qtm_v4_nibble.pdb",
+        "--loader-threads",
+        "4",
+        "--strong-validation=legacy",
+        "--asset-loading=eager"
+      ],
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 3,
+        "proof_version": 3,
+        "metrics": [
+          "QTM"
+        ],
+        "asset_loading": "eager",
+        "base_initialization_seconds": 0.77695,
+        "strong_initialization_seconds": 1.04047,
+        "tail_initialization_seconds": 0,
+        "candidate_tables_seconds": 0.038975,
+        "base_ready_elapsed_seconds": 0.815925,
+        "total_initialization_seconds": 1.85653,
+        "strong_ready_elapsed_seconds": 1.8564,
+        "strong_symmetry_seconds": 0.511142,
+        "strong_verification_seconds": 0.529324,
+        "strong_validation": "legacy",
+        "proof_schedule": "overlap",
+        "strong_mapping_seconds": 0.0001181,
+        "strong_checksum_worker_seconds": 0,
+        "strong_nibble_worker_seconds": 0,
+        "initialization_steps": [
+          {
+            "asset": "coordinates",
+            "seconds": 0.0165351,
+            "mapped_bytes": 0,
+            "error": ""
+          },
+          {
+            "asset": "qtm_phase1",
+            "seconds": 0.667242,
+            "mapped_bytes": 140908490,
+            "error": ""
+          },
+          {
+            "asset": "qtm_corner",
+            "seconds": 0.0923217,
+            "mapped_bytes": 88179920,
+            "error": ""
+          }
+        ],
+        "assets": {
+          "QTM": {
+            "corner": true,
+            "corner_metric": "QTM",
+            "corner_complete": true,
+            "phase1": true,
+            "phase1_metric": "QTM",
+            "phase1_complete": true,
+            "edge_count": 0,
+            "tail": false,
+            "strong": true,
+            "tail_depth": 0,
+            "profile": "strong-no-tail"
+          }
+        }
+      }
+    },
+    {
+      "mode": "split",
+      "wall_seconds": 1.8433905000001687,
+      "command": [
+        "--qtm-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\corner_qtm_v3.pdb",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--strong-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\strong_qtm_v4_nibble.pdb",
+        "--loader-threads",
+        "4",
+        "--strong-validation=split",
+        "--asset-loading=eager"
+      ],
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 3,
+        "proof_version": 3,
+        "metrics": [
+          "QTM"
+        ],
+        "asset_loading": "eager",
+        "base_initialization_seconds": 0.759706,
+        "strong_initialization_seconds": 1.0273,
+        "tail_initialization_seconds": 1e-07,
+        "candidate_tables_seconds": 0.0388024,
+        "base_ready_elapsed_seconds": 0.798509,
+        "total_initialization_seconds": 1.82592,
+        "strong_ready_elapsed_seconds": 1.82581,
+        "strong_symmetry_seconds": 0.517392,
+        "strong_verification_seconds": 0.509901,
+        "strong_validation": "split",
+        "proof_schedule": "overlap",
+        "strong_mapping_seconds": 0.0001038,
+        "strong_checksum_worker_seconds": 1.82744,
+        "strong_nibble_worker_seconds": 0.0869531,
+        "initialization_steps": [
+          {
+            "asset": "coordinates",
+            "seconds": 0.0160814,
+            "mapped_bytes": 0,
+            "error": ""
+          },
+          {
+            "asset": "qtm_phase1",
+            "seconds": 0.650547,
+            "mapped_bytes": 140908490,
+            "error": ""
+          },
+          {
+            "asset": "qtm_corner",
+            "seconds": 0.092115,
+            "mapped_bytes": 88179920,
+            "error": ""
+          }
+        ],
+        "assets": {
+          "QTM": {
+            "corner": true,
+            "corner_metric": "QTM",
+            "corner_complete": true,
+            "phase1": true,
+            "phase1_metric": "QTM",
+            "phase1_complete": true,
+            "edge_count": 0,
+            "tail": false,
+            "strong": true,
+            "tail_depth": 0,
+            "profile": "strong-no-tail"
+          }
+        }
+      }
+    },
+    {
+      "mode": "fused",
+      "wall_seconds": 1.83082289999993,
+      "command": [
+        "--qtm-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\corner_qtm_v3.pdb",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--strong-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\strong_qtm_v4_nibble.pdb",
+        "--loader-threads",
+        "4",
+        "--strong-validation=fused",
+        "--asset-loading=eager"
+      ],
+      "ready": {
+        "ok": true,
+        "type": "ready",
+        "protocol_version": 3,
+        "proof_version": 3,
+        "metrics": [
+          "QTM"
+        ],
+        "asset_loading": "eager",
+        "base_initialization_seconds": 0.760171,
+        "strong_initialization_seconds": 1.01454,
+        "tail_initialization_seconds": 0,
+        "candidate_tables_seconds": 0.0387781,
+        "base_ready_elapsed_seconds": 0.798949,
+        "total_initialization_seconds": 1.8136,
+        "strong_ready_elapsed_seconds": 1.81349,
+        "strong_symmetry_seconds": 0.522577,
+        "strong_verification_seconds": 0.491954,
+        "strong_validation": "fused",
+        "proof_schedule": "overlap",
+        "strong_mapping_seconds": 9.34e-05,
+        "strong_checksum_worker_seconds": 0,
+        "strong_nibble_worker_seconds": 0,
+        "initialization_steps": [
+          {
+            "asset": "coordinates",
+            "seconds": 0.0166898,
+            "mapped_bytes": 0,
+            "error": ""
+          },
+          {
+            "asset": "qtm_phase1",
+            "seconds": 0.650363,
+            "mapped_bytes": 140908490,
+            "error": ""
+          },
+          {
+            "asset": "qtm_corner",
+            "seconds": 0.0922029,
+            "mapped_bytes": 88179920,
+            "error": ""
+          }
+        ],
+        "assets": {
+          "QTM": {
+            "corner": true,
+            "corner_metric": "QTM",
+            "corner_complete": true,
+            "phase1": true,
+            "phase1_metric": "QTM",
+            "phase1_complete": true,
+            "edge_count": 0,
+            "tail": false,
+            "strong": true,
+            "tail_depth": 0,
+            "profile": "strong-no-tail"
+          }
+        }
+      }
+    }
+  ]
+}

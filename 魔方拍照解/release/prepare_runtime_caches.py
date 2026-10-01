@@ -1,9 +1,11 @@
-"""Build each engine's Python fallback caches with its packaged module paths."""
+"""Generate every small runtime cache locally, keeping HTM and QTM separate."""
 
 from __future__ import annotations
 
 import argparse
 import hashlib
+import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -23,16 +25,37 @@ def main() -> None:
     root = Path(__file__).resolve().parents[1]
     sys.path.insert(0, str(root))
     from cube_app.solvers.htm.tables import load_or_build_tables as prepare_htm
+    from cube_app.solvers.htm.two_by_two_tables import load_or_build as prepare_htm_2x2
 
     htm_cache = root / ".cache" / "htm"
     prepare_htm(str(htm_cache))
+    prepare_htm_2x2(str(htm_cache))
     paths = [htm_cache / "solver_tables_v3.pkl"]
+    engines = ["htm"]
     if args.profile == "QtmStrong":
         from cube_app.solvers.qtm.tables import load_or_build_tables as prepare_qtm
+        from cube_app.solvers.qtm.two_by_two_tables import load_or_build as prepare_qtm_2x2
+        from cube_app.solvers.qtm.qtm_small import (
+            build_qtm_small_tables, load_qtm_small_tables, save_qtm_small_tables,
+        )
 
         qtm_cache = root / ".cache" / "qtm"
-        prepare_qtm(str(qtm_cache))
+        qtm_tables = prepare_qtm(str(qtm_cache))
+        prepare_qtm_2x2(str(qtm_cache), metric="QTM")
+        if load_qtm_small_tables(qtm_cache) is None:
+            print("Building QTM fallback pruning tables; keep this window open.", flush=True)
+            save_qtm_small_tables(build_qtm_small_tables(qtm_tables), qtm_cache)
         paths.append(qtm_cache / "solver_tables_v3.pkl")
+        engines.append("qtm")
+    for engine in engines:
+        executable = root / "native" / engine / "build" / f"cube_solver_{engine}.exe"
+        if not executable.is_file():
+            raise FileNotFoundError(f"Compile native/{engine}/build.ps1 first: {executable}")
+        cache_name = "coordinates_htm_v1.bin" if engine == "htm" else "coordinates_dual_v2.bin"
+        environment = {key: value for key, value in os.environ.items() if not key.startswith("CUBE_")}
+        environment["CUBE_NATIVE_COORDINATE_CACHE"] = str(root / ".cache" / engine / cache_name)
+        subprocess.run([str(executable), "check-heuristic", "--depth", "0"],
+                       cwd=root, env=environment, check=True)
     first = [digest(path) for path in paths]
     prepare_htm(str(htm_cache))
     if args.profile == "QtmStrong":

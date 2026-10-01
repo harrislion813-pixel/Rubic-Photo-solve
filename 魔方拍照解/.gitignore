@@ -7,6 +7,7 @@ __pycache__/
 htmlcov/
 node_modules/
 *.egg-info/
+*.dist-info/
 native/build/
 native/htm/build/
 native/qtm/build/

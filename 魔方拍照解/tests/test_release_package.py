@@ -13,9 +13,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "release"))
 from package_release import source_archive  # noqa: E402
 from verify_installation import HTM, verify  # noqa: E402
+from cube_app import __version__  # noqa: E402
 
 
-def installation(root, version="1.9.0"):
+def installation(root, version=__version__):
     records = {}
     for relative in HTM:
         path = root / relative
@@ -32,9 +33,15 @@ def test_source_download_contains_runtime_and_build_inputs_without_development_f
     with zipfile.ZipFile(path) as package:
         names = [Path(name).parts[1:] for name in package.namelist()]
     assert ("server.py",) in names
-    assert ("release", "import_runtime.py") in names
+    assert ("release", "prepare_runtime_caches.py") in names
+    assert ("release", "verify_assets.py") in names
+    assert ("release", "verify_installation.py") in names
+    assert ("pyproject.toml",) in names
     assert ("native", "qtm", "src", "main.cpp") in names
-    assert not any(part in {"tests", "docs", "build", ".git", ".venv", "__pycache__"} for name in names for part in name)
+    assert not any(part in {"tests", "docs", "build", "assets", ".cache", ".git", ".venv", "__pycache__"}
+                   for name in names for part in name)
+    assert not any(name[-1].endswith((".pdb", ".bin", ".pkl", ".exe", ".dll")) for name in names)
+    assert ("cube_app", "native.py") not in names
     assert not any(name[-1] in {"requirements-dev.txt", "requirements-release.txt", "setup-dev.ps1"} for name in names)
 
 

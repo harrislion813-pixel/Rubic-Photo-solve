@@ -1,0 +1,170 @@
+{
+  "binary_sha256": {
+    "baseline": "e74002b9c7c03506d28d12ff2dc122cb95d904349666497253c605181f3316df",
+    "current": "8c2912c43e267ea32ac9daea77902bc2258d91ef35f6a456e92c165734d5376a"
+  },
+  "assets": {
+    "corner_htm_v2.pdb": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb",
+    "corner_qtm_v3.pdb": "070f1314a7b68955ed3e84a3de5b6e2ede20385f0775a334ec9f1d470f0e08d0",
+    "phase1_qtm_v3.pdb": "7606158cd7ccb4c1d49db7aab45fe25fbad21580aab8742648ae3e29567e6a11",
+    "phase1_sym_htm_v2.pdb": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f",
+    "strong_qtm_v4_nibble.pdb": "12de7580c0b59728fdb559bc0eb1c50adf9e724ec681b1bfb144efe392829e9c",
+    "tail_depth6_v4.pdb": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74",
+    "tail_qtm_depth8_v5.pdb": "35e3d345cd16e3efa16ceecb398b583f825d66a4e42dbc1856466338353a1687"
+  },
+  "flags": [
+    "--pdb",
+    "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\corner_htm_v2.pdb",
+    "--phase1-pdb",
+    "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_sym_htm_v2.pdb",
+    "--tail-pdb",
+    "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_depth6_v4.pdb",
+    "--qtm-pdb",
+    "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\corner_qtm_v3.pdb",
+    "--qtm-phase1-pdb",
+    "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+    "--strong-pdb",
+    "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\strong_qtm_v4_nibble.pdb",
+    "--qtm-tail-pdb",
+    "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+    "--asset-loading=eager",
+    "--no-proof-cache",
+    "--no-native-candidate",
+    "--direction-policy=off",
+    "--dual-policy=off",
+    "--pdb-query-order=strong-first",
+    "--loader-threads",
+    "8"
+  ],
+  "threads": 15,
+  "timeout_seconds": 5,
+  "scope": "complete exclusion trees; sequential searches, interleaved binaries; OS cache not cleared",
+  "ready": {
+    "baseline": {
+      "ok": true,
+      "type": "ready",
+      "protocol_version": 3,
+      "proof_version": 3,
+      "metrics": [
+        "QTM"
+      ],
+      "asset_loading": "eager",
+      "base_initialization_seconds": 1.45451,
+      "strong_initialization_seconds": 7.8822,
+      "tail_initialization_seconds": 0.122162,
+      "candidate_tables_seconds": 0.040547,
+      "base_ready_elapsed_seconds": 1.45451,
+      "total_initialization_seconds": 9.49951,
+      "strong_ready_elapsed_seconds": 9.37726,
+      "tail_ready_elapsed_seconds": 9.49942,
+      "strong_symmetry_seconds": 0.539739,
+      "strong_verification_seconds": 7.34246,
+      "assets": {
+        "QTM": {
+          "corner": true,
+          "corner_metric": "QTM",
+          "corner_complete": true,
+          "phase1": true,
+          "phase1_metric": "QTM",
+          "phase1_complete": true,
+          "edge_count": 0,
+          "tail": true,
+          "strong": true,
+          "tail_depth": 8,
+          "profile": "strong"
+        }
+      }
+    },
+    "current": {
+      "ok": true,
+      "type": "ready",
+      "protocol_version": 3,
+      "proof_version": 3,
+      "metrics": [
+        "QTM"
+      ],
+      "asset_loading": "eager",
+      "base_initialization_seconds": 1.45239,
+      "strong_initialization_seconds": 0.909042,
+      "tail_initialization_seconds": 0.233219,
+      "candidate_tables_seconds": 0.0389036,
+      "base_ready_elapsed_seconds": 1.49129,
+      "total_initialization_seconds": 2.63365,
+      "strong_ready_elapsed_seconds": 2.40034,
+      "tail_ready_elapsed_seconds": 2.63356,
+      "strong_symmetry_seconds": 0.542714,
+      "strong_verification_seconds": 0.366214,
+      "strong_validation": "legacy",
+      "proof_schedule": "overlap",
+      "strong_mapping_seconds": 9.46e-05,
+      "strong_checksum_worker_seconds": 0,
+      "strong_nibble_worker_seconds": 0,
+      "initialization_steps": [
+        {
+          "asset": "coordinates",
+          "seconds": 0.0158201,
+          "mapped_bytes": 0,
+          "error": ""
+        },
+        {
+          "asset": "htm_phase1",
+          "seconds": 0.599436,
+          "mapped_bytes": 70454273,
+          "error": ""
+        },
+        {
+          "asset": "qtm_phase1",
+          "seconds": 0.662423,
+          "mapped_bytes": 140908490,
+          "error": ""
+        },
+        {
+          "asset": "htm_corner",
+          "seconds": 0.0445436,
+          "mapped_bytes": 44089988,
+          "error": ""
+        },
+        {
+          "asset": "qtm_corner",
+          "seconds": 0.093239,
+          "mapped_bytes": 88179920,
+          "error": ""
+        },
+        {
+          "asset": "htm_tail",
+          "seconds": 0.0356066,
+          "mapped_bytes": 209715264,
+          "error": ""
+        },
+        {
+          "asset": "strong",
+          "seconds": 0.908932,
+          "mapped_bytes": 1764716840,
+          "error": ""
+        },
+        {
+          "asset": "qtm_tail",
+          "seconds": 0.233092,
+          "mapped_bytes": 1677721664,
+          "error": ""
+        }
+      ],
+      "assets": {
+        "QTM": {
+          "corner": true,
+          "corner_metric": "QTM",
+          "corner_complete": true,
+          "phase1": true,
+          "phase1_metric": "QTM",
+          "phase1_complete": true,
+          "edge_count": 0,
+          "tail": true,
+          "strong": true,
+          "tail_depth": 8,
+          "profile": "strong"
+        }
+      }
+    }
+  },
+  "runs": []
+}

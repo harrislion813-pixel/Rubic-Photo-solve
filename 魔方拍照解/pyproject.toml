@@ -37,6 +37,8 @@ markers = [
     "native_binary: requires the compiled native solver executable",
     "native_pdb: requires the native solver plus the corner and phase-1 PDBs",
     "native_slow: requires large optional PDBs or a long-running native search",
+    "qtm_native: requires the independently compiled QTM solver; bounded fixtures only",
+    "qtm_full_assets: requires the verified complete QTM strong release assets",
     "vision_real: uses tracked real-image fixtures",
     "slow: long-running integration or performance test",
 ]
@@ -59,7 +61,7 @@ select = ["E4", "E7", "E9", "F"]
 
 [tool.coverage.run]
 branch = true
-# Stable HTM and shared production path; experimental QTM correctness and lifecycle
+# HTM and shared production path; QTM correctness and lifecycle
 # are checked separately. Historical top-level solver copies are not active engines.
 source = [
     "cube_app.solvers.htm", "cube_app.solvers.resource_broker",

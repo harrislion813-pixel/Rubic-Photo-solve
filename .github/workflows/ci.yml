@@ -98,12 +98,12 @@ jobs:
 
       - name: Run Python tests and report skips
         if: matrix.python-version != '3.12'
-        run: pytest -ra -m "not native_pdb and not native_slow and not qtm_native and not qtm_full_assets"
+        run: python -m pytest -ra -m "not native_pdb and not native_slow and not qtm_native and not qtm_full_assets"
 
       - name: Run stable HTM and shared branch coverage gate
         if: matrix.python-version == '3.12'
         run: >-
-          pytest -ra
+          python -m pytest -ra
           -m "not native_binary and not native_pdb and not native_slow and not qtm_native and not qtm_full_assets and not vision_real"
           --cov --cov-branch --cov-report=term-missing
 
@@ -183,7 +183,7 @@ jobs:
       - name: Run required native binary tests
         env:
           REQUIRE_NATIVE_BINARY: "1"
-        run: pytest -ra -m native_binary
+        run: python -m pytest -ra -m native_binary
 
       - name: Restore native PDB cache
         id: native-pdb-cache
@@ -221,7 +221,7 @@ jobs:
       - name: Run required native PDB tests
         env:
           REQUIRE_NATIVE_PDB: "1"
-        run: pytest -ra -m native_pdb
+        run: python -m pytest -ra -m native_pdb
 
       - name: Build Windows portable package
         run: .\release\build_windows.ps1 -Profile HtmFull -Python python -SkipNativeBuild -SkipTableBuild

@@ -34,3 +34,5 @@ HTM 提前交付默认关闭；QTM 使用 generic 展开、legacy 候选调度�
 原性能矩阵另有[无损 gzip 归档](benchmarks/next-speed-2026-10-02/formal-final/formal-matrix.json.gz)和[散列记录](benchmarks/next-speed-2026-10-02/formal-final/formal-matrix-archive.json)，解压字节与原始记录完全相同，避免 GitHub 单文件容量限制。
 
 本轮基准与发布证据使用 Git `-text` 属性保存原始字节，避免跨平台换行转换改变已冻结的散列。
+
+首次[标签 CI](https://github.com/harrislion813-pixel/Rubic-Photo-solve/actions/runs/37101258412)在测试收集阶段失败：`pytest` 控制台入口没有将项目目录加入导入路径，新测试无法导入 `server`。Linux Python 和 Windows HTM 任务统一改为本地验收已使用的 `python -m pytest`，与现有 QTM 任务一致；保留测试选择、断言与覆盖率阈值。修复只涉及 CI 启动方式，应用与发布附件内容不变。

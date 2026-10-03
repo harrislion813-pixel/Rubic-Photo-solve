@@ -28,7 +28,7 @@ CubieCube cube_from_sorted_slice(std::uint16_t coordinate) {
     return cube;
 }
 
-SortedSliceSymmetry::SortedSliceSymmetry(const std::function<void()> &checkpoint) {
+SortedSliceSymmetry::SortedSliceSymmetry(const std::function<void()> &checkpoint) : phase1_(checkpoint) {
     moves_.resize(static_cast<std::size_t>(kSortedSliceCount) * 18U);
     conjugates_.resize(static_cast<std::size_t>(kSortedSliceCount) * kPhase1SymmetryCount);
     for (std::uint16_t raw = 0; raw < kSortedSliceCount; ++raw) {
@@ -66,10 +66,13 @@ SortedSliceSymmetry::SortedSliceSymmetry(const std::function<void()> &checkpoint
         raw_to_symmetry_[raw] = symmetry_to_rep;
     }
     stabilizers_.resize(representatives_.size(), 1U);
-    for (std::size_t class_index = 0; class_index < representatives_.size(); ++class_index)
+    for (std::size_t class_index = 0; class_index < representatives_.size(); ++class_index) {
+        if (checkpoint && class_index % 64 == 0)
+            checkpoint();
         for (int symmetry = 1; symmetry < kPhase1SymmetryCount; ++symmetry)
             if (conjugate(representatives_[class_index], symmetry) == representatives_[class_index])
                 stabilizers_[class_index] |= static_cast<std::uint16_t>(1U << symmetry);
+    }
 
     representative_flip_offsets_.resize(kSortedSliceCount);
     class_bases_.resize(kSortedSliceCount);
@@ -87,6 +90,8 @@ SortedSliceSymmetry::SortedSliceSymmetry(const std::function<void()> &checkpoint
     CubieCube probe;
     std::uint32_t random = 0xA83149C5U;
     for (int sample = 0; sample < 128; ++sample) {
+        if (checkpoint && sample % 8 == 0)
+            checkpoint();
         random = random * 1664525U + 1013904223U;
         probe = probe.apply_move(static_cast<int>(random % 18U));
         const auto sorted = sorted_slice_coord(probe);
@@ -101,6 +106,8 @@ SortedSliceSymmetry::SortedSliceSymmetry(const std::function<void()> &checkpoint
                 throw std::runtime_error("sorted slice/flip symmetry differs from full cubie conjugation");
         }
     }
+    if (checkpoint)
+        checkpoint();
 }
 
 std::uint16_t SortedSliceSymmetry::moved(std::uint16_t sorted, int move) const noexcept {

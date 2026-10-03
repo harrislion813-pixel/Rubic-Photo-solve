@@ -1,0 +1,13 @@
+{
+  "attempt_artifacts": [
+    "formal-matrix-file-sharing-attempt.json",
+    "formal-matrix-file-sharing-attempt.log"
+  ],
+  "interference": "A concurrent PowerShell Get-Content review could hold a Windows read-sharing handle while the harness wrote formal-matrix.json in place. The response listener's save exception was recorded as pageErrors, producing a harness failure on the first baseline HTM record.",
+  "decision": "Stop the affected matrix and retain all recorded responses, formulas, terminal states, timings and failures. The first two HTM requests timed out and remain in the interrupted-attempt artifacts; neither is excluded on performance grounds.",
+  "repeat_policy": "One documented restart for this predeclared external file-sharing interference. No repeated timing selection or reruns until favorable results.",
+  "correction": "Write report checkpoints to a same-directory temporary file, replace the report through asynchronous atomic rename, and retry temporary Windows sharing errors without blocking product polling or changing captured response seconds. Persistence failures remain distinct from page errors; final persistence failure is fatal and retains the complete uncommitted checkpoint.",
+  "checkpoint_scope": "All raw response events remain in memory during active search. Serialize the full historical report only before each native launcher, after owned process-tree cleanup, and at final exit; an externally hard-killed in-flight request remains an interrupted failure, never a synthesized success.",
+  "review_policy": "No ordinary Get-Content readers during a performance run. Review via a byte snapshot opened with FileShare.ReadWrite | FileShare.Delete, or read completed log lines. No engine, build, test or full asset hash runs during matrix timing.",
+  "performance_claim": "The interrupted attempt is failure/interference evidence and is not used to select fast repetitions or to claim speed improvement. The replacement matrix preserves the fixed six-state, two-metric, three-repeat AB/BA/AB order and original 30-second request deadline."
+}

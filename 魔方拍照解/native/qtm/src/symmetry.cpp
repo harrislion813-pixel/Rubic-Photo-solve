@@ -128,7 +128,9 @@ const std::array<std::array<std::uint8_t, 18>, kAxisRotationCount> &axis_rotatio
     return maps;
 }
 
-Phase1Symmetry::Phase1Symmetry() {
+Phase1Symmetry::Phase1Symmetry(const std::function<void()> &checkpoint) {
+    if (checkpoint)
+        checkpoint();
     const Matrix identity{{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}};
     const Matrix front_half_turn{{{-1, 0, 0}, {0, -1, 0}, {0, 0, 1}}};
     const Matrix up_quarter_turn{{{0, 0, 1}, {0, 1, 0}, {-1, 0, 0}}};
@@ -226,6 +228,8 @@ Phase1Symmetry::Phase1Symmetry() {
     // the matrix routine while the small coordinate conjugation tables are built.
     twist_conjugates_.resize(2187U * kPhase1SymmetryCount);
     for (std::uint16_t coordinate = 0; coordinate < 2187; ++coordinate) {
+        if (checkpoint && coordinate % 64 == 0)
+            checkpoint();
         const CubieCube cube = cube_from_twist(coordinate);
         for (int symmetry = 0; symmetry < kPhase1SymmetryCount; ++symmetry) {
             twist_conjugates_[static_cast<std::size_t>(coordinate) * kPhase1SymmetryCount + symmetry] =
@@ -235,6 +239,8 @@ Phase1Symmetry::Phase1Symmetry() {
 
     flip_conjugates_.resize(2048U * kPhase1SymmetryCount);
     for (std::uint16_t coordinate = 0; coordinate < 2048; ++coordinate) {
+        if (checkpoint && coordinate % 64 == 0)
+            checkpoint();
         const CubieCube cube = cube_from_flip(coordinate);
         for (int symmetry = 0; symmetry < kPhase1SymmetryCount; ++symmetry) {
             flip_conjugates_[static_cast<std::size_t>(coordinate) * kPhase1SymmetryCount + symmetry] =
@@ -244,6 +250,8 @@ Phase1Symmetry::Phase1Symmetry() {
 
     slice_conjugates_.resize(495U * kPhase1SymmetryCount);
     for (std::uint16_t coordinate = 0; coordinate < 495; ++coordinate) {
+        if (checkpoint && coordinate % 64 == 0)
+            checkpoint();
         CubieCube cube = cube_from_slice_comb(coordinate);
         if (permutation_parity(cube.ep) != 0)
             std::swap(cube.cp[0], cube.cp[1]);
@@ -269,6 +277,8 @@ Phase1Symmetry::Phase1Symmetry() {
     raw_to_symmetry_.resize(kFlipSliceRawCount);
     representatives_.reserve(kFlipSliceClassCount);
     for (std::uint32_t raw = 0; raw < kFlipSliceRawCount; ++raw) {
+        if (checkpoint && raw % 512 == 0)
+            checkpoint();
         CubieCube raw_cube = cube_from_slice_comb(static_cast<std::uint16_t>(raw % 495U));
         const CubieCube flip_cube = cube_from_flip(static_cast<std::uint16_t>(raw / 495U));
         raw_cube.eo = flip_cube.eo;
@@ -303,6 +313,8 @@ Phase1Symmetry::Phase1Symmetry() {
     CubieCube probe;
     std::uint32_t random = 0x6D2B79F5U;
     for (int sample = 0; sample < 128; ++sample) {
+        if (checkpoint && sample % 8 == 0)
+            checkpoint();
         random = random * 1664525U + 1013904223U;
         probe = probe.apply_move(static_cast<int>(random % 18U));
         const std::uint16_t probe_twist = twist_coord(probe);
@@ -318,6 +330,8 @@ Phase1Symmetry::Phase1Symmetry() {
             }
         }
     }
+    if (checkpoint)
+        checkpoint();
 }
 
 CubieCube Phase1Symmetry::conjugate(const CubieCube &cube, int symmetry) const {

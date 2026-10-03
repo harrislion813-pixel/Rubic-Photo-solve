@@ -1,0 +1,183 @@
+{
+  "primary_metrics_and_adoption_gates_unchanged": true,
+  "all_other_record_fields_unchanged": true,
+  "formula_occurrences_replayed": 10641,
+  "new_analysis": {
+    "input": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\docs\\benchmarks\\next-speed-2026-10-02\\formal-final\\formal-matrix.json",
+    "input_sha256": "f969c8b72bf69778fdf5c7ec0c0c93b1ac9afb7a2ec0da644507ad6ad0e482f6",
+    "parser_sha256": "dd8eebda593c72364869fe61757f8290458e673b36d26cf5ba7b8fd756942fde",
+    "bounds_scope": "reported legal lower bounds and completed layers; active layers never imply proof"
+  },
+  "timeouts": [
+    {
+      "name": "initial-1",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 0,
+      "candidate_cost": 20,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 2
+    },
+    {
+      "name": "initial-1",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 0,
+      "candidate_cost": 20,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 2
+    },
+    {
+      "name": "initial-8",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 0,
+      "candidate_cost": 22,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 4
+    },
+    {
+      "name": "initial-8",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 0,
+      "candidate_cost": 22,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 4
+    },
+    {
+      "name": "initial-16",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 0,
+      "candidate_cost": 22,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 4
+    },
+    {
+      "name": "initial-16",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 0,
+      "candidate_cost": 22,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 4
+    },
+    {
+      "name": "initial-1",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 1,
+      "candidate_cost": 20,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 2
+    },
+    {
+      "name": "initial-8",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 1,
+      "candidate_cost": 22,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 4
+    },
+    {
+      "name": "initial-8",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 1,
+      "candidate_cost": 22,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 4
+    },
+    {
+      "name": "initial-16",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 1,
+      "candidate_cost": 22,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 4
+    },
+    {
+      "name": "initial-16",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 1,
+      "candidate_cost": 22,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 4
+    },
+    {
+      "name": "initial-1",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 2,
+      "candidate_cost": 20,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 2
+    },
+    {
+      "name": "initial-1",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 2,
+      "candidate_cost": 20,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 2
+    },
+    {
+      "name": "initial-8",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 2,
+      "candidate_cost": 22,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 4
+    },
+    {
+      "name": "initial-8",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 2,
+      "candidate_cost": 22,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 4
+    },
+    {
+      "name": "initial-16",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 2,
+      "candidate_cost": 22,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 4
+    },
+    {
+      "name": "initial-16",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 2,
+      "candidate_cost": 22,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 4
+    }
+  ]
+}

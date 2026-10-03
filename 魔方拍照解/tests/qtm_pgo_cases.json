@@ -1,0 +1,42 @@
+[
+  {
+    "name": "qtm-independent-01",
+    "seed": 90261002,
+    "scramble": "R B D' U R2 L2 F' L' D2 L"
+  },
+  {
+    "name": "qtm-independent-02",
+    "seed": 90261002,
+    "scramble": "F2 D F2 R L2 B' L' D2 F R' F D'"
+  },
+  {
+    "name": "qtm-independent-03",
+    "seed": 90261002,
+    "scramble": "F2 B' F B' U F' U2 F D F D2 U B' D' F' U"
+  },
+  {
+    "name": "qtm-independent-04",
+    "seed": 90261002,
+    "scramble": "B U2 F D R B R2 D' L R' B2 R2 D' U2 L B U' D2"
+  },
+  {
+    "name": "qtm-independent-05",
+    "seed": 90261002,
+    "scramble": "B2 L2 R2 D' B D L B F B L2 D L U' L' U' F2 R' D' L2"
+  },
+  {
+    "name": "qtm-independent-06",
+    "seed": 90261002,
+    "scramble": "R B' L U' D2 U R2 U' F2 D U2 B R' D' F2 D L2 F L B R B2"
+  },
+  {
+    "name": "qtm-independent-07",
+    "seed": 90261002,
+    "scramble": "L U' D' F' R B2 U L' R' L2 R' D L' F' R F R B2 R' L2 U2 R' B' D'"
+  },
+  {
+    "name": "qtm-independent-08",
+    "seed": 90261002,
+    "scramble": "F2 B' F2 B' L' R F' L2 D2 L' F D2 U' D2 B' L' D U' R2 B R2 U R' D' R' U'"
+  }
+]

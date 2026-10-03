@@ -1,0 +1,10 @@
+........................................................................ [ 92%]
+......                                                                   [100%]
+============================== warnings summary ===============================
+.venv\Lib\site-packages\_pytest\cacheprovider.py:475
+  C:\Users\harriron\Desktop\Rubic-Photo-solve\ħ�����ս�\.venv\Lib\site-packages\_pytest\cacheprovider.py:475: PytestCacheWarning: could not create cache path C:\Users\harriron\Desktop\Rubic-Photo-solve\ħ�����ս�\.pytest_cache\v\cache\nodeids: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\ħ�����ս�\\.pytest_cache\\v\\cache'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\harriron\Desktop\Rubic-Photo-solve\ħ�����ս�\docs\benchmarks\next-speed-2026-10-02\final-python-contracts.xml -
+78 passed, 1 warning in 5.98s

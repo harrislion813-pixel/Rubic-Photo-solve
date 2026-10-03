@@ -1,0 +1,17 @@
+{
+  "version": "1.10.1",
+  "scope": "Two functional normal-page QTM requests; no speed comparison or adoption claim",
+  "costs": [
+    22,
+    20
+  ],
+  "formula_occurrences_replayed": 311,
+  "validation_errors": [],
+  "full_strong_expansions": 0,
+  "strong_and_tail_adopted": true,
+  "desktop_and_mobile_layouts": "passed",
+  "manual_screenshot_review": [
+    "initial-12-desktop.png",
+    "initial-12-mobile.png"
+  ]
+}

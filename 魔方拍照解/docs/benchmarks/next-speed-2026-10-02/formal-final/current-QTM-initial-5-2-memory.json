@@ -1,0 +1,197 @@
+{
+  "root_pid": 2396,
+  "interval_seconds": 0.5,
+  "scope": "launcher_descendant_native_process_lifetime_peak",
+  "native_process_lifetime_peak_bytes": 3709267968,
+  "tree_sampled_peak_working_set_bytes": 3804512256,
+  "tree_scope": "launcher_process_tree_observed_working_set_sum_at_0.5_second_intervals",
+  "processes": [
+    {
+      "pid": 30604,
+      "parent_pid": 2396,
+      "name": "RubicPhotoSolve.exe",
+      "peak_working_set_bytes": 85405696,
+      "observed_samples": 36,
+      "last_sample_seconds": 17.856580000000122
+    },
+    {
+      "pid": 23532,
+      "parent_pid": 2396,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 13017088,
+      "observed_samples": 36,
+      "last_sample_seconds": 17.856588800000054
+    },
+    {
+      "pid": 2396,
+      "parent_pid": 15732,
+      "name": "cmd.exe",
+      "peak_working_set_bytes": 8491008,
+      "observed_samples": 36,
+      "last_sample_seconds": 17.856596300000092
+    },
+    {
+      "pid": 31616,
+      "parent_pid": 17076,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 7233536,
+      "observed_samples": 25,
+      "last_sample_seconds": 17.85660340000004
+    },
+    {
+      "pid": 17076,
+      "parent_pid": 30604,
+      "name": "cube_solver_qtm.exe",
+      "peak_working_set_bytes": 3709267968,
+      "observed_samples": 25,
+      "last_sample_seconds": 17.856610500000215
+    }
+  ],
+  "samples": [
+    {
+      "seconds": 0.006529500000169719,
+      "working_set_bytes": 36900864
+    },
+    {
+      "seconds": 0.5185213000002022,
+      "working_set_bytes": 69681152
+    },
+    {
+      "seconds": 1.0363053000000946,
+      "working_set_bytes": 95797248
+    },
+    {
+      "seconds": 1.556202100000064,
+      "working_set_bytes": 102707200
+    },
+    {
+      "seconds": 2.0715383000001566,
+      "working_set_bytes": 104583168
+    },
+    {
+      "seconds": 2.5879742000001897,
+      "working_set_bytes": 104804352
+    },
+    {
+      "seconds": 3.103478200000154,
+      "working_set_bytes": 84385792
+    },
+    {
+      "seconds": 3.6226838000000043,
+      "working_set_bytes": 104693760
+    },
+    {
+      "seconds": 4.137127300000202,
+      "working_set_bytes": 105951232
+    },
+    {
+      "seconds": 4.649367100000063,
+      "working_set_bytes": 106172416
+    },
+    {
+      "seconds": 5.155537700000195,
+      "working_set_bytes": 84660224
+    },
+    {
+      "seconds": 5.674454300000207,
+      "working_set_bytes": 259465216
+    },
+    {
+      "seconds": 6.194935500000156,
+      "working_set_bytes": 358096896
+    },
+    {
+      "seconds": 6.714921600000025,
+      "working_set_bytes": 667918336
+    },
+    {
+      "seconds": 7.235093400000096,
+      "working_set_bytes": 3788496896
+    },
+    {
+      "seconds": 7.749760400000014,
+      "working_set_bytes": 3802537984
+    },
+    {
+      "seconds": 8.264107500000136,
+      "working_set_bytes": 3802804224
+    },
+    {
+      "seconds": 8.779319000000214,
+      "working_set_bytes": 3802804224
+    },
+    {
+      "seconds": 9.299991700000191,
+      "working_set_bytes": 3802980352
+    },
+    {
+      "seconds": 9.813797700000123,
+      "working_set_bytes": 3802988544
+    },
+    {
+      "seconds": 10.32680500000015,
+      "working_set_bytes": 3803217920
+    },
+    {
+      "seconds": 10.841376200000013,
+      "working_set_bytes": 3803226112
+    },
+    {
+      "seconds": 11.357308800000055,
+      "working_set_bytes": 3803385856
+    },
+    {
+      "seconds": 11.874781800000164,
+      "working_set_bytes": 3803385856
+    },
+    {
+      "seconds": 12.388952500000187,
+      "working_set_bytes": 3803627520
+    },
+    {
+      "seconds": 12.90768560000015,
+      "working_set_bytes": 3803627520
+    },
+    {
+      "seconds": 13.425792400000091,
+      "working_set_bytes": 3803865088
+    },
+    {
+      "seconds": 13.952985600000147,
+      "working_set_bytes": 3803865088
+    },
+    {
+      "seconds": 14.463582000000088,
+      "working_set_bytes": 3804131328
+    },
+    {
+      "seconds": 14.982178599999997,
+      "working_set_bytes": 3804131328
+    },
+    {
+      "seconds": 15.495608800000127,
+      "working_set_bytes": 3804508160
+    },
+    {
+      "seconds": 16.012570200000027,
+      "working_set_bytes": 3804508160
+    },
+    {
+      "seconds": 16.52619720000007,
+      "working_set_bytes": 3804086272
+    },
+    {
+      "seconds": 17.04210480000006,
+      "working_set_bytes": 3804086272
+    },
+    {
+      "seconds": 17.56012880000003,
+      "working_set_bytes": 3804459008
+    },
+    {
+      "seconds": 17.856610900000078,
+      "working_set_bytes": 3804512256,
+      "final": true
+    }
+  ]
+}

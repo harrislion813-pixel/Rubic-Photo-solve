@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import atexit
+import ctypes
 import json
 import os
 import queue
@@ -45,6 +46,28 @@ class NativeSolverTimeout(NativeSolverError):
     pass
 
 
+def _native_process_stats(process) -> dict:
+    """Windows lifetime peak for this native process, not an application sum."""
+    peak = None
+    handle = getattr(process, "_handle", None)
+    if os.name == "nt" and handle is not None:
+        class Counters(ctypes.Structure):
+            _fields_ = [("cb", ctypes.c_ulong), ("PageFaultCount", ctypes.c_ulong)] + [
+                (name, ctypes.c_size_t) for name in (
+                    "PeakWorkingSetSize", "WorkingSetSize", "QuotaPeakPagedPoolUsage", "QuotaPagedPoolUsage",
+                    "QuotaPeakNonPagedPoolUsage", "QuotaNonPagedPoolUsage", "PagefileUsage", "PeakPagefileUsage")
+            ]
+
+        counters = Counters()
+        counters.cb = ctypes.sizeof(counters)
+        get_memory = ctypes.windll.psapi.GetProcessMemoryInfo
+        get_memory.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_ulong]
+        if get_memory(int(handle), ctypes.byref(counters), counters.cb):
+            peak = int(counters.PeakWorkingSetSize)
+    return {"native_pid": getattr(process, "pid", None), "peak_working_set_bytes": peak,
+            "memory_scope": "native_process_lifetime_peak"}
+
+
 class _PersistentNativeSolver:
     def __init__(self) -> None:
         self._lock = threading.Lock()
@@ -53,6 +76,8 @@ class _PersistentNativeSolver:
         self._reader: threading.Thread | None = None
         self._stderr_reader: threading.Thread | None = None
         self._stderr_lines: list[str] = []
+        self._dynamic_threads = False
+        self._process_event_callback: Callable[[dict], None] | None = None
 
     @staticmethod
     def _command() -> list[str]:
@@ -159,10 +184,14 @@ class _PersistentNativeSolver:
         if ready.get("protocol_version", 0) < 2:
             self._stop_locked()
             raise NativeSolverError("native service protocol is outdated; rebuild native/build.ps1")
+        self._dynamic_threads = bool(ready.get("dynamic_threads"))
 
     def _stop_locked(self) -> None:
         process = self._process
+        if process is not None and self._process_event_callback is not None:
+            self._process_event_callback({"type": "native_process_stopping", **_native_process_stats(process)})
         self._process = None
+        self._dynamic_threads = False
         if process is None:
             return
         if process.poll() is None:
@@ -201,6 +230,9 @@ class _PersistentNativeSolver:
         progress_callback: Callable[[dict], None] | None,
         deadline: float | None = None,
         incumbent_provider: Callable[[], list[str] | None] | None = None,
+        event_callback: Callable[[dict], None] | None = None,
+        threads_provider: Callable[[], int | None] | None = None,
+        threads_update_guard: Callable[[Callable[[], None]], bool] | None = None,
     ) -> dict:
         if deadline is None and timeout_seconds is not None:
             deadline = time.monotonic() + timeout_seconds
@@ -210,21 +242,41 @@ class _PersistentNativeSolver:
             if deadline is not None and time.monotonic() >= deadline:
                 raise NativeSolverTimeout("native solver deadline expired while queued")
         try:
+            self._process_event_callback = event_callback
             if cancel_event is not None and cancel_event.is_set():
                 raise NativeSolverCancelled("native solver search was cancelled")
             if deadline is not None and time.monotonic() >= deadline:
                 raise NativeSolverTimeout("native solver deadline expired")
-            if self._process is None or self._process.poll() is not None:
+            reused = self._process is not None and self._process.poll() is None
+            if not reused:
                 self._stop_locked()
+                if event_callback is not None:
+                    event_callback({"type": "native_startup_started"})
                 self._start_locked(deadline, cancel_event)
+            if event_callback is not None:
+                event_callback({"type": "native_ready", "reused": reused,
+                                "dynamic_threads": self._dynamic_threads, **_native_process_stats(self._process)})
             assert self._process is not None and self._process.stdin is not None and self._lines is not None
+            if incumbent_provider is not None:
+                current = incumbent_provider()
+                if current is not None and (incumbent_moves is None or len(current) < len(incumbent_moves)):
+                    incumbent_moves = current
             incumbent = " ".join(incumbent_moves or [])
+            if threads_provider is not None and self._dynamic_threads:
+                requested = threads_provider()
+                if requested is not None:
+                    worker_count = max(1, min(64, int(requested)))
             request_id = uuid.uuid4().hex
             remaining = 0 if deadline is None else max(0.000001, deadline - time.monotonic())
             request = (
                 f"solve\t{request_id}\t{to_facelets(cube)}\t{max_depth}\t{remaining}\t{worker_count}\t{incumbent}\n"
             )
             self._send_locked(request)
+            if event_callback is not None:
+                event_callback({"type": "native_request_sent", "threads": worker_count})
+                if incumbent_moves is not None:
+                    event_callback({"type": "native_incumbent_sent", "cost": len(incumbent_moves),
+                                    "moves": list(incumbent_moves), "via": "solve"})
 
             stop_reason = None
             stop_sent_at = None
@@ -243,9 +295,30 @@ class _PersistentNativeSolver:
                 if stop_reason is None and incumbent_provider is not None:
                     candidate = incumbent_provider()
                     candidate_text = " ".join(candidate or [])
-                    if candidate_text and candidate_text != incumbent:
+                    if candidate_text and (not incumbent or len(candidate) < len(incumbent.split())):
                         self._send_locked(f"incumbent\t{request_id}\t{candidate_text}\n")
                         incumbent = candidate_text
+                        if event_callback is not None:
+                            event_callback({"type": "native_incumbent_sent", "cost": len(candidate),
+                                            "moves": list(candidate), "via": "incumbent"})
+                if stop_reason is None and threads_provider is not None and self._dynamic_threads:
+                    requested = threads_provider()
+                    requested_threads = None if requested is None else max(1, min(64, int(requested)))
+                    if (requested_threads is not None and requested_threads != worker_count
+                            and (cancel_event is None or not cancel_event.is_set())
+                            and (deadline is None or time.monotonic() < deadline)):
+                        def send_threads() -> None:
+                            self._send_locked(f"threads\t{request_id}\t{requested_threads}\n")
+
+                        if threads_update_guard is None:
+                            send_threads()
+                            sent = True
+                        else:
+                            sent = threads_update_guard(send_threads)
+                        if sent:
+                            worker_count = requested_threads
+                            if event_callback is not None:
+                                event_callback({"type": "native_threads_sent", "threads": requested_threads})
                 try:
                     line = self._lines.get(timeout=0.05)
                 except queue.Empty:
@@ -270,10 +343,16 @@ class _PersistentNativeSolver:
                 if event.get("type") == "error" or not event.get("ok"):
                     raise NativeSolverError(str(event.get("error", "native solver failed")))
                 if event.get("type") == "result":
+                    if event_callback is not None:
+                        event_callback({"type": "native_result_received", "result": event,
+                                        **_native_process_stats(self._process)})
                     if stop_reason is not None:
                         raise stop_reason
                     return event
         finally:
+            if event_callback is not None:
+                event_callback({"type": "native_request_finished", **_native_process_stats(self._process)})
+            self._process_event_callback = None
             self._lock.release()
 
     def close(self) -> None:
@@ -337,6 +416,9 @@ def solve_native(
     progress_callback: Callable[[dict], None] | None = None,
     deadline: float | None = None,
     incumbent_provider: Callable[[], list[str] | None] | None = None,
+    event_callback: Callable[[dict], None] | None = None,
+    threads_provider: Callable[[], int | None] | None = None,
+    threads_update_guard: Callable[[Callable[[], None]], bool] | None = None,
 ) -> dict | None:
     if not native_solver_available():
         return None
@@ -352,5 +434,8 @@ def solve_native(
         progress_callback,
         deadline,
         incumbent_provider,
+        event_callback,
+        threads_provider,
+        threads_update_guard,
     )
     return _validated_result(cube, payload)

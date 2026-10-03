@@ -96,7 +96,7 @@ void print_counters_json(std::ostream &output, const cube::SearchCounters &count
 }
 
 void print_progress_json(std::ostream &output, const cube::NativeSearchProgress &progress, const std::string &id = "") {
-    output << "{\"type\":\"progress\",\"lower_bound\":" << progress.lower_bound
+    output << "{\"type\":\"progress\",\"threads\":" << progress.threads << ",\"lower_bound\":" << progress.lower_bound
            << ",\"upper_bound\":" << progress.upper_bound << ",\"current_depth\":" << progress.current_depth
            << ",\"completed_depth\":" << progress.completed_depth << ",\"iteration_nodes\":" << progress.iteration_nodes
            << ",\"iteration_split_nodes\":" << progress.iteration_split_nodes << ",\"nodes\":" << progress.total_nodes
@@ -434,11 +434,14 @@ int wmain(int argc, wchar_t **wide_argv) {
             }
             if (!tail_pdb_path.empty())
                 solver.load_tail_database(tail_pdb_path);
-            std::cout << "{\"ok\":true,\"type\":\"ready\",\"protocol_version\":2,\"proof_version\":1}\n" << std::flush;
+            std::cout << "{\"ok\":true,\"type\":\"ready\",\"protocol_version\":2,\"proof_version\":1,\"dynamic_"
+                         "threads\":true}\n"
+                      << std::flush;
 
             std::thread search;
             std::atomic<bool> running{false};
             std::atomic<bool> cancel{false};
+            std::atomic<int> requested_threads{1};
             std::mutex output_mutex;
             std::mutex incumbent_mutex;
             std::vector<int> incumbent;
@@ -451,6 +454,15 @@ int wmain(int argc, wchar_t **wide_argv) {
                 std::string id;
                 try {
                     const auto fields = split_tabs(request);
+                    if (fields.size() == 3 && fields[0] == "threads") {
+                        if (fields[1] == active_id && running.load()) {
+                            const int count = std::stoi(fields[2]);
+                            if (count < 1 || count > 64)
+                                throw std::invalid_argument("thread count must be in 1..64");
+                            requested_threads.store(count, std::memory_order_relaxed);
+                        }
+                        continue;
+                    }
                     if (fields.size() == 2 && fields[0] == "cancel") {
                         if (fields[1] == active_id)
                             cancel.store(true);
@@ -485,6 +497,11 @@ int wmain(int argc, wchar_t **wide_argv) {
                     options.max_depth = std::stoi(fields[offset + 1]);
                     options.timeout_seconds = std::stod(fields[offset + 2]);
                     options.threads = std::stoi(fields[offset + 3]);
+                    requested_threads.store(options.threads > 0
+                                                ? options.threads
+                                                : static_cast<int>(std::max(1U, std::thread::hardware_concurrency())),
+                                            std::memory_order_relaxed);
+                    options.thread_count_callback = [&] { return requested_threads.load(std::memory_order_relaxed); };
                     options.incumbent_moves = parse_moves(fields[offset + 4]);
                     incumbent = options.incumbent_moves;
                     cancel.store(false);

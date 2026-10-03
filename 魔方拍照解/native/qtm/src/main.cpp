@@ -85,6 +85,7 @@ void print_usage() {
               << "  cube_solver fast-solve FACELETS --qtm-phase1-pdb PATH [--timeout N] [--incumbent-cost N]\n"
               << "  cube_solver solve FACELETS [--metric HTM|QTM] [--max-depth N] [--timeout S] [--threads N]\n"
               << "                    [--pdb PATH] [--incumbent \"MOVES\"] [--transposition]\n"
+              << "                    [--qtm-expansion=generic|full-strong]\n"
               << "  cube_solver serve [--pdb PATH] [--phase1-pdb PATH] [--qtm-pdb PATH] [--qtm-phase1-pdb PATH] "
                  "[--strong-pdb PATH] [--asset-loading=eager|staged]\n"
               << "  cube_solver build-corner-pdb PATH [--metric HTM|QTM] [--coverage-depth N] [--threads N] [--force]\n"
@@ -129,9 +130,38 @@ void print_moves_json(std::ostream &output, const std::vector<int> &moves) {
     output << ']';
 }
 
+void print_candidate_direction_json(std::ostream &output, const cube::CandidateDirectionStatistics &direction) {
+    output << "{\"direction\":" << direction.direction << ",\"axis\":" << direction.axis
+           << ",\"inverse\":" << (direction.inverse ? "true" : "false") << ",\"visits\":" << direction.visits
+           << ",\"budget_seconds\":" << direction.budget_seconds << ",\"elapsed_seconds\":" << direction.elapsed_seconds
+           << ",\"phase1_nodes\":" << direction.phase1_nodes << ",\"phase2_nodes\":" << direction.phase2_nodes
+           << ",\"first_candidate_seconds\":" << direction.first_candidate_seconds
+           << ",\"first_cost\":" << direction.first_cost << ",\"best_cost\":" << direction.best_cost
+           << ",\"improvements\":[";
+    for (std::size_t index = 0; index < direction.improvements.size(); ++index) {
+        if (index)
+            output << ',';
+        output << "{\"cost\":" << direction.improvements[index].cost
+               << ",\"seconds\":" << direction.improvements[index].seconds << '}';
+    }
+    output << "]}";
+}
+
+void print_candidate_directions_json(std::ostream &output,
+                                     const std::array<cube::CandidateDirectionStatistics, 6> &directions) {
+    output << ",\"candidate_directions\":[";
+    for (std::size_t index = 0; index < directions.size(); ++index) {
+        if (index)
+            output << ',';
+        print_candidate_direction_json(output, directions[index]);
+    }
+    output << ']';
+}
+
 void print_counters_json(std::ostream &output, const cube::SearchCounters &counters,
                          const std::vector<cube::WorkerStatistics> &workers) {
     output << ",\"generated_candidates\":" << counters.generated << ",\"small_pdb_queries\":" << counters.small_queries
+           << ",\"full_strong_expansions\":" << counters.full_strong_expansions
            << ",\"phase1_queries\":" << counters.phase1_queries << ",\"corner_queries\":" << counters.corner_queries
            << ",\"edge_queries\":" << counters.edge_queries << ",\"strong_queries\":" << counters.strong_queries
            << ",\"strong_prefetches\":" << counters.strong_prefetches << ",\"slice_updates\":" << counters.slice_updates
@@ -212,6 +242,13 @@ void print_result_json(std::ostream &output, const cube::NativeSolveResult &resu
            << ",\"candidate_phase2_nodes\":" << result.candidate_phase2_nodes
            << ",\"candidate_improvements\":" << result.candidate_improvements
            << ",\"candidate_window_replacements\":" << result.candidate_window_replacements
+           << ",\"candidate_budget_seconds\":" << result.candidate_budget_seconds
+           << ",\"candidate_elapsed_seconds\":" << result.candidate_elapsed_seconds
+           << ",\"late_tail_attempts\":" << result.late_tail_attempts
+           << ",\"late_tail_improvements\":" << result.late_tail_improvements
+           << ",\"late_tail_window_replacements\":" << result.late_tail_window_replacements
+           << ",\"late_tail_seconds\":" << result.late_tail_seconds
+           << ",\"late_tail_budget_seconds\":" << result.late_tail_budget_seconds
            << ",\"first_candidate_seconds\":" << result.first_candidate_seconds
            << ",\"candidate_worker_done_seconds\":" << result.candidate_worker_done_seconds
            << ",\"proof_worker_return_seconds\":" << result.proof_worker_return_seconds
@@ -238,6 +275,7 @@ void print_result_json(std::ostream &output, const cube::NativeSolveResult &resu
            << ",\"strong_wait_seconds\":" << result.strong_wait_seconds
            << ",\"base_window_yields\":" << result.base_window_yields
            << ",\"base_window_discarded_generated\":" << result.base_window_discarded_generated;
+    print_candidate_directions_json(output, result.candidate_directions);
     print_counters_json(output, result.counters, result.workers);
     output << "}\n" << std::flush;
 }
@@ -279,6 +317,18 @@ bool tuning_option(const std::string &option, cube::SolverOptions &options) {
         options.query_order = cube::PdbQueryOrder::Interleaved;
     else if (option == "--pdb-query-order=strong-first")
         options.query_order = cube::PdbQueryOrder::StrongFirst;
+    else if (option == "--qtm-expansion=generic")
+        options.qtm_expansion = cube::QtmExpansionKernel::Generic;
+    else if (option == "--qtm-expansion=full-strong")
+        options.qtm_expansion = cube::QtmExpansionKernel::FullStrong;
+    else if (option == "--candidate-schedule=legacy")
+        options.candidate_schedule = cube::CandidateSchedule::Legacy;
+    else if (option == "--candidate-schedule=short-slices")
+        options.candidate_schedule = cube::CandidateSchedule::ShortSlices;
+    else if (option == "--late-tail-improvement=on")
+        options.late_tail_improvement = true;
+    else if (option == "--late-tail-improvement=off")
+        options.late_tail_improvement = false;
     else if (option == "--strong-slice=omit")
         options.omit_strong_slice = true;
     else if (option == "--strong-slice=keep")
@@ -350,6 +400,7 @@ bool tuning_option(const std::string &option, cube::SolverOptions &options) {
 void check_heuristic(int argc, char **argv) {
     int depth_limit = 3;
     cube::MoveMetric metric = cube::MoveMetric::HTM;
+    bool check_full_strong = false;
     std::filesystem::path corner_path, phase1_path, strong_path;
     for (int i = 2; i < argc; ++i) {
         const std::string flag = argv[i];
@@ -363,6 +414,8 @@ void check_heuristic(int argc, char **argv) {
             phase1_path = cube::path_from_utf8(argv[++i]);
         else if (flag == "--strong-pdb" && i + 1 < argc)
             strong_path = cube::path_from_utf8(argv[++i]);
+        else if (flag == "--qtm-expansion=full-strong")
+            check_full_strong = true;
         else
             throw std::invalid_argument("unknown heuristic check option");
     }
@@ -391,9 +444,12 @@ void check_heuristic(int argc, char **argv) {
     features.small_phase1 = !phase1 || !phase1->complete() ||
                             (metric == cube::MoveMetric::QTM && phase1->metric() == cube::MoveMetric::HTM);
     features.strengthen_axes = true;
+    if (check_full_strong && !cube::full_qtm_strong_eligible(features, phase1.get(), corner.get()))
+        throw std::runtime_error("full strong hot-path check requires complete QTM phase1, corner and strong assets");
     std::deque<std::pair<cube::CubieCube, int>> queue{{cube::CubieCube{}, 0}};
     std::unordered_set<std::string> seen{cube::to_facelets(cube::CubieCube{})};
     std::uint64_t checked = 0;
+    std::uint64_t hotpath_checked = 0;
     cube::SearchCounters counters;
     while (!queue.empty()) {
         const auto [state, depth] = queue.front();
@@ -432,6 +488,34 @@ void check_heuristic(int argc, char **argv) {
                                              omitted, counters);
                 if (a != b || (b <= cutoff && tables.materialize(optimized) != child_cube))
                     throw std::runtime_error("slice omission changed a bound or accepted state");
+                if (check_full_strong) {
+                    cube::SearchCounters generic_counters, specialized_counters;
+                    cube::CoordinateState generic, specialized;
+                    const auto generic_bound = tables.expand(coordinates, move, generic, phase1.get(), corner.get(), {},
+                                                             cutoff, features, generic_counters);
+                    const auto specialized_bound = tables.expand_full_qtm_strong(
+                        coordinates, move, specialized, corner.get(), strong.get(), cutoff, specialized_counters);
+                    if (specialized_counters.full_strong_expansions != 1)
+                        throw std::runtime_error("full strong hot-path diagnostic counter differs");
+                    specialized_counters.full_strong_expansions = 0;
+                    if (generic_bound != specialized_bound || generic_counters != specialized_counters)
+                        throw std::runtime_error(
+                            "full strong hot-path changed a bound, query order or reject counters");
+                    if (specialized_bound <= cutoff &&
+                        (tables.materialize(specialized) != child_cube || specialized.slice != expected.slice ||
+                         specialized.sorted_slice != expected.sorted_slice ||
+                         specialized.axis_twist != expected.axis_twist || specialized.axis_flip != expected.axis_flip ||
+                         specialized.axis_slice != expected.axis_slice ||
+                         specialized.axis_sorted_slice != expected.axis_sorted_slice))
+                        throw std::runtime_error("full strong hot-path accepted incomplete coordinates");
+                    const auto direct_bound =
+                        tables.heuristic_full_qtm_strong(expected, corner.get(), strong.get(), cutoff);
+                    const auto reference_bound =
+                        tables.heuristic(expected, phase1.get(), corner.get(), {}, cutoff, features);
+                    if (direct_bound != reference_bound)
+                        throw std::runtime_error("full strong hot-path heuristic differs");
+                    ++hotpath_checked;
+                }
             }
             // An independent unit-cost oracle: QTM expands only quarter turns and allows repeated faces.
             if (depth < depth_limit && cube::move_cost(move, metric) == 1 &&
@@ -444,7 +528,8 @@ void check_heuristic(int argc, char **argv) {
         throw std::runtime_error("complete PDB path queried covered small tables");
     std::cout << "{\"ok\":true,\"checked\":" << checked << ",\"depth\":" << depth_limit << ",\"metric\":\""
               << cube::metric_name(metric) << "\""
-              << ",\"small_pdb_queries\":" << counters.small_queries << "}\n";
+              << ",\"small_pdb_queries\":" << counters.small_queries << ",\"full_strong_checked\":" << hotpath_checked
+              << "}\n";
 }
 
 } // namespace
@@ -621,6 +706,10 @@ int wmain(int argc, wchar_t **wide_argv) {
                     options.max_phase1_cost = std::stoi(argv[++index]);
                 else if (option == "--max-phase2-cost" && index + 1 < argc)
                     options.max_phase2_cost = std::stoi(argv[++index]);
+                else if (option == "--candidate-schedule=legacy")
+                    options.schedule = cube::CandidateSchedule::Legacy;
+                else if (option == "--candidate-schedule=short-slices")
+                    options.schedule = cube::CandidateSchedule::ShortSlices;
                 else
                     throw std::invalid_argument("unknown fast-solve option: " + option);
             }
@@ -648,7 +737,11 @@ int wmain(int argc, wchar_t **wide_argv) {
                       << ",\"phase2_max_distance\":" << result.phase2_max_distance
                       << ",\"improvements\":" << result.improvements
                       << ",\"window_replacements\":" << result.window_replacements
-                      << ",\"timed_out\":" << (result.timed_out ? "true" : "false") << "}\n";
+                      << ",\"timed_out\":" << (result.timed_out ? "true" : "false")
+                      << ",\"budget_seconds\":" << result.budget_seconds
+                      << ",\"elapsed_seconds\":" << result.elapsed_seconds;
+            print_candidate_directions_json(std::cout, result.directions);
+            std::cout << "}\n";
             return 0;
         }
         if (command == "verify-pdb") {
@@ -1340,6 +1433,27 @@ int wmain(int argc, wchar_t **wide_argv) {
                     };
                     const auto search_solver = active_solver.load(std::memory_order_acquire);
                     const auto candidate_started = std::chrono::steady_clock::now();
+                    options.candidate_direction_callback = [&, id, candidate_started](
+                                                               const cube::CandidateDirectionStatistics &direction) {
+                        std::lock_guard lock(output_mutex);
+                        std::cout << "{\"ok\":true,\"type\":\"candidate_direction\",\"request_id\":" << std::quoted(id)
+                                  << ",\"metric\":\"QTM\",\"native_event_seconds\":"
+                                  << std::chrono::duration<double>(std::chrono::steady_clock::now() - candidate_started)
+                                         .count()
+                                  << ",\"statistics\":";
+                        print_candidate_direction_json(std::cout, direction);
+                        std::cout << "}\n" << std::flush;
+                    };
+                    options.late_tail_callback = [&, id](const cube::FastCandidateResult &part) {
+                        std::lock_guard lock(output_mutex);
+                        std::cout << "{\"ok\":true,\"type\":\"candidate_tail\",\"request_id\":" << std::quoted(id)
+                                  << ",\"metric\":\"QTM\",\"attempts\":1,\"cost\":" << part.cost
+                                  << ",\"improvements\":" << part.improvements
+                                  << ",\"window_replacements\":" << part.window_replacements
+                                  << ",\"budget_seconds\":" << part.budget_seconds
+                                  << ",\"elapsed_seconds\":" << part.elapsed_seconds << "}\n"
+                                  << std::flush;
+                    };
                     options.candidate_callback = [&, id, candidate_started,
                                                   search_solver](const std::vector<int> &moves) {
                         const int cost = cube::solution_cost(moves, cube::MoveMetric::QTM);

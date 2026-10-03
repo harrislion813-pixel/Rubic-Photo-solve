@@ -1,0 +1,1442 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="19" skipped="0" tests="78" time="5.289" timestamp="2026-10-03T11:09:34.133163+08:00" hostname="DESKTOP-C8SGOOO"><testcase classname="tests.test_htm_candidate_delivery" name="test_fast_notifies_first_and_improved_before_return" time="0.001" /><testcase classname="tests.test_htm_candidate_delivery" name="test_fast_cancel_precedes_table_loading" time="0.000" /><testcase classname="tests.test_htm_candidate_delivery" name="test_candidate_replay_monotonic_terminal_deadline_and_identity" time="0.000"><failure message="NameError: name 'os' is not defined. Did you forget to import 'os'">jobs = None
+
+    def test_candidate_replay_monotonic_terminal_deadline_and_identity(jobs):
+        cube = CubieCube().apply_move_index(MOVE_INDEX["R"])
+&gt;       job_id, _ = server.prepare_optimal_job(cube, None, 20, 10)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_htm_candidate_delivery.py:83: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cube = CubieCube(cp=(4, 1, 2, 0, 7, 5, 6, 3), co=(2, 0, 0, 1, 1, 0, 0, 2), ep=(8, 1, 2, 3, 11, 5, 6, 7, 4, 9, 10, 0), eo=(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+quick_result = None, max_depth = 20, timeout_seconds = 10
+
+    def prepare_optimal_job(
+        cube: CubieCube,
+        quick_result,
+        max_depth: int,
+        timeout_seconds: float | None,
+        *,
+        deadline: float | None = None,
+        started: float | None = None,
+        candidate_enabled: bool = False,
+    ) -&gt; tuple[str, threading.Thread]:
+        created = time.monotonic() if started is None else started
+        if deadline is None and timeout_seconds is not None:
+            deadline = created + timeout_seconds
+        state_key = (to_facelets(cube), max_depth, "HTM", 1)
+        job_id = uuid.uuid4().hex
+        cancel_event = threading.Event()
+        with JOBS_LOCK:
+            for existing_id, existing in JOBS.items():
+                if existing.get("_state_key") == state_key and existing.get("status") in {"queued", "running"}:
+                    return existing_id, existing["_worker"]
+            if len(JOBS) &gt;= MAX_JOBS:
+                terminal = [
+                    (key, value.get("updated_at", 0.0))
+                    for key, value in JOBS.items()
+                    if value.get("status") in {"complete", "timeout", "error", "cancelled"}
+                    and not value["_worker"].is_alive()
+                    and not (value.get("_candidate_worker") and value["_candidate_worker"].is_alive())
+                ]
+                remove_count = len(JOBS) - MAX_JOBS + 1
+                for key, _ in sorted(terminal, key=lambda item: item[1])[:remove_count]:
+                    JOBS.pop(key, None)
+            if len(JOBS) &gt;= MAX_JOBS:
+                raise JobCapacityError("后台求解任务过多，请取消旧任务后重试。")
+            JOBS[job_id] = {
+                "job_id": job_id,
+                "status": "queued",
+                "created_at": time.time(),
+                "updated_at": time.time(),
+                "_cancel_event": cancel_event,
+                "_broker": BROKER,
+                "incumbent_depth": quick_result.depth if quick_result is not None else None,
+                "_state_key": state_key,
+                "_deadline": deadline,
+                "_started_at": created,
+                "_done": threading.Event(),
+                "_delivery_ready": threading.Event(),
+                "_candidate_stop": threading.Event(),
+                "_generation_done": threading.Event(),
+                "_proof_lease": threading.Event(),
+                "_serial_candidate": candidate_enabled and BROKER.threads == 1,
+                "_proof_threads": max(1, BROKER.threads - int(candidate_enabled and BROKER.threads &gt; 1)),
+                "_incumbent_moves": quick_result.moves if quick_result is not None else None,
+                "engine": "pending",
+                "solution_generation_seconds": 0.0,
+                "timing_events": [],
+                "timings": {},
+                "thread_quota": BROKER.threads,
+                "candidate_thread_quota": int(candidate_enabled),
+                "candidate_search_running": False,
+&gt;               "early_candidate_delivery": os.environ.get("CUBE_HTM_EARLY_CANDIDATE", "off").lower() in {"1", "true", "on"},
+                                            ^^
+            }
+E           NameError: name 'os' is not defined. Did you forget to import 'os'
+
+server.py:167: NameError</failure></testcase><testcase classname="tests.test_htm_candidate_delivery" name="test_http_returns_first_candidate_while_improvement_continues[1]" time="0.038"><failure message="urllib.error.HTTPError: HTTP Error 500: Internal Server Error">jobs = None
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000001E819E9ADB0&gt;
+threads = 1
+
+    @pytest.mark.parametrize("threads", [1, 2, 3])
+    def test_http_returns_first_candidate_while_improvement_continues(jobs, monkeypatch, threads):
+        broker = ResourceBroker(threads)
+        monkeypatch.setattr(server, "BROKER", broker)
+        monkeypatch.setattr(server, "QUICK_OPTIMAL_PROBE_SECONDS", 0.005)
+        monkeypatch.setattr(server, "native_solver_available", lambda: True)
+        monkeypatch.setattr(server.AppHandler, "log_message", lambda *args: None)
+        improve = threading.Event()
+        generated = threading.Event()
+        improved = threading.Event()
+        proof_started = threading.Event()
+        proof_calls = []
+    
+        def fast(cube, *, timeout_seconds, candidate_callback, cancel_event, deadline):
+            assert 0 &lt; timeout_seconds &lt;= server.QUICK_SOLVE_SECONDS
+            assert deadline &gt; time.monotonic()
+            candidate_callback(candidate(["R'", "U", "U'"]))
+            generated.set()
+            while not improve.wait(0.01):
+                if cancel_event.is_set():
+                    raise SearchCancelled("candidate stopped")
+            result = candidate(["R'"])
+            candidate_callback(result)
+            improved.set()
+            return result
+    
+        def native(cube, **kwargs):
+            proof_calls.append(kwargs)
+            proof_started.set()
+            while not kwargs["cancel_event"].wait(0.01):
+                pass
+            raise NativeSolverCancelled("cancelled")
+    
+        monkeypatch.setattr(server.FAST_SOLVER, "solve_cube", fast)
+        monkeypatch.setattr(server, "solve_native", native)
+        http = server.ExclusiveThreadingHTTPServer((server.HOST, 0), server.AppHandler)
+        listener = threading.Thread(target=lambda: http.serve_forever(poll_interval=0.01), daemon=True)
+        listener.start()
+        try:
+            payload = {"facelets": to_facelets(CubieCube().apply_move_index(MOVE_INDEX["R"])),
+                       "timeout_seconds": 5}
+            request = Request(f"http://{server.HOST}:{http.server_address[1]}/api/solve",
+                              data=json.dumps(payload).encode(), headers={"Content-Type": "application/json"})
+&gt;           with urlopen(request, timeout=2) as response:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_htm_candidate_delivery.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:215: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:521: in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:630: in http_response
+    response = self.parent.error(
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:559: in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:492: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;urllib.request.HTTPDefaultErrorHandler object at 0x000001E83AA1D2E0&gt;
+req = &lt;urllib.request.Request object at 0x000001E83A8DCB00&gt;
+fp = &lt;http.client.HTTPResponse object at 0x000001E83AA1D720&gt;, code = 500
+msg = 'Internal Server Error'
+hdrs = &lt;http.client.HTTPMessage object at 0x000001E83AA1DD00&gt;
+
+    def http_error_default(self, req, fp, code, msg, hdrs):
+&gt;       raise HTTPError(req.full_url, code, msg, hdrs, fp)
+E       urllib.error.HTTPError: HTTP Error 500: Internal Server Error
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:639: HTTPError</failure></testcase><testcase classname="tests.test_htm_candidate_delivery" name="test_http_returns_first_candidate_while_improvement_continues[2]" time="0.019"><failure message="urllib.error.HTTPError: HTTP Error 500: Internal Server Error">jobs = None
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000001E83AA1F260&gt;
+threads = 2
+
+    @pytest.mark.parametrize("threads", [1, 2, 3])
+    def test_http_returns_first_candidate_while_improvement_continues(jobs, monkeypatch, threads):
+        broker = ResourceBroker(threads)
+        monkeypatch.setattr(server, "BROKER", broker)
+        monkeypatch.setattr(server, "QUICK_OPTIMAL_PROBE_SECONDS", 0.005)
+        monkeypatch.setattr(server, "native_solver_available", lambda: True)
+        monkeypatch.setattr(server.AppHandler, "log_message", lambda *args: None)
+        improve = threading.Event()
+        generated = threading.Event()
+        improved = threading.Event()
+        proof_started = threading.Event()
+        proof_calls = []
+    
+        def fast(cube, *, timeout_seconds, candidate_callback, cancel_event, deadline):
+            assert 0 &lt; timeout_seconds &lt;= server.QUICK_SOLVE_SECONDS
+            assert deadline &gt; time.monotonic()
+            candidate_callback(candidate(["R'", "U", "U'"]))
+            generated.set()
+            while not improve.wait(0.01):
+                if cancel_event.is_set():
+                    raise SearchCancelled("candidate stopped")
+            result = candidate(["R'"])
+            candidate_callback(result)
+            improved.set()
+            return result
+    
+        def native(cube, **kwargs):
+            proof_calls.append(kwargs)
+            proof_started.set()
+            while not kwargs["cancel_event"].wait(0.01):
+                pass
+            raise NativeSolverCancelled("cancelled")
+    
+        monkeypatch.setattr(server.FAST_SOLVER, "solve_cube", fast)
+        monkeypatch.setattr(server, "solve_native", native)
+        http = server.ExclusiveThreadingHTTPServer((server.HOST, 0), server.AppHandler)
+        listener = threading.Thread(target=lambda: http.serve_forever(poll_interval=0.01), daemon=True)
+        listener.start()
+        try:
+            payload = {"facelets": to_facelets(CubieCube().apply_move_index(MOVE_INDEX["R"])),
+                       "timeout_seconds": 5}
+            request = Request(f"http://{server.HOST}:{http.server_address[1]}/api/solve",
+                              data=json.dumps(payload).encode(), headers={"Content-Type": "application/json"})
+&gt;           with urlopen(request, timeout=2) as response:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_htm_candidate_delivery.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:215: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:521: in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:630: in http_response
+    response = self.parent.error(
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:559: in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:492: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;urllib.request.HTTPDefaultErrorHandler object at 0x000001E83AA1D2E0&gt;
+req = &lt;urllib.request.Request object at 0x000001E83AA1E5D0&gt;
+fp = &lt;http.client.HTTPResponse object at 0x000001E83AA1E8F0&gt;, code = 500
+msg = 'Internal Server Error'
+hdrs = &lt;http.client.HTTPMessage object at 0x000001E83AA1ED20&gt;
+
+    def http_error_default(self, req, fp, code, msg, hdrs):
+&gt;       raise HTTPError(req.full_url, code, msg, hdrs, fp)
+E       urllib.error.HTTPError: HTTP Error 500: Internal Server Error
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:639: HTTPError</failure></testcase><testcase classname="tests.test_htm_candidate_delivery" name="test_http_returns_first_candidate_while_improvement_continues[3]" time="0.017"><failure message="urllib.error.HTTPError: HTTP Error 500: Internal Server Error">jobs = None
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000001E83AA1F530&gt;
+threads = 3
+
+    @pytest.mark.parametrize("threads", [1, 2, 3])
+    def test_http_returns_first_candidate_while_improvement_continues(jobs, monkeypatch, threads):
+        broker = ResourceBroker(threads)
+        monkeypatch.setattr(server, "BROKER", broker)
+        monkeypatch.setattr(server, "QUICK_OPTIMAL_PROBE_SECONDS", 0.005)
+        monkeypatch.setattr(server, "native_solver_available", lambda: True)
+        monkeypatch.setattr(server.AppHandler, "log_message", lambda *args: None)
+        improve = threading.Event()
+        generated = threading.Event()
+        improved = threading.Event()
+        proof_started = threading.Event()
+        proof_calls = []
+    
+        def fast(cube, *, timeout_seconds, candidate_callback, cancel_event, deadline):
+            assert 0 &lt; timeout_seconds &lt;= server.QUICK_SOLVE_SECONDS
+            assert deadline &gt; time.monotonic()
+            candidate_callback(candidate(["R'", "U", "U'"]))
+            generated.set()
+            while not improve.wait(0.01):
+                if cancel_event.is_set():
+                    raise SearchCancelled("candidate stopped")
+            result = candidate(["R'"])
+            candidate_callback(result)
+            improved.set()
+            return result
+    
+        def native(cube, **kwargs):
+            proof_calls.append(kwargs)
+            proof_started.set()
+            while not kwargs["cancel_event"].wait(0.01):
+                pass
+            raise NativeSolverCancelled("cancelled")
+    
+        monkeypatch.setattr(server.FAST_SOLVER, "solve_cube", fast)
+        monkeypatch.setattr(server, "solve_native", native)
+        http = server.ExclusiveThreadingHTTPServer((server.HOST, 0), server.AppHandler)
+        listener = threading.Thread(target=lambda: http.serve_forever(poll_interval=0.01), daemon=True)
+        listener.start()
+        try:
+            payload = {"facelets": to_facelets(CubieCube().apply_move_index(MOVE_INDEX["R"])),
+                       "timeout_seconds": 5}
+            request = Request(f"http://{server.HOST}:{http.server_address[1]}/api/solve",
+                              data=json.dumps(payload).encode(), headers={"Content-Type": "application/json"})
+&gt;           with urlopen(request, timeout=2) as response:
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_htm_candidate_delivery.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:215: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:521: in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:630: in http_response
+    response = self.parent.error(
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:559: in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:492: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;urllib.request.HTTPDefaultErrorHandler object at 0x000001E83AA1D2E0&gt;
+req = &lt;urllib.request.Request object at 0x000001E83AA654C0&gt;
+fp = &lt;http.client.HTTPResponse object at 0x000001E83AA66E90&gt;, code = 500
+msg = 'Internal Server Error'
+hdrs = &lt;http.client.HTTPMessage object at 0x000001E83AA64650&gt;
+
+    def http_error_default(self, req, fp, code, msg, hdrs):
+&gt;       raise HTTPError(req.full_url, code, msg, hdrs, fp)
+E       urllib.error.HTTPError: HTTP Error 500: Internal Server Error
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:639: HTTPError</failure></testcase><testcase classname="tests.test_htm_candidate_delivery" name="test_native_refreshes_initial_incumbent_and_records_pipe_send" time="0.000" /><testcase classname="tests.test_htm_candidate_delivery" name="test_native_dynamic_threads_restore_only_for_active_job[True]" time="0.000" /><testcase classname="tests.test_htm_candidate_delivery" name="test_native_dynamic_threads_restore_only_for_active_job[False]" time="0.000" /><testcase classname="tests.test_htm_candidate_delivery" name="test_queued_candidate_waits_for_its_proof_lease" time="0.000"><failure message="NameError: name 'os' is not defined. Did you forget to import 'os'">jobs = None
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000001E83AA64770&gt;
+
+    def test_queued_candidate_waits_for_its_proof_lease(jobs, monkeypatch):
+        monkeypatch.setattr(server, "BROKER", ResourceBroker(3))
+        started = [threading.Event(), threading.Event()]
+        observed = []
+        first_cube = CubieCube().apply_move_index(MOVE_INDEX["R"])
+        second_cube = CubieCube().apply_move_index(MOVE_INDEX["U"])
+    
+        def native(cube, **kwargs):
+            index = int(cube == second_cube)
+            started[index].set()
+            while not kwargs["cancel_event"].wait(0.01):
+                pass
+            raise NativeSolverCancelled("cancelled")
+    
+        def fast(cube, **kwargs):
+            observed.append(cube)
+            result = candidate(["R'"] if cube == first_cube else ["U'"])
+            kwargs["candidate_callback"](result)
+            return result
+    
+        monkeypatch.setattr(server, "solve_native", native)
+        monkeypatch.setattr(server.FAST_SOLVER, "solve_cube", fast)
+&gt;       first_id, first_worker = server.prepare_optimal_job(first_cube, None, 20, 3, candidate_enabled=True)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_htm_candidate_delivery.py:261: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cube = CubieCube(cp=(4, 1, 2, 0, 7, 5, 6, 3), co=(2, 0, 0, 1, 1, 0, 0, 2), ep=(8, 1, 2, 3, 11, 5, 6, 7, 4, 9, 10, 0), eo=(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+quick_result = None, max_depth = 20, timeout_seconds = 3
+
+    def prepare_optimal_job(
+        cube: CubieCube,
+        quick_result,
+        max_depth: int,
+        timeout_seconds: float | None,
+        *,
+        deadline: float | None = None,
+        started: float | None = None,
+        candidate_enabled: bool = False,
+    ) -&gt; tuple[str, threading.Thread]:
+        created = time.monotonic() if started is None else started
+        if deadline is None and timeout_seconds is not None:
+            deadline = created + timeout_seconds
+        state_key = (to_facelets(cube), max_depth, "HTM", 1)
+        job_id = uuid.uuid4().hex
+        cancel_event = threading.Event()
+        with JOBS_LOCK:
+            for existing_id, existing in JOBS.items():
+                if existing.get("_state_key") == state_key and existing.get("status") in {"queued", "running"}:
+                    return existing_id, existing["_worker"]
+            if len(JOBS) &gt;= MAX_JOBS:
+                terminal = [
+                    (key, value.get("updated_at", 0.0))
+                    for key, value in JOBS.items()
+                    if value.get("status") in {"complete", "timeout", "error", "cancelled"}
+                    and not value["_worker"].is_alive()
+                    and not (value.get("_candidate_worker") and value["_candidate_worker"].is_alive())
+                ]
+                remove_count = len(JOBS) - MAX_JOBS + 1
+                for key, _ in sorted(terminal, key=lambda item: item[1])[:remove_count]:
+                    JOBS.pop(key, None)
+            if len(JOBS) &gt;= MAX_JOBS:
+                raise JobCapacityError("后台求解任务过多，请取消旧任务后重试。")
+            JOBS[job_id] = {
+                "job_id": job_id,
+                "status": "queued",
+                "created_at": time.time(),
+                "updated_at": time.time(),
+                "_cancel_event": cancel_event,
+                "_broker": BROKER,
+                "incumbent_depth": quick_result.depth if quick_result is not None else None,
+                "_state_key": state_key,
+                "_deadline": deadline,
+                "_started_at": created,
+                "_done": threading.Event(),
+                "_delivery_ready": threading.Event(),
+                "_candidate_stop": threading.Event(),
+                "_generation_done": threading.Event(),
+                "_proof_lease": threading.Event(),
+                "_serial_candidate": candidate_enabled and BROKER.threads == 1,
+                "_proof_threads": max(1, BROKER.threads - int(candidate_enabled and BROKER.threads &gt; 1)),
+                "_incumbent_moves": quick_result.moves if quick_result is not None else None,
+                "engine": "pending",
+                "solution_generation_seconds": 0.0,
+                "timing_events": [],
+                "timings": {},
+                "thread_quota": BROKER.threads,
+                "candidate_thread_quota": int(candidate_enabled),
+                "candidate_search_running": False,
+&gt;               "early_candidate_delivery": os.environ.get("CUBE_HTM_EARLY_CANDIDATE", "off").lower() in {"1", "true", "on"},
+                                            ^^
+            }
+E           NameError: name 'os' is not defined. Did you forget to import 'os'
+
+server.py:167: NameError</failure></testcase><testcase classname="tests.test_htm_candidate_delivery" name="test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[deadline-missing]" time="0.032" /><testcase classname="tests.test_htm_candidate_delivery" name="test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[deadline-corrupt]" time="0.031" /><testcase classname="tests.test_htm_candidate_delivery" name="test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[cancel-missing]" time="0.002" /><testcase classname="tests.test_htm_candidate_delivery" name="test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[cancel-corrupt]" time="0.003" /><testcase classname="tests.test_htm_candidate_delivery" name="test_cache_deadline_exception_is_not_swallowed_as_corruption" time="0.010" /><testcase classname="tests.test_htm_candidate_delivery" name="test_table_build_lock_wait_preserves_cancellation" time="0.062" /><testcase classname="tests.test_htm_candidate_delivery" name="test_table_builder_checks_cancel_before_move_work" time="0.000" /><testcase classname="tests.test_htm_candidate_delivery" name="test_native_ready_result_and_finish_record_process_memory" time="0.000" /><testcase classname="tests.test_htm_candidate_delivery" name="test_native_memory_events_reach_http_terminal_snapshot" time="0.000"><failure message="NameError: name 'os' is not defined. Did you forget to import 'os'">jobs = None
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000001E83AA66DE0&gt;
+
+    def test_native_memory_events_reach_http_terminal_snapshot(jobs, monkeypatch):
+        def native(cube, **kwargs):
+            callback = kwargs["event_callback"]
+            for kind, peak in (("native_ready", 100), ("native_result_received", 200),
+                               ("native_request_finished", 150)):
+                callback({"type": kind, "native_pid": 42, "peak_working_set_bytes": peak,
+                          "memory_scope": "native_process_lifetime_peak"})
+            return {**server.result_payload(candidate([])), "optimal": True}
+    
+        monkeypatch.setattr(server, "solve_native", native)
+&gt;       job_id, worker = server.prepare_optimal_job(CubieCube(), None, 0, 1)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_htm_candidate_delivery.py:413: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cube = CubieCube(cp=(0, 1, 2, 3, 4, 5, 6, 7), co=(0, 0, 0, 0, 0, 0, 0, 0), ep=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11), eo=(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+quick_result = None, max_depth = 0, timeout_seconds = 1
+
+    def prepare_optimal_job(
+        cube: CubieCube,
+        quick_result,
+        max_depth: int,
+        timeout_seconds: float | None,
+        *,
+        deadline: float | None = None,
+        started: float | None = None,
+        candidate_enabled: bool = False,
+    ) -&gt; tuple[str, threading.Thread]:
+        created = time.monotonic() if started is None else started
+        if deadline is None and timeout_seconds is not None:
+            deadline = created + timeout_seconds
+        state_key = (to_facelets(cube), max_depth, "HTM", 1)
+        job_id = uuid.uuid4().hex
+        cancel_event = threading.Event()
+        with JOBS_LOCK:
+            for existing_id, existing in JOBS.items():
+                if existing.get("_state_key") == state_key and existing.get("status") in {"queued", "running"}:
+                    return existing_id, existing["_worker"]
+            if len(JOBS) &gt;= MAX_JOBS:
+                terminal = [
+                    (key, value.get("updated_at", 0.0))
+                    for key, value in JOBS.items()
+                    if value.get("status") in {"complete", "timeout", "error", "cancelled"}
+                    and not value["_worker"].is_alive()
+                    and not (value.get("_candidate_worker") and value["_candidate_worker"].is_alive())
+                ]
+                remove_count = len(JOBS) - MAX_JOBS + 1
+                for key, _ in sorted(terminal, key=lambda item: item[1])[:remove_count]:
+                    JOBS.pop(key, None)
+            if len(JOBS) &gt;= MAX_JOBS:
+                raise JobCapacityError("后台求解任务过多，请取消旧任务后重试。")
+            JOBS[job_id] = {
+                "job_id": job_id,
+                "status": "queued",
+                "created_at": time.time(),
+                "updated_at": time.time(),
+                "_cancel_event": cancel_event,
+                "_broker": BROKER,
+                "incumbent_depth": quick_result.depth if quick_result is not None else None,
+                "_state_key": state_key,
+                "_deadline": deadline,
+                "_started_at": created,
+                "_done": threading.Event(),
+                "_delivery_ready": threading.Event(),
+                "_candidate_stop": threading.Event(),
+                "_generation_done": threading.Event(),
+                "_proof_lease": threading.Event(),
+                "_serial_candidate": candidate_enabled and BROKER.threads == 1,
+                "_proof_threads": max(1, BROKER.threads - int(candidate_enabled and BROKER.threads &gt; 1)),
+                "_incumbent_moves": quick_result.moves if quick_result is not None else None,
+                "engine": "pending",
+                "solution_generation_seconds": 0.0,
+                "timing_events": [],
+                "timings": {},
+                "thread_quota": BROKER.threads,
+                "candidate_thread_quota": int(candidate_enabled),
+                "candidate_search_running": False,
+&gt;               "early_candidate_delivery": os.environ.get("CUBE_HTM_EARLY_CANDIDATE", "off").lower() in {"1", "true", "on"},
+                                            ^^
+            }
+E           NameError: name 'os' is not defined. Did you forget to import 'os'
+
+server.py:167: NameError</failure></testcase><testcase classname="tests.test_hybrid_api.HybridSolveApiTests" name="test_native_job_proves_an_incumbent_solution" time="0.040"><failure message="NameError: name 'os' is not defined. Did you forget to import 'os'">self = &lt;test_hybrid_api.HybridSolveApiTests testMethod=test_native_job_proves_an_incumbent_solution&gt;
+
+    @pytest.mark.native_pdb
+    @unittest.skipUnless(native_solver_available(), "原生求解器或模式数据库尚未构建")
+    def test_native_job_proves_an_incumbent_solution(self) -&gt; None:
+        cube = CubieCube()
+        scramble = "R U F2 L D"
+        for move in scramble.split():
+            cube = cube.apply_move_index(MOVE_INDEX[move])
+        incumbent = invert_moves(scramble.split())
+        quick_result = SolveResult(incumbent, len(incumbent), "HTM", 0.0, False)
+&gt;       job_id, worker = prepare_optimal_job(cube, quick_result, 20, 10)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_hybrid_api.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cube = CubieCube(cp=(5, 1, 6, 2, 7, 0, 3, 4), co=(0, 1, 2, 0, 0, 2, 2, 2), ep=(3, 5, 10, 2, 8, 4, 7, 11, 9, 1, 6, 0), eo=(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+quick_result = SolveResult(moves=["D'", "L'", 'F2', "U'", "R'"], depth=5, metric='HTM', elapsed_seconds=0.0, optimal=False)
+max_depth = 20, timeout_seconds = 10
+
+    def prepare_optimal_job(
+        cube: CubieCube,
+        quick_result,
+        max_depth: int,
+        timeout_seconds: float | None,
+        *,
+        deadline: float | None = None,
+        started: float | None = None,
+        candidate_enabled: bool = False,
+    ) -&gt; tuple[str, threading.Thread]:
+        created = time.monotonic() if started is None else started
+        if deadline is None and timeout_seconds is not None:
+            deadline = created + timeout_seconds
+        state_key = (to_facelets(cube), max_depth, "HTM", 1)
+        job_id = uuid.uuid4().hex
+        cancel_event = threading.Event()
+        with JOBS_LOCK:
+            for existing_id, existing in JOBS.items():
+                if existing.get("_state_key") == state_key and existing.get("status") in {"queued", "running"}:
+                    return existing_id, existing["_worker"]
+            if len(JOBS) &gt;= MAX_JOBS:
+                terminal = [
+                    (key, value.get("updated_at", 0.0))
+                    for key, value in JOBS.items()
+                    if value.get("status") in {"complete", "timeout", "error", "cancelled"}
+                    and not value["_worker"].is_alive()
+                    and not (value.get("_candidate_worker") and value["_candidate_worker"].is_alive())
+                ]
+                remove_count = len(JOBS) - MAX_JOBS + 1
+                for key, _ in sorted(terminal, key=lambda item: item[1])[:remove_count]:
+                    JOBS.pop(key, None)
+            if len(JOBS) &gt;= MAX_JOBS:
+                raise JobCapacityError("后台求解任务过多，请取消旧任务后重试。")
+            JOBS[job_id] = {
+                "job_id": job_id,
+                "status": "queued",
+                "created_at": time.time(),
+                "updated_at": time.time(),
+                "_cancel_event": cancel_event,
+                "_broker": BROKER,
+                "incumbent_depth": quick_result.depth if quick_result is not None else None,
+                "_state_key": state_key,
+                "_deadline": deadline,
+                "_started_at": created,
+                "_done": threading.Event(),
+                "_delivery_ready": threading.Event(),
+                "_candidate_stop": threading.Event(),
+                "_generation_done": threading.Event(),
+                "_proof_lease": threading.Event(),
+                "_serial_candidate": candidate_enabled and BROKER.threads == 1,
+                "_proof_threads": max(1, BROKER.threads - int(candidate_enabled and BROKER.threads &gt; 1)),
+                "_incumbent_moves": quick_result.moves if quick_result is not None else None,
+                "engine": "pending",
+                "solution_generation_seconds": 0.0,
+                "timing_events": [],
+                "timings": {},
+                "thread_quota": BROKER.threads,
+                "candidate_thread_quota": int(candidate_enabled),
+                "candidate_search_running": False,
+&gt;               "early_candidate_delivery": os.environ.get("CUBE_HTM_EARLY_CANDIDATE", "off").lower() in {"1", "true", "on"},
+                                            ^^
+            }
+E           NameError: name 'os' is not defined. Did you forget to import 'os'
+
+server.py:167: NameError</failure></testcase><testcase classname="tests.test_hybrid_api.HybridSolveApiTests" name="test_queued_job_can_be_cancelled" time="0.001"><failure message="NameError: name 'os' is not defined. Did you forget to import 'os'">self = &lt;test_hybrid_api.HybridSolveApiTests testMethod=test_queued_job_can_be_cancelled&gt;
+
+    def test_queued_job_can_be_cancelled(self) -&gt; None:
+        server = ExclusiveThreadingHTTPServer((HOST, 0), AppHandler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+&gt;       job_id, _ = prepare_optimal_job(CubieCube(), None, 20, 3)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_hybrid_api.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cube = CubieCube(cp=(0, 1, 2, 3, 4, 5, 6, 7), co=(0, 0, 0, 0, 0, 0, 0, 0), ep=(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11), eo=(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+quick_result = None, max_depth = 20, timeout_seconds = 3
+
+    def prepare_optimal_job(
+        cube: CubieCube,
+        quick_result,
+        max_depth: int,
+        timeout_seconds: float | None,
+        *,
+        deadline: float | None = None,
+        started: float | None = None,
+        candidate_enabled: bool = False,
+    ) -&gt; tuple[str, threading.Thread]:
+        created = time.monotonic() if started is None else started
+        if deadline is None and timeout_seconds is not None:
+            deadline = created + timeout_seconds
+        state_key = (to_facelets(cube), max_depth, "HTM", 1)
+        job_id = uuid.uuid4().hex
+        cancel_event = threading.Event()
+        with JOBS_LOCK:
+            for existing_id, existing in JOBS.items():
+                if existing.get("_state_key") == state_key and existing.get("status") in {"queued", "running"}:
+                    return existing_id, existing["_worker"]
+            if len(JOBS) &gt;= MAX_JOBS:
+                terminal = [
+                    (key, value.get("updated_at", 0.0))
+                    for key, value in JOBS.items()
+                    if value.get("status") in {"complete", "timeout", "error", "cancelled"}
+                    and not value["_worker"].is_alive()
+                    and not (value.get("_candidate_worker") and value["_candidate_worker"].is_alive())
+                ]
+                remove_count = len(JOBS) - MAX_JOBS + 1
+                for key, _ in sorted(terminal, key=lambda item: item[1])[:remove_count]:
+                    JOBS.pop(key, None)
+            if len(JOBS) &gt;= MAX_JOBS:
+                raise JobCapacityError("后台求解任务过多，请取消旧任务后重试。")
+            JOBS[job_id] = {
+                "job_id": job_id,
+                "status": "queued",
+                "created_at": time.time(),
+                "updated_at": time.time(),
+                "_cancel_event": cancel_event,
+                "_broker": BROKER,
+                "incumbent_depth": quick_result.depth if quick_result is not None else None,
+                "_state_key": state_key,
+                "_deadline": deadline,
+                "_started_at": created,
+                "_done": threading.Event(),
+                "_delivery_ready": threading.Event(),
+                "_candidate_stop": threading.Event(),
+                "_generation_done": threading.Event(),
+                "_proof_lease": threading.Event(),
+                "_serial_candidate": candidate_enabled and BROKER.threads == 1,
+                "_proof_threads": max(1, BROKER.threads - int(candidate_enabled and BROKER.threads &gt; 1)),
+                "_incumbent_moves": quick_result.moves if quick_result is not None else None,
+                "engine": "pending",
+                "solution_generation_seconds": 0.0,
+                "timing_events": [],
+                "timings": {},
+                "thread_quota": BROKER.threads,
+                "candidate_thread_quota": int(candidate_enabled),
+                "candidate_search_running": False,
+&gt;               "early_candidate_delivery": os.environ.get("CUBE_HTM_EARLY_CANDIDATE", "off").lower() in {"1", "true", "on"},
+                                            ^^
+            }
+E           NameError: name 'os' is not defined. Did you forget to import 'os'
+
+server.py:167: NameError</failure></testcase><testcase classname="tests.test_hybrid_api.HybridSolveApiTests" name="test_result_arrives_within_interactive_budget" time="0.511"><failure message="urllib.error.HTTPError: HTTP Error 500: Internal Server Error">self = &lt;test_hybrid_api.HybridSolveApiTests testMethod=test_result_arrives_within_interactive_budget&gt;
+
+    def test_result_arrives_within_interactive_budget(self) -&gt; None:
+        server = ExclusiveThreadingHTTPServer((HOST, 0), AppHandler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            cube = CubieCube()
+            scramble = "B' U' L' U2 F L' F2 U2 R' U L D2 F2 D' L D'"
+            for move in scramble.split():
+                cube = cube.apply_move_index(MOVE_INDEX[move])
+    
+            port = server.server_address[1]
+            started = time.perf_counter()
+&gt;           response = request_json(
+                f"http://{HOST}:{port}/api/solve",
+                {
+                    "facelets": to_facelets(cube),
+                    "max_depth": 20,
+                    "timeout_seconds": 3,
+                },
+            )
+
+tests\test_hybrid_api.py:95: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_hybrid_api.py:30: in request_json
+    with urllib.request.urlopen(request, timeout=10) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:215: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:521: in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:630: in http_response
+    response = self.parent.error(
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:559: in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:492: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;urllib.request.HTTPDefaultErrorHandler object at 0x000001E83AA1D2E0&gt;
+req = &lt;urllib.request.Request object at 0x000001E81C38C080&gt;
+fp = &lt;http.client.HTTPResponse object at 0x000001E83AA65F60&gt;, code = 500
+msg = 'Internal Server Error'
+hdrs = &lt;http.client.HTTPMessage object at 0x000001E83AA64B60&gt;
+
+    def http_error_default(self, req, fp, code, msg, hdrs):
+&gt;       raise HTTPError(req.full_url, code, msg, hdrs, fp)
+E       urllib.error.HTTPError: HTTP Error 500: Internal Server Error
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:639: HTTPError</failure></testcase><testcase classname="tests.test_search_lifecycle" name="test_benchmark_acceptance_and_training_states_are_legal" time="0.014" /><testcase classname="tests.test_search_lifecycle" name="test_native_launch_failure_is_reported_as_engine_error" time="0.001" /><testcase classname="tests.test_search_lifecycle" name="test_unlimited_proof_uses_native" time="0.001"><failure message="NameError: name 'os' is not defined. Did you forget to import 'os'">jobs = None
+
+    def test_unlimited_proof_uses_native(jobs):
+        result = {"moves": ["R'"], "depth": 1, "optimal": True, "engine": "native-cpp"}
+        with patch.object(server, "solve_native", return_value=result) as native:
+&gt;           job_id, worker = server.prepare_optimal_job(cube_after("R"), None, 20, None)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_search_lifecycle.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cube = CubieCube(cp=(4, 1, 2, 0, 7, 5, 6, 3), co=(2, 0, 0, 1, 1, 0, 0, 2), ep=(8, 1, 2, 3, 11, 5, 6, 7, 4, 9, 10, 0), eo=(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+quick_result = None, max_depth = 20, timeout_seconds = None
+
+    def prepare_optimal_job(
+        cube: CubieCube,
+        quick_result,
+        max_depth: int,
+        timeout_seconds: float | None,
+        *,
+        deadline: float | None = None,
+        started: float | None = None,
+        candidate_enabled: bool = False,
+    ) -&gt; tuple[str, threading.Thread]:
+        created = time.monotonic() if started is None else started
+        if deadline is None and timeout_seconds is not None:
+            deadline = created + timeout_seconds
+        state_key = (to_facelets(cube), max_depth, "HTM", 1)
+        job_id = uuid.uuid4().hex
+        cancel_event = threading.Event()
+        with JOBS_LOCK:
+            for existing_id, existing in JOBS.items():
+                if existing.get("_state_key") == state_key and existing.get("status") in {"queued", "running"}:
+                    return existing_id, existing["_worker"]
+            if len(JOBS) &gt;= MAX_JOBS:
+                terminal = [
+                    (key, value.get("updated_at", 0.0))
+                    for key, value in JOBS.items()
+                    if value.get("status") in {"complete", "timeout", "error", "cancelled"}
+                    and not value["_worker"].is_alive()
+                    and not (value.get("_candidate_worker") and value["_candidate_worker"].is_alive())
+                ]
+                remove_count = len(JOBS) - MAX_JOBS + 1
+                for key, _ in sorted(terminal, key=lambda item: item[1])[:remove_count]:
+                    JOBS.pop(key, None)
+            if len(JOBS) &gt;= MAX_JOBS:
+                raise JobCapacityError("后台求解任务过多，请取消旧任务后重试。")
+            JOBS[job_id] = {
+                "job_id": job_id,
+                "status": "queued",
+                "created_at": time.time(),
+                "updated_at": time.time(),
+                "_cancel_event": cancel_event,
+                "_broker": BROKER,
+                "incumbent_depth": quick_result.depth if quick_result is not None else None,
+                "_state_key": state_key,
+                "_deadline": deadline,
+                "_started_at": created,
+                "_done": threading.Event(),
+                "_delivery_ready": threading.Event(),
+                "_candidate_stop": threading.Event(),
+                "_generation_done": threading.Event(),
+                "_proof_lease": threading.Event(),
+                "_serial_candidate": candidate_enabled and BROKER.threads == 1,
+                "_proof_threads": max(1, BROKER.threads - int(candidate_enabled and BROKER.threads &gt; 1)),
+                "_incumbent_moves": quick_result.moves if quick_result is not None else None,
+                "engine": "pending",
+                "solution_generation_seconds": 0.0,
+                "timing_events": [],
+                "timings": {},
+                "thread_quota": BROKER.threads,
+                "candidate_thread_quota": int(candidate_enabled),
+                "candidate_search_running": False,
+&gt;               "early_candidate_delivery": os.environ.get("CUBE_HTM_EARLY_CANDIDATE", "off").lower() in {"1", "true", "on"},
+                                            ^^
+            }
+E           NameError: name 'os' is not defined. Did you forget to import 'os'
+
+server.py:167: NameError</failure></testcase><testcase classname="tests.test_search_lifecycle" name="test_http_unlimited_aliases_start_native_without_python_probe[None]" time="0.503"><failure message="urllib.error.HTTPError: HTTP Error 500: Internal Server Error">jobs = None, timeout = None
+
+    @pytest.mark.parametrize("timeout", [None, 0, "none"])
+    def test_http_unlimited_aliases_start_native_without_python_probe(jobs, timeout):
+        result = {
+            "moves": ["R'"],
+            "solution": "R'",
+            "depth": 1,
+            "metric": "HTM",
+            "optimal": True,
+            "engine": "native-cpp",
+            "elapsed_seconds": 0.001,
+        }
+        http_server = server.ExclusiveThreadingHTTPServer((server.HOST, 0), server.AppHandler)
+        worker = threading.Thread(target=http_server.serve_forever, daemon=True)
+        worker.start()
+        try:
+            with (
+                patch.object(server, "native_solver_available", return_value=True),
+                patch.object(server, "solve_native", return_value=result) as native,
+                patch.object(server.PROBE_SOLVER, "solve_cube") as python,
+            ):
+                from cube_app.cubie import to_facelets
+    
+                request = Request(
+                    f"http://{server.HOST}:{http_server.server_address[1]}/api/solve",
+                    data=json.dumps({"facelets": to_facelets(cube_after("R")), "timeout_seconds": timeout}).encode(),
+                    headers={"Content-Type": "application/json"},
+                )
+&gt;               with urlopen(request, timeout=2) as response:
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_search_lifecycle.py:96: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:215: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:521: in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:630: in http_response
+    response = self.parent.error(
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:559: in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:492: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;urllib.request.HTTPDefaultErrorHandler object at 0x000001E83AA1D2E0&gt;
+req = &lt;urllib.request.Request object at 0x000001E83D5D0530&gt;
+fp = &lt;http.client.HTTPResponse object at 0x000001E83D5D07C0&gt;, code = 500
+msg = 'Internal Server Error'
+hdrs = &lt;http.client.HTTPMessage object at 0x000001E83D5D0CB0&gt;
+
+    def http_error_default(self, req, fp, code, msg, hdrs):
+&gt;       raise HTTPError(req.full_url, code, msg, hdrs, fp)
+E       urllib.error.HTTPError: HTTP Error 500: Internal Server Error
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:639: HTTPError</failure></testcase><testcase classname="tests.test_search_lifecycle" name="test_http_unlimited_aliases_start_native_without_python_probe[0]" time="0.507"><failure message="urllib.error.HTTPError: HTTP Error 500: Internal Server Error">jobs = None, timeout = 0
+
+    @pytest.mark.parametrize("timeout", [None, 0, "none"])
+    def test_http_unlimited_aliases_start_native_without_python_probe(jobs, timeout):
+        result = {
+            "moves": ["R'"],
+            "solution": "R'",
+            "depth": 1,
+            "metric": "HTM",
+            "optimal": True,
+            "engine": "native-cpp",
+            "elapsed_seconds": 0.001,
+        }
+        http_server = server.ExclusiveThreadingHTTPServer((server.HOST, 0), server.AppHandler)
+        worker = threading.Thread(target=http_server.serve_forever, daemon=True)
+        worker.start()
+        try:
+            with (
+                patch.object(server, "native_solver_available", return_value=True),
+                patch.object(server, "solve_native", return_value=result) as native,
+                patch.object(server.PROBE_SOLVER, "solve_cube") as python,
+            ):
+                from cube_app.cubie import to_facelets
+    
+                request = Request(
+                    f"http://{server.HOST}:{http_server.server_address[1]}/api/solve",
+                    data=json.dumps({"facelets": to_facelets(cube_after("R")), "timeout_seconds": timeout}).encode(),
+                    headers={"Content-Type": "application/json"},
+                )
+&gt;               with urlopen(request, timeout=2) as response:
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_search_lifecycle.py:96: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:215: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:521: in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:630: in http_response
+    response = self.parent.error(
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:559: in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:492: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;urllib.request.HTTPDefaultErrorHandler object at 0x000001E83AA1D2E0&gt;
+req = &lt;urllib.request.Request object at 0x000001E83D5D3EC0&gt;
+fp = &lt;http.client.HTTPResponse object at 0x000001E83D570250&gt;, code = 500
+msg = 'Internal Server Error'
+hdrs = &lt;http.client.HTTPMessage object at 0x000001E83D573170&gt;
+
+    def http_error_default(self, req, fp, code, msg, hdrs):
+&gt;       raise HTTPError(req.full_url, code, msg, hdrs, fp)
+E       urllib.error.HTTPError: HTTP Error 500: Internal Server Error
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:639: HTTPError</failure></testcase><testcase classname="tests.test_search_lifecycle" name="test_http_unlimited_aliases_start_native_without_python_probe[none]" time="0.502"><failure message="urllib.error.HTTPError: HTTP Error 500: Internal Server Error">jobs = None, timeout = 'none'
+
+    @pytest.mark.parametrize("timeout", [None, 0, "none"])
+    def test_http_unlimited_aliases_start_native_without_python_probe(jobs, timeout):
+        result = {
+            "moves": ["R'"],
+            "solution": "R'",
+            "depth": 1,
+            "metric": "HTM",
+            "optimal": True,
+            "engine": "native-cpp",
+            "elapsed_seconds": 0.001,
+        }
+        http_server = server.ExclusiveThreadingHTTPServer((server.HOST, 0), server.AppHandler)
+        worker = threading.Thread(target=http_server.serve_forever, daemon=True)
+        worker.start()
+        try:
+            with (
+                patch.object(server, "native_solver_available", return_value=True),
+                patch.object(server, "solve_native", return_value=result) as native,
+                patch.object(server.PROBE_SOLVER, "solve_cube") as python,
+            ):
+                from cube_app.cubie import to_facelets
+    
+                request = Request(
+                    f"http://{server.HOST}:{http_server.server_address[1]}/api/solve",
+                    data=json.dumps({"facelets": to_facelets(cube_after("R")), "timeout_seconds": timeout}).encode(),
+                    headers={"Content-Type": "application/json"},
+                )
+&gt;               with urlopen(request, timeout=2) as response:
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_search_lifecycle.py:96: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:215: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:521: in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:630: in http_response
+    response = self.parent.error(
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:559: in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:492: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;urllib.request.HTTPDefaultErrorHandler object at 0x000001E83AA1D2E0&gt;
+req = &lt;urllib.request.Request object at 0x000001E83D572A20&gt;
+fp = &lt;http.client.HTTPResponse object at 0x000001E83D572CB0&gt;, code = 500
+msg = 'Internal Server Error'
+hdrs = &lt;http.client.HTTPMessage object at 0x000001E83D572FC0&gt;
+
+    def http_error_default(self, req, fp, code, msg, hdrs):
+&gt;       raise HTTPError(req.full_url, code, msg, hdrs, fp)
+E       urllib.error.HTTPError: HTTP Error 500: Internal Server Error
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:639: HTTPError</failure></testcase><testcase classname="tests.test_search_lifecycle" name="test_native_failure_uses_remaining_budget_and_exposes_reason" time="0.001"><failure message="NameError: name 'os' is not defined. Did you forget to import 'os'">jobs = None
+
+    def test_native_failure_uses_remaining_budget_and_exposes_reason(jobs):
+        def failed_native(*args, **kwargs):
+            time.sleep(0.06)
+            raise NativeSolverError("PDB checksum mismatch")
+    
+        solved = SolveResult(["R'"], 1, "HTM", 0.001, True)
+        with (
+            patch.object(server, "solve_native", side_effect=failed_native),
+            patch.object(server.SOLVER, "solve_cube", return_value=solved) as python,
+        ):
+&gt;           job_id, worker = server.prepare_optimal_job(cube_after("R"), None, 20, 0.2)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_search_lifecycle.py:118: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cube = CubieCube(cp=(4, 1, 2, 0, 7, 5, 6, 3), co=(2, 0, 0, 1, 1, 0, 0, 2), ep=(8, 1, 2, 3, 11, 5, 6, 7, 4, 9, 10, 0), eo=(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+quick_result = None, max_depth = 20, timeout_seconds = 0.2
+
+    def prepare_optimal_job(
+        cube: CubieCube,
+        quick_result,
+        max_depth: int,
+        timeout_seconds: float | None,
+        *,
+        deadline: float | None = None,
+        started: float | None = None,
+        candidate_enabled: bool = False,
+    ) -&gt; tuple[str, threading.Thread]:
+        created = time.monotonic() if started is None else started
+        if deadline is None and timeout_seconds is not None:
+            deadline = created + timeout_seconds
+        state_key = (to_facelets(cube), max_depth, "HTM", 1)
+        job_id = uuid.uuid4().hex
+        cancel_event = threading.Event()
+        with JOBS_LOCK:
+            for existing_id, existing in JOBS.items():
+                if existing.get("_state_key") == state_key and existing.get("status") in {"queued", "running"}:
+                    return existing_id, existing["_worker"]
+            if len(JOBS) &gt;= MAX_JOBS:
+                terminal = [
+                    (key, value.get("updated_at", 0.0))
+                    for key, value in JOBS.items()
+                    if value.get("status") in {"complete", "timeout", "error", "cancelled"}
+                    and not value["_worker"].is_alive()
+                    and not (value.get("_candidate_worker") and value["_candidate_worker"].is_alive())
+                ]
+                remove_count = len(JOBS) - MAX_JOBS + 1
+                for key, _ in sorted(terminal, key=lambda item: item[1])[:remove_count]:
+                    JOBS.pop(key, None)
+            if len(JOBS) &gt;= MAX_JOBS:
+                raise JobCapacityError("后台求解任务过多，请取消旧任务后重试。")
+            JOBS[job_id] = {
+                "job_id": job_id,
+                "status": "queued",
+                "created_at": time.time(),
+                "updated_at": time.time(),
+                "_cancel_event": cancel_event,
+                "_broker": BROKER,
+                "incumbent_depth": quick_result.depth if quick_result is not None else None,
+                "_state_key": state_key,
+                "_deadline": deadline,
+                "_started_at": created,
+                "_done": threading.Event(),
+                "_delivery_ready": threading.Event(),
+                "_candidate_stop": threading.Event(),
+                "_generation_done": threading.Event(),
+                "_proof_lease": threading.Event(),
+                "_serial_candidate": candidate_enabled and BROKER.threads == 1,
+                "_proof_threads": max(1, BROKER.threads - int(candidate_enabled and BROKER.threads &gt; 1)),
+                "_incumbent_moves": quick_result.moves if quick_result is not None else None,
+                "engine": "pending",
+                "solution_generation_seconds": 0.0,
+                "timing_events": [],
+                "timings": {},
+                "thread_quota": BROKER.threads,
+                "candidate_thread_quota": int(candidate_enabled),
+                "candidate_search_running": False,
+&gt;               "early_candidate_delivery": os.environ.get("CUBE_HTM_EARLY_CANDIDATE", "off").lower() in {"1", "true", "on"},
+                                            ^^
+            }
+E           NameError: name 'os' is not defined. Did you forget to import 'os'
+
+server.py:167: NameError</failure></testcase><testcase classname="tests.test_search_lifecycle" name="test_queue_time_consumes_deadline_without_search" time="0.001"><failure message="NameError: name 'os' is not defined. Did you forget to import 'os'">jobs = None
+
+    def test_queue_time_consumes_deadline_without_search(jobs):
+        server.OPTIMAL_SEARCH_LOCK.acquire()
+        try:
+            with patch.object(server, "solve_native") as native:
+&gt;               job_id, worker = server.prepare_optimal_job(cube_after("R U"), None, 20, 0.05)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_search_lifecycle.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cube = CubieCube(cp=(0, 4, 1, 2, 7, 5, 6, 3), co=(1, 2, 0, 0, 1, 0, 0, 2), ep=(3, 8, 1, 2, 11, 5, 6, 7, 4, 9, 10, 0), eo=(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+quick_result = None, max_depth = 20, timeout_seconds = 0.05
+
+    def prepare_optimal_job(
+        cube: CubieCube,
+        quick_result,
+        max_depth: int,
+        timeout_seconds: float | None,
+        *,
+        deadline: float | None = None,
+        started: float | None = None,
+        candidate_enabled: bool = False,
+    ) -&gt; tuple[str, threading.Thread]:
+        created = time.monotonic() if started is None else started
+        if deadline is None and timeout_seconds is not None:
+            deadline = created + timeout_seconds
+        state_key = (to_facelets(cube), max_depth, "HTM", 1)
+        job_id = uuid.uuid4().hex
+        cancel_event = threading.Event()
+        with JOBS_LOCK:
+            for existing_id, existing in JOBS.items():
+                if existing.get("_state_key") == state_key and existing.get("status") in {"queued", "running"}:
+                    return existing_id, existing["_worker"]
+            if len(JOBS) &gt;= MAX_JOBS:
+                terminal = [
+                    (key, value.get("updated_at", 0.0))
+                    for key, value in JOBS.items()
+                    if value.get("status") in {"complete", "timeout", "error", "cancelled"}
+                    and not value["_worker"].is_alive()
+                    and not (value.get("_candidate_worker") and value["_candidate_worker"].is_alive())
+                ]
+                remove_count = len(JOBS) - MAX_JOBS + 1
+                for key, _ in sorted(terminal, key=lambda item: item[1])[:remove_count]:
+                    JOBS.pop(key, None)
+            if len(JOBS) &gt;= MAX_JOBS:
+                raise JobCapacityError("后台求解任务过多，请取消旧任务后重试。")
+            JOBS[job_id] = {
+                "job_id": job_id,
+                "status": "queued",
+                "created_at": time.time(),
+                "updated_at": time.time(),
+                "_cancel_event": cancel_event,
+                "_broker": BROKER,
+                "incumbent_depth": quick_result.depth if quick_result is not None else None,
+                "_state_key": state_key,
+                "_deadline": deadline,
+                "_started_at": created,
+                "_done": threading.Event(),
+                "_delivery_ready": threading.Event(),
+                "_candidate_stop": threading.Event(),
+                "_generation_done": threading.Event(),
+                "_proof_lease": threading.Event(),
+                "_serial_candidate": candidate_enabled and BROKER.threads == 1,
+                "_proof_threads": max(1, BROKER.threads - int(candidate_enabled and BROKER.threads &gt; 1)),
+                "_incumbent_moves": quick_result.moves if quick_result is not None else None,
+                "engine": "pending",
+                "solution_generation_seconds": 0.0,
+                "timing_events": [],
+                "timings": {},
+                "thread_quota": BROKER.threads,
+                "candidate_thread_quota": int(candidate_enabled),
+                "candidate_search_running": False,
+&gt;               "early_candidate_delivery": os.environ.get("CUBE_HTM_EARLY_CANDIDATE", "off").lower() in {"1", "true", "on"},
+                                            ^^
+            }
+E           NameError: name 'os' is not defined. Did you forget to import 'os'
+
+server.py:167: NameError</failure></testcase><testcase classname="tests.test_search_lifecycle" name="test_queued_cancel_does_not_wait_for_cpu_lock" time="0.000"><failure message="NameError: name 'os' is not defined. Did you forget to import 'os'">jobs = None
+
+    def test_queued_cancel_does_not_wait_for_cpu_lock(jobs):
+        server.OPTIMAL_SEARCH_LOCK.acquire()
+        try:
+&gt;           job_id, worker = server.prepare_optimal_job(cube_after("R U"), None, 20, None)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_search_lifecycle.py:145: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cube = CubieCube(cp=(0, 4, 1, 2, 7, 5, 6, 3), co=(1, 2, 0, 0, 1, 0, 0, 2), ep=(3, 8, 1, 2, 11, 5, 6, 7, 4, 9, 10, 0), eo=(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+quick_result = None, max_depth = 20, timeout_seconds = None
+
+    def prepare_optimal_job(
+        cube: CubieCube,
+        quick_result,
+        max_depth: int,
+        timeout_seconds: float | None,
+        *,
+        deadline: float | None = None,
+        started: float | None = None,
+        candidate_enabled: bool = False,
+    ) -&gt; tuple[str, threading.Thread]:
+        created = time.monotonic() if started is None else started
+        if deadline is None and timeout_seconds is not None:
+            deadline = created + timeout_seconds
+        state_key = (to_facelets(cube), max_depth, "HTM", 1)
+        job_id = uuid.uuid4().hex
+        cancel_event = threading.Event()
+        with JOBS_LOCK:
+            for existing_id, existing in JOBS.items():
+                if existing.get("_state_key") == state_key and existing.get("status") in {"queued", "running"}:
+                    return existing_id, existing["_worker"]
+            if len(JOBS) &gt;= MAX_JOBS:
+                terminal = [
+                    (key, value.get("updated_at", 0.0))
+                    for key, value in JOBS.items()
+                    if value.get("status") in {"complete", "timeout", "error", "cancelled"}
+                    and not value["_worker"].is_alive()
+                    and not (value.get("_candidate_worker") and value["_candidate_worker"].is_alive())
+                ]
+                remove_count = len(JOBS) - MAX_JOBS + 1
+                for key, _ in sorted(terminal, key=lambda item: item[1])[:remove_count]:
+                    JOBS.pop(key, None)
+            if len(JOBS) &gt;= MAX_JOBS:
+                raise JobCapacityError("后台求解任务过多，请取消旧任务后重试。")
+            JOBS[job_id] = {
+                "job_id": job_id,
+                "status": "queued",
+                "created_at": time.time(),
+                "updated_at": time.time(),
+                "_cancel_event": cancel_event,
+                "_broker": BROKER,
+                "incumbent_depth": quick_result.depth if quick_result is not None else None,
+                "_state_key": state_key,
+                "_deadline": deadline,
+                "_started_at": created,
+                "_done": threading.Event(),
+                "_delivery_ready": threading.Event(),
+                "_candidate_stop": threading.Event(),
+                "_generation_done": threading.Event(),
+                "_proof_lease": threading.Event(),
+                "_serial_candidate": candidate_enabled and BROKER.threads == 1,
+                "_proof_threads": max(1, BROKER.threads - int(candidate_enabled and BROKER.threads &gt; 1)),
+                "_incumbent_moves": quick_result.moves if quick_result is not None else None,
+                "engine": "pending",
+                "solution_generation_seconds": 0.0,
+                "timing_events": [],
+                "timings": {},
+                "thread_quota": BROKER.threads,
+                "candidate_thread_quota": int(candidate_enabled),
+                "candidate_search_running": False,
+&gt;               "early_candidate_delivery": os.environ.get("CUBE_HTM_EARLY_CANDIDATE", "off").lower() in {"1", "true", "on"},
+                                            ^^
+            }
+E           NameError: name 'os' is not defined. Did you forget to import 'os'
+
+server.py:167: NameError</failure></testcase><testcase classname="tests.test_search_lifecycle" name="test_same_active_state_reuses_worker" time="0.000"><failure message="NameError: name 'os' is not defined. Did you forget to import 'os'">jobs = None
+
+    def test_same_active_state_reuses_worker(jobs):
+        cube = cube_after("R U F")
+&gt;       first, worker = server.prepare_optimal_job(cube, None, 20, 3)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_search_lifecycle.py:157: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cube = CubieCube(cp=(4, 5, 1, 2, 0, 7, 6, 3), co=(0, 2, 0, 0, 0, 2, 0, 2), ep=(3, 9, 1, 2, 11, 4, 6, 7, 8, 5, 10, 0), eo=(0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0))
+quick_result = None, max_depth = 20, timeout_seconds = 3
+
+    def prepare_optimal_job(
+        cube: CubieCube,
+        quick_result,
+        max_depth: int,
+        timeout_seconds: float | None,
+        *,
+        deadline: float | None = None,
+        started: float | None = None,
+        candidate_enabled: bool = False,
+    ) -&gt; tuple[str, threading.Thread]:
+        created = time.monotonic() if started is None else started
+        if deadline is None and timeout_seconds is not None:
+            deadline = created + timeout_seconds
+        state_key = (to_facelets(cube), max_depth, "HTM", 1)
+        job_id = uuid.uuid4().hex
+        cancel_event = threading.Event()
+        with JOBS_LOCK:
+            for existing_id, existing in JOBS.items():
+                if existing.get("_state_key") == state_key and existing.get("status") in {"queued", "running"}:
+                    return existing_id, existing["_worker"]
+            if len(JOBS) &gt;= MAX_JOBS:
+                terminal = [
+                    (key, value.get("updated_at", 0.0))
+                    for key, value in JOBS.items()
+                    if value.get("status") in {"complete", "timeout", "error", "cancelled"}
+                    and not value["_worker"].is_alive()
+                    and not (value.get("_candidate_worker") and value["_candidate_worker"].is_alive())
+                ]
+                remove_count = len(JOBS) - MAX_JOBS + 1
+                for key, _ in sorted(terminal, key=lambda item: item[1])[:remove_count]:
+                    JOBS.pop(key, None)
+            if len(JOBS) &gt;= MAX_JOBS:
+                raise JobCapacityError("后台求解任务过多，请取消旧任务后重试。")
+            JOBS[job_id] = {
+                "job_id": job_id,
+                "status": "queued",
+                "created_at": time.time(),
+                "updated_at": time.time(),
+                "_cancel_event": cancel_event,
+                "_broker": BROKER,
+                "incumbent_depth": quick_result.depth if quick_result is not None else None,
+                "_state_key": state_key,
+                "_deadline": deadline,
+                "_started_at": created,
+                "_done": threading.Event(),
+                "_delivery_ready": threading.Event(),
+                "_candidate_stop": threading.Event(),
+                "_generation_done": threading.Event(),
+                "_proof_lease": threading.Event(),
+                "_serial_candidate": candidate_enabled and BROKER.threads == 1,
+                "_proof_threads": max(1, BROKER.threads - int(candidate_enabled and BROKER.threads &gt; 1)),
+                "_incumbent_moves": quick_result.moves if quick_result is not None else None,
+                "engine": "pending",
+                "solution_generation_seconds": 0.0,
+                "timing_events": [],
+                "timings": {},
+                "thread_quota": BROKER.threads,
+                "candidate_thread_quota": int(candidate_enabled),
+                "candidate_search_running": False,
+&gt;               "early_candidate_delivery": os.environ.get("CUBE_HTM_EARLY_CANDIDATE", "off").lower() in {"1", "true", "on"},
+                                            ^^
+            }
+E           NameError: name 'os' is not defined. Did you forget to import 'os'
+
+server.py:167: NameError</failure></testcase><testcase classname="tests.test_search_lifecycle" name="test_native_timeout_does_not_restart_in_python" time="0.001"><failure message="NameError: name 'os' is not defined. Did you forget to import 'os'">jobs = None
+
+    def test_native_timeout_does_not_restart_in_python(jobs):
+        with (
+            patch.object(server, "solve_native", side_effect=NativeSolverTimeout("deadline")),
+            patch.object(server.SOLVER, "solve_cube") as python,
+        ):
+&gt;           job_id, worker = server.prepare_optimal_job(cube_after("R"), None, 20, 0.2)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_search_lifecycle.py:170: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cube = CubieCube(cp=(4, 1, 2, 0, 7, 5, 6, 3), co=(2, 0, 0, 1, 1, 0, 0, 2), ep=(8, 1, 2, 3, 11, 5, 6, 7, 4, 9, 10, 0), eo=(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+quick_result = None, max_depth = 20, timeout_seconds = 0.2
+
+    def prepare_optimal_job(
+        cube: CubieCube,
+        quick_result,
+        max_depth: int,
+        timeout_seconds: float | None,
+        *,
+        deadline: float | None = None,
+        started: float | None = None,
+        candidate_enabled: bool = False,
+    ) -&gt; tuple[str, threading.Thread]:
+        created = time.monotonic() if started is None else started
+        if deadline is None and timeout_seconds is not None:
+            deadline = created + timeout_seconds
+        state_key = (to_facelets(cube), max_depth, "HTM", 1)
+        job_id = uuid.uuid4().hex
+        cancel_event = threading.Event()
+        with JOBS_LOCK:
+            for existing_id, existing in JOBS.items():
+                if existing.get("_state_key") == state_key and existing.get("status") in {"queued", "running"}:
+                    return existing_id, existing["_worker"]
+            if len(JOBS) &gt;= MAX_JOBS:
+                terminal = [
+                    (key, value.get("updated_at", 0.0))
+                    for key, value in JOBS.items()
+                    if value.get("status") in {"complete", "timeout", "error", "cancelled"}
+                    and not value["_worker"].is_alive()
+                    and not (value.get("_candidate_worker") and value["_candidate_worker"].is_alive())
+                ]
+                remove_count = len(JOBS) - MAX_JOBS + 1
+                for key, _ in sorted(terminal, key=lambda item: item[1])[:remove_count]:
+                    JOBS.pop(key, None)
+            if len(JOBS) &gt;= MAX_JOBS:
+                raise JobCapacityError("后台求解任务过多，请取消旧任务后重试。")
+            JOBS[job_id] = {
+                "job_id": job_id,
+                "status": "queued",
+                "created_at": time.time(),
+                "updated_at": time.time(),
+                "_cancel_event": cancel_event,
+                "_broker": BROKER,
+                "incumbent_depth": quick_result.depth if quick_result is not None else None,
+                "_state_key": state_key,
+                "_deadline": deadline,
+                "_started_at": created,
+                "_done": threading.Event(),
+                "_delivery_ready": threading.Event(),
+                "_candidate_stop": threading.Event(),
+                "_generation_done": threading.Event(),
+                "_proof_lease": threading.Event(),
+                "_serial_candidate": candidate_enabled and BROKER.threads == 1,
+                "_proof_threads": max(1, BROKER.threads - int(candidate_enabled and BROKER.threads &gt; 1)),
+                "_incumbent_moves": quick_result.moves if quick_result is not None else None,
+                "engine": "pending",
+                "solution_generation_seconds": 0.0,
+                "timing_events": [],
+                "timings": {},
+                "thread_quota": BROKER.threads,
+                "candidate_thread_quota": int(candidate_enabled),
+                "candidate_search_running": False,
+&gt;               "early_candidate_delivery": os.environ.get("CUBE_HTM_EARLY_CANDIDATE", "off").lower() in {"1", "true", "on"},
+                                            ^^
+            }
+E           NameError: name 'os' is not defined. Did you forget to import 'os'
+
+server.py:167: NameError</failure></testcase><testcase classname="tests.test_tables.TableCacheTests" name="test_corrupted_cache_is_rebuilt_atomically" time="0.014" /><testcase classname="tests.test_qtm_backend" name="test_equivalent_concurrent_retries_share_original_deadline" time="0.002" /><testcase classname="tests.test_qtm_backend" name="test_different_timeout_and_cancelled_cleanup_still_use_capacity" time="0.001" /><testcase classname="tests.test_qtm_backend" name="test_expired_terminal_job_is_removed_after_cleanup" time="0.001" /><testcase classname="tests.test_qtm_backend" name="test_lower_bound_uses_completed_cost_and_snapshots_are_detached" time="0.001" /><testcase classname="tests.test_qtm_backend" name="test_terminal_diagnostics_have_bounded_retention" time="0.031" /><testcase classname="tests.test_qtm_backend" name="test_two_by_two_does_not_require_three_by_three_assets" time="0.004" /><testcase classname="tests.test_next_speed_summary" name="test_complete_matrix_uses_terminal_time_and_fixed_pairs" time="0.010" /><testcase classname="tests.test_next_speed_summary" name="test_missing_terminal_cannot_use_native_elapsed_resource_hold_or_page_time" time="0.006" /><testcase classname="tests.test_next_speed_summary" name="test_repeated_formula_still_validates_later_cost_claim" time="0.006" /><testcase classname="tests.test_next_speed_summary" name="test_new_timeout_is_paired_even_when_success_counts_match" time="0.006" /><testcase classname="tests.test_next_speed_summary" name="test_timeout_keeps_valid_candidate_and_full_par2_penalty" time="0.006" /><testcase classname="tests.test_next_speed_summary" name="test_resource_scope_and_five_percent_growth_are_required" time="0.009" /><testcase classname="tests.test_next_speed_summary" name="test_complete_count_does_not_hide_duplicates_or_wrong_pair_order" time="0.010" /><testcase classname="tests.test_next_speed_summary" name="test_first_delivery_curve_does_not_treat_internal_events_as_page_delivery" time="0.006" /><testcase classname="tests.test_qtm_speed_contract" name="test_idle_htm_claim_blocks_new_qtm_until_resident_cleanup" time="0.062" /><testcase classname="tests.test_qtm_speed_contract" name="test_old_generation_or_idle_epoch_cannot_close_new_request" time="0.000" /><testcase classname="tests.test_qtm_speed_contract" name="test_mapped_working_set_is_not_hidden_by_small_private_bytes" time="0.000" /><testcase classname="tests.test_qtm_speed_contract" name="test_loading_admission_reserves_mapping_and_idle_never_resumes" time="0.000" /><testcase classname="tests.test_qtm_speed_contract" name="test_failed_pause_cannot_retain_process" time="0.000" /><testcase classname="tests.test_qtm_speed_contract" name="test_htm_claim_during_idle_transition_keeps_lease_until_cleanup" time="0.000" /><testcase classname="tests.test_qtm_speed_contract" name="test_failed_resident_cleanup_does_not_grant_htm_cpu" time="0.000" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[2-None]" time="0.012" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[2-0_0]" time="0.015" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[2-0_1]" time="0.016" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[2-none]" time="0.016" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[3-None]" time="0.015" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[3-0_0]" time="0.015" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[3-0_1]" time="0.015" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[3-none]" time="0.015" /><testcase classname="tests.test_isolation_contract" name="test_qtm_missing_timeout_uses_default" time="0.016" /><testcase classname="tests.test_isolation_contract" name="test_htm_http_resource_wait_consumes_budget[2]" time="0.063" /><testcase classname="tests.test_isolation_contract" name="test_htm_http_resource_wait_consumes_budget[3]" time="0.070"><failure message="urllib.error.HTTPError: HTTP Error 500: Internal Server Error">http = &lt;function http.&lt;locals&gt;.post at 0x000001E83D0C19E0&gt;
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000001E83D570800&gt;
+cube_size = 3
+
+    @pytest.mark.parametrize("cube_size", [2, 3])
+    def test_htm_http_resource_wait_consumes_budget(http, monkeypatch, cube_size):
+        observed = {}
+        broker = ResourceBroker(1)
+        original_enter = broker.enter_htm
+        original_leave = broker.leave_htm
+        released = threading.Event()
+    
+        def leave_htm():
+            original_leave()
+            if broker.snapshot()["htm_holders"] == 0:
+                released.set()
+    
+        def delayed_enter(**kwargs):
+            time.sleep(0.06)
+            observed["deadline"] = kwargs["deadline"]
+            return original_enter(**kwargs)
+    
+        def solve_2x2(*args, **kwargs):
+            observed["timeout"] = kwargs["timeout_seconds"]
+            return SimpleNamespace(moves=[], text="", depth=0, metric="HTM", elapsed_seconds=0, optimal=True)
+    
+        def solve_native(*args, **kwargs):
+            observed["timeout"] = kwargs["timeout_seconds"]
+            assert kwargs["deadline"] == observed["deadline"]
+            return {"moves": [], "solution": "", "depth": 0, "optimal": True, "metric": "HTM"}
+    
+        monkeypatch.setattr(broker, "enter_htm", delayed_enter)
+        monkeypatch.setattr(broker, "leave_htm", leave_htm)
+        monkeypatch.setattr(server, "BROKER", broker)
+        monkeypatch.setattr(server.TWO_BY_TWO_SOLVER, "solve_facelets", solve_2x2)
+        monkeypatch.setattr(server, "native_solver_available", lambda: True)
+        monkeypatch.setattr(server, "solve_native", solve_native)
+&gt;       result = http({"cube_size": cube_size, "facelets": to_facelets(CubieCube()), "timeout_seconds": 0.2})
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_isolation_contract.py:128: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_isolation_contract.py:49: in post
+    with urlopen(request, timeout=2) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:215: in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:521: in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:630: in http_response
+    response = self.parent.error(
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:559: in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:492: in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;urllib.request.HTTPDefaultErrorHandler object at 0x000001E83AA1D2E0&gt;
+req = &lt;urllib.request.Request object at 0x000001E83D5729F0&gt;
+fp = &lt;http.client.HTTPResponse object at 0x000001E83D572290&gt;, code = 500
+msg = 'Internal Server Error'
+hdrs = &lt;http.client.HTTPMessage object at 0x000001E83D5D1A90&gt;
+
+    def http_error_default(self, req, fp, code, msg, hdrs):
+&gt;       raise HTTPError(req.full_url, code, msg, hdrs, fp)
+E       urllib.error.HTTPError: HTTP Error 500: Internal Server Error
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py:639: HTTPError</failure></testcase><testcase classname="tests.test_isolation_contract" name="test_resource_wait_timeout_and_cancel_leave_no_claim" time="0.032" /><testcase classname="tests.test_isolation_contract" name="test_qtm_queue_timeout_never_starts_search" time="0.062" /><testcase classname="tests.test_isolation_contract" name="test_qtm_python_fallback_keeps_unlimited_budget" time="0.001" /><testcase classname="tests.test_isolation_contract" name="test_qtm_native_timeout_never_restarts_python" time="0.001" /><testcase classname="tests.test_isolation_contract" name="test_candidate_wakes_http_before_proof_finishes_and_stages_stay_distinct" time="0.001" /><testcase classname="tests.test_isolation_contract" name="test_native_ready_stage_records_only_first_arrival" time="0.000" /><testcase classname="tests.test_isolation_contract" name="test_qtm_native_wire_preserves_unlimited_and_timeout_search_timing" time="0.000" /><testcase classname="tests.test_isolation_contract" name="test_resource_release_follows_complete_native_cleanup" time="0.827" /><testcase classname="tests.test_release_package" name="test_source_download_contains_runtime_and_build_inputs_without_development_files" time="0.235" /><testcase classname="tests.test_release_package" name="test_asset_verification_rejects_missing_and_corrupted_files" time="0.031" /><testcase classname="tests.test_release_package" name="test_asset_manifest_rejects_extra_paths" time="0.015" /><testcase classname="tests.test_release_package" name="test_import_rejects_other_version_before_writing_source_runtime" time="0.099" /></testsuite></testsuites>

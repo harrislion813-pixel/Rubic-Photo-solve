@@ -32,3 +32,13 @@
 /魔方拍照解/release/verify_installation.ps1 export-ignore
 /魔方拍照解/release/zip64_package.py export-ignore
 /魔方拍照解/release/*.cmd export-ignore
+
+# Preserve frozen evidence bytes and hashes across Windows and Linux checkouts.
+/魔方拍照解/docs/benchmarks/next-speed-2026-10-02/** -text whitespace=cr-at-eol
+/魔方拍照解/docs/benchmarks/release-1.10.1/** -text whitespace=cr-at-eol
+# Captured diagnostics and patch context contain meaningful trailing spaces.
+/魔方拍照解/docs/benchmarks/next-speed-2026-10-02/**/*.log -whitespace
+/魔方拍照解/docs/benchmarks/next-speed-2026-10-02/**/*.xml -whitespace
+/魔方拍照解/docs/benchmarks/next-speed-2026-10-02/controlled-baseline.patch -whitespace
+/魔方拍照解/docs/benchmarks/release-1.10.1/**/*.log -whitespace
+/魔方拍照解/docs/benchmarks/release-1.10.1/**/*.xml -whitespace

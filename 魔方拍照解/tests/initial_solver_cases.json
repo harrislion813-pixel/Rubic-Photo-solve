@@ -12,8 +12,117 @@
       "B": "DRLRBFFLB"
     },
     "facelets": "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
-    "reference_source": "tests/real_color.test.js; legal cubie state rechecked",
-    "image_paths": ["initial/U1.jpg", "initial/R1.jpg", "initial/F1.jpg", "initial/D1.jpg", "initial/L1.jpg", "initial/B1.jpg"]
+    "facelets_sha256": "624a95d8bb8cf582727219bb04781b79db7a8e5645884f27ea8a72afe7863882",
+    "reference_source": "tests/real_color.test.js existing group 1, visually rechecked against initial-1-reference-grid.png",
+    "image_paths": [
+      "initial/U1.jpg",
+      "initial/R1.jpg",
+      "initial/F1.jpg",
+      "initial/D1.jpg",
+      "initial/L1.jpg",
+      "initial/B1.jpg"
+    ],
+    "images": {
+      "U": {
+        "path": "initial/U1.jpg",
+        "sha256": "0468f18dee7213c7454ab88a0089ebd654d2fd81f9d28adbc44aabe4f4f9e5a9",
+        "bytes": 320137,
+        "width": 1024,
+        "height": 1820,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "R": {
+        "path": "initial/R1.jpg",
+        "sha256": "ea51eb086c43d53c1e6c71a0267968501dec6c5977405e49ca6a1b190317d1cc",
+        "bytes": 299495,
+        "width": 1024,
+        "height": 1820,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "F": {
+        "path": "initial/F1.jpg",
+        "sha256": "39cf975edb912b2340617929b32adc05d713215c6583fc5356483edb49c36f96",
+        "bytes": 287474,
+        "width": 1024,
+        "height": 1820,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "D": {
+        "path": "initial/D1.jpg",
+        "sha256": "8765adda42e38cae78ec2813ac97bf6e4c9875156f26a92edd333a4fc05a0947",
+        "bytes": 392444,
+        "width": 1024,
+        "height": 1820,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "L": {
+        "path": "initial/L1.jpg",
+        "sha256": "4cfad774df7f1376df7c272096d1ffb60824e44d5469aa87526f34390ef8a8d7",
+        "bytes": 311717,
+        "width": 1024,
+        "height": 1820,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "B": {
+        "path": "initial/B1.jpg",
+        "sha256": "b2036e6435e14b915be9aa37ea01a18711bdf39c269eaf05fcc991fcaef5a9ea",
+        "bytes": 365171,
+        "width": 1024,
+        "height": 1820,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      }
+    },
+    "reference_review": {
+      "status": "visually_verified",
+      "date": "2026-10-02",
+      "reference_path": "docs/benchmarks/next-speed-2026-10-02/manual-photo-reference.json",
+      "reference_sha256": "80224a4fe7be054655699910a67f235962563d0f641ec7db1b27cbb78a425d26",
+      "grid_path": "docs/benchmarks/next-speed-2026-10-02/initial-1-reference-grid.png",
+      "overview_path": "docs/benchmarks/next-speed-2026-10-02/initial-1-photo-overview.png",
+      "notes": "All 54 stickers agree with the existing labels; six 3x3 grids and centers checked. Reflections retain enough visible sticker color.",
+      "unresolved_ambiguities": []
+    },
+    "legality_validation": {
+      "validator": "cube_app.cubie.from_facelets",
+      "valid": true,
+      "round_trip": true
+    },
+    "known_optimal_costs": {
+      "HTM": 18,
+      "QTM": 22
+    },
+    "recognition_review": {
+      "status": "browser_verified",
+      "report_path": "docs/benchmarks/next-speed-2026-10-02/photo-recognition.json",
+      "automatic_facelets": "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+      "automatic_matches_reference": true,
+      "manual_corrections": [],
+      "rotation_corrections": []
+    }
   },
   {
     "name": "initial-12",
@@ -28,7 +137,604 @@
       "B": "LFRLBBDDL"
     },
     "facelets": "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
-    "reference_source": "Six detected face grids visually checked in docs/benchmarks/initial12-reference-grid.png; color classifier agrees; legal cubie state",
-    "image_paths": ["initial/U12.jpg", "initial/R12.jpg", "initial/F12.jpg", "initial/D12.jpg", "initial/L12.jpg", "initial/B12.jpg"]
+    "facelets_sha256": "f8ef201e0f93106411d8d78275d118dab7087f63fa710f204ddbfdef120b9999",
+    "reference_source": "Existing tests/initial_solver_cases.json and docs/benchmarks/initial12-reference-grid.png, visually rechecked against initial-12-reference-grid.png",
+    "image_paths": [
+      "initial/U12.jpg",
+      "initial/R12.jpg",
+      "initial/F12.jpg",
+      "initial/D12.jpg",
+      "initial/L12.jpg",
+      "initial/B12.jpg"
+    ],
+    "images": {
+      "U": {
+        "path": "initial/U12.jpg",
+        "sha256": "1a303c3dc49c4df0d2fd84e6276401add66dbf467fb1ff2d7fcd8756e3b92cb6",
+        "bytes": 2882930,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "R": {
+        "path": "initial/R12.jpg",
+        "sha256": "de31ab25d0fde13623b37a4576d8cc2b1db939b5f018f2bb48432d4238d61566",
+        "bytes": 3042023,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "F": {
+        "path": "initial/F12.jpg",
+        "sha256": "1b44911c260a06fe8040c614f7f9cf6a99a1200ed885ac9168715e772e9531d3",
+        "bytes": 2895958,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "D": {
+        "path": "initial/D12.jpg",
+        "sha256": "3a5c508dc85582faff30a730f683b43f8f404294581c41ec48f2b8023591ddc9",
+        "bytes": 3349015,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "L": {
+        "path": "initial/L12.jpg",
+        "sha256": "f0b06ae5bbc8a0dc07ebeb44fa1c809ed0f7b8fb040409ef9baefa4389bf9ba7",
+        "bytes": 3519484,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "B": {
+        "path": "initial/B12.jpg",
+        "sha256": "b33430c9e0bf22ebe6c0da50b7e5701c5ff097c0230a10b445a25258174926d9",
+        "bytes": 2963909,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      }
+    },
+    "reference_review": {
+      "status": "visually_verified",
+      "date": "2026-10-02",
+      "reference_path": "docs/benchmarks/next-speed-2026-10-02/manual-photo-reference.json",
+      "reference_sha256": "80224a4fe7be054655699910a67f235962563d0f641ec7db1b27cbb78a425d26",
+      "grid_path": "docs/benchmarks/next-speed-2026-10-02/initial-12-reference-grid.png",
+      "overview_path": "docs/benchmarks/next-speed-2026-10-02/initial-12-photo-overview.png",
+      "notes": "All 54 stickers agree with the existing visual reference; six 3x3 grids and centers checked.",
+      "unresolved_ambiguities": []
+    },
+    "legality_validation": {
+      "validator": "cube_app.cubie.from_facelets",
+      "valid": true,
+      "round_trip": true
+    },
+    "known_optimal_costs": {
+      "HTM": 17,
+      "QTM": 20
+    },
+    "recognition_review": {
+      "status": "browser_verified",
+      "report_path": "docs/benchmarks/next-speed-2026-10-02/photo-recognition.json",
+      "automatic_facelets": "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+      "automatic_matches_reference": true,
+      "manual_corrections": [],
+      "rotation_corrections": []
+    }
+  },
+  {
+    "name": "initial-2",
+    "cube_size": 3,
+    "face_order": "URFDLB",
+    "faces": {
+      "U": "DLLLURLFU",
+      "R": "RBUFRDLRB",
+      "F": "URFDFURRB",
+      "D": "UUDBDDRBR",
+      "L": "LUFLLLFDB",
+      "B": "BBFFBFDUD"
+    },
+    "facelets": "DLLLURLFURBUFRDLRBURFDFURRBUUDBDDRBRLUFLLLFDBBBFFBFDUD",
+    "facelets_sha256": "d9f3a36f59b862c8df705ed8ea1a9b83b97207801b998e4ec5d5edb07a94a080",
+    "reference_source": "tests/real_color.test.js existing group 2, visually rechecked against initial-2-reference-grid.png",
+    "image_paths": [
+      "initial/U2.jpg",
+      "initial/R2.jpg",
+      "initial/F2.jpg",
+      "initial/D2.jpg",
+      "initial/L2.jpg",
+      "initial/B2.jpg"
+    ],
+    "images": {
+      "U": {
+        "path": "initial/U2.jpg",
+        "sha256": "794372a54bc8abb47319435dbc9e4818aa9f0ebefd9775f4966bbc23a893efe8",
+        "bytes": 2443151,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "R": {
+        "path": "initial/R2.jpg",
+        "sha256": "6ce55c41cfc4c4079937def75682b8135d3a011203d39405f09ab94626905437",
+        "bytes": 2481482,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "F": {
+        "path": "initial/F2.jpg",
+        "sha256": "5d43e3ce8aeb7023daf83eb83d9eff31006ba98960faad4c63bfeb225a3ca371",
+        "bytes": 2494625,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "D": {
+        "path": "initial/D2.jpg",
+        "sha256": "89a7b7f0eab439c19ccad86b97eb708d1b3127557c59cf07dd35fd1fc2ae1432",
+        "bytes": 2400654,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "L": {
+        "path": "initial/L2.jpg",
+        "sha256": "bf75d8d6a3cb42aab68af3f63a1bb5e006786e70936a878c36d6a7831b5aa89c",
+        "bytes": 2592714,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "B": {
+        "path": "initial/B2.jpg",
+        "sha256": "2a8d225d356c04f1ced51af87730d03abd58dd1cf9660448545f12554834d6b0",
+        "bytes": 2466268,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      }
+    },
+    "reference_review": {
+      "status": "visually_verified",
+      "date": "2026-10-02",
+      "reference_path": "docs/benchmarks/next-speed-2026-10-02/manual-photo-reference.json",
+      "reference_sha256": "80224a4fe7be054655699910a67f235962563d0f641ec7db1b27cbb78a425d26",
+      "grid_path": "docs/benchmarks/next-speed-2026-10-02/initial-2-reference-grid.png",
+      "overview_path": "docs/benchmarks/next-speed-2026-10-02/initial-2-photo-overview.png",
+      "notes": "All 54 stickers agree with the existing labels. Green F3/L3/B3 reflections identified from the green margins, distinct from the white centers/stickers; six 3x3 grids and centers checked.",
+      "unresolved_ambiguities": []
+    },
+    "legality_validation": {
+      "validator": "cube_app.cubie.from_facelets",
+      "valid": true,
+      "round_trip": true
+    },
+    "known_optimal_costs": null,
+    "recognition_review": {
+      "status": "browser_verified",
+      "report_path": "docs/benchmarks/next-speed-2026-10-02/photo-recognition.json",
+      "automatic_facelets": "DLLLURLFURBUFRDLRBURFDFURRBUUDBDDRBRLUFLLLFDBBBFFBFDUD",
+      "automatic_matches_reference": true,
+      "manual_corrections": [],
+      "rotation_corrections": []
+    }
+  },
+  {
+    "name": "initial-5",
+    "cube_size": 3,
+    "face_order": "URFDLB",
+    "faces": {
+      "U": "UFBFURRBU",
+      "R": "RDUBRDDRL",
+      "F": "DUFBFLDUB",
+      "D": "LLRDDFUDB",
+      "L": "FLFRLRBLF",
+      "B": "RULBBUDFL"
+    },
+    "facelets": "UFBFURRBURDUBRDDRLDUFBFLDUBLLRDDFUDBFLFRLRBLFRULBBUDFL",
+    "facelets_sha256": "64f0bf93847929383f2dc5284afa1cc56bad67c5f01b6530e26be286a019df11",
+    "reference_source": "tests/real_color.test.js existing group 5, visually rechecked against initial-5-reference-grid.png",
+    "image_paths": [
+      "initial/U5.jpg",
+      "initial/R5.jpg",
+      "initial/F5.jpg",
+      "initial/D5.jpg",
+      "initial/L5.jpg",
+      "initial/B5.jpg"
+    ],
+    "images": {
+      "U": {
+        "path": "initial/U5.jpg",
+        "sha256": "554fe0a89fe2512ed29a2460c8dd7464250d8d415f4f311516f0e4637e26418b",
+        "bytes": 2695657,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "R": {
+        "path": "initial/R5.jpg",
+        "sha256": "ba6512ea243a8366b45f4cba97f4949574f585482062cec80e9e3df4fbd64639",
+        "bytes": 2606002,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "F": {
+        "path": "initial/F5.jpg",
+        "sha256": "d6260d567b1d7af8dfdd124d73c5207edb677ad1b297dbaa6e47eb0b942dff16",
+        "bytes": 2599250,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "D": {
+        "path": "initial/D5.jpg",
+        "sha256": "29c8f98f925a6e3c6494f91fbde93357e73419d76e79662855a124e570c5249a",
+        "bytes": 2641615,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "L": {
+        "path": "initial/L5.jpg",
+        "sha256": "bccca01c9bfeae56dc0cd89b9c0a7c5f67e231f5158df80e96c1ac238f0f3e32",
+        "bytes": 2706766,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "B": {
+        "path": "initial/B5.jpg",
+        "sha256": "31c543e0a0331b3e7ba1934a3ca2165ef3375b6356fc227c07a43565b12dfe73",
+        "bytes": 2596270,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      }
+    },
+    "reference_review": {
+      "status": "visually_verified",
+      "date": "2026-10-02",
+      "reference_path": "docs/benchmarks/next-speed-2026-10-02/manual-photo-reference.json",
+      "reference_sha256": "80224a4fe7be054655699910a67f235962563d0f641ec7db1b27cbb78a425d26",
+      "grid_path": "docs/benchmarks/next-speed-2026-10-02/initial-5-reference-grid.png",
+      "overview_path": "docs/benchmarks/next-speed-2026-10-02/initial-5-photo-overview.png",
+      "notes": "All 54 stickers agree with the existing labels; six 3x3 grids and centers checked, red/orange visually distinct.",
+      "unresolved_ambiguities": []
+    },
+    "legality_validation": {
+      "validator": "cube_app.cubie.from_facelets",
+      "valid": true,
+      "round_trip": true
+    },
+    "known_optimal_costs": null,
+    "recognition_review": {
+      "status": "browser_verified",
+      "report_path": "docs/benchmarks/next-speed-2026-10-02/photo-recognition.json",
+      "automatic_facelets": "UFBFURRBURDUBRDDRLDUFBFLDUBLLRDDFUDBFLFRLRBLFRULBBUDFL",
+      "automatic_matches_reference": true,
+      "manual_corrections": [],
+      "rotation_corrections": []
+    }
+  },
+  {
+    "name": "initial-8",
+    "cube_size": 3,
+    "face_order": "URFDLB",
+    "faces": {
+      "U": "ULFDUBRUD",
+      "R": "BDUFRRUBB",
+      "F": "DFLLFRUDB",
+      "D": "BRLBDRDUR",
+      "L": "RFFFLDFUR",
+      "B": "LBFUBLDLL"
+    },
+    "facelets": "ULFDUBRUDBDUFRRUBBDFLLFRUDBBRLBDRDURRFFFLDFURLBFUBLDLL",
+    "facelets_sha256": "ca1a1628b63a2c045647c1d87490771ea784cefd732e931050508d86330f791c",
+    "reference_source": "New independent human annotation from initial-8-photo-overview.png and initial-8-reference-grid.png, read before running classification",
+    "image_paths": [
+      "initial/U8.jpg",
+      "initial/R8.jpg",
+      "initial/F8.jpg",
+      "initial/D8.jpg",
+      "initial/L8.jpg",
+      "initial/B8.jpg"
+    ],
+    "images": {
+      "U": {
+        "path": "initial/U8.jpg",
+        "sha256": "ddee9ca7e10674df008223fd7059ea2f66dee17791d876bb16c1f7d5c36c2a8a",
+        "bytes": 367273,
+        "width": 810,
+        "height": 1440,
+        "frontend_width": 810,
+        "frontend_height": 1440,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "R": {
+        "path": "initial/R8.jpg",
+        "sha256": "6b979d94fc3ecb2922ff4bdcb2217777d016424ca8a24665ff95118384e76453",
+        "bytes": 2998648,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "F": {
+        "path": "initial/F8.jpg",
+        "sha256": "413306e107e80cf18ee795a3285265631b9ae7ed9c7179c7d7e6191425a486f9",
+        "bytes": 2669386,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "D": {
+        "path": "initial/D8.jpg",
+        "sha256": "9c26be6dd742285abd73cb78f992116ad68ed9f711feabc9f4bc6dc35f585098",
+        "bytes": 2623352,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "L": {
+        "path": "initial/L8.jpg",
+        "sha256": "ef4cc049734fc6544c86194f6dfa7c9f3fc35d1470d1a01afb7696c40014d394",
+        "bytes": 3065393,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "B": {
+        "path": "initial/B8.jpg",
+        "sha256": "9bd8b4b55f51d0bf76163c2d41ac5ce8e3903086742caacbe923bb54ca0e398b",
+        "bytes": 2598838,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      }
+    },
+    "reference_review": {
+      "status": "visually_verified",
+      "date": "2026-10-02",
+      "reference_path": "docs/benchmarks/next-speed-2026-10-02/manual-photo-reference.json",
+      "reference_sha256": "80224a4fe7be054655699910a67f235962563d0f641ec7db1b27cbb78a425d26",
+      "grid_path": "docs/benchmarks/next-speed-2026-10-02/initial-8-reference-grid.png",
+      "overview_path": "docs/benchmarks/next-speed-2026-10-02/initial-8-photo-overview.png",
+      "notes": "Six 3x3 faces. U3 and L3 have strong white glare but green side/bottom margins in both overview and grid; U6 has glare over a visible blue bottom/right region. These remain green/green/blue. White logo center is U; other centers are red/green/yellow/orange/blue. No unresolved ambiguity.",
+      "unresolved_ambiguities": []
+    },
+    "legality_validation": {
+      "validator": "cube_app.cubie.from_facelets",
+      "valid": true,
+      "round_trip": true
+    },
+    "known_optimal_costs": null,
+    "recognition_review": {
+      "status": "browser_verified",
+      "report_path": "docs/benchmarks/next-speed-2026-10-02/photo-recognition.json",
+      "automatic_facelets": "ULFDUBRUDBDUFRRUBBDFLLFRUDBBRLBDRDURRFFFLDFURLBFUBLDLL",
+      "automatic_matches_reference": true,
+      "manual_corrections": [],
+      "rotation_corrections": []
+    }
+  },
+  {
+    "name": "initial-16",
+    "cube_size": 3,
+    "face_order": "URFDLB",
+    "faces": {
+      "U": "URLBULDRL",
+      "R": "FDFLRFUBL",
+      "F": "FUDUFFRLR",
+      "D": "BBBFDRDUU",
+      "L": "RDRULLLDD",
+      "B": "UDFRBBBFB"
+    },
+    "facelets": "URLBULDRLFDFLRFUBLFUDUFFRLRBBBFDRDUURDRULLLDDUDFRBBBFB",
+    "facelets_sha256": "943ee345c842036153d47f87d67d6f12087274e26cc0663e7d90f985d77a5c66",
+    "reference_source": "New independent human annotation from initial-16-photo-overview.png and initial-16-reference-grid.png, read before running classification",
+    "image_paths": [
+      "initial/U16.jpg",
+      "initial/R16.jpg",
+      "initial/F16.jpg",
+      "initial/D16.jpg",
+      "initial/L16.jpg",
+      "initial/B16.jpg"
+    ],
+    "images": {
+      "U": {
+        "path": "initial/U16.jpg",
+        "sha256": "bcd6198405de7c9abba9263e9a8714d2cda8e76f0d248aedf084bf37e9f6afb6",
+        "bytes": 3354473,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "R": {
+        "path": "initial/R16.jpg",
+        "sha256": "965770c9d1dbf6686d27a1d224e32e9bffe66e6b9136c1929c6cede48b05202a",
+        "bytes": 3414969,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "F": {
+        "path": "initial/F16.jpg",
+        "sha256": "651a5270217eebf1e024c5524d35fceff8ab050e05d2cedb5db7147af6f4e5ac",
+        "bytes": 3397835,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "D": {
+        "path": "initial/D16.jpg",
+        "sha256": "f1f705270fb5b8069dd3e1fb4c64627c73052545c9564a64314ddbf82cc97566",
+        "bytes": 3344914,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "L": {
+        "path": "initial/L16.jpg",
+        "sha256": "97feb4cde80f3ddf9a3e94c1837042c99bb0b03e6230be370f1da1ba0eed12cb",
+        "bytes": 3305504,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      },
+      "B": {
+        "path": "initial/B16.jpg",
+        "sha256": "0c4cf54c045856342a287d0085b6b0e894699f28572e0fe0423a4d058238db01",
+        "bytes": 3375564,
+        "width": 2304,
+        "height": 4096,
+        "frontend_width": 900,
+        "frontend_height": 1600,
+        "visual_grid_size": 3,
+        "rotation_quarter_turns": 0,
+        "mirrored": false
+      }
+    },
+    "reference_review": {
+      "status": "visually_verified",
+      "date": "2026-10-02",
+      "reference_path": "docs/benchmarks/next-speed-2026-10-02/manual-photo-reference.json",
+      "reference_sha256": "80224a4fe7be054655699910a67f235962563d0f641ec7db1b27cbb78a425d26",
+      "grid_path": "docs/benchmarks/next-speed-2026-10-02/initial-16-reference-grid.png",
+      "overview_path": "docs/benchmarks/next-speed-2026-10-02/initial-16-photo-overview.png",
+      "notes": "Six 3x3 faces, clear sticker colors. White logo center is U; other centers are red/green/yellow/orange/blue. No rotations, mirroring or unresolved ambiguity.",
+      "unresolved_ambiguities": []
+    },
+    "legality_validation": {
+      "validator": "cube_app.cubie.from_facelets",
+      "valid": true,
+      "round_trip": true
+    },
+    "known_optimal_costs": null,
+    "recognition_review": {
+      "status": "browser_verified",
+      "report_path": "docs/benchmarks/next-speed-2026-10-02/photo-recognition.json",
+      "automatic_facelets": "URLBULDRLFDFLRFUBLFUDUFFRLRBBBFDRDUURDRULLLDDUDFRBBBFB",
+      "automatic_matches_reference": true,
+      "manual_corrections": [],
+      "rotation_corrections": []
+    }
   }
 ]

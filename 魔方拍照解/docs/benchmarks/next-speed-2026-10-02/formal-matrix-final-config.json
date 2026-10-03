@@ -1,0 +1,15 @@
+{
+  "packages": {
+    "baseline": "dist/next-speed-controlled-baseline/RubicPhotoSolve",
+    "current": "dist/next-speed-2026-10-03-loader-repaired/RubicPhotoSolve"
+  },
+  "metrics": ["HTM", "QTM"],
+  "caseOrder": ["initial-1", "initial-12", "initial-2", "initial-5", "initial-8", "initial-16"],
+  "repeats": 3,
+  "threadQuota": 15,
+  "timeoutSeconds": 30,
+  "cacheCondition": "Fresh application and native process on each request, warm OS file cache; no disk cache clearing",
+  "baselineScope": "Frozen 1.10.0 algorithms and synchronous HTM candidate delivery with P0 observation plus shared 15-thread quota normalization; immutable original identity retained separately",
+  "currentScope": "H1 early candidate delivery, Q1 full-strong hot path; rejected H2/Q2 variants remain disabled; non-PGO Portable O3/LTO; QTM initialization pause checkpoints repaired after an existing shallow-state resource failure",
+  "rerunScope": "One complete replacement matrix after recorded Windows JSON file-sharing interference; initial attempt and pre-repair package retained; artifacts use a separate formal-final directory"
+}

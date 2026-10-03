@@ -1,0 +1,166 @@
+{
+  "scope": "eight functional requests only; no repeated speed or adoption decision",
+  "input": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\docs\\benchmarks\\next-speed-2026-10-02\\default-functional\\page.json",
+  "input_sha256": "94fe2fd0fa3ac7e81e693464c0a6a697f1f22f96b5fa91ad17cf8c85c1afc90e",
+  "verifier_sha256": "0e3d2d2ef0998c7423485cbf713afb131917e5cc1cad6bbd01a776aad7f59ca0",
+  "summary_parser_sha256": "dd8eebda593c72364869fe61757f8290458e673b36d26cf5ba7b8fd756942fde",
+  "actual_runs": 8,
+  "all_requests_fresh": true,
+  "default_configuration_checks": [
+    {
+      "name": "initial-1",
+      "metric": "HTM",
+      "early_delivery": false,
+      "single_best_candidate_published": true
+    },
+    {
+      "name": "initial-1",
+      "metric": "QTM",
+      "full_strong_expansions": 0,
+      "asset_profile": "strong",
+      "strong_and_tail_adopted": true
+    },
+    {
+      "name": "initial-12",
+      "metric": "HTM",
+      "early_delivery": false,
+      "single_best_candidate_published": true
+    },
+    {
+      "name": "initial-12",
+      "metric": "QTM",
+      "full_strong_expansions": 0,
+      "asset_profile": "strong",
+      "strong_and_tail_adopted": true
+    }
+  ],
+  "formula_occurrences_replayed": 1107,
+  "results": [
+    {
+      "name": "initial-1",
+      "metric": "HTM",
+      "label": "baseline",
+      "status": "complete",
+      "strict_success": true,
+      "candidate_cost": 18,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 0
+    },
+    {
+      "name": "initial-1",
+      "metric": "HTM",
+      "label": "current",
+      "status": "timeout",
+      "strict_success": false,
+      "candidate_cost": 20,
+      "completed_depth": 17,
+      "proven_lower_bound": 18,
+      "proof_gap": 2
+    },
+    {
+      "name": "initial-1",
+      "metric": "QTM",
+      "label": "baseline",
+      "status": "complete",
+      "strict_success": true,
+      "candidate_cost": 22,
+      "completed_depth": 21,
+      "proven_lower_bound": 22,
+      "proof_gap": 0
+    },
+    {
+      "name": "initial-1",
+      "metric": "QTM",
+      "label": "current",
+      "status": "complete",
+      "strict_success": true,
+      "candidate_cost": 22,
+      "completed_depth": 21,
+      "proven_lower_bound": 22,
+      "proof_gap": 0
+    },
+    {
+      "name": "initial-12",
+      "metric": "HTM",
+      "label": "baseline",
+      "status": "complete",
+      "strict_success": true,
+      "candidate_cost": 17,
+      "completed_depth": 16,
+      "proven_lower_bound": 17,
+      "proof_gap": 0
+    },
+    {
+      "name": "initial-12",
+      "metric": "HTM",
+      "label": "current",
+      "status": "complete",
+      "strict_success": true,
+      "candidate_cost": 17,
+      "completed_depth": 16,
+      "proven_lower_bound": 17,
+      "proof_gap": 0
+    },
+    {
+      "name": "initial-12",
+      "metric": "QTM",
+      "label": "baseline",
+      "status": "complete",
+      "strict_success": true,
+      "candidate_cost": 20,
+      "completed_depth": 19,
+      "proven_lower_bound": 20,
+      "proof_gap": 0
+    },
+    {
+      "name": "initial-12",
+      "metric": "QTM",
+      "label": "current",
+      "status": "complete",
+      "strict_success": true,
+      "candidate_cost": 20,
+      "completed_depth": 19,
+      "proven_lower_bound": 20,
+      "proof_gap": 0
+    }
+  ],
+  "package_identity": {
+    "baseline": {
+      "packageRoot": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\dist\\next-speed-controlled-baseline\\RubicPhotoSolve",
+      "files": {
+        "RubicPhotoSolve.exe": {
+          "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\dist\\next-speed-controlled-baseline\\RubicPhotoSolve\\RubicPhotoSolve.exe",
+          "sha256": "1c1cb3d0ea1398cd7445650223b329b735bdd390e8bfd19c2a9ec784f7d12c17"
+        },
+        "native/htm/build/cube_solver_htm.exe": {
+          "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\dist\\next-speed-controlled-baseline\\RubicPhotoSolve\\native\\htm\\build\\cube_solver_htm.exe",
+          "sha256": "f85a87aca23957fdca40e5c677b366d8713dc943612dd6cdb4df891ba587338f"
+        },
+        "native/qtm/build/cube_solver_qtm.exe": {
+          "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\dist\\next-speed-controlled-baseline\\RubicPhotoSolve\\native\\qtm\\build\\cube_solver_qtm.exe",
+          "sha256": "8c2912c43e267ea32ac9daea77902bc2258d91ef35f6a456e92c165734d5376a"
+        }
+      }
+    },
+    "current": {
+      "packageRoot": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\dist\\next-speed-2026-10-03-defaults\\RubicPhotoSolve",
+      "files": {
+        "RubicPhotoSolve.exe": {
+          "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\dist\\next-speed-2026-10-03-defaults\\RubicPhotoSolve\\RubicPhotoSolve.exe",
+          "sha256": "3bbb51135cec0bde492834a6b5e3fd961e0a08a97bd7dad924a6aa595730874d"
+        },
+        "native/htm/build/cube_solver_htm.exe": {
+          "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\dist\\next-speed-2026-10-03-defaults\\RubicPhotoSolve\\native\\htm\\build\\cube_solver_htm.exe",
+          "sha256": "f85a87aca23957fdca40e5c677b366d8713dc943612dd6cdb4df891ba587338f"
+        },
+        "native/qtm/build/cube_solver_qtm.exe": {
+          "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\dist\\next-speed-2026-10-03-defaults\\RubicPhotoSolve\\native\\qtm\\build\\cube_solver_qtm.exe",
+          "sha256": "68b6e269893fec8ccd10f1d4d86fe4c126e1ab6797459e56ae271579bb9ab0ce"
+        }
+      }
+    }
+  },
+  "validation_errors": [],
+  "failures": []
+}

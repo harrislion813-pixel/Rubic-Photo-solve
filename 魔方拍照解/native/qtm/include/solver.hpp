@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cube.hpp"
+#include "fast.hpp"
 #include "metric.hpp"
 #include "strong_pdb.hpp"
 
@@ -29,6 +30,7 @@ class LoaderControl;
 enum class DirectionPolicy { Off, Legacy, Bounded };
 enum class DualPolicy { Off, Root, Selective, All };
 enum class PdbQueryOrder { Legacy, Interleaved, StrongFirst };
+enum class QtmExpansionKernel { Generic, FullStrong };
 
 struct CoordinateState {
     std::uint64_t edges{};
@@ -65,6 +67,7 @@ struct CoordinateFeatures {
 
 struct SearchCounters {
     std::uint64_t generated{};
+    std::uint64_t full_strong_expansions{};
     std::uint64_t small_queries{};
     std::uint64_t phase1_queries{};
     std::uint64_t corner_queries{};
@@ -85,7 +88,13 @@ struct SearchCounters {
     std::uint64_t corner_rejects{};
     std::uint64_t edge_rejects{};
     std::uint64_t strong_rejects{};
+    bool operator==(const SearchCounters &) const = default;
 };
+
+// Check once at a search-layer boundary. Ineligible snapshots retain the generic path.
+[[nodiscard]] bool full_qtm_strong_eligible(const CoordinateFeatures &features, const Phase1PatternDatabase *phase1_pdb,
+                                            const CornerPatternDatabase *corner_pdb,
+                                            std::span<const EdgePatternDatabase *const> edge_pdbs = {}) noexcept;
 
 struct WorkerStatistics {
     std::uint64_t nodes{};
@@ -115,6 +124,15 @@ class CoordinateTables {
                                       const Phase1PatternDatabase *phase1_pdb, const CornerPatternDatabase *corner_pdb,
                                       std::span<const EdgePatternDatabase *const> edge_pdbs, std::uint8_t cutoff,
                                       const CoordinateFeatures &features, SearchCounters &counters) const noexcept;
+    // The caller must hold the immutable snapshot accepted by full_qtm_strong_eligible.
+    [[nodiscard]] std::uint8_t expand_full_qtm_strong(const CoordinateState &parent, int move, CoordinateState &child,
+                                                      const CornerPatternDatabase *corner_pdb,
+                                                      const StrongPatternDatabase *strong_pdb, std::uint8_t cutoff,
+                                                      SearchCounters &counters) const noexcept;
+    [[nodiscard]] std::uint8_t heuristic_full_qtm_strong(const CoordinateState &state,
+                                                         const CornerPatternDatabase *corner_pdb,
+                                                         const StrongPatternDatabase *strong_pdb, std::uint8_t cutoff,
+                                                         SearchCounters *counters = nullptr) const noexcept;
     [[nodiscard]] CubieCube materialize(const CoordinateState &state) const noexcept;
 
     [[nodiscard]] std::uint16_t corner_move(std::uint16_t coordinate, int move) const noexcept;
@@ -142,6 +160,10 @@ class CoordinateTables {
                                         const CornerPatternDatabase *corner_pdb,
                                         std::span<const EdgePatternDatabase *const> edge_pdbs, std::uint8_t cutoff,
                                         const CoordinateFeatures &features, SearchCounters &counters) const noexcept;
+    [[nodiscard]] std::uint8_t evaluate_full_qtm_strong(CoordinateState &state, const CoordinateState *parent, int move,
+                                                        const CornerPatternDatabase *corner_pdb,
+                                                        const StrongPatternDatabase *strong_pdb, std::uint8_t cutoff,
+                                                        SearchCounters &counters) const noexcept;
 };
 
 struct NativeSearchProgress {
@@ -189,6 +211,8 @@ struct SolverOptions {
     bool staged_expansion{true};
     bool affine_coordinates{true};
     PdbQueryOrder query_order{PdbQueryOrder::StrongFirst};
+    // The same-tree gain did not clear every default-request regression gate.
+    QtmExpansionKernel qtm_expansion{QtmExpansionKernel::Generic};
     bool prefetch_strong{false};
     bool omit_strong_slice{false};
     bool strong_upgrade_restart{false};
@@ -196,6 +220,8 @@ struct SolverOptions {
     double base_proof_window_seconds{0.3};
     bool inverse_direction{false};
     bool use_native_candidate{true};
+    CandidateSchedule candidate_schedule{CandidateSchedule::Legacy};
+    bool late_tail_improvement{false};
     bool adaptive_split{true};
     bool selective_transposition{true};
     std::array<std::uint8_t, 18> move_costs{};
@@ -210,6 +236,8 @@ struct SolverOptions {
     std::function<void(int, int, int)> thread_activity_callback;
     std::function<void(int, std::uint64_t, double)> upgrade_callback;
     std::function<void(const std::vector<int> &)> candidate_callback;
+    std::function<void(const CandidateDirectionStatistics &)> candidate_direction_callback;
+    std::function<void(const FastCandidateResult &)> late_tail_callback;
     std::function<void(const NativeSearchProgress &)> progress_callback;
 };
 
@@ -241,6 +269,14 @@ struct NativeSolveResult {
     std::uint64_t candidate_phase2_nodes{0};
     int candidate_improvements{0};
     int candidate_window_replacements{0};
+    std::array<CandidateDirectionStatistics, 6> candidate_directions;
+    double candidate_budget_seconds{};
+    double candidate_elapsed_seconds{};
+    int late_tail_attempts{};
+    int late_tail_improvements{};
+    int late_tail_window_replacements{};
+    double late_tail_seconds{};
+    double late_tail_budget_seconds{};
     double first_candidate_seconds{-1.0};
     double candidate_worker_done_seconds{-1.0};
     double proof_worker_return_seconds{-1.0};

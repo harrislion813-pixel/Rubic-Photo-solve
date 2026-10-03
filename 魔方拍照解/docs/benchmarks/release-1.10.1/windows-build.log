@@ -1,0 +1,84 @@
+{"ok":true,"checked":1,"depth":0,"small_pdb_queries":212}
+{"ok":true,"checked":1,"depth":0,"metric":"HTM","small_pdb_queries":4660,"full_strong_checked":0}
+Prepared stable Python fallback caches: .cache/htm/solver_tables_v3.pkl .cache/qtm/solver_tables_v3.pkl
+{"ok": true, "profile": "QtmStrong", "files": 19}
+122 INFO: PyInstaller: 6.21.0, contrib hooks: 2026.7
+122 INFO: Python: 3.12.14
+149 INFO: Platform: Windows-11-10.0.26200-SP0
+149 INFO: Python environment: C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.venv
+150 INFO: wrote C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.release-build\QtmStrong\RubicPhotoSolve.spec
+153 INFO: Removing temporary files and cleaning cache in C:\Users\harriron\AppData\Local\pyinstaller
+158 INFO: Module search paths (PYTHONPATH):
+['C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解',
+ 'C:\\Users\\harriron\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python312.zip',
+ 'C:\\Users\\harriron\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\DLLs',
+ 'C:\\Users\\harriron\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\Lib',
+ 'C:\\Users\\harriron\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python',
+ 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv',
+ 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages',
+ 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解']
+448 INFO: checking Analysis
+448 INFO: Building Analysis because Analysis-00.toc is non existent
+448 INFO: Looking for Python shared library...
+448 INFO: Using Python shared library: C:\Users\harriron\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python312.dll
+448 INFO: Running Analysis Analysis-00.toc
+448 INFO: Target bytecode optimization level: 0
+448 INFO: Initializing module dependency graph...
+451 INFO: Initializing module graph hook caches...
+461 INFO: Analyzing modules for base_library.zip ...
+1392 INFO: Processing standard module hook 'hook-heapq.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+1443 INFO: Processing standard module hook 'hook-encodings.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+2182 INFO: Processing standard module hook 'hook-math.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+2334 INFO: Processing standard module hook 'hook-pickle.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+3068 INFO: Caching module dependency graph...
+3089 INFO: Analyzing C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\windows_launcher.py
+3163 INFO: Processing standard module hook 'hook-platform.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+3178 INFO: Processing standard module hook 'hook-webbrowser.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+3337 INFO: Processing standard module hook 'hook-multiprocessing.util.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+3389 INFO: Processing standard module hook 'hook-xml.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+3535 INFO: Processing standard module hook 'hook-_ctypes.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+3589 INFO: Processing standard module hook 'hook-numpy.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+3798 INFO: Processing pre-safe-import-module hook 'hook-typing_extensions.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+3799 INFO: SetuptoolsInfo: initializing cached setuptools info...
+4506 INFO: Processing standard module hook 'hook-sysconfig.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+5116 INFO: Processing standard module hook 'hook-difflib.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks'
+5891 INFO: Processing standard module hook 'hook-cv2.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+6313 INFO: Processing module hooks (post-graph stage)...
+6346 INFO: Performing binary vs. data reclassification (7 entries)
+6351 INFO: Looking for ctypes DLLs
+6366 INFO: Analyzing run-time hooks ...
+6367 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+6368 INFO: Including run-time hook 'pyi_rth_pkgutil.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+6371 INFO: Including run-time hook 'pyi_rth_multiprocessing.py' from 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+6375 INFO: Creating base_library.zip...
+6388 INFO: Looking for dynamic libraries
+6772 INFO: Extra DLL search directories (AddDllDirectory): ['C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\numpy.libs', 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\cv2\\../../x64/vc17/bin']
+6772 INFO: Extra DLL search directories (PATH): ['C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.venv\\Lib\\site-packages\\cv2\\../../x64/vc17/bin']
+7175 INFO: Warnings written to C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.release-build\QtmStrong\work\RubicPhotoSolve\warn-RubicPhotoSolve.txt
+7194 INFO: Graph cross-reference written to C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.release-build\QtmStrong\work\RubicPhotoSolve\xref-RubicPhotoSolve.html
+7209 INFO: checking PYZ
+7209 INFO: Building PYZ because PYZ-00.toc is non existent
+7209 INFO: Building PYZ (ZlibArchive) C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.release-build\QtmStrong\work\RubicPhotoSolve\PYZ-00.pyz
+7475 INFO: Building PYZ (ZlibArchive) C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.release-build\QtmStrong\work\RubicPhotoSolve\PYZ-00.pyz completed successfully.
+7482 INFO: checking PKG
+7483 INFO: Building PKG because PKG-00.toc is non existent
+7483 INFO: Building PKG (CArchive) RubicPhotoSolve.pkg
+7500 INFO: Building PKG (CArchive) RubicPhotoSolve.pkg completed successfully.
+7501 INFO: Bootloader C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.venv\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\run.exe
+7501 INFO: checking EXE
+7501 INFO: Building EXE because EXE-00.toc is non existent
+7501 INFO: Building EXE from EXE-00.toc
+7502 INFO: Copying bootloader EXE to C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.release-build\QtmStrong\work\RubicPhotoSolve\RubicPhotoSolve.exe
+7531 INFO: Copying icon to EXE
+7559 INFO: Copying 0 resources to EXE
+7559 INFO: Embedding manifest in EXE
+7587 INFO: Appending PKG archive to EXE
+7631 INFO: Fixing EXE headers
+7799 INFO: Building EXE from EXE-00.toc completed successfully.
+7801 INFO: checking COLLECT
+7801 INFO: Building COLLECT because COLLECT-00.toc is non existent
+7801 INFO: Building COLLECT COLLECT-00.toc
+8074 INFO: Building COLLECT COLLECT-00.toc completed successfully.
+8076 INFO: Build complete! The results are available in: C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\dist\QtmStrong-1.10.1
+{"ok": true, "archive": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\\u9b54\u65b9\u62cd\u7167\u89e3\\dist\\QtmStrong-1.10.1\\RubicPhotoSolve-1.10.1-QtmStrong-windows-x64.zip", "files": 153, "bytes": 2307015054}
+C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\dist\QtmStrong-1.10.1\RubicPhotoSolve-1.10.1-QtmStrong-windows-x64.zip

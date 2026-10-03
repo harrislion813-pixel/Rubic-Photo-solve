@@ -134,6 +134,57 @@ std::vector<int> normalize_moves(const std::vector<int> &moves) {
     return result;
 }
 
+bool candidate_stopped(const FastCandidateOptions &options, std::chrono::steady_clock::time_point deadline) {
+    return (options.cancel_requested && options.cancel_requested->load(std::memory_order_relaxed)) ||
+           (options.request_cancel_requested && options.request_cancel_requested->load(std::memory_order_relaxed)) ||
+           std::chrono::steady_clock::now() >= deadline;
+}
+
+std::vector<int> improve_windows(std::vector<int> current, const TailDatabase *tail,
+                                 const FastCandidateOptions &options, std::chrono::steady_clock::time_point deadline,
+                                 int &replacements) {
+    if (tail == nullptr || tail->metric() != MoveMetric::QTM)
+        return current;
+    int probes = 0;
+    for (int pass = 0; pass < 8 && probes < 128; ++pass) {
+        bool changed = false;
+        for (std::size_t first = 0; first < current.size() && !changed && probes < 128; ++first) {
+            CubieCube segment;
+            int segment_cost = 0;
+            for (std::size_t last = first; last < current.size() && probes < 128; ++last) {
+                segment_cost += move_cost(current[last], MoveMetric::QTM);
+                if (segment_cost > tail->depth())
+                    break;
+                segment = segment.apply_move(current[last]);
+                if (segment_cost < 3)
+                    continue;
+                if (candidate_stopped(options, deadline))
+                    return current;
+                ++probes;
+                const auto hit = tail->lookup(segment);
+                if (!hit.has_value() || hit->distance >= segment_cost)
+                    continue;
+                const auto replacement = invert_moves(tail->solution_suffix(segment));
+                std::vector<int> candidate;
+                candidate.reserve(current.size() - (last - first + 1) + replacement.size());
+                candidate.insert(candidate.end(), current.begin(), current.begin() + first);
+                candidate.insert(candidate.end(), replacement.begin(), replacement.end());
+                candidate.insert(candidate.end(), current.begin() + last + 1, current.end());
+                candidate = normalize_moves(candidate);
+                if (solution_cost(candidate, MoveMetric::QTM) >= solution_cost(current, MoveMetric::QTM))
+                    continue;
+                current = std::move(candidate);
+                ++replacements;
+                changed = true;
+                break;
+            }
+        }
+        if (!changed)
+            break;
+    }
+    return current;
+}
+
 class Search {
   public:
     Search(const CubieCube &cube, const CoordinateTables &tables, const Phase1PatternDatabase &phase1,
@@ -142,6 +193,7 @@ class Search {
           deadline_(std::chrono::steady_clock::now() + std::chrono::duration_cast<std::chrono::steady_clock::duration>(
                                                            std::chrono::duration<double>(options.timeout_seconds))),
           best_cost_(options.incumbent_cost) {
+        deadline_ = std::min(deadline_, options.absolute_deadline);
         result_.phase1_max_distance = phase1.max_value();
         result_.phase2_max_distance = std::max(phase2.corner_max, phase2.edge_max);
     }
@@ -160,14 +212,14 @@ class Search {
             return true;
         if (((result_.phase1_nodes + result_.phase2_nodes) & 1023U) != 0)
             return false;
-        expired_ = (options_.cancel_requested && options_.cancel_requested->load(std::memory_order_relaxed)) ||
-                   std::chrono::steady_clock::now() >= deadline_;
+        expired_ = candidate_stopped(options_, deadline_);
         result_.timed_out = expired_;
         return expired_;
     }
 
     void accept_candidate() {
-        const auto normalized = improve_windows(normalize_moves(path_));
+        const auto normalized = improve_windows(normalize_moves(path_), options_.local_tail, options_, deadline_,
+                                                result_.window_replacements);
         const int cost = solution_cost(normalized, MoveMetric::QTM);
         if (cost >= best_cost_)
             return;
@@ -182,48 +234,6 @@ class Search {
         ++result_.improvements;
         if (options_.on_improved)
             options_.on_improved(result_.moves);
-    }
-
-    std::vector<int> improve_windows(std::vector<int> current) {
-        const auto *tail = options_.local_tail;
-        if (tail == nullptr || tail->metric() != MoveMetric::QTM)
-            return current;
-        int probes = 0;
-        for (int pass = 0; pass < 8 && probes < 128; ++pass) {
-            bool changed = false;
-            for (std::size_t first = 0; first < current.size() && !changed && probes < 128; ++first) {
-                CubieCube segment;
-                int segment_cost = 0;
-                for (std::size_t last = first; last < current.size() && probes < 128; ++last) {
-                    segment_cost += move_cost(current[last], MoveMetric::QTM);
-                    if (segment_cost > tail->depth())
-                        break;
-                    segment = segment.apply_move(current[last]);
-                    if (segment_cost < 3)
-                        continue;
-                    ++probes;
-                    const auto hit = tail->lookup(segment);
-                    if (!hit.has_value() || hit->distance >= segment_cost)
-                        continue;
-                    const auto replacement = invert_moves(tail->solution_suffix(segment));
-                    std::vector<int> candidate;
-                    candidate.reserve(current.size() - (last - first + 1) + replacement.size());
-                    candidate.insert(candidate.end(), current.begin(), current.begin() + first);
-                    candidate.insert(candidate.end(), replacement.begin(), replacement.end());
-                    candidate.insert(candidate.end(), current.begin() + last + 1, current.end());
-                    candidate = normalize_moves(candidate);
-                    if (solution_cost(candidate, MoveMetric::QTM) >= solution_cost(current, MoveMetric::QTM))
-                        continue;
-                    current = std::move(candidate);
-                    ++result_.window_replacements;
-                    changed = true;
-                    break;
-                }
-            }
-            if (!changed)
-                break;
-        }
-        return current;
     }
 
     bool phase2_dfs(std::uint16_t corner, std::uint16_t edge, std::uint8_t slice, int remaining, int last_face) {
@@ -332,8 +342,9 @@ FastCandidateResult find_fast_qtm_candidate(const CubieCube &cube, const Coordin
         options.incumbent_cost <= 0)
         throw std::invalid_argument("native QTM candidate options are invalid");
     const auto started = std::chrono::steady_clock::now();
-    const auto deadline = started + std::chrono::duration_cast<std::chrono::steady_clock::duration>(
-                                        std::chrono::duration<double>(options.timeout_seconds));
+    const auto deadline =
+        std::min(options.absolute_deadline, started + std::chrono::duration_cast<std::chrono::steady_clock::duration>(
+                                                          std::chrono::duration<double>(options.timeout_seconds)));
     const auto &phase2 = phase2_tables(tables);
     FastCandidateResult result;
     result.phase1_max_distance = phase1_pdb.max_value();
@@ -341,10 +352,17 @@ FastCandidateResult find_fast_qtm_candidate(const CubieCube &cube, const Coordin
     int best_cost = options.incumbent_cost;
     constexpr std::array<std::pair<int, bool>, 6> variants{
         {{-1, false}, {0, false}, {1, false}, {-1, true}, {0, true}, {1, true}}};
+    result.budget_seconds = std::max(0.0, std::chrono::duration<double>(deadline - started).count());
     for (std::size_t index = 0; index < variants.size(); ++index) {
+        result.directions[index].direction = static_cast<int>(index);
+        result.directions[index].axis = variants[index].first;
+        result.directions[index].inverse = variants[index].second;
+    }
+    const std::size_t rounds = options.schedule == CandidateSchedule::ShortSlices ? 2 : 1;
+    for (std::size_t visit = 0; visit < variants.size() * rounds; ++visit) {
+        const std::size_t index = visit % variants.size();
         const auto now = std::chrono::steady_clock::now();
-        if (now >= deadline ||
-            (options.cancel_requested && options.cancel_requested->load(std::memory_order_relaxed))) {
+        if (candidate_stopped(options, deadline)) {
             result.timed_out = true;
             break;
         }
@@ -354,14 +372,23 @@ FastCandidateResult find_fast_qtm_candidate(const CubieCube &cube, const Coordin
             transformed = conjugate_axis(transformed, axis);
         FastCandidateOptions variant = options;
         variant.incumbent_cost = best_cost;
+        variant.absolute_deadline = deadline;
         const double remaining = std::chrono::duration<double>(deadline - now).count();
         // Give every orientation an early chance to find the first solution.
         // Once one exists, spend the remaining deadline on quality improvements.
         const double fair_share = remaining / (variants.size() - index);
-        variant.timeout_seconds =
-            result.moves.empty()
-                ? std::min(remaining, std::max(0.02, std::min(fair_share, options.timeout_seconds * 0.2)))
-                : fair_share;
+        if (options.schedule == CandidateSchedule::ShortSlices)
+            variant.timeout_seconds = visit < variants.size()
+                                          ? std::min({remaining, fair_share, 0.1, options.timeout_seconds / 12})
+                                          : fair_share;
+        else
+            variant.timeout_seconds =
+                result.moves.empty()
+                    ? std::min(remaining, std::max(0.02, std::min(fair_share, options.timeout_seconds * 0.2)))
+                    : fair_share;
+        auto &direction = result.directions[index];
+        ++direction.visits;
+        direction.budget_seconds += variant.timeout_seconds;
         variant.on_improved = [&](const std::vector<int> &path) {
             std::vector<int> mapped = path;
             if (axis >= 0) {
@@ -386,6 +413,13 @@ FastCandidateResult find_fast_qtm_candidate(const CubieCube &cube, const Coordin
             result.moves = mapped;
             result.cost = cost;
             ++result.improvements;
+            const double seconds = std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count();
+            if (direction.first_candidate_seconds < 0) {
+                direction.first_candidate_seconds = seconds;
+                direction.first_cost = cost;
+            }
+            direction.best_cost = cost;
+            direction.improvements.push_back({cost, seconds});
             if (options.on_improved)
                 options.on_improved(result.moves);
         };
@@ -393,8 +427,46 @@ FastCandidateResult find_fast_qtm_candidate(const CubieCube &cube, const Coordin
         result.phase1_nodes += part.phase1_nodes;
         result.phase2_nodes += part.phase2_nodes;
         result.window_replacements += part.window_replacements;
+        direction.phase1_nodes += part.phase1_nodes;
+        direction.phase2_nodes += part.phase2_nodes;
+        direction.elapsed_seconds += std::chrono::duration<double>(std::chrono::steady_clock::now() - now).count();
+        if (options.on_direction)
+            options.on_direction(direction);
     }
     result.timed_out |= std::chrono::steady_clock::now() >= deadline;
+    result.elapsed_seconds = std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count();
+    return result;
+}
+
+FastCandidateResult improve_qtm_candidate_with_tail(const CubieCube &cube, const std::vector<int> &incumbent,
+                                                    const TailDatabase &tail, const FastCandidateOptions &options) {
+    if (tail.metric() != MoveMetric::QTM || options.timeout_seconds <= 0 || options.timeout_seconds > 0.2)
+        throw std::invalid_argument("late Tail improvement requires a QTM Tail and a budget within 0..0.2 seconds");
+    CubieCube verified = cube;
+    for (int move : incumbent)
+        verified = verified.apply_move(move);
+    if (!verified.solved())
+        throw std::invalid_argument("late Tail improvement requires a verified incumbent");
+    const auto started = std::chrono::steady_clock::now();
+    const auto deadline =
+        std::min(options.absolute_deadline, started + std::chrono::duration_cast<std::chrono::steady_clock::duration>(
+                                                          std::chrono::duration<double>(options.timeout_seconds)));
+    FastCandidateResult result;
+    result.budget_seconds = std::max(0.0, std::chrono::duration<double>(deadline - started).count());
+    result.moves = improve_windows(incumbent, &tail, options, deadline, result.window_replacements);
+    result.cost = solution_cost(result.moves, MoveMetric::QTM);
+    verified = cube;
+    for (int move : result.moves)
+        verified = verified.apply_move(move);
+    if (!verified.solved())
+        throw std::runtime_error("late Tail improvement changed the solution's whole-cube effect");
+    if (result.cost < solution_cost(incumbent, MoveMetric::QTM) && !candidate_stopped(options, deadline)) {
+        result.improvements = 1;
+        if (options.on_improved)
+            options.on_improved(result.moves);
+    }
+    result.timed_out = candidate_stopped(options, deadline);
+    result.elapsed_seconds = std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count();
     return result;
 }
 

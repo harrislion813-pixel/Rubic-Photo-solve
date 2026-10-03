@@ -1,4 +1,4 @@
-Cube Lens 1.10.0 · 魔方拍照求解
+Cube Lens 1.10.1 · 魔方拍照求解
 
 本便携包集成正式 HTM 和 QTM，适用 Windows 10/11 x64。
 无需安装 Python、编译器或 Node.js，全部运行表和缓存已经生成。

@@ -947,7 +947,7 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         options.use_direction_probe && !searching_inverse && incumbent.size() >= 18 && effective_max >= 17;
     const int probe_depth = probe_enabled ? std::max(lower_bound, std::min(16, effective_max - 2)) : -1;
     bool direction_probed = false;
-    const int thread_count = std::clamp(
+    int thread_count = std::clamp(
         options.threads > 0 ? options.threads : static_cast<int>(std::max(1U, std::thread::hardware_concurrency())), 1,
         64);
     SearchControl control;
@@ -965,6 +965,7 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         if (!options.progress_callback)
             return;
         NativeSearchProgress progress;
+        progress.threads = thread_count;
         progress.lower_bound = lower_bound;
         progress.upper_bound = effective_max;
         progress.current_depth = depth;
@@ -994,6 +995,8 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
     };
     report(completed_depth + 1, 0, 0, started);
     for (int depth = completed_depth + 1; depth <= effective_max; ++depth) {
+        if (options.thread_count_callback)
+            thread_count = std::clamp(options.thread_count_callback(), 1, 64);
         if (options.incumbent_callback) {
             auto updated = options.incumbent_callback();
             if (!updated.empty() && (incumbent.empty() || updated.size() < incumbent.size())) {

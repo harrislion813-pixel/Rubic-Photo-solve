@@ -1,0 +1,10 @@
+[
+  {"name":"htm-independent-01","scramble":"U F2 L D' R B2 U' F D L'"},
+  {"name":"htm-independent-02","scramble":"L2 B U R' F2 D L' U2 B' R D2 F"},
+  {"name":"htm-independent-03","scramble":"D R2 B' U L F2 R D2 B L' U2 F' D' R B2 U'"},
+  {"name":"htm-independent-04","scramble":"F' U2 R B D2 L' F U R2 B' L2 D R' U' F2 L B2 D'"},
+  {"name":"htm-independent-05","scramble":"B2 R U' F L2 D B' R2 U L' F2 D' R B U2 L F' D2 B' R'"},
+  {"name":"htm-independent-06","scramble":"R' D2 F U B2 L' R2 F' D B U2 L R' D' F2 B' U L2 D R F' U2"},
+  {"name":"htm-independent-07","scramble":"L U2 B' D R F2 L' B U' R2 D2 F L B2 R' U D' F' L2 B R U' D2 F2"},
+  {"name":"htm-independent-08","scramble":"U' B R2 D F' L2 U B2 R D' L F2 B' U2 D R' L' F B2 D2 U' L R2 F' B D"}
+]

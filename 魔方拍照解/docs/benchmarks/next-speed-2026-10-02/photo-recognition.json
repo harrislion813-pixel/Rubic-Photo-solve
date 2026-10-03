@@ -1,0 +1,6698 @@
+{
+  "method": "Original photos uploaded into normal page file inputs; actual browser Canvas resize/JPEG detection, perspective rectification, patch sampling and web/color.js classification. No solve requests.",
+  "recordedAt": "2026-10-02T11:59:47.593Z",
+  "sourceSha256": {
+    "web/app.js": "6ffcb5148d6316c9527b8d54e02ec823edc5954ba196fc0b3803832c98f60c99",
+    "web/color.js": "31c731b930a6db3a6b3e66c19bc46d54e1a16813d96c7794091bf7c901125e9a",
+    "web/index.html": "64bad5f8e571195716c5040222703a5db0a5679baf5cb271494ce0a2df06e044",
+    "cube_app/vision.py": "b44361ca6b0408ec38257d3eb8bdd78de384959e3d62eb7aa58d8d1c209bde66",
+    "cube_app/detection.py": "ec871cf2cd44c9941d3186bea98e10426ca793b7c2b7f62abb413ef6f99b411b"
+  },
+  "caseManifestSha256": "880be92820d6141428ff33356c56b70dca7034612e4455975c01af66b9e6ac0e",
+  "cases": [
+    {
+      "name": "initial-1",
+      "referenceFacelets": "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+      "referenceFaceletsSha256": "624a95d8bb8cf582727219bb04781b79db7a8e5645884f27ea8a72afe7863882",
+      "detectionResponses": {
+        "U": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.13638930022716522,
+              0.246558278799057
+            ],
+            [
+              0.8985369205474854,
+              0.26955172419548035
+            ],
+            [
+              0.8139761686325073,
+              0.6801134347915649
+            ],
+            [
+              0.10920624434947968,
+              0.6618249416351318
+            ]
+          ],
+          "confidence": 89,
+          "method": "grid-fit-9",
+          "score": 0.7965,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 495.45,
+            "mean_brightness": 99.82,
+            "contrast": 63.59,
+            "dark_fraction": 0.0143,
+            "bright_fraction": 0.0039
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.13638930022716522,
+                  0.246558278799057
+                ],
+                [
+                  0.8985369205474854,
+                  0.26955172419548035
+                ],
+                [
+                  0.8139761686325073,
+                  0.6801134347915649
+                ],
+                [
+                  0.10920624434947968,
+                  0.6618249416351318
+                ]
+              ],
+              "confidence": 89,
+              "method": "grid-fit-9",
+              "score": 0.7965,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 495.45,
+                "mean_brightness": 99.82,
+                "contrast": 63.59,
+                "dark_fraction": 0.0143,
+                "bright_fraction": 0.0039
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.37228432297706604,
+                  0.3858036398887634
+                ],
+                [
+                  0.6282196640968323,
+                  0.3884872794151306
+                ],
+                [
+                  0.6981647610664368,
+                  0.5181963443756104
+                ],
+                [
+                  0.3643360137939453,
+                  0.5602400302886963
+                ]
+              ],
+              "confidence": 2,
+              "method": "cell-cluster-7",
+              "score": 0.0367,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 141.49,
+                "mean_brightness": 131.21,
+                "contrast": 64.27,
+                "dark_fraction": 0.0382,
+                "bright_fraction": 0.0007
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.2990211844444275,
+                  0.5127720236778259
+                ],
+                [
+                  0.6284477710723877,
+                  0.38918712735176086
+                ],
+                [
+                  0.7610009908676147,
+                  0.5010741353034973
+                ],
+                [
+                  0.43157440423965454,
+                  0.62465900182724
+                ]
+              ],
+              "confidence": 1,
+              "method": "cell-cluster-6",
+              "score": 0,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 165.5,
+                "mean_brightness": 120.16,
+                "contrast": 70.13,
+                "dark_fraction": 0.0356,
+                "bright_fraction": 0.001
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "R": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.05518729239702225,
+              0.18435579538345337
+            ],
+            [
+              0.9359138607978821,
+              0.2025211900472641
+            ],
+            [
+              0.8293358683586121,
+              0.6768752336502075
+            ],
+            [
+              0.03461127355694771,
+              0.6703070402145386
+            ]
+          ],
+          "confidence": 95,
+          "method": "grid-fit-7",
+          "score": 0.9172,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 179.99,
+            "mean_brightness": 95.12,
+            "contrast": 63.07,
+            "dark_fraction": 0.0171,
+            "bright_fraction": 0.0004
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.05518729239702225,
+                  0.18435579538345337
+                ],
+                [
+                  0.9359138607978821,
+                  0.2025211900472641
+                ],
+                [
+                  0.8293358683586121,
+                  0.6768752336502075
+                ],
+                [
+                  0.03461127355694771,
+                  0.6703070402145386
+                ]
+              ],
+              "confidence": 95,
+              "method": "grid-fit-7",
+              "score": 0.9172,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 179.99,
+                "mean_brightness": 95.12,
+                "contrast": 63.07,
+                "dark_fraction": 0.0171,
+                "bright_fraction": 0.0004
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0.9983844757080078,
+                  0
+                ],
+                [
+                  0.9983844757080078,
+                  0.696379542350769
+                ],
+                [
+                  0,
+                  0.7072795629501343
+                ]
+              ],
+              "confidence": 38,
+              "method": "edge-28",
+              "score": 0.3299,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 538.34,
+                "mean_brightness": 107.17,
+                "contrast": 69.95,
+                "dark_fraction": 0.0099,
+                "bright_fraction": 0.0059
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.6923096776008606,
+                  0.41903674602508545
+                ],
+                [
+                  0.9355276226997375,
+                  0.5326440334320068
+                ],
+                [
+                  0.9924494028091431,
+                  0.6356141567230225
+                ],
+                [
+                  0.7797409892082214,
+                  0.7464403510093689
+                ]
+              ],
+              "confidence": 0,
+              "method": "cell-cluster-7",
+              "score": 0,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 20.49,
+                "mean_brightness": 182.44,
+                "contrast": 34.94,
+                "dark_fraction": 0,
+                "bright_fraction": 0
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "F": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.18051029741764069,
+              0.22023501992225647
+            ],
+            [
+              0.9001007080078125,
+              0.23094411194324493
+            ],
+            [
+              0.8682582974433899,
+              0.6333922147750854
+            ],
+            [
+              0.17859616875648499,
+              0.6298114657402039
+            ]
+          ],
+          "confidence": 97,
+          "method": "grid-fit-7",
+          "score": 0.9461,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 184.89,
+            "mean_brightness": 148.17,
+            "contrast": 66.98,
+            "dark_fraction": 0.0072,
+            "bright_fraction": 0.0998
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.18051029741764069,
+                  0.22023501992225647
+                ],
+                [
+                  0.9001007080078125,
+                  0.23094411194324493
+                ],
+                [
+                  0.8682582974433899,
+                  0.6333922147750854
+                ],
+                [
+                  0.17859616875648499,
+                  0.6298114657402039
+                ]
+              ],
+              "confidence": 97,
+              "method": "grid-fit-7",
+              "score": 0.9461,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 184.89,
+                "mean_brightness": 148.17,
+                "contrast": 66.98,
+                "dark_fraction": 0.0072,
+                "bright_fraction": 0.0998
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.018707619979977608,
+                  0.11404546350240707
+                ],
+                [
+                  0.9771566987037659,
+                  0.25106361508369446
+                ],
+                [
+                  0.8561873435974121,
+                  0.6272090673446655
+                ],
+                [
+                  0.018707619979977608,
+                  0.6376818418502808
+                ]
+              ],
+              "confidence": 77,
+              "method": "adaptive",
+              "score": 0.5812,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 278.85,
+                "mean_brightness": 139.41,
+                "contrast": 73.25,
+                "dark_fraction": 0.0334,
+                "bright_fraction": 0.0832
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.37019383907318115,
+                  0.35758182406425476
+                ],
+                [
+                  0.6339741349220276,
+                  0.3519091010093689
+                ],
+                [
+                  0.8876736164093018,
+                  0.6402727365493774
+                ],
+                [
+                  0.4037964642047882,
+                  0.5211454629898071
+                ]
+              ],
+              "confidence": 3,
+              "method": "edge-90",
+              "score": 0,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 82.62,
+                "mean_brightness": 97.28,
+                "contrast": 51.87,
+                "dark_fraction": 0.0494,
+                "bright_fraction": 0.001
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "D": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.20425212383270264,
+              0.21433307230472565
+            ],
+            [
+              0.9983844757080078,
+              0.20782290399074554
+            ],
+            [
+              0.8780378699302673,
+              0.641937792301178
+            ],
+            [
+              0.20393258333206177,
+              0.6271228194236755
+            ]
+          ],
+          "confidence": 89,
+          "method": "grid-fit-7",
+          "score": 0.8749,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 718.42,
+            "mean_brightness": 122.48,
+            "contrast": 59.57,
+            "dark_fraction": 0.0026,
+            "bright_fraction": 0.0082
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.20425212383270264,
+                  0.21433307230472565
+                ],
+                [
+                  0.9983844757080078,
+                  0.20782290399074554
+                ],
+                [
+                  0.8780378699302673,
+                  0.641937792301178
+                ],
+                [
+                  0.20393258333206177,
+                  0.6271228194236755
+                ]
+              ],
+              "confidence": 89,
+              "method": "grid-fit-7",
+              "score": 0.8749,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 718.42,
+                "mean_brightness": 122.48,
+                "contrast": 59.57,
+                "dark_fraction": 0.0026,
+                "bright_fraction": 0.0082
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.25097236037254333,
+                  0.12554620206356049
+                ],
+                [
+                  0.9114477634429932,
+                  0.1203809529542923
+                ],
+                [
+                  0.96665358543396,
+                  0.5383076667785645
+                ],
+                [
+                  0.1805003583431244,
+                  0.5220556855201721
+                ]
+              ],
+              "confidence": 56,
+              "method": "grid-fit-6",
+              "score": 0.654,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 820.07,
+                "mean_brightness": 129.7,
+                "contrast": 64.64,
+                "dark_fraction": 0.0008,
+                "bright_fraction": 0.0107
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.2802576720714569,
+                  0
+                ],
+                [
+                  0.9312237501144409,
+                  0.17571182548999786
+                ],
+                [
+                  0.6987358331680298,
+                  0.3540245294570923
+                ],
+                [
+                  0.20448385179042816,
+                  0.16505181789398193
+                ]
+              ],
+              "confidence": 29,
+              "method": "cell-cluster-12",
+              "score": 0.3667,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 484.8,
+                "mean_brightness": 131.22,
+                "contrast": 71.63,
+                "dark_fraction": 0.0004,
+                "bright_fraction": 0.017
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "L": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.12771426141262054,
+              0.188836470246315
+            ],
+            [
+              0.9197990298271179,
+              0.22011372447013855
+            ],
+            [
+              0.8213849067687988,
+              0.6495032906532288
+            ],
+            [
+              0.11516256630420685,
+              0.620782732963562
+            ]
+          ],
+          "confidence": 90,
+          "method": "grid-fit-9",
+          "score": 0.8248,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 187.11,
+            "mean_brightness": 119.46,
+            "contrast": 55.56,
+            "dark_fraction": 0.0108,
+            "bright_fraction": 0.0359
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.12771426141262054,
+                  0.188836470246315
+                ],
+                [
+                  0.9197990298271179,
+                  0.22011372447013855
+                ],
+                [
+                  0.8213849067687988,
+                  0.6495032906532288
+                ],
+                [
+                  0.11516256630420685,
+                  0.620782732963562
+                ]
+              ],
+              "confidence": 90,
+              "method": "grid-fit-9",
+              "score": 0.8248,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 187.11,
+                "mean_brightness": 119.46,
+                "contrast": 55.56,
+                "dark_fraction": 0.0108,
+                "bright_fraction": 0.0359
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.09577734768390656,
+                  0.1795930117368698
+                ],
+                [
+                  0.7690152525901794,
+                  0.021146629005670547
+                ],
+                [
+                  0.9061897397041321,
+                  0.5442227721214294
+                ],
+                [
+                  0.07231330126523972,
+                  0.5086739659309387
+                ]
+              ],
+              "confidence": 21,
+              "method": "cell-cluster-7",
+              "score": 0.017,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 220.43,
+                "mean_brightness": 103.49,
+                "contrast": 56.83,
+                "dark_fraction": 0.0351,
+                "bright_fraction": 0.0156
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0.1781204491853714
+                ],
+                [
+                  0.948743999004364,
+                  0.18505682051181793
+                ],
+                [
+                  0.9983844757080078,
+                  0.9004931449890137
+                ],
+                [
+                  0.27079564332962036,
+                  0.9990909099578857
+                ]
+              ],
+              "confidence": 20,
+              "method": "adaptive",
+              "score": 0,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 413.85,
+                "mean_brightness": 114.77,
+                "contrast": 63.42,
+                "dark_fraction": 0.0472,
+                "bright_fraction": 0.0184
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "B": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.18052911758422852,
+              0.15718400478363037
+            ],
+            [
+              0.9508853554725647,
+              0.150031179189682
+            ],
+            [
+              0.8812949061393738,
+              0.5821062922477722
+            ],
+            [
+              0.19777490198612213,
+              0.5810648202896118
+            ]
+          ],
+          "confidence": 93,
+          "method": "grid-fit-7",
+          "score": 0.8794,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 471.38,
+            "mean_brightness": 105.84,
+            "contrast": 55.21,
+            "dark_fraction": 0.0086,
+            "bright_fraction": 0.0107
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.18052911758422852,
+                  0.15718400478363037
+                ],
+                [
+                  0.9508853554725647,
+                  0.150031179189682
+                ],
+                [
+                  0.8812949061393738,
+                  0.5821062922477722
+                ],
+                [
+                  0.19777490198612213,
+                  0.5810648202896118
+                ]
+              ],
+              "confidence": 93,
+              "method": "grid-fit-7",
+              "score": 0.8794,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 471.38,
+                "mean_brightness": 105.84,
+                "contrast": 55.21,
+                "dark_fraction": 0.0086,
+                "bright_fraction": 0.0107
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.19406788051128387,
+                  0.16196729242801666
+                ],
+                [
+                  0.925311803817749,
+                  0.1583891063928604
+                ],
+                [
+                  0.8649046421051025,
+                  0.5698800086975098
+                ],
+                [
+                  0.4325169622898102,
+                  0.465218186378479
+                ]
+              ],
+              "confidence": 30,
+              "method": "cell-cluster-5",
+              "score": 0.1787,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 261.5,
+                "mean_brightness": 105.17,
+                "contrast": 55.54,
+                "dark_fraction": 0.0253,
+                "bright_fraction": 0.0133
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0.003590920241549611
+                ],
+                [
+                  0.8861873745918274,
+                  0.07544547319412231
+                ],
+                [
+                  0.881147027015686,
+                  0.586936354637146
+                ],
+                [
+                  0.19229404628276825,
+                  0.5822091102600098
+                ]
+              ],
+              "confidence": 28,
+              "method": "edge-90",
+              "score": 0.1384,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 635.65,
+                "mean_brightness": 111.72,
+                "contrast": 60.35,
+                "dark_fraction": 0.0065,
+                "bright_fraction": 0.0101
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        }
+      },
+      "pageErrors": [],
+      "identificationSeconds": 2.1745247,
+      "automaticFacelets": "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+      "automaticFaceletsSha256": "624a95d8bb8cf582727219bb04781b79db7a8e5645884f27ea8a72afe7863882",
+      "statusBeforeCorrection": "色块数量正确；4 个低置信度色块已高亮，请优先检查",
+      "stickerConfidence": {
+        "U": [
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "R": [
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "F": [
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "D": [
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": true,
+            "title": "颜色判断不确定（置信度 0%），请点击校正"
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": true,
+            "title": "颜色判断不确定（置信度 0%），请点击校正"
+          }
+        ],
+        "L": [
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "B": [
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": true,
+            "title": "颜色判断不确定（置信度 0%），请点击校正"
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": true,
+            "title": "颜色判断不确定（置信度 100%），请点击校正"
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          }
+        ]
+      },
+      "previewPaths": {
+        "U": "initial-1-U-browser-preview.png",
+        "R": "initial-1-R-browser-preview.png",
+        "F": "initial-1-F-browser-preview.png",
+        "D": "initial-1-D-browser-preview.png",
+        "L": "initial-1-L-browser-preview.png",
+        "B": "initial-1-B-browser-preview.png"
+      },
+      "manualCorrections": [],
+      "correctedFacelets": "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+      "automaticMatchesReference": true,
+      "rotationCorrections": [],
+      "finalScreenshot": "initial-1-photo-page.png"
+    },
+    {
+      "name": "initial-12",
+      "referenceFacelets": "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+      "referenceFaceletsSha256": "f8ef201e0f93106411d8d78275d118dab7087f63fa710f204ddbfdef120b9999",
+      "detectionResponses": {
+        "U": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.1299711912870407,
+              0.3467019200325012
+            ],
+            [
+              0.9099602103233337,
+              0.3558366298675537
+            ],
+            [
+              0.9157163500785828,
+              0.8258625864982605
+            ],
+            [
+              0.03654028847813606,
+              0.7918691635131836
+            ]
+          ],
+          "confidence": 76,
+          "method": "grid-fit-7",
+          "score": 0.812,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 1077.67,
+            "mean_brightness": 114.5,
+            "contrast": 58.34,
+            "dark_fraction": 0.0133,
+            "bright_fraction": 0.0063
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.1299711912870407,
+                  0.3467019200325012
+                ],
+                [
+                  0.9099602103233337,
+                  0.3558366298675537
+                ],
+                [
+                  0.9157163500785828,
+                  0.8258625864982605
+                ],
+                [
+                  0.03654028847813606,
+                  0.7918691635131836
+                ]
+              ],
+              "confidence": 76,
+              "method": "grid-fit-7",
+              "score": 0.812,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1077.67,
+                "mean_brightness": 114.5,
+                "contrast": 58.34,
+                "dark_fraction": 0.0133,
+                "bright_fraction": 0.0063
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0.9983844757080078,
+                  0.06470716744661331
+                ],
+                [
+                  0.9658435583114624,
+                  0.5156699419021606
+                ],
+                [
+                  0,
+                  0.5298894643783569
+                ]
+              ],
+              "confidence": 58,
+              "method": "cell-cluster-12",
+              "score": 0.695,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 703.16,
+                "mean_brightness": 122.52,
+                "contrast": 60.69,
+                "dark_fraction": 0.0038,
+                "bright_fraction": 0.0059
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0.17663635313510895
+                ],
+                [
+                  0.9983844757080078,
+                  0.16474543511867523
+                ],
+                [
+                  0.9691558480262756,
+                  0.9990909099578857
+                ],
+                [
+                  0,
+                  0.9990909099578857
+                ]
+              ],
+              "confidence": 46,
+              "method": "color-close-27",
+              "score": 0.4724,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1289,
+                "mean_brightness": 125.3,
+                "contrast": 56.95,
+                "dark_fraction": 0.0066,
+                "bright_fraction": 0.0031
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "R": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.05741781368851662,
+              0.32637566328048706
+            ],
+            [
+              0.8875431418418884,
+              0.3479403555393219
+            ],
+            [
+              0.9004227519035339,
+              0.8233856558799744
+            ],
+            [
+              0.06937838345766068,
+              0.8182296752929688
+            ]
+          ],
+          "confidence": 93,
+          "method": "grid-fit-8",
+          "score": 0.9,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 289.2,
+            "mean_brightness": 101.45,
+            "contrast": 49.36,
+            "dark_fraction": 0.0085,
+            "bright_fraction": 0
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.05741781368851662,
+                  0.32637566328048706
+                ],
+                [
+                  0.8875431418418884,
+                  0.3479403555393219
+                ],
+                [
+                  0.9004227519035339,
+                  0.8233856558799744
+                ],
+                [
+                  0.06937838345766068,
+                  0.8182296752929688
+                ]
+              ],
+              "confidence": 93,
+              "method": "grid-fit-8",
+              "score": 0.9,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 289.2,
+                "mean_brightness": 101.45,
+                "contrast": 49.36,
+                "dark_fraction": 0.0085,
+                "bright_fraction": 0
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.265435129404068,
+                  0.06249595060944557
+                ],
+                [
+                  0.9711617231369019,
+                  0
+                ],
+                [
+                  0.9983844757080078,
+                  0.5784623622894287
+                ],
+                [
+                  0,
+                  0.5104116201400757
+                ]
+              ],
+              "confidence": 56,
+              "method": "cell-cluster-9",
+              "score": 0.6565,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1125.87,
+                "mean_brightness": 117.82,
+                "contrast": 62.25,
+                "dark_fraction": 0.0036,
+                "bright_fraction": 0.0083
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0.3372727334499359
+                ],
+                [
+                  0.9983844757080078,
+                  0.37909090518951416
+                ],
+                [
+                  0.7108238935470581,
+                  0.9990909099578857
+                ],
+                [
+                  0,
+                  0.9881818294525146
+                ]
+              ],
+              "confidence": 54,
+              "method": "edge-28",
+              "score": 0.6216,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 670.5,
+                "mean_brightness": 119.89,
+                "contrast": 54.1,
+                "dark_fraction": 0.0053,
+                "bright_fraction": 0.0014
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "F": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.10237301886081696,
+              0.3188885450363159
+            ],
+            [
+              0.9810967445373535,
+              0.3606278598308563
+            ],
+            [
+              0.9385249018669128,
+              0.8641222715377808
+            ],
+            [
+              0.044060975313186646,
+              0.8148137331008911
+            ]
+          ],
+          "confidence": 97,
+          "method": "grid-fit-7",
+          "score": 0.9528,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 623.89,
+            "mean_brightness": 123.99,
+            "contrast": 61.63,
+            "dark_fraction": 0.0118,
+            "bright_fraction": 0.0055
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.10237301886081696,
+                  0.3188885450363159
+                ],
+                [
+                  0.9810967445373535,
+                  0.3606278598308563
+                ],
+                [
+                  0.9385249018669128,
+                  0.8641222715377808
+                ],
+                [
+                  0.044060975313186646,
+                  0.8148137331008911
+                ]
+              ],
+              "confidence": 97,
+              "method": "grid-fit-7",
+              "score": 0.9528,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 623.89,
+                "mean_brightness": 123.99,
+                "contrast": 61.63,
+                "dark_fraction": 0.0118,
+                "bright_fraction": 0.0055
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0.2800000011920929
+                ],
+                [
+                  0.9983844757080078,
+                  0.2709091007709503
+                ],
+                [
+                  0.8513731956481934,
+                  0.9990909099578857
+                ],
+                [
+                  0,
+                  0.9990909099578857
+                ]
+              ],
+              "confidence": 61,
+              "method": "color",
+              "score": 0.5899,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 987.14,
+                "mean_brightness": 119.54,
+                "contrast": 58.46,
+                "dark_fraction": 0.0081,
+                "bright_fraction": 0.0023
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.18868815898895264,
+                  0.01749514415860176
+                ],
+                [
+                  0.9800348877906799,
+                  0.036917753517627716
+                ],
+                [
+                  0.9285731911659241,
+                  0.8685867786407471
+                ],
+                [
+                  0.06128082424402237,
+                  0.8265135884284973
+                ]
+              ],
+              "confidence": 48,
+              "method": "cell-cluster-16",
+              "score": 0.5022,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1115.62,
+                "mean_brightness": 115.73,
+                "contrast": 64.66,
+                "dark_fraction": 0.0092,
+                "bright_fraction": 0.0048
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "D": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0,
+              0.300314724445343
+            ],
+            [
+              0.9983844757080078,
+              0.3266788721084595
+            ],
+            [
+              0.9748765826225281,
+              0.8748481869697571
+            ],
+            [
+              0,
+              0.8875934481620789
+            ]
+          ],
+          "confidence": 90,
+          "method": "grid-fit-8",
+          "score": 0.8863,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 252.96,
+            "mean_brightness": 134.58,
+            "contrast": 51.53,
+            "dark_fraction": 0.0001,
+            "bright_fraction": 0.0028
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0,
+                  0.300314724445343
+                ],
+                [
+                  0.9983844757080078,
+                  0.3266788721084595
+                ],
+                [
+                  0.9748765826225281,
+                  0.8748481869697571
+                ],
+                [
+                  0,
+                  0.8875934481620789
+                ]
+              ],
+              "confidence": 90,
+              "method": "grid-fit-8",
+              "score": 0.8863,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 252.96,
+                "mean_brightness": 134.58,
+                "contrast": 51.53,
+                "dark_fraction": 0.0001,
+                "bright_fraction": 0.0028
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.3121870160102844,
+                  0.06666477769613266
+                ],
+                [
+                  0.8304826021194458,
+                  0.021937506273388863
+                ],
+                [
+                  0.9861369132995605,
+                  0.5204601883888245
+                ],
+                [
+                  0.3800787627696991,
+                  0.5027557015419006
+                ]
+              ],
+              "confidence": 57,
+              "method": "cell-cluster-5",
+              "score": 0.6658,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 581.57,
+                "mean_brightness": 116.21,
+                "contrast": 61.19,
+                "dark_fraction": 0.0009,
+                "bright_fraction": 0.0002
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.26581892371177673,
+                  0
+                ],
+                [
+                  0.9919169545173645,
+                  0
+                ],
+                [
+                  0.9737474918365479,
+                  0.8918296098709106
+                ],
+                [
+                  0.019686106592416763,
+                  0.8986132740974426
+                ]
+              ],
+              "confidence": 54,
+              "method": "cell-cluster-9",
+              "score": 0.6199,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1126.4,
+                "mean_brightness": 125.08,
+                "contrast": 59.1,
+                "dark_fraction": 0.0007,
+                "bright_fraction": 0.0032
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "L": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.06619292497634888,
+              0.2929070293903351
+            ],
+            [
+              0.9540714025497437,
+              0.3129391372203827
+            ],
+            [
+              0.9244690537452698,
+              0.8095514178276062
+            ],
+            [
+              0.058831579983234406,
+              0.795684814453125
+            ]
+          ],
+          "confidence": 97,
+          "method": "grid-fit-9",
+          "score": 0.949,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 659.47,
+            "mean_brightness": 137.41,
+            "contrast": 51.73,
+            "dark_fraction": 0.0058,
+            "bright_fraction": 0.0022
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.06619292497634888,
+                  0.2929070293903351
+                ],
+                [
+                  0.9540714025497437,
+                  0.3129391372203827
+                ],
+                [
+                  0.9244690537452698,
+                  0.8095514178276062
+                ],
+                [
+                  0.058831579983234406,
+                  0.795684814453125
+                ]
+              ],
+              "confidence": 97,
+              "method": "grid-fit-9",
+              "score": 0.949,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 659.47,
+                "mean_brightness": 137.41,
+                "contrast": 51.73,
+                "dark_fraction": 0.0058,
+                "bright_fraction": 0.0022
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.26043182611465454,
+                  0.04273210093379021
+                ],
+                [
+                  0.928255021572113,
+                  0
+                ],
+                [
+                  0.9571337699890137,
+                  0.8542618751525879
+                ],
+                [
+                  0,
+                  0.8400423526763916
+                ]
+              ],
+              "confidence": 54,
+              "method": "cell-cluster-11",
+              "score": 0.6222,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 908.73,
+                "mean_brightness": 124.34,
+                "contrast": 59.99,
+                "dark_fraction": 0.0069,
+                "bright_fraction": 0.0018
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0.1957181692123413
+                ],
+                [
+                  0.9983844757080078,
+                  0.17986361682415009
+                ],
+                [
+                  0.9484612941741943,
+                  0.9990909099578857
+                ],
+                [
+                  0,
+                  0.9990909099578857
+                ]
+              ],
+              "confidence": 47,
+              "method": "color-close-27",
+              "score": 0.4936,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 947.26,
+                "mean_brightness": 126.85,
+                "contrast": 52.95,
+                "dark_fraction": 0.0037,
+                "bright_fraction": 0.001
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "B": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.15316832065582275,
+              0.348260760307312
+            ],
+            [
+              0.9489787220954895,
+              0.3770982325077057
+            ],
+            [
+              0.9315029978752136,
+              0.8284693360328674
+            ],
+            [
+              0.1467299908399582,
+              0.8052654266357422
+            ]
+          ],
+          "confidence": 97,
+          "method": "grid-fit-8",
+          "score": 0.9529,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 259.63,
+            "mean_brightness": 117.13,
+            "contrast": 49.45,
+            "dark_fraction": 0.013,
+            "bright_fraction": 0.002
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.15316832065582275,
+                  0.348260760307312
+                ],
+                [
+                  0.9489787220954895,
+                  0.3770982325077057
+                ],
+                [
+                  0.9315029978752136,
+                  0.8284693360328674
+                ],
+                [
+                  0.1467299908399582,
+                  0.8052654266357422
+                ]
+              ],
+              "confidence": 97,
+              "method": "grid-fit-8",
+              "score": 0.9529,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 259.63,
+                "mean_brightness": 117.13,
+                "contrast": 49.45,
+                "dark_fraction": 0.013,
+                "bright_fraction": 0.002
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.27253633737564087,
+                  0.01711522974073887
+                ],
+                [
+                  0.911579966545105,
+                  0.018533408641815186
+                ],
+                [
+                  0.9370145797729492,
+                  0.8263079524040222
+                ],
+                [
+                  0.04203557223081589,
+                  0.8495661020278931
+                ]
+              ],
+              "confidence": 48,
+              "method": "cell-cluster-14",
+              "score": 0.5154,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1056.4,
+                "mean_brightness": 112.34,
+                "contrast": 56.81,
+                "dark_fraction": 0.0094,
+                "bright_fraction": 0.0036
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.25878432393074036,
+                  0
+                ],
+                [
+                  0.9244547486305237,
+                  0.0056875054724514484
+                ],
+                [
+                  0.9559168219566345,
+                  0.5256420373916626
+                ],
+                [
+                  0.43596524000167847,
+                  0.5023465752601624
+                ]
+              ],
+              "confidence": 41,
+              "method": "cell-cluster-7",
+              "score": 0.3783,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 882.42,
+                "mean_brightness": 103.88,
+                "contrast": 51.63,
+                "dark_fraction": 0.0047,
+                "bright_fraction": 0.0017
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        }
+      },
+      "pageErrors": [],
+      "identificationSeconds": 3.3500177000000004,
+      "automaticFacelets": "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+      "automaticFaceletsSha256": "f8ef201e0f93106411d8d78275d118dab7087f63fa710f204ddbfdef120b9999",
+      "statusBeforeCorrection": "54 个色块数量正确，可以求解",
+      "stickerConfidence": {
+        "U": [
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "R": [
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "F": [
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "D": [
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "L": [
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "B": [
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          }
+        ]
+      },
+      "previewPaths": {
+        "U": "initial-12-U-browser-preview.png",
+        "R": "initial-12-R-browser-preview.png",
+        "F": "initial-12-F-browser-preview.png",
+        "D": "initial-12-D-browser-preview.png",
+        "L": "initial-12-L-browser-preview.png",
+        "B": "initial-12-B-browser-preview.png"
+      },
+      "manualCorrections": [],
+      "correctedFacelets": "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+      "automaticMatchesReference": true,
+      "rotationCorrections": [],
+      "finalScreenshot": "initial-12-photo-page.png"
+    },
+    {
+      "name": "initial-2",
+      "referenceFacelets": "DLLLURLFURBUFRDLRBURFDFURRBUUDBDDRBRLUFLLLFDBBBFFBFDUD",
+      "referenceFaceletsSha256": "d9f3a36f59b862c8df705ed8ea1a9b83b97207801b998e4ec5d5edb07a94a080",
+      "detectionResponses": {
+        "U": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.09803604334592819,
+              0.3765382468700409
+            ],
+            [
+              0.8921294808387756,
+              0.401039719581604
+            ],
+            [
+              0.8598334193229675,
+              0.8476388454437256
+            ],
+            [
+              0.059415850788354874,
+              0.8372002840042114
+            ]
+          ],
+          "confidence": 91,
+          "method": "grid-fit-7",
+          "score": 0.8383,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 450.31,
+            "mean_brightness": 108.25,
+            "contrast": 54.2,
+            "dark_fraction": 0.0156,
+            "bright_fraction": 0.0055
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.09803604334592819,
+                  0.3765382468700409
+                ],
+                [
+                  0.8921294808387756,
+                  0.401039719581604
+                ],
+                [
+                  0.8598334193229675,
+                  0.8476388454437256
+                ],
+                [
+                  0.059415850788354874,
+                  0.8372002840042114
+                ]
+              ],
+              "confidence": 91,
+              "method": "grid-fit-7",
+              "score": 0.8383,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 450.31,
+                "mean_brightness": 108.25,
+                "contrast": 54.2,
+                "dark_fraction": 0.0156,
+                "bright_fraction": 0.0055
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.36946341395378113,
+                  0.29585105180740356
+                ],
+                [
+                  0.6004940271377563,
+                  0.29381969571113586
+                ],
+                [
+                  0.6185433268547058,
+                  0.7407196760177612
+                ],
+                [
+                  0.2774120569229126,
+                  0.7041550874710083
+                ]
+              ],
+              "confidence": 18,
+              "method": "cell-cluster-9",
+              "score": 0.1901,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 382.07,
+                "mean_brightness": 101.38,
+                "contrast": 41.64,
+                "dark_fraction": 0.0327,
+                "bright_fraction": 0
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0.23130908608436584
+                ],
+                [
+                  0.9983844757080078,
+                  0.23130908608436584
+                ],
+                [
+                  0.9983844757080078,
+                  0.9990909099578857
+                ],
+                [
+                  0,
+                  0.9990909099578857
+                ]
+              ],
+              "confidence": 25,
+              "method": "adaptive",
+              "score": 0.0929,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 614.31,
+                "mean_brightness": 97.98,
+                "contrast": 62.44,
+                "dark_fraction": 0.1359,
+                "bright_fraction": 0.0025
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "R": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.06773938238620758,
+              0.24641650915145874
+            ],
+            [
+              0.8508619070053101,
+              0.2527041435241699
+            ],
+            [
+              0.8208999633789062,
+              0.6916140913963318
+            ],
+            [
+              0.03683082014322281,
+              0.6876495480537415
+            ]
+          ],
+          "confidence": 95,
+          "method": "grid-fit-9",
+          "score": 0.9015,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 265.98,
+            "mean_brightness": 91.26,
+            "contrast": 71.14,
+            "dark_fraction": 0.0179,
+            "bright_fraction": 0.0385
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.06773938238620758,
+                  0.24641650915145874
+                ],
+                [
+                  0.8508619070053101,
+                  0.2527041435241699
+                ],
+                [
+                  0.8208999633789062,
+                  0.6916140913963318
+                ],
+                [
+                  0.03683082014322281,
+                  0.6876495480537415
+                ]
+              ],
+              "confidence": 95,
+              "method": "grid-fit-9",
+              "score": 0.9015,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 265.98,
+                "mean_brightness": 91.26,
+                "contrast": 71.14,
+                "dark_fraction": 0.0179,
+                "bright_fraction": 0.0385
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.05959614738821983,
+                  0.2051272839307785
+                ],
+                [
+                  0.8365912437438965,
+                  0.2688363790512085
+                ],
+                [
+                  0.9808239340782166,
+                  0.6441091299057007
+                ],
+                [
+                  0.3604685068130493,
+                  0.9801090955734253
+                ]
+              ],
+              "confidence": 35,
+              "method": "edge-90",
+              "score": 0.2757,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 492.9,
+                "mean_brightness": 129.38,
+                "contrast": 76.25,
+                "dark_fraction": 0.0096,
+                "bright_fraction": 0.0676
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.35072052478790283,
+                  0.40356361865997314
+                ],
+                [
+                  0.8387464284896851,
+                  0.40266910195350647
+                ],
+                [
+                  0.7290597558021545,
+                  0.7730109095573425
+                ],
+                [
+                  0.31733766198158264,
+                  0.6880291104316711
+                ]
+              ],
+              "confidence": 11,
+              "method": "cell-cluster-5",
+              "score": 0,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 143.86,
+                "mean_brightness": 75.71,
+                "contrast": 62.23,
+                "dark_fraction": 0.0079,
+                "bright_fraction": 0.0047
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "F": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.24644480645656586,
+              0.28637269139289856
+            ],
+            [
+              0.906419575214386,
+              0.2940201461315155
+            ],
+            [
+              0.8955026865005493,
+              0.6636085510253906
+            ],
+            [
+              0.18134833872318268,
+              0.6821334958076477
+            ]
+          ],
+          "confidence": 96,
+          "method": "grid-fit-6",
+          "score": 0.9202,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 591.69,
+            "mean_brightness": 121.42,
+            "contrast": 68.63,
+            "dark_fraction": 0.0091,
+            "bright_fraction": 0.0613
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.24644480645656586,
+                  0.28637269139289856
+                ],
+                [
+                  0.906419575214386,
+                  0.2940201461315155
+                ],
+                [
+                  0.8955026865005493,
+                  0.6636085510253906
+                ],
+                [
+                  0.18134833872318268,
+                  0.6821334958076477
+                ]
+              ],
+              "confidence": 96,
+              "method": "grid-fit-6",
+              "score": 0.9202,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 591.69,
+                "mean_brightness": 121.42,
+                "contrast": 68.63,
+                "dark_fraction": 0.0091,
+                "bright_fraction": 0.0613
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.05985463410615921,
+                  0.41777271032333374
+                ],
+                [
+                  0.9795314073562622,
+                  0.24410000443458557
+                ],
+                [
+                  0.8678674697875977,
+                  0.6507909297943115
+                ],
+                [
+                  0.20098546147346497,
+                  0.8427909016609192
+                ]
+              ],
+              "confidence": 69,
+              "method": "adaptive",
+              "score": 0.5267,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 720.23,
+                "mean_brightness": 101.46,
+                "contrast": 70.02,
+                "dark_fraction": 0.0625,
+                "bright_fraction": 0.0384
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.25786107778549194,
+                  0.2924181818962097
+                ],
+                [
+                  0.679121196269989,
+                  0.30136364698410034
+                ],
+                [
+                  0.8778287172317505,
+                  0.6529200077056885
+                ],
+                [
+                  0.2562714219093323,
+                  0.7414799928665161
+                ]
+              ],
+              "confidence": 35,
+              "method": "cell-cluster-9",
+              "score": 0.3147,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 393.07,
+                "mean_brightness": 110.37,
+                "contrast": 53.44,
+                "dark_fraction": 0.0092,
+                "bright_fraction": 0.0113
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "D": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.16241943836212158,
+              0.16295206546783447
+            ],
+            [
+              0.8910572528839111,
+              0.17153479158878326
+            ],
+            [
+              0.8604421019554138,
+              0.5736263990402222
+            ],
+            [
+              0.19034525752067566,
+              0.563096821308136
+            ]
+          ],
+          "confidence": 95,
+          "method": "grid-fit-8",
+          "score": 0.9161,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 308.16,
+            "mean_brightness": 131.88,
+            "contrast": 79.94,
+            "dark_fraction": 0.011,
+            "bright_fraction": 0.0537
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.16241943836212158,
+                  0.16295206546783447
+                ],
+                [
+                  0.8910572528839111,
+                  0.17153479158878326
+                ],
+                [
+                  0.8604421019554138,
+                  0.5736263990402222
+                ],
+                [
+                  0.19034525752067566,
+                  0.563096821308136
+                ]
+              ],
+              "confidence": 95,
+              "method": "grid-fit-8",
+              "score": 0.9161,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 308.16,
+                "mean_brightness": 131.88,
+                "contrast": 79.94,
+                "dark_fraction": 0.011,
+                "bright_fraction": 0.0537
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.4438812732696533,
+                  0
+                ],
+                [
+                  0.9983844757080078,
+                  0
+                ],
+                [
+                  0.9983844757080078,
+                  0.34517040848731995
+                ],
+                [
+                  0.4438812732696533,
+                  0.34517040848731995
+                ]
+              ],
+              "confidence": 21,
+              "method": "cell-cluster-6",
+              "score": 0.1088,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 158.31,
+                "mean_brightness": 146.37,
+                "contrast": 76.32,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0853
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.1626332849264145,
+                  0.2979181706905365
+                ],
+                [
+                  0.4309369921684265,
+                  0.2970454692840576
+                ],
+                [
+                  0.6077383160591125,
+                  0.5702090859413147
+                ],
+                [
+                  0.1734894961118698,
+                  0.4375545382499695
+                ]
+              ],
+              "confidence": 2,
+              "method": "color",
+              "score": 0,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 71.78,
+                "mean_brightness": 46.84,
+                "contrast": 28.2,
+                "dark_fraction": 0.0262,
+                "bright_fraction": 0
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "L": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.11439812183380127,
+              0.23438456654548645
+            ],
+            [
+              0.9191076159477234,
+              0.2426227331161499
+            ],
+            [
+              0.8787015676498413,
+              0.7063513398170471
+            ],
+            [
+              0.13355836272239685,
+              0.686373770236969
+            ]
+          ],
+          "confidence": 91,
+          "method": "grid-fit-6",
+          "score": 0.8387,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 513.77,
+            "mean_brightness": 118.74,
+            "contrast": 51.56,
+            "dark_fraction": 0.0098,
+            "bright_fraction": 0.0111
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.11439812183380127,
+                  0.23438456654548645
+                ],
+                [
+                  0.9191076159477234,
+                  0.2426227331161499
+                ],
+                [
+                  0.8787015676498413,
+                  0.7063513398170471
+                ],
+                [
+                  0.13355836272239685,
+                  0.686373770236969
+                ]
+              ],
+              "confidence": 91,
+              "method": "grid-fit-6",
+              "score": 0.8387,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 513.77,
+                "mean_brightness": 118.74,
+                "contrast": 51.56,
+                "dark_fraction": 0.0098,
+                "bright_fraction": 0.0111
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.019967716187238693,
+                  0.16138184070587158
+                ],
+                [
+                  0.9784168004989624,
+                  0.18407273292541504
+                ],
+                [
+                  0.9784168004989624,
+                  0.9346181154251099
+                ],
+                [
+                  0.019967716187238693,
+                  0.9817453622817993
+                ]
+              ],
+              "confidence": 37,
+              "method": "color-close-15",
+              "score": 0.3085,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 494.82,
+                "mean_brightness": 110.04,
+                "contrast": 56.69,
+                "dark_fraction": 0.0299,
+                "bright_fraction": 0.0064
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0.21134546399116516
+                ],
+                [
+                  0.9983844757080078,
+                  0.21701818704605103
+                ],
+                [
+                  0.9983844757080078,
+                  0.6774545311927795
+                ],
+                [
+                  0.4259773790836334,
+                  0.9990909099578857
+                ]
+              ],
+              "confidence": 33,
+              "method": "edge-28",
+              "score": 0.2273,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 644.98,
+                "mean_brightness": 129.6,
+                "contrast": 54.13,
+                "dark_fraction": 0.0179,
+                "bright_fraction": 0.0099
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "B": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.2081974744796753,
+              0.30851128697395325
+            ],
+            [
+              0.9063339233398438,
+              0.3128831088542938
+            ],
+            [
+              0.9009854793548584,
+              0.7153071761131287
+            ],
+            [
+              0.19732427597045898,
+              0.7061813473701477
+            ]
+          ],
+          "confidence": 97,
+          "method": "grid-fit-7",
+          "score": 0.938,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 625.47,
+            "mean_brightness": 119.5,
+            "contrast": 67.77,
+            "dark_fraction": 0.0087,
+            "bright_fraction": 0.012
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.2081974744796753,
+                  0.30851128697395325
+                ],
+                [
+                  0.9063339233398438,
+                  0.3128831088542938
+                ],
+                [
+                  0.9009854793548584,
+                  0.7153071761131287
+                ],
+                [
+                  0.19732427597045898,
+                  0.7061813473701477
+                ]
+              ],
+              "confidence": 97,
+              "method": "grid-fit-7",
+              "score": 0.938,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 625.47,
+                "mean_brightness": 119.5,
+                "contrast": 67.77,
+                "dark_fraction": 0.0087,
+                "bright_fraction": 0.012
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.21581585705280304,
+                  0.3170272707939148
+                ],
+                [
+                  0.8951050043106079,
+                  0.3222636580467224
+                ],
+                [
+                  0.909062922000885,
+                  0.7115000486373901
+                ],
+                [
+                  0.02040388435125351,
+                  0.9410272836685181
+                ]
+              ],
+              "confidence": 58,
+              "method": "adaptive",
+              "score": 0.345,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 770.87,
+                "mean_brightness": 115.5,
+                "contrast": 70.29,
+                "dark_fraction": 0.0582,
+                "bright_fraction": 0.0176
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.36551031470298767,
+                  0.5732329487800598
+                ],
+                [
+                  0.7112283706665039,
+                  0.37983912229537964
+                ],
+                [
+                  0.8953010439872742,
+                  0.4840383529663086
+                ],
+                [
+                  0.5495829582214355,
+                  0.6774321794509888
+                ]
+              ],
+              "confidence": 11,
+              "method": "cell-cluster-5",
+              "score": 0.1417,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 265.42,
+                "mean_brightness": 127.24,
+                "contrast": 61.23,
+                "dark_fraction": 0.0062,
+                "bright_fraction": 0.0032
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        }
+      },
+      "pageErrors": [],
+      "identificationSeconds": 1.864471599999999,
+      "automaticFacelets": "DLLLURLFURBUFRDLRBURFDFURRBUUDBDDRBRLUFLLLFDBBBFFBFDUD",
+      "automaticFaceletsSha256": "d9f3a36f59b862c8df705ed8ea1a9b83b97207801b998e4ec5d5edb07a94a080",
+      "statusBeforeCorrection": "色块数量正确；3 个低置信度色块已高亮，请优先检查",
+      "stickerConfidence": {
+        "U": [
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": true,
+            "title": "颜色判断不确定（置信度 68%），请点击校正"
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "R": [
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "F": [
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "D": [
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": true,
+            "title": "颜色判断不确定（置信度 9%），请点击校正"
+          }
+        ],
+        "L": [
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": true,
+            "title": "颜色判断不确定（置信度 0%），请点击校正"
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "B": [
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          }
+        ]
+      },
+      "previewPaths": {
+        "U": "initial-2-U-browser-preview.png",
+        "R": "initial-2-R-browser-preview.png",
+        "F": "initial-2-F-browser-preview.png",
+        "D": "initial-2-D-browser-preview.png",
+        "L": "initial-2-L-browser-preview.png",
+        "B": "initial-2-B-browser-preview.png"
+      },
+      "manualCorrections": [],
+      "correctedFacelets": "DLLLURLFURBUFRDLRBURFDFURRBUUDBDDRBRLUFLLLFDBBBFFBFDUD",
+      "automaticMatchesReference": true,
+      "rotationCorrections": [],
+      "finalScreenshot": "initial-2-photo-page.png"
+    },
+    {
+      "name": "initial-5",
+      "referenceFacelets": "UFBFURRBURDUBRDDRLDUFBFLDUBLLRDDFUDBFLFRLRBLFRULBBUDFL",
+      "referenceFaceletsSha256": "64f0bf93847929383f2dc5284afa1cc56bad67c5f01b6530e26be286a019df11",
+      "detectionResponses": {
+        "U": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.07743756473064423,
+              0.3167341649532318
+            ],
+            [
+              0.8260625004768372,
+              0.32796069979667664
+            ],
+            [
+              0.8122707605361938,
+              0.737842321395874
+            ],
+            [
+              0.06622647494077682,
+              0.7311223745346069
+            ]
+          ],
+          "confidence": 76,
+          "method": "grid-fit-7",
+          "score": 0.7869,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 684.31,
+            "mean_brightness": 117.85,
+            "contrast": 56.29,
+            "dark_fraction": 0.0002,
+            "bright_fraction": 0.0005
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.07743756473064423,
+                  0.3167341649532318
+                ],
+                [
+                  0.8260625004768372,
+                  0.32796069979667664
+                ],
+                [
+                  0.8122707605361938,
+                  0.737842321395874
+                ],
+                [
+                  0.06622647494077682,
+                  0.7311223745346069
+                ]
+              ],
+              "confidence": 76,
+              "method": "grid-fit-7",
+              "score": 0.7869,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 684.31,
+                "mean_brightness": 117.85,
+                "contrast": 56.29,
+                "dark_fraction": 0.0002,
+                "bright_fraction": 0.0005
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.050566837191581726,
+                  0.009149322286248207
+                ],
+                [
+                  0.9777073860168457,
+                  0.009149322286248207
+                ],
+                [
+                  0.8199626207351685,
+                  0.45189476013183594
+                ],
+                [
+                  0.07759111374616623,
+                  0.44473838806152344
+                ]
+              ],
+              "confidence": 56,
+              "method": "cell-cluster-12",
+              "score": 0.6535,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 455,
+                "mean_brightness": 98.87,
+                "contrast": 62.67,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0001
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.3044975697994232,
+                  0.4575309157371521
+                ],
+                [
+                  0.579508900642395,
+                  0.44232362508773804
+                ],
+                [
+                  0.6081227660179138,
+                  0.604236364364624
+                ],
+                [
+                  0.31562522053718567,
+                  0.6131818294525146
+                ]
+              ],
+              "confidence": 32,
+              "method": "cell-cluster-5",
+              "score": 0.5874,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 206.74,
+                "mean_brightness": 141.57,
+                "contrast": 63.94,
+                "dark_fraction": 0.0002,
+                "bright_fraction": 0.0005
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "R": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.1138380616903305,
+              0.34220215678215027
+            ],
+            [
+              0.6956674456596375,
+              0.35811373591423035
+            ],
+            [
+              0.6766176223754883,
+              0.6994094848632812
+            ],
+            [
+              0.08906412124633789,
+              0.6672793030738831
+            ]
+          ],
+          "confidence": 91,
+          "method": "grid-fit-6",
+          "score": 0.9138,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 285.48,
+            "mean_brightness": 133.8,
+            "contrast": 54.06,
+            "dark_fraction": 0,
+            "bright_fraction": 0.0013
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.1138380616903305,
+                  0.34220215678215027
+                ],
+                [
+                  0.6956674456596375,
+                  0.35811373591423035
+                ],
+                [
+                  0.6766176223754883,
+                  0.6994094848632812
+                ],
+                [
+                  0.08906412124633789,
+                  0.6672793030738831
+                ]
+              ],
+              "confidence": 91,
+              "method": "grid-fit-6",
+              "score": 0.9138,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 285.48,
+                "mean_brightness": 133.8,
+                "contrast": 54.06,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0013
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.26347658038139343,
+                  0.03853818029165268
+                ],
+                [
+                  0.9502099752426147,
+                  0.03853818029165268
+                ],
+                [
+                  0.9533892273902893,
+                  0.3086909055709839
+                ],
+                [
+                  0.5130533576011658,
+                  0.3033236265182495
+                ]
+              ],
+              "confidence": 47,
+              "method": "cell-cluster-16",
+              "score": 0.6543,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 198.71,
+                "mean_brightness": 116.82,
+                "contrast": 65.84,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0011
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.11232049018144608,
+                  0.34482184052467346
+                ],
+                [
+                  0.6941363215446472,
+                  0.3627127408981323
+                ],
+                [
+                  0.9771541357040405,
+                  0.9826982021331787
+                ],
+                [
+                  0.08688593655824661,
+                  0.6668581366539001
+                ]
+              ],
+              "confidence": 49,
+              "method": "cell-cluster-8",
+              "score": 0.5281,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 381.9,
+                "mean_brightness": 122.75,
+                "contrast": 51.6,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0007
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "F": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.18212658166885376,
+              0.2750534117221832
+            ],
+            [
+              0.8284233808517456,
+              0.28584277629852295
+            ],
+            [
+              0.8001516461372375,
+              0.6522290110588074
+            ],
+            [
+              0.17252393066883087,
+              0.6426868438720703
+            ]
+          ],
+          "confidence": 96,
+          "method": "grid-fit-9",
+          "score": 0.9465,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 292.27,
+            "mean_brightness": 144.4,
+            "contrast": 54.38,
+            "dark_fraction": 0,
+            "bright_fraction": 0.0001
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.18212658166885376,
+                  0.2750534117221832
+                ],
+                [
+                  0.8284233808517456,
+                  0.28584277629852295
+                ],
+                [
+                  0.8001516461372375,
+                  0.6522290110588074
+                ],
+                [
+                  0.17252393066883087,
+                  0.6426868438720703
+                ]
+              ],
+              "confidence": 96,
+              "method": "grid-fit-9",
+              "score": 0.9465,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 292.27,
+                "mean_brightness": 144.4,
+                "contrast": 54.38,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0001
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.40525203943252563,
+                  0.2767281234264374
+                ],
+                [
+                  0.9860515594482422,
+                  0.29068300127983093
+                ],
+                [
+                  0.9860515594482422,
+                  0.6375872492790222
+                ],
+                [
+                  0.3828907012939453,
+                  0.6618335843086243
+                ]
+              ],
+              "confidence": 54,
+              "method": "grid-fit-7",
+              "score": 0.6686,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 261.78,
+                "mean_brightness": 142.2,
+                "contrast": 50.14,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0002
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.33645138144493103,
+                  0.052411533892154694
+                ],
+                [
+                  0.9983844757080078,
+                  0
+                ],
+                [
+                  0.9374921917915344,
+                  0.24843810498714447
+                ],
+                [
+                  0.4447470009326935,
+                  0.275861531496048
+                ]
+              ],
+              "confidence": 34,
+              "method": "cell-cluster-15",
+              "score": 0.4516,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 147.04,
+                "mean_brightness": 96.3,
+                "contrast": 58.5,
+                "dark_fraction": 0,
+                "bright_fraction": 0
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "D": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.259676456451416,
+              0.38347798585891724
+            ],
+            [
+              0.8269148468971252,
+              0.40224167704582214
+            ],
+            [
+              0.8180022239685059,
+              0.7241096496582031
+            ],
+            [
+              0.2450018674135208,
+              0.7119722962379456
+            ]
+          ],
+          "confidence": 89,
+          "method": "grid-fit-7",
+          "score": 0.9092,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 138.3,
+            "mean_brightness": 147.45,
+            "contrast": 45.78,
+            "dark_fraction": 0,
+            "bright_fraction": 0.0006
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.259676456451416,
+                  0.38347798585891724
+                ],
+                [
+                  0.8269148468971252,
+                  0.40224167704582214
+                ],
+                [
+                  0.8180022239685059,
+                  0.7241096496582031
+                ],
+                [
+                  0.2450018674135208,
+                  0.7119722962379456
+                ]
+              ],
+              "confidence": 89,
+              "method": "grid-fit-7",
+              "score": 0.9092,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 138.3,
+                "mean_brightness": 147.45,
+                "contrast": 45.78,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0006
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.43516775965690613,
+                  0.2138010710477829
+                ],
+                [
+                  0.9859234690666199,
+                  0.18212053179740906
+                ],
+                [
+                  0.9983844757080078,
+                  0.9990909099578857
+                ],
+                [
+                  0.18969760835170746,
+                  0.72672039270401
+                ]
+              ],
+              "confidence": 46,
+              "method": "cell-cluster-12",
+              "score": 0.4797,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 679.35,
+                "mean_brightness": 132.09,
+                "contrast": 58.16,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0025
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.19442975521087646,
+                  0.12188365310430527
+                ],
+                [
+                  0.8573182225227356,
+                  0.07715637236833572
+                ],
+                [
+                  0.814397394657135,
+                  0.720334529876709
+                ],
+                [
+                  0.24370920658111572,
+                  0.7024435997009277
+                ]
+              ],
+              "confidence": 46,
+              "method": "cell-cluster-16",
+              "score": 0.4778,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 722.57,
+                "mean_brightness": 128.13,
+                "contrast": 58.89,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0007
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "L": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.23804497718811035,
+              0.2867053747177124
+            ],
+            [
+              0.7521263360977173,
+              0.286523699760437
+            ],
+            [
+              0.7372245788574219,
+              0.5779679417610168
+            ],
+            [
+              0.24579818546772003,
+              0.5802865028381348
+            ]
+          ],
+          "confidence": 81,
+          "method": "grid-fit-8",
+          "score": 0.8274,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 167.36,
+            "mean_brightness": 121.11,
+            "contrast": 32.4,
+            "dark_fraction": 0,
+            "bright_fraction": 0
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.23804497718811035,
+                  0.2867053747177124
+                ],
+                [
+                  0.7521263360977173,
+                  0.286523699760437
+                ],
+                [
+                  0.7372245788574219,
+                  0.5779679417610168
+                ],
+                [
+                  0.24579818546772003,
+                  0.5802865028381348
+                ]
+              ],
+              "confidence": 81,
+              "method": "grid-fit-8",
+              "score": 0.8274,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 167.36,
+                "mean_brightness": 121.11,
+                "contrast": 32.4,
+                "dark_fraction": 0,
+                "bright_fraction": 0
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.2424849569797516,
+                  0.2874363660812378
+                ],
+                [
+                  0.9805043339729309,
+                  0.1952981799840927
+                ],
+                [
+                  0.7305108308792114,
+                  0.5781636238098145
+                ],
+                [
+                  0.252022922039032,
+                  0.5763745903968811
+                ]
+              ],
+              "confidence": 37,
+              "method": "cell-cluster-12",
+              "score": 0.3677,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 740.53,
+                "mean_brightness": 123.13,
+                "contrast": 40.93,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0005
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.5209913849830627,
+                  0.25559696555137634
+                ],
+                [
+                  0.9487592577934265,
+                  0.04535084217786789
+                ],
+                [
+                  0.9902724623680115,
+                  0.32060059905052185
+                ],
+                [
+                  0.5787490606307983,
+                  0.4993606209754944
+                ]
+              ],
+              "confidence": 27,
+              "method": "cell-cluster-9",
+              "score": 0.3557,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1069.08,
+                "mean_brightness": 129.34,
+                "contrast": 57.5,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0026
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "B": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.1744234710931778,
+              0.37765568494796753
+            ],
+            [
+              0.7805245518684387,
+              0.3773042559623718
+            ],
+            [
+              0.7911907434463501,
+              0.7273362874984741
+            ],
+            [
+              0.17741122841835022,
+              0.7216988801956177
+            ]
+          ],
+          "confidence": 93,
+          "method": "grid-fit-9",
+          "score": 0.9325,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 203.65,
+            "mean_brightness": 133.56,
+            "contrast": 55.34,
+            "dark_fraction": 0,
+            "bright_fraction": 0.0001
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.1744234710931778,
+                  0.37765568494796753
+                ],
+                [
+                  0.7805245518684387,
+                  0.3773042559623718
+                ],
+                [
+                  0.7911907434463501,
+                  0.7273362874984741
+                ],
+                [
+                  0.17741122841835022,
+                  0.7216988801956177
+                ]
+              ],
+              "confidence": 93,
+              "method": "grid-fit-9",
+              "score": 0.9325,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 203.65,
+                "mean_brightness": 133.56,
+                "contrast": 55.34,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0001
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.5039805769920349,
+                  0.11498909443616867
+                ],
+                [
+                  0.895037055015564,
+                  0.06489456444978714
+                ],
+                [
+                  0.915702760219574,
+                  0.3144727051258087
+                ],
+                [
+                  0.4817253351211548,
+                  0.298370897769928
+                ]
+              ],
+              "confidence": 40,
+              "method": "cell-cluster-11",
+              "score": 0.6429,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 173.34,
+                "mean_brightness": 109.72,
+                "contrast": 65.16,
+                "dark_fraction": 0,
+                "bright_fraction": 0
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.22688432037830353,
+                  0.027078233659267426
+                ],
+                [
+                  0.8939152956008911,
+                  0.0645386353135109
+                ],
+                [
+                  0.9145808815956116,
+                  0.31411683559417725
+                ],
+                [
+                  0.48060354590415955,
+                  0.2980150282382965
+                ]
+              ],
+              "confidence": 44,
+              "method": "cell-cluster-8",
+              "score": 0.6299,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 353.24,
+                "mean_brightness": 113.79,
+                "contrast": 66.71,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0003
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        }
+      },
+      "pageErrors": [],
+      "identificationSeconds": 4.470698199999999,
+      "automaticFacelets": "UFBFURRBURDUBRDDRLDUFBFLDUBLLRDDFUDBFLFRLRBLFRULBBUDFL",
+      "automaticFaceletsSha256": "64f0bf93847929383f2dc5284afa1cc56bad67c5f01b6530e26be286a019df11",
+      "statusBeforeCorrection": "54 个色块数量正确，可以求解",
+      "stickerConfidence": {
+        "U": [
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "R": [
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "F": [
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "D": [
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "L": [
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "B": [
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          }
+        ]
+      },
+      "previewPaths": {
+        "U": "initial-5-U-browser-preview.png",
+        "R": "initial-5-R-browser-preview.png",
+        "F": "initial-5-F-browser-preview.png",
+        "D": "initial-5-D-browser-preview.png",
+        "L": "initial-5-L-browser-preview.png",
+        "B": "initial-5-B-browser-preview.png"
+      },
+      "manualCorrections": [],
+      "correctedFacelets": "UFBFURRBURDUBRDDRLDUFBFLDUBLLRDDFUDBFLFRLRBLFRULBBUDFL",
+      "automaticMatchesReference": true,
+      "rotationCorrections": [],
+      "finalScreenshot": "initial-5-photo-page.png"
+    },
+    {
+      "name": "initial-8",
+      "referenceFacelets": "ULFDUBRUDBDUFRRUBBDFLLFRUDBBRLBDRDURRFFFLDFURLBFUBLDLL",
+      "referenceFaceletsSha256": "ca1a1628b63a2c045647c1d87490771ea784cefd732e931050508d86330f791c",
+      "detectionResponses": {
+        "U": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.25203558802604675,
+              0.36302703619003296
+            ],
+            [
+              0.8692875504493713,
+              0.37088924646377563
+            ],
+            [
+              0.8659884929656982,
+              0.7152618765830994
+            ],
+            [
+              0.22492054104804993,
+              0.7267623543739319
+            ]
+          ],
+          "confidence": 89,
+          "method": "grid-fit-8",
+          "score": 0.8376,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 411.06,
+            "mean_brightness": 156.03,
+            "contrast": 49.43,
+            "dark_fraction": 0,
+            "bright_fraction": 0.0452
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.25203558802604675,
+                  0.36302703619003296
+                ],
+                [
+                  0.8692875504493713,
+                  0.37088924646377563
+                ],
+                [
+                  0.8659884929656982,
+                  0.7152618765830994
+                ],
+                [
+                  0.22492054104804993,
+                  0.7267623543739319
+                ]
+              ],
+              "confidence": 89,
+              "method": "grid-fit-8",
+              "score": 0.8376,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 411.06,
+                "mean_brightness": 156.03,
+                "contrast": 49.43,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0452
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.021809369325637817,
+                  0
+                ],
+                [
+                  0.6589983701705933,
+                  0.11350591480731964
+                ],
+                [
+                  0.8983747959136963,
+                  0.7434149980545044
+                ],
+                [
+                  0.23018741607666016,
+                  0.6116185188293457
+                ]
+              ],
+              "confidence": 37,
+              "method": "cell-cluster-12",
+              "score": 0.3168,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 798.94,
+                "mean_brightness": 122.21,
+                "contrast": 56.31,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0143
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0.1192522644996643
+                ],
+                [
+                  0.8722900152206421,
+                  0
+                ],
+                [
+                  0.9983844757080078,
+                  0.7970341444015503
+                ],
+                [
+                  0,
+                  0.8693704605102539
+                ]
+              ],
+              "confidence": 35,
+              "method": "adaptive",
+              "score": 0.2796,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 746.83,
+                "mean_brightness": 106.52,
+                "contrast": 55.65,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0116
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "R": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.35837310552597046,
+              0.3470834195613861
+            ],
+            [
+              0.8349650502204895,
+              0.31470516324043274
+            ],
+            [
+              0.8269845843315125,
+              0.5838289856910706
+            ],
+            [
+              0.40149590373039246,
+              0.6022404432296753
+            ]
+          ],
+          "confidence": 83,
+          "method": "grid-fit-6",
+          "score": 0.9197,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 311.5,
+            "mean_brightness": 139.21,
+            "contrast": 61,
+            "dark_fraction": 0.0013,
+            "bright_fraction": 0.0098
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.35837310552597046,
+                  0.3470834195613861
+                ],
+                [
+                  0.8349650502204895,
+                  0.31470516324043274
+                ],
+                [
+                  0.8269845843315125,
+                  0.5838289856910706
+                ],
+                [
+                  0.40149590373039246,
+                  0.6022404432296753
+                ]
+              ],
+              "confidence": 83,
+              "method": "grid-fit-6",
+              "score": 0.9197,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 311.5,
+                "mean_brightness": 139.21,
+                "contrast": 61,
+                "dark_fraction": 0.0013,
+                "bright_fraction": 0.0098
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0.446982741355896
+                ],
+                [
+                  0.690833568572998,
+                  0.48380815982818604
+                ],
+                [
+                  0.6529465913772583,
+                  0.7367408871650696
+                ],
+                [
+                  0.3240193724632263,
+                  0.7851954102516174
+                ]
+              ],
+              "confidence": 43,
+              "method": "cell-cluster-10",
+              "score": 0.5751,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 315.24,
+                "mean_brightness": 114.14,
+                "contrast": 59.9,
+                "dark_fraction": 0.0121,
+                "bright_fraction": 0.0023
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.16378717124462128,
+                  0.06060754880309105
+                ],
+                [
+                  0.9056122303009033,
+                  0.0575605072081089
+                ],
+                [
+                  0.8532693982124329,
+                  0.6100914478302002
+                ],
+                [
+                  0.37135380506515503,
+                  0.6344677805900574
+                ]
+              ],
+              "confidence": 49,
+              "method": "cell-cluster-16",
+              "score": 0.5311,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 853.63,
+                "mean_brightness": 120.44,
+                "contrast": 63.9,
+                "dark_fraction": 0.0005,
+                "bright_fraction": 0.0068
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "F": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.23349112272262573,
+              0.25617796182632446
+            ],
+            [
+              0.7409494519233704,
+              0.28076407313346863
+            ],
+            [
+              0.7229264378547668,
+              0.543602705001831
+            ],
+            [
+              0.28249993920326233,
+              0.5512458682060242
+            ]
+          ],
+          "confidence": 76,
+          "method": "grid-fit-8",
+          "score": 0.9079,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 183.09,
+            "mean_brightness": 152.82,
+            "contrast": 47.81,
+            "dark_fraction": 0,
+            "bright_fraction": 0.003
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.23349112272262573,
+                  0.25617796182632446
+                ],
+                [
+                  0.7409494519233704,
+                  0.28076407313346863
+                ],
+                [
+                  0.7229264378547668,
+                  0.543602705001831
+                ],
+                [
+                  0.28249993920326233,
+                  0.5512458682060242
+                ]
+              ],
+              "confidence": 76,
+              "method": "grid-fit-8",
+              "score": 0.9079,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 183.09,
+                "mean_brightness": 152.82,
+                "contrast": 47.81,
+                "dark_fraction": 0,
+                "bright_fraction": 0.003
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.415230929851532,
+                  0.25655069947242737
+                ],
+                [
+                  0.8854435086250305,
+                  0.3087165057659149
+                ],
+                [
+                  0.8523408770561218,
+                  0.5429255962371826
+                ],
+                [
+                  0.43306291103363037,
+                  0.5480303168296814
+                ]
+              ],
+              "confidence": 47,
+              "method": "grid-fit-7",
+              "score": 0.7279,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 176.05,
+                "mean_brightness": 131.96,
+                "contrast": 50.25,
+                "dark_fraction": 0,
+                "bright_fraction": 0.001
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.24058856070041656,
+                  0.4537479281425476
+                ],
+                [
+                  0.8037258982658386,
+                  0.42530888319015503
+                ],
+                [
+                  0.919241189956665,
+                  0.7584524750709534
+                ],
+                [
+                  0.2965412735939026,
+                  0.8315815925598145
+                ]
+              ],
+              "confidence": 47,
+              "method": "cell-cluster-14",
+              "score": 0.5394,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 503.36,
+                "mean_brightness": 120.68,
+                "contrast": 62.46,
+                "dark_fraction": 0.0001,
+                "bright_fraction": 0.0003
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "D": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.2766402065753937,
+              0.2516957223415375
+            ],
+            [
+              0.796153724193573,
+              0.24055220186710358
+            ],
+            [
+              0.7809484004974365,
+              0.5455241203308105
+            ],
+            [
+              0.27638766169548035,
+              0.5375494956970215
+            ]
+          ],
+          "confidence": 87,
+          "method": "grid-fit-9",
+          "score": 0.925,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 403.42,
+            "mean_brightness": 139.91,
+            "contrast": 52.42,
+            "dark_fraction": 0,
+            "bright_fraction": 0.0011
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.2766402065753937,
+                  0.2516957223415375
+                ],
+                [
+                  0.796153724193573,
+                  0.24055220186710358
+                ],
+                [
+                  0.7809484004974365,
+                  0.5455241203308105
+                ],
+                [
+                  0.27638766169548035,
+                  0.5375494956970215
+                ]
+              ],
+              "confidence": 87,
+              "method": "grid-fit-9",
+              "score": 0.925,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 403.42,
+                "mean_brightness": 139.91,
+                "contrast": 52.42,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0011
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.019967716187238693,
+                  0.2738181948661804
+                ],
+                [
+                  0.9784168004989624,
+                  0.26683637499809265
+                ],
+                [
+                  0.9784168004989624,
+                  0.984218180179596
+                ],
+                [
+                  0.019967716187238693,
+                  0.984218180179596
+                ]
+              ],
+              "confidence": 37,
+              "method": "color-close-7",
+              "score": 0.3003,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1499.01,
+                "mean_brightness": 114.2,
+                "contrast": 61.73,
+                "dark_fraction": 0.0063,
+                "bright_fraction": 0.0002
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.019967716187238693,
+                  0.11525454372167587
+                ],
+                [
+                  0.9784168004989624,
+                  0.17896364629268646
+                ],
+                [
+                  0.9784168004989624,
+                  0.7506000399589539
+                ],
+                [
+                  0.019967716187238693,
+                  0.8806363344192505
+                ]
+              ],
+              "confidence": 36,
+              "method": "edge-55",
+              "score": 0.2973,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1753.38,
+                "mean_brightness": 109.21,
+                "contrast": 62.37,
+                "dark_fraction": 0.005,
+                "bright_fraction": 0.0005
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "L": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.29614123702049255,
+              0.31393688917160034
+            ],
+            [
+              0.7900394797325134,
+              0.3062624931335449
+            ],
+            [
+              0.7887767553329468,
+              0.5927085280418396
+            ],
+            [
+              0.30731135606765747,
+              0.577133059501648
+            ]
+          ],
+          "confidence": 78,
+          "method": "grid-fit-7",
+          "score": 0.9291,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 582.42,
+            "mean_brightness": 141.98,
+            "contrast": 56.84,
+            "dark_fraction": 0.0005,
+            "bright_fraction": 0.0431
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.29614123702049255,
+                  0.31393688917160034
+                ],
+                [
+                  0.7900394797325134,
+                  0.3062624931335449
+                ],
+                [
+                  0.7887767553329468,
+                  0.5927085280418396
+                ],
+                [
+                  0.30731135606765747,
+                  0.577133059501648
+                ]
+              ],
+              "confidence": 78,
+              "method": "grid-fit-7",
+              "score": 0.9291,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 582.42,
+                "mean_brightness": 141.98,
+                "contrast": 56.84,
+                "dark_fraction": 0.0005,
+                "bright_fraction": 0.0431
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.27469703555107117,
+                  0.23499706387519836
+                ],
+                [
+                  0.7561361789703369,
+                  0.19349528849124908
+                ],
+                [
+                  0.9308295249938965,
+                  0.5466395020484924
+                ],
+                [
+                  0.2750256359577179,
+                  0.5057359933853149
+                ]
+              ],
+              "confidence": 54,
+              "method": "grid-fit-6",
+              "score": 0.7394,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 897.35,
+                "mean_brightness": 134.57,
+                "contrast": 58.32,
+                "dark_fraction": 0.0016,
+                "bright_fraction": 0.0358
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.19139742851257324,
+                  0.07050001621246338
+                ],
+                [
+                  0.8819063305854797,
+                  0.060249995440244675
+                ],
+                [
+                  0.8504442572593689,
+                  0.6743181943893433
+                ],
+                [
+                  0.30565428733825684,
+                  0.5876590609550476
+                ]
+              ],
+              "confidence": 47,
+              "method": "cell-cluster-15",
+              "score": 0.4956,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1406.29,
+                "mean_brightness": 124.03,
+                "contrast": 63.86,
+                "dark_fraction": 0.0009,
+                "bright_fraction": 0.0179
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "B": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.2829436957836151,
+              0.3269069194793701
+            ],
+            [
+              0.7299330234527588,
+              0.3255883455276489
+            ],
+            [
+              0.7391555905342102,
+              0.579166054725647
+            ],
+            [
+              0.27417248487472534,
+              0.5910309553146362
+            ]
+          ],
+          "confidence": 84,
+          "method": "grid-fit-7",
+          "score": 0.9437,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 204.82,
+            "mean_brightness": 140.93,
+            "contrast": 47.07,
+            "dark_fraction": 0,
+            "bright_fraction": 0.0003
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.2829436957836151,
+                  0.3269069194793701
+                ],
+                [
+                  0.7299330234527588,
+                  0.3255883455276489
+                ],
+                [
+                  0.7391555905342102,
+                  0.579166054725647
+                ],
+                [
+                  0.27417248487472534,
+                  0.5910309553146362
+                ]
+              ],
+              "confidence": 84,
+              "method": "grid-fit-7",
+              "score": 0.9437,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 204.82,
+                "mean_brightness": 140.93,
+                "contrast": 47.07,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0003
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.44078677892684937,
+                  0.3274129331111908
+                ],
+                [
+                  0.8548424243927002,
+                  0.3356000781059265
+                ],
+                [
+                  0.8659670948982239,
+                  0.567315936088562
+                ],
+                [
+                  0.4401090443134308,
+                  0.5831886529922485
+                ]
+              ],
+              "confidence": 39,
+              "method": "grid-fit-6",
+              "score": 0.5935,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 136.64,
+                "mean_brightness": 125,
+                "contrast": 45.59,
+                "dark_fraction": 0,
+                "bright_fraction": 0
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.19735461473464966,
+                  0.08972159773111343
+                ],
+                [
+                  0.8845516443252563,
+                  0.07481250911951065
+                ],
+                [
+                  0.7355209589004517,
+                  0.4950624704360962
+                ],
+                [
+                  0,
+                  0.4904033839702606
+                ]
+              ],
+              "confidence": 34,
+              "method": "cell-cluster-11",
+              "score": 0.251,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 522.84,
+                "mean_brightness": 128.38,
+                "contrast": 59.73,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0001
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        }
+      },
+      "pageErrors": [],
+      "identificationSeconds": 3.436433500000003,
+      "automaticFacelets": "ULFDUBRUDBDUFRRUBBDFLLFRUDBBRLBDRDURRFFFLDFURLBFUBLDLL",
+      "automaticFaceletsSha256": "ca1a1628b63a2c045647c1d87490771ea784cefd732e931050508d86330f791c",
+      "statusBeforeCorrection": "色块数量正确；2 个低置信度色块已高亮，请优先检查",
+      "stickerConfidence": {
+        "U": [
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": true,
+            "title": "颜色判断不确定（置信度 0%），请点击校正"
+          },
+          {
+            "color": "F",
+            "low": true,
+            "title": "颜色判断不确定（置信度 0%），请点击校正"
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "R": [
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "F": [
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "D": [
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "L": [
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "B": [
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          }
+        ]
+      },
+      "previewPaths": {
+        "U": "initial-8-U-browser-preview.png",
+        "R": "initial-8-R-browser-preview.png",
+        "F": "initial-8-F-browser-preview.png",
+        "D": "initial-8-D-browser-preview.png",
+        "L": "initial-8-L-browser-preview.png",
+        "B": "initial-8-B-browser-preview.png"
+      },
+      "manualCorrections": [],
+      "correctedFacelets": "ULFDUBRUDBDUFRRUBBDFLLFRUDBBRLBDRDURRFFFLDFURLBFUBLDLL",
+      "automaticMatchesReference": true,
+      "rotationCorrections": [],
+      "finalScreenshot": "initial-8-photo-page.png"
+    },
+    {
+      "name": "initial-16",
+      "referenceFacelets": "URLBULDRLFDFLRFUBLFUDUFFRLRBBBFDRDUURDRULLLDDUDFRBBBFB",
+      "referenceFaceletsSha256": "943ee345c842036153d47f87d67d6f12087274e26cc0663e7d90f985d77a5c66",
+      "detectionResponses": {
+        "U": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.18461155891418457,
+              0.3375134766101837
+            ],
+            [
+              0.8814148306846619,
+              0.3446175456047058
+            ],
+            [
+              0.8449233770370483,
+              0.7314550280570984
+            ],
+            [
+              0.15597252547740936,
+              0.7247970104217529
+            ]
+          ],
+          "confidence": 97,
+          "method": "grid-fit-9",
+          "score": 0.9489,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 1036.85,
+            "mean_brightness": 144.19,
+            "contrast": 51.6,
+            "dark_fraction": 0,
+            "bright_fraction": 0.0107
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.18461155891418457,
+                  0.3375134766101837
+                ],
+                [
+                  0.8814148306846619,
+                  0.3446175456047058
+                ],
+                [
+                  0.8449233770370483,
+                  0.7314550280570984
+                ],
+                [
+                  0.15597252547740936,
+                  0.7247970104217529
+                ]
+              ],
+              "confidence": 97,
+              "method": "grid-fit-9",
+              "score": 0.9489,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1036.85,
+                "mean_brightness": 144.19,
+                "contrast": 51.6,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0107
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.1360742747783661,
+                  0.10119770467281342
+                ],
+                [
+                  0.9983844757080078,
+                  0.1656067967414856
+                ],
+                [
+                  0.9983844757080078,
+                  0.8741068243980408
+                ],
+                [
+                  0.11846524477005005,
+                  0.7472704648971558
+                ]
+              ],
+              "confidence": 42,
+              "method": "edge-90",
+              "score": 0.4031,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 1375.25,
+                "mean_brightness": 131.61,
+                "contrast": 62.82,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0048
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.37133848667144775,
+                  0.4512416124343872
+                ],
+                [
+                  0.6650464534759521,
+                  0.44573238492012024
+                ],
+                [
+                  0.6740515828132629,
+                  0.597755491733551
+                ],
+                [
+                  0.38034358620643616,
+                  0.6032647490501404
+                ]
+              ],
+              "confidence": 18,
+              "method": "cell-cluster-5",
+              "score": 0.3251,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 425.41,
+                "mean_brightness": 148.72,
+                "contrast": 64.1,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0282
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "R": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.04130398854613304,
+              0.3101942539215088
+            ],
+            [
+              0.8694270849227905,
+              0.32428401708602905
+            ],
+            [
+              0.9145623445510864,
+              0.7885944247245789
+            ],
+            [
+              0.086171954870224,
+              0.8074456453323364
+            ]
+          ],
+          "confidence": 97,
+          "method": "grid-fit-9",
+          "score": 0.9381,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 789.27,
+            "mean_brightness": 125.14,
+            "contrast": 49.07,
+            "dark_fraction": 0.0003,
+            "bright_fraction": 0.0033
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.04130398854613304,
+                  0.3101942539215088
+                ],
+                [
+                  0.8694270849227905,
+                  0.32428401708602905
+                ],
+                [
+                  0.9145623445510864,
+                  0.7885944247245789
+                ],
+                [
+                  0.086171954870224,
+                  0.8074456453323364
+                ]
+              ],
+              "confidence": 97,
+              "method": "grid-fit-9",
+              "score": 0.9381,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 789.27,
+                "mean_brightness": 125.14,
+                "contrast": 49.07,
+                "dark_fraction": 0.0003,
+                "bright_fraction": 0.0033
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0.11109036207199097
+                ],
+                [
+                  0.9309467673301697,
+                  0.1539018601179123
+                ],
+                [
+                  0.8764868378639221,
+                  0.6420088410377502
+                ],
+                [
+                  0.04679345712065697,
+                  0.6552949547767639
+                ]
+              ],
+              "confidence": 48,
+              "method": "grid-fit-7",
+              "score": 0.5169,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 622.29,
+                "mean_brightness": 110.99,
+                "contrast": 52.74,
+                "dark_fraction": 0.0003,
+                "bright_fraction": 0.0008
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0.13146135210990906
+                ],
+                [
+                  0.9983844757080078,
+                  0.010570457205176353
+                ],
+                [
+                  0.9983844757080078,
+                  0.9990909099578857
+                ],
+                [
+                  0.05351777374744415,
+                  0.9004068374633789
+                ]
+              ],
+              "confidence": 30,
+              "method": "adaptive",
+              "score": 0.1896,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 959.47,
+                "mean_brightness": 125.71,
+                "contrast": 57.47,
+                "dark_fraction": 0.0002,
+                "bright_fraction": 0.0019
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "F": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.05357925221323967,
+              0.33161661028862
+            ],
+            [
+              0.8637154698371887,
+              0.3435744643211365
+            ],
+            [
+              0.8614890575408936,
+              0.7981810569763184
+            ],
+            [
+              0.06455937027931213,
+              0.8026571869850159
+            ]
+          ],
+          "confidence": 76,
+          "method": "grid-fit-9",
+          "score": 0.9437,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 668.7,
+            "mean_brightness": 129.27,
+            "contrast": 49.66,
+            "dark_fraction": 0,
+            "bright_fraction": 0.0031
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.05357925221323967,
+                  0.33161661028862
+                ],
+                [
+                  0.8637154698371887,
+                  0.3435744643211365
+                ],
+                [
+                  0.8614890575408936,
+                  0.7981810569763184
+                ],
+                [
+                  0.06455937027931213,
+                  0.8026571869850159
+                ]
+              ],
+              "confidence": 76,
+              "method": "grid-fit-9",
+              "score": 0.9437,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 668.7,
+                "mean_brightness": 129.27,
+                "contrast": 49.66,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0031
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.044624537229537964,
+                  0.4927142858505249
+                ],
+                [
+                  0.8557260036468506,
+                  0.5027090907096863
+                ],
+                [
+                  0.8258261680603027,
+                  0.9117984771728516
+                ],
+                [
+                  0.13301311433315277,
+                  0.917422890663147
+                ]
+              ],
+              "confidence": 70,
+              "method": "grid-fit-7",
+              "score": 0.9036,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 443.92,
+                "mean_brightness": 124.64,
+                "contrast": 46.51,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0014
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.02205168642103672,
+                  0.22164545953273773
+                ],
+                [
+                  0.9805008172988892,
+                  0.06368180364370346
+                ],
+                [
+                  0.9805008172988892,
+                  0.9791727066040039
+                ],
+                [
+                  0.22211632132530212,
+                  0.9145908951759338
+                ]
+              ],
+              "confidence": 27,
+              "method": "adaptive",
+              "score": 0.1218,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 890.31,
+                "mean_brightness": 124.97,
+                "contrast": 56.56,
+                "dark_fraction": 0.0024,
+                "bright_fraction": 0.0016
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "D": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.17006120085716248,
+              0.4378229081630707
+            ],
+            [
+              0.8802003264427185,
+              0.4343448579311371
+            ],
+            [
+              0.849907636642456,
+              0.8554818034172058
+            ],
+            [
+              0.12407301366329193,
+              0.8303607106208801
+            ]
+          ],
+          "confidence": 82,
+          "method": "grid-fit-8",
+          "score": 0.9225,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 630.1,
+            "mean_brightness": 120.82,
+            "contrast": 58.58,
+            "dark_fraction": 0.0012,
+            "bright_fraction": 0.0052
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.17006120085716248,
+                  0.4378229081630707
+                ],
+                [
+                  0.8802003264427185,
+                  0.4343448579311371
+                ],
+                [
+                  0.849907636642456,
+                  0.8554818034172058
+                ],
+                [
+                  0.12407301366329193,
+                  0.8303607106208801
+                ]
+              ],
+              "confidence": 82,
+              "method": "grid-fit-8",
+              "score": 0.9225,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 630.1,
+                "mean_brightness": 120.82,
+                "contrast": 58.58,
+                "dark_fraction": 0.0012,
+                "bright_fraction": 0.0052
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.128463476896286,
+                  0.5630531311035156
+                ],
+                [
+                  0.8775562644004822,
+                  0.5725085735321045
+                ],
+                [
+                  0.8771229982376099,
+                  0.9990909099578857
+                ],
+                [
+                  0.09456396847963333,
+                  0.9847104549407959
+                ]
+              ],
+              "confidence": 64,
+              "method": "grid-fit-7",
+              "score": 0.8047,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 712.11,
+                "mean_brightness": 150.88,
+                "contrast": 54.2,
+                "dark_fraction": 0.0004,
+                "bright_fraction": 0.0051
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.1526317149400711,
+                  0.21227769553661346
+                ],
+                [
+                  0.9599674344062805,
+                  0.2314739227294922
+                ],
+                [
+                  0.9019252061843872,
+                  0.9990909099578857
+                ],
+                [
+                  0.09458945691585541,
+                  0.9852778911590576
+                ]
+              ],
+              "confidence": 48,
+              "method": "cell-cluster-11",
+              "score": 0.5015,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 922.05,
+                "mean_brightness": 125.3,
+                "contrast": 64.79,
+                "dark_fraction": 0.0014,
+                "bright_fraction": 0.0027
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "L": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.10607791692018509,
+              0.36655157804489136
+            ],
+            [
+              0.8412159085273743,
+              0.3992832899093628
+            ],
+            [
+              0.8518064618110657,
+              0.8203709721565247
+            ],
+            [
+              0.0951562225818634,
+              0.8078585267066956
+            ]
+          ],
+          "confidence": 96,
+          "method": "grid-fit-9",
+          "score": 0.9204,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 452.56,
+            "mean_brightness": 151.73,
+            "contrast": 45.02,
+            "dark_fraction": 0,
+            "bright_fraction": 0.0029
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.10607791692018509,
+                  0.36655157804489136
+                ],
+                [
+                  0.8412159085273743,
+                  0.3992832899093628
+                ],
+                [
+                  0.8518064618110657,
+                  0.8203709721565247
+                ],
+                [
+                  0.0951562225818634,
+                  0.8078585267066956
+                ]
+              ],
+              "confidence": 96,
+              "method": "grid-fit-9",
+              "score": 0.9204,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 452.56,
+                "mean_brightness": 151.73,
+                "contrast": 45.02,
+                "dark_fraction": 0,
+                "bright_fraction": 0.0029
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0.1890045404434204
+                ],
+                [
+                  0.9983844757080078,
+                  0
+                ],
+                [
+                  0.982952356338501,
+                  0.9990909099578857
+                ],
+                [
+                  0,
+                  0.93912273645401
+                ]
+              ],
+              "confidence": 23,
+              "method": "edge-28",
+              "score": 0.0489,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 895.3,
+                "mean_brightness": 127.41,
+                "contrast": 58.93,
+                "dark_fraction": 0.0001,
+                "bright_fraction": 0.0022
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.3154144585132599,
+                  0.24427689611911774
+                ],
+                [
+                  0.9983844757080078,
+                  0.17114779353141785
+                ],
+                [
+                  0.9983844757080078,
+                  0.25443369150161743
+                ],
+                [
+                  0.6096175909042358,
+                  0.5946870446205139
+                ]
+              ],
+              "confidence": 10,
+              "method": "cell-cluster-4",
+              "score": 0,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 465.92,
+                "mean_brightness": 121.06,
+                "contrast": 57.13,
+                "dark_fraction": 0.0001,
+                "bright_fraction": 0
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        },
+        "B": {
+          "ok": true,
+          "detected": true,
+          "corners": [
+            [
+              0.09694342315196991,
+              0.38235434889793396
+            ],
+            [
+              0.8882843852043152,
+              0.4100903272628784
+            ],
+            [
+              0.8583860993385315,
+              0.8556084632873535
+            ],
+            [
+              0.08314060419797897,
+              0.8365111947059631
+            ]
+          ],
+          "confidence": 97,
+          "method": "grid-fit-9",
+          "score": 0.9466,
+          "quality": {
+            "valid": true,
+            "reasons": [],
+            "blur_score": 404.45,
+            "mean_brightness": 106.53,
+            "contrast": 52.58,
+            "dark_fraction": 0.0076,
+            "bright_fraction": 0.0031
+          },
+          "candidates": [
+            {
+              "corners": [
+                [
+                  0.09694342315196991,
+                  0.38235434889793396
+                ],
+                [
+                  0.8882843852043152,
+                  0.4100903272628784
+                ],
+                [
+                  0.8583860993385315,
+                  0.8556084632873535
+                ],
+                [
+                  0.08314060419797897,
+                  0.8365111947059631
+                ]
+              ],
+              "confidence": 97,
+              "method": "grid-fit-9",
+              "score": 0.9466,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 404.45,
+                "mean_brightness": 106.53,
+                "contrast": 52.58,
+                "dark_fraction": 0.0076,
+                "bright_fraction": 0.0031
+              }
+            },
+            {
+              "corners": [
+                [
+                  0.10841359943151474,
+                  0.3906036615371704
+                ],
+                [
+                  0.9191405177116394,
+                  0.200065478682518
+                ],
+                [
+                  0.8555541634559631,
+                  0.8521890640258789
+                ],
+                [
+                  0.18312762677669525,
+                  0.9389599561691284
+                ]
+              ],
+              "confidence": 54,
+              "method": "cell-cluster-12",
+              "score": 0.4197,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 604.39,
+                "mean_brightness": 109.38,
+                "contrast": 55.68,
+                "dark_fraction": 0.0064,
+                "bright_fraction": 0.0026
+              }
+            },
+            {
+              "corners": [
+                [
+                  0,
+                  0.26476365327835083
+                ],
+                [
+                  0.9983844757080078,
+                  0.044472768902778625
+                ],
+                [
+                  0.9683522582054138,
+                  0.9990909099578857
+                ],
+                [
+                  0.1602100431919098,
+                  0.9398182034492493
+                ]
+              ],
+              "confidence": 37,
+              "method": "edge-90",
+              "score": 0.3022,
+              "quality": {
+                "valid": true,
+                "reasons": [],
+                "blur_score": 974.98,
+                "mean_brightness": 118.97,
+                "contrast": 61.73,
+                "dark_fraction": 0.007,
+                "bright_fraction": 0.0021
+              }
+            }
+          ],
+          "app_version": "1.10.0",
+          "fallback_used": false
+        }
+      },
+      "pageErrors": [],
+      "identificationSeconds": 1.7665603999999986,
+      "automaticFacelets": "URLBULDRLFDFLRFUBLFUDUFFRLRBBBFDRDUURDRULLLDDUDFRBBBFB",
+      "automaticFaceletsSha256": "943ee345c842036153d47f87d67d6f12087274e26cc0663e7d90f985d77a5c66",
+      "statusBeforeCorrection": "54 个色块数量正确，可以求解",
+      "stickerConfidence": {
+        "U": [
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "R": [
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "F": [
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "D": [
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "L": [
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "L",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          }
+        ],
+        "B": [
+          {
+            "color": "U",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "D",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "R",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "F",
+            "low": false,
+            "title": ""
+          },
+          {
+            "color": "B",
+            "low": false,
+            "title": ""
+          }
+        ]
+      },
+      "previewPaths": {
+        "U": "initial-16-U-browser-preview.png",
+        "R": "initial-16-R-browser-preview.png",
+        "F": "initial-16-F-browser-preview.png",
+        "D": "initial-16-D-browser-preview.png",
+        "L": "initial-16-L-browser-preview.png",
+        "B": "initial-16-B-browser-preview.png"
+      },
+      "manualCorrections": [],
+      "correctedFacelets": "URLBULDRLFDFLRFUBLFUDUFFRLRBBBFDRDUURDRULLLDDUDFRBBBFB",
+      "automaticMatchesReference": true,
+      "rotationCorrections": [],
+      "finalScreenshot": "initial-16-photo-page.png"
+    }
+  ],
+  "solveRequests": 0,
+  "url": "http://127.0.0.1:65041/",
+  "browserVersion": "151.0.7922.34",
+  "passed": true,
+  "serverStopped": true,
+  "serverLog": []
+}

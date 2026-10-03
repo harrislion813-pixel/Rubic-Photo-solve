@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="20" failures="0" skipped="0" tests="108" time="15.652" timestamp="2026-10-03T13:14:00.247263+08:00" hostname="DESKTOP-C8SGOOO"><testcase classname="tests.test_detection_pipeline.DetectionPipelineTests" name="test_high_confidence_primary_skips_model" time="0.001" /><testcase classname="tests.test_detection_pipeline.DetectionPipelineTests" name="test_low_confidence_primary_uses_and_merges_model_candidates" time="0.001" /><testcase classname="tests.test_htm_candidate_delivery" name="test_default_delivery_waits_for_best_candidate" time="0.002" /><testcase classname="tests.test_htm_candidate_delivery" name="test_fast_notifies_first_and_improved_before_return" time="0.001" /><testcase classname="tests.test_htm_candidate_delivery" name="test_fast_cancel_precedes_table_loading" time="0.001" /><testcase classname="tests.test_htm_candidate_delivery" name="test_candidate_replay_monotonic_terminal_deadline_and_identity" time="0.002" /><testcase classname="tests.test_htm_candidate_delivery" name="test_http_returns_first_candidate_while_improvement_continues[1]" time="0.045" /><testcase classname="tests.test_htm_candidate_delivery" name="test_http_returns_first_candidate_while_improvement_continues[2]" time="0.031" /><testcase classname="tests.test_htm_candidate_delivery" name="test_http_returns_first_candidate_while_improvement_continues[3]" time="0.032" /><testcase classname="tests.test_htm_candidate_delivery" name="test_native_refreshes_initial_incumbent_and_records_pipe_send" time="0.001" /><testcase classname="tests.test_htm_candidate_delivery" name="test_native_dynamic_threads_restore_only_for_active_job[True]" time="0.001" /><testcase classname="tests.test_htm_candidate_delivery" name="test_native_dynamic_threads_restore_only_for_active_job[False]" time="0.001" /><testcase classname="tests.test_htm_candidate_delivery" name="test_queued_candidate_waits_for_its_proof_lease" time="0.091" /><testcase classname="tests.test_htm_candidate_delivery" name="test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[deadline-missing]" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_htm_candidate_delivery" name="test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[deadline-corrupt]" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_htm_candidate_delivery" name="test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[cancel-missing]" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_htm_candidate_delivery" name="test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[cancel-corrupt]" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_htm_candidate_delivery" name="test_cache_deadline_exception_is_not_swallowed_as_corruption" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_htm_candidate_delivery" name="test_table_build_lock_wait_preserves_cancellation" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_htm_candidate_delivery" name="test_table_builder_checks_cancel_before_move_work" time="0.000" /><testcase classname="tests.test_htm_candidate_delivery" name="test_native_ready_result_and_finish_record_process_memory" time="0.001" /><testcase classname="tests.test_htm_candidate_delivery" name="test_native_memory_events_reach_http_terminal_snapshot" time="0.001" /><testcase classname="tests.test_hybrid_api.HybridSolveApiTests" name="test_queued_job_can_be_cancelled" time="0.546" /><testcase classname="tests.test_hybrid_api.HybridSolveApiTests" name="test_result_arrives_within_interactive_budget" time="1.535" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[2-None]" time="0.015" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[2-0_0]" time="0.015" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[2-0_1]" time="0.015" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[2-none]" time="0.016" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[3-None]" time="0.016" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[3-0_0]" time="0.015" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[3-0_1]" time="0.016" /><testcase classname="tests.test_isolation_contract" name="test_qtm_http_unlimited_preserves_deadline[3-none]" time="0.016" /><testcase classname="tests.test_isolation_contract" name="test_qtm_missing_timeout_uses_default" time="0.016" /><testcase classname="tests.test_isolation_contract" name="test_htm_http_resource_wait_consumes_budget[2]" time="0.077" /><testcase classname="tests.test_isolation_contract" name="test_htm_http_resource_wait_consumes_budget[3]" time="0.126" /><testcase classname="tests.test_isolation_contract" name="test_resource_wait_timeout_and_cancel_leave_no_claim" time="0.031" /><testcase classname="tests.test_isolation_contract" name="test_qtm_queue_timeout_never_starts_search" time="0.063" /><testcase classname="tests.test_isolation_contract" name="test_qtm_python_fallback_keeps_unlimited_budget" time="0.002" /><testcase classname="tests.test_isolation_contract" name="test_qtm_native_timeout_never_restarts_python" time="0.001" /><testcase classname="tests.test_isolation_contract" name="test_candidate_wakes_http_before_proof_finishes_and_stages_stay_distinct" time="0.002" /><testcase classname="tests.test_isolation_contract" name="test_native_ready_stage_records_only_first_arrival" time="0.000" /><testcase classname="tests.test_isolation_contract" name="test_qtm_native_wire_preserves_unlimited_and_timeout_search_timing" time="0.001" /><testcase classname="tests.test_isolation_contract" name="test_resource_release_follows_complete_native_cleanup" time="0.824" /><testcase classname="tests.test_next_speed_defaults" name="test_qtm_uses_generic_unless_explicitly_requested" time="0.003" /><testcase classname="tests.test_next_speed_summary" name="test_complete_matrix_uses_terminal_time_and_fixed_pairs" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_next_speed_summary" name="test_missing_terminal_cannot_use_native_elapsed_resource_hold_or_page_time" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_next_speed_summary" name="test_repeated_formula_still_validates_later_cost_claim" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_next_speed_summary" name="test_new_timeout_is_paired_even_when_success_counts_match" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_next_speed_summary" name="test_timeout_keeps_valid_candidate_and_full_par2_penalty" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_next_speed_summary" name="test_resource_scope_and_five_percent_growth_are_required" time="0.000"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_next_speed_summary" name="test_complete_count_does_not_hide_duplicates_or_wrong_pair_order" time="0.000"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_next_speed_summary" name="test_first_delivery_curve_does_not_treat_internal_events_as_page_delivery" time="0.000"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_next_speed_summary" name="test_timeout_bounds_keep_only_completed_layers_and_do_not_change_par2" time="0.000"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_next_speed_summary" name="test_active_layer_cannot_supply_a_missing_lower_bound" time="0.000" /><testcase classname="tests.test_qtm_backend" name="test_equivalent_concurrent_retries_share_original_deadline" time="0.003" /><testcase classname="tests.test_qtm_backend" name="test_different_timeout_and_cancelled_cleanup_still_use_capacity" time="0.002" /><testcase classname="tests.test_qtm_backend" name="test_expired_terminal_job_is_removed_after_cleanup" time="0.001" /><testcase classname="tests.test_qtm_backend" name="test_lower_bound_uses_completed_cost_and_snapshots_are_detached" time="0.001" /><testcase classname="tests.test_qtm_backend" name="test_terminal_diagnostics_have_bounded_retention" time="0.032" /><testcase classname="tests.test_qtm_backend" name="test_two_by_two_does_not_require_three_by_three_assets" time="0.001" /><testcase classname="tests.test_qtm_candidates_next" name="test_q2_defaults_and_independent_rollback_switches" time="0.002" /><testcase classname="tests.test_qtm_candidates_next" name="test_pgo_training_excludes_every_frozen_acceptance_state" time="0.007" /><testcase classname="tests.test_qtm_loader_next" name="test_real_member_initialization_pause_resume_and_equivalence" time="0.008"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">tmp_path_factory = TempPathFactory(_given_basetemp=WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/p...luggy._tracing.TagTracerSub object at 0x000001DD95F8E5A0&gt;, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def loader_gate_binary(tmp_path_factory):
+        compiler = shutil.which(os.environ.get("CXX", "g++")) or r"C:\msys64\ucrt64\bin\g++.exe"
+        assert Path(compiler).is_file(), "real constructor gate requires a compiler"
+&gt;       target = tmp_path_factory.mktemp("qtm-loader-gate") / "loader_gate.exe"
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_qtm_loader_next.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\_pytest\tmpdir.py:130: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\_pytest\tmpdir.py:111: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\_pytest\tmpdir.py:152: in getbasetemp
+    basetemp.mkdir(mode=0o700)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_qtm_speed_contract" name="test_idle_htm_claim_blocks_new_qtm_until_resident_cleanup" time="0.063" /><testcase classname="tests.test_qtm_speed_contract" name="test_old_generation_or_idle_epoch_cannot_close_new_request" time="0.001" /><testcase classname="tests.test_qtm_speed_contract" name="test_mapped_working_set_is_not_hidden_by_small_private_bytes" time="0.000" /><testcase classname="tests.test_qtm_speed_contract" name="test_loading_admission_reserves_mapping_and_idle_never_resumes" time="0.000" /><testcase classname="tests.test_qtm_speed_contract" name="test_failed_pause_cannot_retain_process" time="0.000" /><testcase classname="tests.test_qtm_speed_contract" name="test_htm_claim_during_idle_transition_keeps_lease_until_cleanup" time="0.000" /><testcase classname="tests.test_qtm_speed_contract" name="test_failed_resident_cleanup_does_not_grant_htm_cpu" time="0.000" /><testcase classname="tests.test_release_package" name="test_source_download_contains_runtime_and_build_inputs_without_development_files" time="0.000"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_release_package" name="test_asset_verification_rejects_missing_and_corrupted_files" time="0.000"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_release_package" name="test_asset_manifest_rejects_extra_paths" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_release_package" name="test_import_rejects_other_version_before_writing_source_runtime" time="0.001"><error message="failed on setup with &quot;FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'&quot;">self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+&gt;           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError</error></testcase><testcase classname="tests.test_runtime.RuntimePathTests" name="test_frozen_root_is_executable_directory" time="0.001" /><testcase classname="tests.test_runtime.RuntimePathTests" name="test_source_root_contains_cube_app" time="0.001" /><testcase classname="tests.test_search_lifecycle" name="test_benchmark_acceptance_and_training_states_are_legal" time="0.005" /><testcase classname="tests.test_search_lifecycle" name="test_native_launch_failure_is_reported_as_engine_error" time="0.003" /><testcase classname="tests.test_search_lifecycle" name="test_unlimited_proof_uses_native" time="0.001" /><testcase classname="tests.test_search_lifecycle" name="test_http_unlimited_aliases_start_native_without_python_probe[None]" time="0.503" /><testcase classname="tests.test_search_lifecycle" name="test_http_unlimited_aliases_start_native_without_python_probe[0]" time="0.503" /><testcase classname="tests.test_search_lifecycle" name="test_http_unlimited_aliases_start_native_without_python_probe[none]" time="0.518" /><testcase classname="tests.test_search_lifecycle" name="test_native_failure_uses_remaining_budget_and_exposes_reason" time="0.062" /><testcase classname="tests.test_search_lifecycle" name="test_queue_time_consumes_deadline_without_search" time="0.063" /><testcase classname="tests.test_search_lifecycle" name="test_queued_cancel_does_not_wait_for_cpu_lock" time="0.062" /><testcase classname="tests.test_search_lifecycle" name="test_same_active_state_reuses_worker" time="0.001" /><testcase classname="tests.test_search_lifecycle" name="test_native_timeout_does_not_restart_in_python" time="0.001" /><testcase classname="tests.test_solver.OptimalSolverTests" name="test_incumbent_is_returned_when_no_shorter_solution_exists" time="0.034" /><testcase classname="tests.test_solver.OptimalSolverTests" name="test_known_short_optimal_depths" time="0.010" /><testcase classname="tests.test_solver.OptimalSolverTests" name="test_parallel_permission_error_falls_back_to_single_process" time="0.034" /><testcase classname="tests.test_solver.OptimalSolverTests" name="test_parallel_root_search_smoke" time="0.434" /><testcase classname="tests.test_solver.OptimalSolverTests" name="test_pre_cancelled_search_stops_before_work_begins" time="0.001" /><testcase classname="tests.test_solver.FastTwoPhaseSolverTests" name="test_returns_valid_non_optimal_solution_for_deep_state" time="5.048" /><testcase classname="tests.test_solver.FastTwoPhaseSolverTests" name="test_solved_cube_is_known_optimal" time="0.000" /><testcase classname="tests.test_tables.TableCacheTests" name="test_corrupted_cache_is_rebuilt_atomically" time="0.006" /><testcase classname="tests.test_two_by_two.TwoByTwoTests" name="test_all_24_whole_cube_orientations_are_solved" time="0.002" /><testcase classname="tests.test_two_by_two.TwoByTwoTests" name="test_compact_facelets_round_trip" time="0.001" /><testcase classname="tests.test_two_by_two.TwoByTwoTests" name="test_full_table_cache_is_versioned_and_corruption_is_rebuilt" time="1.163" /><testcase classname="tests.test_two_by_two.TwoByTwoTests" name="test_random_states_in_all_user_orientations_keep_correct_move_mapping" time="0.165" /><testcase classname="tests.test_two_by_two.TwoByTwoTests" name="test_shallow_results_match_breadth_first_depths" time="0.085" /><testcase classname="tests.test_two_by_two.TwoByTwoTests" name="test_solution_is_valid_and_known_optimal" time="0.001" /><testcase classname="tests.test_version.VersionTests" name="test_python_metadata_uses_the_canonical_version" time="0.002" /><testcase classname="tests.test_version.VersionTests" name="test_release_tag_must_match_canonical_version" time="0.639" /><testcase classname="tests.test_version.VersionTests" name="test_server_injects_version_into_frontend" time="0.596" /><testcase classname="tests.test_vision.VisionDetectionTests" name="test_blank_photo_returns_no_detection" time="0.017" /><testcase classname="tests.test_vision.VisionDetectionTests" name="test_candidate_api_keeps_best_detection_first" time="0.388" /><testcase classname="tests.test_vision.VisionDetectionTests" name="test_detects_perspective_face_with_glare_and_distractors" time="0.162" /><testcase classname="tests.test_vision.VisionDetectionTests" name="test_detects_small_face_on_light_background" time="0.104" /></testsuite></testsuites>

@@ -107,6 +107,7 @@ class CoordinateTables {
 };
 
 struct NativeSearchProgress {
+    int threads{};
     int lower_bound{};
     int upper_bound{};
     int current_depth{};
@@ -145,6 +146,8 @@ struct SolverOptions {
     const std::atomic<bool> *cancel_requested{nullptr};
     std::vector<int> incumbent_moves;
     std::function<std::vector<int>()> incumbent_callback;
+    // Read only at complete-layer boundaries; never resize an active layer.
+    std::function<int()> thread_count_callback;
     std::function<void(const NativeSearchProgress &)> progress_callback;
 };
 

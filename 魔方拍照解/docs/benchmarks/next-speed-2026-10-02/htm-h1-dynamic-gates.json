@@ -1,0 +1,1370 @@
+{
+  "ok": true,
+  "gate": "H1 dynamic threads 1/2/3, cancellation and reuse",
+  "exe": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\htm\\build\\cube_solver_htm.exe",
+  "exe_sha256": "f85a87aca23957fdca40e5c677b366d8713dc943612dd6cdb4df891ba587338f",
+  "facelets": "UDBBURFBBUFULRUBFFDLLRFFDLDRULLDDRRDFRLULUUDBRBLBBFRDF",
+  "search_timeout_seconds": 2,
+  "records": [
+    {
+      "thread_quota": 1,
+      "initial_proof_threads": 1,
+      "startup_seconds": 0.7189999999973224,
+      "search_wall_seconds": 0.0,
+      "status": "cancelled",
+      "progress": [
+        {
+          "monotonic": 41174.859,
+          "type": "progress",
+          "threads": 1,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 10,
+          "completed_depth": 9,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.6e-05,
+          "elapsed_seconds": 1.6e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "5c27f912cba74817aed87010a6a3e801",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [],
+          "engine": "native-cpp"
+        },
+        {
+          "monotonic": 41174.859,
+          "type": "progress",
+          "threads": 1,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 10,
+          "completed_depth": 10,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 42,
+          "nodes": 0,
+          "split_nodes": 42,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000239,
+          "elapsed_seconds": 0.000337,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "5c27f912cba74817aed87010a6a3e801",
+          "generated_candidates": 42,
+          "small_pdb_queries": 0,
+          "phase1_queries": 67,
+          "corner_queries": 2,
+          "edge_queries": 0,
+          "axis_rejects": [
+            28,
+            3,
+            3
+          ],
+          "equality_rejects": 6,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 42,
+              "busy_seconds": 0.000117,
+              "idle_seconds": 1e-06
+            }
+          ],
+          "engine": "native-cpp"
+        },
+        {
+          "monotonic": 41174.859,
+          "type": "progress",
+          "threads": 1,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 11,
+          "completed_depth": 11,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 459,
+          "nodes": 0,
+          "split_nodes": 501,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000202,
+          "elapsed_seconds": 0.000561,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "5c27f912cba74817aed87010a6a3e801",
+          "generated_candidates": 501,
+          "small_pdb_queries": 0,
+          "phase1_queries": 839,
+          "corner_queries": 43,
+          "edge_queries": 0,
+          "axis_rejects": [
+            307,
+            50,
+            56
+          ],
+          "equality_rejects": 45,
+          "corner_rejects": 7,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 459,
+              "busy_seconds": 9.8e-05,
+              "idle_seconds": 1e-06
+            }
+          ],
+          "engine": "native-cpp"
+        },
+        {
+          "monotonic": 41174.859,
+          "type": "progress",
+          "threads": 1,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 12,
+          "completed_depth": 12,
+          "iteration_nodes": 406,
+          "iteration_split_nodes": 1611,
+          "nodes": 406,
+          "split_nodes": 2112,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.00101,
+          "elapsed_seconds": 0.00159,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "5c27f912cba74817aed87010a6a3e801",
+          "generated_candidates": 7503,
+          "small_pdb_queries": 0,
+          "phase1_queries": 11982,
+          "corner_queries": 672,
+          "edge_queries": 0,
+          "axis_rejects": [
+            4863,
+            897,
+            652
+          ],
+          "equality_rejects": 451,
+          "corner_rejects": 80,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 406,
+              "generated": 7002,
+              "busy_seconds": 0.000896,
+              "idle_seconds": 4e-06
+            }
+          ],
+          "engine": "native-cpp"
+        },
+        {
+          "monotonic": 41174.859,
+          "type": "progress",
+          "threads": 1,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 13,
+          "completed_depth": 12,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 18,
+          "nodes": 406,
+          "split_nodes": 2130,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 9.4e-05,
+          "elapsed_seconds": 0.001706,
+          "found": false,
+          "timed_out": false,
+          "cancelled": true,
+          "request_id": "5c27f912cba74817aed87010a6a3e801",
+          "generated_candidates": 7521,
+          "small_pdb_queries": 0,
+          "phase1_queries": 12036,
+          "corner_queries": 690,
+          "edge_queries": 0,
+          "axis_rejects": [
+            4863,
+            897,
+            652
+          ],
+          "equality_rejects": 451,
+          "corner_rejects": 80,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 18,
+              "busy_seconds": 3e-06,
+              "idle_seconds": 0.0
+            }
+          ],
+          "engine": "native-cpp"
+        }
+      ],
+      "events": [
+        {
+          "monotonic": 41174.859,
+          "type": "native_ready",
+          "reused": true,
+          "dynamic_threads": true,
+          "native_pid": 35192,
+          "peak_working_set_bytes": 343461888,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41174.859,
+          "type": "native_request_sent",
+          "threads": 1
+        },
+        {
+          "monotonic": 41174.859,
+          "type": "native_result_received",
+          "result": {
+            "ok": true,
+            "type": "result",
+            "request_id": "5c27f912cba74817aed87010a6a3e801",
+            "status": "cancelled",
+            "inverse_direction": false,
+            "moves": [],
+            "solution": "",
+            "depth": -1,
+            "metric": "HTM",
+            "optimal": false,
+            "elapsed_seconds": 0.001718,
+            "nodes": 406,
+            "split_nodes": 2130,
+            "transposition_hits": 0,
+            "tail_queries": 0,
+            "tail_bloom_rejects": 0,
+            "tail_exact_queries": 0,
+            "tail_probes": 0,
+            "tail_hits": 0,
+            "corner_pdb": true,
+            "phase1_pdb": true,
+            "edge_pdbs": false,
+            "extra_edge_pdbs": false,
+            "edge_pdb_count": 0,
+            "tail_pdb": true,
+            "completed_depth": 12,
+            "generated_candidates": 7521,
+            "small_pdb_queries": 0,
+            "phase1_queries": 12036,
+            "corner_queries": 690,
+            "edge_queries": 0,
+            "axis_rejects": [
+              4863,
+              897,
+              652
+            ],
+            "equality_rejects": 451,
+            "corner_rejects": 80,
+            "edge_rejects": 0,
+            "workers": [
+              {
+                "nodes": 0,
+                "generated": 18,
+                "busy_seconds": 3e-06,
+                "idle_seconds": 0.0
+              }
+            ]
+          },
+          "native_pid": 35192,
+          "peak_working_set_bytes": 343703552,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41174.859,
+          "type": "native_request_finished",
+          "native_pid": 35192,
+          "peak_working_set_bytes": 343703552,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41174.859,
+          "type": "native_ready",
+          "reused": true,
+          "dynamic_threads": true,
+          "native_pid": 35192,
+          "peak_working_set_bytes": 343703552,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41174.859,
+          "type": "native_request_sent",
+          "threads": 1
+        },
+        {
+          "monotonic": 41174.859,
+          "type": "native_result_received",
+          "result": {
+            "ok": true,
+            "type": "result",
+            "request_id": "d881c4a49338453a8951398c2d517998",
+            "status": "complete",
+            "inverse_direction": false,
+            "moves": [
+              "R'"
+            ],
+            "solution": "R'",
+            "depth": 1,
+            "metric": "HTM",
+            "optimal": true,
+            "elapsed_seconds": 0.000151,
+            "nodes": 1,
+            "split_nodes": 0,
+            "transposition_hits": 0,
+            "tail_queries": 1,
+            "tail_bloom_rejects": 0,
+            "tail_exact_queries": 1,
+            "tail_probes": 1,
+            "tail_hits": 1,
+            "corner_pdb": true,
+            "phase1_pdb": true,
+            "edge_pdbs": false,
+            "extra_edge_pdbs": false,
+            "edge_pdb_count": 0,
+            "tail_pdb": true,
+            "completed_depth": 0,
+            "generated_candidates": 0,
+            "small_pdb_queries": 0,
+            "phase1_queries": 3,
+            "corner_queries": 1,
+            "edge_queries": 0,
+            "axis_rejects": [
+              0,
+              0,
+              0
+            ],
+            "equality_rejects": 0,
+            "corner_rejects": 0,
+            "edge_rejects": 0,
+            "workers": [
+              {
+                "nodes": 1,
+                "generated": 0,
+                "busy_seconds": 5e-06,
+                "idle_seconds": 0.0
+              }
+            ]
+          },
+          "native_pid": 35192,
+          "peak_working_set_bytes": 343711744,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41174.859,
+          "type": "native_request_finished",
+          "native_pid": 35192,
+          "peak_working_set_bytes": 343711744,
+          "memory_scope": "native_process_lifetime_peak"
+        }
+      ],
+      "reuse_result": {
+        "moves": [
+          "R'"
+        ],
+        "solution": "R'",
+        "depth": 1,
+        "metric": "HTM",
+        "optimal": true,
+        "inverse_direction": false,
+        "elapsed_seconds": 0.0,
+        "nodes": 1,
+        "split_nodes": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 1,
+        "tail_hits": 1,
+        "completed_depth": 0,
+        "generated_candidates": 0,
+        "phase1_queries": 3,
+        "corner_queries": 1,
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "thread_quota": 2,
+      "initial_proof_threads": 1,
+      "startup_seconds": 0.75,
+      "search_wall_seconds": 0.01600000000325963,
+      "status": "cancelled",
+      "progress": [
+        {
+          "monotonic": 41175.64,
+          "type": "progress",
+          "threads": 1,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 10,
+          "completed_depth": 9,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.6e-05,
+          "elapsed_seconds": 1.6e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "9545c46bcbd64e46b9ddacc85905a31e",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [],
+          "engine": "native-cpp"
+        },
+        {
+          "monotonic": 41175.64,
+          "type": "progress",
+          "threads": 1,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 10,
+          "completed_depth": 10,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 42,
+          "nodes": 0,
+          "split_nodes": 42,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000244,
+          "elapsed_seconds": 0.000349,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "9545c46bcbd64e46b9ddacc85905a31e",
+          "generated_candidates": 42,
+          "small_pdb_queries": 0,
+          "phase1_queries": 67,
+          "corner_queries": 2,
+          "edge_queries": 0,
+          "axis_rejects": [
+            28,
+            3,
+            3
+          ],
+          "equality_rejects": 6,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 42,
+              "busy_seconds": 0.000104,
+              "idle_seconds": 2e-06
+            }
+          ],
+          "engine": "native-cpp"
+        },
+        {
+          "monotonic": 41175.656,
+          "type": "progress",
+          "threads": 2,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 11,
+          "completed_depth": 11,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 459,
+          "nodes": 0,
+          "split_nodes": 501,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000247,
+          "elapsed_seconds": 0.000634,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "9545c46bcbd64e46b9ddacc85905a31e",
+          "generated_candidates": 501,
+          "small_pdb_queries": 0,
+          "phase1_queries": 839,
+          "corner_queries": 43,
+          "edge_queries": 0,
+          "axis_rejects": [
+            307,
+            50,
+            56
+          ],
+          "equality_rejects": 45,
+          "corner_rejects": 7,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 240,
+              "busy_seconds": 7.2e-05,
+              "idle_seconds": 1.6e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 219,
+              "busy_seconds": 5.3e-05,
+              "idle_seconds": 1e-06
+            }
+          ],
+          "engine": "native-cpp"
+        },
+        {
+          "monotonic": 41175.656,
+          "type": "progress",
+          "threads": 2,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 12,
+          "completed_depth": 12,
+          "iteration_nodes": 263,
+          "iteration_split_nodes": 3513,
+          "nodes": 263,
+          "split_nodes": 4014,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000677,
+          "elapsed_seconds": 0.001333,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "9545c46bcbd64e46b9ddacc85905a31e",
+          "generated_candidates": 7503,
+          "small_pdb_queries": 0,
+          "phase1_queries": 11967,
+          "corner_queries": 667,
+          "edge_queries": 0,
+          "axis_rejects": [
+            4863,
+            897,
+            652
+          ],
+          "equality_rejects": 451,
+          "corner_rejects": 80,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 143,
+              "generated": 3663,
+              "busy_seconds": 0.00049,
+              "idle_seconds": 2.2e-05
+            },
+            {
+              "nodes": 120,
+              "generated": 3339,
+              "busy_seconds": 0.000469,
+              "idle_seconds": 6e-06
+            }
+          ],
+          "engine": "native-cpp"
+        },
+        {
+          "monotonic": 41175.656,
+          "type": "progress",
+          "threads": 2,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 13,
+          "completed_depth": 12,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 263,
+          "split_nodes": 4014,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000138,
+          "elapsed_seconds": 0.001491,
+          "found": false,
+          "timed_out": false,
+          "cancelled": true,
+          "request_id": "9545c46bcbd64e46b9ddacc85905a31e",
+          "generated_candidates": 7503,
+          "small_pdb_queries": 0,
+          "phase1_queries": 11967,
+          "corner_queries": 667,
+          "edge_queries": 0,
+          "axis_rejects": [
+            4863,
+            897,
+            652
+          ],
+          "equality_rejects": 451,
+          "corner_rejects": 80,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ],
+          "engine": "native-cpp"
+        }
+      ],
+      "events": [
+        {
+          "monotonic": 41175.64,
+          "type": "native_ready",
+          "reused": true,
+          "dynamic_threads": true,
+          "native_pid": 28320,
+          "peak_working_set_bytes": 343449600,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41175.64,
+          "type": "native_request_sent",
+          "threads": 1
+        },
+        {
+          "monotonic": 41175.64,
+          "type": "native_threads_sent",
+          "threads": 2
+        },
+        {
+          "monotonic": 41175.656,
+          "type": "native_result_received",
+          "result": {
+            "ok": true,
+            "type": "result",
+            "request_id": "9545c46bcbd64e46b9ddacc85905a31e",
+            "status": "cancelled",
+            "inverse_direction": false,
+            "moves": [],
+            "solution": "",
+            "depth": -1,
+            "metric": "HTM",
+            "optimal": false,
+            "elapsed_seconds": 0.001513,
+            "nodes": 263,
+            "split_nodes": 4014,
+            "transposition_hits": 0,
+            "tail_queries": 0,
+            "tail_bloom_rejects": 0,
+            "tail_exact_queries": 0,
+            "tail_probes": 0,
+            "tail_hits": 0,
+            "corner_pdb": true,
+            "phase1_pdb": true,
+            "edge_pdbs": false,
+            "extra_edge_pdbs": false,
+            "edge_pdb_count": 0,
+            "tail_pdb": true,
+            "completed_depth": 12,
+            "generated_candidates": 7503,
+            "small_pdb_queries": 0,
+            "phase1_queries": 11967,
+            "corner_queries": 667,
+            "edge_queries": 0,
+            "axis_rejects": [
+              4863,
+              897,
+              652
+            ],
+            "equality_rejects": 451,
+            "corner_rejects": 80,
+            "edge_rejects": 0,
+            "workers": [
+              {
+                "nodes": 0,
+                "generated": 0,
+                "busy_seconds": 0.0,
+                "idle_seconds": 0.0
+              },
+              {
+                "nodes": 0,
+                "generated": 0,
+                "busy_seconds": 0.0,
+                "idle_seconds": 0.0
+              }
+            ]
+          },
+          "native_pid": 28320,
+          "peak_working_set_bytes": 343740416,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41175.656,
+          "type": "native_request_finished",
+          "native_pid": 28320,
+          "peak_working_set_bytes": 343740416,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41175.656,
+          "type": "native_ready",
+          "reused": true,
+          "dynamic_threads": true,
+          "native_pid": 28320,
+          "peak_working_set_bytes": 343740416,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41175.656,
+          "type": "native_request_sent",
+          "threads": 2
+        },
+        {
+          "monotonic": 41175.656,
+          "type": "native_result_received",
+          "result": {
+            "ok": true,
+            "type": "result",
+            "request_id": "5e1aee4b7a4c46c79001e230d9174e29",
+            "status": "complete",
+            "inverse_direction": false,
+            "moves": [
+              "R'"
+            ],
+            "solution": "R'",
+            "depth": 1,
+            "metric": "HTM",
+            "optimal": true,
+            "elapsed_seconds": 0.000195,
+            "nodes": 1,
+            "split_nodes": 0,
+            "transposition_hits": 0,
+            "tail_queries": 1,
+            "tail_bloom_rejects": 0,
+            "tail_exact_queries": 1,
+            "tail_probes": 1,
+            "tail_hits": 1,
+            "corner_pdb": true,
+            "phase1_pdb": true,
+            "edge_pdbs": false,
+            "extra_edge_pdbs": false,
+            "edge_pdb_count": 0,
+            "tail_pdb": true,
+            "completed_depth": 0,
+            "generated_candidates": 0,
+            "small_pdb_queries": 0,
+            "phase1_queries": 3,
+            "corner_queries": 1,
+            "edge_queries": 0,
+            "axis_rejects": [
+              0,
+              0,
+              0
+            ],
+            "equality_rejects": 0,
+            "corner_rejects": 0,
+            "edge_rejects": 0,
+            "workers": [
+              {
+                "nodes": 1,
+                "generated": 0,
+                "busy_seconds": 6e-06,
+                "idle_seconds": 0.0
+              },
+              {
+                "nodes": 0,
+                "generated": 0,
+                "busy_seconds": 0.0,
+                "idle_seconds": 0.0
+              }
+            ]
+          },
+          "native_pid": 28320,
+          "peak_working_set_bytes": 343748608,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41175.656,
+          "type": "native_request_finished",
+          "native_pid": 28320,
+          "peak_working_set_bytes": 343748608,
+          "memory_scope": "native_process_lifetime_peak"
+        }
+      ],
+      "reuse_result": {
+        "moves": [
+          "R'"
+        ],
+        "solution": "R'",
+        "depth": 1,
+        "metric": "HTM",
+        "optimal": true,
+        "inverse_direction": false,
+        "elapsed_seconds": 0.0,
+        "nodes": 1,
+        "split_nodes": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 1,
+        "tail_hits": 1,
+        "completed_depth": 0,
+        "generated_candidates": 0,
+        "phase1_queries": 3,
+        "corner_queries": 1,
+        "engine": "native-cpp"
+      }
+    },
+    {
+      "thread_quota": 3,
+      "initial_proof_threads": 2,
+      "startup_seconds": 0.7190000000045984,
+      "search_wall_seconds": 0.0,
+      "status": "cancelled",
+      "progress": [
+        {
+          "monotonic": 41176.406,
+          "type": "progress",
+          "threads": 2,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 10,
+          "completed_depth": 9,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.6e-05,
+          "elapsed_seconds": 1.6e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "f05d903e3a1c4189b83f603d1e7f8944",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [],
+          "engine": "native-cpp"
+        },
+        {
+          "monotonic": 41176.406,
+          "type": "progress",
+          "threads": 2,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 10,
+          "completed_depth": 10,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 42,
+          "nodes": 0,
+          "split_nodes": 42,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.00024,
+          "elapsed_seconds": 0.000346,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "f05d903e3a1c4189b83f603d1e7f8944",
+          "generated_candidates": 42,
+          "small_pdb_queries": 0,
+          "phase1_queries": 67,
+          "corner_queries": 2,
+          "edge_queries": 0,
+          "axis_rejects": [
+            28,
+            3,
+            3
+          ],
+          "equality_rejects": 6,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 42,
+              "busy_seconds": 0.000107,
+              "idle_seconds": 2e-06
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 7.5e-05
+            }
+          ],
+          "engine": "native-cpp"
+        },
+        {
+          "monotonic": 41176.406,
+          "type": "progress",
+          "threads": 3,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 11,
+          "completed_depth": 11,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 459,
+          "nodes": 0,
+          "split_nodes": 501,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000297,
+          "elapsed_seconds": 0.000666,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "f05d903e3a1c4189b83f603d1e7f8944",
+          "generated_candidates": 501,
+          "small_pdb_queries": 0,
+          "phase1_queries": 839,
+          "corner_queries": 43,
+          "edge_queries": 0,
+          "axis_rejects": [
+            307,
+            50,
+            56
+          ],
+          "equality_rejects": 45,
+          "corner_rejects": 7,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 270,
+              "busy_seconds": 0.000104,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 138,
+              "busy_seconds": 4.7e-05,
+              "idle_seconds": 3e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 51,
+              "busy_seconds": 1e-05,
+              "idle_seconds": 4e-05
+            }
+          ],
+          "engine": "native-cpp"
+        },
+        {
+          "monotonic": 41176.406,
+          "type": "progress",
+          "threads": 3,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 12,
+          "completed_depth": 12,
+          "iteration_nodes": 145,
+          "iteration_split_nodes": 5058,
+          "nodes": 145,
+          "split_nodes": 5559,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000621,
+          "elapsed_seconds": 0.001313,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "f05d903e3a1c4189b83f603d1e7f8944",
+          "generated_candidates": 7503,
+          "small_pdb_queries": 0,
+          "phase1_queries": 12057,
+          "corner_queries": 697,
+          "edge_queries": 0,
+          "axis_rejects": [
+            4863,
+            897,
+            652
+          ],
+          "equality_rejects": 451,
+          "corner_rejects": 80,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 45,
+              "generated": 2349,
+              "busy_seconds": 0.000404,
+              "idle_seconds": 4.1e-05
+            },
+            {
+              "nodes": 52,
+              "generated": 2382,
+              "busy_seconds": 0.000376,
+              "idle_seconds": 4e-05
+            },
+            {
+              "nodes": 48,
+              "generated": 2271,
+              "busy_seconds": 0.000368,
+              "idle_seconds": 2.7e-05
+            }
+          ],
+          "engine": "native-cpp"
+        },
+        {
+          "monotonic": 41176.406,
+          "type": "progress",
+          "threads": 3,
+          "lower_bound": 10,
+          "upper_bound": 20,
+          "current_depth": 13,
+          "completed_depth": 12,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 145,
+          "split_nodes": 5559,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000202,
+          "elapsed_seconds": 0.001537,
+          "found": false,
+          "timed_out": false,
+          "cancelled": true,
+          "request_id": "f05d903e3a1c4189b83f603d1e7f8944",
+          "generated_candidates": 7503,
+          "small_pdb_queries": 0,
+          "phase1_queries": 12057,
+          "corner_queries": 697,
+          "edge_queries": 0,
+          "axis_rejects": [
+            4863,
+            897,
+            652
+          ],
+          "equality_rejects": 451,
+          "corner_rejects": 80,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ],
+          "engine": "native-cpp"
+        }
+      ],
+      "events": [
+        {
+          "monotonic": 41176.406,
+          "type": "native_ready",
+          "reused": true,
+          "dynamic_threads": true,
+          "native_pid": 38648,
+          "peak_working_set_bytes": 343453696,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41176.406,
+          "type": "native_request_sent",
+          "threads": 2
+        },
+        {
+          "monotonic": 41176.406,
+          "type": "native_threads_sent",
+          "threads": 3
+        },
+        {
+          "monotonic": 41176.406,
+          "type": "native_result_received",
+          "result": {
+            "ok": true,
+            "type": "result",
+            "request_id": "f05d903e3a1c4189b83f603d1e7f8944",
+            "status": "cancelled",
+            "inverse_direction": false,
+            "moves": [],
+            "solution": "",
+            "depth": -1,
+            "metric": "HTM",
+            "optimal": false,
+            "elapsed_seconds": 0.00155,
+            "nodes": 145,
+            "split_nodes": 5559,
+            "transposition_hits": 0,
+            "tail_queries": 0,
+            "tail_bloom_rejects": 0,
+            "tail_exact_queries": 0,
+            "tail_probes": 0,
+            "tail_hits": 0,
+            "corner_pdb": true,
+            "phase1_pdb": true,
+            "edge_pdbs": false,
+            "extra_edge_pdbs": false,
+            "edge_pdb_count": 0,
+            "tail_pdb": true,
+            "completed_depth": 12,
+            "generated_candidates": 7503,
+            "small_pdb_queries": 0,
+            "phase1_queries": 12057,
+            "corner_queries": 697,
+            "edge_queries": 0,
+            "axis_rejects": [
+              4863,
+              897,
+              652
+            ],
+            "equality_rejects": 451,
+            "corner_rejects": 80,
+            "edge_rejects": 0,
+            "workers": [
+              {
+                "nodes": 0,
+                "generated": 0,
+                "busy_seconds": 0.0,
+                "idle_seconds": 0.0
+              },
+              {
+                "nodes": 0,
+                "generated": 0,
+                "busy_seconds": 0.0,
+                "idle_seconds": 0.0
+              },
+              {
+                "nodes": 0,
+                "generated": 0,
+                "busy_seconds": 0.0,
+                "idle_seconds": 0.0
+              }
+            ]
+          },
+          "native_pid": 38648,
+          "peak_working_set_bytes": 343785472,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41176.406,
+          "type": "native_request_finished",
+          "native_pid": 38648,
+          "peak_working_set_bytes": 343785472,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41176.406,
+          "type": "native_ready",
+          "reused": true,
+          "dynamic_threads": true,
+          "native_pid": 38648,
+          "peak_working_set_bytes": 343785472,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41176.406,
+          "type": "native_request_sent",
+          "threads": 3
+        },
+        {
+          "monotonic": 41176.406,
+          "type": "native_result_received",
+          "result": {
+            "ok": true,
+            "type": "result",
+            "request_id": "041bfa27583e4d1fb6ac3acc42bd4c26",
+            "status": "complete",
+            "inverse_direction": false,
+            "moves": [
+              "R'"
+            ],
+            "solution": "R'",
+            "depth": 1,
+            "metric": "HTM",
+            "optimal": true,
+            "elapsed_seconds": 0.000253,
+            "nodes": 1,
+            "split_nodes": 0,
+            "transposition_hits": 0,
+            "tail_queries": 1,
+            "tail_bloom_rejects": 0,
+            "tail_exact_queries": 1,
+            "tail_probes": 1,
+            "tail_hits": 1,
+            "corner_pdb": true,
+            "phase1_pdb": true,
+            "edge_pdbs": false,
+            "extra_edge_pdbs": false,
+            "edge_pdb_count": 0,
+            "tail_pdb": true,
+            "completed_depth": 0,
+            "generated_candidates": 0,
+            "small_pdb_queries": 0,
+            "phase1_queries": 3,
+            "corner_queries": 1,
+            "edge_queries": 0,
+            "axis_rejects": [
+              0,
+              0,
+              0
+            ],
+            "equality_rejects": 0,
+            "corner_rejects": 0,
+            "edge_rejects": 0,
+            "workers": [
+              {
+                "nodes": 1,
+                "generated": 0,
+                "busy_seconds": 6e-06,
+                "idle_seconds": 0.0
+              },
+              {
+                "nodes": 0,
+                "generated": 0,
+                "busy_seconds": 0.0,
+                "idle_seconds": 0.0
+              },
+              {
+                "nodes": 0,
+                "generated": 0,
+                "busy_seconds": 0.0,
+                "idle_seconds": 0.0
+              }
+            ]
+          },
+          "native_pid": 38648,
+          "peak_working_set_bytes": 343793664,
+          "memory_scope": "native_process_lifetime_peak"
+        },
+        {
+          "monotonic": 41176.406,
+          "type": "native_request_finished",
+          "native_pid": 38648,
+          "peak_working_set_bytes": 343793664,
+          "memory_scope": "native_process_lifetime_peak"
+        }
+      ],
+      "reuse_result": {
+        "moves": [
+          "R'"
+        ],
+        "solution": "R'",
+        "depth": 1,
+        "metric": "HTM",
+        "optimal": true,
+        "inverse_direction": false,
+        "elapsed_seconds": 0.0,
+        "nodes": 1,
+        "split_nodes": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 1,
+        "tail_hits": 1,
+        "completed_depth": 0,
+        "generated_candidates": 0,
+        "phase1_queries": 3,
+        "corner_queries": 1,
+        "engine": "native-cpp"
+      }
+    }
+  ]
+}

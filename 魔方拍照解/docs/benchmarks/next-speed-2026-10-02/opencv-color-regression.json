@@ -1,0 +1,356 @@
+{
+  "method": "OpenCV approximate frontend patches + web/color.js; independent frozen human reference",
+  "cases": [
+    {
+      "name": "initial-1",
+      "returncode": 0,
+      "stdout": "real image color tests passed\n",
+      "stderr": ""
+    },
+    {
+      "name": "initial-12",
+      "returncode": 0,
+      "stdout": "real image color tests passed\n",
+      "stderr": ""
+    },
+    {
+      "name": "initial-2",
+      "returncode": 0,
+      "stdout": "real image color tests passed\n",
+      "stderr": ""
+    },
+    {
+      "name": "initial-5",
+      "returncode": 0,
+      "stdout": "real image color tests passed\n",
+      "stderr": ""
+    },
+    {
+      "name": "initial-8",
+      "returncode": 1,
+      "stdout": "",
+      "stderr": null
+    },
+    {
+      "name": "initial-16",
+      "returncode": 0,
+      "stdout": "real image color tests passed\n",
+      "stderr": ""
+    }
+  ],
+  "passed": false,
+  "utf8_diagnostic_retry_initial8": {
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    B: [\n      'L',\n      'B',\n      'F',\n...\n    U: [\n+     'F',\n+     'L',\n      'U',\n-     'L',\n-     'F',\n      'D',\n      'U',\n      'B',\n      'R',\n      'U',\n\n    at main (C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\tests\\real_color.test.js:142:8) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: [Object],\n  expected: [Object],\n  operator: 'deepStrictEqual',\n  diff: 'simple'\n}\n"
+  },
+  "initial8_classification": {
+    "labels": {
+      "U": "FLUDUBRUD",
+      "R": "BDUFRRUBB",
+      "F": "DFLLFRUDB",
+      "D": "BRLBDRDUR",
+      "L": "RFFFLDFUR",
+      "B": "LBFUBLDLL"
+    },
+    "quality": {
+      "valid": true,
+      "reasons": [],
+      "minimumPrototypeDistance": 50.52694729132183,
+      "ambiguousFraction": 0.041666666666666664,
+      "lowInformationFraction": 0.08333333333333333,
+      "stickerConfidence": [
+        {
+          "confidence": 0,
+          "margin": -37.739743791890255,
+          "cost": 64.72460102538966,
+          "low": true
+        },
+        {
+          "confidence": 0.018322698612148733,
+          "margin": -2.725159520817769,
+          "cost": 38.62257043333989,
+          "low": true
+        },
+        {
+          "confidence": 1,
+          "margin": 45.903381963347925,
+          "cost": 4.438071812870566,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 47.45209774459187,
+          "cost": 11.514972328309144,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 27.666842440749708,
+          "cost": 11.701689156939846,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 24.25353724380785,
+          "cost": 29.769007670775565,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 45.38360896255365,
+          "cost": 3.3229732260083615,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 59.806195812474044,
+          "cost": 6.661193443403418,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 41.10638091180481,
+          "cost": 7.920251964201563,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 51.778167742216496,
+          "cost": 6.376384966256547,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 38.4342112122758,
+          "cost": 7.736537191515562,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 46.62659672304903,
+          "cost": 8.15523365719146,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 49.98386462605154,
+          "cost": 7.589810998337747,
+          "low": false
+        },
+        {
+          "confidence": 0.9061332337050604,
+          "margin": 10.591998505575905,
+          "cost": 31.647515565487755,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 48.252564111490656,
+          "cost": 3.6284633872117134,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 47.57081366123567,
+          "cost": 2.336778811392482,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 58.4700993583292,
+          "cost": 4.829053203314073,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 49.24748987339676,
+          "cost": 2.382634836599447,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 54.27309369594353,
+          "cost": 5.236503377686482,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 61.84505806256774,
+          "cost": 2.93418013105933,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 55.220511515425514,
+          "cost": 2.744471227615754,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 32.03868175938542,
+          "cost": 10.001540858010467,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 58.87125798708038,
+          "cost": 4.785224155305534,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 44.1632627098358,
+          "cost": 3.6503071322362604,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 48.4631094771112,
+          "cost": 4.593463118829552,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 41.91998793460572,
+          "cost": 15.349937338496773,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 56.79948513930452,
+          "cost": 4.9481436552348494,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 48.63494253457129,
+          "cost": 3.4586465088200296,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 58.66714586393917,
+          "cost": 0,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 62.87587490095128,
+          "cost": 0,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 50.4476523246151,
+          "cost": 0.4927531770154355,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 58.39129488457724,
+          "cost": 2.6756740298170856,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 48.65257305487549,
+          "cost": 7.901570975180751,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 51.31491578431073,
+          "cost": 0,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 12.16585530932985,
+          "cost": 23.500830085634888,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 44.699842450848,
+          "cost": 8.553474133364091,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 51.25333687664184,
+          "cost": 6.753816452002251,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 36.525528328319176,
+          "cost": 15.370060610735884,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 50.52694729132183,
+          "cost": 0,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 53.12745204879928,
+          "cost": 6.351444447766504,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 58.25873750678007,
+          "cost": 3.1419359213581326,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 50.52694729132183,
+          "cost": 0,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 46.640196875950906,
+          "cost": 3.9103557930366755,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 49.71991301064986,
+          "cost": 0.6801872823791051,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 53.25489782471824,
+          "cost": 8.181082171710958,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 57.65518045836916,
+          "cost": 4.968838974240954,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 57.913495439841995,
+          "cost": 6.7741788879536085,
+          "low": false
+        },
+        {
+          "confidence": 1,
+          "margin": 54.12726593890293,
+          "cost": 8.985319449252849,
+          "low": false
+        }
+      ],
+      "mappingValid": true
+    }
+  },
+  "initial8_note": "Diagnostic retry retained because first attempt stderr decode failed under Windows GBK. Actual browser path remains the acceptance source."
+}

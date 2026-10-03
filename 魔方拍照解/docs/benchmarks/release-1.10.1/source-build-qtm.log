@@ -1,0 +1,4 @@
+Using C++ compiler: C:\msys64\ucrt64\bin\g++.exe
+lto-wrapper.exe: warning: using serial compilation of 9 LTRANS jobs
+lto-wrapper.exe: note: see the '-flto' option documentation for more information
+C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.cache\release-1.10.1\source-isolation\RubicPhotoSolve-1.10.1-source\native\qtm\build\cube_solver_qtm.exe

@@ -1,0 +1,144 @@
+{
+  "created_utc": "2026-10-02T17:26:50.301031+00:00",
+  "original_frozen_root": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.codex\\next-speed\\baseline",
+  "controlled_baseline_root": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.codex\\next-speed\\baseline-observed",
+  "original_manifest": "baseline-identity.json",
+  "head": "6754a8c2cb9b87860f594bba0d59326ef260aceb",
+  "purpose": "P0 observability and identical total resource normalization; original synchronous HTM candidate publication",
+  "frozen_files_rehashed": 335,
+  "frozen_mismatches": [],
+  "observed_files_unchanged": 327,
+  "source_differences": [
+    {
+      "path": "cube_app/solvers/htm/fast.py",
+      "frozen": {
+        "bytes": 12544,
+        "sha256": "ad6f542ba9a8926487d627a606637a4e53a683f8827f21522b9da2ec3f8555c8"
+      },
+      "observed": {
+        "bytes": 13469,
+        "sha256": "346feddb9c144ae45e3dc8a6756c783a108539e4992728c4038a19576c0b2158"
+      }
+    },
+    {
+      "path": "cube_app/solvers/htm/native.py",
+      "frozen": {
+        "bytes": 15276,
+        "sha256": "3f43992e1ceda27285f989838c2d9f8f8334b8ef6b5dfcec18e4ffdb1d0bd210"
+      },
+      "observed": {
+        "bytes": 20284,
+        "sha256": "e934a3791c48ab5732a803a8da1a9540fb00dfaa77a2a68ef75c0c1399811372"
+      }
+    },
+    {
+      "path": "cube_app/solvers/qtm/backend.py",
+      "frozen": {
+        "bytes": 20225,
+        "sha256": "c7a8f09fc6e6c5e12fc8ab22da24588bde4d97a5519af5be08d3924d3a7ed9bc"
+      },
+      "observed": {
+        "bytes": 21953,
+        "sha256": "fd8c833c185570ccff16a10cc6cbd14a5ddef47827518e9ed5d864bece4a18ec"
+      }
+    },
+    {
+      "path": "cube_app/solvers/qtm/native.py",
+      "frozen": {
+        "bytes": 40924,
+        "sha256": "aff19a816822df5d824144ed76e32d6502d07839ee68be11c83b60e56721a3a8"
+      },
+      "observed": {
+        "bytes": 41216,
+        "sha256": "4b960295d6c94b435cd8bebab56726ea8ccc44d14801b17491bf8e5bf5de8c65"
+      }
+    },
+    {
+      "path": "native/htm/include/solver.hpp",
+      "frozen": {
+        "bytes": 7928,
+        "sha256": "188234ad4d6585cf7cd7fee02f4754bc236acac88e481d03dc317645fbf0fd64"
+      },
+      "observed": {
+        "bytes": 8075,
+        "sha256": "d13f212cd2e507d3b8d54d4922e9003d0163c1cc4cc6a951207a4da6b663c3ae"
+      }
+    },
+    {
+      "path": "native/htm/src/main.cpp",
+      "frozen": {
+        "bytes": 34480,
+        "sha256": "d9f5911bec72ebc6fbb0da9a45167e1654815b0f02293d44b6f93cf663600b84"
+      },
+      "observed": {
+        "bytes": 35464,
+        "sha256": "2a01fb2f066ef13931dd38d995b2e44d04498be5b9aa7aa73a2623aa2c016883"
+      }
+    },
+    {
+      "path": "native/htm/src/solver.cpp",
+      "frozen": {
+        "bytes": 50804,
+        "sha256": "5e0445466519fc1692be718a0434203368b5cd9d23cc93c7a884cbd55d00c875"
+      },
+      "observed": {
+        "bytes": 50964,
+        "sha256": "4d5ba38a2a5f1420c7b656c3224b67283fdf2c04d2165821c1fcf1bbc32492ca"
+      }
+    },
+    {
+      "path": "server.py",
+      "frozen": {
+        "bytes": 33191,
+        "sha256": "8d531830c90dea24f6d30bcc7f054457f819bb8f58fdaeb4ca2690c3afc7981b"
+      },
+      "observed": {
+        "bytes": 45118,
+        "sha256": "4fec35feb9ffb998d2a744cc77da7e38a175d852f5aea0ab95606889676ab830"
+      }
+    }
+  ],
+  "added_mock_test_files": {
+    "tests/test_controlled_baseline.py": {
+      "bytes": 23341,
+      "sha256": "058f1bfb2d1e1f7990fc093ef2183d9128269016caec95d7a0d55c4a6b20e4c5"
+    }
+  },
+  "patch": "controlled-baseline.patch",
+  "patch_sha256": "d43d69478dcecb32d28f9fea76d7c25d1c6d2a5df08823bcd586af964ba5b9c9",
+  "binary_status": "Audit below ran before package preparation, with frozen EXEs still copied unchanged. Actual package subsequently reused source-identical Portable HTM build; see controlled-baseline-package-identity.json",
+  "actual_package_identity": "controlled-baseline-package-identity.json",
+  "actual_package_build_log": "baseline-package-build.log",
+  "htm_exe_before_build": {
+    "bytes": 3832648,
+    "sha256": "e6c0574cdecce36a30cfe572bb6a13a47228247c1fe05f520e77992d5f107797"
+  },
+  "qtm_exe_retained": {
+    "bytes": 4197115,
+    "sha256": "8c2912c43e267ea32ac9daea77902bc2258d91ef35f6a456e92c165734d5376a"
+  },
+  "asset_and_cache_status": "Shared via directory junctions, using original manifest identities; large inputs not rehashed in this lightweight audit",
+  "algorithm_guards": {
+    "htm_cpp_normalized_exact_text": true,
+    "python_syntax_files": 6,
+    "fast_search_ast_test": "passed; observation scaffolding removed, then identical to frozen AST"
+  },
+  "mock_validation": {
+    "passed": 21,
+    "xml": "controlled-baseline-contracts.xml",
+    "actual_solver_calls": 0
+  },
+  "quota": {
+    "total": 15,
+    "candidate_reserved": 1,
+    "initial_proof": 14,
+    "restore": "15 only at a later layer boundary after candidate budget ends",
+    "one_thread": "candidate then proof, same absolute request deadline",
+    "lease": "candidate waits for its own proof lease; proof lock retained until any synchronous candidate ends"
+  },
+  "unmeasured": [
+    "14-to-15 dynamic restoration at a later real depth layer; rebuilt-binary capability and shallow packaged request passed",
+    "default-request speed",
+    "working-set gate"
+  ]
+}

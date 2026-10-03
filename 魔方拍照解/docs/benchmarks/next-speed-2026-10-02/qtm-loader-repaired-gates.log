@@ -1,0 +1,36 @@
+.F.                                                                      [100%]
+================================== FAILURES ===================================
+____________ test_real_managed_loader_pause_cancel_resume_and_eof _____________
+
+binary = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/ħ�����ս�/native/qtm/build/cube_solver_qtm.exe')
+record_property = <function record_property.<locals>.append_property at 0x000002104E04EF20>
+
+    @pytest.mark.qtm_native
+    @pytest.mark.qtm_full_assets
+    def test_real_managed_loader_pause_cancel_resume_and_eof(binary, record_property):
+        with _service(binary) as service:
+>           assert service.event("ready")["assets"]["QTM"]["profile"] == "base"
+E           AssertionError: assert 'fallback' == 'base'
+E             
+E             - base
+E             + fallback
+
+tests\test_qtm_loader_next.py:73: AssertionError
+============================== warnings summary ===============================
+tests/test_qtm_loader_next.py::test_real_member_initialization_pause_resume_and_equivalence
+  tests\test_qtm_loader_next.py:34: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+    def test_real_member_initialization_pause_resume_and_equivalence(loader_gate_binary, record_property):
+
+tests/test_qtm_loader_next.py::test_real_managed_loader_pause_cancel_resume_and_eof
+  tests\test_qtm_loader_next.py:69: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+    @pytest.mark.qtm_native
+
+tests/test_qtm_loader_next.py::test_real_eof_releases_paused_initialization
+  tests\test_qtm_loader_next.py:107: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+    @pytest.mark.qtm_native
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\harriron\Desktop\Rubic-Photo-solve\ħ�����ս�\docs\benchmarks\next-speed-2026-10-02\qtm-loader-repaired-gates.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_qtm_loader_next.py::test_real_managed_loader_pause_cancel_resume_and_eof
+1 failed, 2 passed, 3 warnings in 6.85s

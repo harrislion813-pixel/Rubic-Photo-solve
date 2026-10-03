@@ -1,0 +1,466 @@
+{
+  "created_utc": "2026-10-03T05:42:49.716954+00:00",
+  "package_root": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\dist\\QtmStrong-1.10.1\\RubicPhotoSolve",
+  "version": "1.10.1",
+  "profile": "QtmStrong",
+  "launcher": {
+    "bytes": 4660673,
+    "sha256": "9af94aab9bb5eedc69b1c7a9df6e90a9d5ea50adfd5cb64c851d16eb3be17ab7"
+  },
+  "manifest": {
+    "bytes": 12371,
+    "sha256": "7931d7f86c22783a1a6d395a2dbc1da72a319cb99a3ac59efd746d2c7cff850b"
+  },
+  "archive": {
+    "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\dist\\QtmStrong-1.10.1\\RubicPhotoSolve-1.10.1-QtmStrong-windows-x64.zip",
+    "bytes": 2307015054,
+    "sha256": "e8cc01744e1b57be11d31ed7ce3b51578683f58de16de1c3d7689f9b6a6eb2e3",
+    "files": 153,
+    "check_scope": "inventory and SHA; full archive verification is recorded separately"
+  },
+  "frozen_current_identity": {
+    "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\docs\\benchmarks\\release-1.10.1\\source-identity.json",
+    "bytes": 60381,
+    "sha256": "3a82ecf3e203d9bf7d0985ee3a5b0d6da510f07b76c6fe3c5e5e4cd9eb397ba9"
+  },
+  "original_baseline_identity": {
+    "path": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\docs\\benchmarks\\next-speed-2026-10-02\\baseline-identity.json",
+    "bytes": 58161,
+    "sha256": "998a1b9e595503652a5c438fe11fb911afaf831d8cb1b548092ea631d8e3ac3e"
+  },
+  "original_frozen_files_reverified": 335,
+  "unchanged_asset_and_cache_files": 17,
+  "application_sources": {
+    "cube_app/__init__.py": {
+      "bytes": 99,
+      "sha256": "efd8562b6d1abbd4bf1828d5e55d2b3fc17a192eb98f930c96054ab9a11efa17"
+    },
+    "cube_app/coords.py": {
+      "bytes": 2981,
+      "sha256": "8dbf9feb2d0f0f0990e7b63e6f07417646d6b65c2e582dc7879cdc6b1c09864e"
+    },
+    "cube_app/cubie.py": {
+      "bytes": 11557,
+      "sha256": "e1563bb79f4511f377c90273330f5d3e0bc170c82fa9990cb1472bb81ec52635"
+    },
+    "cube_app/detection.py": {
+      "bytes": 2255,
+      "sha256": "ec871cf2cd44c9941d3186bea98e10426ca793b7c2b7f62abb413ef6f99b411b"
+    },
+    "cube_app/fast.py": {
+      "bytes": 12542,
+      "sha256": "1a6e05d1dbffef27ce624d677cfed41c7e5b098b14134cd62b1aaddefc860d2e"
+    },
+    "cube_app/metrics.py": {
+      "bytes": 2326,
+      "sha256": "80e5c2af6f415119870760a8799edb9a1544b6ab7da030e37f5078438cb2dd94"
+    },
+    "cube_app/native.py": {
+      "bytes": 14975,
+      "sha256": "d935b3a6549a2c7f179f9e1fa435cf09bfeb8023798e1639595337aec5f83204"
+    },
+    "cube_app/optimal.py": {
+      "bytes": 29607,
+      "sha256": "1c3abe5911d3cf06b1e81f195d1b45d90a331008e984c58df8f2ec1499111c6d"
+    },
+    "cube_app/runtime.py": {
+      "bytes": 336,
+      "sha256": "8bb4d64175e85768b4c6803fe3a785d56085e9102bd7097f0823501b6b374781"
+    },
+    "cube_app/solvers/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cube_app/solvers/htm/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cube_app/solvers/htm/coords.py": {
+      "bytes": 2983,
+      "sha256": "36a20e2444aa9805a3cdb92ff84c193482efb8cc161140692baab248a092fafa"
+    },
+    "cube_app/solvers/htm/fast.py": {
+      "bytes": 14741,
+      "sha256": "361765c502a86d22576b484b9c50c36f159ea2c563eefc5dd67f12858fea281e"
+    },
+    "cube_app/solvers/htm/native.py": {
+      "bytes": 20568,
+      "sha256": "ffa5fa6fd5a68e7075c0c40c43b278316b32dd5f893bf342349ea122da4640b5"
+    },
+    "cube_app/solvers/htm/optimal.py": {
+      "bytes": 29609,
+      "sha256": "291e1085b10c82a792b65807915e29667625cb284c699546a6542068ff7b5340"
+    },
+    "cube_app/solvers/htm/tables.py": {
+      "bytes": 8657,
+      "sha256": "4ded5140b02209a749fd427ca331b8236afc69682ee9fb6476859d038ab1a5da"
+    },
+    "cube_app/solvers/htm/two_by_two.py": {
+      "bytes": 7684,
+      "sha256": "b900c8fcf81c3432e578c7eba9037bb4d07d5d8e0a49681dfbe93215dccd1177"
+    },
+    "cube_app/solvers/htm/two_by_two_tables.py": {
+      "bytes": 5957,
+      "sha256": "08d2d00c9504ea80fd07ef118834e9cb4c1ff1efb01b36aadf20413a63f52ab1"
+    },
+    "cube_app/solvers/qtm/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cube_app/solvers/qtm/backend.py": {
+      "bytes": 21638,
+      "sha256": "004e7bda04dcad83940b7028fd18d1fece23bfb9061b6f8ffd074ad059344f71"
+    },
+    "cube_app/solvers/qtm/coords.py": {
+      "bytes": 2983,
+      "sha256": "36a20e2444aa9805a3cdb92ff84c193482efb8cc161140692baab248a092fafa"
+    },
+    "cube_app/solvers/qtm/fast.py": {
+      "bytes": 14630,
+      "sha256": "b3ed073108585468c9488358a5b4009d27454df0137f8c4fc2572c71ef8b5f07"
+    },
+    "cube_app/solvers/qtm/memory.py": {
+      "bytes": 3131,
+      "sha256": "f7b97f6284b26f139064bfb08d973058b307f1ace03166799fca87a550bc6665"
+    },
+    "cube_app/solvers/qtm/native.py": {
+      "bytes": 42253,
+      "sha256": "a27ca7197a429ae2288086aecdb46127ee3b464552c00ab15ca7b6ad3552eeaf"
+    },
+    "cube_app/solvers/qtm/optimal.py": {
+      "bytes": 33050,
+      "sha256": "699c6991dc592dff9f8368152cc0fdc3f260d041714a85835d38743cf145ee6b"
+    },
+    "cube_app/solvers/qtm/qtm_small.py": {
+      "bytes": 4740,
+      "sha256": "91d6cb39a84fb29e14a4d9eddf588547e940cce7a9b5851a0c4d4622fbd32325"
+    },
+    "cube_app/solvers/qtm/tables.py": {
+      "bytes": 7127,
+      "sha256": "5d182f08dbff2c55a67231d23a3fd1da6a6a8e2ff3e23aa9e7a4ce38b518aeff"
+    },
+    "cube_app/solvers/qtm/two_by_two.py": {
+      "bytes": 8769,
+      "sha256": "6e0a239595dae0d6fb3baf388ed2face14f02c9fb95643f1c2c654372ca053b6"
+    },
+    "cube_app/solvers/qtm/two_by_two_tables.py": {
+      "bytes": 7212,
+      "sha256": "80b66385df684678975015d147522627f5a17ec853270946f6f448e196b0ddb7"
+    },
+    "cube_app/solvers/resource_broker.py": {
+      "bytes": 5767,
+      "sha256": "1d44c1af5b7d91cc193449980897585eb87986ad0c02d5ce076f7cee905538c4"
+    },
+    "cube_app/tables.py": {
+      "bytes": 7073,
+      "sha256": "03e56aa312eba6e01e451df9f67e270e4a4392ee0911fedb899c8b49f7fbfd3e"
+    },
+    "cube_app/two_by_two.py": {
+      "bytes": 7680,
+      "sha256": "8325e56c9a6edd53a353c7c4ba089d877a7411e1de229c2362cdc0a2c0199406"
+    },
+    "cube_app/two_by_two_tables.py": {
+      "bytes": 5953,
+      "sha256": "18550744ccd796c2f6c450707cea9ea72b67d3f436cd1eebfece533b09984db3"
+    },
+    "cube_app/vision.py": {
+      "bytes": 34699,
+      "sha256": "b44361ca6b0408ec38257d3eb8bdd78de384959e3d62eb7aa58d8d1c209bde66"
+    },
+    "web/app.js": {
+      "bytes": 50350,
+      "sha256": "6ffcb5148d6316c9527b8d54e02ec823edc5954ba196fc0b3803832c98f60c99"
+    },
+    "web/color.js": {
+      "bytes": 16430,
+      "sha256": "31c731b930a6db3a6b3e66c19bc46d54e1a16813d96c7794091bf7c901125e9a"
+    },
+    "web/index.html": {
+      "bytes": 10080,
+      "sha256": "64bad5f8e571195716c5040222703a5db0a5679baf5cb271494ce0a2df06e044"
+    },
+    "web/solver-client.js": {
+      "bytes": 2233,
+      "sha256": "0eaa92338ba59135806abe69aea5ac42a8e715982c7322a6472067a542e64fb6"
+    },
+    "web/styles.css": {
+      "bytes": 22622,
+      "sha256": "cf90571d670430f56090fa8c5cd9fe2b66fd37b4666ed9bc49f375f1e025053a"
+    },
+    "server.py": {
+      "bytes": 45370,
+      "sha256": "4c841bd804f9da687e0830facc918592d54e24cdf8e951daa454c481f4647325"
+    },
+    "windows_launcher.py": {
+      "bytes": 205,
+      "sha256": "a05e1fe24162fe050865e93ce0d65911fde12d3f919e7a061c53dbbe49c97d99"
+    },
+    "pyproject.toml": {
+      "bytes": 2270,
+      "sha256": "9834d64b84abd4758574013dfaaba573fb9df484556cbec131f62f9247de68f9"
+    }
+  },
+  "python_module_origins": {
+    "server": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\server.py",
+    "cube_app.solvers.qtm.backend": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\cube_app\\solvers\\qtm\\backend.py",
+    "cube_app.solvers.qtm.native": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\cube_app\\solvers\\qtm\\native.py",
+    "cube_app.solvers.htm.native": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\cube_app\\solvers\\htm\\native.py",
+    "cube_app.solvers.htm.fast": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\cube_app\\solvers\\htm\\fast.py"
+  },
+  "native_builds": {
+    "htm": {
+      "binary": {
+        "bytes": 3835111,
+        "sha256": "47c7dc03a96f9c2529a6f301e285af8477b01461747928c8223f12861d423011"
+      },
+      "build": {
+        "compiler": "g++.exe (Rev5, Built by MSYS2 project) 16.1.0",
+        "flags": "-std=c++20 -O3 -march=x86-64 -mtune=generic -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode",
+        "portable": true,
+        "profile_guided": false,
+        "built_at": "2026-10-03T05:17:52.5806240Z",
+        "binary_sha256": "47C7DC03A96F9C2529A6F301E285AF8477B01461747928C8223F12861D423011",
+        "source_sha256": {
+          "solver.hpp": "D13F212CD2E507D3B8D54D4922E9003D0163C1CC4CC6A951207A4DA6B663C3AE",
+          "main.cpp": "EC902EF529D1443D5DEC535D9E8E532BAC8A14DD56C3782D1A5DE8608BC7D5C4",
+          "pdb.cpp": "03FB90E8F656C26974E59FF6FCB8EDB4DF999025E1FF88528688BC3D97B4793A",
+          "cube.cpp": "3C7501A3E18BACE61CAB5690C99B7C0B85967C51E946F61C982D41C25A7D6B4A",
+          "symmetry.cpp": "A350071E2187A539BFC3028C0147EB63AB95EC8827B3F421EE6F7866A6F94BCF",
+          "solver.cpp": "4D5BA38A2A5F1420C7B656C3224B67283FDF2C04D2165821C1FCF1BBC32492CA",
+          "paths.hpp": "567C2D959576F77D234DF379130B4DB20C0BBE91A45088590158D9A4F05B845F",
+          "tail.hpp": "5095E0E59025D44DD9D9C05A8D104DF180A90C3993DB18C4153B56840CD94F2A",
+          "cube.hpp": "1F98383CB71CB16E5B0B8C0BC52CD221F9CA3A02A31CFCFEAC33DCDDE805B83E",
+          "tail.cpp": "EC479533CF48E61E58857B184142B8B2AABBDC134E3E719A32746EE69522135B",
+          "symmetry.hpp": "25EA953FC6A8FD7AA91CEE2456116419348135F8BC2205FDC825711306C37FE4",
+          "pdb.hpp": "5CBD76D0125E1F2510EC536E16468804A3D7AC9AB752853FB5B4919C66274428"
+        }
+      },
+      "source_files_verified": 12
+    },
+    "qtm": {
+      "binary": {
+        "bytes": 4264034,
+        "sha256": "8d97208f6f9b7aa1681cd4f634fab13c6d6047b3893f584157010988c49c9f9a"
+      },
+      "build": {
+        "compiler": "g++.exe (Rev5, Built by MSYS2 project) 16.1.0",
+        "flags": "-std=c++20 -O3 -march=x86-64 -mtune=generic -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode",
+        "portable": true,
+        "profile_guided": false,
+        "built_at": "2026-10-03T05:18:13.7661290Z",
+        "binary_sha256": "8D97208F6F9B7AA1681CD4F634FAB13C6D6047B3893F584157010988C49C9F9A",
+        "source_sha256": {
+          "fast.cpp": "2D5EB9521E02E089E66E68D5B4FCF9CE53E472767C846BEBEAA5515DD309D29C",
+          "symmetry.cpp": "1CA6250CFC5762A47F7E547CF60219E35CBDE103C4C49B25D37C90F9596A83E3",
+          "strong_coords.hpp": "6FE1369992E88501D0B2B1AA8DA0A363A09C83D001A001FF62C2C7231AB77342",
+          "cube.hpp": "1F98383CB71CB16E5B0B8C0BC52CD221F9CA3A02A31CFCFEAC33DCDDE805B83E",
+          "main.cpp": "E8494A3AC2BA7BF1548526612C2BA6C948647058A253E23EA4ED711DCD2F4BB7",
+          "symmetry.hpp": "9E0768A3550E16BCD4DD05B051D380C2F0ADE93891730CD8FD8263B82345BD63",
+          "paths.hpp": "567C2D959576F77D234DF379130B4DB20C0BBE91A45088590158D9A4F05B845F",
+          "strong_pdb.cpp": "3E4A1C4FE65F3D778210226FB0C3A6C72B2FF1C12013DEE0D5D4F900EC6120AF",
+          "strong_pdb.hpp": "C168B95419DDDC6F978130FC6BA9CCAECAEF47CBCBD7FCB1562AB194DA964870",
+          "solver.cpp": "EEE278FC382B1E9711E81C9AA970C409F1BBDE705D17B286982F86A8E84BF57D",
+          "pdb.hpp": "D272129C84249B94E163A29EA415BF2C495E9F514AEA0F659D273FAB6614631E",
+          "loader.hpp": "FAC4CCD5DDFB7339430ABC9B5140AB4A122D50DD23A3E08F1C91E65115BAD28E",
+          "solver.hpp": "8A998F33AACC25F8428EE323DA0EBF1FA978AB21BDF486880D74B90AFF34E15C",
+          "cube.cpp": "3C7501A3E18BACE61CAB5690C99B7C0B85967C51E946F61C982D41C25A7D6B4A",
+          "fast.hpp": "78837E701B3FF674FF94B7F340D5734FAA5561C1A8E4003E4DE31FA4E75C4BBD",
+          "pdb.cpp": "0340599CE34EB4FB51B26E2718473E17C25561BB78490CD1FCB9780073E92CEE",
+          "metric.hpp": "C3A9AE9DB86AB3AB35EC4564502060D81CD8871B4856C975E735A5B51CCF1BE3",
+          "strong_coords.cpp": "35791B62F77EF930B3F69702A37250CA242D8BB06E63634B953ECB4EBCAB9DBA",
+          "tail.cpp": "A622F7FE538F38031853F254C50AC1E04ADE1C72468E7205D7ABE7F73EEB297C",
+          "tail.hpp": "FDF29B49519F5259D16966887ACAAE9BFCF63158C92E6EBF9BA1E170D4E9C453"
+        }
+      },
+      "source_files_verified": 20
+    }
+  },
+  "package_files": {
+    "native/htm/build/cube_solver_htm.exe": {
+      "bytes": 3835111,
+      "sha256": "47c7dc03a96f9c2529a6f301e285af8477b01461747928c8223f12861d423011"
+    },
+    "assets/htm/v1/corner_htm_v2.pdb": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb"
+    },
+    "assets/htm/v1/phase1_sym_htm_v2.pdb": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f"
+    },
+    "assets/htm/v1/tail_depth6_v4.pdb": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74"
+    },
+    ".cache/htm/solver_tables_v3.pkl": {
+      "bytes": 13798733,
+      "sha256": "ef5cbf1656bcdda4f787de52566c2f063244b2164c8c71e2e1daa445a51efb69"
+    },
+    ".cache/htm/two_by_two_htm_v1.bin": {
+      "bytes": 3778042,
+      "sha256": "4ebf9e7ee3cfb76bab4b5e0703d608bcdfabe758661d23fd041a4cb90eeb399d"
+    },
+    ".cache/htm/coordinates_htm_v1.bin": {
+      "bytes": 8237445,
+      "sha256": "7d46f7519a1c68dd27118ecaca9a94e458ca4506215cb2cc83c7efb86e6bee08"
+    },
+    "native/qtm/build/cube_solver_qtm.exe": {
+      "bytes": 4264034,
+      "sha256": "8d97208f6f9b7aa1681cd4f634fab13c6d6047b3893f584157010988c49c9f9a"
+    },
+    "assets/qtm/v1/corner_htm_v2.pdb": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb"
+    },
+    "assets/qtm/v1/phase1_sym_htm_v2.pdb": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f"
+    },
+    "assets/qtm/v1/tail_depth6_v4.pdb": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74"
+    },
+    "assets/qtm/v1/corner_qtm_v3.pdb": {
+      "bytes": 88179920,
+      "sha256": "070f1314a7b68955ed3e84a3de5b6e2ede20385f0775a334ec9f1d470f0e08d0"
+    },
+    "assets/qtm/v1/phase1_qtm_v3.pdb": {
+      "bytes": 140908490,
+      "sha256": "7606158cd7ccb4c1d49db7aab45fe25fbad21580aab8742648ae3e29567e6a11"
+    },
+    "assets/qtm/v1/strong_qtm_v4_nibble.pdb": {
+      "bytes": 1764716840,
+      "sha256": "12de7580c0b59728fdb559bc0eb1c50adf9e724ec681b1bfb144efe392829e9c"
+    },
+    "assets/qtm/v1/tail_qtm_depth8_v5.pdb": {
+      "bytes": 1677721664,
+      "sha256": "35e3d345cd16e3efa16ceecb398b583f825d66a4e42dbc1856466338353a1687"
+    },
+    ".cache/qtm/solver_tables_v3.pkl": {
+      "bytes": 13798733,
+      "sha256": "09a12511502237bdb1a7cd65425c226cffd2811eac511c7e3ba6a2721953c110"
+    },
+    ".cache/qtm/qtm_small_v1.bin": {
+      "bytes": 6615677,
+      "sha256": "adb2bbbe97a1e785b22177e67141c151c55f8fe9093c20afa3da8c6cb3468235"
+    },
+    ".cache/qtm/two_by_two_qtm_v1.bin": {
+      "bytes": 3778042,
+      "sha256": "e46414ad7c8bd46e2e4827766f6015890eda6a39ffdc4309296c5fa15fdd5b01"
+    },
+    ".cache/qtm/coordinates_dual_v2.bin": {
+      "bytes": 14853066,
+      "sha256": "c7be40e38ad69a04381238da1c181e8251bbe226d00aa05efc024cc6b11a1b2c"
+    }
+  },
+  "support_sources": {
+    "tests/benchmark_next_speed_candidates.py": {
+      "bytes": 4441,
+      "sha256": "ac967086dc2518ef6cf630af98f4a6c0a44f5e262bf8cf9b5e685a3125fb9511"
+    },
+    "tests/benchmark_next_speed_pair.py": {
+      "bytes": 10030,
+      "sha256": "287e3990af5dac3b7a6489c52e1e4b88fb41011e355cca3183c7ebca04b06fa8"
+    },
+    "tests/benchmark_next_speed_tail.py": {
+      "bytes": 10812,
+      "sha256": "e37755b3a87d7923358c4d9122bb2c196d5958ec356cdcae7111bb90214750c3"
+    },
+    "tests/freeze_next_speed.py": {
+      "bytes": 3157,
+      "sha256": "515b464dc5c61720dbaed73868c2a71b27bac8f4185ab9c139f0cf8d5eb74f01"
+    },
+    "tests/freeze_next_speed_photo_cases.py": {
+      "bytes": 6204,
+      "sha256": "695a3bc54a672efa799f0754a1d4bc8a047dfc65b5ed9c3522f0155a6b1f11d5"
+    },
+    "tests/htm_pgo_cases.json": {
+      "bytes": 761,
+      "sha256": "d4aecd4b22068e1afdb69c9a3a9ca76aa3d318927b3c9dbcdeb287de54d3443b"
+    },
+    "tests/native_pgo_cases.json": {
+      "bytes": 205,
+      "sha256": "4860c146f0da6fa1c1a10747a00b250b0de36836a3f61eadb9c3d643dc915273"
+    },
+    "tests/next_speed_atomic_report.cjs": {
+      "bytes": 3392,
+      "sha256": "79f19126a0e6f9a9f89974a186b21632c1ffebc45f8c17fb124cf441d1d08580"
+    },
+    "tests/observe_next_speed_memory.py": {
+      "bytes": 6175,
+      "sha256": "b7b1ad3635f8978e3cff3224ef24e5ced8007caa69ef5a7e8f683791e4d2c48f"
+    },
+    "tests/qtm_pgo_cases.json": {
+      "bytes": 1100,
+      "sha256": "d772e701e1a516c2c988795c8b8a31ad9a3a74e2611d1de639ad70d8d90b1213"
+    },
+    "tests/render_next_speed_references.py": {
+      "bytes": 3153,
+      "sha256": "15b274863d6842cc53922f7196c96fcea0566f4cd78861a256b8c734ec0aa4ee"
+    },
+    "tests/run_next_speed_color_regression.py": {
+      "bytes": 3346,
+      "sha256": "222d61aa5d305cf18ce703ac12fc078fa278c2fae3089ae2a7eeaba9bddfeb54"
+    },
+    "tests/summarize_next_speed.py": {
+      "bytes": 21101,
+      "sha256": "027e8a5ad3b54ef02365f791b0a3ae8d8564e70416c965b39603b53638b02d5e"
+    },
+    "tests/test_htm_candidate_delivery.py": {
+      "bytes": 19082,
+      "sha256": "737d33b3ba5dc849ac3befd473f2b513f57a9ac110334246b3f47a5300bfb79a"
+    },
+    "tests/test_next_speed_atomic_report.cjs": {
+      "bytes": 4308,
+      "sha256": "8e6ccd2fb1fffa34932be87afbff524b5ed5efb934696b19c18c0b642af6557c"
+    },
+    "tests/test_next_speed_defaults.py": {
+      "bytes": 477,
+      "sha256": "6beaf0112f8a3bffbe1c3cdf43fb36aa3934d2c82f6b59a0d456047881ec7584"
+    },
+    "tests/test_next_speed_summary.py": {
+      "bytes": 7844,
+      "sha256": "64632f3336faef7bcd249dde3254490aac4bb52ca692c22a4551ad1a5e88f499"
+    },
+    "tests/test_qtm_candidates_next.py": {
+      "bytes": 5876,
+      "sha256": "fe0a7923cb09b49a8874bfd07a1421330582a48e77d29d166ae7a943e26740ed"
+    },
+    "tests/test_qtm_loader_next.py": {
+      "bytes": 6526,
+      "sha256": "bbf77706024cf43ea729f86b2514bc12c681afef9aee3d79889a00894584ae4d"
+    },
+    "tests/train_htm_pgo.py": {
+      "bytes": 8242,
+      "sha256": "4dc1ddaeaf31054f8b5e320a9a1ef8cd5631afcdf0c77880ab018304f313b76b"
+    },
+    "tests/train_qtm_pgo.py": {
+      "bytes": 5997,
+      "sha256": "654aa60df6fce34d2f10d33d7282e1c81aab1fa75abaf7a149febc95bf9b34b1"
+    },
+    "tests/verify_next_speed_defaults.py": {
+      "bytes": 4319,
+      "sha256": "0e3d2d2ef0998c7423485cbf713afb131917e5cc1cad6bbd01a776aad7f59ca0"
+    },
+    "tests/verify_next_speed_package_identity.py": {
+      "bytes": 5985,
+      "sha256": "84519d7809f2fb76335f3a549727a2379ca82021dfaed6f2101767e01fe278e3"
+    },
+    "tests/verify_next_speed_page.cjs": {
+      "bytes": 19581,
+      "sha256": "89423be1515c4dcad44def172fdb5a4f75392d05f874fa16b1194f4f5cc69d27"
+    },
+    "tests/verify_next_speed_photos.cjs": {
+      "bytes": 7669,
+      "sha256": "1e6b10b371558c0d13305104b6e17ea572e39bad713861eba53f9301435d56d0"
+    }
+  },
+  "default_flags": {
+    "CUBE_HTM_EARLY_CANDIDATE": "off",
+    "CUBE_QTM_EXPANSION": "generic",
+    "CUBE_QTM_CANDIDATE_SCHEDULE": "legacy",
+    "CUBE_QTM_LATE_TAIL_IMPROVEMENT": "off"
+  },
+  "scope": "conservative defaults with resource repair; experimental 72-run speed results do not apply to this package",
+  "failures": []
+}

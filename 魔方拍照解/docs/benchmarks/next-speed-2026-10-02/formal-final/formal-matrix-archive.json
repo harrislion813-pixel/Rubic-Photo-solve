@@ -1,0 +1,11 @@
+{
+  "source": "docs/benchmarks/next-speed-2026-10-02/formal-final/formal-matrix.json",
+  "original_bytes": 351749493,
+  "original_sha256": "f969c8b72bf69778fdf5c7ec0c0c93b1ac9afb7a2ec0da644507ad6ad0e482f6",
+  "archive": "docs/benchmarks/next-speed-2026-10-02/formal-final/formal-matrix.json.gz",
+  "archive_bytes": 24509651,
+  "archive_sha256": "1c56c7ecdf9b9fd326e4d4052c18cf5b5fbdac73007446f6d9dd6517a48010b9",
+  "decompressed_sha256": "f969c8b72bf69778fdf5c7ec0c0c93b1ac9afb7a2ec0da644507ad6ad0e482f6",
+  "byte_identical": true,
+  "scope": "Storage-only gzip archive; original requests, errors, timeouts and timings unchanged."
+}

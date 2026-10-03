@@ -1,0 +1,950 @@
+{
+  "version": "1.10.1",
+  "entry": "启动魔方求解器.cmd",
+  "cases": [
+    {
+      "cube_size": 2,
+      "metric": "HTM",
+      "input": "UDUDRRRRFBFBDUDULLLLFBFB",
+      "initial": {
+        "ok": true,
+        "moves": [
+          "R2"
+        ],
+        "solution": "R2",
+        "depth": 1,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 0.0,
+        "proof_status": "complete",
+        "resource_wait_seconds": 0.0
+      },
+      "terminal": {
+        "ok": true,
+        "moves": [
+          "R2"
+        ],
+        "solution": "R2",
+        "depth": 1,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 0.0,
+        "proof_status": "complete",
+        "resource_wait_seconds": 0.0
+      },
+      "replayed": true,
+      "cost": 1
+    },
+    {
+      "cube_size": 2,
+      "metric": "QTM",
+      "input": "UDUDRRRRFBFBDUDULLLLFBFB",
+      "initial": {
+        "ok": true,
+        "metric": "QTM",
+        "moves": [
+          "R2"
+        ],
+        "solution": "R2",
+        "depth": 2,
+        "cost": 2,
+        "optimal": true,
+        "proof_status": "complete",
+        "engine_id": "qtm-python-2x2",
+        "engine_version": "1.10.1",
+        "asset_profile": "exact-2x2"
+      },
+      "terminal": {
+        "ok": true,
+        "metric": "QTM",
+        "moves": [
+          "R2"
+        ],
+        "solution": "R2",
+        "depth": 2,
+        "cost": 2,
+        "optimal": true,
+        "proof_status": "complete",
+        "engine_id": "qtm-python-2x2",
+        "engine_version": "1.10.1",
+        "asset_profile": "exact-2x2"
+      },
+      "replayed": true,
+      "cost": 2
+    },
+    {
+      "cube_size": 3,
+      "metric": "HTM",
+      "input": "UUDUUDUUDRRRRRRRRRFFBFFBFFBDDUDDUDDULLLLLLLLLFBBFBBFBB",
+      "initial": {
+        "ok": true,
+        "job_id": "f6795a84ded74fd5a711db483f39ef75",
+        "proof_status": "complete",
+        "optimal": true,
+        "engine": "native-cpp",
+        "solution_generation_seconds": 0.0,
+        "request_elapsed_seconds": 0.766,
+        "resource_wait_seconds": 0.0,
+        "timing_events": [
+          {
+            "event": "request_created",
+            "monotonic": 11213.062,
+            "elapsed_seconds": 0.0
+          },
+          {
+            "event": "proof_started",
+            "monotonic": 11213.062,
+            "elapsed_seconds": 0.0,
+            "threads": 14
+          },
+          {
+            "event": "native_startup_started",
+            "monotonic": 11213.062,
+            "elapsed_seconds": 0.0
+          },
+          {
+            "event": "candidate_search_started",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217
+          },
+          {
+            "event": "native_ready",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217,
+            "reused": false,
+            "dynamic_threads": true,
+            "native_pid": 9236,
+            "peak_working_set_bytes": 344866816,
+            "memory_scope": "native_process_lifetime_peak"
+          },
+          {
+            "event": "native_request_sent",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217,
+            "threads": 14
+          },
+          {
+            "event": "proof_progress",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217,
+            "progress": {
+              "type": "progress",
+              "threads": 14,
+              "lower_bound": 1,
+              "upper_bound": 4,
+              "current_depth": 1,
+              "completed_depth": 0,
+              "iteration_nodes": 0,
+              "iteration_split_nodes": 0,
+              "nodes": 0,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 0,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 0,
+              "tail_probes": 0,
+              "tail_hits": 0,
+              "iteration_seconds": 2e-05,
+              "elapsed_seconds": 2e-05,
+              "found": false,
+              "timed_out": false,
+              "cancelled": false,
+              "request_id": "b9dc74b71541417081905f54b01ff1b1",
+              "generated_candidates": 0,
+              "small_pdb_queries": 0,
+              "phase1_queries": 0,
+              "corner_queries": 0,
+              "edge_queries": 0,
+              "axis_rejects": [
+                0,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "corner_rejects": 0,
+              "edge_rejects": 0,
+              "workers": [],
+              "engine": "native-cpp"
+            }
+          },
+          {
+            "event": "proof_progress",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217,
+            "progress": {
+              "type": "progress",
+              "threads": 14,
+              "lower_bound": 1,
+              "upper_bound": 4,
+              "current_depth": 1,
+              "completed_depth": 0,
+              "iteration_nodes": 1,
+              "iteration_split_nodes": 0,
+              "nodes": 1,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 1,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 1,
+              "tail_probes": 1,
+              "tail_hits": 1,
+              "iteration_seconds": 0.000754,
+              "elapsed_seconds": 0.00086,
+              "found": true,
+              "timed_out": false,
+              "cancelled": false,
+              "request_id": "b9dc74b71541417081905f54b01ff1b1",
+              "generated_candidates": 0,
+              "small_pdb_queries": 0,
+              "phase1_queries": 3,
+              "corner_queries": 1,
+              "edge_queries": 0,
+              "axis_rejects": [
+                0,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "corner_rejects": 0,
+              "edge_rejects": 0,
+              "workers": [
+                {
+                  "nodes": 1,
+                  "generated": 0,
+                  "busy_seconds": 5e-06,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                }
+              ],
+              "engine": "native-cpp"
+            }
+          },
+          {
+            "event": "native_result_received",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217,
+            "result": {
+              "ok": true,
+              "type": "result",
+              "request_id": "b9dc74b71541417081905f54b01ff1b1",
+              "status": "complete",
+              "inverse_direction": false,
+              "moves": [
+                "R2"
+              ],
+              "solution": "R2",
+              "depth": 1,
+              "metric": "HTM",
+              "optimal": true,
+              "elapsed_seconds": 0.000897,
+              "nodes": 1,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 1,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 1,
+              "tail_probes": 1,
+              "tail_hits": 1,
+              "corner_pdb": true,
+              "phase1_pdb": true,
+              "edge_pdbs": false,
+              "extra_edge_pdbs": false,
+              "edge_pdb_count": 0,
+              "tail_pdb": true,
+              "completed_depth": 0,
+              "generated_candidates": 0,
+              "small_pdb_queries": 0,
+              "phase1_queries": 3,
+              "corner_queries": 1,
+              "edge_queries": 0,
+              "axis_rejects": [
+                0,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "corner_rejects": 0,
+              "edge_rejects": 0,
+              "workers": [
+                {
+                  "nodes": 1,
+                  "generated": 0,
+                  "busy_seconds": 5e-06,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                }
+              ]
+            },
+            "native_pid": 9236,
+            "peak_working_set_bytes": 345157632,
+            "memory_scope": "native_process_lifetime_peak"
+          },
+          {
+            "event": "native_request_finished",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217,
+            "native_pid": 9236,
+            "peak_working_set_bytes": 345157632,
+            "memory_scope": "native_process_lifetime_peak"
+          },
+          {
+            "event": "terminal",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217,
+            "status": "complete",
+            "result": {
+              "moves": [
+                "R2"
+              ],
+              "solution": "R2",
+              "depth": 1,
+              "metric": "HTM",
+              "optimal": true,
+              "inverse_direction": false,
+              "elapsed_seconds": 0.001,
+              "nodes": 1,
+              "split_nodes": 0,
+              "tail_queries": 1,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 1,
+              "tail_probes": 1,
+              "tail_hits": 1,
+              "completed_depth": 0,
+              "generated_candidates": 0,
+              "phase1_queries": 3,
+              "corner_queries": 1,
+              "engine": "native-cpp"
+            },
+            "native_pid": 9236,
+            "peak_working_set_bytes": 345157632,
+            "memory_scope": "native_process_lifetime_peak"
+          }
+        ],
+        "timings": {
+          "request_created_seconds": 0.0,
+          "proof_started_seconds": 0.0,
+          "native_startup_started_seconds": 0.0,
+          "candidate_search_started_seconds": 0.7659999999996217,
+          "native_ready_seconds": 0.7659999999996217,
+          "native_request_sent_seconds": 0.7659999999996217,
+          "proof_progress_seconds": 0.7659999999996217,
+          "native_result_received_seconds": 0.7659999999996217,
+          "native_request_finished_seconds": 0.7659999999996217,
+          "terminal_seconds": 0.7659999999996217
+        },
+        "thread_quota": 15,
+        "proof_threads": 14,
+        "moves": [
+          "R2"
+        ],
+        "solution": "R2",
+        "depth": 1,
+        "metric": "HTM",
+        "inverse_direction": false,
+        "elapsed_seconds": 0.001,
+        "nodes": 1,
+        "split_nodes": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 1,
+        "tail_hits": 1,
+        "completed_depth": 0,
+        "generated_candidates": 0,
+        "phase1_queries": 3,
+        "corner_queries": 1,
+        "proof_elapsed_seconds": 0.0
+      },
+      "terminal": {
+        "ok": true,
+        "job_id": "f6795a84ded74fd5a711db483f39ef75",
+        "proof_status": "complete",
+        "optimal": true,
+        "engine": "native-cpp",
+        "solution_generation_seconds": 0.0,
+        "request_elapsed_seconds": 0.766,
+        "resource_wait_seconds": 0.0,
+        "timing_events": [
+          {
+            "event": "request_created",
+            "monotonic": 11213.062,
+            "elapsed_seconds": 0.0
+          },
+          {
+            "event": "proof_started",
+            "monotonic": 11213.062,
+            "elapsed_seconds": 0.0,
+            "threads": 14
+          },
+          {
+            "event": "native_startup_started",
+            "monotonic": 11213.062,
+            "elapsed_seconds": 0.0
+          },
+          {
+            "event": "candidate_search_started",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217
+          },
+          {
+            "event": "native_ready",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217,
+            "reused": false,
+            "dynamic_threads": true,
+            "native_pid": 9236,
+            "peak_working_set_bytes": 344866816,
+            "memory_scope": "native_process_lifetime_peak"
+          },
+          {
+            "event": "native_request_sent",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217,
+            "threads": 14
+          },
+          {
+            "event": "proof_progress",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217,
+            "progress": {
+              "type": "progress",
+              "threads": 14,
+              "lower_bound": 1,
+              "upper_bound": 4,
+              "current_depth": 1,
+              "completed_depth": 0,
+              "iteration_nodes": 0,
+              "iteration_split_nodes": 0,
+              "nodes": 0,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 0,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 0,
+              "tail_probes": 0,
+              "tail_hits": 0,
+              "iteration_seconds": 2e-05,
+              "elapsed_seconds": 2e-05,
+              "found": false,
+              "timed_out": false,
+              "cancelled": false,
+              "request_id": "b9dc74b71541417081905f54b01ff1b1",
+              "generated_candidates": 0,
+              "small_pdb_queries": 0,
+              "phase1_queries": 0,
+              "corner_queries": 0,
+              "edge_queries": 0,
+              "axis_rejects": [
+                0,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "corner_rejects": 0,
+              "edge_rejects": 0,
+              "workers": [],
+              "engine": "native-cpp"
+            }
+          },
+          {
+            "event": "proof_progress",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217,
+            "progress": {
+              "type": "progress",
+              "threads": 14,
+              "lower_bound": 1,
+              "upper_bound": 4,
+              "current_depth": 1,
+              "completed_depth": 0,
+              "iteration_nodes": 1,
+              "iteration_split_nodes": 0,
+              "nodes": 1,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 1,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 1,
+              "tail_probes": 1,
+              "tail_hits": 1,
+              "iteration_seconds": 0.000754,
+              "elapsed_seconds": 0.00086,
+              "found": true,
+              "timed_out": false,
+              "cancelled": false,
+              "request_id": "b9dc74b71541417081905f54b01ff1b1",
+              "generated_candidates": 0,
+              "small_pdb_queries": 0,
+              "phase1_queries": 3,
+              "corner_queries": 1,
+              "edge_queries": 0,
+              "axis_rejects": [
+                0,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "corner_rejects": 0,
+              "edge_rejects": 0,
+              "workers": [
+                {
+                  "nodes": 1,
+                  "generated": 0,
+                  "busy_seconds": 5e-06,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                }
+              ],
+              "engine": "native-cpp"
+            }
+          },
+          {
+            "event": "native_result_received",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217,
+            "result": {
+              "ok": true,
+              "type": "result",
+              "request_id": "b9dc74b71541417081905f54b01ff1b1",
+              "status": "complete",
+              "inverse_direction": false,
+              "moves": [
+                "R2"
+              ],
+              "solution": "R2",
+              "depth": 1,
+              "metric": "HTM",
+              "optimal": true,
+              "elapsed_seconds": 0.000897,
+              "nodes": 1,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 1,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 1,
+              "tail_probes": 1,
+              "tail_hits": 1,
+              "corner_pdb": true,
+              "phase1_pdb": true,
+              "edge_pdbs": false,
+              "extra_edge_pdbs": false,
+              "edge_pdb_count": 0,
+              "tail_pdb": true,
+              "completed_depth": 0,
+              "generated_candidates": 0,
+              "small_pdb_queries": 0,
+              "phase1_queries": 3,
+              "corner_queries": 1,
+              "edge_queries": 0,
+              "axis_rejects": [
+                0,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "corner_rejects": 0,
+              "edge_rejects": 0,
+              "workers": [
+                {
+                  "nodes": 1,
+                  "generated": 0,
+                  "busy_seconds": 5e-06,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                }
+              ]
+            },
+            "native_pid": 9236,
+            "peak_working_set_bytes": 345157632,
+            "memory_scope": "native_process_lifetime_peak"
+          },
+          {
+            "event": "native_request_finished",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217,
+            "native_pid": 9236,
+            "peak_working_set_bytes": 345157632,
+            "memory_scope": "native_process_lifetime_peak"
+          },
+          {
+            "event": "terminal",
+            "monotonic": 11213.828,
+            "elapsed_seconds": 0.7659999999996217,
+            "status": "complete",
+            "result": {
+              "moves": [
+                "R2"
+              ],
+              "solution": "R2",
+              "depth": 1,
+              "metric": "HTM",
+              "optimal": true,
+              "inverse_direction": false,
+              "elapsed_seconds": 0.001,
+              "nodes": 1,
+              "split_nodes": 0,
+              "tail_queries": 1,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 1,
+              "tail_probes": 1,
+              "tail_hits": 1,
+              "completed_depth": 0,
+              "generated_candidates": 0,
+              "phase1_queries": 3,
+              "corner_queries": 1,
+              "engine": "native-cpp"
+            },
+            "native_pid": 9236,
+            "peak_working_set_bytes": 345157632,
+            "memory_scope": "native_process_lifetime_peak"
+          }
+        ],
+        "timings": {
+          "request_created_seconds": 0.0,
+          "proof_started_seconds": 0.0,
+          "native_startup_started_seconds": 0.0,
+          "candidate_search_started_seconds": 0.7659999999996217,
+          "native_ready_seconds": 0.7659999999996217,
+          "native_request_sent_seconds": 0.7659999999996217,
+          "proof_progress_seconds": 0.7659999999996217,
+          "native_result_received_seconds": 0.7659999999996217,
+          "native_request_finished_seconds": 0.7659999999996217,
+          "terminal_seconds": 0.7659999999996217
+        },
+        "thread_quota": 15,
+        "proof_threads": 14,
+        "moves": [
+          "R2"
+        ],
+        "solution": "R2",
+        "depth": 1,
+        "metric": "HTM",
+        "inverse_direction": false,
+        "elapsed_seconds": 0.001,
+        "nodes": 1,
+        "split_nodes": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 1,
+        "tail_hits": 1,
+        "completed_depth": 0,
+        "generated_candidates": 0,
+        "phase1_queries": 3,
+        "corner_queries": 1,
+        "proof_elapsed_seconds": 0.0
+      },
+      "replayed": true,
+      "cost": 1
+    }
+  ],
+  "owned_process_tree_stopped": true
+}

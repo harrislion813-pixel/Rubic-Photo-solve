@@ -150,6 +150,7 @@ class QtmBackend:
             "resource_hold_seconds": None, "python_fallback_seconds": None,
             "http_return_seconds": None, "candidate_delivery_seconds": None,
             "request_elapsed_seconds": 0.0, "_cancel": cancel, "_deadline": deadline,
+            "terminal_seconds": None, "strict_confirmed_seconds": None, "events": [],
             "_started": started, "_response_ready": threading.Event(), "_done": threading.Event(),
             "_updated": started, "_state_key": (to_facelets(cube), max_depth, timeout),
         }
@@ -188,6 +189,8 @@ class QtmBackend:
             "asset_profile": snapshot["asset_profile"],
             "request_elapsed_seconds": time.monotonic() - started,
             "first_candidate_seconds": snapshot["first_candidate_seconds"],
+            "terminal_seconds": snapshot["terminal_seconds"],
+            "strict_confirmed_seconds": snapshot["strict_confirmed_seconds"],
         }
         if snapshot["result"] is not None:
             response.update(snapshot["result"])
@@ -226,8 +229,9 @@ class QtmBackend:
             started = job["_started"]
         acquired = BROKER.acquire_qtm(cancel, native.force_yield, deadline)
         if not acquired:
+            terminal_seconds = time.monotonic() - started
             self._update(job_id, status="cancelled" if cancel.is_set() else "timeout",
-                         request_elapsed_seconds=time.monotonic() - started)
+                         request_elapsed_seconds=terminal_seconds, terminal_seconds=terminal_seconds)
             job["_done"].set()
             job["_response_ready"].set()
             return
@@ -236,6 +240,8 @@ class QtmBackend:
 
         def progress(event: dict) -> None:
             now = time.monotonic()
+            with self._lock:
+                self._jobs[job_id]["events"].append({"request_seconds": now - started, "event": deepcopy(event)})
             if event.get("type") == "engine_ready":
                 with self._lock:
                     job = self._jobs[job_id]
@@ -291,6 +297,12 @@ class QtmBackend:
                 self._update(job_id, thread_activity=event)
             elif event.get("type") == "strong_upgrade":
                 self._update(job_id, last_upgrade=event)
+            elif event.get("type") == "candidate_direction":
+                self._update(job_id, candidate_direction=event)
+            elif event.get("type") == "candidate_tail":
+                self._update(job_id, candidate_tail=event)
+            elif event.get("type") == "native_result":
+                self._update(job_id, terminal_seconds=event["client_terminal_at"] - started)
             else:
                 self._update(job_id, progress=event)
                 if event.get("type") == "progress" and event.get("asset_profile"):
@@ -304,12 +316,15 @@ class QtmBackend:
             )
             if result is None:
                 raise native.NativeSolverError("QTM native service unavailable")
+            terminal_seconds = (result.get("client_terminal_at") or time.monotonic()) - started
             if cancel.is_set():
                 self._update(job_id, status="cancelled")
                 return
             status = "complete" if result["optimal"] else result.get("status", "budget_exhausted")
             self._update(
                 job_id, status=status, optimal=result["optimal"],
+                terminal_seconds=terminal_seconds,
+                strict_confirmed_seconds=terminal_seconds if result["optimal"] else None,
                 asset_profile=result.get("asset_profile", "unknown"),
                 native_search_seconds=result.get("elapsed_seconds"),
                 proof_wall_seconds=result.get("elapsed_seconds"),
@@ -331,6 +346,8 @@ class QtmBackend:
             diagnostics = native.service_diagnostics()
             with self._lock:
                 job = self._jobs[job_id]
+                if job["terminal_seconds"] is None:
+                    job["terminal_seconds"] = time.monotonic() - started
                 job["startup_seconds"] = diagnostics.get("client_request_startup_seconds", diagnostics.get("client_startup_seconds"))
                 process_started = diagnostics.get("client_process_started_at")
                 if process_started is not None:
@@ -374,8 +391,11 @@ class QtmBackend:
                 cube, max_depth=max_depth, timeout_seconds=self._remaining(deadline),
                 deadline=deadline, cancel_event=cancel, metric="QTM"
             )
+            terminal_seconds = time.monotonic() - self._jobs[job_id]["_started"]
             self._update(
                 job_id, status="complete", optimal=True,
+                terminal_seconds=terminal_seconds,
+                strict_confirmed_seconds=terminal_seconds,
                 result={
                     "moves": result.moves, "solution": result.text, "depth": result.depth,
                     "cost": result.depth, "metric": "QTM", "optimal": True,

@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.codex\release-1.10.1\smoke_http.py", line 75, in <module>
+    terminal = get(base + '/api/progress?job_id=' + initial['job_id'])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.codex\release-1.10.1\smoke_http.py", line 39, in get
+    with urlopen(url, timeout=20) as response:
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\harriron\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\harriron\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py", line 521, in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\harriron\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py", line 630, in http_response
+    response = self.parent.error(
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\harriron\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py", line 559, in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\harriron\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "C:\Users\harriron\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\urllib\request.py", line 639, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 404: Not Found

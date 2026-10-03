@@ -39,7 +39,7 @@ class TableCacheTests(unittest.TestCase):
                 actual = load_or_build_tables(directory)
 
             self.assertIs(actual, expected)
-            builder.assert_called_once_with()
+            builder.assert_called_once_with(cancel_check=None)
             self.assertEqual(load_or_build_tables(directory), expected)
             self.assertFalse(list(Path(directory).glob("*.tmp")))
 

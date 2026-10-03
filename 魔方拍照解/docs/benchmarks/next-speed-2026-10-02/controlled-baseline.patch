@@ -1,0 +1,1374 @@
+diff --git a/cube_app/solvers/htm/fast.py b/cube_app/solvers/htm/fast.py
+--- a/cube_app/solvers/htm/fast.py
++++ b/cube_app/solvers/htm/fast.py
+@@ -1,6 +1,7 @@
+ from __future__ import annotations
+ 
+ import time
++from collections.abc import Callable
+ from pathlib import Path
+ 
+ from .coords import (
+@@ -52,17 +53,29 @@
+         self,
+         facelets: str,
+         timeout_seconds: float | None = 5.0,
++        *,
++        observation_callback: Callable[[SolveResult], None] | None = None,
+     ) -> SolveResult:
+-        return self.solve_cube(from_facelets(facelets), timeout_seconds=timeout_seconds)
++        return self.solve_cube(from_facelets(facelets), timeout_seconds=timeout_seconds,
++                               observation_callback=observation_callback)
+ 
+     def solve_cube(
+         self,
+         cube: CubieCube,
+         timeout_seconds: float | None = 5.0,
++        *,
++        observation_callback: Callable[[SolveResult], None] | None = None,
+     ) -> SolveResult:
+         started = time.monotonic()
+         deadline = None if timeout_seconds is None else started + timeout_seconds
++
++        def observe(indices: list[int], optimal: bool = False) -> None:
++            if observation_callback is not None:
++                moves = [MOVE_NAMES[index] for index in indices]
++                observation_callback(SolveResult(moves, len(moves), "HTM", time.monotonic() - started, optimal))
++
+         if cube.is_solved():
++            observe([], True)
+             return SolveResult([], 0, "HTM", time.monotonic() - started, True)
+ 
+         tables = self.tables
+@@ -91,6 +104,7 @@
+             )
+             if best is not None:
+                 first_phase1_depth = phase1_depth
++                observe(best)
+                 break
+ 
+         if best is not None and deadline is not None and first_phase1_depth is not None:
+@@ -112,6 +126,7 @@
+                         tables,
+                         best_holder,
+                         transposition,
++                        observe,
+                     )
+             except SearchTimeout:
+                 pass
+@@ -138,6 +153,7 @@
+         tables: SolverTables,
+         best_holder: list[list[int]],
+         transposition: dict[int, int],
++        observation_callback: Callable[[list[int]], None] | None = None,
+     ) -> None:
+         self._check_deadline(deadline)
+         if heuristic > depth_left:
+@@ -170,6 +186,8 @@
+                     )
+                     if result is not None:
+                         best_holder[0] = result
++                        if observation_callback is not None:
++                            observation_callback(result)
+                         break
+             if len(transposition) < 2_000_000:
+                 transposition[key] = depth_left
+@@ -215,6 +233,7 @@
+                 tables,
+                 best_holder,
+                 transposition,
++                observation_callback,
+             )
+             path.pop()
+ 
+diff --git a/cube_app/solvers/htm/native.py b/cube_app/solvers/htm/native.py
+--- a/cube_app/solvers/htm/native.py
++++ b/cube_app/solvers/htm/native.py
+@@ -1,6 +1,7 @@
+ from __future__ import annotations
+ 
+ import atexit
++import ctypes
+ import json
+ import os
+ import queue
+@@ -45,6 +46,28 @@
+     pass
+ 
+ 
++def _native_process_stats(process) -> dict:
++    """Windows lifetime peak for this native process, not an application sum."""
++    peak = None
++    handle = getattr(process, "_handle", None)
++    if os.name == "nt" and handle is not None:
++        class Counters(ctypes.Structure):
++            _fields_ = [("cb", ctypes.c_ulong), ("PageFaultCount", ctypes.c_ulong)] + [
++                (name, ctypes.c_size_t) for name in (
++                    "PeakWorkingSetSize", "WorkingSetSize", "QuotaPeakPagedPoolUsage", "QuotaPagedPoolUsage",
++                    "QuotaPeakNonPagedPoolUsage", "QuotaNonPagedPoolUsage", "PagefileUsage", "PeakPagefileUsage")
++            ]
++
++        counters = Counters()
++        counters.cb = ctypes.sizeof(counters)
++        get_memory = ctypes.windll.psapi.GetProcessMemoryInfo
++        get_memory.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_ulong]
++        if get_memory(int(handle), ctypes.byref(counters), counters.cb):
++            peak = int(counters.PeakWorkingSetSize)
++    return {"native_pid": getattr(process, "pid", None), "peak_working_set_bytes": peak,
++            "memory_scope": "native_process_lifetime_peak"}
++
++
+ class _PersistentNativeSolver:
+     def __init__(self) -> None:
+         self._lock = threading.Lock()
+@@ -53,6 +76,8 @@
+         self._reader: threading.Thread | None = None
+         self._stderr_reader: threading.Thread | None = None
+         self._stderr_lines: list[str] = []
++        self._dynamic_threads = False
++        self._process_event_callback: Callable[[dict], None] | None = None
+ 
+     @staticmethod
+     def _command() -> list[str]:
+@@ -159,10 +184,14 @@
+         if ready.get("protocol_version", 0) < 2:
+             self._stop_locked()
+             raise NativeSolverError("native service protocol is outdated; rebuild native/build.ps1")
++        self._dynamic_threads = bool(ready.get("dynamic_threads"))
+ 
+     def _stop_locked(self) -> None:
+         process = self._process
++        if process is not None and self._process_event_callback is not None:
++            self._process_event_callback({"type": "native_process_stopping", **_native_process_stats(process)})
+         self._process = None
++        self._dynamic_threads = False
+         if process is None:
+             return
+         if process.poll() is None:
+@@ -201,6 +230,9 @@
+         progress_callback: Callable[[dict], None] | None,
+         deadline: float | None = None,
+         incumbent_provider: Callable[[], list[str] | None] | None = None,
++        event_callback: Callable[[dict], None] | None = None,
++        threads_provider: Callable[[], int | None] | None = None,
++        threads_update_guard: Callable[[Callable[[], None]], bool] | None = None,
+     ) -> dict:
+         if deadline is None and timeout_seconds is not None:
+             deadline = time.monotonic() + timeout_seconds
+@@ -210,21 +242,37 @@
+             if deadline is not None and time.monotonic() >= deadline:
+                 raise NativeSolverTimeout("native solver deadline expired while queued")
+         try:
++            self._process_event_callback = event_callback
+             if cancel_event is not None and cancel_event.is_set():
+                 raise NativeSolverCancelled("native solver search was cancelled")
+             if deadline is not None and time.monotonic() >= deadline:
+                 raise NativeSolverTimeout("native solver deadline expired")
+-            if self._process is None or self._process.poll() is not None:
++            reused = self._process is not None and self._process.poll() is None
++            if not reused:
+                 self._stop_locked()
++                if event_callback is not None:
++                    event_callback({"type": "native_startup_started"})
+                 self._start_locked(deadline, cancel_event)
++            if event_callback is not None:
++                event_callback({"type": "native_ready", "reused": reused,
++                                "dynamic_threads": self._dynamic_threads, **_native_process_stats(self._process)})
+             assert self._process is not None and self._process.stdin is not None and self._lines is not None
+             incumbent = " ".join(incumbent_moves or [])
++            if threads_provider is not None and self._dynamic_threads:
++                requested = threads_provider()
++                if requested is not None:
++                    worker_count = max(1, min(64, int(requested)))
+             request_id = uuid.uuid4().hex
+             remaining = 0 if deadline is None else max(0.000001, deadline - time.monotonic())
+             request = (
+                 f"solve\t{request_id}\t{to_facelets(cube)}\t{max_depth}\t{remaining}\t{worker_count}\t{incumbent}\n"
+             )
+             self._send_locked(request)
++            if event_callback is not None:
++                event_callback({"type": "native_request_sent", "threads": worker_count})
++                if incumbent_moves is not None:
++                    event_callback({"type": "native_incumbent_sent", "cost": len(incumbent_moves),
++                                    "moves": list(incumbent_moves), "via": "solve"})
+ 
+             stop_reason = None
+             stop_sent_at = None
+@@ -246,6 +294,27 @@
+                     if candidate_text and candidate_text != incumbent:
+                         self._send_locked(f"incumbent\t{request_id}\t{candidate_text}\n")
+                         incumbent = candidate_text
++                        if event_callback is not None:
++                            event_callback({"type": "native_incumbent_sent", "cost": len(candidate),
++                                            "moves": list(candidate), "via": "incumbent"})
++                if stop_reason is None and threads_provider is not None and self._dynamic_threads:
++                    requested = threads_provider()
++                    requested_threads = None if requested is None else max(1, min(64, int(requested)))
++                    if (requested_threads is not None and requested_threads != worker_count
++                            and (cancel_event is None or not cancel_event.is_set())
++                            and (deadline is None or time.monotonic() < deadline)):
++                        def send_threads() -> None:
++                            self._send_locked(f"threads\t{request_id}\t{requested_threads}\n")
++
++                        if threads_update_guard is None:
++                            send_threads()
++                            sent = True
++                        else:
++                            sent = threads_update_guard(send_threads)
++                        if sent:
++                            worker_count = requested_threads
++                            if event_callback is not None:
++                                event_callback({"type": "native_threads_sent", "threads": requested_threads})
+                 try:
+                     line = self._lines.get(timeout=0.05)
+                 except queue.Empty:
+@@ -270,10 +339,16 @@
+                 if event.get("type") == "error" or not event.get("ok"):
+                     raise NativeSolverError(str(event.get("error", "native solver failed")))
+                 if event.get("type") == "result":
++                    if event_callback is not None:
++                        event_callback({"type": "native_result_received", "result": event,
++                                        **_native_process_stats(self._process)})
+                     if stop_reason is not None:
+                         raise stop_reason
+                     return event
+         finally:
++            if event_callback is not None:
++                event_callback({"type": "native_request_finished", **_native_process_stats(self._process)})
++            self._process_event_callback = None
+             self._lock.release()
+ 
+     def close(self) -> None:
+@@ -337,6 +412,9 @@
+     progress_callback: Callable[[dict], None] | None = None,
+     deadline: float | None = None,
+     incumbent_provider: Callable[[], list[str] | None] | None = None,
++    event_callback: Callable[[dict], None] | None = None,
++    threads_provider: Callable[[], int | None] | None = None,
++    threads_update_guard: Callable[[Callable[[], None]], bool] | None = None,
+ ) -> dict | None:
+     if not native_solver_available():
+         return None
+@@ -352,5 +430,8 @@
+         progress_callback,
+         deadline,
+         incumbent_provider,
++        event_callback,
++        threads_provider,
++        threads_update_guard,
+     )
+     return _validated_result(cube, payload)
+diff --git a/cube_app/solvers/qtm/backend.py b/cube_app/solvers/qtm/backend.py
+--- a/cube_app/solvers/qtm/backend.py
++++ b/cube_app/solvers/qtm/backend.py
+@@ -82,6 +82,10 @@
+             if job is not None:
+                 job.update(changes)
+                 job["_updated"] = time.monotonic()
++                if changes.get("status") in TERMINAL:
++                    if job.get("terminal_seconds") is None:
++                        job["terminal_seconds"] = job["_updated"] - job["_started"]
++                    job["observation_terminal_status"] = changes["status"]
+ 
+     def snapshot(self, job_id: str) -> dict | None:
+         with self._lock:
+@@ -100,6 +104,9 @@
+                 job["_cancel"].set()
+                 job["status"] = "cancelled"
+                 job["message"] = "搜索已取消。"
++                if job.get("terminal_seconds") is None:
++                    job["terminal_seconds"] = time.monotonic() - job["_started"]
++                    job["observation_terminal_status"] = "cancelled"
+             return self._public_locked(job)
+ 
+     def submit(
+@@ -150,6 +157,9 @@
+             "resource_hold_seconds": None, "python_fallback_seconds": None,
+             "http_return_seconds": None, "candidate_delivery_seconds": None,
+             "request_elapsed_seconds": 0.0, "_cancel": cancel, "_deadline": deadline,
++            "terminal_seconds": None, "observation_terminal_status": None,
++            "strict_confirmed_seconds": None, "events": [],
++            "timing_observation": "P0-only; terminal precedes resource cleanup",
+             "_started": started, "_response_ready": threading.Event(), "_done": threading.Event(),
+             "_updated": started, "_state_key": (to_facelets(cube), max_depth, timeout),
+         }
+@@ -188,6 +198,10 @@
+             "asset_profile": snapshot["asset_profile"],
+             "request_elapsed_seconds": time.monotonic() - started,
+             "first_candidate_seconds": snapshot["first_candidate_seconds"],
++            "terminal_seconds": snapshot["terminal_seconds"],
++            "strict_confirmed_seconds": snapshot["strict_confirmed_seconds"],
++            "observation_terminal_status": snapshot["observation_terminal_status"],
++            "timing_observation": snapshot["timing_observation"],
+         }
+         if snapshot["result"] is not None:
+             response.update(snapshot["result"])
+@@ -236,6 +250,8 @@
+ 
+         def progress(event: dict) -> None:
+             now = time.monotonic()
++            with self._lock:
++                self._jobs[job_id]["events"].append({"request_seconds": now - started, "event": deepcopy(event)})
+             if event.get("type") == "engine_ready":
+                 with self._lock:
+                     job = self._jobs[job_id]
+@@ -291,6 +307,8 @@
+                 self._update(job_id, thread_activity=event)
+             elif event.get("type") == "strong_upgrade":
+                 self._update(job_id, last_upgrade=event)
++            elif event.get("type") == "native_result":
++                self._update(job_id, terminal_seconds=event["client_terminal_at"] - started)
+             else:
+                 self._update(job_id, progress=event)
+                 if event.get("type") == "progress" and event.get("asset_profile"):
+@@ -304,12 +322,15 @@
+             )
+             if result is None:
+                 raise native.NativeSolverError("QTM native service unavailable")
++            terminal_seconds = (result.get("client_terminal_at") or time.monotonic()) - started
+             if cancel.is_set():
+                 self._update(job_id, status="cancelled")
+                 return
+             status = "complete" if result["optimal"] else result.get("status", "budget_exhausted")
+             self._update(
+                 job_id, status=status, optimal=result["optimal"],
++                terminal_seconds=terminal_seconds,
++                strict_confirmed_seconds=terminal_seconds if result["optimal"] else None,
+                 asset_profile=result.get("asset_profile", "unknown"),
+                 native_search_seconds=result.get("elapsed_seconds"),
+                 proof_wall_seconds=result.get("elapsed_seconds"),
+@@ -374,8 +395,11 @@
+                 cube, max_depth=max_depth, timeout_seconds=self._remaining(deadline),
+                 deadline=deadline, cancel_event=cancel, metric="QTM"
+             )
++            terminal_seconds = time.monotonic() - self._jobs[job_id]["_started"]
+             self._update(
+                 job_id, status="complete", optimal=True,
++                terminal_seconds=terminal_seconds,
++                strict_confirmed_seconds=terminal_seconds,
+                 result={
+                     "moves": result.moves, "solution": result.text, "depth": result.depth,
+                     "cost": result.depth, "metric": "QTM", "optimal": True,
+diff --git a/cube_app/solvers/qtm/native.py b/cube_app/solvers/qtm/native.py
+--- a/cube_app/solvers/qtm/native.py
++++ b/cube_app/solvers/qtm/native.py
+@@ -530,6 +530,9 @@
+                 if event.get("type") == "error" or not event.get("ok"):
+                     raise NativeSolverError(str(event.get("error", "native solver failed")))
+                 if event.get("type") == "result":
++                    event["client_terminal_at"] = time.monotonic()
++                    if progress_callback is not None:
++                        progress_callback({**event, "type": "native_result", "engine": "native-cpp"})
+                     if self._ready is not None:
+                         self._ready["native_search_seconds"] = event.get("elapsed_seconds")
+                         self._ready["native_proof_busy_seconds"] = sum(
+@@ -741,6 +744,7 @@
+         "depth": None if no_solution else cost,
+         "metric": metric,
+         "status": payload.get("status", "complete"),
++        "client_terminal_at": payload.get("client_terminal_at"),
+         "optimal": bool(payload.get("optimal")),
+         "inverse_direction": bool(payload.get("inverse_direction")),
+         "elapsed_seconds": float(payload.get("elapsed_seconds", 0.0)),
+diff --git a/native/htm/include/solver.hpp b/native/htm/include/solver.hpp
+--- a/native/htm/include/solver.hpp
++++ b/native/htm/include/solver.hpp
+@@ -107,6 +107,7 @@
+ };
+ 
+ struct NativeSearchProgress {
++    int threads{};
+     int lower_bound{};
+     int upper_bound{};
+     int current_depth{};
+@@ -145,6 +146,8 @@
+     const std::atomic<bool> *cancel_requested{nullptr};
+     std::vector<int> incumbent_moves;
+     std::function<std::vector<int>()> incumbent_callback;
++    // Read only at complete-layer boundaries; never resize an active layer.
++    std::function<int()> thread_count_callback;
+     std::function<void(const NativeSearchProgress &)> progress_callback;
+ };
+ 
+diff --git a/native/htm/src/main.cpp b/native/htm/src/main.cpp
+--- a/native/htm/src/main.cpp
++++ b/native/htm/src/main.cpp
+@@ -96,7 +96,7 @@
+ }
+ 
+ void print_progress_json(std::ostream &output, const cube::NativeSearchProgress &progress, const std::string &id = "") {
+-    output << "{\"type\":\"progress\",\"lower_bound\":" << progress.lower_bound
++    output << "{\"type\":\"progress\",\"threads\":" << progress.threads << ",\"lower_bound\":" << progress.lower_bound
+            << ",\"upper_bound\":" << progress.upper_bound << ",\"current_depth\":" << progress.current_depth
+            << ",\"completed_depth\":" << progress.completed_depth << ",\"iteration_nodes\":" << progress.iteration_nodes
+            << ",\"iteration_split_nodes\":" << progress.iteration_split_nodes << ",\"nodes\":" << progress.total_nodes
+@@ -434,11 +434,12 @@
+             }
+             if (!tail_pdb_path.empty())
+                 solver.load_tail_database(tail_pdb_path);
+-            std::cout << "{\"ok\":true,\"type\":\"ready\",\"protocol_version\":2,\"proof_version\":1}\n" << std::flush;
++            std::cout << "{\"ok\":true,\"type\":\"ready\",\"protocol_version\":2,\"proof_version\":1,\"dynamic_threads\":true}\n" << std::flush;
+ 
+             std::thread search;
+             std::atomic<bool> running{false};
+             std::atomic<bool> cancel{false};
++            std::atomic<int> requested_threads{1};
+             std::mutex output_mutex;
+             std::mutex incumbent_mutex;
+             std::vector<int> incumbent;
+@@ -451,6 +452,15 @@
+                 std::string id;
+                 try {
+                     const auto fields = split_tabs(request);
++                    if (fields.size() == 3 && fields[0] == "threads") {
++                        if (fields[1] == active_id && running.load()) {
++                            const int count = std::stoi(fields[2]);
++                            if (count < 1 || count > 64)
++                                throw std::invalid_argument("thread count must be in 1..64");
++                            requested_threads.store(count, std::memory_order_relaxed);
++                        }
++                        continue;
++                    }
+                     if (fields.size() == 2 && fields[0] == "cancel") {
+                         if (fields[1] == active_id)
+                             cancel.store(true);
+@@ -485,6 +495,9 @@
+                     options.max_depth = std::stoi(fields[offset + 1]);
+                     options.timeout_seconds = std::stod(fields[offset + 2]);
+                     options.threads = std::stoi(fields[offset + 3]);
++                    requested_threads.store(options.threads > 0 ? options.threads :
++                        static_cast<int>(std::max(1U, std::thread::hardware_concurrency())), std::memory_order_relaxed);
++                    options.thread_count_callback = [&] { return requested_threads.load(std::memory_order_relaxed); };
+                     options.incumbent_moves = parse_moves(fields[offset + 4]);
+                     incumbent = options.incumbent_moves;
+                     cancel.store(false);
+diff --git a/native/htm/src/solver.cpp b/native/htm/src/solver.cpp
+--- a/native/htm/src/solver.cpp
++++ b/native/htm/src/solver.cpp
+@@ -947,7 +947,7 @@
+         options.use_direction_probe && !searching_inverse && incumbent.size() >= 18 && effective_max >= 17;
+     const int probe_depth = probe_enabled ? std::max(lower_bound, std::min(16, effective_max - 2)) : -1;
+     bool direction_probed = false;
+-    const int thread_count = std::clamp(
++    int thread_count = std::clamp(
+         options.threads > 0 ? options.threads : static_cast<int>(std::max(1U, std::thread::hardware_concurrency())), 1,
+         64);
+     SearchControl control;
+@@ -965,6 +965,7 @@
+         if (!options.progress_callback)
+             return;
+         NativeSearchProgress progress;
++        progress.threads = thread_count;
+         progress.lower_bound = lower_bound;
+         progress.upper_bound = effective_max;
+         progress.current_depth = depth;
+@@ -994,6 +995,8 @@
+     };
+     report(completed_depth + 1, 0, 0, started);
+     for (int depth = completed_depth + 1; depth <= effective_max; ++depth) {
++        if (options.thread_count_callback)
++            thread_count = std::clamp(options.thread_count_callback(), 1, 64);
+         if (options.incumbent_callback) {
+             auto updated = options.incumbent_callback();
+             if (!updated.empty() && (incumbent.empty() || updated.size() < incumbent.size())) {
+diff --git a/server.py b/server.py
+--- a/server.py
++++ b/server.py
+@@ -111,6 +111,8 @@
+     timeout_seconds: float | None,
+     *,
+     deadline: float | None = None,
++    observation_started: float | None = None,
++    candidate_enabled: bool = False,
+ ) -> tuple[str, threading.Thread]:
+     created = time.monotonic()
+     if deadline is None and timeout_seconds is not None:
+@@ -143,12 +145,34 @@
+             "incumbent_depth": quick_result.depth if quick_result is not None else None,
+             "_state_key": state_key,
+             "_deadline": deadline,
+-            "_started_at": created,
++            "_started_at": created if observation_started is None else observation_started,
+             "_done": threading.Event(),
+             "_incumbent_moves": quick_result.moves if quick_result is not None else None,
+             "engine": "pending",
+             "solution_generation_seconds": 0.0,
++            "terminal_seconds": None,
++            "observation_terminal_status": None,
++            "first_solution_available_seconds": None,
++            "first_candidate_generated_seconds": None,
++            "http_return_seconds": None,
++            "first_candidate_http_seconds": None,
++            "timing_observation": "controlled-baseline: P0 observation and shared thread quota; synchronous candidate delivery retained",
++            "candidate_observations": [],
++            "timing_events": [],
++            "native_pid": None,
++            "peak_working_set_bytes": None,
++            "memory_scope": "native_process_lifetime_peak",
++            "candidate_published_seconds": None,
++            "_proof_lease": threading.Event(),
++            "_candidate_budget_done": threading.Event(),
++            "_serial_candidate": candidate_enabled and BROKER.threads == 1,
++            "_proof_threads": max(1, BROKER.threads - int(candidate_enabled and BROKER.threads > 1)),
++            "thread_quota": BROKER.threads,
++            "proof_threads": max(1, BROKER.threads - int(candidate_enabled and BROKER.threads > 1)),
++            "resource_normalization": "controlled-baseline: candidate+proof share total quota; synchronous candidate publication retained",
+         }
++        if not candidate_enabled:
++            JOBS[job_id]["_candidate_budget_done"].set()
+ 
+         proof_max_depth = min(max_depth, quick_result.depth) if quick_result is not None else max_depth
+         upper_bound = quick_result.depth if quick_result is not None else None
+@@ -180,14 +204,14 @@
+     return remaining
+ 
+ 
+-def generate_quick_solution(cube: CubieCube, deadline: float | None):
++def generate_quick_solution(cube: CubieCube, deadline: float | None, *, observation_callback=None):
+     while not QUICK_SEARCH_LOCK.acquire(timeout=0.05):
+         remaining_seconds(deadline)
+     try:
+         if FAST_SOLVER._tables is None and PROBE_SOLVER._tables is not None:
+             FAST_SOLVER._tables = PROBE_SOLVER._tables
+         budget = min(QUICK_SOLVE_SECONDS, remaining_seconds(deadline) or QUICK_SOLVE_SECONDS)
+-        return FAST_SOLVER.solve_cube(cube, timeout_seconds=budget)
++        return FAST_SOLVER.solve_cube(cube, timeout_seconds=budget, observation_callback=observation_callback)
+     finally:
+         QUICK_SEARCH_LOCK.release()
+ 
+@@ -199,6 +223,21 @@
+             return
+         job.update(values)
+         job["updated_at"] = time.time()
++        observed_at = time.monotonic()
++        if values.get("status") in {"complete", "timeout", "error", "cancelled"} and job["terminal_seconds"] is None:
++            job["terminal_seconds"] = observed_at - job["_started_at"]
++            job["observation_terminal_status"] = values["status"]
++            job["timing_events"].append({"event": "terminal", "elapsed_seconds": job["terminal_seconds"],
++                                         "status": values["status"]})
++        if (values.get("candidate_result") is not None or values.get("result") is not None) and job["first_solution_available_seconds"] is None:
++            # The old candidate API returns after its improvement budget. This
++            # observes availability here, not an unobservable first discovery.
++            job["first_solution_available_seconds"] = observed_at - job["_started_at"]
++        if values.get("candidate_result") is not None and job["candidate_published_seconds"] is None:
++            job["candidate_published_seconds"] = observed_at - job["_started_at"]
++            job["timing_events"].append({"event": "candidate_published",
++                "elapsed_seconds": job["candidate_published_seconds"],
++                "cost": values["candidate_result"]["depth"], "moves": list(values["candidate_result"]["moves"])})
+ 
+ 
+ def run_optimal_job(
+@@ -226,10 +265,60 @@
+             acquired = OPTIMAL_SEARCH_LOCK.acquire(timeout=0.05)
+         if cancel_event is not None and cancel_event.is_set():
+             raise SearchCancelled("搜索已取消。")
++        with JOBS_LOCK:
++            observed_job = JOBS[job_id]
++            observed_job["_proof_lease"].set()
++            proof_threads = observed_job["_proof_threads"]
++            serial_candidate = observed_job["_serial_candidate"]
++            budget_done = observed_job["_candidate_budget_done"]
++        if serial_candidate:
++            while not budget_done.wait(0.05):
++                if cancel_event is not None and cancel_event.is_set():
++                    raise SearchCancelled("搜索已取消。")
++                remaining_seconds(deadline)
+         update_job(job_id, status="running")
+ 
+         def report_progress(progress: dict) -> None:
+-            update_job(job_id, progress=progress, engine=progress.get("engine", "python"))
++            update_job(job_id, progress=progress, engine=progress.get("engine", "python"),
++                       **({"proof_threads": progress["threads"]} if "threads" in progress else {}))
++            with JOBS_LOCK:
++                if JOBS.get(job_id) is observed_job:
++                    observed_job["timing_events"].append({"event": "proof_progress",
++                        "elapsed_seconds": time.monotonic() - observed_job["_started_at"],
++                        "progress": dict(progress)})
++
++        def report_native_event(event: dict) -> None:
++            details = dict(event)
++            kind = details.pop("type")
++            with JOBS_LOCK:
++                if JOBS.get(job_id) is observed_job:
++                    if details.get("native_pid") is not None:
++                        observed_job["native_pid"] = details["native_pid"]
++                    if details.get("peak_working_set_bytes") is not None:
++                        observed_job["peak_working_set_bytes"] = max(observed_job.get("peak_working_set_bytes") or 0,
++                                                                     details["peak_working_set_bytes"])
++                        observed_job["memory_scope"] = details["memory_scope"]
++                    observed_job["timing_events"].append({"event": kind,
++                        "elapsed_seconds": time.monotonic() - observed_job["_started_at"], **details})
++
++        def proof_threads_provider() -> int | None:
++            with JOBS_LOCK:
++                current = JOBS.get(job_id)
++                if (current is not observed_job or current["status"] in {"complete", "timeout", "error", "cancelled"}
++                        or (cancel_event is not None and cancel_event.is_set())
++                        or (deadline is not None and time.monotonic() >= deadline)):
++                    return None
++                return current["thread_quota"] if budget_done.is_set() else proof_threads
++
++        def threads_update_guard(send) -> bool:
++            with JOBS_LOCK:
++                current = JOBS.get(job_id)
++                if (current is not observed_job or current["status"] in {"complete", "timeout", "error", "cancelled"}
++                        or (cancel_event is not None and cancel_event.is_set())
++                        or (deadline is not None and time.monotonic() >= deadline)):
++                    return False
++                send()
++                return True
+ 
+         def incumbent_provider() -> list[str] | None:
+             with JOBS_LOCK:
+@@ -246,7 +335,10 @@
+                 progress_callback=report_progress,
+                 deadline=deadline,
+                 incumbent_provider=incumbent_provider,
+-                threads=BROKER.threads,
++                threads=proof_threads,
++                event_callback=report_native_event,
++                threads_provider=proof_threads_provider,
++                threads_update_guard=threads_update_guard,
+             )
+         except NativeSolverCancelled as exc:
+             raise SearchCancelled(str(exc)) from exc
+@@ -272,28 +364,33 @@
+         incumbent_moves = incumbent_provider()
+         upper_bound = len(incumbent_moves) if incumbent_moves else upper_bound
+ 
++        original_workers = SOLVER.max_workers
++        SOLVER.max_workers = min(original_workers, proof_threads)
+         try:
+-            result = SOLVER.solve_cube(
+-                cube,
+-                max_depth=max_depth,
+-                timeout_seconds=remaining_seconds(deadline),
+-                deadline=deadline,
+-                upper_bound=upper_bound,
+-                incumbent_moves=incumbent_moves,
+-                cancel_event=cancel_event,
+-                progress_callback=report_progress,
+-            )
+-        except PermissionError:
+-            result = PROBE_SOLVER.solve_cube(
+-                cube,
+-                max_depth=max_depth,
+-                timeout_seconds=remaining_seconds(deadline),
+-                deadline=deadline,
+-                upper_bound=upper_bound,
+-                incumbent_moves=incumbent_moves,
+-                cancel_event=cancel_event,
+-                progress_callback=report_progress,
+-            )
++            try:
++                result = SOLVER.solve_cube(
++                    cube,
++                    max_depth=max_depth,
++                    timeout_seconds=remaining_seconds(deadline),
++                    deadline=deadline,
++                    upper_bound=upper_bound,
++                    incumbent_moves=incumbent_moves,
++                    cancel_event=cancel_event,
++                    progress_callback=report_progress,
++                )
++            except PermissionError:
++                result = PROBE_SOLVER.solve_cube(
++                    cube,
++                    max_depth=max_depth,
++                    timeout_seconds=remaining_seconds(deadline),
++                    deadline=deadline,
++                    upper_bound=upper_bound,
++                    incumbent_moves=incumbent_moves,
++                    cancel_event=cancel_event,
++                    progress_callback=report_progress,
++                )
++        finally:
++            SOLVER.max_workers = original_workers
+         if cancel_event is not None and cancel_event.is_set():
+             raise SearchCancelled("搜索已取消。")
+         update_job(job_id, status="complete", result={**result_payload(result), "engine": "python"})
+@@ -304,6 +401,13 @@
+     except Exception as exc:  # pragma: no cover - background safety net.
+         update_job(job_id, status="error", message=str(exc))
+     finally:
++        # Preserve the original synchronous candidate budget and HTTP response,
++        # but do not admit another proof lease while this one's candidate runs.
++        with JOBS_LOCK:
++            cleanup_job = JOBS.get(job_id)
++            budget_wait = cleanup_job["_candidate_budget_done"] if cleanup_job is not None and cleanup_job.get("_generator_started") else None
++        if acquired and budget_wait is not None:
++            budget_wait.wait()
+         if htm_claimed:
+             BROKER.leave_htm()
+         if acquired:
+@@ -422,6 +526,11 @@
+                         job["status"] = status
+                         job["message"] = "搜索已取消。"
+                         job["updated_at"] = time.time()
++                        if job["terminal_seconds"] is None:
++                            job["terminal_seconds"] = time.monotonic() - job["_started_at"]
++                            job["observation_terminal_status"] = "cancelled"
++                            job["timing_events"].append({"event": "terminal", "elapsed_seconds": job["terminal_seconds"],
++                                                        "status": "cancelled"})
+             if status is None:
+                 self._send_json({"ok": False, "error": "求解任务不存在或已过期"}, status=404)
+             else:
+@@ -475,6 +584,8 @@
+             return
+         htm_claimed = False
+         request_started = time.monotonic()
++        self._observation_request_started = request_started
++        self._observation_job_id = None
+         try:
+             payload = self._read_json()
+             facelets = str(payload.get("facelets", ""))
+@@ -529,7 +640,9 @@
+ 
+             quick_result = None
+             if native_solver_available():
+-                job_id, worker = prepare_optimal_job(cube, None, max_depth, timeout_seconds, deadline=deadline)
++                job_id, worker = prepare_optimal_job(cube, None, max_depth, timeout_seconds, deadline=deadline,
++                                                     observation_started=request_started, candidate_enabled=not cube.is_solved())
++                self._observation_job_id = job_id
+                 start_optimal_job(job_id, worker)
+                 with JOBS_LOCK:
+                     done = JOBS[job_id]["_done"]
+@@ -537,6 +650,7 @@
+                               remaining_seconds(deadline) or QUICK_OPTIMAL_PROBE_SECONDS))
+                 with JOBS_LOCK:
+                     snapshot = dict(JOBS[job_id])
++                    observed_candidate_job = JOBS[job_id]
+                     generate = not snapshot.get("_generator_started") and snapshot["status"] in {"queued", "running"}
+                     if generate:
+                         JOBS[job_id]["_generator_started"] = True
+@@ -544,6 +658,7 @@
+                     self._send_json(
+                         {
+                             "ok": True,
++                            "job_id": job_id,
+                             **snapshot["result"],
+                             "proof_status": "complete",
+                             "solution_generation_seconds": 0.0,
+@@ -555,9 +670,33 @@
+                 if generate:
+                     generation_started = time.monotonic()
+                     try:
+-                        quick_result = generate_quick_solution(cube, deadline)
++                        # Only spend the reserved candidate allowance while this
++                        # request owns the native proof lease.
++                        while not snapshot["_proof_lease"].wait(0.05):
++                            with JOBS_LOCK:
++                                current = JOBS.get(job_id)
++                                if (current is not observed_candidate_job or current["_cancel_event"].is_set()
++                                        or current["status"] in {"complete", "timeout", "error", "cancelled"}):
++                                    raise SearchTimeout("候选等待已结束。")
++                            remaining_seconds(deadline)
++
++                        def observe_candidate(result) -> None:
++                            with JOBS_LOCK:
++                                current = JOBS.get(job_id)
++                                if current is observed_candidate_job:
++                                    elapsed = time.monotonic() - current["_started_at"]
++                                    current["candidate_observations"].append({"event": "candidate_generated",
++                                        "elapsed_seconds": elapsed,
++                                        "cost": result.depth, "moves": list(result.moves)})
++                                    current["timing_events"].append(dict(current["candidate_observations"][-1]))
++                                    if current["first_candidate_generated_seconds"] is None:
++                                        current["first_candidate_generated_seconds"] = elapsed
++
++                        quick_result = generate_quick_solution(cube, deadline, observation_callback=observe_candidate)
+                     except SearchTimeout:
+                         pass
++                    finally:
++                        snapshot["_candidate_budget_done"].set()
+                     generation_seconds = round(time.monotonic() - generation_started, 3)
+                     if quick_result is not None:
+                         update_job(
+@@ -573,6 +712,7 @@
+                     self._send_json(
+                         {
+                             "ok": True,
++                            "job_id": job_id,
+                             **snapshot["result"],
+                             "proof_status": "complete",
+                             "solution_generation_seconds": snapshot["solution_generation_seconds"],
+@@ -606,7 +746,9 @@
+                     quick_result = generate_quick_solution(cube, deadline)
+                 except SearchTimeout:
+                     pass
+-                job_id, worker = prepare_optimal_job(cube, quick_result, max_depth, timeout_seconds, deadline=deadline)
++                job_id, worker = prepare_optimal_job(cube, quick_result, max_depth, timeout_seconds, deadline=deadline,
++                                                     observation_started=request_started, candidate_enabled=False)
++                self._observation_job_id = job_id
+                 start_optimal_job(job_id, worker)
+                 with JOBS_LOCK:
+                     snapshot = dict(JOBS[job_id])
+@@ -663,6 +805,26 @@
+         return payload
+ 
+     def _send_json(self, payload: dict, status: int = 200) -> None:
++        # Only add measurements; existing status, proof_status, deadline and
++        # formula fields keep their original values and frontend behavior.
++        path = urlparse(self.path).path
++        job_id = payload.get("job_id") or getattr(self, "_observation_job_id", None)
++        observation_job = None
++        if job_id and not str(job_id).startswith("qtm-"):
++            with JOBS_LOCK:
++                observation_job = JOBS.get(job_id)
++                if observation_job is not None:
++                    payload = {**payload, **{key: observation_job[key] for key in
++                        ("terminal_seconds", "observation_terminal_status", "first_solution_available_seconds",
++                         "first_candidate_generated_seconds", "candidate_published_seconds", "candidate_observations",
++                         "http_return_seconds", "first_candidate_http_seconds", "timing_observation",
++                         "thread_quota", "proof_threads", "resource_normalization", "timing_events",
++                         "native_pid", "peak_working_set_bytes", "memory_scope")}}
++        if (path == "/api/solve" and observation_job is None and payload.get("optimal") is True
++                and payload.get("proof_status") == "complete"
++                and hasattr(self, "_observation_request_started")):
++            payload = {**payload, "terminal_seconds": time.monotonic() - self._observation_request_started,
++                       "observation_terminal_status": "complete", "timing_observation": "P0-only synchronous result"}
+         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+         try:
+             self.send_response(status)
+@@ -670,6 +832,16 @@
+             self.send_header("Content-Length", str(len(body)))
+             self.end_headers()
+             self.wfile.write(body)
++            if observation_job is not None:
++                with JOBS_LOCK:
++                    observed_at = time.monotonic() - observation_job["_started_at"]
++                    if path == "/api/solve" and observation_job["http_return_seconds"] is None:
++                        observation_job["http_return_seconds"] = observed_at
++                        observation_job["timing_events"].append({"event": "http_initial_return",
++                                                                "elapsed_seconds": observed_at})
++                    if payload.get("depth") is not None or payload.get("candidate_result") is not None or payload.get("result") is not None:
++                        if observation_job["first_candidate_http_seconds"] is None:
++                            observation_job["first_candidate_http_seconds"] = observed_at
+         except (BrokenPipeError, ConnectionAbortedError, ConnectionResetError):
+             return
+ 
+diff --git a/tests/test_controlled_baseline.py b/tests/test_controlled_baseline.py
+new file mode 100644
+--- /dev/null
++++ b/tests/test_controlled_baseline.py
+@@ -0,0 +1,520 @@
++"""Controlled-baseline observation/resource contracts; all search is mocked."""
++from __future__ import annotations
++
++import ast
++import json
++import queue
++import threading
++import time
++from pathlib import Path
++from types import SimpleNamespace
++from urllib.request import Request, urlopen
++
++import pytest
++
++import server
++from cube_app.cubie import CubieCube, MOVE_INDEX, to_facelets
++from cube_app.solvers.htm.fast import FastTwoPhaseSolver
++from cube_app.solvers.htm.native import NativeSolverCancelled, _PersistentNativeSolver
++from cube_app.solvers.htm.optimal import SearchTimeout, SolveResult
++from cube_app.solvers.resource_broker import ResourceBroker
++
++
++def candidate(moves):
++    return SolveResult(moves, len(moves), "HTM", 0.01, False)
++
++
++def test_fast_observation_retains_original_search_ast():
++    class StripObservation(ast.NodeTransformer):
++        def visit_ImportFrom(self, node):
++            return None if node.module == "collections.abc" else node
++
++        def visit_FunctionDef(self, node):
++            if node.name == "observe":
++                return None
++            node.args.kwonlyargs = [arg for arg in node.args.kwonlyargs if arg.arg != "observation_callback"]
++            node.args.kw_defaults = node.args.kw_defaults[:len(node.args.kwonlyargs)]
++            if node.args.args and node.args.args[-1].arg == "observation_callback":
++                node.args.args.pop()
++                node.args.defaults.pop()
++            return self.generic_visit(node)
++
++        def visit_Expr(self, node):
++            call = node.value
++            if isinstance(call, ast.Call) and isinstance(call.func, ast.Name) and call.func.id == "observe":
++                return None
++            return self.generic_visit(node)
++
++        def visit_If(self, node):
++            if ast.unparse(node.test) == "observation_callback is not None":
++                return None
++            return self.generic_visit(node)
++
++        def visit_Call(self, node):
++            node.keywords = [kw for kw in node.keywords if kw.arg != "observation_callback"]
++            if isinstance(node.func, ast.Attribute) and node.func.attr == "_improve_phase1":
++                if isinstance(node.args[-1], ast.Name) and node.args[-1].id in {"observe", "observation_callback"}:
++                    node.args.pop()
++            return self.generic_visit(node)
++
++    root = Path(server.__file__).resolve().parent
++    relative = "cube_app/solvers/htm/fast.py"
++    frozen = ast.parse((root.parent / "baseline" / relative).read_text(encoding="utf-8"))
++    observed = StripObservation().visit(ast.parse((root / relative).read_text(encoding="utf-8")))
++    assert ast.dump(observed, include_attributes=False) == ast.dump(frozen, include_attributes=False)
++
++
++def test_fast_observation_records_first_and_improvement_without_early_return():
++    seen = []
++
++    class SyntheticFast(FastTwoPhaseSolver):
++        @staticmethod
++        def _phase1_heuristic(*args):
++            return 0
++
++        def _search_phase1(self, *args):
++            return [MOVE_INDEX[name] for name in ("R'", "U", "U'")]
++
++        def _improve_phase1(self, *args):
++            holder, notify = args[-3], args[-1]
++            assert seen == [3]
++            holder[0] = [MOVE_INDEX["R'"]]
++            notify(holder[0])
++            assert seen == [3, 1]
++            raise SearchTimeout("original improvement budget ends")
++
++    result = SyntheticFast(tables=SimpleNamespace(), max_phase1_depth=0).solve_cube(
++        CubieCube().apply_move_index(MOVE_INDEX["R"]), observation_callback=lambda item: seen.append(item.depth))
++    assert seen == [3, 1] and result.depth == 1
++
++
++@pytest.fixture
++def jobs():
++    assert not server.JOBS
++    yield
++    with server.JOBS_LOCK:
++        created = list(server.JOBS.values())
++        for job in created:
++            job["_cancel_event"].set()
++            job["_candidate_budget_done"].set()
++    for job in created:
++        if job["_worker"].ident is not None:
++            job["_worker"].join(2)
++            assert not job["_worker"].is_alive()
++    with server.JOBS_LOCK:
++        server.JOBS.clear()
++
++
++@pytest.fixture
++def http(monkeypatch):
++    monkeypatch.setattr(server.AppHandler, "log_message", lambda *args: None)
++    service = server.ExclusiveThreadingHTTPServer((server.HOST, 0), server.AppHandler)
++    listener = threading.Thread(target=lambda: service.serve_forever(poll_interval=0.01), daemon=True)
++    listener.start()
++    yield f"http://{server.HOST}:{service.server_address[1]}"
++    service.shutdown()
++    service.server_close()
++    listener.join(1)
++
++
++def request_solve(url, cube):
++    request = Request(url + "/api/solve", data=json.dumps({"facelets": to_facelets(cube),
++                      "timeout_seconds": 5}).encode(), headers={"Content-Type": "application/json"})
++    with urlopen(request, timeout=3) as response:
++        return json.loads(response.read())
++
++
++@pytest.mark.parametrize("threads", [1, 2, 3, 15])
++def test_http_retains_synchronous_candidate_and_shares_quota(jobs, http, monkeypatch, threads):
++    monkeypatch.setattr(server, "BROKER", ResourceBroker(threads))
++    monkeypatch.setattr(server, "QUICK_OPTIMAL_PROBE_SECONDS", 0.005)
++    monkeypatch.setattr(server, "native_solver_available", lambda: True)
++    generated, release, proof_started = threading.Event(), threading.Event(), threading.Event()
++    proof_calls = []
++
++    def fast(cube, *, timeout_seconds, observation_callback):
++        assert 0 < timeout_seconds <= server.QUICK_SOLVE_SECONDS
++        observation_callback(candidate(["R'", "U", "U'"]))
++        generated.set()
++        assert release.wait(2)
++        result = candidate(["R'"])
++        observation_callback(result)
++        return result
++
++    def native(cube, **kwargs):
++        proof_calls.append(kwargs)
++        proof_started.set()
++        while not kwargs["cancel_event"].wait(0.01):
++            pass
++        raise NativeSolverCancelled("cancelled")
++
++    monkeypatch.setattr(server.FAST_SOLVER, "solve_cube", fast)
++    monkeypatch.setattr(server, "solve_native", native)
++    response, errors = [], []
++
++    def send():
++        try:
++            response.append(request_solve(http, CubieCube().apply_move_index(MOVE_INDEX["R"])))
++        except Exception as exc:
++            errors.append(exc)
++
++    sender = threading.Thread(target=send, daemon=True)
++    sender.start()
++    try:
++        assert generated.wait(1)
++        assert not response and not errors
++        job = next(iter(server.JOBS.values()))
++        assert job["first_candidate_generated_seconds"] is not None
++        assert job["candidate_published_seconds"] is None
++        assert job["_incumbent_moves"] is None
++        assert proof_started.is_set() == (threads > 1)
++        assert job["_proof_threads"] == max(1, threads - 1)
++        release.set()
++        sender.join(2)
++        assert not sender.is_alive() and not errors
++        assert response[0]["depth"] == 1 and not response[0]["optimal"]
++        assert proof_started.wait(1)
++        call = proof_calls[0]
++        assert call["threads"] == max(1, threads - 1)
++        assert call["deadline"] == job["_deadline"]
++        assert call["incumbent_provider"]() == ["R'"]
++        assert call["threads_provider"]() == threads
++        assert job["candidate_published_seconds"] >= job["first_candidate_generated_seconds"]
++        assert [item["cost"] for item in job["candidate_observations"]] == [3, 1]
++        job["_cancel_event"].set()
++        assert job["_done"].wait(1)
++        assert job["terminal_seconds"] is not None
++        assert call["threads_provider"]() is None
++        sent = []
++        assert not call["threads_update_guard"](lambda: sent.append(True)) and not sent
++    finally:
++        release.set()
++        sender.join(2)
++
++
++def test_quick_proof_http_has_job_and_entry_relative_terminal(jobs, http, monkeypatch):
++    monkeypatch.setattr(server, "BROKER", ResourceBroker(15))
++    monkeypatch.setattr(server, "native_solver_available", lambda: True)
++    origin = {}
++    prepare = server.prepare_optimal_job
++
++    def observed_prepare(*args, **kwargs):
++        origin["request_started"] = kwargs["observation_started"]
++        origin["prepare_at"] = time.monotonic()
++        return prepare(*args, **kwargs)
++
++    monkeypatch.setattr(server, "prepare_optimal_job", observed_prepare)
++
++    def native(cube, **kwargs):
++        kwargs["event_callback"]({"type": "native_ready", "reused": False, "native_pid": 123,
++                                  "peak_working_set_bytes": 10, "memory_scope": "native_process_lifetime_peak"})
++        kwargs["event_callback"]({"type": "native_result_received", "native_pid": 123,
++                                  "peak_working_set_bytes": 20, "memory_scope": "native_process_lifetime_peak"})
++        kwargs["event_callback"]({"type": "native_request_finished", "native_pid": 123,
++                                  "peak_working_set_bytes": 15, "memory_scope": "native_process_lifetime_peak"})
++        return {"moves": ["R'"], "solution": "R'", "depth": 1, "metric": "HTM", "optimal": True}
++
++    monkeypatch.setattr(server, "solve_native", native)
++    monkeypatch.setattr(server.FAST_SOLVER, "solve_cube", lambda *a, **kw: pytest.fail("quick proof started candidate"))
++    result = request_solve(http, CubieCube().apply_move_index(MOVE_INDEX["R"]))
++    job = server.JOBS[result["job_id"]]
++    assert result["proof_status"] == "complete" and result["optimal"]
++    assert result["terminal_seconds"] == job["terminal_seconds"]
++    assert result["terminal_seconds"] >= 0
++    assert job["http_return_seconds"] >= result["terminal_seconds"]
++    assert job["_started_at"] == origin["request_started"] <= origin["prepare_at"]
++    assert not job.get("_generator_started")
++    assert any(item["event"] == "native_ready" for item in job["timing_events"])
++    assert result["native_pid"] == 123 and result["peak_working_set_bytes"] == 20
++    assert result["memory_scope"] == "native_process_lifetime_peak"
++
++
++def test_terminal_precedes_candidate_and_resource_cleanup(jobs, http, monkeypatch):
++    monkeypatch.setattr(server, "BROKER", ResourceBroker(3))
++    monkeypatch.setattr(server, "QUICK_OPTIMAL_PROBE_SECONDS", 0.005)
++    monkeypatch.setattr(server, "native_solver_available", lambda: True)
++    generated, release, finish_proof = threading.Event(), threading.Event(), threading.Event()
++
++    def fast(cube, *, timeout_seconds, observation_callback):
++        observation_callback(candidate(["R'", "U", "U'"]))
++        generated.set()
++        assert release.wait(2)
++        return candidate(["R'"])
++
++    def native(cube, **kwargs):
++        assert finish_proof.wait(2)
++        return {"moves": ["R'"], "solution": "R'", "depth": 1, "metric": "HTM", "optimal": True}
++
++    monkeypatch.setattr(server.FAST_SOLVER, "solve_cube", fast)
++    monkeypatch.setattr(server, "solve_native", native)
++    response = []
++    sender = threading.Thread(target=lambda: response.append(request_solve(http,
++        CubieCube().apply_move_index(MOVE_INDEX["R"]))), daemon=True)
++    sender.start()
++    try:
++        assert generated.wait(1)
++        job = next(iter(server.JOBS.values()))
++        finish_proof.set()
++        for _ in range(100):
++            if job["terminal_seconds"] is not None:
++                break
++            threading.Event().wait(0.005)
++        terminal = job["terminal_seconds"]
++        assert terminal is not None and job["status"] == "complete"
++        assert not job["_done"].is_set() and not response
++        release.set()
++        sender.join(2)
++        assert response[0]["terminal_seconds"] == terminal
++        assert response[0]["proof_status"] == "complete"
++        assert job["_done"].wait(1)
++        assert job["http_return_seconds"] >= terminal
++    finally:
++        release.set()
++        finish_proof.set()
++        sender.join(2)
++
++
++def test_queued_candidate_waits_for_its_job_proof_lease(jobs, http, monkeypatch):
++    monkeypatch.setattr(server, "BROKER", ResourceBroker(3))
++    monkeypatch.setattr(server, "QUICK_OPTIMAL_PROBE_SECONDS", 0.005)
++    monkeypatch.setattr(server, "native_solver_available", lambda: True)
++    first = CubieCube().apply_move_index(MOVE_INDEX["R"])
++    second = CubieCube().apply_move_index(MOVE_INDEX["U"])
++    started = [threading.Event(), threading.Event()]
++    observations = []
++
++    def native(cube, **kwargs):
++        started[int(cube == second)].set()
++        while not kwargs["cancel_event"].wait(0.01):
++            pass
++        raise NativeSolverCancelled("cancelled")
++
++    def fast(cube, **kwargs):
++        observations.append(cube)
++        result = candidate(["R'"] if cube == first else ["U'"])
++        kwargs["observation_callback"](result)
++        return result
++
++    monkeypatch.setattr(server, "solve_native", native)
++    monkeypatch.setattr(server.FAST_SOLVER, "solve_cube", fast)
++    first_response = request_solve(http, first)
++    first_job = server.JOBS[first_response["job_id"]]
++    assert started[0].is_set() and first_job["_candidate_budget_done"].is_set()
++    second_response = []
++    sender = threading.Thread(target=lambda: second_response.append(request_solve(http, second)), daemon=True)
++    sender.start()
++    try:
++        for _ in range(100):
++            if len(server.JOBS) == 2 and any(job.get("_generator_started") for job in server.JOBS.values()
++                                               if job is not first_job):
++                break
++            threading.Event().wait(0.005)
++        second_job = next(job for job in server.JOBS.values() if job is not first_job)
++        assert not second_job["_proof_lease"].is_set() and observations == [first]
++        assert not second_response and not started[1].is_set()
++        first_job["_cancel_event"].set()
++        assert first_job["_done"].wait(1)
++        assert started[1].wait(1)
++        sender.join(2)
++        assert not sender.is_alive() and second_response[0]["depth"] == 1
++        assert observations == [first, second]
++        second_job["_cancel_event"].set()
++        assert second_job["_done"].wait(1)
++    finally:
++        for job in server.JOBS.values():
++            job["_cancel_event"].set()
++        sender.join(2)
++
++
++def test_cancelled_unbounded_queue_wait_does_not_start_candidate(jobs, monkeypatch):
++    monkeypatch.setattr(server, "BROKER", ResourceBroker(3))
++    monkeypatch.setattr(server, "QUICK_OPTIMAL_PROBE_SECONDS", 0.005)
++    monkeypatch.setattr(server, "native_solver_available", lambda: True)
++    monkeypatch.setattr(server.FAST_SOLVER, "solve_cube", lambda *a, **kw: pytest.fail("unleased candidate ran"))
++    cube = CubieCube().apply_move_index(MOVE_INDEX["R"])
++    first_id, first_worker = server.prepare_optimal_job(cube, None, 20, None, candidate_enabled=True)
++    job = server.JOBS[first_id]
++    job["_cancel_event"].set()
++    job["status"] = "cancelled"
++    assert not job["_proof_lease"].is_set()
++    # Exercise the HTTP lease wait after it took a queued snapshot and before cancellation.
++    class FakeDone:
++        def wait(self, timeout):
++            return False
++
++    handler = object.__new__(server.AppHandler)
++    handler.path = "/api/solve"
++    handler._read_json = lambda: {"facelets": to_facelets(cube), "timeout_seconds": None}
++    captured = []
++    handler._send_json = lambda payload, status=200: captured.append(payload)
++    monkeypatch.setattr(server, "prepare_optimal_job", lambda *a, **kw: (first_id, first_worker))
++    monkeypatch.setattr(server, "start_optimal_job", lambda *a: None)
++
++    # Snapshot is deliberately running; FakeDone cancels exactly before the lease wait.
++    job["status"] = "queued"
++    class CancellingLease:
++        def wait(self, timeout):
++            job["_cancel_event"].set()
++            job["status"] = "cancelled"
++            return False
++
++    job["_done"] = FakeDone()
++    job["_proof_lease"] = CancellingLease()
++    handler.do_POST()
++    assert captured[0]["proof_status"] == "cancelled"
++    assert job["_candidate_budget_done"].is_set()
++
++
++@pytest.mark.parametrize("threads", [1, 2, 3])
++def test_python_fallback_obeys_thread_quota(jobs, monkeypatch, threads):
++    monkeypatch.setattr(server, "BROKER", ResourceBroker(threads))
++    monkeypatch.setattr(server, "solve_native", lambda *a, **kw: None)
++    observed = []
++    original = server.SOLVER.max_workers
++
++    def python_solve(cube, **kwargs):
++        observed.append(server.SOLVER.max_workers)
++        return candidate(["R'"])
++
++    monkeypatch.setattr(server.SOLVER, "solve_cube", python_solve)
++    cube = CubieCube().apply_move_index(MOVE_INDEX["R"])
++    job_id, _ = server.prepare_optimal_job(cube, None, 20, 5)
++    server.run_optimal_job(job_id, cube, 20, 5)
++    assert server.JOBS[job_id]["status"] == "complete"
++    assert observed == [min(original, threads)] and server.SOLVER.max_workers == original
++
++
++@pytest.mark.parametrize("dynamic", [True, False])
++def test_native_quota_protocol_and_original_incumbent_send(monkeypatch, dynamic):
++    bridge = _PersistentNativeSolver()
++    bridge._process = SimpleNamespace(poll=lambda: None, stdin=object())
++    bridge._lines = queue.Queue()
++    bridge._dynamic_threads = dynamic
++    sent, events = [], []
++    counts = iter([2, 3])
++
++    def send(message):
++        sent.append(message)
++        if message.startswith("solve\t"):
++            request_id = message.split("\t")[1]
++            bridge._lines.put(json.dumps({"type": "result", "request_id": request_id, "ok": True}))
++
++    monkeypatch.setattr(bridge, "_send_locked", send)
++    bridge.solve(CubieCube(), 20, 1, 2, None, None, None, incumbent_provider=lambda: ["R", "R'"],
++                 event_callback=events.append, threads_provider=lambda: next(counts))
++    assert sent[0].startswith("solve\t") and sent[0].endswith("\t2\t\n")
++    assert sent[1].startswith("incumbent\t") and sent[1].endswith("\tR R'\n")
++    assert any(item["type"] == "native_incumbent_sent" for item in events)
++    assert len(sent) == (3 if dynamic else 2)
++    if dynamic:
++        assert sent[2].startswith("threads\t") and sent[2].endswith("\t3\n")
++
++
++def test_qtm_terminal_time_survives_cleanup_updates(monkeypatch):
++    from cube_app.solvers.qtm.backend import QtmBackend
++
++    backend = QtmBackend()
++    started = time.monotonic() - 0.1
++    backend._jobs["test"] = {"_started": started, "status": "running", "terminal_seconds": None}
++    backend._update("test", status="complete")
++    terminal = backend._jobs["test"]["terminal_seconds"]
++    backend._update("test", resource_hold_seconds=1.0, request_elapsed_seconds=1.0)
++    assert 0.09 <= terminal < 1 and backend._jobs["test"]["terminal_seconds"] == terminal
++    assert backend._jobs["test"]["observation_terminal_status"] == "complete"
++
++
++def test_memory_helper_is_identical_to_h1_and_does_not_invent_missing_peaks():
++    from cube_app.solvers.htm.native import _native_process_stats
++
++    root = Path(server.__file__).resolve().parent
++    source = ast.parse((root.parents[2] / "cube_app/solvers/htm/native.py").read_text(encoding="utf-8"))
++    baseline = ast.parse((root / "cube_app/solvers/htm/native.py").read_text(encoding="utf-8"))
++    lookup = lambda tree: next(node for node in tree.body if isinstance(node, ast.FunctionDef)
++                              and node.name == "_native_process_stats")
++    assert ast.dump(lookup(source), include_attributes=False) == ast.dump(lookup(baseline), include_attributes=False)
++    assert _native_process_stats(SimpleNamespace(pid=123)) == {
++        "native_pid": 123, "peak_working_set_bytes": None, "memory_scope": "native_process_lifetime_peak"}
++
++
++def test_qtm_client_terminal_is_retained_with_progress_and_cleanup(monkeypatch):
++    from cube_app.solvers.qtm import backend as module
++
++    broker = ResourceBroker(3)
++    monkeypatch.setattr(module, "BROKER", broker)
++    backend = module.QtmBackend()
++    monkeypatch.setattr(backend, "available", lambda: True)
++    timestamps = []
++
++    def native(cube, **kwargs):
++        at = time.monotonic()
++        timestamps.append(at)
++        kwargs["progress_callback"]({"type": "native_result", "client_terminal_at": at})
++        return {"moves": ["R'"], "depth": 1, "metric": "QTM", "optimal": True,
++                "client_terminal_at": at, "elapsed_seconds": 0.001}
++
++    monkeypatch.setattr(module.native, "solve_native", native)
++    monkeypatch.setattr(module.native, "service_diagnostics", lambda: {"memory_samples": [{"working_set": 123}]})
++    monkeypatch.setattr(module.native, "retain_assets", lambda: False)
++    monkeypatch.setattr(module.native, "release_assets", lambda: None)
++    started = time.monotonic() - 0.1
++    response = backend.submit(to_facelets(CubieCube().apply_move_index(MOVE_INDEX["R"])), 3, 20, 5,
++                              started=started)
++    job = backend._jobs[response["job_id"]]
++    assert job["_done"].wait(1)
++    terminal = timestamps[0] - started
++    assert response["terminal_seconds"] == job["terminal_seconds"] == terminal
++    assert job["strict_confirmed_seconds"] == terminal
++    assert job["observation_terminal_status"] == "complete"
++    assert job["events"][0]["event"]["type"] == "native_result"
++    assert job["residency"]["memory_samples"][0]["working_set"] == 123
++    assert not broker._qtm_active
++
++
++def test_qtm_validated_result_preserves_client_terminal_timestamp():
++    from cube_app.solvers.qtm.native import _validated_result
++
++    result = _validated_result(CubieCube().apply_move_index(MOVE_INDEX["R"]),
++        {"moves": ["R'"], "depth": 1, "metric": "QTM", "optimal": True,
++         "status": "complete", "client_terminal_at": 123.456}, "QTM")
++    assert result["client_terminal_at"] == 123.456
++
++
++def test_qtm_native_observation_retains_original_ast():
++    class StripTerminalObservation(ast.NodeTransformer):
++        def visit_Assign(self, node):
++            if ast.unparse(node.targets[0]) == "event['client_terminal_at']":
++                return None
++            return self.generic_visit(node)
++
++        def visit_If(self, node):
++            if (ast.unparse(node.test) == "progress_callback is not None"
++                    and any(isinstance(item, ast.Constant) and item.value == "native_result" for item in ast.walk(node))):
++                return None
++            return self.generic_visit(node)
++
++        def visit_Dict(self, node):
++            pairs = [(key, value) for key, value in zip(node.keys, node.values)
++                     if not (isinstance(key, ast.Constant) and key.value == "client_terminal_at")]
++            node.keys = [pair[0] for pair in pairs]
++            node.values = [pair[1] for pair in pairs]
++            return self.generic_visit(node)
++
++    root = Path(server.__file__).resolve().parent
++    path = "cube_app/solvers/qtm/native.py"
++    frozen = ast.parse((root.parent / "baseline" / path).read_text(encoding="utf-8"))
++    observed = StripTerminalObservation().visit(ast.parse((root / path).read_text(encoding="utf-8")))
++    assert ast.dump(frozen, include_attributes=False) == ast.dump(observed, include_attributes=False)
++
++
++def test_windows_peak_memory_api_measures_current_process():
++    import ctypes
++    import os
++    from cube_app.solvers.htm.native import _native_process_stats
++
++    assert os.name == "nt", "This controlled baseline is frozen for the Windows reference machine"
++    get_current = ctypes.windll.kernel32.GetCurrentProcess
++    get_current.restype = ctypes.c_void_p
++    result = _native_process_stats(SimpleNamespace(pid=os.getpid(), _handle=get_current()))
++    assert result["native_pid"] == os.getpid()
++    assert result["peak_working_set_bytes"] > 0
++    assert result["memory_scope"] == "native_process_lifetime_peak"

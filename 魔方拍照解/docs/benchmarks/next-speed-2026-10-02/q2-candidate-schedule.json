@@ -1,0 +1,2123 @@
+{
+  "binary_sha256": "4ce76d51bee61461c157a717989783bcbec593cb357a63f98a3ab8f5f64b934d",
+  "budget_seconds": 3,
+  "candidate_threads": 1,
+  "cases": [
+    "initial-1",
+    "initial-12"
+  ],
+  "order": [
+    [
+      "legacy",
+      "short-slices"
+    ],
+    [
+      "short-slices",
+      "legacy"
+    ],
+    [
+      "legacy",
+      "short-slices"
+    ]
+  ],
+  "scope": "isolated candidate scheduling; candidate quality alone does not demonstrate proof acceleration",
+  "runs": [
+    {
+      "name": "initial-1",
+      "schedule": "legacy",
+      "repeat": 0,
+      "wall_seconds": 4.052838199997495,
+      "command": [
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+        "fast-solve",
+        "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--qtm-tail-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+        "--timeout",
+        "3",
+        "--candidate-schedule=legacy"
+      ],
+      "stdout": "{\"ok\":true,\"metric\":\"QTM\",\"cost\":24,\"moves\":[\"U2\",\"B\",\"R\",\"L\",\"F'\",\"B'\",\"U\",\"R\",\"B'\",\"L\",\"F\",\"D\",\"B'\",\"L'\",\"F\",\"U'\",\"F2\",\"U'\",\"D'\",\"R2\",\"D'\"],\"phase1_nodes\":20205384,\"phase2_nodes\":767160,\"phase1_max_distance\":13,\"phase2_max_distance\":22,\"improvements\":6,\"window_replacements\":0,\"timed_out\":true,\"budget_seconds\":3,\"elapsed_seconds\":3.00006,\"candidate_directions\":[{\"direction\":0,\"axis\":-1,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.493091,\"elapsed_seconds\":0.493198,\"phase1_nodes\":3123150,\"phase2_nodes\":766002,\"first_candidate_seconds\":0.0553305,\"first_cost\":34,\"best_cost\":24,\"improvements\":[{\"cost\":34,\"seconds\":0.0553305},{\"cost\":32,\"seconds\":0.0608395},{\"cost\":30,\"seconds\":0.0609572},{\"cost\":28,\"seconds\":0.0635653},{\"cost\":26,\"seconds\":0.0646228},{\"cost\":24,\"seconds\":0.345643}]},{\"direction\":1,\"axis\":0,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.49307,\"elapsed_seconds\":0.493212,\"phase1_nodes\":3314582,\"phase2_nodes\":106,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":2,\"axis\":1,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.493034,\"elapsed_seconds\":0.493098,\"phase1_nodes\":3362626,\"phase2_nodes\":190,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":3,\"axis\":-1,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.493013,\"elapsed_seconds\":0.493084,\"phase1_nodes\":3288956,\"phase2_nodes\":132,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":4,\"axis\":0,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.492976,\"elapsed_seconds\":0.493004,\"phase1_nodes\":3363484,\"phase2_nodes\":356,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":5,\"axis\":1,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.492948,\"elapsed_seconds\":0.493012,\"phase1_nodes\":3752586,\"phase2_nodes\":374,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]}]}\n",
+      "stderr": "",
+      "exit_code": 0,
+      "result": {
+        "ok": true,
+        "metric": "QTM",
+        "cost": 24,
+        "moves": [
+          "U2",
+          "B",
+          "R",
+          "L",
+          "F'",
+          "B'",
+          "U",
+          "R",
+          "B'",
+          "L",
+          "F",
+          "D",
+          "B'",
+          "L'",
+          "F",
+          "U'",
+          "F2",
+          "U'",
+          "D'",
+          "R2",
+          "D'"
+        ],
+        "phase1_nodes": 20205384,
+        "phase2_nodes": 767160,
+        "phase1_max_distance": 13,
+        "phase2_max_distance": 22,
+        "improvements": 6,
+        "window_replacements": 0,
+        "timed_out": true,
+        "budget_seconds": 3,
+        "elapsed_seconds": 3.00006,
+        "candidate_directions": [
+          {
+            "direction": 0,
+            "axis": -1,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.493091,
+            "elapsed_seconds": 0.493198,
+            "phase1_nodes": 3123150,
+            "phase2_nodes": 766002,
+            "first_candidate_seconds": 0.0553305,
+            "first_cost": 34,
+            "best_cost": 24,
+            "improvements": [
+              {
+                "cost": 34,
+                "seconds": 0.0553305
+              },
+              {
+                "cost": 32,
+                "seconds": 0.0608395
+              },
+              {
+                "cost": 30,
+                "seconds": 0.0609572
+              },
+              {
+                "cost": 28,
+                "seconds": 0.0635653
+              },
+              {
+                "cost": 26,
+                "seconds": 0.0646228
+              },
+              {
+                "cost": 24,
+                "seconds": 0.345643
+              }
+            ]
+          },
+          {
+            "direction": 1,
+            "axis": 0,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.49307,
+            "elapsed_seconds": 0.493212,
+            "phase1_nodes": 3314582,
+            "phase2_nodes": 106,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 2,
+            "axis": 1,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.493034,
+            "elapsed_seconds": 0.493098,
+            "phase1_nodes": 3362626,
+            "phase2_nodes": 190,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 3,
+            "axis": -1,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.493013,
+            "elapsed_seconds": 0.493084,
+            "phase1_nodes": 3288956,
+            "phase2_nodes": 132,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 4,
+            "axis": 0,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.492976,
+            "elapsed_seconds": 0.493004,
+            "phase1_nodes": 3363484,
+            "phase2_nodes": 356,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 5,
+            "axis": 1,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.492948,
+            "elapsed_seconds": 0.493012,
+            "phase1_nodes": 3752586,
+            "phase2_nodes": 374,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          }
+        ]
+      },
+      "replay": {
+        "solved": true,
+        "cost": 24
+      },
+      "first_candidate_seconds": 0.0553305
+    },
+    {
+      "name": "initial-1",
+      "schedule": "short-slices",
+      "repeat": 0,
+      "wall_seconds": 4.005286100000376,
+      "command": [
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+        "fast-solve",
+        "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--qtm-tail-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+        "--timeout",
+        "3",
+        "--candidate-schedule=short-slices"
+      ],
+      "stdout": "{\"ok\":true,\"metric\":\"QTM\",\"cost\":24,\"moves\":[\"U\",\"L\",\"F\",\"U'\",\"D'\",\"B'\",\"R'\",\"L\",\"B2\",\"U'\",\"B2\",\"R\",\"B\",\"L2\",\"U2\",\"F\",\"U2\",\"D2\"],\"phase1_nodes\":18138782,\"phase2_nodes\":767330,\"phase1_max_distance\":13,\"phase2_max_distance\":22,\"improvements\":6,\"window_replacements\":0,\"timed_out\":true,\"budget_seconds\":3,\"elapsed_seconds\":3.00011,\"candidate_directions\":[{\"direction\":0,\"axis\":-1,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.492699,\"elapsed_seconds\":0.492973,\"phase1_nodes\":2582289,\"phase2_nodes\":764143,\"first_candidate_seconds\":0.0586143,\"first_cost\":34,\"best_cost\":26,\"improvements\":[{\"cost\":34,\"seconds\":0.0586143},{\"cost\":32,\"seconds\":0.064251},{\"cost\":30,\"seconds\":0.0643657},{\"cost\":28,\"seconds\":0.0668665},{\"cost\":26,\"seconds\":0.067793}]},{\"direction\":1,\"axis\":0,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.492669,\"elapsed_seconds\":0.492843,\"phase1_nodes\":3106343,\"phase2_nodes\":1497,\"first_candidate_seconds\":0.150173,\"first_cost\":24,\"best_cost\":24,\"improvements\":[{\"cost\":24,\"seconds\":0.150173}]},{\"direction\":2,\"axis\":1,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.492642,\"elapsed_seconds\":0.492843,\"phase1_nodes\":3063536,\"phase2_nodes\":272,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":3,\"axis\":-1,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.492581,\"elapsed_seconds\":0.4928,\"phase1_nodes\":3105562,\"phase2_nodes\":230,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":4,\"axis\":0,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.492506,\"elapsed_seconds\":0.492727,\"phase1_nodes\":2982300,\"phase2_nodes\":612,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":5,\"axis\":1,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.492461,\"elapsed_seconds\":0.492805,\"phase1_nodes\":3298752,\"phase2_nodes\":576,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]}]}\n",
+      "stderr": "",
+      "exit_code": 0,
+      "result": {
+        "ok": true,
+        "metric": "QTM",
+        "cost": 24,
+        "moves": [
+          "U",
+          "L",
+          "F",
+          "U'",
+          "D'",
+          "B'",
+          "R'",
+          "L",
+          "B2",
+          "U'",
+          "B2",
+          "R",
+          "B",
+          "L2",
+          "U2",
+          "F",
+          "U2",
+          "D2"
+        ],
+        "phase1_nodes": 18138782,
+        "phase2_nodes": 767330,
+        "phase1_max_distance": 13,
+        "phase2_max_distance": 22,
+        "improvements": 6,
+        "window_replacements": 0,
+        "timed_out": true,
+        "budget_seconds": 3,
+        "elapsed_seconds": 3.00011,
+        "candidate_directions": [
+          {
+            "direction": 0,
+            "axis": -1,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.492699,
+            "elapsed_seconds": 0.492973,
+            "phase1_nodes": 2582289,
+            "phase2_nodes": 764143,
+            "first_candidate_seconds": 0.0586143,
+            "first_cost": 34,
+            "best_cost": 26,
+            "improvements": [
+              {
+                "cost": 34,
+                "seconds": 0.0586143
+              },
+              {
+                "cost": 32,
+                "seconds": 0.064251
+              },
+              {
+                "cost": 30,
+                "seconds": 0.0643657
+              },
+              {
+                "cost": 28,
+                "seconds": 0.0668665
+              },
+              {
+                "cost": 26,
+                "seconds": 0.067793
+              }
+            ]
+          },
+          {
+            "direction": 1,
+            "axis": 0,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.492669,
+            "elapsed_seconds": 0.492843,
+            "phase1_nodes": 3106343,
+            "phase2_nodes": 1497,
+            "first_candidate_seconds": 0.150173,
+            "first_cost": 24,
+            "best_cost": 24,
+            "improvements": [
+              {
+                "cost": 24,
+                "seconds": 0.150173
+              }
+            ]
+          },
+          {
+            "direction": 2,
+            "axis": 1,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.492642,
+            "elapsed_seconds": 0.492843,
+            "phase1_nodes": 3063536,
+            "phase2_nodes": 272,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 3,
+            "axis": -1,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.492581,
+            "elapsed_seconds": 0.4928,
+            "phase1_nodes": 3105562,
+            "phase2_nodes": 230,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 4,
+            "axis": 0,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.492506,
+            "elapsed_seconds": 0.492727,
+            "phase1_nodes": 2982300,
+            "phase2_nodes": 612,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 5,
+            "axis": 1,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.492461,
+            "elapsed_seconds": 0.492805,
+            "phase1_nodes": 3298752,
+            "phase2_nodes": 576,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          }
+        ]
+      },
+      "replay": {
+        "solved": true,
+        "cost": 24
+      },
+      "first_candidate_seconds": 0.0586143
+    },
+    {
+      "name": "initial-12",
+      "schedule": "legacy",
+      "repeat": 0,
+      "wall_seconds": 4.000611500006926,
+      "command": [
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+        "fast-solve",
+        "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--qtm-tail-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+        "--timeout",
+        "3",
+        "--candidate-schedule=legacy"
+      ],
+      "stdout": "{\"ok\":true,\"metric\":\"QTM\",\"cost\":24,\"moves\":[\"F'\",\"U\",\"B'\",\"L2\",\"U'\",\"B\",\"U\",\"D\",\"B'\",\"U\",\"D'\",\"B'\",\"U\",\"L\",\"F'\",\"R2\",\"B'\",\"U2\",\"B'\",\"F2\"],\"phase1_nodes\":19136795,\"phase2_nodes\":615141,\"phase1_max_distance\":13,\"phase2_max_distance\":22,\"improvements\":5,\"window_replacements\":0,\"timed_out\":true,\"budget_seconds\":3,\"elapsed_seconds\":3.00014,\"candidate_directions\":[{\"direction\":0,\"axis\":-1,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.492897,\"elapsed_seconds\":0.49295,\"phase1_nodes\":2712153,\"phase2_nodes\":610727,\"first_candidate_seconds\":0.0450383,\"first_cost\":34,\"best_cost\":26,\"improvements\":[{\"cost\":34,\"seconds\":0.0450383},{\"cost\":32,\"seconds\":0.05259},{\"cost\":28,\"seconds\":0.058688},{\"cost\":26,\"seconds\":0.0597484}]},{\"direction\":1,\"axis\":0,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.492886,\"elapsed_seconds\":0.492907,\"phase1_nodes\":2900072,\"phase2_nodes\":3992,\"first_candidate_seconds\":0.709708,\"first_cost\":24,\"best_cost\":24,\"improvements\":[{\"cost\":24,\"seconds\":0.709708}]},{\"direction\":2,\"axis\":1,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.492881,\"elapsed_seconds\":0.493028,\"phase1_nodes\":3438448,\"phase2_nodes\":144,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":3,\"axis\":-1,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.492832,\"elapsed_seconds\":0.492897,\"phase1_nodes\":3244984,\"phase2_nodes\":72,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":4,\"axis\":0,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.492799,\"elapsed_seconds\":0.493006,\"phase1_nodes\":3472264,\"phase2_nodes\":120,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":5,\"axis\":1,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.492591,\"elapsed_seconds\":0.492733,\"phase1_nodes\":3368874,\"phase2_nodes\":86,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]}]}\n",
+      "stderr": "",
+      "exit_code": 0,
+      "result": {
+        "ok": true,
+        "metric": "QTM",
+        "cost": 24,
+        "moves": [
+          "F'",
+          "U",
+          "B'",
+          "L2",
+          "U'",
+          "B",
+          "U",
+          "D",
+          "B'",
+          "U",
+          "D'",
+          "B'",
+          "U",
+          "L",
+          "F'",
+          "R2",
+          "B'",
+          "U2",
+          "B'",
+          "F2"
+        ],
+        "phase1_nodes": 19136795,
+        "phase2_nodes": 615141,
+        "phase1_max_distance": 13,
+        "phase2_max_distance": 22,
+        "improvements": 5,
+        "window_replacements": 0,
+        "timed_out": true,
+        "budget_seconds": 3,
+        "elapsed_seconds": 3.00014,
+        "candidate_directions": [
+          {
+            "direction": 0,
+            "axis": -1,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.492897,
+            "elapsed_seconds": 0.49295,
+            "phase1_nodes": 2712153,
+            "phase2_nodes": 610727,
+            "first_candidate_seconds": 0.0450383,
+            "first_cost": 34,
+            "best_cost": 26,
+            "improvements": [
+              {
+                "cost": 34,
+                "seconds": 0.0450383
+              },
+              {
+                "cost": 32,
+                "seconds": 0.05259
+              },
+              {
+                "cost": 28,
+                "seconds": 0.058688
+              },
+              {
+                "cost": 26,
+                "seconds": 0.0597484
+              }
+            ]
+          },
+          {
+            "direction": 1,
+            "axis": 0,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.492886,
+            "elapsed_seconds": 0.492907,
+            "phase1_nodes": 2900072,
+            "phase2_nodes": 3992,
+            "first_candidate_seconds": 0.709708,
+            "first_cost": 24,
+            "best_cost": 24,
+            "improvements": [
+              {
+                "cost": 24,
+                "seconds": 0.709708
+              }
+            ]
+          },
+          {
+            "direction": 2,
+            "axis": 1,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.492881,
+            "elapsed_seconds": 0.493028,
+            "phase1_nodes": 3438448,
+            "phase2_nodes": 144,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 3,
+            "axis": -1,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.492832,
+            "elapsed_seconds": 0.492897,
+            "phase1_nodes": 3244984,
+            "phase2_nodes": 72,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 4,
+            "axis": 0,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.492799,
+            "elapsed_seconds": 0.493006,
+            "phase1_nodes": 3472264,
+            "phase2_nodes": 120,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 5,
+            "axis": 1,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.492591,
+            "elapsed_seconds": 0.492733,
+            "phase1_nodes": 3368874,
+            "phase2_nodes": 86,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          }
+        ]
+      },
+      "replay": {
+        "solved": true,
+        "cost": 24
+      },
+      "first_candidate_seconds": 0.0450383
+    },
+    {
+      "name": "initial-12",
+      "schedule": "short-slices",
+      "repeat": 0,
+      "wall_seconds": 3.9869228999959887,
+      "command": [
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+        "fast-solve",
+        "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--qtm-tail-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+        "--timeout",
+        "3",
+        "--candidate-schedule=short-slices"
+      ],
+      "stdout": "{\"ok\":true,\"metric\":\"QTM\",\"cost\":24,\"moves\":[\"F\",\"D'\",\"B\",\"L\",\"D'\",\"F\",\"D'\",\"F'\",\"U'\",\"L\",\"B'\",\"L\",\"U'\",\"F\",\"B'\",\"R2\",\"F2\",\"R\",\"U2\",\"L2\"],\"phase1_nodes\":18460353,\"phase2_nodes\":615743,\"phase1_max_distance\":13,\"phase2_max_distance\":22,\"improvements\":5,\"window_replacements\":0,\"timed_out\":true,\"budget_seconds\":3,\"elapsed_seconds\":3.00003,\"candidate_directions\":[{\"direction\":0,\"axis\":-1,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.49286,\"elapsed_seconds\":0.493072,\"phase1_nodes\":3362719,\"phase2_nodes\":608353,\"first_candidate_seconds\":0.0447679,\"first_cost\":34,\"best_cost\":26,\"improvements\":[{\"cost\":34,\"seconds\":0.0447679},{\"cost\":32,\"seconds\":0.0526491},{\"cost\":28,\"seconds\":0.0587278},{\"cost\":26,\"seconds\":0.0597593}]},{\"direction\":1,\"axis\":0,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.492842,\"elapsed_seconds\":0.493091,\"phase1_nodes\":3390702,\"phase2_nodes\":3858,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":2,\"axis\":1,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.49282,\"elapsed_seconds\":0.493055,\"phase1_nodes\":3283896,\"phase2_nodes\":3144,\"first_candidate_seconds\":0.324373,\"first_cost\":24,\"best_cost\":24,\"improvements\":[{\"cost\":24,\"seconds\":0.324373}]},{\"direction\":3,\"axis\":-1,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.492782,\"elapsed_seconds\":0.492935,\"phase1_nodes\":2861966,\"phase2_nodes\":114,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":4,\"axis\":0,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.492763,\"elapsed_seconds\":0.492896,\"phase1_nodes\":2607970,\"phase2_nodes\":158,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":5,\"axis\":1,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.492741,\"elapsed_seconds\":0.492872,\"phase1_nodes\":2953100,\"phase2_nodes\":116,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]}]}\n",
+      "stderr": "",
+      "exit_code": 0,
+      "result": {
+        "ok": true,
+        "metric": "QTM",
+        "cost": 24,
+        "moves": [
+          "F",
+          "D'",
+          "B",
+          "L",
+          "D'",
+          "F",
+          "D'",
+          "F'",
+          "U'",
+          "L",
+          "B'",
+          "L",
+          "U'",
+          "F",
+          "B'",
+          "R2",
+          "F2",
+          "R",
+          "U2",
+          "L2"
+        ],
+        "phase1_nodes": 18460353,
+        "phase2_nodes": 615743,
+        "phase1_max_distance": 13,
+        "phase2_max_distance": 22,
+        "improvements": 5,
+        "window_replacements": 0,
+        "timed_out": true,
+        "budget_seconds": 3,
+        "elapsed_seconds": 3.00003,
+        "candidate_directions": [
+          {
+            "direction": 0,
+            "axis": -1,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.49286,
+            "elapsed_seconds": 0.493072,
+            "phase1_nodes": 3362719,
+            "phase2_nodes": 608353,
+            "first_candidate_seconds": 0.0447679,
+            "first_cost": 34,
+            "best_cost": 26,
+            "improvements": [
+              {
+                "cost": 34,
+                "seconds": 0.0447679
+              },
+              {
+                "cost": 32,
+                "seconds": 0.0526491
+              },
+              {
+                "cost": 28,
+                "seconds": 0.0587278
+              },
+              {
+                "cost": 26,
+                "seconds": 0.0597593
+              }
+            ]
+          },
+          {
+            "direction": 1,
+            "axis": 0,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.492842,
+            "elapsed_seconds": 0.493091,
+            "phase1_nodes": 3390702,
+            "phase2_nodes": 3858,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 2,
+            "axis": 1,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.49282,
+            "elapsed_seconds": 0.493055,
+            "phase1_nodes": 3283896,
+            "phase2_nodes": 3144,
+            "first_candidate_seconds": 0.324373,
+            "first_cost": 24,
+            "best_cost": 24,
+            "improvements": [
+              {
+                "cost": 24,
+                "seconds": 0.324373
+              }
+            ]
+          },
+          {
+            "direction": 3,
+            "axis": -1,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.492782,
+            "elapsed_seconds": 0.492935,
+            "phase1_nodes": 2861966,
+            "phase2_nodes": 114,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 4,
+            "axis": 0,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.492763,
+            "elapsed_seconds": 0.492896,
+            "phase1_nodes": 2607970,
+            "phase2_nodes": 158,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 5,
+            "axis": 1,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.492741,
+            "elapsed_seconds": 0.492872,
+            "phase1_nodes": 2953100,
+            "phase2_nodes": 116,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          }
+        ]
+      },
+      "replay": {
+        "solved": true,
+        "cost": 24
+      },
+      "first_candidate_seconds": 0.0447679
+    },
+    {
+      "name": "initial-1",
+      "schedule": "short-slices",
+      "repeat": 1,
+      "wall_seconds": 4.005114899999171,
+      "command": [
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+        "fast-solve",
+        "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--qtm-tail-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+        "--timeout",
+        "3",
+        "--candidate-schedule=short-slices"
+      ],
+      "stdout": "{\"ok\":true,\"metric\":\"QTM\",\"cost\":24,\"moves\":[\"U\",\"L\",\"F\",\"U'\",\"D'\",\"B'\",\"R'\",\"L\",\"B2\",\"U'\",\"B2\",\"R\",\"B\",\"L2\",\"U2\",\"F\",\"U2\",\"D2\"],\"phase1_nodes\":19155774,\"phase2_nodes\":527554,\"phase1_max_distance\":13,\"phase2_max_distance\":22,\"improvements\":6,\"window_replacements\":0,\"timed_out\":true,\"budget_seconds\":3,\"elapsed_seconds\":3.00002,\"candidate_directions\":[{\"direction\":0,\"axis\":-1,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.493075,\"elapsed_seconds\":0.493283,\"phase1_nodes\":3158051,\"phase2_nodes\":524253,\"first_candidate_seconds\":0.0489799,\"first_cost\":34,\"best_cost\":26,\"improvements\":[{\"cost\":34,\"seconds\":0.0489799},{\"cost\":32,\"seconds\":0.0548712},{\"cost\":30,\"seconds\":0.0550643},{\"cost\":28,\"seconds\":0.0581231},{\"cost\":26,\"seconds\":0.0592075}]},{\"direction\":1,\"axis\":0,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.493038,\"elapsed_seconds\":0.493262,\"phase1_nodes\":3163683,\"phase2_nodes\":1501,\"first_candidate_seconds\":0.14704,\"first_cost\":24,\"best_cost\":24,\"improvements\":[{\"cost\":24,\"seconds\":0.14704}]},{\"direction\":2,\"axis\":1,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.493013,\"elapsed_seconds\":0.493189,\"phase1_nodes\":3118810,\"phase2_nodes\":294,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":3,\"axis\":-1,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.492998,\"elapsed_seconds\":0.493163,\"phase1_nodes\":2799378,\"phase2_nodes\":238,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":4,\"axis\":0,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.492943,\"elapsed_seconds\":0.493167,\"phase1_nodes\":3201410,\"phase2_nodes\":638,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":5,\"axis\":1,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.492885,\"elapsed_seconds\":0.493029,\"phase1_nodes\":3714442,\"phase2_nodes\":630,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]}]}\n",
+      "stderr": "",
+      "exit_code": 0,
+      "result": {
+        "ok": true,
+        "metric": "QTM",
+        "cost": 24,
+        "moves": [
+          "U",
+          "L",
+          "F",
+          "U'",
+          "D'",
+          "B'",
+          "R'",
+          "L",
+          "B2",
+          "U'",
+          "B2",
+          "R",
+          "B",
+          "L2",
+          "U2",
+          "F",
+          "U2",
+          "D2"
+        ],
+        "phase1_nodes": 19155774,
+        "phase2_nodes": 527554,
+        "phase1_max_distance": 13,
+        "phase2_max_distance": 22,
+        "improvements": 6,
+        "window_replacements": 0,
+        "timed_out": true,
+        "budget_seconds": 3,
+        "elapsed_seconds": 3.00002,
+        "candidate_directions": [
+          {
+            "direction": 0,
+            "axis": -1,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.493075,
+            "elapsed_seconds": 0.493283,
+            "phase1_nodes": 3158051,
+            "phase2_nodes": 524253,
+            "first_candidate_seconds": 0.0489799,
+            "first_cost": 34,
+            "best_cost": 26,
+            "improvements": [
+              {
+                "cost": 34,
+                "seconds": 0.0489799
+              },
+              {
+                "cost": 32,
+                "seconds": 0.0548712
+              },
+              {
+                "cost": 30,
+                "seconds": 0.0550643
+              },
+              {
+                "cost": 28,
+                "seconds": 0.0581231
+              },
+              {
+                "cost": 26,
+                "seconds": 0.0592075
+              }
+            ]
+          },
+          {
+            "direction": 1,
+            "axis": 0,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.493038,
+            "elapsed_seconds": 0.493262,
+            "phase1_nodes": 3163683,
+            "phase2_nodes": 1501,
+            "first_candidate_seconds": 0.14704,
+            "first_cost": 24,
+            "best_cost": 24,
+            "improvements": [
+              {
+                "cost": 24,
+                "seconds": 0.14704
+              }
+            ]
+          },
+          {
+            "direction": 2,
+            "axis": 1,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.493013,
+            "elapsed_seconds": 0.493189,
+            "phase1_nodes": 3118810,
+            "phase2_nodes": 294,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 3,
+            "axis": -1,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.492998,
+            "elapsed_seconds": 0.493163,
+            "phase1_nodes": 2799378,
+            "phase2_nodes": 238,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 4,
+            "axis": 0,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.492943,
+            "elapsed_seconds": 0.493167,
+            "phase1_nodes": 3201410,
+            "phase2_nodes": 638,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 5,
+            "axis": 1,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.492885,
+            "elapsed_seconds": 0.493029,
+            "phase1_nodes": 3714442,
+            "phase2_nodes": 630,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          }
+        ]
+      },
+      "replay": {
+        "solved": true,
+        "cost": 24
+      },
+      "first_candidate_seconds": 0.0489799
+    },
+    {
+      "name": "initial-1",
+      "schedule": "legacy",
+      "repeat": 1,
+      "wall_seconds": 3.9975422999996226,
+      "command": [
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+        "fast-solve",
+        "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--qtm-tail-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+        "--timeout",
+        "3",
+        "--candidate-schedule=legacy"
+      ],
+      "stdout": "{\"ok\":true,\"metric\":\"QTM\",\"cost\":24,\"moves\":[\"U2\",\"B\",\"R\",\"L\",\"F'\",\"B'\",\"U\",\"R\",\"B'\",\"L\",\"F\",\"D\",\"B'\",\"L'\",\"F\",\"U'\",\"F2\",\"U'\",\"D'\",\"R2\",\"D'\"],\"phase1_nodes\":19926856,\"phase2_nodes\":767160,\"phase1_max_distance\":13,\"phase2_max_distance\":22,\"improvements\":6,\"window_replacements\":0,\"timed_out\":true,\"budget_seconds\":3,\"elapsed_seconds\":3.00007,\"candidate_directions\":[{\"direction\":0,\"axis\":-1,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.493233,\"elapsed_seconds\":0.493341,\"phase1_nodes\":3006414,\"phase2_nodes\":766002,\"first_candidate_seconds\":0.0545003,\"first_cost\":34,\"best_cost\":24,\"improvements\":[{\"cost\":34,\"seconds\":0.0545003},{\"cost\":32,\"seconds\":0.0599345},{\"cost\":30,\"seconds\":0.0600529},{\"cost\":28,\"seconds\":0.0625133},{\"cost\":26,\"seconds\":0.0635292},{\"cost\":24,\"seconds\":0.34689}]},{\"direction\":1,\"axis\":0,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.493211,\"elapsed_seconds\":0.493247,\"phase1_nodes\":3185558,\"phase2_nodes\":106,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":2,\"axis\":1,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.493201,\"elapsed_seconds\":0.493269,\"phase1_nodes\":3392322,\"phase2_nodes\":190,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":3,\"axis\":-1,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.493179,\"elapsed_seconds\":0.493276,\"phase1_nodes\":3264380,\"phase2_nodes\":132,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":4,\"axis\":0,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.49313,\"elapsed_seconds\":0.493261,\"phase1_nodes\":3374748,\"phase2_nodes\":356,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":5,\"axis\":1,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.492997,\"elapsed_seconds\":0.49307,\"phase1_nodes\":3703434,\"phase2_nodes\":374,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]}]}\n",
+      "stderr": "",
+      "exit_code": 0,
+      "result": {
+        "ok": true,
+        "metric": "QTM",
+        "cost": 24,
+        "moves": [
+          "U2",
+          "B",
+          "R",
+          "L",
+          "F'",
+          "B'",
+          "U",
+          "R",
+          "B'",
+          "L",
+          "F",
+          "D",
+          "B'",
+          "L'",
+          "F",
+          "U'",
+          "F2",
+          "U'",
+          "D'",
+          "R2",
+          "D'"
+        ],
+        "phase1_nodes": 19926856,
+        "phase2_nodes": 767160,
+        "phase1_max_distance": 13,
+        "phase2_max_distance": 22,
+        "improvements": 6,
+        "window_replacements": 0,
+        "timed_out": true,
+        "budget_seconds": 3,
+        "elapsed_seconds": 3.00007,
+        "candidate_directions": [
+          {
+            "direction": 0,
+            "axis": -1,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.493233,
+            "elapsed_seconds": 0.493341,
+            "phase1_nodes": 3006414,
+            "phase2_nodes": 766002,
+            "first_candidate_seconds": 0.0545003,
+            "first_cost": 34,
+            "best_cost": 24,
+            "improvements": [
+              {
+                "cost": 34,
+                "seconds": 0.0545003
+              },
+              {
+                "cost": 32,
+                "seconds": 0.0599345
+              },
+              {
+                "cost": 30,
+                "seconds": 0.0600529
+              },
+              {
+                "cost": 28,
+                "seconds": 0.0625133
+              },
+              {
+                "cost": 26,
+                "seconds": 0.0635292
+              },
+              {
+                "cost": 24,
+                "seconds": 0.34689
+              }
+            ]
+          },
+          {
+            "direction": 1,
+            "axis": 0,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.493211,
+            "elapsed_seconds": 0.493247,
+            "phase1_nodes": 3185558,
+            "phase2_nodes": 106,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 2,
+            "axis": 1,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.493201,
+            "elapsed_seconds": 0.493269,
+            "phase1_nodes": 3392322,
+            "phase2_nodes": 190,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 3,
+            "axis": -1,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.493179,
+            "elapsed_seconds": 0.493276,
+            "phase1_nodes": 3264380,
+            "phase2_nodes": 132,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 4,
+            "axis": 0,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.49313,
+            "elapsed_seconds": 0.493261,
+            "phase1_nodes": 3374748,
+            "phase2_nodes": 356,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 5,
+            "axis": 1,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.492997,
+            "elapsed_seconds": 0.49307,
+            "phase1_nodes": 3703434,
+            "phase2_nodes": 374,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          }
+        ]
+      },
+      "replay": {
+        "solved": true,
+        "cost": 24
+      },
+      "first_candidate_seconds": 0.0545003
+    },
+    {
+      "name": "initial-12",
+      "schedule": "short-slices",
+      "repeat": 1,
+      "wall_seconds": 3.987274699997215,
+      "command": [
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+        "fast-solve",
+        "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--qtm-tail-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+        "--timeout",
+        "3",
+        "--candidate-schedule=short-slices"
+      ],
+      "stdout": "{\"ok\":true,\"metric\":\"QTM\",\"cost\":24,\"moves\":[\"F\",\"D'\",\"B\",\"L\",\"D'\",\"F\",\"D'\",\"F'\",\"U'\",\"L\",\"B'\",\"L\",\"U'\",\"F\",\"B'\",\"R2\",\"F2\",\"R\",\"U2\",\"L2\"],\"phase1_nodes\":20154423,\"phase2_nodes\":615369,\"phase1_max_distance\":13,\"phase2_max_distance\":22,\"improvements\":5,\"window_replacements\":0,\"timed_out\":true,\"budget_seconds\":3,\"elapsed_seconds\":3.00008,\"candidate_directions\":[{\"direction\":0,\"axis\":-1,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.493274,\"elapsed_seconds\":0.493422,\"phase1_nodes\":3369269,\"phase2_nodes\":607947,\"first_candidate_seconds\":0.0421335,\"first_cost\":34,\"best_cost\":26,\"improvements\":[{\"cost\":34,\"seconds\":0.0421335},{\"cost\":32,\"seconds\":0.0506528},{\"cost\":28,\"seconds\":0.0568278},{\"cost\":26,\"seconds\":0.0578935}]},{\"direction\":1,\"axis\":0,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.493251,\"elapsed_seconds\":0.493347,\"phase1_nodes\":3479738,\"phase2_nodes\":3910,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":2,\"axis\":1,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.493242,\"elapsed_seconds\":0.493285,\"phase1_nodes\":3451852,\"phase2_nodes\":3124,\"first_candidate_seconds\":0.323878,\"first_cost\":24,\"best_cost\":24,\"improvements\":[{\"cost\":24,\"seconds\":0.323878}]},{\"direction\":3,\"axis\":-1,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.493234,\"elapsed_seconds\":0.493331,\"phase1_nodes\":3147662,\"phase2_nodes\":114,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":4,\"axis\":0,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.493232,\"elapsed_seconds\":0.493442,\"phase1_nodes\":3389282,\"phase2_nodes\":158,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":5,\"axis\":1,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.493161,\"elapsed_seconds\":0.493325,\"phase1_nodes\":3316620,\"phase2_nodes\":116,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]}]}\n",
+      "stderr": "",
+      "exit_code": 0,
+      "result": {
+        "ok": true,
+        "metric": "QTM",
+        "cost": 24,
+        "moves": [
+          "F",
+          "D'",
+          "B",
+          "L",
+          "D'",
+          "F",
+          "D'",
+          "F'",
+          "U'",
+          "L",
+          "B'",
+          "L",
+          "U'",
+          "F",
+          "B'",
+          "R2",
+          "F2",
+          "R",
+          "U2",
+          "L2"
+        ],
+        "phase1_nodes": 20154423,
+        "phase2_nodes": 615369,
+        "phase1_max_distance": 13,
+        "phase2_max_distance": 22,
+        "improvements": 5,
+        "window_replacements": 0,
+        "timed_out": true,
+        "budget_seconds": 3,
+        "elapsed_seconds": 3.00008,
+        "candidate_directions": [
+          {
+            "direction": 0,
+            "axis": -1,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.493274,
+            "elapsed_seconds": 0.493422,
+            "phase1_nodes": 3369269,
+            "phase2_nodes": 607947,
+            "first_candidate_seconds": 0.0421335,
+            "first_cost": 34,
+            "best_cost": 26,
+            "improvements": [
+              {
+                "cost": 34,
+                "seconds": 0.0421335
+              },
+              {
+                "cost": 32,
+                "seconds": 0.0506528
+              },
+              {
+                "cost": 28,
+                "seconds": 0.0568278
+              },
+              {
+                "cost": 26,
+                "seconds": 0.0578935
+              }
+            ]
+          },
+          {
+            "direction": 1,
+            "axis": 0,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.493251,
+            "elapsed_seconds": 0.493347,
+            "phase1_nodes": 3479738,
+            "phase2_nodes": 3910,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 2,
+            "axis": 1,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.493242,
+            "elapsed_seconds": 0.493285,
+            "phase1_nodes": 3451852,
+            "phase2_nodes": 3124,
+            "first_candidate_seconds": 0.323878,
+            "first_cost": 24,
+            "best_cost": 24,
+            "improvements": [
+              {
+                "cost": 24,
+                "seconds": 0.323878
+              }
+            ]
+          },
+          {
+            "direction": 3,
+            "axis": -1,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.493234,
+            "elapsed_seconds": 0.493331,
+            "phase1_nodes": 3147662,
+            "phase2_nodes": 114,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 4,
+            "axis": 0,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.493232,
+            "elapsed_seconds": 0.493442,
+            "phase1_nodes": 3389282,
+            "phase2_nodes": 158,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 5,
+            "axis": 1,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.493161,
+            "elapsed_seconds": 0.493325,
+            "phase1_nodes": 3316620,
+            "phase2_nodes": 116,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          }
+        ]
+      },
+      "replay": {
+        "solved": true,
+        "cost": 24
+      },
+      "first_candidate_seconds": 0.0421335
+    },
+    {
+      "name": "initial-12",
+      "schedule": "legacy",
+      "repeat": 1,
+      "wall_seconds": 3.999701599997934,
+      "command": [
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+        "fast-solve",
+        "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--qtm-tail-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+        "--timeout",
+        "3",
+        "--candidate-schedule=legacy"
+      ],
+      "stdout": "{\"ok\":true,\"metric\":\"QTM\",\"cost\":24,\"moves\":[\"F'\",\"U\",\"B'\",\"L2\",\"U'\",\"B\",\"U\",\"D\",\"B'\",\"U\",\"D'\",\"B'\",\"U\",\"L\",\"F'\",\"R2\",\"B'\",\"U2\",\"B'\",\"F2\"],\"phase1_nodes\":19374385,\"phase2_nodes\":615119,\"phase1_max_distance\":13,\"phase2_max_distance\":22,\"improvements\":5,\"window_replacements\":0,\"timed_out\":true,\"budget_seconds\":3,\"elapsed_seconds\":3.00007,\"candidate_directions\":[{\"direction\":0,\"axis\":-1,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.49336,\"elapsed_seconds\":0.49343,\"phase1_nodes\":2633327,\"phase2_nodes\":610705,\"first_candidate_seconds\":0.042228,\"first_cost\":34,\"best_cost\":26,\"improvements\":[{\"cost\":34,\"seconds\":0.042228},{\"cost\":32,\"seconds\":0.0499036},{\"cost\":28,\"seconds\":0.0560652},{\"cost\":26,\"seconds\":0.0571487}]},{\"direction\":1,\"axis\":0,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.493345,\"elapsed_seconds\":0.493472,\"phase1_nodes\":3273832,\"phase2_nodes\":3992,\"first_candidate_seconds\":0.691457,\"first_cost\":24,\"best_cost\":24,\"improvements\":[{\"cost\":24,\"seconds\":0.691457}]},{\"direction\":2,\"axis\":1,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.493313,\"elapsed_seconds\":0.49339,\"phase1_nodes\":3507056,\"phase2_nodes\":144,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":3,\"axis\":-1,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.493288,\"elapsed_seconds\":0.493436,\"phase1_nodes\":3226552,\"phase2_nodes\":72,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":4,\"axis\":0,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.493213,\"elapsed_seconds\":0.493361,\"phase1_nodes\":3507080,\"phase2_nodes\":120,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":5,\"axis\":1,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.493064,\"elapsed_seconds\":0.493134,\"phase1_nodes\":3226538,\"phase2_nodes\":86,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]}]}\n",
+      "stderr": "",
+      "exit_code": 0,
+      "result": {
+        "ok": true,
+        "metric": "QTM",
+        "cost": 24,
+        "moves": [
+          "F'",
+          "U",
+          "B'",
+          "L2",
+          "U'",
+          "B",
+          "U",
+          "D",
+          "B'",
+          "U",
+          "D'",
+          "B'",
+          "U",
+          "L",
+          "F'",
+          "R2",
+          "B'",
+          "U2",
+          "B'",
+          "F2"
+        ],
+        "phase1_nodes": 19374385,
+        "phase2_nodes": 615119,
+        "phase1_max_distance": 13,
+        "phase2_max_distance": 22,
+        "improvements": 5,
+        "window_replacements": 0,
+        "timed_out": true,
+        "budget_seconds": 3,
+        "elapsed_seconds": 3.00007,
+        "candidate_directions": [
+          {
+            "direction": 0,
+            "axis": -1,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.49336,
+            "elapsed_seconds": 0.49343,
+            "phase1_nodes": 2633327,
+            "phase2_nodes": 610705,
+            "first_candidate_seconds": 0.042228,
+            "first_cost": 34,
+            "best_cost": 26,
+            "improvements": [
+              {
+                "cost": 34,
+                "seconds": 0.042228
+              },
+              {
+                "cost": 32,
+                "seconds": 0.0499036
+              },
+              {
+                "cost": 28,
+                "seconds": 0.0560652
+              },
+              {
+                "cost": 26,
+                "seconds": 0.0571487
+              }
+            ]
+          },
+          {
+            "direction": 1,
+            "axis": 0,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.493345,
+            "elapsed_seconds": 0.493472,
+            "phase1_nodes": 3273832,
+            "phase2_nodes": 3992,
+            "first_candidate_seconds": 0.691457,
+            "first_cost": 24,
+            "best_cost": 24,
+            "improvements": [
+              {
+                "cost": 24,
+                "seconds": 0.691457
+              }
+            ]
+          },
+          {
+            "direction": 2,
+            "axis": 1,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.493313,
+            "elapsed_seconds": 0.49339,
+            "phase1_nodes": 3507056,
+            "phase2_nodes": 144,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 3,
+            "axis": -1,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.493288,
+            "elapsed_seconds": 0.493436,
+            "phase1_nodes": 3226552,
+            "phase2_nodes": 72,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 4,
+            "axis": 0,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.493213,
+            "elapsed_seconds": 0.493361,
+            "phase1_nodes": 3507080,
+            "phase2_nodes": 120,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 5,
+            "axis": 1,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.493064,
+            "elapsed_seconds": 0.493134,
+            "phase1_nodes": 3226538,
+            "phase2_nodes": 86,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          }
+        ]
+      },
+      "replay": {
+        "solved": true,
+        "cost": 24
+      },
+      "first_candidate_seconds": 0.042228
+    },
+    {
+      "name": "initial-1",
+      "schedule": "legacy",
+      "repeat": 2,
+      "wall_seconds": 4.00930309999967,
+      "command": [
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+        "fast-solve",
+        "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--qtm-tail-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+        "--timeout",
+        "3",
+        "--candidate-schedule=legacy"
+      ],
+      "stdout": "{\"ok\":true,\"metric\":\"QTM\",\"cost\":24,\"moves\":[\"U2\",\"B\",\"R\",\"L\",\"F'\",\"B'\",\"U\",\"R\",\"B'\",\"L\",\"F\",\"D\",\"B'\",\"L'\",\"F\",\"U'\",\"F2\",\"U'\",\"D'\",\"R2\",\"D'\"],\"phase1_nodes\":19356490,\"phase2_nodes\":767158,\"phase1_max_distance\":13,\"phase2_max_distance\":22,\"improvements\":6,\"window_replacements\":0,\"timed_out\":true,\"budget_seconds\":3,\"elapsed_seconds\":3.00001,\"candidate_directions\":[{\"direction\":0,\"axis\":-1,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.493332,\"elapsed_seconds\":0.493394,\"phase1_nodes\":2976718,\"phase2_nodes\":766002,\"first_candidate_seconds\":0.0539056,\"first_cost\":34,\"best_cost\":24,\"improvements\":[{\"cost\":34,\"seconds\":0.0539056},{\"cost\":32,\"seconds\":0.0592843},{\"cost\":30,\"seconds\":0.0593978},{\"cost\":28,\"seconds\":0.0619128},{\"cost\":26,\"seconds\":0.0629636},{\"cost\":24,\"seconds\":0.34307}]},{\"direction\":1,\"axis\":0,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.49332,\"elapsed_seconds\":0.493387,\"phase1_nodes\":2751384,\"phase2_nodes\":104,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":2,\"axis\":1,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.493303,\"elapsed_seconds\":0.493356,\"phase1_nodes\":3259202,\"phase2_nodes\":190,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":3,\"axis\":-1,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.493285,\"elapsed_seconds\":0.493358,\"phase1_nodes\":3262332,\"phase2_nodes\":132,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":4,\"axis\":0,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.493249,\"elapsed_seconds\":0.493314,\"phase1_nodes\":3318428,\"phase2_nodes\":356,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":5,\"axis\":1,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.493183,\"elapsed_seconds\":0.493195,\"phase1_nodes\":3788426,\"phase2_nodes\":374,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]}]}\n",
+      "stderr": "",
+      "exit_code": 0,
+      "result": {
+        "ok": true,
+        "metric": "QTM",
+        "cost": 24,
+        "moves": [
+          "U2",
+          "B",
+          "R",
+          "L",
+          "F'",
+          "B'",
+          "U",
+          "R",
+          "B'",
+          "L",
+          "F",
+          "D",
+          "B'",
+          "L'",
+          "F",
+          "U'",
+          "F2",
+          "U'",
+          "D'",
+          "R2",
+          "D'"
+        ],
+        "phase1_nodes": 19356490,
+        "phase2_nodes": 767158,
+        "phase1_max_distance": 13,
+        "phase2_max_distance": 22,
+        "improvements": 6,
+        "window_replacements": 0,
+        "timed_out": true,
+        "budget_seconds": 3,
+        "elapsed_seconds": 3.00001,
+        "candidate_directions": [
+          {
+            "direction": 0,
+            "axis": -1,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.493332,
+            "elapsed_seconds": 0.493394,
+            "phase1_nodes": 2976718,
+            "phase2_nodes": 766002,
+            "first_candidate_seconds": 0.0539056,
+            "first_cost": 34,
+            "best_cost": 24,
+            "improvements": [
+              {
+                "cost": 34,
+                "seconds": 0.0539056
+              },
+              {
+                "cost": 32,
+                "seconds": 0.0592843
+              },
+              {
+                "cost": 30,
+                "seconds": 0.0593978
+              },
+              {
+                "cost": 28,
+                "seconds": 0.0619128
+              },
+              {
+                "cost": 26,
+                "seconds": 0.0629636
+              },
+              {
+                "cost": 24,
+                "seconds": 0.34307
+              }
+            ]
+          },
+          {
+            "direction": 1,
+            "axis": 0,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.49332,
+            "elapsed_seconds": 0.493387,
+            "phase1_nodes": 2751384,
+            "phase2_nodes": 104,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 2,
+            "axis": 1,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.493303,
+            "elapsed_seconds": 0.493356,
+            "phase1_nodes": 3259202,
+            "phase2_nodes": 190,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 3,
+            "axis": -1,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.493285,
+            "elapsed_seconds": 0.493358,
+            "phase1_nodes": 3262332,
+            "phase2_nodes": 132,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 4,
+            "axis": 0,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.493249,
+            "elapsed_seconds": 0.493314,
+            "phase1_nodes": 3318428,
+            "phase2_nodes": 356,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 5,
+            "axis": 1,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.493183,
+            "elapsed_seconds": 0.493195,
+            "phase1_nodes": 3788426,
+            "phase2_nodes": 374,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          }
+        ]
+      },
+      "replay": {
+        "solved": true,
+        "cost": 24
+      },
+      "first_candidate_seconds": 0.0539056
+    },
+    {
+      "name": "initial-1",
+      "schedule": "short-slices",
+      "repeat": 2,
+      "wall_seconds": 3.9934374000004027,
+      "command": [
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+        "fast-solve",
+        "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--qtm-tail-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+        "--timeout",
+        "3",
+        "--candidate-schedule=short-slices"
+      ],
+      "stdout": "{\"ok\":true,\"metric\":\"QTM\",\"cost\":24,\"moves\":[\"U\",\"L\",\"F\",\"U'\",\"D'\",\"B'\",\"R'\",\"L\",\"B2\",\"U'\",\"B2\",\"R\",\"B\",\"L2\",\"U2\",\"F\",\"U2\",\"D2\"],\"phase1_nodes\":19534484,\"phase2_nodes\":527724,\"phase1_max_distance\":13,\"phase2_max_distance\":22,\"improvements\":6,\"window_replacements\":0,\"timed_out\":true,\"budget_seconds\":3,\"elapsed_seconds\":3.00012,\"candidate_directions\":[{\"direction\":0,\"axis\":-1,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.493058,\"elapsed_seconds\":0.493283,\"phase1_nodes\":2928435,\"phase2_nodes\":524493,\"first_candidate_seconds\":0.0482524,\"first_cost\":34,\"best_cost\":26,\"improvements\":[{\"cost\":34,\"seconds\":0.0482524},{\"cost\":32,\"seconds\":0.0536699},{\"cost\":30,\"seconds\":0.0537868},{\"cost\":28,\"seconds\":0.0561922},{\"cost\":26,\"seconds\":0.0571917}]},{\"direction\":1,\"axis\":0,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.493033,\"elapsed_seconds\":0.493205,\"phase1_nodes\":3226147,\"phase2_nodes\":1501,\"first_candidate_seconds\":0.147048,\"first_cost\":24,\"best_cost\":24,\"improvements\":[{\"cost\":24,\"seconds\":0.147048}]},{\"direction\":2,\"axis\":1,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.493013,\"elapsed_seconds\":0.493096,\"phase1_nodes\":3364570,\"phase2_nodes\":294,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":3,\"axis\":-1,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.492999,\"elapsed_seconds\":0.493233,\"phase1_nodes\":3224344,\"phase2_nodes\":232,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":4,\"axis\":0,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.492938,\"elapsed_seconds\":0.493166,\"phase1_nodes\":3230102,\"phase2_nodes\":618,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":5,\"axis\":1,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.492866,\"elapsed_seconds\":0.493063,\"phase1_nodes\":3560886,\"phase2_nodes\":586,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]}]}\n",
+      "stderr": "",
+      "exit_code": 0,
+      "result": {
+        "ok": true,
+        "metric": "QTM",
+        "cost": 24,
+        "moves": [
+          "U",
+          "L",
+          "F",
+          "U'",
+          "D'",
+          "B'",
+          "R'",
+          "L",
+          "B2",
+          "U'",
+          "B2",
+          "R",
+          "B",
+          "L2",
+          "U2",
+          "F",
+          "U2",
+          "D2"
+        ],
+        "phase1_nodes": 19534484,
+        "phase2_nodes": 527724,
+        "phase1_max_distance": 13,
+        "phase2_max_distance": 22,
+        "improvements": 6,
+        "window_replacements": 0,
+        "timed_out": true,
+        "budget_seconds": 3,
+        "elapsed_seconds": 3.00012,
+        "candidate_directions": [
+          {
+            "direction": 0,
+            "axis": -1,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.493058,
+            "elapsed_seconds": 0.493283,
+            "phase1_nodes": 2928435,
+            "phase2_nodes": 524493,
+            "first_candidate_seconds": 0.0482524,
+            "first_cost": 34,
+            "best_cost": 26,
+            "improvements": [
+              {
+                "cost": 34,
+                "seconds": 0.0482524
+              },
+              {
+                "cost": 32,
+                "seconds": 0.0536699
+              },
+              {
+                "cost": 30,
+                "seconds": 0.0537868
+              },
+              {
+                "cost": 28,
+                "seconds": 0.0561922
+              },
+              {
+                "cost": 26,
+                "seconds": 0.0571917
+              }
+            ]
+          },
+          {
+            "direction": 1,
+            "axis": 0,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.493033,
+            "elapsed_seconds": 0.493205,
+            "phase1_nodes": 3226147,
+            "phase2_nodes": 1501,
+            "first_candidate_seconds": 0.147048,
+            "first_cost": 24,
+            "best_cost": 24,
+            "improvements": [
+              {
+                "cost": 24,
+                "seconds": 0.147048
+              }
+            ]
+          },
+          {
+            "direction": 2,
+            "axis": 1,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.493013,
+            "elapsed_seconds": 0.493096,
+            "phase1_nodes": 3364570,
+            "phase2_nodes": 294,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 3,
+            "axis": -1,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.492999,
+            "elapsed_seconds": 0.493233,
+            "phase1_nodes": 3224344,
+            "phase2_nodes": 232,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 4,
+            "axis": 0,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.492938,
+            "elapsed_seconds": 0.493166,
+            "phase1_nodes": 3230102,
+            "phase2_nodes": 618,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 5,
+            "axis": 1,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.492866,
+            "elapsed_seconds": 0.493063,
+            "phase1_nodes": 3560886,
+            "phase2_nodes": 586,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          }
+        ]
+      },
+      "replay": {
+        "solved": true,
+        "cost": 24
+      },
+      "first_candidate_seconds": 0.0482524
+    },
+    {
+      "name": "initial-12",
+      "schedule": "legacy",
+      "repeat": 2,
+      "wall_seconds": 3.9864583000016864,
+      "command": [
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+        "fast-solve",
+        "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--qtm-tail-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+        "--timeout",
+        "3",
+        "--candidate-schedule=legacy"
+      ],
+      "stdout": "{\"ok\":true,\"metric\":\"QTM\",\"cost\":24,\"moves\":[\"U'\",\"D'\",\"R'\",\"F'\",\"U2\",\"D'\",\"F'\",\"U\",\"B'\",\"D\",\"F\",\"B\",\"R'\",\"B'\",\"R\",\"U\",\"D\",\"B2\",\"L2\",\"U'\",\"D'\"],\"phase1_nodes\":20095980,\"phase2_nodes\":611348,\"phase1_max_distance\":13,\"phase2_max_distance\":22,\"improvements\":5,\"window_replacements\":0,\"timed_out\":true,\"budget_seconds\":3,\"elapsed_seconds\":3.00011,\"candidate_directions\":[{\"direction\":0,\"axis\":-1,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.493316,\"elapsed_seconds\":0.493465,\"phase1_nodes\":3249704,\"phase2_nodes\":610776,\"first_candidate_seconds\":0.0423706,\"first_cost\":34,\"best_cost\":24,\"improvements\":[{\"cost\":34,\"seconds\":0.0423706},{\"cost\":32,\"seconds\":0.049914},{\"cost\":28,\"seconds\":0.0558877},{\"cost\":26,\"seconds\":0.056893},{\"cost\":24,\"seconds\":0.484822}]},{\"direction\":1,\"axis\":0,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.493286,\"elapsed_seconds\":0.493306,\"phase1_nodes\":3286890,\"phase2_nodes\":150,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":2,\"axis\":1,\"inverse\":false,\"visits\":1,\"budget_seconds\":0.49328,\"elapsed_seconds\":0.493379,\"phase1_nodes\":3486576,\"phase2_nodes\":144,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":3,\"axis\":-1,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.493247,\"elapsed_seconds\":0.493309,\"phase1_nodes\":3177400,\"phase2_nodes\":72,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":4,\"axis\":0,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.493216,\"elapsed_seconds\":0.493275,\"phase1_nodes\":3499912,\"phase2_nodes\":120,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":5,\"axis\":1,\"inverse\":true,\"visits\":1,\"budget_seconds\":0.493156,\"elapsed_seconds\":0.493265,\"phase1_nodes\":3395498,\"phase2_nodes\":86,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]}]}\n",
+      "stderr": "",
+      "exit_code": 0,
+      "result": {
+        "ok": true,
+        "metric": "QTM",
+        "cost": 24,
+        "moves": [
+          "U'",
+          "D'",
+          "R'",
+          "F'",
+          "U2",
+          "D'",
+          "F'",
+          "U",
+          "B'",
+          "D",
+          "F",
+          "B",
+          "R'",
+          "B'",
+          "R",
+          "U",
+          "D",
+          "B2",
+          "L2",
+          "U'",
+          "D'"
+        ],
+        "phase1_nodes": 20095980,
+        "phase2_nodes": 611348,
+        "phase1_max_distance": 13,
+        "phase2_max_distance": 22,
+        "improvements": 5,
+        "window_replacements": 0,
+        "timed_out": true,
+        "budget_seconds": 3,
+        "elapsed_seconds": 3.00011,
+        "candidate_directions": [
+          {
+            "direction": 0,
+            "axis": -1,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.493316,
+            "elapsed_seconds": 0.493465,
+            "phase1_nodes": 3249704,
+            "phase2_nodes": 610776,
+            "first_candidate_seconds": 0.0423706,
+            "first_cost": 34,
+            "best_cost": 24,
+            "improvements": [
+              {
+                "cost": 34,
+                "seconds": 0.0423706
+              },
+              {
+                "cost": 32,
+                "seconds": 0.049914
+              },
+              {
+                "cost": 28,
+                "seconds": 0.0558877
+              },
+              {
+                "cost": 26,
+                "seconds": 0.056893
+              },
+              {
+                "cost": 24,
+                "seconds": 0.484822
+              }
+            ]
+          },
+          {
+            "direction": 1,
+            "axis": 0,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.493286,
+            "elapsed_seconds": 0.493306,
+            "phase1_nodes": 3286890,
+            "phase2_nodes": 150,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 2,
+            "axis": 1,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.49328,
+            "elapsed_seconds": 0.493379,
+            "phase1_nodes": 3486576,
+            "phase2_nodes": 144,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 3,
+            "axis": -1,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.493247,
+            "elapsed_seconds": 0.493309,
+            "phase1_nodes": 3177400,
+            "phase2_nodes": 72,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 4,
+            "axis": 0,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.493216,
+            "elapsed_seconds": 0.493275,
+            "phase1_nodes": 3499912,
+            "phase2_nodes": 120,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 5,
+            "axis": 1,
+            "inverse": true,
+            "visits": 1,
+            "budget_seconds": 0.493156,
+            "elapsed_seconds": 0.493265,
+            "phase1_nodes": 3395498,
+            "phase2_nodes": 86,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          }
+        ]
+      },
+      "replay": {
+        "solved": true,
+        "cost": 24
+      },
+      "first_candidate_seconds": 0.0423706
+    },
+    {
+      "name": "initial-12",
+      "schedule": "short-slices",
+      "repeat": 2,
+      "wall_seconds": 3.996448899997631,
+      "command": [
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\native\\qtm\\build\\cube_solver_qtm.exe",
+        "fast-solve",
+        "FRUFUDBRFLBBFRURRBLUUBFDDBBFRULDDDLRUUDULLFFRLFRLBBDDL",
+        "--qtm-phase1-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\phase1_qtm_v3.pdb",
+        "--qtm-tail-pdb",
+        "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\assets\\qtm\\v1\\tail_qtm_depth8_v5.pdb",
+        "--timeout",
+        "3",
+        "--candidate-schedule=short-slices"
+      ],
+      "stdout": "{\"ok\":true,\"metric\":\"QTM\",\"cost\":24,\"moves\":[\"F\",\"D'\",\"B\",\"L\",\"D'\",\"F\",\"D'\",\"F'\",\"U'\",\"L\",\"B'\",\"L\",\"U'\",\"F\",\"B'\",\"R2\",\"F2\",\"R\",\"U2\",\"L2\"],\"phase1_nodes\":20078345,\"phase2_nodes\":615671,\"phase1_max_distance\":13,\"phase2_max_distance\":22,\"improvements\":5,\"window_replacements\":0,\"timed_out\":true,\"budget_seconds\":3,\"elapsed_seconds\":3.00001,\"candidate_directions\":[{\"direction\":0,\"axis\":-1,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.493245,\"elapsed_seconds\":0.49339,\"phase1_nodes\":3300255,\"phase2_nodes\":608353,\"first_candidate_seconds\":0.0422331,\"first_cost\":34,\"best_cost\":26,\"improvements\":[{\"cost\":34,\"seconds\":0.0422331},{\"cost\":32,\"seconds\":0.0498493},{\"cost\":28,\"seconds\":0.0559211},{\"cost\":26,\"seconds\":0.0569457}]},{\"direction\":1,\"axis\":0,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.493229,\"elapsed_seconds\":0.493409,\"phase1_nodes\":3390756,\"phase2_nodes\":3804,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":2,\"axis\":1,\"inverse\":false,\"visits\":2,\"budget_seconds\":0.49322,\"elapsed_seconds\":0.493385,\"phase1_nodes\":3426252,\"phase2_nodes\":3124,\"first_candidate_seconds\":0.327064,\"first_cost\":24,\"best_cost\":24,\"improvements\":[{\"cost\":24,\"seconds\":0.327064}]},{\"direction\":3,\"axis\":-1,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.493171,\"elapsed_seconds\":0.493321,\"phase1_nodes\":3221388,\"phase2_nodes\":116,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":4,\"axis\":0,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.493122,\"elapsed_seconds\":0.49334,\"phase1_nodes\":3439458,\"phase2_nodes\":158,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]},{\"direction\":5,\"axis\":1,\"inverse\":true,\"visits\":2,\"budget_seconds\":0.493041,\"elapsed_seconds\":0.493208,\"phase1_nodes\":3300236,\"phase2_nodes\":116,\"first_candidate_seconds\":-1,\"first_cost\":-1,\"best_cost\":-1,\"improvements\":[]}]}\n",
+      "stderr": "",
+      "exit_code": 0,
+      "result": {
+        "ok": true,
+        "metric": "QTM",
+        "cost": 24,
+        "moves": [
+          "F",
+          "D'",
+          "B",
+          "L",
+          "D'",
+          "F",
+          "D'",
+          "F'",
+          "U'",
+          "L",
+          "B'",
+          "L",
+          "U'",
+          "F",
+          "B'",
+          "R2",
+          "F2",
+          "R",
+          "U2",
+          "L2"
+        ],
+        "phase1_nodes": 20078345,
+        "phase2_nodes": 615671,
+        "phase1_max_distance": 13,
+        "phase2_max_distance": 22,
+        "improvements": 5,
+        "window_replacements": 0,
+        "timed_out": true,
+        "budget_seconds": 3,
+        "elapsed_seconds": 3.00001,
+        "candidate_directions": [
+          {
+            "direction": 0,
+            "axis": -1,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.493245,
+            "elapsed_seconds": 0.49339,
+            "phase1_nodes": 3300255,
+            "phase2_nodes": 608353,
+            "first_candidate_seconds": 0.0422331,
+            "first_cost": 34,
+            "best_cost": 26,
+            "improvements": [
+              {
+                "cost": 34,
+                "seconds": 0.0422331
+              },
+              {
+                "cost": 32,
+                "seconds": 0.0498493
+              },
+              {
+                "cost": 28,
+                "seconds": 0.0559211
+              },
+              {
+                "cost": 26,
+                "seconds": 0.0569457
+              }
+            ]
+          },
+          {
+            "direction": 1,
+            "axis": 0,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.493229,
+            "elapsed_seconds": 0.493409,
+            "phase1_nodes": 3390756,
+            "phase2_nodes": 3804,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 2,
+            "axis": 1,
+            "inverse": false,
+            "visits": 2,
+            "budget_seconds": 0.49322,
+            "elapsed_seconds": 0.493385,
+            "phase1_nodes": 3426252,
+            "phase2_nodes": 3124,
+            "first_candidate_seconds": 0.327064,
+            "first_cost": 24,
+            "best_cost": 24,
+            "improvements": [
+              {
+                "cost": 24,
+                "seconds": 0.327064
+              }
+            ]
+          },
+          {
+            "direction": 3,
+            "axis": -1,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.493171,
+            "elapsed_seconds": 0.493321,
+            "phase1_nodes": 3221388,
+            "phase2_nodes": 116,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 4,
+            "axis": 0,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.493122,
+            "elapsed_seconds": 0.49334,
+            "phase1_nodes": 3439458,
+            "phase2_nodes": 158,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          },
+          {
+            "direction": 5,
+            "axis": 1,
+            "inverse": true,
+            "visits": 2,
+            "budget_seconds": 0.493041,
+            "elapsed_seconds": 0.493208,
+            "phase1_nodes": 3300236,
+            "phase2_nodes": 116,
+            "first_candidate_seconds": -1,
+            "first_cost": -1,
+            "best_cost": -1,
+            "improvements": []
+          }
+        ]
+      },
+      "replay": {
+        "solved": true,
+        "cost": 24
+      },
+      "first_candidate_seconds": 0.0422331
+    }
+  ],
+  "failures": [],
+  "summary": {
+    "initial-1": {
+      "legacy": {
+        "costs": [
+          24,
+          24,
+          24
+        ],
+        "first_candidate_median_seconds": 0.0545003
+      },
+      "short-slices": {
+        "costs": [
+          24,
+          24,
+          24
+        ],
+        "first_candidate_median_seconds": 0.0489799
+      }
+    },
+    "initial-12": {
+      "legacy": {
+        "costs": [
+          24,
+          24,
+          24
+        ],
+        "first_candidate_median_seconds": 0.0423706
+      },
+      "short-slices": {
+        "costs": [
+          24,
+          24,
+          24
+        ],
+        "first_candidate_median_seconds": 0.0422331
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "formalMatrix": false,
+  "packages": {
+    "baseline": "dist/next-speed-controlled-baseline/RubicPhotoSolve",
+    "current": "dist/next-speed-2026-10-03-defaults/RubicPhotoSolve"
+  },
+  "metrics": ["HTM", "QTM"],
+  "caseOrder": ["initial-1", "initial-12"],
+  "repeats": 1,
+  "threadQuota": 15,
+  "timeoutSeconds": 30,
+  "scope": "Functional normal-page regression for conservative defaults after failed adoption gates; eight fresh requests; not a replacement performance matrix or adoption retest",
+  "defaultPolicy": "HTM early delivery off; QTM generic expansion; legacy candidate schedule; late Tail off; original resource quota and deadline; retained loader pause repair"
+}

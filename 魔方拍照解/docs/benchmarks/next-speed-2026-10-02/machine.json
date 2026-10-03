@@ -1,0 +1,17 @@
+{
+  "measured_at": "2026-10-02T17:19:06.4919240Z",
+  "cpu": {
+    "Name": "AMD Ryzen 7 9700X 8-Core Processor             ",
+    "NumberOfCores": 8,
+    "NumberOfLogicalProcessors": 16
+  },
+  "total_physical_memory_bytes": 33442148352,
+  "operating_system": {
+    "Caption": "Microsoft Windows 11 专业版",
+    "Version": "10.0.26200",
+    "BuildNumber": "26200"
+  },
+  "total_thread_quota": 15,
+  "performance_policy": "No concurrent builds, engine searches or other agent CPU tests during paired timing",
+  "disk_cache_condition": "Warm OS cache; no cold disk claim"
+}

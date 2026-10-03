@@ -1,0 +1,44 @@
+{
+  "HTM": {
+    "par2_mean_seconds": {
+      "baseline": 34.605111111111114,
+      "current": 33.31333333333333
+    },
+    "par2_current_over_baseline": 0.9626708963993758,
+    "completed_geometric_mean_ratio": 1.422661540746121,
+    "target_met": false,
+    "no_new_timeout": true,
+    "no_reproducible_state_regression_over_5pct": false,
+    "no_state_strict_median_regression_over_5pct": false,
+    "native_peak_bytes": {
+      "baseline": 345939968.0,
+      "current": 345948160.0
+    },
+    "native_peak_current_over_baseline": 1.0000236804091975,
+    "all_memory_samples_comparable": true,
+    "resource_growth_within_5pct": true,
+    "delivery_target_20pct_met_on_waiting_states": true,
+    "adoption_gates_met": false
+  },
+  "QTM": {
+    "par2_mean_seconds": {
+      "baseline": 11.380277777777756,
+      "current": 8.909611111111108
+    },
+    "par2_current_over_baseline": 0.7828992652981535,
+    "completed_geometric_mean_ratio": 0.8231408420450268,
+    "target_met": true,
+    "no_new_timeout": true,
+    "no_reproducible_state_regression_over_5pct": false,
+    "no_state_strict_median_regression_over_5pct": false,
+    "native_peak_bytes": {
+      "baseline": 3710513152.0,
+      "current": 3710488576.0
+    },
+    "native_peak_current_over_baseline": 0.9999933766573535,
+    "all_memory_samples_comparable": true,
+    "resource_growth_within_5pct": true,
+    "delivery_target_20pct_met_on_waiting_states": null,
+    "adoption_gates_met": false
+  }
+}

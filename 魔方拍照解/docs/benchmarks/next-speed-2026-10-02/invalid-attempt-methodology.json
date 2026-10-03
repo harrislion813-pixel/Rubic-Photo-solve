@@ -1,0 +1,48 @@
+{
+  "recorded_date": "2026-10-03",
+  "timezone": "Asia/Shanghai",
+  "attempt": "q2-late-tail-unmanaged-loader-attempt.json",
+  "valid_for_performance_or_adoption": false,
+  "classification": "invalid benchmark methodology: managed loader was not admitted by the thin protocol client",
+  "original_raw_file_modified": false,
+  "recorded_binary_sha256": "9f71a1b72b4fb43f3079f4027435253872c741bff6b57ac62530303d3eb5795f",
+  "observations_from_existing_raw": {
+    "recorded_runs": 5,
+    "planned_runs": 12,
+    "terminal_statuses": ["timeout", "timeout", "timeout", "timeout", "timeout"],
+    "terminal_qtm_costs": [24, 24, 24, 24, 24],
+    "strict_optimal_results": 0,
+    "full_strong_expansions_per_run": [0, 0, 0, 0, 0],
+    "strong_wait_seconds_per_run": [28.728878, 28.829521, 28.845046, 28.849696, 28.843810],
+    "base_proof_seconds_per_run": [0.300210, 0.300112, 0.300279, 0.300227, 0.300345],
+    "asset_ready_events": 0,
+    "adopted_profiles": ["base"],
+    "adopted_tail_depths": [0],
+    "late_tail_attempts_per_run": [0, 0, 0, 0, 0],
+    "loader_stage_observed": "strong",
+    "loader_threads": 8,
+    "loader_stage_mapped_bytes": 1764716840,
+    "native_flags": ["--loader-managed", "--loader-budget=shared", "--proof-schedule=strong-first", "--base-proof-window=0.3"]
+  },
+  "cause": {
+    "native_protocol": "With --loader-managed, begin_stage requests a loader pause and emits loader_stage. The client must perform memory/thread admission and send loader_resume or loader_deny.",
+    "thin_client_mismatch": "The original thin Service client sent solve requests but did not implement the production admission/resume handshake. Merely copying the production native flags does not implement its managed-loader client.",
+    "resulting_behavior": "All recorded requests exhausted the bounded base proof window and spent nearly the rest of the deadline waiting for strong. Strong and Tail were never adopted, so the late-Tail variant was never exercised.",
+    "supporting_sources": ["../../../native/qtm/src/main.cpp", "../../../cube_app/solvers/qtm/native.py", "../../../tests/test_native_qtm.py"]
+  },
+  "interpretation_limits": [
+    "These timeouts do not establish a production strong-loading regression or real end-to-end solver performance.",
+    "Zero late-Tail improvements in this attempt do not establish that the implemented late-Tail improver lacks a benefit; the attempt count was also zero.",
+    "The original failures array is empty because this partial collection did not diagnose the protocol mismatch. It is not a passed benchmark or a completed AB/BA/AB matrix.",
+    "Do not merge this attempt into valid AB summaries, adoption medians, PAR-2 means, or the final 72-request matrix. Retain it as a failed experiment record."
+  ],
+  "replacement_method": {
+    "script": "../../../tests/benchmark_next_speed_tail.py",
+    "entrypoint": "cube_app.solvers.qtm.native.solve_native",
+    "deadline": "Set deadline once to the measured request start plus 30 seconds. The production bridge includes startup and admission, forwards only remaining time to native search, and retains its cancellation watchdog.",
+    "loader": "Use the production reader dispatcher and _admit_loader_locked for real memory/thread admission. Record diagnostics.service_events and the actual asset_ready/asset_adopted frames.",
+    "isolation": "Release the native process before each measured request. Use the same binary, frozen state, total 15-thread quota, staged default flags, and AB/BA/AB order; change only late-tail-improvement off/on.",
+    "validation": "Independently validate every candidate and terminal formula, including formulas returned in timeout frames, and recompute QTM cost. Count strict success only within the original request deadline.",
+    "state": "The replacement was statically reviewed. This record does not claim that its real engine run or its AB matrix has passed."
+  }
+}

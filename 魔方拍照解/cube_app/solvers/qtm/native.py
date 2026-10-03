@@ -170,7 +170,10 @@ class _PersistentNativeSolver:
                     '--base-proof-window=' + os.environ.get('CUBE_QTM_BASE_PROOF_WINDOW', '0.3'),
                     '--strong-upgrade=' + os.environ.get('CUBE_QTM_STRONG_UPGRADE', 'boundary'),
                     '--strong-slice=' + os.environ.get('CUBE_QTM_STRONG_SLICE', 'keep'),
-                    '--pdb-prefetch=' + os.environ.get('CUBE_QTM_PREFETCH', 'off')]
+                    '--pdb-prefetch=' + os.environ.get('CUBE_QTM_PREFETCH', 'off'),
+                    '--qtm-expansion=' + os.environ.get('CUBE_QTM_EXPANSION', 'generic'),
+                    '--candidate-schedule=' + os.environ.get('CUBE_QTM_CANDIDATE_SCHEDULE', 'legacy'),
+                    '--late-tail-improvement=' + os.environ.get('CUBE_QTM_LATE_TAIL_IMPROVEMENT', 'off')]
         return command
 
     def _start_locked(self, deadline: float | None, cancel_event: threading.Event | None) -> None:
@@ -494,7 +497,7 @@ class _PersistentNativeSolver:
                     continue
                 if event.get("request_id") != request_id:
                     continue
-                if event.get("type") in {'thread_activity', 'strong_upgrade'}:
+                if event.get("type") in {'thread_activity', 'strong_upgrade', 'candidate_direction', 'candidate_tail'}:
                     if progress_callback is not None:
                         progress_callback(event)
                     continue
@@ -530,6 +533,9 @@ class _PersistentNativeSolver:
                 if event.get("type") == "error" or not event.get("ok"):
                     raise NativeSolverError(str(event.get("error", "native solver failed")))
                 if event.get("type") == "result":
+                    event["client_terminal_at"] = time.monotonic()
+                    if progress_callback is not None:
+                        progress_callback({**event, "type": "native_result", "engine": "native-cpp"})
                     if self._ready is not None:
                         self._ready["native_search_seconds"] = event.get("elapsed_seconds")
                         self._ready["native_proof_busy_seconds"] = sum(
@@ -741,6 +747,7 @@ def _validated_result(cube: CubieCube, payload: dict, metric: str = "HTM") -> di
         "depth": None if no_solution else cost,
         "metric": metric,
         "status": payload.get("status", "complete"),
+        "client_terminal_at": payload.get("client_terminal_at"),
         "optimal": bool(payload.get("optimal")),
         "inverse_direction": bool(payload.get("inverse_direction")),
         "elapsed_seconds": float(payload.get("elapsed_seconds", 0.0)),
@@ -757,6 +764,15 @@ def _validated_result(cube: CubieCube, payload: dict, metric: str = "HTM") -> di
         "corner_queries": int(payload.get("corner_queries", 0)),
         "candidate_phase1_nodes": int(payload.get("candidate_phase1_nodes", 0)),
         "candidate_phase2_nodes": int(payload.get("candidate_phase2_nodes", 0)),
+        "candidate_directions": payload.get("candidate_directions", []),
+        "candidate_budget_seconds": payload.get("candidate_budget_seconds"),
+        "candidate_elapsed_seconds": payload.get("candidate_elapsed_seconds"),
+        "late_tail_attempts": payload.get("late_tail_attempts", 0),
+        "late_tail_improvements": payload.get("late_tail_improvements", 0),
+        "late_tail_window_replacements": payload.get("late_tail_window_replacements", 0),
+        "late_tail_seconds": payload.get("late_tail_seconds", 0),
+        "late_tail_budget_seconds": payload.get("late_tail_budget_seconds", 0),
+        "full_strong_expansions": payload.get("full_strong_expansions", 0),
         "candidate_worker_done_seconds": payload.get("candidate_worker_done_seconds"),
         "proof_worker_return_seconds": payload.get("proof_worker_return_seconds"),
         "base_proof_seconds": payload.get("base_proof_seconds"),

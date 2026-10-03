@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import time
+import threading
+from collections.abc import Callable
 from pathlib import Path
 
 from .coords import (
@@ -17,6 +19,7 @@ from ...cubie import CubieCube, MOVE_NAMES, from_facelets
 from .optimal import (
     SolveResult,
     SearchTimeout,
+    SearchCancelled,
     _ALLOWED_MOVES,
     _ALLOWED_PHASE2_MOVES,
     _move_edge_pack,
@@ -52,20 +55,44 @@ class FastTwoPhaseSolver:
         self,
         facelets: str,
         timeout_seconds: float | None = 5.0,
+        *,
+        candidate_callback: Callable[[SolveResult], None] | None = None,
+        cancel_event: threading.Event | None = None,
+        deadline: float | None = None,
     ) -> SolveResult:
-        return self.solve_cube(from_facelets(facelets), timeout_seconds=timeout_seconds)
+        return self.solve_cube(from_facelets(facelets), timeout_seconds=timeout_seconds,
+                               candidate_callback=candidate_callback, cancel_event=cancel_event, deadline=deadline)
 
     def solve_cube(
         self,
         cube: CubieCube,
         timeout_seconds: float | None = 5.0,
+        *,
+        candidate_callback: Callable[[SolveResult], None] | None = None,
+        cancel_event: threading.Event | None = None,
+        deadline: float | None = None,
     ) -> SolveResult:
         started = time.monotonic()
-        deadline = None if timeout_seconds is None else started + timeout_seconds
-        if cube.is_solved():
-            return SolveResult([], 0, "HTM", time.monotonic() - started, True)
+        if timeout_seconds is not None:
+            budget_deadline = started + timeout_seconds
+            deadline = budget_deadline if deadline is None else min(deadline, budget_deadline)
+        self._check_deadline(deadline, cancel_event)
 
-        tables = self.tables
+        def publish(indices: list[int], optimal: bool = False) -> SolveResult:
+            self._check_deadline(deadline, cancel_event)
+            moves = [MOVE_NAMES[index] for index in indices]
+            result = SolveResult(moves, len(moves), "HTM", time.monotonic() - started, optimal)
+            if candidate_callback is not None:
+                candidate_callback(result)
+            return result
+
+        if cube.is_solved():
+            return publish([], True)
+
+        if self._tables is None:
+            self._tables = load_or_build_tables(
+                self.cache_dir, cancel_check=lambda: self._check_deadline(deadline, cancel_event))
+        tables = self._tables
         twist = get_twist(cube)
         flip = get_flip(cube)
         slice_comb = get_slice_comb(cube)
@@ -88,9 +115,11 @@ class FastTwoPhaseSolver:
                 [],
                 deadline,
                 tables,
+                cancel_event,
             )
             if best is not None:
                 first_phase1_depth = phase1_depth
+                publish(best)
                 break
 
         if best is not None and deadline is not None and first_phase1_depth is not None:
@@ -112,6 +141,8 @@ class FastTwoPhaseSolver:
                         tables,
                         best_holder,
                         transposition,
+                        cancel_event,
+                        publish,
                     )
             except SearchTimeout:
                 pass
@@ -138,8 +169,10 @@ class FastTwoPhaseSolver:
         tables: SolverTables,
         best_holder: list[list[int]],
         transposition: dict[int, int],
+        cancel_event: threading.Event | None = None,
+        candidate_callback: Callable[[list[int]], object] | None = None,
     ) -> None:
-        self._check_deadline(deadline)
+        self._check_deadline(deadline, cancel_event)
         if heuristic > depth_left:
             return
 
@@ -167,9 +200,12 @@ class FastTwoPhaseSolver:
                         path,
                         deadline,
                         tables,
+                        cancel_event,
                     )
                     if result is not None:
                         best_holder[0] = result
+                        if candidate_callback is not None:
+                            candidate_callback(result)
                         break
             if len(transposition) < 2_000_000:
                 transposition[key] = depth_left
@@ -215,6 +251,8 @@ class FastTwoPhaseSolver:
                 tables,
                 best_holder,
                 transposition,
+                cancel_event,
+                candidate_callback,
             )
             path.pop()
 
@@ -251,8 +289,9 @@ class FastTwoPhaseSolver:
         path: list[int],
         deadline: float | None,
         tables: SolverTables,
+        cancel_event: threading.Event | None = None,
     ) -> list[int] | None:
-        self._check_deadline(deadline)
+        self._check_deadline(deadline, cancel_event)
         if heuristic > depth_left:
             return None
         if depth_left == 0:
@@ -274,6 +313,7 @@ class FastTwoPhaseSolver:
                     path,
                     deadline,
                     tables,
+                    cancel_event,
                 )
                 if result is not None:
                     return result
@@ -305,6 +345,7 @@ class FastTwoPhaseSolver:
                 path,
                 deadline,
                 tables,
+                cancel_event,
             )
             if result is not None:
                 return result
@@ -322,8 +363,9 @@ class FastTwoPhaseSolver:
         path: list[int],
         deadline: float | None,
         tables: SolverTables,
+        cancel_event: threading.Event | None = None,
     ) -> list[int] | None:
-        self._check_deadline(deadline)
+        self._check_deadline(deadline, cancel_event)
         if heuristic > depth_left:
             return None
         if cp == 0 and ep8 == 0 and slice_perm == 0:
@@ -351,6 +393,7 @@ class FastTwoPhaseSolver:
                 path,
                 deadline,
                 tables,
+                cancel_event,
             )
             if result is not None:
                 return result
@@ -358,6 +401,8 @@ class FastTwoPhaseSolver:
         return None
 
     @staticmethod
-    def _check_deadline(deadline: float | None) -> None:
+    def _check_deadline(deadline: float | None, cancel_event: threading.Event | None = None) -> None:
+        if cancel_event is not None and cancel_event.is_set():
+            raise SearchCancelled("快速两阶段搜索已取消。")
         if deadline is not None and time.monotonic() > deadline:
             raise SearchTimeout("快速两阶段搜索超时。")

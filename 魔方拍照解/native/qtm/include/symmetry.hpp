@@ -4,6 +4,7 @@
 
 #include <array>
 #include <cstdint>
+#include <functional>
 #include <vector>
 
 namespace cube {
@@ -18,7 +19,7 @@ inline constexpr int kAxisRotationCount = 2;
 
 class Phase1Symmetry {
   public:
-    Phase1Symmetry();
+    explicit Phase1Symmetry(const std::function<void()> &checkpoint = {});
 
     [[nodiscard]] CubieCube conjugate(const CubieCube &cube, int symmetry) const;
     [[nodiscard]] CubieCube conjugate_edges(const CubieCube &cube, int symmetry) const noexcept;

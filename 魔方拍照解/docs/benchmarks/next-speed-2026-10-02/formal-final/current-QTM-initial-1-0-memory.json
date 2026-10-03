@@ -1,0 +1,1013 @@
+{
+  "root_pid": 31000,
+  "interval_seconds": 0.5,
+  "scope": "launcher_descendant_native_process_lifetime_peak",
+  "native_process_lifetime_peak_bytes": 3710476288,
+  "tree_sampled_peak_working_set_bytes": 10700537856,
+  "tree_scope": "launcher_process_tree_observed_working_set_sum_at_0.5_second_intervals",
+  "processes": [
+    {
+      "pid": 17912,
+      "parent_pid": 13400,
+      "name": "msedgewebview2.exe",
+      "peak_working_set_bytes": 25640960,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27145710000002
+    },
+    {
+      "pid": 13836,
+      "parent_pid": 1880,
+      "name": "RuntimeBroker.exe",
+      "peak_working_set_bytes": 11026432,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27146540000001
+    },
+    {
+      "pid": 12304,
+      "parent_pid": 11560,
+      "name": "ShellHost.exe",
+      "peak_working_set_bytes": 67182592,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271473200000003
+    },
+    {
+      "pid": 29716,
+      "parent_pid": 1880,
+      "name": "RuntimeBroker.exe",
+      "peak_working_set_bytes": 26513408,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27147990000003
+    },
+    {
+      "pid": 31252,
+      "parent_pid": 25388,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 7262208,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27148679999999
+    },
+    {
+      "pid": 14368,
+      "parent_pid": 1880,
+      "name": "SearchHost.exe",
+      "peak_working_set_bytes": 172584960,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271493700000008
+    },
+    {
+      "pid": 16928,
+      "parent_pid": 25864,
+      "name": "ChatGPT.exe",
+      "peak_working_set_bytes": 1004122112,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27150019999999
+    },
+    {
+      "pid": 14392,
+      "parent_pid": 1880,
+      "name": "StartMenuExperienceHost.exe",
+      "peak_working_set_bytes": 206413824,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271506799999997
+    },
+    {
+      "pid": 1592,
+      "parent_pid": 25864,
+      "name": "ChatGPT.exe",
+      "peak_working_set_bytes": 33890304,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271513700000014
+    },
+    {
+      "pid": 15420,
+      "parent_pid": 31000,
+      "name": "RubicPhotoSolve.exe",
+      "peak_working_set_bytes": 84701184,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271520199999998
+    },
+    {
+      "pid": 26172,
+      "parent_pid": 25864,
+      "name": "ChatGPT.exe",
+      "peak_working_set_bytes": 291491840,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271526300000005
+    },
+    {
+      "pid": 12352,
+      "parent_pid": 15324,
+      "name": "codex-code-mode-host.exe",
+      "peak_working_set_bytes": 36634624,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271532800000045
+    },
+    {
+      "pid": 3136,
+      "parent_pid": 24352,
+      "name": "chrome-headless-shell.exe",
+      "peak_working_set_bytes": 126713856,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271538600000042
+    },
+    {
+      "pid": 11852,
+      "parent_pid": 1652,
+      "name": "svchost.exe",
+      "peak_working_set_bytes": 12333056,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271545400000036
+    },
+    {
+      "pid": 14928,
+      "parent_pid": 24352,
+      "name": "chrome-headless-shell.exe",
+      "peak_working_set_bytes": 36941824,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271551799999997
+    },
+    {
+      "pid": 13400,
+      "parent_pid": 14368,
+      "name": "msedgewebview2.exe",
+      "peak_working_set_bytes": 137773056,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271558300000038
+    },
+    {
+      "pid": 20568,
+      "parent_pid": 6148,
+      "name": "DefenderSessionHelper.exe",
+      "peak_working_set_bytes": 6692864,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271565199999998
+    },
+    {
+      "pid": 29792,
+      "parent_pid": 1652,
+      "name": "svchost.exe",
+      "peak_working_set_bytes": 22315008,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271571600000016
+    },
+    {
+      "pid": 13412,
+      "parent_pid": 1652,
+      "name": "svchost.exe",
+      "peak_working_set_bytes": 21999616,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271578300000044
+    },
+    {
+      "pid": 25700,
+      "parent_pid": 25864,
+      "name": "ChatGPT.exe",
+      "peak_working_set_bytes": 532160512,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27158510000004
+    },
+    {
+      "pid": 19568,
+      "parent_pid": 25552,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 7290880,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271591700000045
+    },
+    {
+      "pid": 11900,
+      "parent_pid": 1652,
+      "name": "svchost.exe",
+      "peak_working_set_bytes": 42475520,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271598700000027
+    },
+    {
+      "pid": 29820,
+      "parent_pid": 1880,
+      "name": "RuntimeBroker.exe",
+      "peak_working_set_bytes": 41418752,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271605100000045
+    },
+    {
+      "pid": 14976,
+      "parent_pid": 1652,
+      "name": "svchost.exe",
+      "peak_working_set_bytes": 41037824,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27161190000004
+    },
+    {
+      "pid": 16516,
+      "parent_pid": 25388,
+      "name": "node.exe",
+      "peak_working_set_bytes": 59084800,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271618500000045
+    },
+    {
+      "pid": 12948,
+      "parent_pid": 15732,
+      "name": "python.exe",
+      "peak_working_set_bytes": 4284416,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27162500000003
+    },
+    {
+      "pid": 16536,
+      "parent_pid": 17164,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 7122944,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27163139999999
+    },
+    {
+      "pid": 5796,
+      "parent_pid": 2508,
+      "name": "taskhostw.exe",
+      "peak_working_set_bytes": 20357120,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27163810000002
+    },
+    {
+      "pid": 23716,
+      "parent_pid": 25864,
+      "name": "codex.exe",
+      "peak_working_set_bytes": 74637312,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27164479999999
+    },
+    {
+      "pid": 15032,
+      "parent_pid": 1880,
+      "name": "WidgetService.exe",
+      "peak_working_set_bytes": 35946496,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271651700000007
+    },
+    {
+      "pid": 23228,
+      "parent_pid": 12948,
+      "name": "python.exe",
+      "peak_working_set_bytes": 18341888,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271654400000045
+    },
+    {
+      "pid": 11968,
+      "parent_pid": 15324,
+      "name": "node_repl.exe",
+      "peak_working_set_bytes": 11014144,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271661100000017
+    },
+    {
+      "pid": 16064,
+      "parent_pid": 12352,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 7131136,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271667700000023
+    },
+    {
+      "pid": 13528,
+      "parent_pid": 25864,
+      "name": "ChatGPT.exe",
+      "peak_working_set_bytes": 80654336,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271673899999996
+    },
+    {
+      "pid": 17640,
+      "parent_pid": 13400,
+      "name": "msedgewebview2.exe",
+      "peak_working_set_bytes": 46305280,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271680600000025
+    },
+    {
+      "pid": 19692,
+      "parent_pid": 1880,
+      "name": "PhoneExperienceHost.exe",
+      "peak_working_set_bytes": 292962304,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271687299999996
+    },
+    {
+      "pid": 14576,
+      "parent_pid": 1880,
+      "name": "Widgets.exe",
+      "peak_working_set_bytes": 76701696,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271693500000026
+    },
+    {
+      "pid": 24820,
+      "parent_pid": 25552,
+      "name": "node_repl.exe",
+      "peak_working_set_bytes": 10489856,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27170000000001
+    },
+    {
+      "pid": 13048,
+      "parent_pid": 5996,
+      "name": "nvcontainer.exe",
+      "peak_working_set_bytes": 111902720,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27170670000004
+    },
+    {
+      "pid": 17664,
+      "parent_pid": 13400,
+      "name": "msedgewebview2.exe",
+      "peak_working_set_bytes": 96591872,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27171340000001
+    },
+    {
+      "pid": 18180,
+      "parent_pid": 1880,
+      "name": "RuntimeBroker.exe",
+      "peak_working_set_bytes": 63348736,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271719800000028
+    },
+    {
+      "pid": 25352,
+      "parent_pid": 11560,
+      "name": "XboxPcTray.exe",
+      "peak_working_set_bytes": 94044160,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.2717265
+    },
+    {
+      "pid": 25864,
+      "parent_pid": 11560,
+      "name": "ChatGPT.exe",
+      "peak_working_set_bytes": 779223040,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271732799999995
+    },
+    {
+      "pid": 17164,
+      "parent_pid": 25864,
+      "name": "codex-computer-use-swift.exe",
+      "peak_working_set_bytes": 58728448,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27173909999999
+    },
+    {
+      "pid": 16656,
+      "parent_pid": 1880,
+      "name": "RuntimeBroker.exe",
+      "peak_working_set_bytes": 16019456,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27174610000003
+    },
+    {
+      "pid": 25360,
+      "parent_pid": 10576,
+      "name": "msedgewebview2.exe",
+      "peak_working_set_bytes": 267104256,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271752700000036
+    },
+    {
+      "pid": 30992,
+      "parent_pid": 25864,
+      "name": "ChatGPT.exe",
+      "peak_working_set_bytes": 339849216,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27175920000002
+    },
+    {
+      "pid": 6420,
+      "parent_pid": 1880,
+      "name": "XboxPcAppFT.exe",
+      "peak_working_set_bytes": 65245184,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271765500000015
+    },
+    {
+      "pid": 31000,
+      "parent_pid": 15732,
+      "name": "cmd.exe",
+      "peak_working_set_bytes": 8421376,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27177240000003
+    },
+    {
+      "pid": 11544,
+      "parent_pid": 11968,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 7122944,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271779000000038
+    },
+    {
+      "pid": 24352,
+      "parent_pid": 15732,
+      "name": "chrome-headless-shell.exe",
+      "peak_working_set_bytes": 86364160,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.2717849
+    },
+    {
+      "pid": 23332,
+      "parent_pid": 19308,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 7266304,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27179140000004
+    },
+    {
+      "pid": 11560,
+      "parent_pid": 2748,
+      "name": "sihost.exe",
+      "peak_working_set_bytes": 57032704,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27179799999999
+    },
+    {
+      "pid": 13100,
+      "parent_pid": 11560,
+      "name": "CrossDeviceResume.exe",
+      "peak_working_set_bytes": 74993664,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27180500000003
+    },
+    {
+      "pid": 25388,
+      "parent_pid": 15324,
+      "name": "cmd.exe",
+      "peak_working_set_bytes": 8167424,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27181200000001
+    },
+    {
+      "pid": 16192,
+      "parent_pid": 13400,
+      "name": "msedgewebview2.exe",
+      "peak_working_set_bytes": 18767872,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27181870000004
+    },
+    {
+      "pid": 8516,
+      "parent_pid": 25864,
+      "name": "ChatGPT.exe",
+      "peak_working_set_bytes": 9539584,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271825500000034
+    },
+    {
+      "pid": 11768,
+      "parent_pid": 1652,
+      "name": "svchost.exe",
+      "peak_working_set_bytes": 43454464,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27183210000004
+    },
+    {
+      "pid": 18248,
+      "parent_pid": 1652,
+      "name": "svchost.exe",
+      "peak_working_set_bytes": 18112512,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271838800000012
+    },
+    {
+      "pid": 2376,
+      "parent_pid": 25864,
+      "name": "ChatGPT.exe",
+      "peak_working_set_bytes": 159453184,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271845400000018
+    },
+    {
+      "pid": 6988,
+      "parent_pid": 6628,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 7311360,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271851700000013
+    },
+    {
+      "pid": 10576,
+      "parent_pid": 14576,
+      "name": "msedgewebview2.exe",
+      "peak_working_set_bytes": 128200704,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271858400000042
+    },
+    {
+      "pid": 18792,
+      "parent_pid": 10576,
+      "name": "msedgewebview2.exe",
+      "peak_working_set_bytes": 20393984,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271865100000014
+    },
+    {
+      "pid": 20824,
+      "parent_pid": 1880,
+      "name": "smartscreen.exe",
+      "peak_working_set_bytes": 13660160,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27187200000003
+    },
+    {
+      "pid": 22360,
+      "parent_pid": 10576,
+      "name": "msedgewebview2.exe",
+      "peak_working_set_bytes": 44781568,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271878600000036
+    },
+    {
+      "pid": 17256,
+      "parent_pid": 1880,
+      "name": "LockApp.exe",
+      "peak_working_set_bytes": 121786368,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271906
+    },
+    {
+      "pid": 1388,
+      "parent_pid": 31000,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 12943360,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27192230000003
+    },
+    {
+      "pid": 20336,
+      "parent_pid": 1880,
+      "name": "TextInputHost.exe",
+      "peak_working_set_bytes": 109998080,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27193010000002
+    },
+    {
+      "pid": 19308,
+      "parent_pid": 15324,
+      "name": "cmd.exe",
+      "peak_working_set_bytes": 8318976,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271947900000043
+    },
+    {
+      "pid": 15732,
+      "parent_pid": 6628,
+      "name": "node.exe",
+      "peak_working_set_bytes": 332562432,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271953900000028
+    },
+    {
+      "pid": 11640,
+      "parent_pid": 15324,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 7122944,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271960800000045
+    },
+    {
+      "pid": 25980,
+      "parent_pid": 23716,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 7139328,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27196760000004
+    },
+    {
+      "pid": 29692,
+      "parent_pid": 19692,
+      "name": "YourPhoneAppProxyHost.exe",
+      "peak_working_set_bytes": 109060096,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271974200000045
+    },
+    {
+      "pid": 2928,
+      "parent_pid": 12948,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 7254016,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271980600000006
+    },
+    {
+      "pid": 30616,
+      "parent_pid": 1880,
+      "name": "ApplicationFrameHost.exe",
+      "peak_working_set_bytes": 65413120,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271987000000024
+    },
+    {
+      "pid": 17316,
+      "parent_pid": 19308,
+      "name": "node.exe",
+      "peak_working_set_bytes": 137981952,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271993400000042
+    },
+    {
+      "pid": 14840,
+      "parent_pid": 1880,
+      "name": "RuntimeBroker.exe",
+      "peak_working_set_bytes": 61554688,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.271999900000026
+    },
+    {
+      "pid": 30640,
+      "parent_pid": 1880,
+      "name": "XboxPcApp.exe",
+      "peak_working_set_bytes": 219049984,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.27200700000003
+    },
+    {
+      "pid": 31736,
+      "parent_pid": 1880,
+      "name": "FileCoAuth.exe",
+      "peak_working_set_bytes": 40189952,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.272013300000026
+    },
+    {
+      "pid": 7112,
+      "parent_pid": 10576,
+      "name": "msedgewebview2.exe",
+      "peak_working_set_bytes": 29159424,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.272020200000043
+    },
+    {
+      "pid": 18384,
+      "parent_pid": 13400,
+      "name": "msedgewebview2.exe",
+      "peak_working_set_bytes": 177303552,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.272026900000014
+    },
+    {
+      "pid": 25552,
+      "parent_pid": 15324,
+      "name": "node.exe",
+      "peak_working_set_bytes": 42455040,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.272033399999998
+    },
+    {
+      "pid": 27608,
+      "parent_pid": 25864,
+      "name": "ChatGPT.exe",
+      "peak_working_set_bytes": 90521600,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.272040300000015
+    },
+    {
+      "pid": 31192,
+      "parent_pid": 25864,
+      "name": "ChatGPT.exe",
+      "peak_working_set_bytes": 34603008,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.272046500000044
+    },
+    {
+      "pid": 15324,
+      "parent_pid": 25864,
+      "name": "codex.exe",
+      "peak_working_set_bytes": 281395200,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.272053200000016
+    },
+    {
+      "pid": 6628,
+      "parent_pid": 15324,
+      "name": "pwsh.exe",
+      "peak_working_set_bytes": 86347776,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.272059400000046
+    },
+    {
+      "pid": 11752,
+      "parent_pid": 1652,
+      "name": "svchost.exe",
+      "peak_working_set_bytes": 12017664,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.272066300000006
+    },
+    {
+      "pid": 22504,
+      "parent_pid": 10576,
+      "name": "msedgewebview2.exe",
+      "peak_working_set_bytes": 137867264,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.2720731
+    },
+    {
+      "pid": 16888,
+      "parent_pid": 25864,
+      "name": "ChatGPT.exe",
+      "peak_working_set_bytes": 181108736,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.272079899999994
+    },
+    {
+      "pid": 5104,
+      "parent_pid": 1880,
+      "name": "CrossDeviceService.exe",
+      "peak_working_set_bytes": 213151744,
+      "observed_samples": 62,
+      "last_sample_seconds": 31.272086700000045
+    },
+    {
+      "pid": 30248,
+      "parent_pid": 25864,
+      "name": "git.exe",
+      "peak_working_set_bytes": 2605056,
+      "observed_samples": 1,
+      "last_sample_seconds": 0.5333309000000099
+    },
+    {
+      "pid": 30896,
+      "parent_pid": 24352,
+      "name": "chrome-headless-shell.exe",
+      "peak_working_set_bytes": 285130752,
+      "observed_samples": 60,
+      "last_sample_seconds": 31.14499699999999
+    },
+    {
+      "pid": 4716,
+      "parent_pid": 15420,
+      "name": "cube_solver_qtm.exe",
+      "peak_working_set_bytes": 3710476288,
+      "observed_samples": 55,
+      "last_sample_seconds": 31.27209620000002
+    },
+    {
+      "pid": 8492,
+      "parent_pid": 4716,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 7159808,
+      "observed_samples": 55,
+      "last_sample_seconds": 31.272102800000027
+    }
+  ],
+  "samples": [
+    {
+      "seconds": 0.008933200000001307,
+      "working_set_bytes": 6681673728
+    },
+    {
+      "seconds": 0.5333388999999897,
+      "working_set_bytes": 6860779520
+    },
+    {
+      "seconds": 1.0504814999999894,
+      "working_set_bytes": 6825500672
+    },
+    {
+      "seconds": 1.571879000000024,
+      "working_set_bytes": 6875918336
+    },
+    {
+      "seconds": 2.0929756000000452,
+      "working_set_bytes": 6942617600
+    },
+    {
+      "seconds": 2.610076700000036,
+      "working_set_bytes": 6980104192
+    },
+    {
+      "seconds": 3.1233855000000403,
+      "working_set_bytes": 6977146880
+    },
+    {
+      "seconds": 3.640077500000018,
+      "working_set_bytes": 7150788608
+    },
+    {
+      "seconds": 4.153664200000037,
+      "working_set_bytes": 7251562496
+    },
+    {
+      "seconds": 4.672814399999993,
+      "working_set_bytes": 7663063040
+    },
+    {
+      "seconds": 5.196299699999997,
+      "working_set_bytes": 10694148096
+    },
+    {
+      "seconds": 5.713393800000006,
+      "working_set_bytes": 10693849088
+    },
+    {
+      "seconds": 6.234009500000013,
+      "working_set_bytes": 10696769536
+    },
+    {
+      "seconds": 6.769694700000002,
+      "working_set_bytes": 10696896512
+    },
+    {
+      "seconds": 7.295176900000001,
+      "working_set_bytes": 10699853824
+    },
+    {
+      "seconds": 7.82325940000004,
+      "working_set_bytes": 10700537856
+    },
+    {
+      "seconds": 8.3435432,
+      "working_set_bytes": 10536357888
+    },
+    {
+      "seconds": 8.86366350000003,
+      "working_set_bytes": 10533523456
+    },
+    {
+      "seconds": 9.39253130000003,
+      "working_set_bytes": 10529538048
+    },
+    {
+      "seconds": 9.909429000000046,
+      "working_set_bytes": 10528108544
+    },
+    {
+      "seconds": 10.422444299999995,
+      "working_set_bytes": 10532446208
+    },
+    {
+      "seconds": 10.935676100000023,
+      "working_set_bytes": 10532605952
+    },
+    {
+      "seconds": 11.454393200000027,
+      "working_set_bytes": 10535084032
+    },
+    {
+      "seconds": 11.974312800000007,
+      "working_set_bytes": 10534871040
+    },
+    {
+      "seconds": 12.486413099999993,
+      "working_set_bytes": 10537230336
+    },
+    {
+      "seconds": 13.005523500000038,
+      "working_set_bytes": 10537734144
+    },
+    {
+      "seconds": 13.51681160000004,
+      "working_set_bytes": 10534064128
+    },
+    {
+      "seconds": 14.042207500000018,
+      "working_set_bytes": 10535206912
+    },
+    {
+      "seconds": 14.56258600000001,
+      "working_set_bytes": 10536464384
+    },
+    {
+      "seconds": 15.082602000000009,
+      "working_set_bytes": 10536886272
+    },
+    {
+      "seconds": 15.608641500000033,
+      "working_set_bytes": 10514276352
+    },
+    {
+      "seconds": 16.131366300000025,
+      "working_set_bytes": 10517041152
+    },
+    {
+      "seconds": 16.656750500000044,
+      "working_set_bytes": 10516561920
+    },
+    {
+      "seconds": 17.171989800000006,
+      "working_set_bytes": 10517835776
+    },
+    {
+      "seconds": 17.686812599999996,
+      "working_set_bytes": 10516594688
+    },
+    {
+      "seconds": 18.201448800000037,
+      "working_set_bytes": 10520231936
+    },
+    {
+      "seconds": 18.715061300000002,
+      "working_set_bytes": 10520211456
+    },
+    {
+      "seconds": 19.23018860000002,
+      "working_set_bytes": 10522431488
+    },
+    {
+      "seconds": 19.7449522,
+      "working_set_bytes": 10521571328
+    },
+    {
+      "seconds": 20.257757000000026,
+      "working_set_bytes": 10524725248
+    },
+    {
+      "seconds": 20.77678420000001,
+      "working_set_bytes": 10524667904
+    },
+    {
+      "seconds": 21.319356400000004,
+      "working_set_bytes": 10523746304
+    },
+    {
+      "seconds": 21.843422300000043,
+      "working_set_bytes": 10523746304
+    },
+    {
+      "seconds": 22.355301499999996,
+      "working_set_bytes": 10522435584
+    },
+    {
+      "seconds": 22.873572600000045,
+      "working_set_bytes": 10521014272
+    },
+    {
+      "seconds": 23.39272410000001,
+      "working_set_bytes": 10505928704
+    },
+    {
+      "seconds": 23.903669800000046,
+      "working_set_bytes": 10505777152
+    },
+    {
+      "seconds": 24.417405400000007,
+      "working_set_bytes": 10509430784
+    },
+    {
+      "seconds": 24.935018300000024,
+      "working_set_bytes": 10509385728
+    },
+    {
+      "seconds": 25.44817180000001,
+      "working_set_bytes": 10510512128
+    },
+    {
+      "seconds": 25.964394099999993,
+      "working_set_bytes": 10510344192
+    },
+    {
+      "seconds": 26.48605500000002,
+      "working_set_bytes": 10508668928
+    },
+    {
+      "seconds": 27.011687900000027,
+      "working_set_bytes": 10508804096
+    },
+    {
+      "seconds": 27.538210700000036,
+      "working_set_bytes": 10514227200
+    },
+    {
+      "seconds": 28.05260290000001,
+      "working_set_bytes": 10514251776
+    },
+    {
+      "seconds": 28.56624529999999,
+      "working_set_bytes": 10513469440
+    },
+    {
+      "seconds": 29.080964900000026,
+      "working_set_bytes": 10512830464
+    },
+    {
+      "seconds": 29.59947930000004,
+      "working_set_bytes": 10515202048
+    },
+    {
+      "seconds": 30.108909799999992,
+      "working_set_bytes": 10516078592
+    },
+    {
+      "seconds": 30.625907700000027,
+      "working_set_bytes": 10509631488
+    },
+    {
+      "seconds": 31.14501260000003,
+      "working_set_bytes": 10571763712
+    },
+    {
+      "seconds": 31.272103200000004,
+      "working_set_bytes": 10239250432,
+      "final": true
+    }
+  ]
+}

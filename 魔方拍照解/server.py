@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import logging
 import mimetypes
 import errno
@@ -16,7 +17,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from cube_app import __version__
-from cube_app.cubie import CubeStateError, CubieCube, from_facelets, to_facelets
+from cube_app.cubie import CubeStateError, CubieCube, MOVE_INDEX, from_facelets, to_facelets
 from cube_app.solvers.htm.fast import FastTwoPhaseSolver
 from cube_app.solvers.htm.native import (
     NativeSolverCancelled,
@@ -56,6 +57,7 @@ JOBS_LOCK = threading.Lock()
 OPTIMAL_SEARCH_LOCK = threading.Lock()
 QUICK_SEARCH_LOCK = threading.Lock()
 MAX_JOBS = 100
+TERMINAL_STATUSES = {"complete", "timeout", "error", "cancelled"}
 DETECTION_PIPELINE = DetectionPipeline() if DetectionPipeline is not None else None
 
 
@@ -111,8 +113,10 @@ def prepare_optimal_job(
     timeout_seconds: float | None,
     *,
     deadline: float | None = None,
+    started: float | None = None,
+    candidate_enabled: bool = False,
 ) -> tuple[str, threading.Thread]:
-    created = time.monotonic()
+    created = time.monotonic() if started is None else started
     if deadline is None and timeout_seconds is not None:
         deadline = created + timeout_seconds
     state_key = (to_facelets(cube), max_depth, "HTM", 1)
@@ -128,6 +132,7 @@ def prepare_optimal_job(
                 for key, value in JOBS.items()
                 if value.get("status") in {"complete", "timeout", "error", "cancelled"}
                 and not value["_worker"].is_alive()
+                and not (value.get("_candidate_worker") and value["_candidate_worker"].is_alive())
             ]
             remove_count = len(JOBS) - MAX_JOBS + 1
             for key, _ in sorted(terminal, key=lambda item: item[1])[:remove_count]:
@@ -140,15 +145,35 @@ def prepare_optimal_job(
             "created_at": time.time(),
             "updated_at": time.time(),
             "_cancel_event": cancel_event,
+            "_broker": BROKER,
             "incumbent_depth": quick_result.depth if quick_result is not None else None,
             "_state_key": state_key,
             "_deadline": deadline,
             "_started_at": created,
             "_done": threading.Event(),
+            "_delivery_ready": threading.Event(),
+            "_candidate_stop": threading.Event(),
+            "_generation_done": threading.Event(),
+            "_proof_lease": threading.Event(),
+            "_serial_candidate": candidate_enabled and BROKER.threads == 1,
+            "_proof_threads": max(1, BROKER.threads - int(candidate_enabled and BROKER.threads > 1)),
             "_incumbent_moves": quick_result.moves if quick_result is not None else None,
             "engine": "pending",
             "solution_generation_seconds": 0.0,
+            "timing_events": [],
+            "timings": {},
+            "thread_quota": BROKER.threads,
+            "candidate_thread_quota": int(candidate_enabled),
+            "candidate_search_running": False,
+            "early_candidate_delivery": os.environ.get("CUBE_HTM_EARLY_CANDIDATE", "off").lower() in {"1", "true", "on"},
         }
+        if not candidate_enabled:
+            JOBS[job_id]["_generation_done"].set()
+        JOBS[job_id]["proof_threads"] = JOBS[job_id]["_proof_threads"]
+        _record_job_event_locked(JOBS[job_id], "request_created", at=created)
+        if quick_result is not None:
+            JOBS[job_id]["candidate_result"] = result_payload(quick_result)
+            JOBS[job_id]["_delivery_ready"].set()
 
         proof_max_depth = min(max_depth, quick_result.depth) if quick_result is not None else max_depth
         upper_bound = quick_result.depth if quick_result is not None else None
@@ -180,16 +205,155 @@ def remaining_seconds(deadline: float | None) -> float | None:
     return remaining
 
 
-def generate_quick_solution(cube: CubieCube, deadline: float | None):
+def generate_quick_solution(cube: CubieCube, deadline: float | None, *,
+                            candidate_callback=None, cancel_event: threading.Event | None = None):
     while not QUICK_SEARCH_LOCK.acquire(timeout=0.05):
+        if cancel_event is not None and cancel_event.is_set():
+            raise SearchCancelled("快速两阶段搜索已取消。")
         remaining_seconds(deadline)
     try:
+        if cancel_event is not None and cancel_event.is_set():
+            raise SearchCancelled("快速两阶段搜索已取消。")
         if FAST_SOLVER._tables is None and PROBE_SOLVER._tables is not None:
             FAST_SOLVER._tables = PROBE_SOLVER._tables
         budget = min(QUICK_SOLVE_SECONDS, remaining_seconds(deadline) or QUICK_SOLVE_SECONDS)
-        return FAST_SOLVER.solve_cube(cube, timeout_seconds=budget)
+        return FAST_SOLVER.solve_cube(cube, timeout_seconds=budget,
+                                      candidate_callback=candidate_callback, cancel_event=cancel_event, deadline=deadline)
     finally:
         QUICK_SEARCH_LOCK.release()
+
+
+def _record_job_event_locked(job: dict, event: str, *, at: float | None = None, **values) -> None:
+    """Raw request-relative events; monotonic timestamps are never rounded."""
+    at = time.monotonic() if at is None else at
+    elapsed = at - job["_started_at"]
+    job["timing_events"].append({"event": event, "monotonic": at, "elapsed_seconds": elapsed, **values})
+    job["timings"].setdefault(event + "_seconds", elapsed)
+
+
+def record_job_event(job_id: str, event: str, **values) -> None:
+    with JOBS_LOCK:
+        job = JOBS.get(job_id)
+        if job is not None:
+            _record_job_event_locked(job, event, **values)
+
+
+def job_snapshot(job_id: str) -> dict | None:
+    with JOBS_LOCK:
+        job = JOBS.get(job_id)
+        if job is None:
+            return None
+        snapshot = {key: value for key, value in job.items()
+                    if key not in {"created_at", "updated_at"} and not key.startswith("_")}
+        snapshot["timing_events"] = list(job["timing_events"])
+        snapshot["timings"] = dict(job["timings"])
+        return snapshot
+
+
+def mark_htm_http_return(job_id: str, *, candidate_included: bool, initial: bool) -> None:
+    with JOBS_LOCK:
+        job = JOBS.get(job_id)
+        if job is None:
+            return
+        event = "http_initial_return" if initial else "http_poll_return"
+        _record_job_event_locked(job, event, candidate_included=candidate_included)
+        if candidate_included:
+            job["timings"].setdefault("first_candidate_http_seconds", time.monotonic() - job["_started_at"])
+
+
+def publish_htm_candidate(job_id: str, expected_job: dict, cube: CubieCube, result, *,
+                          publish: bool = True, record_generated: bool = True) -> bool:
+    generated_at = time.monotonic()
+    moves = list(result.moves)
+    verified = cube
+    for move in moves:
+        if move not in MOVE_INDEX:
+            raise ValueError("HTM 候选包含未知动作。")
+        verified = verified.apply_move_index(MOVE_INDEX[move])
+    if not verified.is_solved() or result.metric != "HTM" or result.depth != len(moves):
+        raise ValueError("HTM 候选动作回放或计步不正确。")
+    with JOBS_LOCK:
+        job = JOBS.get(job_id)
+        if job is not expected_job:
+            return False
+        deadline = job["_deadline"]
+        if (job["status"] in TERMINAL_STATUSES or job["_cancel_event"].is_set()
+                or job["_candidate_stop"].is_set()
+                or (deadline is not None and time.monotonic() >= deadline)):
+            return False
+        if record_generated:
+            _record_job_event_locked(job, "candidate_generated", at=generated_at, cost=len(moves), moves=moves,
+                                     solver_elapsed_seconds=result.elapsed_seconds)
+        if not publish:
+            return True
+        previous = job.get("incumbent_depth")
+        if previous is not None and len(moves) >= previous:
+            return False
+        job["_incumbent_moves"] = moves
+        job["incumbent_depth"] = len(moves)
+        job["candidate_result"] = {**result_payload(result), "moves": moves}
+        job["solution_generation_seconds"] = round(generated_at - job.get("_candidate_started_at", generated_at), 3)
+        job["updated_at"] = time.time()
+        _record_job_event_locked(job, "candidate_published", cost=len(moves), moves=moves)
+        job["_delivery_ready"].set()
+        return True
+
+
+def start_candidate_job(job_id: str, cube: CubieCube) -> bool:
+    with JOBS_LOCK:
+        job = JOBS.get(job_id)
+        if job is None or job.get("_generator_started") or job["status"] in TERMINAL_STATUSES:
+            return False
+        job["_generator_started"] = True
+        stop = job["_candidate_stop"]
+        deadline = job["_deadline"]
+
+        def generate() -> None:
+            generation_started = time.monotonic()
+            claimed = False
+            try:
+                # Only the job owning the proof slot may spend the candidate
+                # allowance. This also makes restoring its full proof quota safe.
+                while not job["_proof_lease"].wait(0.05):
+                    if stop.is_set():
+                        raise SearchCancelled("快速两阶段搜索已取消。")
+                    remaining_seconds(deadline)
+                job["_broker"].enter_htm(deadline=deadline, cancel_event=stop)
+                claimed = True
+                with JOBS_LOCK:
+                    if JOBS.get(job_id) is job:
+                        job["candidate_search_running"] = True
+                        job["_candidate_started_at"] = time.monotonic()
+                record_job_event(job_id, "candidate_search_started")
+                early = job["early_candidate_delivery"]
+                result = generate_quick_solution(cube, deadline, cancel_event=stop,
+                    candidate_callback=lambda result: publish_htm_candidate(job_id, job, cube, result, publish=early))
+                if result is not None and not early:
+                    # The failed default-request gate keeps the original delivery
+                    # policy: publish the best result only after the same budget.
+                    publish_htm_candidate(job_id, job, cube, result, record_generated=False)
+            except (SearchTimeout, SearchCancelled, TimeoutError, ResourceCancelled):
+                pass
+            except Exception as exc:  # Candidate failure leaves the independent proof running.
+                logging.warning("HTM 候选搜索失败: %s", exc)
+                with JOBS_LOCK:
+                    if JOBS.get(job_id) is job:
+                        job["candidate_error"] = str(exc)
+            finally:
+                with JOBS_LOCK:
+                    if JOBS.get(job_id) is job:
+                        job["solution_generation_seconds"] = round(time.monotonic() - generation_started, 3)
+                        job["candidate_search_running"] = False
+                        _record_job_event_locked(job, "candidate_search_finished")
+                        job["_generation_done"].set()
+                        job["_delivery_ready"].set()
+                if claimed:
+                    job["_broker"].leave_htm()
+
+        candidate_worker = threading.Thread(target=generate, name=f"cube-candidate-{job_id[:8]}", daemon=True)
+        job["_candidate_worker"] = candidate_worker
+        candidate_worker.start()
+        return True
 
 
 def update_job(job_id: str, **values: object) -> None:
@@ -197,8 +361,16 @@ def update_job(job_id: str, **values: object) -> None:
         job = JOBS.get(job_id)
         if job is None:
             return
+        if job["status"] in TERMINAL_STATUSES:
+            return
         job.update(values)
         job["updated_at"] = time.time()
+        if job["status"] in TERMINAL_STATUSES:
+            _record_job_event_locked(job, "terminal", status=job["status"], result=job.get("result"),
+                native_pid=job.get("native_pid"), peak_working_set_bytes=job.get("peak_working_set_bytes"),
+                memory_scope=job.get("memory_scope"))
+            job["_candidate_stop"].set()
+            job["_delivery_ready"].set()
 
 
 def run_optimal_job(
@@ -216,8 +388,16 @@ def run_optimal_job(
         deadline = started + timeout_seconds
     acquired = False
     htm_claimed = False
+    job = None
+    broker = BROKER
     try:
-        BROKER.enter_htm(deadline=deadline, cancel_event=cancel_event)
+        with JOBS_LOCK:
+            job = JOBS[job_id]
+            broker = job["_broker"]
+            generation_done = job["_generation_done"]
+            serial_candidate = job["_serial_candidate"]
+            proof_threads = job["_proof_threads"]
+        broker.enter_htm(deadline=deadline, cancel_event=cancel_event)
         htm_claimed = True
         while not acquired:
             if cancel_event is not None and cancel_event.is_set():
@@ -226,14 +406,65 @@ def run_optimal_job(
             acquired = OPTIMAL_SEARCH_LOCK.acquire(timeout=0.05)
         if cancel_event is not None and cancel_event.is_set():
             raise SearchCancelled("搜索已取消。")
+        job["_proof_lease"].set()
+        if serial_candidate:
+            record_job_event(job_id, "proof_waiting_for_candidate", threads=proof_threads)
+            while not generation_done.wait(0.05):
+                if cancel_event is not None and cancel_event.is_set():
+                    raise SearchCancelled("搜索已取消。")
+                remaining_seconds(deadline)
         update_job(job_id, status="running")
+        record_job_event(job_id, "proof_started", threads=proof_threads)
 
         def report_progress(progress: dict) -> None:
-            update_job(job_id, progress=progress, engine=progress.get("engine", "python"))
+            values = {"progress": progress, "engine": progress.get("engine", "python")}
+            if "threads" in progress:
+                values["proof_threads"] = progress["threads"]
+            update_job(job_id, **values)
+            record_job_event(job_id, "proof_progress", progress=dict(progress))
 
         def incumbent_provider() -> list[str] | None:
             with JOBS_LOCK:
-                return JOBS.get(job_id, {}).get("_incumbent_moves", incumbent_moves)
+                current = JOBS.get(job_id)
+                if current is not job or current["status"] in TERMINAL_STATUSES:
+                    return None
+                moves = current.get("_incumbent_moves", incumbent_moves)
+                return None if moves is None else list(moves)
+
+        def report_native_event(event: dict) -> None:
+            details = dict(event)
+            kind = str(details.pop("type"))
+            with JOBS_LOCK:
+                current = JOBS.get(job_id)
+                if current is job:
+                    if details.get("native_pid") is not None:
+                        current["native_pid"] = details["native_pid"]
+                    if details.get("peak_working_set_bytes") is not None:
+                        current["peak_working_set_bytes"] = max(current.get("peak_working_set_bytes", 0),
+                                                                 details["peak_working_set_bytes"])
+                        current["memory_scope"] = details["memory_scope"]
+            record_job_event(job_id, kind, **details)
+
+        def proof_threads_provider() -> int | None:
+            with JOBS_LOCK:
+                current = JOBS.get(job_id)
+                if (current is not job or current["status"] in TERMINAL_STATUSES
+                        or current["_cancel_event"].is_set()
+                        or (deadline is not None and time.monotonic() >= deadline)):
+                    return None
+                return current["thread_quota"] if current["_generation_done"].is_set() else proof_threads
+
+        def guard_thread_update(send) -> bool:
+            # Commit the protocol write while holding the same lock used to
+            # publish terminal/cancel state, closing the provider-to-write race.
+            with JOBS_LOCK:
+                current = JOBS.get(job_id)
+                if (current is not job or current["status"] in TERMINAL_STATUSES
+                        or current["_cancel_event"].is_set()
+                        or (deadline is not None and time.monotonic() >= deadline)):
+                    return False
+                send()
+                return True
 
         try:
             update_job(job_id, engine="native-cpp")
@@ -246,7 +477,10 @@ def run_optimal_job(
                 progress_callback=report_progress,
                 deadline=deadline,
                 incumbent_provider=incumbent_provider,
-                threads=BROKER.threads,
+                threads=proof_threads,
+                event_callback=report_native_event,
+                threads_provider=proof_threads_provider,
+                threads_update_guard=guard_thread_update,
             )
         except NativeSolverCancelled as exc:
             raise SearchCancelled(str(exc)) from exc
@@ -272,28 +506,33 @@ def run_optimal_job(
         incumbent_moves = incumbent_provider()
         upper_bound = len(incumbent_moves) if incumbent_moves else upper_bound
 
+        original_workers = SOLVER.max_workers
+        SOLVER.max_workers = min(original_workers, proof_threads)
         try:
-            result = SOLVER.solve_cube(
-                cube,
-                max_depth=max_depth,
-                timeout_seconds=remaining_seconds(deadline),
-                deadline=deadline,
-                upper_bound=upper_bound,
-                incumbent_moves=incumbent_moves,
-                cancel_event=cancel_event,
-                progress_callback=report_progress,
-            )
-        except PermissionError:
-            result = PROBE_SOLVER.solve_cube(
-                cube,
-                max_depth=max_depth,
-                timeout_seconds=remaining_seconds(deadline),
-                deadline=deadline,
-                upper_bound=upper_bound,
-                incumbent_moves=incumbent_moves,
-                cancel_event=cancel_event,
-                progress_callback=report_progress,
-            )
+            try:
+                result = SOLVER.solve_cube(
+                    cube,
+                    max_depth=max_depth,
+                    timeout_seconds=remaining_seconds(deadline),
+                    deadline=deadline,
+                    upper_bound=upper_bound,
+                    incumbent_moves=incumbent_moves,
+                    cancel_event=cancel_event,
+                    progress_callback=report_progress,
+                )
+            except PermissionError:
+                result = PROBE_SOLVER.solve_cube(
+                    cube,
+                    max_depth=max_depth,
+                    timeout_seconds=remaining_seconds(deadline),
+                    deadline=deadline,
+                    upper_bound=upper_bound,
+                    incumbent_moves=incumbent_moves,
+                    cancel_event=cancel_event,
+                    progress_callback=report_progress,
+                )
+        finally:
+            SOLVER.max_workers = original_workers
         if cancel_event is not None and cancel_event.is_set():
             raise SearchCancelled("搜索已取消。")
         update_job(job_id, status="complete", result={**result_payload(result), "engine": "python"})
@@ -304,8 +543,13 @@ def run_optimal_job(
     except Exception as exc:  # pragma: no cover - background safety net.
         update_job(job_id, status="error", message=str(exc))
     finally:
+        if job is not None:
+            job["_candidate_stop"].set()
+            candidate_worker = job.get("_candidate_worker")
+            if candidate_worker is not None and candidate_worker.ident is not None:
+                candidate_worker.join()
         if htm_claimed:
-            BROKER.leave_htm()
+            broker.leave_htm()
         if acquired:
             OPTIMAL_SEARCH_LOCK.release()
         with JOBS_LOCK:
@@ -366,6 +610,9 @@ class AppHandler(BaseHTTPRequestHandler):
                         if key not in {"created_at", "updated_at"} and not key.startswith("_")
                     }
                 )
+                if snapshot is not None:
+                    snapshot["timing_events"] = list(job["timing_events"])
+                    snapshot["timings"] = dict(job["timings"])
                 if snapshot is not None and snapshot.get("status") == "queued":
                     queued = sorted(
                         (value.get("created_at", 0.0), key)
@@ -380,6 +627,8 @@ class AppHandler(BaseHTTPRequestHandler):
                 self._send_json({"ok": False, "error": "求解任务不存在或已过期"}, status=404)
             else:
                 self._send_json({"ok": True, **snapshot})
+                mark_htm_http_return(job_id, candidate_included=snapshot.get("candidate_result") is not None
+                                     or snapshot.get("result") is not None, initial=False)
             return
         if path in ("", "/"):
             self._send_file(WEB_ROOT / "index.html")
@@ -422,6 +671,9 @@ class AppHandler(BaseHTTPRequestHandler):
                         job["status"] = status
                         job["message"] = "搜索已取消。"
                         job["updated_at"] = time.time()
+                        _record_job_event_locked(job, "terminal", status="cancelled")
+                        job["_candidate_stop"].set()
+                        job["_delivery_ready"].set()
             if status is None:
                 self._send_json({"ok": False, "error": "求解任务不存在或已过期"}, status=404)
             else:
@@ -527,61 +779,23 @@ class AppHandler(BaseHTTPRequestHandler):
 
             cube = from_facelets(facelets)
 
-            quick_result = None
             if native_solver_available():
-                job_id, worker = prepare_optimal_job(cube, None, max_depth, timeout_seconds, deadline=deadline)
+                candidate_enabled = not cube.is_solved()
+                job_id, worker = prepare_optimal_job(cube, None, max_depth, timeout_seconds, deadline=deadline,
+                                                     started=request_started, candidate_enabled=candidate_enabled)
                 start_optimal_job(job_id, worker)
                 with JOBS_LOCK:
-                    done = JOBS[job_id]["_done"]
-                done.wait(min(QUICK_OPTIMAL_PROBE_SECONDS,
-                              remaining_seconds(deadline) or QUICK_OPTIMAL_PROBE_SECONDS))
-                with JOBS_LOCK:
-                    snapshot = dict(JOBS[job_id])
-                    generate = not snapshot.get("_generator_started") and snapshot["status"] in {"queued", "running"}
-                    if generate:
-                        JOBS[job_id]["_generator_started"] = True
-                if snapshot["status"] == "complete":
-                    self._send_json(
-                        {
-                            "ok": True,
-                            **snapshot["result"],
-                            "proof_status": "complete",
-                            "solution_generation_seconds": 0.0,
-                            "resource_wait_seconds": resource_wait_seconds,
-                            "proof_elapsed_seconds": snapshot.get("proof_elapsed_seconds", 0.0),
-                        }
-                    )
-                    return
-                if generate:
-                    generation_started = time.monotonic()
-                    try:
-                        quick_result = generate_quick_solution(cube, deadline)
-                    except SearchTimeout:
-                        pass
-                    generation_seconds = round(time.monotonic() - generation_started, 3)
-                    if quick_result is not None:
-                        update_job(
-                            job_id,
-                            _incumbent_moves=quick_result.moves,
-                            incumbent_depth=quick_result.depth,
-                            candidate_result=result_payload(quick_result),
-                        )
-                    update_job(job_id, solution_generation_seconds=generation_seconds)
-                with JOBS_LOCK:
-                    snapshot = dict(JOBS[job_id])
-                if snapshot["status"] == "complete":
-                    self._send_json(
-                        {
-                            "ok": True,
-                            **snapshot["result"],
-                            "proof_status": "complete",
-                            "solution_generation_seconds": snapshot["solution_generation_seconds"],
-                            "resource_wait_seconds": resource_wait_seconds,
-                            "proof_elapsed_seconds": snapshot.get("proof_elapsed_seconds", 0.0),
-                        }
-                    )
-                    return
-                quick_payload = snapshot.get("candidate_result")
+                    ready = JOBS[job_id]["_delivery_ready"]
+                    serial_candidate = JOBS[job_id]["_serial_candidate"]
+                # Retain the original quick-proof window. A one-thread request
+                # serializes the candidate budget before proof instead of oversubscribing.
+                if not serial_candidate:
+                    ready.wait(min(QUICK_OPTIMAL_PROBE_SECONDS,
+                                   remaining_seconds(deadline) or QUICK_OPTIMAL_PROBE_SECONDS))
+                snapshot = job_snapshot(job_id)
+                if candidate_enabled and snapshot["status"] not in TERMINAL_STATUSES:
+                    start_candidate_job(job_id, cube)
+                    ready.wait(remaining_seconds(deadline))
             else:
                 probe_budget = min(
                     QUICK_OPTIMAL_PROBE_SECONDS, remaining_seconds(deadline) or QUICK_OPTIMAL_PROBE_SECONDS
@@ -602,15 +816,15 @@ class AppHandler(BaseHTTPRequestHandler):
                          "resource_wait_seconds": resource_wait_seconds}
                     )
                     return
-                try:
-                    quick_result = generate_quick_solution(cube, deadline)
-                except SearchTimeout:
-                    pass
-                job_id, worker = prepare_optimal_job(cube, quick_result, max_depth, timeout_seconds, deadline=deadline)
+                job_id, worker = prepare_optimal_job(cube, None, max_depth, timeout_seconds, deadline=deadline,
+                                                     started=request_started, candidate_enabled=True)
                 start_optimal_job(job_id, worker)
+                start_candidate_job(job_id, cube)
                 with JOBS_LOCK:
-                    snapshot = dict(JOBS[job_id])
-                quick_payload = result_payload(quick_result) if quick_result else None
+                    ready = JOBS[job_id]["_delivery_ready"]
+                ready.wait(remaining_seconds(deadline))
+            snapshot = job_snapshot(job_id)
+            quick_payload = snapshot.get("candidate_result")
             response = {
                 "ok": True,
                 "job_id": job_id,
@@ -620,8 +834,15 @@ class AppHandler(BaseHTTPRequestHandler):
                 "solution_generation_seconds": snapshot.get("solution_generation_seconds", 0.0),
                 "request_elapsed_seconds": round(time.monotonic() - request_started, 3),
                 "resource_wait_seconds": resource_wait_seconds,
+                "timing_events": snapshot["timing_events"],
+                "timings": snapshot["timings"],
+                "thread_quota": snapshot["thread_quota"],
+                "proof_threads": snapshot["proof_threads"],
             }
-            if quick_payload:
+            if snapshot["status"] == "complete":
+                response.update(snapshot["result"])
+                response["proof_elapsed_seconds"] = snapshot.get("proof_elapsed_seconds", 0.0)
+            elif quick_payload:
                 response.update(quick_payload)
             else:
                 response.update(
@@ -635,6 +856,7 @@ class AppHandler(BaseHTTPRequestHandler):
                     }
                 )
             self._send_json(response)
+            mark_htm_http_return(job_id, candidate_included=response.get("depth") is not None, initial=True)
         except JobCapacityError as exc:
             self._send_json({"ok": False, "error": str(exc)}, status=503)
         except (CubeStateError, SearchTimeout, TimeoutError, ValueError) as exc:

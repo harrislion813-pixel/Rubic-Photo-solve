@@ -1,0 +1,27 @@
+{
+  "scope": "Synthetic matrix evidence and dummy Windows process tree only; no solver or asset loading",
+  "synthetic_summary_tests": {
+    "file": "tests/test_next_speed_summary.py",
+    "command": ".venv/Scripts/python.exe -m pytest tests/test_next_speed_summary.py -q -p no:cacheprovider",
+    "passed": 8,
+    "elapsed_seconds": 0.11
+  },
+  "ruff": {
+    "files": ["tests/summarize_next_speed.py", "tests/test_next_speed_summary.py", "tests/observe_next_speed_memory.py"],
+    "result": "All checks passed"
+  },
+  "syntax": {
+    "node": "node --check tests/verify_next_speed_page.cjs",
+    "python": ".venv/Scripts/python.exe -m py_compile tests/summarize_next_speed.py tests/observe_next_speed_memory.py",
+    "exit_codes": [0, 0]
+  },
+  "windows_observer_dummy_self_check": {
+    "started_and_stopped": true,
+    "observed_samples": 2,
+    "final_os_sample_present": true,
+    "dummy_tree_peak_working_set_bytes": 25227264,
+    "native_peak_was_null_without_a_native_child": true,
+    "solver_started": false,
+    "http_requests": 0
+  }
+}

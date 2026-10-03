@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="3" time="6.814" timestamp="2026-10-03T01:51:24.615677+08:00" hostname="DESKTOP-C8SGOOO"><testcase classname="tests.test_qtm_loader_next" name="test_real_member_initialization_pause_resume_and_equivalence" time="4.869"><properties><property name="real_constructor_result" value="{&quot;callback_initialization_seconds_excluding_hold&quot;: 0.543352, &quot;callbacks&quot;: 2661, &quot;default_initialization_seconds&quot;: 0.533743, &quot;exception_unwinds&quot;: true, &quot;executing_while_paused&quot;: 0, &quot;max_work_gap_seconds&quot;: 0.0010756, &quot;optional_callback_equivalent&quot;: true, &quot;pause_acknowledged&quot;: true, &quot;pause_seconds&quot;: 2.67e-05, &quot;resume_complete&quot;: true}" /></properties></testcase><testcase classname="tests.test_qtm_loader_next" name="test_real_managed_loader_pause_cancel_resume_and_eof" time="0.104"><failure message="AssertionError: assert 'fallback' == 'base'&#10;  &#10;  - base&#10;  + fallback">binary = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/native/qtm/build/cube_solver_qtm.exe')
+record_property = &lt;function record_property.&lt;locals&gt;.append_property at 0x000002104E04EF20&gt;
+
+    @pytest.mark.qtm_native
+    @pytest.mark.qtm_full_assets
+    def test_real_managed_loader_pause_cancel_resume_and_eof(binary, record_property):
+        with _service(binary) as service:
+&gt;           assert service.event("ready")["assets"]["QTM"]["profile"] == "base"
+E           AssertionError: assert 'fallback' == 'base'
+E             
+E             - base
+E             + fallback
+
+tests\test_qtm_loader_next.py:73: AssertionError</failure></testcase><testcase classname="tests.test_qtm_loader_next" name="test_real_eof_releases_paused_initialization" time="1.750"><properties><property name="eof_join_seconds" value="1.625" /></properties></testcase></testsuite></testsuites>

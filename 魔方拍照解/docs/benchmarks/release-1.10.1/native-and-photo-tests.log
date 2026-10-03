@@ -1,0 +1,13 @@
+.........................................................                [100%]
+============================== warnings summary ===============================
+tests/test_qtm_loader_next.py::test_real_managed_loader_pause_cancel_resume_and_eof
+  tests\test_qtm_loader_next.py:71: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+    @pytest.mark.qtm_native
+
+tests/test_qtm_loader_next.py::test_real_eof_releases_paused_initialization
+  tests\test_qtm_loader_next.py:109: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+    @pytest.mark.qtm_native
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\docs\benchmarks\release-1.10.1\native-and-photo-tests.xml -
+57 passed, 108 deselected, 2 warnings in 132.31s (0:02:12)

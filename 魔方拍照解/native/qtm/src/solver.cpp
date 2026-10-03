@@ -117,6 +117,7 @@ bool solved(const CoordinateState &state) noexcept {
 
 void add_counters(SearchCounters &target, const SearchCounters &source) {
     target.generated += source.generated;
+    target.full_strong_expansions += source.full_strong_expansions;
     target.small_queries += source.small_queries;
     target.phase1_queries += source.phase1_queries;
     target.corner_queries += source.corner_queries;
@@ -550,6 +551,30 @@ int maybe_dual_bound(const CoordinateTables &tables, const CoordinateState &stat
     return bound;
 }
 
+template <bool FullStrong>
+std::uint8_t layer_heuristic(const CoordinateTables &tables, const CoordinateState &state,
+                             const Phase1PatternDatabase *phase1_pdb, const CornerPatternDatabase *corner_pdb,
+                             std::span<const EdgePatternDatabase *const> edge_pdbs, std::uint8_t cutoff,
+                             const CoordinateFeatures &features, SearchCounters *counters = nullptr) noexcept {
+    if constexpr (FullStrong)
+        return tables.heuristic_full_qtm_strong(state, corner_pdb, features.strong_pdb, cutoff, counters);
+    else
+        return tables.heuristic(state, phase1_pdb, corner_pdb, edge_pdbs, cutoff, features, counters);
+}
+
+template <bool FullStrong>
+std::uint8_t layer_expand(const CoordinateTables &tables, const CoordinateState &state, int move,
+                          CoordinateState &child, const Phase1PatternDatabase *phase1_pdb,
+                          const CornerPatternDatabase *corner_pdb,
+                          std::span<const EdgePatternDatabase *const> edge_pdbs, std::uint8_t cutoff,
+                          const CoordinateFeatures &features, SearchCounters &counters) noexcept {
+    if constexpr (FullStrong)
+        return tables.expand_full_qtm_strong(state, move, child, corner_pdb, features.strong_pdb, cutoff, counters);
+    else
+        return tables.expand(state, move, child, phase1_pdb, corner_pdb, edge_pdbs, cutoff, features, counters);
+}
+
+template <bool FullStrong>
 bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatabase *phase1_pdb,
                         const CornerPatternDatabase *corner_pdb, std::span<const EdgePatternDatabase *const> edge_pdbs,
                         const TailDatabase *tail_database, const CoordinateFeatures &features,
@@ -560,9 +585,10 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
     if (check_stop(control, worker))
         return false;
     int propagated_heuristic =
-        known_heuristic >= 0 ? known_heuristic
-                             : tables.heuristic(state, phase1_pdb, corner_pdb, edge_pdbs,
-                                                static_cast<std::uint8_t>(depth_left), features, &worker.counters);
+        known_heuristic >= 0
+            ? known_heuristic
+            : layer_heuristic<FullStrong>(tables, state, phase1_pdb, corner_pdb, edge_pdbs,
+                                          static_cast<std::uint8_t>(depth_left), features, &worker.counters);
     if (propagated_heuristic > depth_left) {
         return false;
     }
@@ -594,10 +620,11 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
     const bool tt_active =
         worker.transposition != nullptr &&
         (!options.selective_transposition ||
-         (depth_left >= 10 && tables.heuristic(state, phase1_pdb, corner_pdb, edge_pdbs,
-                                               static_cast<std::uint8_t>(depth_left - 2), features, &worker.counters) +
-                                      2 <=
-                                  depth_left));
+         (depth_left >= 10 &&
+          layer_heuristic<FullStrong>(tables, state, phase1_pdb, corner_pdb, edge_pdbs,
+                                      static_cast<std::uint8_t>(depth_left - 2), features, &worker.counters) +
+                  2 <=
+              depth_left));
     if (tt_active) {
         ++worker.counters.tt_keys;
         key = state_key(tables.materialize(state), last_face);
@@ -626,11 +653,14 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
             if (next_depth < 0)
                 continue;
             CoordinateState child;
-            int child_heuristic = tables.expand(state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
-                                                static_cast<std::uint8_t>(next_depth), features, worker.counters);
-            if (child_heuristic <= next_depth)
-                child_heuristic = maybe_dual_bound(tables, child, child_heuristic, next_depth, phase1_pdb, corner_pdb,
-                                                   features, options, worker.counters);
+            int child_heuristic =
+                layer_expand<FullStrong>(tables, state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
+                                         static_cast<std::uint8_t>(next_depth), features, worker.counters);
+            if constexpr (!FullStrong) {
+                if (child_heuristic <= next_depth)
+                    child_heuristic = maybe_dual_bound(tables, child, child_heuristic, next_depth, phase1_pdb,
+                                                       corner_pdb, features, options, worker.counters);
+            }
             if (options.bpmx) {
                 propagated_heuristic = std::max(propagated_heuristic, child_heuristic - options.move_costs[move]);
                 if (propagated_heuristic > depth_left) {
@@ -652,9 +682,9 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
         for (std::size_t candidate_index = 0; candidate_index < candidate_count; ++candidate_index) {
             const Candidate &candidate = candidates[candidate_index];
             path.push_back(candidate.move);
-            if (depth_first_search(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features, options,
-                                   candidate.state, candidate.remaining, candidate.face, path, control, worker,
-                                   candidate.heuristic)) {
+            if (depth_first_search<FullStrong>(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features,
+                                               options, candidate.state, candidate.remaining, candidate.face, path,
+                                               control, worker, candidate.heuristic)) {
                 return true;
             }
             path.pop_back();
@@ -676,11 +706,14 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
         if (next_depth < 0)
             continue;
         CoordinateState child;
-        int child_heuristic = tables.expand(state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
-                                            static_cast<std::uint8_t>(next_depth), features, worker.counters);
-        if (child_heuristic <= next_depth)
-            child_heuristic = maybe_dual_bound(tables, child, child_heuristic, next_depth, phase1_pdb, corner_pdb,
-                                               features, options, worker.counters);
+        int child_heuristic =
+            layer_expand<FullStrong>(tables, state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
+                                     static_cast<std::uint8_t>(next_depth), features, worker.counters);
+        if constexpr (!FullStrong) {
+            if (child_heuristic <= next_depth)
+                child_heuristic = maybe_dual_bound(tables, child, child_heuristic, next_depth, phase1_pdb, corner_pdb,
+                                                   features, options, worker.counters);
+        }
         if (options.bpmx) {
             propagated_heuristic = std::max(propagated_heuristic, child_heuristic - options.move_costs[move]);
             if (propagated_heuristic > depth_left) {
@@ -692,8 +725,8 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
         if (child_heuristic > next_depth)
             continue;
         path.push_back(move);
-        if (depth_first_search(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features, options, child,
-                               next_depth, face, path, control, worker, child_heuristic)) {
+        if (depth_first_search<FullStrong>(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features, options,
+                                           child, next_depth, face, path, control, worker, child_heuristic)) {
             return true;
         }
         path.pop_back();
@@ -708,6 +741,7 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
     return false;
 }
 
+template <bool FullStrong>
 std::vector<SearchTask> split_task(const CoordinateTables &tables, const Phase1PatternDatabase *phase1_pdb,
                                    const CornerPatternDatabase *corner_pdb,
                                    std::span<const EdgePatternDatabase *const> edge_pdbs,
@@ -728,11 +762,14 @@ std::vector<SearchTask> split_task(const CoordinateTables &tables, const Phase1P
             continue;
         ++generated_nodes;
         CoordinateState child;
-        int child_heuristic = tables.expand(task.state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
-                                            static_cast<std::uint8_t>(next_depth), features, worker.counters);
-        if (child_heuristic <= next_depth)
-            child_heuristic = maybe_dual_bound(tables, child, child_heuristic, next_depth, phase1_pdb, corner_pdb,
-                                               features, options, worker.counters);
+        int child_heuristic =
+            layer_expand<FullStrong>(tables, task.state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
+                                     static_cast<std::uint8_t>(next_depth), features, worker.counters);
+        if constexpr (!FullStrong) {
+            if (child_heuristic <= next_depth)
+                child_heuristic = maybe_dual_bound(tables, child, child_heuristic, next_depth, phase1_pdb, corner_pdb,
+                                                   features, options, worker.counters);
+        }
         if (options.bpmx) {
             propagated_heuristic = std::max(propagated_heuristic, child_heuristic - options.move_costs[move]);
             if (propagated_heuristic > task.depth_left) {
@@ -753,20 +790,21 @@ std::vector<SearchTask> split_task(const CoordinateTables &tables, const Phase1P
     return children;
 }
 
-std::optional<std::vector<int>>
-parallel_depth_search(const CoordinateTables &tables, const Phase1PatternDatabase *phase1_pdb,
-                      const CornerPatternDatabase *corner_pdb, std::span<const EdgePatternDatabase *const> edge_pdbs,
-                      const TailDatabase *tail_database, const CoordinateFeatures &features,
-                      const CoordinateState &initial, int depth, const SolverOptions &options, int thread_count,
-                      SearchControl &control, PersistentWorkerPool &pool, const std::function<void()> &snapshot = {},
-                      const std::atomic<bool> *candidate_done = nullptr) {
+template <bool FullStrong>
+std::optional<std::vector<int>> parallel_depth_search_impl(
+    const CoordinateTables &tables, const Phase1PatternDatabase *phase1_pdb, const CornerPatternDatabase *corner_pdb,
+    std::span<const EdgePatternDatabase *const> edge_pdbs, const TailDatabase *tail_database,
+    const CoordinateFeatures &features, const CoordinateState &initial, int depth, const SolverOptions &options,
+    int thread_count, SearchControl &control, PersistentWorkerPool &pool, const std::function<void()> &snapshot = {},
+    const std::atomic<bool> *candidate_done = nullptr) {
     struct QueueState {
         std::mutex mutex;
         std::condition_variable condition;
         std::deque<SearchTask> tasks;
         std::size_t outstanding{1};
     } queue;
-    const auto root_heuristic = tables.heuristic(initial, phase1_pdb, corner_pdb, edge_pdbs, 255, features);
+    const auto root_heuristic =
+        layer_heuristic<FullStrong>(tables, initial, phase1_pdb, corner_pdb, edge_pdbs, 255, features);
     queue.tasks.push_back(SearchTask{initial, depth, -1, root_heuristic, {}});
     const std::size_t target_queue = static_cast<std::size_t>(thread_count) * 64;
 
@@ -810,7 +848,8 @@ parallel_depth_search(const CoordinateTables &tables, const Phase1PatternDatabas
                           (queued_after_pop < static_cast<std::size_t>(thread_count * 2) || slack >= 3)
                     : task.depth_left > split_floor && task.path.size() < 7 && queued_after_pop < target_queue;
             if (should_split) {
-                auto children = split_task(tables, phase1_pdb, corner_pdb, edge_pdbs, features, options, task, worker);
+                auto children =
+                    split_task<FullStrong>(tables, phase1_pdb, corner_pdb, edge_pdbs, features, options, task, worker);
                 {
                     std::lock_guard lock(queue.mutex);
                     queue.outstanding += children.size();
@@ -831,8 +870,8 @@ parallel_depth_search(const CoordinateTables &tables, const Phase1PatternDatabas
 
             auto &path = worker.path;
             path.assign(task.path.begin(), task.path.end());
-            depth_first_search(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features, options, task.state,
-                               task.depth_left, task.last_face, path, control, worker);
+            depth_first_search<FullStrong>(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features, options,
+                                           task.state, task.depth_left, task.last_face, path, control, worker);
             {
                 std::lock_guard lock(queue.mutex);
                 --queue.outstanding;
@@ -855,8 +894,9 @@ parallel_depth_search(const CoordinateTables &tables, const Phase1PatternDatabas
         }
         if (!candidate && candidate_done && !candidate_quota_returned) {
             candidate_quota_returned = true;
-            control.proof_worker_return_seconds.store(
-                std::chrono::duration<double>(std::chrono::steady_clock::now() - control.started_at).count(),
+            double unset = -1.0;
+            control.proof_worker_return_seconds.compare_exchange_strong(
+                unset, std::chrono::duration<double>(std::chrono::steady_clock::now() - control.started_at).count(),
                 std::memory_order_relaxed);
         }
         if (options.thread_activity_callback)
@@ -868,6 +908,25 @@ parallel_depth_search(const CoordinateTables &tables, const Phase1PatternDatabas
     if (!control.solution.empty())
         return control.solution;
     return std::nullopt;
+}
+
+std::optional<std::vector<int>>
+parallel_depth_search(const CoordinateTables &tables, const Phase1PatternDatabase *phase1_pdb,
+                      const CornerPatternDatabase *corner_pdb, std::span<const EdgePatternDatabase *const> edge_pdbs,
+                      const TailDatabase *tail_database, const CoordinateFeatures &features,
+                      const CoordinateState &initial, int depth, const SolverOptions &options, int thread_count,
+                      SearchControl &control, PersistentWorkerPool &pool, const std::function<void()> &snapshot = {},
+                      const std::atomic<bool> *candidate_done = nullptr) {
+    // The solve loop owns these asset pointers until this layer's workers have joined.
+    // Snapshot adoption and interrupted-layer restarts re-enter this boundary before selection.
+    if (options.qtm_expansion == QtmExpansionKernel::FullStrong && options.dual_policy == DualPolicy::Off &&
+        full_qtm_strong_eligible(features, phase1_pdb, corner_pdb, edge_pdbs))
+        return parallel_depth_search_impl<true>(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features,
+                                                initial, depth, options, thread_count, control, pool, snapshot,
+                                                candidate_done);
+    return parallel_depth_search_impl<false>(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features,
+                                             initial, depth, options, thread_count, control, pool, snapshot,
+                                             candidate_done);
 }
 
 struct DirectionProbeSample {
@@ -1432,6 +1491,97 @@ std::uint8_t CoordinateTables::evaluate(CoordinateState &state, const Coordinate
     return result;
 }
 
+bool full_qtm_strong_eligible(const CoordinateFeatures &features, const Phase1PatternDatabase *phase1_pdb,
+                              const CornerPatternDatabase *corner_pdb,
+                              std::span<const EdgePatternDatabase *const> edge_pdbs) noexcept {
+    return features.metric == MoveMetric::QTM && features.strong_pdb && features.strong_pdb->complete() && phase1_pdb &&
+           phase1_pdb->complete() && phase1_pdb->metric() == MoveMetric::QTM && corner_pdb && corner_pdb->complete() &&
+           corner_pdb->metric() == MoveMetric::QTM && features.query_order == PdbQueryOrder::StrongFirst &&
+           !features.prefetch_strong && features.maintain_slice && features.affine_coordinates &&
+           features.axis_coordinates && !features.small_phase1 && !features.small_corner && features.strengthen_axes &&
+           features.qtm_strong_axis_rule && features.staged_expansion && !features.edge_pattern_a &&
+           !features.edge_pattern_b &&
+           std::all_of(edge_pdbs.begin(), edge_pdbs.end(), [](const auto *database) { return database == nullptr; });
+}
+
+std::uint8_t CoordinateTables::evaluate_full_qtm_strong(CoordinateState &state, const CoordinateState *parent, int move,
+                                                        const CornerPatternDatabase *corner_pdb,
+                                                        const StrongPatternDatabase *strong_pdb, std::uint8_t cutoff,
+                                                        SearchCounters &counters) const noexcept {
+    if (parent) {
+        state.twist = twist_move(parent->twist, move);
+        state.flip = flip_move(parent->flip, move);
+        state.slice = slice_move(parent->slice, move);
+        ++counters.slice_updates;
+        state.sorted_slice = strong_pdb->sorted_move(parent->sorted_slice, move);
+    }
+    std::array<std::uint8_t, 3> strong_values{};
+    ++counters.strong_queries;
+    strong_values[0] = strong_pdb->distance(state.twist, state.flip, state.sorted_slice, true);
+    std::uint8_t result = strong_values[0];
+    if (result > cutoff) {
+        ++counters.strong_rejects;
+        return result;
+    }
+    for (int axis = 0; axis < 2; ++axis) {
+        if (parent) {
+            const int mapped = axis_rotation_move_maps()[axis][move];
+            state.axis_twist[axis] = twist_move(parent->axis_twist[axis], mapped);
+            state.axis_flip[axis] = flip_move(parent->axis_flip[axis], mapped);
+            state.axis_slice[axis] = slice_move(parent->axis_slice[axis], mapped);
+            ++counters.slice_updates;
+            state.axis_sorted_slice[axis] = strong_pdb->sorted_move(parent->axis_sorted_slice[axis], mapped);
+        }
+        ++counters.strong_queries;
+        strong_values[axis + 1] =
+            strong_pdb->distance(state.axis_twist[axis], state.axis_flip[axis], state.axis_sorted_slice[axis], true);
+        result = std::max(result, strong_values[axis + 1]);
+        if (result > cutoff) {
+            ++counters.strong_rejects;
+            return result;
+        }
+    }
+    if (strong_values[0] > 0 && strong_values[0] == strong_values[1] && strong_values[1] == strong_values[2]) {
+        result = std::max(result, static_cast<std::uint8_t>(strong_values[0] + 1));
+        if (result > cutoff) {
+            ++counters.strong_equality_rejects;
+            return result;
+        }
+    }
+    if (parent)
+        state.corner_perm = corner_move(parent->corner_perm, move);
+    ++counters.corner_queries;
+    result = std::max(result,
+                      corner_pdb->distance(static_cast<std::uint32_t>(state.corner_perm) * kTwistCount + state.twist));
+    if (result > cutoff) {
+        ++counters.corner_rejects;
+        return result;
+    }
+    // Packed edges are needed by solved(), Tail lookup and materialize only after acceptance.
+    // The eligible production snapshot has no edge PDBs, so inactive pattern coordinates stay untouched.
+    if (parent)
+        state.edges = move_edges(parent->edges, move);
+    return result;
+}
+
+std::uint8_t CoordinateTables::expand_full_qtm_strong(const CoordinateState &parent, int move, CoordinateState &child,
+                                                      const CornerPatternDatabase *corner_pdb,
+                                                      const StrongPatternDatabase *strong_pdb, std::uint8_t cutoff,
+                                                      SearchCounters &counters) const noexcept {
+    ++counters.generated;
+    ++counters.full_strong_expansions;
+    return evaluate_full_qtm_strong(child, &parent, move, corner_pdb, strong_pdb, cutoff, counters);
+}
+
+std::uint8_t CoordinateTables::heuristic_full_qtm_strong(const CoordinateState &state,
+                                                         const CornerPatternDatabase *corner_pdb,
+                                                         const StrongPatternDatabase *strong_pdb, std::uint8_t cutoff,
+                                                         SearchCounters *counters) const noexcept {
+    CoordinateState copy = state;
+    SearchCounters unused;
+    return evaluate_full_qtm_strong(copy, nullptr, 0, corner_pdb, strong_pdb, cutoff, counters ? *counters : unused);
+}
+
 std::uint8_t CoordinateTables::heuristic(const CoordinateState &state, const Phase1PatternDatabase *phase1_pdb,
                                          const CornerPatternDatabase *corner_pdb,
                                          std::span<const EdgePatternDatabase *const> edge_pdbs, std::uint8_t cutoff,
@@ -1607,6 +1757,10 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
         options.base_proof_window_seconds > 5)
         throw std::invalid_argument("base proof window must be finite and within 0..5 seconds");
     const auto started = std::chrono::steady_clock::now();
+    const auto request_deadline = options.timeout_seconds == 0
+                                      ? std::chrono::steady_clock::time_point::max()
+                                      : started + std::chrono::duration_cast<std::chrono::steady_clock::duration>(
+                                                      std::chrono::duration<double>(options.timeout_seconds));
     NativeSolveResult result;
     result.metric = options.metric;
     const auto slot = metric_slot(options.metric);
@@ -1755,12 +1909,51 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
     std::atomic<double> candidate_done_seconds{-1.0};
     std::atomic<bool> candidate_cancel{false};
     std::jthread candidate_thread;
+    const bool started_without_tail = active_tail == nullptr;
+    bool late_tail_attempted = false;
+    FastCandidateResult late_tail_result;
+    const auto lower_best_candidate_cost = [&](int cost) {
+        int previous = best_candidate_cost.load(std::memory_order_relaxed);
+        do {
+            if (cost >= previous)
+                return false;
+        } while (!best_candidate_cost.compare_exchange_weak(previous, cost, std::memory_order_relaxed));
+        return true;
+    };
+    auto publish_candidate = [&](const std::vector<int> &moves) {
+        if (candidate_cancel.load(std::memory_order_relaxed) ||
+            (options.cancel_requested && options.cancel_requested->load(std::memory_order_relaxed)) ||
+            std::chrono::steady_clock::now() >= request_deadline)
+            return;
+        CubieCube verified = cube;
+        for (int move : moves)
+            verified = verified.apply_move(move);
+        if (!verified.solved())
+            return;
+        if (candidate_cancel.load(std::memory_order_relaxed) ||
+            (options.cancel_requested && options.cancel_requested->load(std::memory_order_relaxed)) ||
+            std::chrono::steady_clock::now() >= request_deadline)
+            return;
+        const int cost = solution_cost(moves, MoveMetric::QTM);
+        if (!lower_best_candidate_cost(cost))
+            return;
+        {
+            std::lock_guard lock(candidate_mutex);
+            native_candidate = moves;
+        }
+        if (result.first_candidate_seconds < 0)
+            result.first_candidate_seconds =
+                std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count();
+        if (options.candidate_callback)
+            options.candidate_callback(moves);
+    };
     const bool can_generate_candidate = options.metric == MoveMetric::QTM && options.use_native_candidate &&
                                         active_phase1 != nullptr && active_phase1->metric() == MoveMetric::QTM &&
                                         active_phase1->complete();
     if (can_generate_candidate) {
         candidate_done.store(false, std::memory_order_relaxed);
-        auto run_candidate = [&, candidate_phase1 = active_phase1, candidate_tail = active_tail] {
+        auto run_candidate = [&, candidate_phase1 = active_phase1, candidate_tail = active_tail,
+                              candidate_incumbent_cost = best_candidate_cost.load(std::memory_order_relaxed)] {
             try {
                 FastCandidateOptions candidate_options;
                 candidate_options.timeout_seconds =
@@ -1776,28 +1969,14 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
                             0.0,
                             options.timeout_seconds -
                                 std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count()));
-                candidate_options.incumbent_cost = incumbent.empty() ? 100 : solution_cost(incumbent, MoveMetric::QTM);
+                candidate_options.incumbent_cost = candidate_incumbent_cost;
+                candidate_options.schedule = options.candidate_schedule;
+                candidate_options.absolute_deadline = request_deadline;
                 candidate_options.cancel_requested = &candidate_cancel;
+                candidate_options.request_cancel_requested = options.cancel_requested;
                 candidate_options.local_tail = candidate_tail;
-                candidate_options.on_improved = [&](const std::vector<int> &moves) {
-                    CubieCube verified = cube;
-                    for (int move : moves)
-                        verified = verified.apply_move(move);
-                    if (!verified.solved())
-                        return;
-                    const int cost = solution_cost(moves, MoveMetric::QTM);
-                    {
-                        std::lock_guard lock(candidate_mutex);
-                        native_candidate = moves;
-                    }
-                    best_candidate_cost.store(std::min(best_candidate_cost.load(std::memory_order_relaxed), cost),
-                                              std::memory_order_relaxed);
-                    if (result.first_candidate_seconds < 0)
-                        result.first_candidate_seconds =
-                            std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count();
-                    if (options.candidate_callback)
-                        options.candidate_callback(moves);
-                };
+                candidate_options.on_improved = publish_candidate;
+                candidate_options.on_direction = options.candidate_direction_callback;
                 candidate_result = find_fast_qtm_candidate(cube, *tables_, *candidate_phase1, candidate_options);
             } catch (const std::exception &) {
                 // Candidate generation is opportunistic; exact proof remains authoritative.
@@ -1820,10 +1999,7 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
     control.started_at = started;
     control.candidate_cost = &best_candidate_cost;
     control.cancel_requested = options.cancel_requested;
-    control.deadline = options.timeout_seconds == 0
-                           ? std::chrono::steady_clock::time_point::max()
-                           : started + std::chrono::duration_cast<std::chrono::steady_clock::duration>(
-                                           std::chrono::duration<double>(options.timeout_seconds));
+    control.deadline = request_deadline;
     int completed_depth = std::max(lower_bound - 1, options.completed_depth);
     if (parity_search && completed_depth >= lower_bound && ((completed_depth ^ root_parity) & 1) == 0)
         ++completed_depth; // The next cost has the impossible parity too.
@@ -1956,11 +2132,47 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
                                                               solution_cost(incumbent, options.metric))) {
                 validate_incumbent(updated);
                 incumbent = std::move(updated);
-                best_candidate_cost.store(solution_cost(incumbent, options.metric), std::memory_order_relaxed);
+                lower_best_candidate_cost(solution_cost(incumbent, options.metric));
                 effective_max = std::min(options.max_depth, solution_cost(incumbent, options.metric) - 1);
                 if (depth > effective_max)
                     break;
             }
+        }
+        // Reserve the same candidate slot at a layer boundary. Never add a worker to an already
+        // running proof layer, and keep the adopted immutable Tail snapshot alive through its join.
+        const int boundary_loader_threads = options.loader_threads_callback ? options.loader_threads_callback() : 0;
+        if (options.metric == MoveMetric::QTM && options.late_tail_improvement && started_without_tail &&
+            !late_tail_attempted && active_tail && active_tail->metric() == MoveMetric::QTM &&
+            candidate_done.load(std::memory_order_acquire) && !incumbent.empty() &&
+            ((thread_count == 1 && boundary_loader_threads == 0) || thread_count - boundary_loader_threads >= 2) &&
+            !cancelled() && std::chrono::steady_clock::now() < request_deadline) {
+            if (candidate_thread.joinable())
+                candidate_thread.join();
+            late_tail_attempted = true;
+            result.late_tail_attempts = 1;
+            candidate_done.store(false, std::memory_order_release);
+            auto improve_late_tail = [&, held_snapshot = active_asset_snapshot, held_tail = active_tail,
+                                      path = incumbent] {
+                (void)held_snapshot;
+                try {
+                    FastCandidateOptions tail_options;
+                    tail_options.timeout_seconds = 0.2;
+                    tail_options.absolute_deadline = request_deadline;
+                    tail_options.cancel_requested = &candidate_cancel;
+                    tail_options.request_cancel_requested = options.cancel_requested;
+                    tail_options.on_improved = publish_candidate;
+                    late_tail_result = improve_qtm_candidate_with_tail(cube, path, *held_tail, tail_options);
+                    if (options.late_tail_callback)
+                        options.late_tail_callback(late_tail_result);
+                } catch (const std::exception &) {
+                    // Local improvement supplies no coverage certificate and must not fail exact proof.
+                }
+                candidate_done.store(true, std::memory_order_release);
+            };
+            if (thread_count == 1)
+                improve_late_tail();
+            else
+                candidate_thread = std::jthread(improve_late_tail);
         }
         const auto iteration_started = std::chrono::steady_clock::now();
         const auto nodes_before = control.nodes.load(std::memory_order_relaxed);
@@ -2000,8 +2212,7 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
                     validate_incumbent(updated);
                     incumbent = std::move(updated);
                     const int cost = solution_cost(incumbent, options.metric);
-                    best_candidate_cost.store(std::min(best_candidate_cost.load(std::memory_order_relaxed), cost),
-                                              std::memory_order_relaxed);
+                    lower_best_candidate_cost(cost);
                     effective_max = std::min(effective_max, cost - 1);
                 }
             }
@@ -2097,6 +2308,13 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
     result.candidate_phase2_nodes = candidate_result.phase2_nodes;
     result.candidate_improvements = candidate_result.improvements;
     result.candidate_window_replacements = candidate_result.window_replacements;
+    result.candidate_directions = candidate_result.directions;
+    result.candidate_budget_seconds = candidate_result.budget_seconds;
+    result.candidate_elapsed_seconds = candidate_result.elapsed_seconds;
+    result.late_tail_improvements = late_tail_result.improvements;
+    result.late_tail_window_replacements = late_tail_result.window_replacements;
+    result.late_tail_seconds = late_tail_result.elapsed_seconds;
+    result.late_tail_budget_seconds = late_tail_result.budget_seconds;
     result.candidate_worker_done_seconds = candidate_done_seconds.load(std::memory_order_relaxed);
     result.proof_worker_return_seconds = control.proof_worker_return_seconds.load(std::memory_order_relaxed);
     auto final_candidate = candidate_snapshot();

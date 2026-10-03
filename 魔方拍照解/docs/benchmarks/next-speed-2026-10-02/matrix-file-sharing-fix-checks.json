@@ -1,0 +1,18 @@
+{
+  "scope": "Actual Windows file-sharing simulation only; no solver, asset loading or performance run",
+  "command": "node --test tests/test_next_speed_atomic_report.cjs",
+  "passed": 2,
+  "failed": 0,
+  "duration_ms": 572.4378,
+  "checkpoint_scope": "No full-report serialization in response listeners or active search; await checkpoint before launcher and after owned-tree cleanup, plus final flush",
+  "checks": [
+    "A 300ms FileShare.Read target lock exercised asynchronous atomic rename retries",
+    "Continuous readers observed complete JSON only",
+    "The event loop continued during retries",
+    "Captured response seconds 0.125 and 0.25 were preserved",
+    "Persistence retries did not create pageErrors",
+    "A forced final EBUSY failure rejected flush and retained the complete uncommitted JSON"
+  ],
+  "syntax_command": "node --check tests/verify_next_speed_page.cjs",
+  "syntax_exit_code": 0
+}

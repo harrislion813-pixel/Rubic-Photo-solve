@@ -1,0 +1,169 @@
+{
+  "root_pid": 3364,
+  "interval_seconds": 0.5,
+  "scope": "launcher_descendant_native_process_lifetime_peak",
+  "native_process_lifetime_peak_bytes": 3710423040,
+  "tree_sampled_peak_working_set_bytes": 3803291648,
+  "tree_scope": "launcher_process_tree_observed_working_set_sum_at_0.5_second_intervals",
+  "processes": [
+    {
+      "pid": 30944,
+      "parent_pid": 3364,
+      "name": "RubicPhotoSolve.exe",
+      "peak_working_set_bytes": 84320256,
+      "observed_samples": 29,
+      "last_sample_seconds": 14.044202199999972
+    },
+    {
+      "pid": 3364,
+      "parent_pid": 15732,
+      "name": "cmd.exe",
+      "peak_working_set_bytes": 8388608,
+      "observed_samples": 29,
+      "last_sample_seconds": 14.044210499999963
+    },
+    {
+      "pid": 19980,
+      "parent_pid": 3364,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 12926976,
+      "observed_samples": 29,
+      "last_sample_seconds": 14.044219399999974
+    },
+    {
+      "pid": 29208,
+      "parent_pid": 30944,
+      "name": "cube_solver_qtm.exe",
+      "peak_working_set_bytes": 3710423040,
+      "observed_samples": 18,
+      "last_sample_seconds": 14.044226299999991
+    },
+    {
+      "pid": 1852,
+      "parent_pid": 29208,
+      "name": "conhost.exe",
+      "peak_working_set_bytes": 7151616,
+      "observed_samples": 18,
+      "last_sample_seconds": 14.044233200000008
+    }
+  ],
+  "samples": [
+    {
+      "seconds": 0.0069614999999885185,
+      "working_set_bytes": 32313344
+    },
+    {
+      "seconds": 0.525741499999981,
+      "working_set_bytes": 68923392
+    },
+    {
+      "seconds": 1.0414729000000307,
+      "working_set_bytes": 69292032
+    },
+    {
+      "seconds": 1.5496924000000263,
+      "working_set_bytes": 90652672
+    },
+    {
+      "seconds": 2.065428699999984,
+      "working_set_bytes": 101670912
+    },
+    {
+      "seconds": 2.5822681999999304,
+      "working_set_bytes": 102514688
+    },
+    {
+      "seconds": 3.1036715000000186,
+      "working_set_bytes": 103403520
+    },
+    {
+      "seconds": 3.621002800000042,
+      "working_set_bytes": 104230912
+    },
+    {
+      "seconds": 4.138688600000023,
+      "working_set_bytes": 103862272
+    },
+    {
+      "seconds": 4.657737999999995,
+      "working_set_bytes": 82759680
+    },
+    {
+      "seconds": 5.176683199999957,
+      "working_set_bytes": 83369984
+    },
+    {
+      "seconds": 5.693979199999944,
+      "working_set_bytes": 257802240
+    },
+    {
+      "seconds": 6.211357600000042,
+      "working_set_bytes": 347557888
+    },
+    {
+      "seconds": 6.732356699999968,
+      "working_set_bytes": 358109184
+    },
+    {
+      "seconds": 7.248452000000043,
+      "working_set_bytes": 2699509760
+    },
+    {
+      "seconds": 7.768550699999992,
+      "working_set_bytes": 3802234880
+    },
+    {
+      "seconds": 8.284932499999968,
+      "working_set_bytes": 3802398720
+    },
+    {
+      "seconds": 8.810759200000007,
+      "working_set_bytes": 3802398720
+    },
+    {
+      "seconds": 9.331123199999979,
+      "working_set_bytes": 3802566656
+    },
+    {
+      "seconds": 9.848323299999947,
+      "working_set_bytes": 3802583040
+    },
+    {
+      "seconds": 10.369548399999985,
+      "working_set_bytes": 3802685440
+    },
+    {
+      "seconds": 10.879396199999974,
+      "working_set_bytes": 3802689536
+    },
+    {
+      "seconds": 11.392819700000018,
+      "working_set_bytes": 3802955776
+    },
+    {
+      "seconds": 11.90809939999997,
+      "working_set_bytes": 3802955776
+    },
+    {
+      "seconds": 12.4213029,
+      "working_set_bytes": 3803291648
+    },
+    {
+      "seconds": 12.93516360000001,
+      "working_set_bytes": 3803291648
+    },
+    {
+      "seconds": 13.453759499999933,
+      "working_set_bytes": 3803041792
+    },
+    {
+      "seconds": 13.971013599999992,
+      "working_set_bytes": 3803041792
+    },
+    {
+      "seconds": 14.044233500000018,
+      "working_set_bytes": 3803041792,
+      "final": true
+    }
+  ]
+}

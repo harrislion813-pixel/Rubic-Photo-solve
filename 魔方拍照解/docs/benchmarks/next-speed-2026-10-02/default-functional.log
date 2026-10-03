@@ -1,0 +1,16 @@
+{"event":"case_start","name":"initial-1","metric":"HTM","label":"baseline","repeat":0}
+{"name":"initial-1","metric":"HTM","label":"baseline","repeat":0,"status":"complete","cost":18,"pageWallSeconds":24.5291599}
+{"event":"case_start","name":"initial-1","metric":"HTM","label":"current","repeat":0}
+{"name":"initial-1","metric":"HTM","label":"current","repeat":0,"status":"timeout","pageWallSeconds":30.6626215}
+{"event":"case_start","name":"initial-1","metric":"QTM","label":"baseline","repeat":0}
+{"name":"initial-1","metric":"QTM","label":"baseline","repeat":0,"status":"complete","cost":22,"pageWallSeconds":18.16208399999999,"firstCandidate":0.875,"strongReady":1.7339999999999236,"strongAdopted":1.75}
+{"event":"case_start","name":"initial-1","metric":"QTM","label":"current","repeat":0}
+{"name":"initial-1","metric":"QTM","label":"current","repeat":0,"status":"complete","cost":22,"pageWallSeconds":19.112185299999997,"firstCandidate":0.9220000000000255,"strongReady":1.7820000000001528,"strongAdopted":1.8130000000001019}
+{"event":"case_start","name":"initial-12","metric":"HTM","label":"baseline","repeat":0}
+{"name":"initial-12","metric":"HTM","label":"baseline","repeat":0,"status":"complete","cost":17,"pageWallSeconds":16.430457900000007}
+{"event":"case_start","name":"initial-12","metric":"HTM","label":"current","repeat":0}
+{"name":"initial-12","metric":"HTM","label":"current","repeat":0,"status":"complete","cost":17,"pageWallSeconds":6.313502699999983}
+{"event":"case_start","name":"initial-12","metric":"QTM","label":"baseline","repeat":0}
+{"name":"initial-12","metric":"QTM","label":"baseline","repeat":0,"status":"complete","cost":20,"pageWallSeconds":5.847090899999981,"firstCandidate":0.8429999999998472,"strongReady":1.7179999999998472,"strongAdopted":1.75}
+{"event":"case_start","name":"initial-12","metric":"QTM","label":"current","repeat":0}
+{"name":"initial-12","metric":"QTM","label":"current","repeat":0,"status":"complete","cost":20,"pageWallSeconds":3.8139982000000017,"firstCandidate":0.8429999999998472,"strongReady":1.7029999999999745,"strongAdopted":1.7339999999999236}

@@ -1,0 +1,12 @@
+Processing c:\users\harriron\desktop\rubic-photo-solve\魔方拍照解
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: rubic-photo-solve
+  Building wheel for rubic-photo-solve (pyproject.toml): started
+  Building wheel for rubic-photo-solve (pyproject.toml): finished with status 'done'
+  Created wheel for rubic-photo-solve: filename=rubic_photo_solve-1.10.1-py3-none-any.whl size=105798 sha256=6716c7f37b08f146e25a4df57125683e8ef460a28de6e6049c4be3bfe8b9bc20
+  Stored in directory: C:\Users\harriron\AppData\Local\Temp\pip-ephem-wheel-cache-1b6bd3ol\wheels\f3\0e\a0\14cbcf6975eb85df334e7dc6e4233e8a141342a8a49ad3b4f4
+Successfully built rubic-photo-solve
+
+[notice] A new release of pip is available: 25.0.1 -> 26.2.1
+[notice] To update, run: C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.venv\Scripts\python.exe -m pip install --upgrade pip

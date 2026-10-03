@@ -2,7 +2,9 @@ param(
     [switch]$ProfileGuided,
     [switch]$Portable,
     [string]$Compiler,
-    [string]$OutputDirectory
+    [string]$OutputDirectory,
+    [string]$TrainingCases,
+    [ValidateRange(0.1, 5.0)][double]$TrainingTimeout = 5
 )
 
 $ErrorActionPreference = "Stop"
@@ -35,8 +37,8 @@ function Resolve-CompilerPath {
 $compilerPath = Resolve-CompilerPath $Compiler
 
 if ($ProfileGuided) {
-    if ($OutputDirectory) { throw "-OutputDirectory is not supported with -ProfileGuided" }
-    & (Join-Path $PSScriptRoot "build_profiled.ps1") -Compiler $compilerPath
+    & (Join-Path $PSScriptRoot "build_profiled.ps1") -Compiler $compilerPath -Portable:$Portable `
+        -OutputDirectory $buildDirectory -TrainingCases $TrainingCases -TrainingTimeout $TrainingTimeout
     if ($LASTEXITCODE -ne 0) {
         throw "Profile-guided native solver build failed with exit code $LASTEXITCODE"
     }

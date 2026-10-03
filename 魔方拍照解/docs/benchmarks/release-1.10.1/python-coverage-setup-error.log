@@ -1,0 +1,360 @@
+.............EEEEEE.........................EEEEEEEEE.........E.......EE [ 66%]
+EE..................................                                     [100%]
+=================================== ERRORS ====================================
+_ ERROR at setup of test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[deadline-missing] _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[deadline-corrupt] _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[cancel-missing] _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[cancel-corrupt] _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_cache_deadline_exception_is_not_swallowed_as_corruption _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_____ ERROR at setup of test_table_build_lock_wait_preserves_cancellation _____
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+__ ERROR at setup of test_complete_matrix_uses_terminal_time_and_fixed_pairs __
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_missing_terminal_cannot_use_native_elapsed_resource_hold_or_page_time _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+__ ERROR at setup of test_repeated_formula_still_validates_later_cost_claim ___
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_new_timeout_is_paired_even_when_success_counts_match _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_timeout_keeps_valid_candidate_and_full_par2_penalty __
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_resource_scope_and_five_percent_growth_are_required __
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_complete_count_does_not_hide_duplicates_or_wrong_pair_order _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_first_delivery_curve_does_not_treat_internal_events_as_page_delivery _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_timeout_bounds_keep_only_completed_layers_and_do_not_change_par2 _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_real_member_initialization_pause_resume_and_equivalence _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/p...luggy._tracing.TagTracerSub object at 0x000001DD95F8E5A0>, _basetemp=None, _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def loader_gate_binary(tmp_path_factory):
+        compiler = shutil.which(os.environ.get("CXX", "g++")) or r"C:\msys64\ucrt64\bin\g++.exe"
+        assert Path(compiler).is_file(), "real constructor gate requires a compiler"
+>       target = tmp_path_factory.mktemp("qtm-loader-gate") / "loader_gate.exe"
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_qtm_loader_next.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\_pytest\tmpdir.py:130: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\_pytest\tmpdir.py:111: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\_pytest\tmpdir.py:152: in getbasetemp
+    basetemp.mkdir(mode=0o700)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_source_download_contains_runtime_and_build_inputs_without_development_files _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_asset_verification_rejects_missing_and_corrupted_files _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+__________ ERROR at setup of test_asset_manifest_rejects_extra_paths __________
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+_ ERROR at setup of test_import_rejects_other_version_before_writing_source_runtime _
+
+self = WindowsPath('C:/Users/harriron/Desktop/Rubic-Photo-solve/魔方拍照解/.cache/release-1.10.1/pytest-coverage')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.cache\\release-1.10.1\\pytest-coverage'
+
+..\..\..\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\pathlib.py:1311: FileNotFoundError
+============================== warnings summary ===============================
+.venv\Lib\site-packages\_pytest\cacheprovider.py:475
+  C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.venv\Lib\site-packages\_pytest\cacheprovider.py:475: PytestCacheWarning: could not create cache path C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.pytest_cache\v\cache\nodeids: [WinError 5] 拒绝访问。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.pytest_cache\\v\\cache'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+.venv\Lib\site-packages\_pytest\cacheprovider.py:429
+  C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.venv\Lib\site-packages\_pytest\cacheprovider.py:429: PytestCacheWarning: could not create cache path C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.pytest_cache\v\cache\lastfailed: [WinError 5] 拒绝访问。: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\.pytest_cache\\v\\cache'
+    config.cache.set("cache/lastfailed", self.lastfailed)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\docs\benchmarks\release-1.10.1\python-coverage.xml -
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.12.14-final-0 _______________
+
+Name                                        Stmts   Miss Branch BrPart  Cover   Missing
+---------------------------------------------------------------------------------------
+cube_app\cubie.py                             202     18    104     15  87.9%   119, 123-124, 127, 140->145, 146, 150->155, 156, 161->170, 171, 196, 198, 200, 202, 204, 218-222, 314
+cube_app\detection.py                          33      3      8      2  87.8%   42, 59, 62
+cube_app\metrics.py                            37     10     14      6  64.7%   19, 27-31, 37, 44, 53, 58
+cube_app\solvers\htm\coords.py                 87     36     16      0  57.3%   28-35, 46-53, 62-73, 81, 85, 89-91, 95, 99-101
+cube_app\solvers\htm\fast.py                  178      9     78     18  89.5%   50->52, 63, 76->79, 93, 105->125, 125->151, 129->149, 155, 177, 185->210, 207->209, 210->212, 259->exit, 261->exit, 296, 299, 320, 370, 374
+cube_app\solvers\htm\native.py                299     74    128     40  68.6%   65->67, 90->92, 92->94, 109, 144, 148->exit, 149-151, 160-161, 163-166, 173-175, 178-180, 182-183, 185-186, 192, 197-211, 218-220, 240-243, 247, 249, 256->259, 267->269, 275->281, 284->292, 286, 288, 290-291, 293-294, 299-302, 317, 318->322, 320->322, 327-331, 334-336, 338, 340->342, 344, 345->283, 346->349, 350, 359-360, 373, 375, 381-382, 384, 424
+cube_app\solvers\htm\optimal.py               387     85    148     32  73.6%   217-218, 240->242, 245, 254-255, 257, 259, 261, 266, 292->299, 305-310, 312->323, 363-364, 382-383, 389, 435, 442->444, 450, 453, 462-467, 526, 531, 549->552, 553-555, 579, 599, 605, 616, 619, 622, 625, 627, 674-680, 723, 726-754, 760, 764, 768-776, 784-785, 791-803
+cube_app\solvers\htm\tables.py                145     69     42     11  47.6%   66-67, 71, 80, 90, 102, 104, 113, 115, 118, 123-178, 210-212, 225-246, 256-273
+cube_app\solvers\htm\two_by_two.py            138     17     56     14  84.0%   51, 57, 60-61, 72, 75->80, 81-82, 85, 87, 122, 157, 163, 172, 176, 180, 189, 194
+cube_app\solvers\htm\two_by_two_tables.py     120     14     40      5  88.1%   29, 39, 94, 109, 127-129, 137-145
+cube_app\solvers\resource_broker.py           114     15     30      2  84.0%   58-67, 79, 128-131
+cube_app\vision.py                            539    186    230     30  61.8%   24-47, 59-73, 88, 90, 95, 159, 162, 177-178, 186, 196-197, 201-203, 207->183, 215->225, 218, 267, 270, 272, 284, 285->291, 302, 351, 379->376, 399, 419, 422, 431, 458->450, 475-512, 519-582, 586, 598-624, 661, 680, 729-752, 775, 790->784
+server.py                                     637    161    230     60  70.6%   37-40, 65-66, 76-77, 130-139, 141, 175-176, 193->exit, 195->exit, 211-213, 216, 237->exit, 245, 257, 271, 306, 319, 324->327, 337-341, 344->350, 350->exit, 363, 388, 408, 413-415, 421->423, 430, 439->446, 466-467, 495, 501, 505, 523-524, 537, 546->551, 551->553, 557->exit, 566->568, 581-585, 589-601, 613->616, 617-622, 627, 636-643, 650-659, 663, 666->677, 668->670, 678, 683-724, 726-727, 735, 738, 742, 748, 752-754, 760-762, 800-825, 848, 860-863, 876, 878, 881, 884, 895-896, 902, 905, 906->908, 916-917, 921-941, 945-951, 955-957, 961
+---------------------------------------------------------------------------------------
+TOTAL                                        2923    697   1126    235  72.2%
+
+2 files skipped due to complete coverage.
+Required test coverage of 70.0% reached. Total coverage: 72.19%
+=========================== short test summary info ===========================
+ERROR tests/test_htm_candidate_delivery.py::test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[deadline-missing]
+ERROR tests/test_htm_candidate_delivery.py::test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[deadline-corrupt]
+ERROR tests/test_htm_candidate_delivery.py::test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[cancel-missing]
+ERROR tests/test_htm_candidate_delivery.py::test_fast_cold_tables_preserve_original_deadline_and_release_build_lock[cancel-corrupt]
+ERROR tests/test_htm_candidate_delivery.py::test_cache_deadline_exception_is_not_swallowed_as_corruption
+ERROR tests/test_htm_candidate_delivery.py::test_table_build_lock_wait_preserves_cancellation
+ERROR tests/test_next_speed_summary.py::test_complete_matrix_uses_terminal_time_and_fixed_pairs
+ERROR tests/test_next_speed_summary.py::test_missing_terminal_cannot_use_native_elapsed_resource_hold_or_page_time
+ERROR tests/test_next_speed_summary.py::test_repeated_formula_still_validates_later_cost_claim
+ERROR tests/test_next_speed_summary.py::test_new_timeout_is_paired_even_when_success_counts_match
+ERROR tests/test_next_speed_summary.py::test_timeout_keeps_valid_candidate_and_full_par2_penalty
+ERROR tests/test_next_speed_summary.py::test_resource_scope_and_five_percent_growth_are_required
+ERROR tests/test_next_speed_summary.py::test_complete_count_does_not_hide_duplicates_or_wrong_pair_order
+ERROR tests/test_next_speed_summary.py::test_first_delivery_curve_does_not_treat_internal_events_as_page_delivery
+ERROR tests/test_next_speed_summary.py::test_timeout_bounds_keep_only_completed_layers_and_do_not_change_par2
+ERROR tests/test_qtm_loader_next.py::test_real_member_initialization_pause_resume_and_equivalence
+ERROR tests/test_release_package.py::test_source_download_contains_runtime_and_build_inputs_without_development_files
+ERROR tests/test_release_package.py::test_asset_verification_rejects_missing_and_corrupted_files
+ERROR tests/test_release_package.py::test_asset_manifest_rejects_extra_paths
+ERROR tests/test_release_package.py::test_import_rejects_other_version_before_writing_source_runtime
+88 passed, 57 deselected, 2 warnings, 20 errors in 15.69s

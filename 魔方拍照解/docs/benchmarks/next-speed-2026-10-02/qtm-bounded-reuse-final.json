@@ -1,0 +1,15 @@
+{
+  "ttl_seconds": 20,
+  "base_limit_bytes": 1073741824,
+  "strong_limit_bytes": 8589934592,
+  "system_reserve_bytes": 2147483648,
+  "scenarios": {},
+  "broker_final": {
+    "threads": 15,
+    "htm_holders": 0,
+    "qtm_active": false,
+    "qtm_resident": false,
+    "last_yield_seconds": 0.0,
+    "yield_faults": 0
+  }
+}

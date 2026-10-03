@@ -1,0 +1,91 @@
+{
+  "method": "Lossless PNG pixels captured from actual browser Canvas, exact 71x71 sticker patches and center ring; no resizing, re-encoding or re-detection. Expected labels from independent frozen human reference.",
+  "browser_report_sha256": "1ce21d571efe13f5f95789e9b4b0532d54bf1f4d36a924f5054e00750561423c",
+  "cases": [
+    {
+      "name": "initial-1",
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "AssertionError [ERR_ASSERTION]: 1:D8 expected R, distances 45.88 vs 27.78\n    at C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\tests\\real_color.test.js:134:14\n    at Array.forEach (<anonymous>)\n    at main (C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\tests\\real_color.test.js:129:20) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n",
+      "preview_sha256": {
+        "U": "e6a216f70497db52e75145f08dd152b3f681a240d47c835f97320ff1ae3e4eb0",
+        "R": "ffa92eaf8952f2e0b9025acd5c6710703afca365531afd30c3ffdfb140b897c6",
+        "F": "9b62a38b4f76b8d0e38b58ff93620e4180b3a42194054cff559a90ba1b8b2bdb",
+        "D": "8f5eb5a51ff979aa05746f9f343df25b5535630f9101a6bd85f076a015814b98",
+        "L": "82da67c36016fe9eeef251d6920580133b3b602aa969fd6a648c184850aaba92",
+        "B": "18889627a133cd9b3ff656fd3565dbf78b8df07c601a263c95ea75dab14d73ee"
+      }
+    },
+    {
+      "name": "initial-12",
+      "returncode": 0,
+      "stdout": "real image color tests passed\n",
+      "stderr": "",
+      "preview_sha256": {
+        "U": "85594bec8dabf0484570a5eed64f904604331421b72f1e0d77299ef1d868a9c3",
+        "R": "4fe1ca22415ac94a11da825dcd9e5617063d3e79478202fd96075d4ca5ab2440",
+        "F": "7aab44b217b4de187b22e7b374629eadcbcc0f8af3ea1735dbc14c2c81a45864",
+        "D": "5f0529381190f6f7fdfb18d636483483281bf73c1f40d3b25b646fb6f9292125",
+        "L": "ea0a400ebe7934e617c17524647af600f6175aa4076b4b01d09cad188bb394e2",
+        "B": "4ec2fd6917a0ad2325f20444726ea94a3bd9350aaea550e67fa2dbe1ad12ad8e"
+      }
+    },
+    {
+      "name": "initial-2",
+      "returncode": 0,
+      "stdout": "real image color tests passed\n",
+      "stderr": "",
+      "preview_sha256": {
+        "U": "9acba069cd1263558bb8e38c7ff4f8292ec827b8fdabc1967e8581f3f4cf1c86",
+        "R": "aa67e788f779ec8e8944e286f675c0500523b4106d9a6dc127e5a4808929a5d0",
+        "F": "74c9ec3c92b6beca01ab375758c6d5f221842dd1e47fe535da9d24bd41ea2279",
+        "D": "6661fabeb8d796f253a07feb11209f5dc4727aa011837e78bfaff868a1544d38",
+        "L": "759cc423cc6e47234c8fb502e211d87b4f651c328ed631884ea2147b2a64aee2",
+        "B": "d78adce309ec110f2085fa722e41d665fbb006ca8beb0b332e05381aedd845bc"
+      }
+    },
+    {
+      "name": "initial-5",
+      "returncode": 0,
+      "stdout": "real image color tests passed\n",
+      "stderr": "",
+      "preview_sha256": {
+        "U": "e31555613ba2eb29f5eeb0a61b360cae6d60c1aa0e748eae320cdddd33a87495",
+        "R": "27b8e5b7725b2929313dd8b0a51a467a4d847ca907e6ddcde718a3145be1dba0",
+        "F": "d34a5d50a8f80444d8fc9a1e7c8b1cc8b36a5f04a4a1a7004acc92cf67b675e6",
+        "D": "4dab668beb869477ef6c316c97fa8241627cddd5779d6070a41f5583d48c5a6a",
+        "L": "a2d06b551978398742cbf9e1d9f98753b42cf0c0e945bec10041b72202ffa491",
+        "B": "766cf4557d19f24f772b86a6bb251045e35a1db1b9203fc72710b521bd1cac1a"
+      }
+    },
+    {
+      "name": "initial-8",
+      "returncode": 0,
+      "stdout": "real image color tests passed\n",
+      "stderr": "",
+      "preview_sha256": {
+        "U": "526e7cceafd4f5a0f25fc14b1b785d854a2bc6475a258574df206dcde4959e39",
+        "R": "1b478626e2ad589847166cf72c2dfd0254aa4abb9b53f338d70b99fa41e1a51c",
+        "F": "b25146429fc77b0e858e4ead50cd26146b320d12ad47a53d1cc6fb7cf69135af",
+        "D": "4337241526fa9f2e13284153014f9e1ea18f18c80f45fde2972c6e8335ac76fc",
+        "L": "6ee5bc73067875a3c61283938e0b402dbc14bebad90436b9d0bb29ab0dcb29f6",
+        "B": "0e666adbfa2e2cc65d8186990924dc118eb879a5601de32e9949a9e9469d5694"
+      }
+    },
+    {
+      "name": "initial-16",
+      "returncode": 0,
+      "stdout": "real image color tests passed\n",
+      "stderr": "",
+      "preview_sha256": {
+        "U": "95dfb3ed42f031114ec6ca0178692d8963ca3cb82f8a30af0a1308df217ad123",
+        "R": "4c4f417691de6838f5a5b8cb7ebab6e53a3b0311f7cc3339e7ffa9c57e3897e4",
+        "F": "59b42dbd0daacf27787bf7a6490cbc520226d1748b8db22356bdf2749db6a869",
+        "D": "ff28c20c3b4924c459fa670f65df3e83646f32139243d99b26d1cef5d39aa79c",
+        "L": "b992254b9bad3791b36ecec8e04c72eff277b4a1580bb8f9e209f4e3245d8261",
+        "B": "1f166c9e5ee154b409bc4885b64a53ddb5fe33dd8e24fe1feecfe12d0cec1f03"
+      }
+    }
+  ],
+  "passed": false
+}

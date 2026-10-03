@@ -1,0 +1,58 @@
+{"name": "initial-1", "mode": "off", "repeat": 0, "request_seconds": 14.014999999999418, "depth": 22, "optimal": true, "late_tail_attempts": 0, "late_tail_improvements": 0, "late_tail_seconds": 0.0}
+{"name": "initial-1", "mode": "on", "repeat": 0, "request_seconds": 17.57800000000134, "depth": 22, "optimal": true, "late_tail_attempts": 1, "late_tail_improvements": 0, "late_tail_seconds": 3.4e-05}
+{"name": "initial-12", "mode": "off", "repeat": 0, "request_seconds": 11.344000000004598, "depth": 20, "optimal": true, "late_tail_attempts": 0, "late_tail_improvements": 0, "late_tail_seconds": 0.0}
+{"name": "initial-12", "mode": "on", "repeat": 0, "request_seconds": 9.296999999998661, "depth": 20, "optimal": true, "late_tail_attempts": 0, "late_tail_improvements": 0, "late_tail_seconds": 0.0}
+{"name": "initial-1", "mode": "on", "repeat": 1, "request_seconds": 13.014999999999418, "depth": 22, "optimal": true, "late_tail_attempts": 1, "late_tail_improvements": 0, "late_tail_seconds": 7.6e-05}
+{"name": "initial-1", "mode": "off", "repeat": 1, "request_seconds": 24.577999999994063, "depth": 22, "optimal": true, "late_tail_attempts": 0, "late_tail_improvements": 0, "late_tail_seconds": 0.0}
+{"name": "initial-12", "mode": "on", "repeat": 1, "request_seconds": 8.25, "depth": 20, "optimal": true, "late_tail_attempts": 0, "late_tail_improvements": 0, "late_tail_seconds": 0.0}
+{"name": "initial-12", "mode": "off", "repeat": 1, "request_seconds": 4.25, "depth": 20, "optimal": true, "late_tail_attempts": 0, "late_tail_improvements": 0, "late_tail_seconds": 0.0}
+{"name": "initial-1", "mode": "off", "repeat": 2, "request_seconds": 26.5309999999954, "depth": 22, "optimal": true, "late_tail_attempts": 0, "late_tail_improvements": 0, "late_tail_seconds": 0.0}
+{"name": "initial-1", "mode": "on", "repeat": 2, "request_seconds": 27.125, "depth": 22, "optimal": true, "late_tail_attempts": 1, "late_tail_improvements": 0, "late_tail_seconds": 4.6e-05}
+{"name": "initial-12", "mode": "off", "repeat": 2, "request_seconds": 13.639999999999418, "depth": 20, "optimal": true, "late_tail_attempts": 0, "late_tail_improvements": 0, "late_tail_seconds": 0.0}
+{"name": "initial-12", "mode": "on", "repeat": 2, "request_seconds": 5.73399999999674, "depth": 20, "optimal": true, "late_tail_attempts": 0, "late_tail_improvements": 0, "late_tail_seconds": 0.0}
+{
+  "initial-1": {
+    "par2_medians": {
+      "off": 24.577999999994063,
+      "on": 17.57800000000134
+    },
+    "on_over_off": 0.715192448531434,
+    "par2_means": {
+      "off": 21.707999999996293,
+      "on": 19.239333333333587
+    },
+    "new_timeouts": [],
+    "attempts": [
+      1,
+      1,
+      1
+    ],
+    "improvements": [
+      0,
+      0,
+      0
+    ]
+  },
+  "initial-12": {
+    "par2_medians": {
+      "off": 11.344000000004598,
+      "on": 8.25
+    },
+    "on_over_off": 0.727256699576574,
+    "par2_means": {
+      "off": 9.744666666668005,
+      "on": 7.7603333333318005
+    },
+    "new_timeouts": [],
+    "attempts": [
+      0,
+      0,
+      0
+    ],
+    "improvements": [
+      0,
+      0,
+      0
+    ]
+  }
+}

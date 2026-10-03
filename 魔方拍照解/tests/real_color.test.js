@@ -51,6 +51,11 @@ const expectedByGroup = {
     B: "RULBBUDFL",
   },
 };
+// The six speed cases use separately reviewed photo references. In particular,
+// 8/16 were visually annotated before the classifier was run.
+for (const frozen of JSON.parse(fs.readFileSync(path.join(root, "tests", "initial_solver_cases.json"), "utf8"))) {
+  expectedByGroup[frozen.name.replace("initial-", "")] = frozen.faces;
+}
 const groupIndex = process.argv.indexOf("--group");
 const group = groupIndex >= 0 ? process.argv[groupIndex + 1] : "legacy";
 const isTwoByTwo = ["3", "4", "6", "7"].includes(group);

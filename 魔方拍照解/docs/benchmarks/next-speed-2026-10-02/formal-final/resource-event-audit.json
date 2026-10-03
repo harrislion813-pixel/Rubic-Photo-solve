@@ -1,0 +1,1068 @@
+{
+  "input_sha256": "f969c8b72bf69778fdf5c7ec0c0c93b1ac9afb7a2ec0da644507ad6ad0e482f6",
+  "runs": 72,
+  "request_quota": 15,
+  "native_qtm_activity_frames": 1452,
+  "qtm_asset_adoption_medians_seconds": {
+    "baseline": {
+      "strong_ready_seconds": 1.75,
+      "tail_ready_seconds": 1.9849999999999568,
+      "strong_adopted_seconds": 1.7740000000000578,
+      "tail_adopted_seconds": 2.1329999999999814
+    },
+    "current": {
+      "strong_ready_seconds": 1.75,
+      "tail_ready_seconds": 1.9845000000000255,
+      "strong_adopted_seconds": 1.7660000000000764,
+      "tail_adopted_seconds": 2.0780000000000314
+    }
+  },
+  "recognition_corrections": 0,
+  "records": [
+    {
+      "name": "initial-1",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 0,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-1",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 0,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 2,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-1",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 0,
+      "activity_frames": 69,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 2.75,
+      "tail_ready_seconds": 3.6409999999999627,
+      "strong_adopted_seconds": 2.7659999999999627,
+      "tail_adopted_seconds": 16.875,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-1",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 0,
+      "activity_frames": 101,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.875,
+      "tail_ready_seconds": 2.125,
+      "strong_adopted_seconds": 1.906000000000006,
+      "tail_adopted_seconds": 2.1399999999999864,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-12",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 0,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-12",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 0,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 2,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-12",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 0,
+      "activity_frames": 40,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.7659999999999627,
+      "tail_ready_seconds": 2,
+      "strong_adopted_seconds": 1.7969999999999686,
+      "tail_adopted_seconds": 2.1409999999999627,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-12",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 0,
+      "activity_frames": 29,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.718999999999994,
+      "tail_ready_seconds": 1.968999999999994,
+      "strong_adopted_seconds": 1.75,
+      "tail_adopted_seconds": 2.0319999999999823,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-2",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 0,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-2",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 0,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 2,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-2",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 0,
+      "activity_frames": 18,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.8129999999999882,
+      "tail_ready_seconds": 2.046999999999912,
+      "strong_adopted_seconds": 1.8289999999999509,
+      "tail_adopted_seconds": 3.671999999999912,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-2",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 0,
+      "activity_frames": 28,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.75,
+      "tail_ready_seconds": 2,
+      "strong_adopted_seconds": 1.780999999999949,
+      "tail_adopted_seconds": 3.092999999999961,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-5",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 0,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-5",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 0,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 2,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-5",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 0,
+      "activity_frames": 60,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.7340000000000373,
+      "tail_ready_seconds": 1.967999999999961,
+      "strong_adopted_seconds": 1.75,
+      "tail_adopted_seconds": 2.046000000000049,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-5",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 0,
+      "activity_frames": 44,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.75,
+      "tail_ready_seconds": 1.9840000000000373,
+      "strong_adopted_seconds": 1.7649999999999864,
+      "tail_adopted_seconds": 2,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-8",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 0,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-8",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 0,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 1,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-8",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 0,
+      "activity_frames": 31,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.8279999999999745,
+      "tail_ready_seconds": 2.062999999999988,
+      "strong_adopted_seconds": 1.8279999999999745,
+      "tail_adopted_seconds": 2.187999999999988,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-8",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 0,
+      "activity_frames": 20,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.8120000000000118,
+      "tail_ready_seconds": 2.062000000000012,
+      "strong_adopted_seconds": 1.8279999999999745,
+      "tail_adopted_seconds": 2.1089999999999236,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-16",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 0,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-16",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 0,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 1,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-16",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 0,
+      "activity_frames": 34,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.8120000000000118,
+      "tail_ready_seconds": 2.046999999999912,
+      "strong_adopted_seconds": 1.8120000000000118,
+      "tail_adopted_seconds": 3.25,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-16",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 0,
+      "activity_frames": 20,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.7659999999999627,
+      "tail_ready_seconds": 2.0159999999999627,
+      "strong_adopted_seconds": 1.780999999999949,
+      "tail_adopted_seconds": 2.812999999999988,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-1",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 1,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 2,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-1",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 1,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-1",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 1,
+      "activity_frames": 70,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.8439999999999372,
+      "tail_ready_seconds": 2.0779999999999745,
+      "strong_adopted_seconds": 1.875,
+      "tail_adopted_seconds": 2.0939999999999372,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-1",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 1,
+      "activity_frames": 92,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.780999999999949,
+      "tail_ready_seconds": 2.030999999999949,
+      "strong_adopted_seconds": 1.8120000000000118,
+      "tail_adopted_seconds": 2.1090000000000373,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-12",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 1,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 2,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-12",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 1,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-12",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 1,
+      "activity_frames": 35,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.75,
+      "tail_ready_seconds": 2,
+      "strong_adopted_seconds": 1.7649999999999864,
+      "tail_adopted_seconds": 2.0470000000000255,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-12",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 1,
+      "activity_frames": 49,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.75,
+      "tail_ready_seconds": 1.9850000000000136,
+      "strong_adopted_seconds": 1.782000000000039,
+      "tail_adopted_seconds": 2.125,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-2",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 1,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 1,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-2",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 1,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-2",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 1,
+      "activity_frames": 15,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.7970000000000255,
+      "tail_ready_seconds": 2.0310000000001764,
+      "strong_adopted_seconds": 1.828000000000202,
+      "tail_adopted_seconds": 3.1410000000000764,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-2",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 1,
+      "activity_frames": 30,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.7810000000001764,
+      "tail_ready_seconds": 2.0160000000000764,
+      "strong_adopted_seconds": 1.8120000000001255,
+      "tail_adopted_seconds": 3.6410000000000764,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-5",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 1,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 2,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-5",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 1,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-5",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 1,
+      "activity_frames": 45,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.734000000000151,
+      "tail_ready_seconds": 1.969000000000051,
+      "strong_adopted_seconds": 1.7660000000000764,
+      "tail_adopted_seconds": 1.984000000000151,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-5",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 1,
+      "activity_frames": 60,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.734000000000151,
+      "tail_ready_seconds": 1.969000000000051,
+      "strong_adopted_seconds": 1.7660000000000764,
+      "tail_adopted_seconds": 2.063000000000102,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-8",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 1,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 2,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-8",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 1,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-8",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 1,
+      "activity_frames": 14,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.734000000000151,
+      "tail_ready_seconds": 1.969000000000051,
+      "strong_adopted_seconds": 1.75,
+      "tail_adopted_seconds": 2.030999999999949,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-8",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 1,
+      "activity_frames": 26,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.7339999999999236,
+      "tail_ready_seconds": 1.9839999999999236,
+      "strong_adopted_seconds": 1.75,
+      "tail_adopted_seconds": 2.0930000000000746,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-16",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 1,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 1,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-16",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 1,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-16",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 1,
+      "activity_frames": 30,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.7349999999999,
+      "tail_ready_seconds": 1.9689999999998236,
+      "strong_adopted_seconds": 1.75,
+      "tail_adopted_seconds": 2.780999999999949,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-16",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 1,
+      "activity_frames": 26,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.734000000000151,
+      "tail_ready_seconds": 1.984000000000151,
+      "strong_adopted_seconds": 1.734000000000151,
+      "tail_adopted_seconds": 3.1720000000000255,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-1",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 2,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-1",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 2,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 2,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-1",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 2,
+      "activity_frames": 65,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.7349999999999,
+      "tail_ready_seconds": 1.9689999999998236,
+      "strong_adopted_seconds": 1.765999999999849,
+      "tail_adopted_seconds": 2.0629999999998745,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-1",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 2,
+      "activity_frames": 47,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.7349999999999,
+      "tail_ready_seconds": 1.9849999999999,
+      "strong_adopted_seconds": 1.765999999999849,
+      "tail_adopted_seconds": 2,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-12",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 2,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-12",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 2,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 2,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-12",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 2,
+      "activity_frames": 32,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.75,
+      "tail_ready_seconds": 1.9839999999999236,
+      "strong_adopted_seconds": 1.7650000000001,
+      "tail_adopted_seconds": 2.1089999999999236,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-12",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 2,
+      "activity_frames": 13,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.75,
+      "tail_ready_seconds": 2,
+      "strong_adopted_seconds": 1.780999999999949,
+      "tail_adopted_seconds": 2.0620000000001255,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-2",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 2,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-2",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 2,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 2,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-2",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 2,
+      "activity_frames": 17,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.75,
+      "tail_ready_seconds": 1.9849999999999,
+      "strong_adopted_seconds": 1.765999999999849,
+      "tail_adopted_seconds": 3.5939999999998236,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-2",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 2,
+      "activity_frames": 25,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.75,
+      "tail_ready_seconds": 1.984000000000151,
+      "strong_adopted_seconds": 1.7660000000000764,
+      "tail_adopted_seconds": 3.0620000000001255,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-5",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 2,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-5",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 2,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 2,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-5",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 2,
+      "activity_frames": 60,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.765999999999849,
+      "tail_ready_seconds": 2,
+      "strong_adopted_seconds": 1.796999999999798,
+      "tail_adopted_seconds": 2.0779999999999745,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-5",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 2,
+      "activity_frames": 44,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.75,
+      "tail_ready_seconds": 1.9839999999999236,
+      "strong_adopted_seconds": 1.780999999999949,
+      "tail_adopted_seconds": 2,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-8",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 2,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-8",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 2,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 2,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-8",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 2,
+      "activity_frames": 26,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.719000000000051,
+      "tail_ready_seconds": 1.9539999999999509,
+      "strong_adopted_seconds": 1.7349999999999,
+      "tail_adopted_seconds": 2.078999999999951,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-8",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 2,
+      "activity_frames": 12,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.6879999999998745,
+      "tail_ready_seconds": 1.9220000000000255,
+      "strong_adopted_seconds": 1.6879999999998745,
+      "tail_adopted_seconds": 1.9849999999999,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-16",
+      "metric": "HTM",
+      "label": "baseline",
+      "repeat": 2,
+      "proof_start_threads": 14,
+      "proof_start_source": "native_request_sent",
+      "active_candidate_snapshots": 0,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-16",
+      "metric": "HTM",
+      "label": "current",
+      "repeat": 2,
+      "proof_start_threads": 14,
+      "proof_start_source": "proof_started",
+      "active_candidate_snapshots": 1,
+      "scope": "native proof progress and candidate snapshots; baseline start allowance from native_request_sent"
+    },
+    {
+      "name": "initial-16",
+      "metric": "QTM",
+      "label": "baseline",
+      "repeat": 2,
+      "activity_frames": 77,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.719000000000051,
+      "tail_ready_seconds": 1.969000000000051,
+      "strong_adopted_seconds": 1.719000000000051,
+      "tail_adopted_seconds": 3.1560000000001764,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    },
+    {
+      "name": "initial-16",
+      "metric": "QTM",
+      "label": "current",
+      "repeat": 2,
+      "activity_frames": 48,
+      "maximum_total_allowance": 15,
+      "warm_reused": false,
+      "asset_profile": "strong",
+      "resident_retained": true,
+      "strong_ready_seconds": 1.7189999999998236,
+      "tail_ready_seconds": 1.9379999999998745,
+      "strong_adopted_seconds": 1.7189999999998236,
+      "tail_adopted_seconds": 2.7349999999999,
+      "memory_admission_stages": [
+        "strong",
+        "tail"
+      ]
+    }
+  ],
+  "errors": []
+}

@@ -3,6 +3,7 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.ruff_cache/
 .coverage
 htmlcov/
 node_modules/
@@ -20,3 +21,5 @@ dist/
 build/
 .codex/
 .agents/
+# The byte-identical gzip archive is tracked for this oversized benchmark.
+docs/benchmarks/next-speed-2026-10-02/formal-final/formal-matrix.json

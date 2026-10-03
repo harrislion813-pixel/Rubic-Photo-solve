@@ -120,6 +120,9 @@ def test_terminal_diagnostics_have_bounded_retention(monkeypatch):
     assert len(residency["service_events"]) == len(residency["memory_samples"]) == qtm.MAX_DIAGNOSTIC_ITEMS
     assert not qtm.BROKER.snapshot()["qtm_active"]
     assert instance.snapshot(response["job_id"])["resource_hold_seconds"] >= .03
+    snapshot = instance.snapshot(response["job_id"])
+    assert snapshot["terminal_seconds"] == snapshot["strict_confirmed_seconds"]
+    assert snapshot["request_elapsed_seconds"] - snapshot["terminal_seconds"] >= .025
 
 
 def test_two_by_two_does_not_require_three_by_three_assets(monkeypatch):

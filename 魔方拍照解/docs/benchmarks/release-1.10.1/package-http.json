@@ -1,0 +1,2274 @@
+{
+  "version": "1.10.1",
+  "entry": "启动魔方求解器.cmd",
+  "cases": [
+    {
+      "cube_size": 2,
+      "metric": "HTM",
+      "input": "UDUDRRRRFBFBDUDULLLLFBFB",
+      "initial": {
+        "ok": true,
+        "moves": [
+          "R2"
+        ],
+        "solution": "R2",
+        "depth": 1,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 0.015,
+        "proof_status": "complete",
+        "resource_wait_seconds": 0.0
+      },
+      "terminal": {
+        "ok": true,
+        "moves": [
+          "R2"
+        ],
+        "solution": "R2",
+        "depth": 1,
+        "metric": "HTM",
+        "optimal": true,
+        "elapsed_seconds": 0.015,
+        "proof_status": "complete",
+        "resource_wait_seconds": 0.0
+      },
+      "replayed": true,
+      "cost": 1
+    },
+    {
+      "cube_size": 2,
+      "metric": "QTM",
+      "input": "UDUDRRRRFBFBDUDULLLLFBFB",
+      "initial": {
+        "ok": true,
+        "metric": "QTM",
+        "moves": [
+          "R2"
+        ],
+        "solution": "R2",
+        "depth": 2,
+        "cost": 2,
+        "optimal": true,
+        "proof_status": "complete",
+        "engine_id": "qtm-python-2x2",
+        "engine_version": "1.10.1",
+        "asset_profile": "exact-2x2"
+      },
+      "terminal": {
+        "ok": true,
+        "metric": "QTM",
+        "moves": [
+          "R2"
+        ],
+        "solution": "R2",
+        "depth": 2,
+        "cost": 2,
+        "optimal": true,
+        "proof_status": "complete",
+        "engine_id": "qtm-python-2x2",
+        "engine_version": "1.10.1",
+        "asset_profile": "exact-2x2"
+      },
+      "replayed": true,
+      "cost": 2
+    },
+    {
+      "cube_size": 3,
+      "metric": "HTM",
+      "input": "UUDUUDUUDRRRRRRRRRFFBFFBFFBDDUDDUDDULLLLLLLLLFBBFBBFBB",
+      "initial": {
+        "ok": true,
+        "job_id": "ab2bb6f704e44cad9d0a6fa6e4945252",
+        "proof_status": "complete",
+        "optimal": true,
+        "engine": "native-cpp",
+        "solution_generation_seconds": 0.0,
+        "request_elapsed_seconds": 0.703,
+        "resource_wait_seconds": 0.0,
+        "timing_events": [
+          {
+            "event": "request_created",
+            "monotonic": 11273.437,
+            "elapsed_seconds": 0.0
+          },
+          {
+            "event": "proof_started",
+            "monotonic": 11273.437,
+            "elapsed_seconds": 0.0,
+            "threads": 14
+          },
+          {
+            "event": "native_startup_started",
+            "monotonic": 11273.437,
+            "elapsed_seconds": 0.0
+          },
+          {
+            "event": "native_ready",
+            "monotonic": 11274.14,
+            "elapsed_seconds": 0.7029999999995198,
+            "reused": false,
+            "dynamic_threads": true,
+            "native_pid": 8852,
+            "peak_working_set_bytes": 343457792,
+            "memory_scope": "native_process_lifetime_peak"
+          },
+          {
+            "event": "native_request_sent",
+            "monotonic": 11274.14,
+            "elapsed_seconds": 0.7029999999995198,
+            "threads": 14
+          },
+          {
+            "event": "proof_progress",
+            "monotonic": 11274.14,
+            "elapsed_seconds": 0.7029999999995198,
+            "progress": {
+              "type": "progress",
+              "threads": 14,
+              "lower_bound": 1,
+              "upper_bound": 4,
+              "current_depth": 1,
+              "completed_depth": 0,
+              "iteration_nodes": 0,
+              "iteration_split_nodes": 0,
+              "nodes": 0,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 0,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 0,
+              "tail_probes": 0,
+              "tail_hits": 0,
+              "iteration_seconds": 1.9e-05,
+              "elapsed_seconds": 1.9e-05,
+              "found": false,
+              "timed_out": false,
+              "cancelled": false,
+              "request_id": "9b7bc4306cac41b691858706301bd813",
+              "generated_candidates": 0,
+              "small_pdb_queries": 0,
+              "phase1_queries": 0,
+              "corner_queries": 0,
+              "edge_queries": 0,
+              "axis_rejects": [
+                0,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "corner_rejects": 0,
+              "edge_rejects": 0,
+              "workers": [],
+              "engine": "native-cpp"
+            }
+          },
+          {
+            "event": "proof_progress",
+            "monotonic": 11274.14,
+            "elapsed_seconds": 0.7029999999995198,
+            "progress": {
+              "type": "progress",
+              "threads": 14,
+              "lower_bound": 1,
+              "upper_bound": 4,
+              "current_depth": 1,
+              "completed_depth": 0,
+              "iteration_nodes": 1,
+              "iteration_split_nodes": 0,
+              "nodes": 1,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 1,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 1,
+              "tail_probes": 1,
+              "tail_hits": 1,
+              "iteration_seconds": 0.000671,
+              "elapsed_seconds": 0.000774,
+              "found": true,
+              "timed_out": false,
+              "cancelled": false,
+              "request_id": "9b7bc4306cac41b691858706301bd813",
+              "generated_candidates": 0,
+              "small_pdb_queries": 0,
+              "phase1_queries": 3,
+              "corner_queries": 1,
+              "edge_queries": 0,
+              "axis_rejects": [
+                0,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "corner_rejects": 0,
+              "edge_rejects": 0,
+              "workers": [
+                {
+                  "nodes": 1,
+                  "generated": 0,
+                  "busy_seconds": 8e-06,
+                  "idle_seconds": 2e-06
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                }
+              ],
+              "engine": "native-cpp"
+            }
+          },
+          {
+            "event": "native_result_received",
+            "monotonic": 11274.14,
+            "elapsed_seconds": 0.7029999999995198,
+            "result": {
+              "ok": true,
+              "type": "result",
+              "request_id": "9b7bc4306cac41b691858706301bd813",
+              "status": "complete",
+              "inverse_direction": false,
+              "moves": [
+                "R2"
+              ],
+              "solution": "R2",
+              "depth": 1,
+              "metric": "HTM",
+              "optimal": true,
+              "elapsed_seconds": 0.000806,
+              "nodes": 1,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 1,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 1,
+              "tail_probes": 1,
+              "tail_hits": 1,
+              "corner_pdb": true,
+              "phase1_pdb": true,
+              "edge_pdbs": false,
+              "extra_edge_pdbs": false,
+              "edge_pdb_count": 0,
+              "tail_pdb": true,
+              "completed_depth": 0,
+              "generated_candidates": 0,
+              "small_pdb_queries": 0,
+              "phase1_queries": 3,
+              "corner_queries": 1,
+              "edge_queries": 0,
+              "axis_rejects": [
+                0,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "corner_rejects": 0,
+              "edge_rejects": 0,
+              "workers": [
+                {
+                  "nodes": 1,
+                  "generated": 0,
+                  "busy_seconds": 8e-06,
+                  "idle_seconds": 2e-06
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                }
+              ]
+            },
+            "native_pid": 8852,
+            "peak_working_set_bytes": 343834624,
+            "memory_scope": "native_process_lifetime_peak"
+          },
+          {
+            "event": "native_request_finished",
+            "monotonic": 11274.14,
+            "elapsed_seconds": 0.7029999999995198,
+            "native_pid": 8852,
+            "peak_working_set_bytes": 343834624,
+            "memory_scope": "native_process_lifetime_peak"
+          },
+          {
+            "event": "terminal",
+            "monotonic": 11274.14,
+            "elapsed_seconds": 0.7029999999995198,
+            "status": "complete",
+            "result": {
+              "moves": [
+                "R2"
+              ],
+              "solution": "R2",
+              "depth": 1,
+              "metric": "HTM",
+              "optimal": true,
+              "inverse_direction": false,
+              "elapsed_seconds": 0.001,
+              "nodes": 1,
+              "split_nodes": 0,
+              "tail_queries": 1,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 1,
+              "tail_probes": 1,
+              "tail_hits": 1,
+              "completed_depth": 0,
+              "generated_candidates": 0,
+              "phase1_queries": 3,
+              "corner_queries": 1,
+              "engine": "native-cpp"
+            },
+            "native_pid": 8852,
+            "peak_working_set_bytes": 343834624,
+            "memory_scope": "native_process_lifetime_peak"
+          }
+        ],
+        "timings": {
+          "request_created_seconds": 0.0,
+          "proof_started_seconds": 0.0,
+          "native_startup_started_seconds": 0.0,
+          "native_ready_seconds": 0.7029999999995198,
+          "native_request_sent_seconds": 0.7029999999995198,
+          "proof_progress_seconds": 0.7029999999995198,
+          "native_result_received_seconds": 0.7029999999995198,
+          "native_request_finished_seconds": 0.7029999999995198,
+          "terminal_seconds": 0.7029999999995198
+        },
+        "thread_quota": 15,
+        "proof_threads": 14,
+        "moves": [
+          "R2"
+        ],
+        "solution": "R2",
+        "depth": 1,
+        "metric": "HTM",
+        "inverse_direction": false,
+        "elapsed_seconds": 0.001,
+        "nodes": 1,
+        "split_nodes": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 1,
+        "tail_hits": 1,
+        "completed_depth": 0,
+        "generated_candidates": 0,
+        "phase1_queries": 3,
+        "corner_queries": 1,
+        "proof_elapsed_seconds": 0.703
+      },
+      "terminal": {
+        "ok": true,
+        "job_id": "ab2bb6f704e44cad9d0a6fa6e4945252",
+        "proof_status": "complete",
+        "optimal": true,
+        "engine": "native-cpp",
+        "solution_generation_seconds": 0.0,
+        "request_elapsed_seconds": 0.703,
+        "resource_wait_seconds": 0.0,
+        "timing_events": [
+          {
+            "event": "request_created",
+            "monotonic": 11273.437,
+            "elapsed_seconds": 0.0
+          },
+          {
+            "event": "proof_started",
+            "monotonic": 11273.437,
+            "elapsed_seconds": 0.0,
+            "threads": 14
+          },
+          {
+            "event": "native_startup_started",
+            "monotonic": 11273.437,
+            "elapsed_seconds": 0.0
+          },
+          {
+            "event": "native_ready",
+            "monotonic": 11274.14,
+            "elapsed_seconds": 0.7029999999995198,
+            "reused": false,
+            "dynamic_threads": true,
+            "native_pid": 8852,
+            "peak_working_set_bytes": 343457792,
+            "memory_scope": "native_process_lifetime_peak"
+          },
+          {
+            "event": "native_request_sent",
+            "monotonic": 11274.14,
+            "elapsed_seconds": 0.7029999999995198,
+            "threads": 14
+          },
+          {
+            "event": "proof_progress",
+            "monotonic": 11274.14,
+            "elapsed_seconds": 0.7029999999995198,
+            "progress": {
+              "type": "progress",
+              "threads": 14,
+              "lower_bound": 1,
+              "upper_bound": 4,
+              "current_depth": 1,
+              "completed_depth": 0,
+              "iteration_nodes": 0,
+              "iteration_split_nodes": 0,
+              "nodes": 0,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 0,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 0,
+              "tail_probes": 0,
+              "tail_hits": 0,
+              "iteration_seconds": 1.9e-05,
+              "elapsed_seconds": 1.9e-05,
+              "found": false,
+              "timed_out": false,
+              "cancelled": false,
+              "request_id": "9b7bc4306cac41b691858706301bd813",
+              "generated_candidates": 0,
+              "small_pdb_queries": 0,
+              "phase1_queries": 0,
+              "corner_queries": 0,
+              "edge_queries": 0,
+              "axis_rejects": [
+                0,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "corner_rejects": 0,
+              "edge_rejects": 0,
+              "workers": [],
+              "engine": "native-cpp"
+            }
+          },
+          {
+            "event": "proof_progress",
+            "monotonic": 11274.14,
+            "elapsed_seconds": 0.7029999999995198,
+            "progress": {
+              "type": "progress",
+              "threads": 14,
+              "lower_bound": 1,
+              "upper_bound": 4,
+              "current_depth": 1,
+              "completed_depth": 0,
+              "iteration_nodes": 1,
+              "iteration_split_nodes": 0,
+              "nodes": 1,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 1,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 1,
+              "tail_probes": 1,
+              "tail_hits": 1,
+              "iteration_seconds": 0.000671,
+              "elapsed_seconds": 0.000774,
+              "found": true,
+              "timed_out": false,
+              "cancelled": false,
+              "request_id": "9b7bc4306cac41b691858706301bd813",
+              "generated_candidates": 0,
+              "small_pdb_queries": 0,
+              "phase1_queries": 3,
+              "corner_queries": 1,
+              "edge_queries": 0,
+              "axis_rejects": [
+                0,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "corner_rejects": 0,
+              "edge_rejects": 0,
+              "workers": [
+                {
+                  "nodes": 1,
+                  "generated": 0,
+                  "busy_seconds": 8e-06,
+                  "idle_seconds": 2e-06
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                }
+              ],
+              "engine": "native-cpp"
+            }
+          },
+          {
+            "event": "native_result_received",
+            "monotonic": 11274.14,
+            "elapsed_seconds": 0.7029999999995198,
+            "result": {
+              "ok": true,
+              "type": "result",
+              "request_id": "9b7bc4306cac41b691858706301bd813",
+              "status": "complete",
+              "inverse_direction": false,
+              "moves": [
+                "R2"
+              ],
+              "solution": "R2",
+              "depth": 1,
+              "metric": "HTM",
+              "optimal": true,
+              "elapsed_seconds": 0.000806,
+              "nodes": 1,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 1,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 1,
+              "tail_probes": 1,
+              "tail_hits": 1,
+              "corner_pdb": true,
+              "phase1_pdb": true,
+              "edge_pdbs": false,
+              "extra_edge_pdbs": false,
+              "edge_pdb_count": 0,
+              "tail_pdb": true,
+              "completed_depth": 0,
+              "generated_candidates": 0,
+              "small_pdb_queries": 0,
+              "phase1_queries": 3,
+              "corner_queries": 1,
+              "edge_queries": 0,
+              "axis_rejects": [
+                0,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "corner_rejects": 0,
+              "edge_rejects": 0,
+              "workers": [
+                {
+                  "nodes": 1,
+                  "generated": 0,
+                  "busy_seconds": 8e-06,
+                  "idle_seconds": 2e-06
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0
+                }
+              ]
+            },
+            "native_pid": 8852,
+            "peak_working_set_bytes": 343834624,
+            "memory_scope": "native_process_lifetime_peak"
+          },
+          {
+            "event": "native_request_finished",
+            "monotonic": 11274.14,
+            "elapsed_seconds": 0.7029999999995198,
+            "native_pid": 8852,
+            "peak_working_set_bytes": 343834624,
+            "memory_scope": "native_process_lifetime_peak"
+          },
+          {
+            "event": "terminal",
+            "monotonic": 11274.14,
+            "elapsed_seconds": 0.7029999999995198,
+            "status": "complete",
+            "result": {
+              "moves": [
+                "R2"
+              ],
+              "solution": "R2",
+              "depth": 1,
+              "metric": "HTM",
+              "optimal": true,
+              "inverse_direction": false,
+              "elapsed_seconds": 0.001,
+              "nodes": 1,
+              "split_nodes": 0,
+              "tail_queries": 1,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 1,
+              "tail_probes": 1,
+              "tail_hits": 1,
+              "completed_depth": 0,
+              "generated_candidates": 0,
+              "phase1_queries": 3,
+              "corner_queries": 1,
+              "engine": "native-cpp"
+            },
+            "native_pid": 8852,
+            "peak_working_set_bytes": 343834624,
+            "memory_scope": "native_process_lifetime_peak"
+          }
+        ],
+        "timings": {
+          "request_created_seconds": 0.0,
+          "proof_started_seconds": 0.0,
+          "native_startup_started_seconds": 0.0,
+          "native_ready_seconds": 0.7029999999995198,
+          "native_request_sent_seconds": 0.7029999999995198,
+          "proof_progress_seconds": 0.7029999999995198,
+          "native_result_received_seconds": 0.7029999999995198,
+          "native_request_finished_seconds": 0.7029999999995198,
+          "terminal_seconds": 0.7029999999995198
+        },
+        "thread_quota": 15,
+        "proof_threads": 14,
+        "moves": [
+          "R2"
+        ],
+        "solution": "R2",
+        "depth": 1,
+        "metric": "HTM",
+        "inverse_direction": false,
+        "elapsed_seconds": 0.001,
+        "nodes": 1,
+        "split_nodes": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 1,
+        "tail_hits": 1,
+        "completed_depth": 0,
+        "generated_candidates": 0,
+        "phase1_queries": 3,
+        "corner_queries": 1,
+        "proof_elapsed_seconds": 0.703
+      },
+      "replayed": true,
+      "cost": 1
+    },
+    {
+      "cube_size": 3,
+      "metric": "QTM",
+      "input": "UUDUUDUUDRRRRRRRRRFFBFFBFFBDDUDDUDDULLLLLLLLLFBBFBBFBB",
+      "initial": {
+        "ok": true,
+        "job_id": "qtm-e6432a1374df4d01a7cd39e91a4ab062",
+        "metric": "QTM",
+        "proof_status": "running",
+        "optimal": false,
+        "engine": "qtm-native",
+        "engine_id": "qtm-native",
+        "engine_version": "1.10.1",
+        "asset_profile": "pending",
+        "request_elapsed_seconds": 0.75,
+        "first_candidate_seconds": null,
+        "terminal_seconds": null,
+        "strict_confirmed_seconds": null,
+        "moves": [],
+        "solution": "",
+        "depth": null,
+        "cost": null
+      },
+      "terminal": {
+        "ok": true,
+        "job_id": "qtm-e6432a1374df4d01a7cd39e91a4ab062",
+        "metric": "QTM",
+        "status": "complete",
+        "optimal": true,
+        "candidate_result": {
+          "moves": [
+            "R2"
+          ],
+          "solution": "R2",
+          "depth": 2,
+          "cost": 2,
+          "metric": "QTM",
+          "optimal": false,
+          "status": "candidate",
+          "asset_profile": "base"
+        },
+        "result": {
+          "moves": [
+            "R2"
+          ],
+          "solution": "R2",
+          "depth": 2,
+          "metric": "QTM",
+          "status": "complete",
+          "client_terminal_at": 11275.031,
+          "optimal": true,
+          "inverse_direction": false,
+          "elapsed_seconds": 0.001299,
+          "nodes": 3,
+          "split_nodes": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "completed_depth": 1,
+          "generated_candidates": 15,
+          "phase1_queries": 28,
+          "corner_queries": 6,
+          "candidate_phase1_nodes": 1022,
+          "candidate_phase2_nodes": 2,
+          "candidate_directions": [
+            {
+              "direction": 0,
+              "axis": -1,
+              "inverse": false,
+              "visits": 1,
+              "budget_seconds": 0.5,
+              "elapsed_seconds": 0.000119,
+              "phase1_nodes": 1022,
+              "phase2_nodes": 2,
+              "first_candidate_seconds": 1e-05,
+              "first_cost": 2,
+              "best_cost": 2,
+              "improvements": [
+                {
+                  "cost": 2,
+                  "seconds": 1e-05
+                }
+              ]
+            },
+            {
+              "direction": 1,
+              "axis": 0,
+              "inverse": false,
+              "visits": 0,
+              "budget_seconds": 0.0,
+              "elapsed_seconds": 0.0,
+              "phase1_nodes": 0,
+              "phase2_nodes": 0,
+              "first_candidate_seconds": -1.0,
+              "first_cost": -1,
+              "best_cost": -1,
+              "improvements": []
+            },
+            {
+              "direction": 2,
+              "axis": 1,
+              "inverse": false,
+              "visits": 0,
+              "budget_seconds": 0.0,
+              "elapsed_seconds": 0.0,
+              "phase1_nodes": 0,
+              "phase2_nodes": 0,
+              "first_candidate_seconds": -1.0,
+              "first_cost": -1,
+              "best_cost": -1,
+              "improvements": []
+            },
+            {
+              "direction": 3,
+              "axis": -1,
+              "inverse": true,
+              "visits": 0,
+              "budget_seconds": 0.0,
+              "elapsed_seconds": 0.0,
+              "phase1_nodes": 0,
+              "phase2_nodes": 0,
+              "first_candidate_seconds": -1.0,
+              "first_cost": -1,
+              "best_cost": -1,
+              "improvements": []
+            },
+            {
+              "direction": 4,
+              "axis": 0,
+              "inverse": true,
+              "visits": 0,
+              "budget_seconds": 0.0,
+              "elapsed_seconds": 0.0,
+              "phase1_nodes": 0,
+              "phase2_nodes": 0,
+              "first_candidate_seconds": -1.0,
+              "first_cost": -1,
+              "best_cost": -1,
+              "improvements": []
+            },
+            {
+              "direction": 5,
+              "axis": 1,
+              "inverse": true,
+              "visits": 0,
+              "budget_seconds": 0.0,
+              "elapsed_seconds": 0.0,
+              "phase1_nodes": 0,
+              "phase2_nodes": 0,
+              "first_candidate_seconds": -1.0,
+              "first_cost": -1,
+              "best_cost": -1,
+              "improvements": []
+            }
+          ],
+          "candidate_budget_seconds": 3.0,
+          "candidate_elapsed_seconds": 0.000128,
+          "late_tail_attempts": 0,
+          "late_tail_improvements": 0,
+          "late_tail_window_replacements": 0,
+          "late_tail_seconds": 0.0,
+          "late_tail_budget_seconds": 0.0,
+          "full_strong_expansions": 0,
+          "candidate_worker_done_seconds": 0.001236,
+          "proof_worker_return_seconds": -1.0,
+          "base_proof_seconds": 0.000129,
+          "base_last_used_seconds": 0.001088,
+          "strong_wait_seconds": 0.0,
+          "base_window_yields": 0,
+          "base_window_discarded_generated": 0,
+          "proof_worker_busy_seconds": 0.0,
+          "engine": "native-cpp",
+          "asset_profile": "base",
+          "cost": 2,
+          "engine_id": "qtm-native",
+          "engine_version": "1.10.1"
+        },
+        "progress": {
+          "type": "progress",
+          "lower_bound": 2,
+          "metric": "QTM",
+          "upper_bound": 4,
+          "current_depth": 2,
+          "completed_depth": 1,
+          "iteration_nodes": 3,
+          "iteration_split_nodes": 0,
+          "nodes": 3,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000129,
+          "elapsed_seconds": 0.001088,
+          "found": true,
+          "timed_out": false,
+          "cancelled": false,
+          "phase": "proving",
+          "request_id": "9589e724b3b04fcf9c3d85fd49943b08",
+          "asset_profile": "base",
+          "generated_candidates": 15,
+          "small_pdb_queries": 0,
+          "full_strong_expansions": 0,
+          "phase1_queries": 28,
+          "corner_queries": 6,
+          "edge_queries": 0,
+          "strong_queries": 0,
+          "strong_prefetches": 0,
+          "slice_updates": 15,
+          "slice_updates_skipped": 0,
+          "tt_keys": 0,
+          "tt_lookups": 0,
+          "tt_stores": 0,
+          "strong_rejects": 0,
+          "axis_rejects": [
+            10,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "strong_equality_rejects": 0,
+          "dual_queries": 0,
+          "dual_rejects": 0,
+          "bpmx_rejects": 0,
+          "corner_rejects": 3,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 3,
+              "generated": 15,
+              "busy_seconds": 7e-06,
+              "idle_seconds": 0.0,
+              "tasks": 1,
+              "longest_task_seconds": 7e-06,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0,
+              "tasks": 0,
+              "longest_task_seconds": 0.0,
+              "queue_lock_wait_seconds": 0.0
+            }
+          ],
+          "engine": "native-cpp"
+        },
+        "engine_id": "qtm-native",
+        "engine_version": "1.10.1",
+        "asset_profile": "base",
+        "ready_asset_profile": "base",
+        "queue_seconds": 0.0,
+        "startup_seconds": 0.8910000000014406,
+        "base_ready_seconds": 0.8908930000015971,
+        "strong_ready_seconds": null,
+        "tail_ready_seconds": null,
+        "strong_adopted_seconds": null,
+        "tail_adopted_seconds": null,
+        "search_started_seconds": 0.8910000000014406,
+        "first_candidate_seconds": 0.8910000000014406,
+        "native_search_seconds": 0.001299,
+        "proof_wall_seconds": 0.001299,
+        "native_proof_busy_seconds": 7e-06,
+        "resource_hold_seconds": 0.8910000000014406,
+        "python_fallback_seconds": null,
+        "http_return_seconds": 0.75,
+        "candidate_delivery_seconds": null,
+        "request_elapsed_seconds": 0.8910000000014406,
+        "terminal_seconds": 0.8910000000014406,
+        "strict_confirmed_seconds": 0.8910000000014406,
+        "events": [
+          {
+            "request_seconds": 0.8910000000014406,
+            "event": {
+              "ok": true,
+              "type": "engine_ready",
+              "protocol_version": 3,
+              "proof_version": 3,
+              "metrics": [
+                "QTM"
+              ],
+              "asset_loading": "staged",
+              "base_initialization_seconds": 0.812849,
+              "strong_initialization_seconds": 0,
+              "tail_initialization_seconds": 0,
+              "candidate_tables_seconds": 0.0425177,
+              "base_ready_elapsed_seconds": 0.8908930000014407,
+              "total_initialization_seconds": 0.855474,
+              "strong_symmetry_seconds": 0,
+              "strong_verification_seconds": 0,
+              "strong_validation": "legacy",
+              "proof_schedule": "strong-first",
+              "strong_mapping_seconds": 0,
+              "strong_checksum_worker_seconds": 0,
+              "strong_nibble_worker_seconds": 0,
+              "initialization_steps": [
+                {
+                  "asset": "coordinates",
+                  "seconds": 0.0191946,
+                  "mapped_bytes": 0,
+                  "error": ""
+                },
+                {
+                  "asset": "qtm_phase1",
+                  "seconds": 0.697906,
+                  "mapped_bytes": 140908490,
+                  "error": ""
+                },
+                {
+                  "asset": "qtm_corner",
+                  "seconds": 0.0948407,
+                  "mapped_bytes": 88179920,
+                  "error": ""
+                }
+              ],
+              "assets": {
+                "QTM": {
+                  "corner": true,
+                  "corner_metric": "QTM",
+                  "corner_complete": true,
+                  "phase1": true,
+                  "phase1_metric": "QTM",
+                  "phase1_complete": true,
+                  "edge_count": 0,
+                  "tail": false,
+                  "strong": false,
+                  "tail_depth": 0,
+                  "profile": "base"
+                }
+              },
+              "client_startup_seconds": 0.8910000000014406,
+              "client_process_started_at": 11274.14,
+              "client_request_startup_seconds": 0.8910000000014406,
+              "warm_reused": false
+            }
+          },
+          {
+            "request_seconds": 0.8910000000014406,
+            "event": {
+              "ok": true,
+              "type": "asset_adopted",
+              "request_id": "9589e724b3b04fcf9c3d85fd49943b08",
+              "metric": "QTM",
+              "profile": "base",
+              "strong": false,
+              "snapshot_id": 2126950496032,
+              "current_depth": -1,
+              "interrupted_layer_seconds": 0,
+              "remaining_seconds": 14.109,
+              "generated_candidates": 0,
+              "tail_depth": 0
+            }
+          },
+          {
+            "request_seconds": 0.8910000000014406,
+            "event": {
+              "type": "progress",
+              "lower_bound": 2,
+              "metric": "QTM",
+              "upper_bound": 4,
+              "current_depth": 2,
+              "completed_depth": 1,
+              "iteration_nodes": 0,
+              "iteration_split_nodes": 0,
+              "nodes": 0,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 0,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 0,
+              "tail_probes": 0,
+              "tail_hits": 0,
+              "iteration_seconds": 0.000912,
+              "elapsed_seconds": 0.000912,
+              "found": false,
+              "timed_out": false,
+              "cancelled": false,
+              "phase": "proving",
+              "request_id": "9589e724b3b04fcf9c3d85fd49943b08",
+              "asset_profile": "base",
+              "generated_candidates": 0,
+              "small_pdb_queries": 0,
+              "full_strong_expansions": 0,
+              "phase1_queries": 0,
+              "corner_queries": 0,
+              "edge_queries": 0,
+              "strong_queries": 0,
+              "strong_prefetches": 0,
+              "slice_updates": 0,
+              "slice_updates_skipped": 0,
+              "tt_keys": 0,
+              "tt_lookups": 0,
+              "tt_stores": 0,
+              "strong_rejects": 0,
+              "axis_rejects": [
+                0,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "strong_equality_rejects": 0,
+              "dual_queries": 0,
+              "dual_rejects": 0,
+              "bpmx_rejects": 0,
+              "corner_rejects": 0,
+              "edge_rejects": 0,
+              "workers": [],
+              "engine": "native-cpp"
+            }
+          },
+          {
+            "request_seconds": 0.8910000000014406,
+            "event": {
+              "ok": true,
+              "type": "asset_adopted",
+              "request_id": "9589e724b3b04fcf9c3d85fd49943b08",
+              "metric": "QTM",
+              "profile": "base",
+              "strong": false,
+              "snapshot_id": 2126950496032,
+              "current_depth": 2,
+              "interrupted_layer_seconds": 0.0,
+              "remaining_seconds": 14.108048,
+              "generated_candidates": 0,
+              "tail_depth": 0
+            }
+          },
+          {
+            "request_seconds": 0.8910000000014406,
+            "event": {
+              "ok": true,
+              "type": "thread_activity",
+              "request_id": "9589e724b3b04fcf9c3d85fd49943b08",
+              "loader": 1,
+              "loader_reserved": 8,
+              "candidate": 1,
+              "proof": 6
+            }
+          },
+          {
+            "request_seconds": 0.8910000000014406,
+            "event": {
+              "type": "progress",
+              "lower_bound": 2,
+              "metric": "QTM",
+              "upper_bound": 4,
+              "current_depth": 2,
+              "completed_depth": 1,
+              "iteration_nodes": 3,
+              "iteration_split_nodes": 0,
+              "nodes": 3,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 0,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 0,
+              "tail_probes": 0,
+              "tail_hits": 0,
+              "iteration_seconds": 0.000129,
+              "elapsed_seconds": 0.001088,
+              "found": true,
+              "timed_out": false,
+              "cancelled": false,
+              "phase": "proving",
+              "request_id": "9589e724b3b04fcf9c3d85fd49943b08",
+              "asset_profile": "base",
+              "generated_candidates": 15,
+              "small_pdb_queries": 0,
+              "full_strong_expansions": 0,
+              "phase1_queries": 28,
+              "corner_queries": 6,
+              "edge_queries": 0,
+              "strong_queries": 0,
+              "strong_prefetches": 0,
+              "slice_updates": 15,
+              "slice_updates_skipped": 0,
+              "tt_keys": 0,
+              "tt_lookups": 0,
+              "tt_stores": 0,
+              "strong_rejects": 0,
+              "axis_rejects": [
+                10,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "strong_equality_rejects": 0,
+              "dual_queries": 0,
+              "dual_rejects": 0,
+              "bpmx_rejects": 0,
+              "corner_rejects": 3,
+              "edge_rejects": 0,
+              "workers": [
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 3,
+                  "generated": 15,
+                  "busy_seconds": 7e-06,
+                  "idle_seconds": 0.0,
+                  "tasks": 1,
+                  "longest_task_seconds": 7e-06,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                }
+              ],
+              "engine": "native-cpp"
+            }
+          },
+          {
+            "request_seconds": 0.8910000000014406,
+            "event": {
+              "ok": true,
+              "type": "candidate",
+              "request_id": "9589e724b3b04fcf9c3d85fd49943b08",
+              "metric": "QTM",
+              "cost": 2,
+              "native_found_seconds": 0.001572,
+              "asset_profile": "base",
+              "moves": [
+                "R2"
+              ],
+              "engine": "native-cpp"
+            }
+          },
+          {
+            "request_seconds": 0.8910000000014406,
+            "event": {
+              "ok": true,
+              "type": "candidate_direction",
+              "request_id": "9589e724b3b04fcf9c3d85fd49943b08",
+              "metric": "QTM",
+              "native_event_seconds": 0.001655,
+              "statistics": {
+                "direction": 0,
+                "axis": -1,
+                "inverse": false,
+                "visits": 1,
+                "budget_seconds": 0.5,
+                "elapsed_seconds": 0.000119,
+                "phase1_nodes": 1022,
+                "phase2_nodes": 2,
+                "first_candidate_seconds": 1e-05,
+                "first_cost": 2,
+                "best_cost": 2,
+                "improvements": [
+                  {
+                    "cost": 2,
+                    "seconds": 1e-05
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "request_seconds": 0.8910000000014406,
+            "event": {
+              "ok": true,
+              "type": "native_result",
+              "request_id": "9589e724b3b04fcf9c3d85fd49943b08",
+              "status": "complete",
+              "inverse_direction": false,
+              "direction_forward_lower_bound": 2,
+              "direction_inverse_lower_bound": 2,
+              "direction_probe_forward_generated": 182,
+              "direction_probe_inverse_generated": 182,
+              "direction_probe_forward_rejected": 168,
+              "direction_probe_inverse_rejected": 168,
+              "direction_probe_seconds": 0.000311,
+              "moves": [
+                "R2"
+              ],
+              "solution": "R2",
+              "depth": 2,
+              "metric": "QTM",
+              "optimal": true,
+              "elapsed_seconds": 0.001299,
+              "nodes": 3,
+              "split_nodes": 0,
+              "transposition_hits": 0,
+              "tail_queries": 0,
+              "tail_bloom_rejects": 0,
+              "tail_exact_queries": 0,
+              "tail_probes": 0,
+              "tail_hits": 0,
+              "candidate_phase1_nodes": 1022,
+              "candidate_phase2_nodes": 2,
+              "candidate_improvements": 1,
+              "candidate_window_replacements": 0,
+              "candidate_budget_seconds": 3.0,
+              "candidate_elapsed_seconds": 0.000128,
+              "late_tail_attempts": 0,
+              "late_tail_improvements": 0,
+              "late_tail_window_replacements": 0,
+              "late_tail_seconds": 0.0,
+              "late_tail_budget_seconds": 0.0,
+              "first_candidate_seconds": 0.001119,
+              "candidate_worker_done_seconds": 0.001236,
+              "proof_worker_return_seconds": -1.0,
+              "corner_pdb": true,
+              "corner_pdb_metric": "QTM",
+              "corner_pdb_complete": true,
+              "phase1_pdb": true,
+              "phase1_pdb_metric": "QTM",
+              "phase1_pdb_complete": true,
+              "edge_pdbs": false,
+              "extra_edge_pdbs": false,
+              "edge_pdb_count": 0,
+              "tail_pdb": false,
+              "tail_enabled": false,
+              "strong_pdb": false,
+              "asset_profile": "base",
+              "tail_depth": 0,
+              "completed_depth": 1,
+              "strong_upgrade_restarts": 0,
+              "upgrade_discarded_generated": 0,
+              "upgrade_stop_seconds": 0.0,
+              "base_proof_seconds": 0.000129,
+              "base_last_used_seconds": 0.001088,
+              "strong_wait_seconds": 0.0,
+              "base_window_yields": 0,
+              "base_window_discarded_generated": 0,
+              "candidate_directions": [
+                {
+                  "direction": 0,
+                  "axis": -1,
+                  "inverse": false,
+                  "visits": 1,
+                  "budget_seconds": 0.5,
+                  "elapsed_seconds": 0.000119,
+                  "phase1_nodes": 1022,
+                  "phase2_nodes": 2,
+                  "first_candidate_seconds": 1e-05,
+                  "first_cost": 2,
+                  "best_cost": 2,
+                  "improvements": [
+                    {
+                      "cost": 2,
+                      "seconds": 1e-05
+                    }
+                  ]
+                },
+                {
+                  "direction": 1,
+                  "axis": 0,
+                  "inverse": false,
+                  "visits": 0,
+                  "budget_seconds": 0.0,
+                  "elapsed_seconds": 0.0,
+                  "phase1_nodes": 0,
+                  "phase2_nodes": 0,
+                  "first_candidate_seconds": -1.0,
+                  "first_cost": -1,
+                  "best_cost": -1,
+                  "improvements": []
+                },
+                {
+                  "direction": 2,
+                  "axis": 1,
+                  "inverse": false,
+                  "visits": 0,
+                  "budget_seconds": 0.0,
+                  "elapsed_seconds": 0.0,
+                  "phase1_nodes": 0,
+                  "phase2_nodes": 0,
+                  "first_candidate_seconds": -1.0,
+                  "first_cost": -1,
+                  "best_cost": -1,
+                  "improvements": []
+                },
+                {
+                  "direction": 3,
+                  "axis": -1,
+                  "inverse": true,
+                  "visits": 0,
+                  "budget_seconds": 0.0,
+                  "elapsed_seconds": 0.0,
+                  "phase1_nodes": 0,
+                  "phase2_nodes": 0,
+                  "first_candidate_seconds": -1.0,
+                  "first_cost": -1,
+                  "best_cost": -1,
+                  "improvements": []
+                },
+                {
+                  "direction": 4,
+                  "axis": 0,
+                  "inverse": true,
+                  "visits": 0,
+                  "budget_seconds": 0.0,
+                  "elapsed_seconds": 0.0,
+                  "phase1_nodes": 0,
+                  "phase2_nodes": 0,
+                  "first_candidate_seconds": -1.0,
+                  "first_cost": -1,
+                  "best_cost": -1,
+                  "improvements": []
+                },
+                {
+                  "direction": 5,
+                  "axis": 1,
+                  "inverse": true,
+                  "visits": 0,
+                  "budget_seconds": 0.0,
+                  "elapsed_seconds": 0.0,
+                  "phase1_nodes": 0,
+                  "phase2_nodes": 0,
+                  "first_candidate_seconds": -1.0,
+                  "first_cost": -1,
+                  "best_cost": -1,
+                  "improvements": []
+                }
+              ],
+              "generated_candidates": 15,
+              "small_pdb_queries": 0,
+              "full_strong_expansions": 0,
+              "phase1_queries": 28,
+              "corner_queries": 6,
+              "edge_queries": 0,
+              "strong_queries": 0,
+              "strong_prefetches": 0,
+              "slice_updates": 15,
+              "slice_updates_skipped": 0,
+              "tt_keys": 0,
+              "tt_lookups": 0,
+              "tt_stores": 0,
+              "strong_rejects": 0,
+              "axis_rejects": [
+                10,
+                0,
+                0
+              ],
+              "equality_rejects": 0,
+              "strong_equality_rejects": 0,
+              "dual_queries": 0,
+              "dual_rejects": 0,
+              "bpmx_rejects": 0,
+              "corner_rejects": 3,
+              "edge_rejects": 0,
+              "workers": [
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 3,
+                  "generated": 15,
+                  "busy_seconds": 7e-06,
+                  "idle_seconds": 0.0,
+                  "tasks": 1,
+                  "longest_task_seconds": 7e-06,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                },
+                {
+                  "nodes": 0,
+                  "generated": 0,
+                  "busy_seconds": 0.0,
+                  "idle_seconds": 0.0,
+                  "tasks": 0,
+                  "longest_task_seconds": 0.0,
+                  "queue_lock_wait_seconds": 0.0
+                }
+              ],
+              "client_terminal_at": 11275.031,
+              "engine": "native-cpp"
+            }
+          }
+        ],
+        "initialization_steps": [
+          {
+            "asset": "coordinates",
+            "seconds": 0.0191946,
+            "mapped_bytes": 0,
+            "error": ""
+          },
+          {
+            "asset": "qtm_phase1",
+            "seconds": 0.697906,
+            "mapped_bytes": 140908490,
+            "error": ""
+          },
+          {
+            "asset": "qtm_corner",
+            "seconds": 0.0948407,
+            "mapped_bytes": 88179920,
+            "error": ""
+          }
+        ],
+        "thread_activity": {
+          "ok": true,
+          "type": "thread_activity",
+          "request_id": "9589e724b3b04fcf9c3d85fd49943b08",
+          "loader": 1,
+          "loader_reserved": 8,
+          "candidate": 1,
+          "proof": 6
+        },
+        "candidate_direction": {
+          "ok": true,
+          "type": "candidate_direction",
+          "request_id": "9589e724b3b04fcf9c3d85fd49943b08",
+          "metric": "QTM",
+          "native_event_seconds": 0.001655,
+          "statistics": {
+            "direction": 0,
+            "axis": -1,
+            "inverse": false,
+            "visits": 1,
+            "budget_seconds": 0.5,
+            "elapsed_seconds": 0.000119,
+            "phase1_nodes": 1022,
+            "phase2_nodes": 2,
+            "first_candidate_seconds": 1e-05,
+            "first_cost": 2,
+            "best_cost": 2,
+            "improvements": [
+              {
+                "cost": 2,
+                "seconds": 1e-05
+              }
+            ]
+          }
+        },
+        "resident_retained": true,
+        "residency": {
+          "ok": true,
+          "type": "ready",
+          "protocol_version": 3,
+          "proof_version": 3,
+          "metrics": [
+            "QTM"
+          ],
+          "asset_loading": "staged",
+          "base_initialization_seconds": 0.812849,
+          "strong_initialization_seconds": 0,
+          "tail_initialization_seconds": 0,
+          "candidate_tables_seconds": 0.0425177,
+          "base_ready_elapsed_seconds": 0.8908930000014407,
+          "total_initialization_seconds": 0.855474,
+          "strong_symmetry_seconds": 0,
+          "strong_verification_seconds": 0,
+          "strong_validation": "legacy",
+          "proof_schedule": "strong-first",
+          "strong_mapping_seconds": 0,
+          "strong_checksum_worker_seconds": 0,
+          "strong_nibble_worker_seconds": 0,
+          "initialization_steps": [
+            {
+              "asset": "coordinates",
+              "seconds": 0.0191946,
+              "mapped_bytes": 0,
+              "error": ""
+            },
+            {
+              "asset": "qtm_phase1",
+              "seconds": 0.697906,
+              "mapped_bytes": 140908490,
+              "error": ""
+            },
+            {
+              "asset": "qtm_corner",
+              "seconds": 0.0948407,
+              "mapped_bytes": 88179920,
+              "error": ""
+            }
+          ],
+          "assets": {
+            "QTM": {
+              "corner": true,
+              "corner_metric": "QTM",
+              "corner_complete": true,
+              "phase1": true,
+              "phase1_metric": "QTM",
+              "phase1_complete": true,
+              "edge_count": 0,
+              "tail": false,
+              "strong": false,
+              "tail_depth": 0,
+              "profile": "base"
+            }
+          },
+          "client_startup_seconds": 0.8910000000014406,
+          "client_process_started_at": 11274.14,
+          "client_request_startup_seconds": 0.8910000000014406,
+          "warm_reused": false,
+          "client_search_started_at": 11275.031,
+          "native_search_seconds": 0.001299,
+          "native_proof_busy_seconds": 7e-06,
+          "generation_id": 2,
+          "resident_state": "IDLE",
+          "idle_epoch": 4,
+          "idle_until": 11295.031,
+          "eviction_reason": null,
+          "loader_done": false,
+          "service_events": [
+            {
+              "seconds": 0.8910000000014406,
+              "event": {
+                "ok": true,
+                "type": "loader_stage",
+                "stage": "strong",
+                "mapped_bytes": 1764716840,
+                "loader_threads": 8,
+                "generation_id": 2,
+                "admitted": true
+              }
+            },
+            {
+              "seconds": 0.8910000000014406,
+              "event": {
+                "type": "memory_admission",
+                "stage": "strong",
+                "admitted": true,
+                "memory": {
+                  "working_set": 259112960,
+                  "private_bytes": 26411008,
+                  "available_bytes": 17284362240,
+                  "total_bytes": 33442148352
+                },
+                "mapped_bytes": 1764716840,
+                "limit_bytes": 8589934592
+              }
+            },
+            {
+              "seconds": 0.8910000000014406,
+              "event": {
+                "ok": true,
+                "type": "loader_paused",
+                "token": "d13f691dfd194fddb9f8a5f28740b4eb",
+                "paused": true,
+                "executing": 0,
+                "generation_id": 2
+              }
+            }
+          ],
+          "memory_samples": [
+            {
+              "seconds": 0.01600000000144064,
+              "working_set": 2035712,
+              "private_bytes": 413696,
+              "available_bytes": 17547079680,
+              "total_bytes": 33442148352
+            },
+            {
+              "seconds": 0.26600000000144064,
+              "working_set": 166350848,
+              "private_bytes": 21590016,
+              "available_bytes": 17373843456,
+              "total_bytes": 33442148352
+            },
+            {
+              "seconds": 0.5160000000014406,
+              "working_set": 166576128,
+              "private_bytes": 21590016,
+              "available_bytes": 17373962240,
+              "total_bytes": 33442148352
+            },
+            {
+              "seconds": 0.7660000000014406,
+              "working_set": 181862400,
+              "private_bytes": 21762048,
+              "available_bytes": 17358524416,
+              "total_bytes": 33442148352
+            }
+          ]
+        },
+        "candidate_cost": 2,
+        "proven_lower_bound": 2,
+        "proof_gap": 0
+      },
+      "replayed": true,
+      "cost": 2
+    }
+  ],
+  "html_version_verified": true,
+  "logs": [
+    "ħ����̽�Ӧ�� 1.10.1 ������: http://127.0.0.1:8765/\n",
+    "�״��������� HTM ��֦���������ĵȴ����� Ctrl+C ֹͣ��\n"
+  ],
+  "owned_process_tree_stopped": true
+}

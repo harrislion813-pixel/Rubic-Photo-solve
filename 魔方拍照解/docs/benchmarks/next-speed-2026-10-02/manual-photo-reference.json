@@ -1,0 +1,45 @@
+{
+  "reference_method": "Human visual reading of unlabeled photo overviews and rectified grids; classifier output is excluded from reference annotation. Rows run left to right, then top to bottom; no face rotation or mirroring.",
+  "physical_to_face": {"W": "U", "R": "R", "G": "F", "Y": "D", "O": "L", "B": "B"},
+  "annotation_date": "2026-10-02",
+  "cases": [
+    {
+      "name": "initial-1",
+      "reference_origin": "tests/real_color.test.js existing group 1, visually rechecked against initial-1-reference-grid.png",
+      "faces": {"U": "FBBBUDURR", "R": "FBRFRDUFD", "F": "LUUFFDUUR", "D": "FLBBDLDDR", "L": "DLBRLULUL", "B": "DRLRBFFLB"},
+      "review": "All 54 stickers agree with the existing labels; six 3x3 grids and centers checked. Reflections retain enough visible sticker color."
+    },
+    {
+      "name": "initial-12",
+      "reference_origin": "Existing tests/initial_solver_cases.json and docs/benchmarks/initial12-reference-grid.png, visually rechecked against initial-12-reference-grid.png",
+      "faces": {"U": "FRUFUDBRF", "R": "LBBFRURRB", "F": "LUUBFDDBB", "D": "FRULDDDLR", "L": "UUDULLFFR", "B": "LFRLBBDDL"},
+      "review": "All 54 stickers agree with the existing visual reference; six 3x3 grids and centers checked."
+    },
+    {
+      "name": "initial-2",
+      "reference_origin": "tests/real_color.test.js existing group 2, visually rechecked against initial-2-reference-grid.png",
+      "faces": {"U": "DLLLURLFU", "R": "RBUFRDLRB", "F": "URFDFURRB", "D": "UUDBDDRBR", "L": "LUFLLLFDB", "B": "BBFFBFDUD"},
+      "review": "All 54 stickers agree with the existing labels. Green F3/L3/B3 reflections identified from the green margins, distinct from the white centers/stickers; six 3x3 grids and centers checked."
+    },
+    {
+      "name": "initial-5",
+      "reference_origin": "tests/real_color.test.js existing group 5, visually rechecked against initial-5-reference-grid.png",
+      "faces": {"U": "UFBFURRBU", "R": "RDUBRDDRL", "F": "DUFBFLDUB", "D": "LLRDDFUDB", "L": "FLFRLRBLF", "B": "RULBBUDFL"},
+      "review": "All 54 stickers agree with the existing labels; six 3x3 grids and centers checked, red/orange visually distinct."
+    },
+    {
+      "name": "initial-8",
+      "reference_origin": "New independent human annotation from initial-8-photo-overview.png and initial-8-reference-grid.png, read before running classification",
+      "physical_colors": {"U": "WOGYWBRWY", "R": "BYWGRRWBB", "F": "YGOOGRWYB", "D": "BROBYRYWR", "L": "RGGGOYGWR", "B": "OBGWBOYOO"},
+      "faces": {"U": "ULFDUBRUD", "R": "BDUFRRUBB", "F": "DFLLFRUDB", "D": "BRLBDRDUR", "L": "RFFFLDFUR", "B": "LBFUBLDLL"},
+      "review": "Six 3x3 faces. U3 and L3 have strong white glare but green side/bottom margins in both overview and grid; U6 has glare over a visible blue bottom/right region. These remain green/green/blue. White logo center is U; other centers are red/green/yellow/orange/blue. No unresolved ambiguity."
+    },
+    {
+      "name": "initial-16",
+      "reference_origin": "New independent human annotation from initial-16-photo-overview.png and initial-16-reference-grid.png, read before running classification",
+      "physical_colors": {"U": "WROBWOYRO", "R": "GYGORGWBO", "F": "GWYWGGROR", "D": "BBBGYRYWW", "L": "RYRWOOOYY", "B": "WYGRBBBGB"},
+      "faces": {"U": "URLBULDRL", "R": "FDFLRFUBL", "F": "FUDUFFRLR", "D": "BBBFDRDUU", "L": "RDRULLLDD", "B": "UDFRBBBFB"},
+      "review": "Six 3x3 faces, clear sticker colors. White logo center is U; other centers are red/green/yellow/orange/blue. No rotations, mirroring or unresolved ambiguity."
+    }
+  ]
+}

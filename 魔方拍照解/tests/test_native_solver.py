@@ -143,7 +143,7 @@ class NativePdbSolverTests(NativeCommandMixin, unittest.TestCase):
                 progress_callback=progress,
             )
         self.assertTrue(any(event["upper_bound"] == 17 for event in events))
-        self.assertTrue(any(event["generated_candidates"] > 0 for event in events))
+        self.assertLess(events[-1]["completed_depth"], 17)
 
     def test_complete_pdb_heuristic_matches_bfs_without_small_queries(self):
         result = self.run_native(

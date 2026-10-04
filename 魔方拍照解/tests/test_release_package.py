@@ -38,6 +38,9 @@ def test_source_download_contains_runtime_and_build_inputs_without_development_f
     assert ("release", "verify_installation.py") in names
     assert ("pyproject.toml",) in names
     assert ("native", "qtm", "src", "main.cpp") in names
+    assert ("native", "htm", "src", "fast.cpp") in names
+    assert ("native", "htm", "include", "fast.hpp") in names
+    assert ("cube_app", "solvers", "htm", "native_fast.py") in names
     assert not any(part in {"tests", "docs", "build", "assets", ".cache", ".git", ".venv", "__pycache__"}
                    for name in names for part in name)
     assert not any(name[-1].endswith((".pdb", ".bin", ".pkl", ".exe", ".dll")) for name in names)

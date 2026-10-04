@@ -1,0 +1,32 @@
+[
+  {
+    "repeat": 0,
+    "label": "baseline",
+    "startup_seconds": 0.6981364999955986
+  },
+  {
+    "repeat": 0,
+    "label": "cached",
+    "startup_seconds": 0.18782329998794012
+  },
+  {
+    "repeat": 1,
+    "label": "cached",
+    "startup_seconds": 0.18657079999684356
+  },
+  {
+    "repeat": 1,
+    "label": "baseline",
+    "startup_seconds": 0.6849383999942802
+  },
+  {
+    "repeat": 2,
+    "label": "baseline",
+    "startup_seconds": 0.6854988999839406
+  },
+  {
+    "repeat": 2,
+    "label": "cached",
+    "startup_seconds": 0.18745420000050217
+  }
+]

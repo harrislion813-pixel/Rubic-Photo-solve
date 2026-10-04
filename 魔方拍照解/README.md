@@ -2,16 +2,16 @@
 
 在本机浏览器上传二阶或三阶魔方的六面照片，校正识别结果，再按公式复原。照片在本机处理，服务只监听 `127.0.0.1`。
 
-**当前版本：1.10.1。HTM 和 QTM 均为正式功能。** HTM 默认把 180° 算作一步；QTM 把 180° 算作两步。QTM 正式支持二阶和三阶，三阶先返回可执行候选，再验证严格最短性。
+**当前版本：1.11.0。HTM 和 QTM 均为正式功能。** HTM 默认把 180° 算作一步；QTM 把 180° 算作两步。QTM 正式支持二阶和三阶，三阶先返回可执行候选，再验证严格最短性。1.11.0 优化 HTM 原生候选质量、证明热路径与启动缓存，困难状态仍可能需要增加验证超时。
 
 ## 1. 选择下载
 
-打开 [1.10.1 发布页](https://github.com/harrislion813-pixel/Rubic-Photo-solve/releases/tag/v1.10.1)。
+打开 [1.11.0 发布页](https://github.com/harrislion813-pixel/Rubic-Photo-solve/releases/tag/v1.11.0)。
 
 | 用途 | 下载文件 | 还需要做什么 |
 | --- | --- | --- |
-| Windows 直接使用（推荐） | `RubicPhotoSolve-1.10.1-QtmStrong-windows-x64.zip.001`、`.002` 和 `QTM.cmd`，三项都下载 | 合并、解压、双击启动；已集成 HTM、QTM、Python、OpenCV 和全部运行表 |
-| 本地运行或修改源码 | `RubicPhotoSolve-1.10.1-source.zip` | 安装环境，然后按第 3 节在本机编译和生成表；无需下载便携包或表文件 |
+| Windows 直接使用（推荐） | `RubicPhotoSolve-1.11.0-QtmStrong-windows-x64.zip.001`、`.002` 和 `QTM.cmd`，三项都下载 | 合并、解压、双击启动；已集成 HTM、QTM、Python、OpenCV 和全部运行表 |
+| 本地运行或修改源码 | `RubicPhotoSolve-1.11.0-source.zip` | 安装环境，然后按第 3 节在本机编译和生成表；无需下载便携包或表文件 |
 | 下载校验 | `SHA256SUMS.txt` | 可选：对照文件的 SHA-256 |
 
 源码 ZIP 只包含应用代码、网页、C++ 源码、依赖清单、生成/校验工具与用户文档，**不包含预生成表、缓存、EXE、Python 环境、测试照片或性能报告**。GitHub 自动提供的 “Source code” 同样排除测试与报告；其应用代码在 `魔方拍照解` 子目录中。
@@ -23,7 +23,7 @@
 1. 新建一个下载目录，例如 `D:\CubeLens下载`。
 2. 将 `.001`、`.002` 和 `QTM.cmd` 放入该目录，保持原文件名。
 3. 双击 `QTM.cmd`。它先校验两个分段，再合并并校验完整 ZIP。看到 `ZIP verified` 表示成功；若报错，按提示重新下载缺失或损坏的分段。
-4. 解压生成的 `RubicPhotoSolve-1.10.1-QtmStrong-windows-x64.zip`，进入 `RubicPhotoSolve` 文件夹。不要在压缩包预览中运行。
+4. 解压生成的 `RubicPhotoSolve-1.11.0-QtmStrong-windows-x64.zip`，进入 `RubicPhotoSolve` 文件夹。不要在压缩包预览中运行。
 5. 双击 `启动魔方求解器.cmd`，保持启动窗口打开。浏览器自动打开；否则手动访问窗口打印的地址，通常是 `http://127.0.0.1:8765/`。
 6. 网页选择 `2×2` 或 `3×3`，选择 HTM 或 QTM，按第 4 节上传照片并求解。
 7. 用完在启动窗口按 `Ctrl+C`。更新版本时解压到新目录。
@@ -55,10 +55,10 @@ pacman -S --needed mingw-w64-ucrt-x86_64-gcc
 
 ### 步骤 2：解压源码并进入正确目录
 
-解压 `source.zip`，打开解压后的 `RubicPhotoSolve-1.10.1-source` 目录。以下示例假定它在 `D:\CubeLens` 中，请替换为你的实际位置，保留路径两侧的引号：
+解压 `source.zip`，打开解压后的 `RubicPhotoSolve-1.11.0-source` 目录。以下示例假定它在 `D:\CubeLens` 中，请替换为你的实际位置，保留路径两侧的引号：
 
 ```powershell
-Set-Location "D:\CubeLens\RubicPhotoSolve-1.10.1-source"
+Set-Location "D:\CubeLens\RubicPhotoSolve-1.11.0-source"
 Get-Item .\server.py
 $PSVersionTable.PSVersion
 python --version
@@ -129,7 +129,7 @@ python -m venv .venv
 .\.venv\Scripts\python.exe release\prepare_runtime_caches.py --profile QtmStrong
 ```
 
-这一命令生成并检查两个引擎各自的 Python 回退表、二阶准确距离表、原生坐标缓存以及 QTM 小型剪枝表。在 `.cache\htm` 应有 3 个运行文件，在 `.cache\qtm` 应有 4 个。第一次可能等待较久；再次执行会读取已有有效缓存。
+这一命令生成并检查两个引擎各自的 Python 回退表、二阶准确距离表、原生坐标缓存，以及 HTM 对称映射/Phase-2 缓存和 QTM 小型剪枝表。在 `.cache\htm` 应有 5 个运行文件，在 `.cache\qtm` 应有 4 个。第一次可能等待较久；再次执行会读取已有有效缓存。
 
 ### 步骤 8：建立清单并校验
 
@@ -138,7 +138,7 @@ python -m venv .venv
 .\.venv\Scripts\python.exe release\verify_installation.py .
 ```
 
-第一个命令检查原生构建、表头的计步方式/完整标记，并记录每个运行资产的 SHA-256；第二个命令核对全部文件。看到 **`verified: 1.10.1 / QtmStrong / 19 assets`** 表示完整安装校验通过。此后改动或丢失文件，可再运行第二个命令检查；不要通过重写清单掩盖文件损坏。
+第一个命令检查原生构建、表头的计步方式/完整标记，并记录每个运行资产的 SHA-256；第二个命令核对全部文件。看到 **`verified: 1.11.0 / QtmStrong / 21 assets`** 表示完整安装校验通过。此后改动或丢失文件，可再运行第二个命令检查；不要通过重写清单掩盖文件损坏。
 
 ### 步骤 9：启动并使用
 

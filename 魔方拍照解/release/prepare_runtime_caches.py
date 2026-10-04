@@ -56,6 +56,12 @@ def main() -> None:
         environment["CUBE_NATIVE_COORDINATE_CACHE"] = str(root / ".cache" / engine / cache_name)
         subprocess.run([str(executable), "check-heuristic", "--depth", "0"],
                        cwd=root, env=environment, check=True)
+        if engine == "htm":
+            # This cache has its own HTM convention version and integrity check.
+            environment["CUBE_HTM_SYMMETRY_CACHE"] = str(root / ".cache/htm/phase1_symmetry_htm_v1.bin")
+            subprocess.run([str(executable), "symmetry-info"], cwd=root, env=environment, check=True)
+            subprocess.run([str(executable), "candidate", "U" * 9 + "R" * 9 + "F" * 9 + "D" * 9 + "L" * 9 + "B" * 9,
+                            "--timeout", "0.001"], cwd=root, env=environment, check=True)
     first = [digest(path) for path in paths]
     prepare_htm(str(htm_cache))
     if args.profile == "QtmStrong":

@@ -1,0 +1,77 @@
+{
+  "summary": {
+    "baseline": {
+      "strict_successes": 11,
+      "par2_seconds": 32.233444444443904,
+      "cases": {
+        "initial-1": {
+          "median_seconds": 25.625,
+          "timeouts": 1
+        },
+        "initial-12": {
+          "median_seconds": 16.85899999999674,
+          "timeouts": 0
+        },
+        "initial-2": {
+          "median_seconds": 5.812000000005355,
+          "timeouts": 0
+        },
+        "initial-5": {
+          "median_seconds": 13.75,
+          "timeouts": 0
+        },
+        "initial-8": {
+          "median_seconds": 30.10899999999674,
+          "timeouts": 3
+        },
+        "initial-16": {
+          "median_seconds": 30.062000000005355,
+          "timeouts": 3
+        }
+      }
+    },
+    "current": {
+      "strict_successes": 15,
+      "par2_seconds": 19.67977777777641,
+      "cases": {
+        "initial-1": {
+          "median_seconds": 12.485000000015134,
+          "timeouts": 0
+        },
+        "initial-12": {
+          "median_seconds": 14.046999999991385,
+          "timeouts": 0
+        },
+        "initial-2": {
+          "median_seconds": 5.140999999974156,
+          "timeouts": 0
+        },
+        "initial-5": {
+          "median_seconds": 11.75,
+          "timeouts": 0
+        },
+        "initial-8": {
+          "median_seconds": 14.530999999988126,
+          "timeouts": 0
+        },
+        "initial-16": {
+          "median_seconds": 30.062000000005355,
+          "timeouts": 3
+        }
+      }
+    }
+  },
+  "par2_improvement": 0.38946091188933973,
+  "adopt": true,
+  "formula_occurrences_replayed": 439,
+  "resources": {
+    "baseline": {
+      "median_total_cpu_seconds": 280.5078125,
+      "maximum_sum_of_process_lifetime_peaks_bytes": 448409600
+    },
+    "current": {
+      "median_total_cpu_seconds": 176.9765625,
+      "maximum_sum_of_process_lifetime_peaks_bytes": 423477248
+    }
+  }
+}

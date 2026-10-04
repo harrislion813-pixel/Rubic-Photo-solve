@@ -82,11 +82,16 @@ class CoordinateTables {
                                       std::span<const EdgePatternDatabase *const> edge_pdbs, std::uint8_t cutoff,
                                       const CoordinateFeatures &features, SearchCounters &counters) const noexcept;
     [[nodiscard]] CubieCube materialize(const CoordinateState &state) const;
+    [[nodiscard]] std::uint8_t expand_full_htm(const CoordinateState &parent, int move, CoordinateState &child,
+                                               const Phase1PatternDatabase &phase1, const CornerPatternDatabase &corner,
+                                               std::uint8_t cutoff, SearchCounters &counters) const noexcept;
 
     [[nodiscard]] std::uint16_t corner_move(std::uint16_t coordinate, int move) const noexcept;
     [[nodiscard]] std::uint16_t twist_move(std::uint16_t coordinate, int move) const noexcept;
     [[nodiscard]] std::uint16_t flip_move(std::uint16_t coordinate, int move) const noexcept;
     [[nodiscard]] std::uint16_t slice_move(std::uint16_t coordinate, int move) const noexcept;
+    [[nodiscard]] std::uint8_t phase1_lower(std::uint16_t twist, std::uint16_t flip,
+                                            std::uint16_t slice) const noexcept;
 
   private:
     std::vector<std::uint16_t> twist_move_;
@@ -141,11 +146,14 @@ struct SolverOptions {
     bool strengthen_axes{true};
     bool omit_covered_small_tables{true};
     bool staged_expansion{true};
+    bool specialized_expansion{true};
     bool inverse_direction{false};
     int completed_depth{-1}; // Only supplied by the service's verified proof cache.
     const std::atomic<bool> *cancel_requested{nullptr};
     std::vector<int> incumbent_moves;
     std::function<std::vector<int>()> incumbent_callback;
+    // Supervisor safety point only; never called by a DFS worker.
+    std::function<void(int)> incumbent_adopted_callback;
     // Read only at complete-layer boundaries; never resize an active layer.
     std::function<int()> thread_count_callback;
     std::function<void(const NativeSearchProgress &)> progress_callback;
@@ -158,6 +166,10 @@ struct NativeSolveResult {
     bool timed_out{false};
     bool cancelled{false};
     bool inverse_direction{false};
+    std::string stop_reason;
+    int incumbent_adoptions{};
+    std::uint64_t direction_probe_generated{};
+    double direction_probe_seconds{};
     double elapsed_seconds{0.0};
     std::uint64_t nodes{0};
     std::uint64_t split_nodes{0};

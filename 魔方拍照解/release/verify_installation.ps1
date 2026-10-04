@@ -9,7 +9,7 @@ function Get-AssetHash([string]$Path) {
 $Root = (Resolve-Path -LiteralPath $Root).Path
 $manifest = Get-Content -Raw -LiteralPath (Join-Path $Root "asset-manifest.json") | ConvertFrom-Json
 if ($manifest.profile -notin @("HtmFull", "QtmStrong")) { throw "Unknown installation profile." }
-$expectedCount = if ($manifest.profile -eq "QtmStrong") { 19 } else { 7 }
+$expectedCount = if ($manifest.profile -eq "QtmStrong") { 21 } else { 9 }
 if (@($manifest.files.PSObject.Properties).Count -ne $expectedCount) { throw "Incomplete runtime manifest." }
 $version = (Get-Content -LiteralPath (Join-Path $Root "VERSION.txt") -Raw).Trim()
 if ($version -ne $manifest.app_version) { throw "Version mismatch." }

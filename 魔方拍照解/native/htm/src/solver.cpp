@@ -245,8 +245,11 @@ struct SearchTask {
     std::vector<int> path;
 };
 
+enum class StopReason { none, solution, bound_met, cancelled, deadline };
+
 struct SearchControl {
     std::atomic<bool> stop{false};
+    std::atomic<StopReason> reason{StopReason::none};
     std::atomic<bool> timed_out{false};
     std::atomic<std::uint64_t> nodes{0};
     std::atomic<std::uint64_t> split_nodes{0};
@@ -263,6 +266,12 @@ struct SearchControl {
     std::vector<WorkerStatistics> workers;
     std::mutex solution_mutex;
     std::vector<int> solution;
+
+    void request_stop(StopReason requested) noexcept {
+        auto expected = StopReason::none;
+        reason.compare_exchange_strong(expected, requested, std::memory_order_relaxed);
+        stop.store(true, std::memory_order_relaxed);
+    }
 };
 
 struct WorkerContext {
@@ -301,12 +310,12 @@ void publish(SearchControl &control, WorkerContext &worker) {
 
 bool check_stop(SearchControl &control, WorkerContext &worker) {
     if (control.cancel_requested != nullptr && control.cancel_requested->load(std::memory_order_relaxed))
-        control.stop.store(true, std::memory_order_relaxed);
+        control.request_stop(StopReason::cancelled);
     if (control.stop.load(std::memory_order_relaxed))
         return true;
     if ((worker.pending_nodes & 1023U) == 0 && std::chrono::steady_clock::now() >= control.deadline) {
         control.timed_out.store(true, std::memory_order_relaxed);
-        control.stop.store(true, std::memory_order_relaxed);
+        control.request_stop(StopReason::deadline);
         return true;
     }
     if (worker.pending_nodes >= 4096)
@@ -314,6 +323,7 @@ bool check_stop(SearchControl &control, WorkerContext &worker) {
     return false;
 }
 
+template <bool FullHtm>
 bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatabase *phase1_pdb,
                         const CornerPatternDatabase *corner_pdb, std::span<const EdgePatternDatabase *const> edge_pdbs,
                         const TailDatabase *tail_database, const CoordinateFeatures &features,
@@ -339,14 +349,14 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
         std::lock_guard lock(control.solution_mutex);
         if (control.solution.empty())
             control.solution = std::move(solution);
-        control.stop.store(true, std::memory_order_relaxed);
+        control.request_stop(StopReason::solution);
         return true;
     }
     if (solved(state)) {
         std::lock_guard lock(control.solution_mutex);
         if (control.solution.empty())
             control.solution = path;
-        control.stop.store(true, std::memory_order_relaxed);
+        control.request_stop(StopReason::solution);
         return true;
     }
     if (depth_left == 0)
@@ -376,9 +386,14 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
             if (should_skip_face(last_face, face))
                 continue;
             CoordinateState child;
-            const std::uint8_t child_heuristic =
-                tables.expand(state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
-                              static_cast<std::uint8_t>(next_depth), features, worker.counters);
+            const std::uint8_t child_heuristic = [&] {
+                if constexpr (FullHtm)
+                    return tables.expand_full_htm(state, move, child, *phase1_pdb, *corner_pdb,
+                                                  static_cast<std::uint8_t>(next_depth), worker.counters);
+                else
+                    return tables.expand(state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
+                                         static_cast<std::uint8_t>(next_depth), features, worker.counters);
+            }();
             if (child_heuristic > next_depth)
                 continue;
             candidates.push_back(Candidate{std::move(child), move, face, child_heuristic});
@@ -388,8 +403,8 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
         });
         for (const Candidate &candidate : candidates) {
             path.push_back(candidate.move);
-            if (depth_first_search(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features, options,
-                                   candidate.state, next_depth, candidate.face, path, control, worker, true)) {
+            if (depth_first_search<FullHtm>(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features, options,
+                                            candidate.state, next_depth, candidate.face, path, control, worker, true)) {
                 return true;
             }
             path.pop_back();
@@ -407,14 +422,19 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
         if (should_skip_face(last_face, face))
             continue;
         CoordinateState child;
-        const std::uint8_t child_heuristic =
-            tables.expand(state, move, child, phase1_pdb, corner_pdb, edge_pdbs, static_cast<std::uint8_t>(next_depth),
-                          features, worker.counters);
+        const std::uint8_t child_heuristic = [&] {
+            if constexpr (FullHtm)
+                return tables.expand_full_htm(state, move, child, *phase1_pdb, *corner_pdb,
+                                              static_cast<std::uint8_t>(next_depth), worker.counters);
+            else
+                return tables.expand(state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
+                                     static_cast<std::uint8_t>(next_depth), features, worker.counters);
+        }();
         if (child_heuristic > next_depth)
             continue;
         path.push_back(move);
-        if (depth_first_search(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features, options, child,
-                               next_depth, face, path, control, worker, true)) {
+        if (depth_first_search<FullHtm>(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features, options,
+                                        child, next_depth, face, path, control, worker, true)) {
             return true;
         }
         path.pop_back();
@@ -428,6 +448,7 @@ bool depth_first_search(const CoordinateTables &tables, const Phase1PatternDatab
     return false;
 }
 
+template <bool FullHtm>
 std::vector<SearchTask> split_task(const CoordinateTables &tables, const Phase1PatternDatabase *phase1_pdb,
                                    const CornerPatternDatabase *corner_pdb,
                                    std::span<const EdgePatternDatabase *const> edge_pdbs,
@@ -444,8 +465,15 @@ std::vector<SearchTask> split_task(const CoordinateTables &tables, const Phase1P
             continue;
         ++generated_nodes;
         CoordinateState child;
-        if (tables.expand(task.state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
-                          static_cast<std::uint8_t>(next_depth), features, worker.counters) > next_depth)
+        const auto bound = [&] {
+            if constexpr (FullHtm)
+                return tables.expand_full_htm(task.state, move, child, *phase1_pdb, *corner_pdb,
+                                              static_cast<std::uint8_t>(next_depth), worker.counters);
+            else
+                return tables.expand(task.state, move, child, phase1_pdb, corner_pdb, edge_pdbs,
+                                     static_cast<std::uint8_t>(next_depth), features, worker.counters);
+        }();
+        if (bound > next_depth)
             continue;
         SearchTask child_task{std::move(child), next_depth, face, task.path};
         child_task.path.push_back(move);
@@ -455,12 +483,12 @@ std::vector<SearchTask> split_task(const CoordinateTables &tables, const Phase1P
     return children;
 }
 
-std::optional<std::vector<int>>
-parallel_depth_search(const CoordinateTables &tables, const Phase1PatternDatabase *phase1_pdb,
-                      const CornerPatternDatabase *corner_pdb, std::span<const EdgePatternDatabase *const> edge_pdbs,
-                      const TailDatabase *tail_database, const CoordinateFeatures &features,
-                      const CoordinateState &initial, int depth, const SolverOptions &options, int thread_count,
-                      SearchControl &control, const std::function<void()> &snapshot = {}) {
+template <bool FullHtm>
+std::optional<std::vector<int>> parallel_depth_search_impl(
+    const CoordinateTables &tables, const Phase1PatternDatabase *phase1_pdb, const CornerPatternDatabase *corner_pdb,
+    std::span<const EdgePatternDatabase *const> edge_pdbs, const TailDatabase *tail_database,
+    const CoordinateFeatures &features, const CoordinateState &initial, int depth, const SolverOptions &options,
+    int thread_count, SearchControl &control, const std::function<void()> &snapshot = {}) {
     struct QueueState {
         std::mutex mutex;
         std::condition_variable condition;
@@ -505,7 +533,7 @@ parallel_depth_search(const CoordinateTables &tables, const Phase1PatternDatabas
             const bool should_split =
                 task.depth_left > split_floor && task.path.size() < 7 && queued_after_pop < target_queue;
             if (should_split) {
-                auto children = split_task(tables, phase1_pdb, corner_pdb, edge_pdbs, features, task, worker);
+                auto children = split_task<FullHtm>(tables, phase1_pdb, corner_pdb, edge_pdbs, features, task, worker);
                 {
                     std::lock_guard lock(queue.mutex);
                     queue.outstanding += children.size();
@@ -522,8 +550,8 @@ parallel_depth_search(const CoordinateTables &tables, const Phase1PatternDatabas
             }
 
             std::vector<int> path = task.path;
-            depth_first_search(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features, options, task.state,
-                               task.depth_left, task.last_face, path, control, worker);
+            depth_first_search<FullHtm>(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features, options,
+                                        task.state, task.depth_left, task.last_face, path, control, worker);
             {
                 std::lock_guard lock(queue.mutex);
                 --queue.outstanding;
@@ -541,18 +569,48 @@ parallel_depth_search(const CoordinateTables &tables, const Phase1PatternDatabas
     workers.reserve(thread_count);
     for (int i = 0; i < thread_count; ++i)
         workers.emplace_back(worker_function, i);
-    while (active_workers.load() > 0) {
-        std::unique_lock lock(finished_mutex);
-        finished_condition.wait_for(lock, std::chrono::milliseconds(250), [&] { return active_workers.load() == 0; });
-        if (active_workers.load() > 0 && snapshot)
-            snapshot();
+    std::exception_ptr supervisor_error;
+    try {
+        while (active_workers.load() > 0) {
+            std::unique_lock lock(finished_mutex);
+            const auto interval = std::chrono::milliseconds(options.incumbent_callback ? 50 : 250);
+            finished_condition.wait_for(lock, interval, [&] { return active_workers.load() == 0; });
+            if (snapshot)
+                snapshot();
+            // Bound meeting can leave idle workers blocked in the queue.
+            if (control.stop.load(std::memory_order_relaxed))
+                queue.condition.notify_all();
+        }
+    } catch (...) {
+        supervisor_error = std::current_exception();
+        control.request_stop(StopReason::cancelled);
+        queue.condition.notify_all();
     }
     for (auto &worker : workers)
         worker.join();
 
+    if (supervisor_error)
+        std::rethrow_exception(supervisor_error);
+
     if (!control.solution.empty())
         return control.solution;
     return std::nullopt;
+}
+
+std::optional<std::vector<int>>
+parallel_depth_search(const CoordinateTables &tables, const Phase1PatternDatabase *phase1_pdb,
+                      const CornerPatternDatabase *corner_pdb, std::span<const EdgePatternDatabase *const> edge_pdbs,
+                      const TailDatabase *tail_database, const CoordinateFeatures &features,
+                      const CoordinateState &initial, int depth, const SolverOptions &options, int thread_count,
+                      SearchControl &control, const std::function<void()> &snapshot = {}) {
+    const bool full = options.specialized_expansion && phase1_pdb && corner_pdb && !features.small_phase1 &&
+                      !features.small_corner && features.strengthen_axes && features.staged_expansion &&
+                      std::none_of(edge_pdbs.begin(), edge_pdbs.end(), [](auto pdb) { return pdb != nullptr; });
+    if (full)
+        return parallel_depth_search_impl<true>(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features,
+                                                initial, depth, options, thread_count, control, snapshot);
+    return parallel_depth_search_impl<false>(tables, phase1_pdb, corner_pdb, edge_pdbs, tail_database, features,
+                                             initial, depth, options, thread_count, control, snapshot);
 }
 
 } // namespace
@@ -834,6 +892,56 @@ std::uint8_t CoordinateTables::expand(const CoordinateState &parent, int move, C
     return evaluate(child, nullptr, 0, phase1_pdb, corner_pdb, edge_pdbs, cutoff, features, counters);
 }
 
+std::uint8_t CoordinateTables::expand_full_htm(const CoordinateState &parent, int move, CoordinateState &child,
+                                               const Phase1PatternDatabase &phase1, const CornerPatternDatabase &corner,
+                                               std::uint8_t cutoff, SearchCounters &counters) const noexcept {
+    ++counters.generated;
+    child.twist = twist_move(parent.twist, move);
+    child.flip = flip_move(parent.flip, move);
+    child.slice = slice_move(parent.slice, move);
+    std::array<std::uint8_t, 3> bounds;
+    ++counters.phase1_queries;
+    bounds[0] = phase1.distance(child.twist, child.flip, child.slice);
+    std::uint8_t result = bounds[0];
+    if (result > cutoff) {
+        ++counters.axis_rejects[0];
+        return result;
+    }
+    for (int axis = 0; axis < kAxisRotationCount; ++axis) {
+        const int mapped = axis_rotation_move_maps()[axis][move];
+        child.axis_twist[axis] = twist_move(parent.axis_twist[axis], mapped);
+        child.axis_flip[axis] = flip_move(parent.axis_flip[axis], mapped);
+        child.axis_slice[axis] = slice_move(parent.axis_slice[axis], mapped);
+        ++counters.phase1_queries;
+        bounds[axis + 1] = phase1.distance(child.axis_twist[axis], child.axis_flip[axis], child.axis_slice[axis]);
+        result = std::max(result, bounds[axis + 1]);
+        if (result > cutoff) {
+            ++counters.axis_rejects[axis + 1];
+            return result;
+        }
+    }
+    if (bounds[0] > 0 && bounds[0] == bounds[1] && bounds[1] == bounds[2]) {
+        result = static_cast<std::uint8_t>(bounds[0] + 1);
+        if (result > cutoff) {
+            ++counters.equality_rejects;
+            return result;
+        }
+    }
+    child.corner_perm = corner_move(parent.corner_perm, move);
+    ++counters.corner_queries;
+    result =
+        std::max(result, corner.distance(static_cast<std::uint32_t>(child.corner_perm) * kTwistCount + child.twist));
+    if (result > cutoff) {
+        ++counters.corner_rejects;
+        return result;
+    }
+    child.edges = move_edges(parent.edges, move);
+    // The disabled edge projections are not read by this layer or its tail lookup.
+    child.edge_pattern_a = {};
+    child.edge_pattern_b = {};
+    return result;
+}
+
 std::uint16_t CoordinateTables::corner_move(std::uint16_t coordinate, int move) const noexcept {
     return corner_move_[static_cast<std::size_t>(coordinate) * kMoveCount + move];
 }
@@ -848,6 +956,13 @@ std::uint16_t CoordinateTables::flip_move(std::uint16_t coordinate, int move) co
 
 std::uint16_t CoordinateTables::slice_move(std::uint16_t coordinate, int move) const noexcept {
     return slice_move_[static_cast<std::size_t>(coordinate) * kMoveCount + move];
+}
+
+std::uint8_t CoordinateTables::phase1_lower(std::uint16_t twist, std::uint16_t flip,
+                                            std::uint16_t slice) const noexcept {
+    return std::max({twist_slice_prune_[static_cast<std::size_t>(twist) * kSliceCount + slice],
+                     flip_slice_prune_[static_cast<std::size_t>(flip) * kSliceCount + slice],
+                     twist_flip_prune_[static_cast<std::size_t>(twist) * kFlipCount + flip]});
 }
 
 NativeOptimalSolver::NativeOptimalSolver(std::shared_ptr<CoordinateTables> tables)
@@ -938,14 +1053,11 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
     features.staged_expansion = options.staged_expansion;
     bool searching_inverse = options.inverse_direction;
     CoordinateState active_initial = tables_->from_cube(searching_inverse ? cube.inverse() : cube, features);
-    const int lower_bound =
+    int lower_bound =
         tables_->heuristic(active_initial, phase1_pdb_.get(), corner_pdb_.get(), edge_pdb_views, 255, features);
     int effective_max = options.max_depth;
     if (!incumbent.empty())
         effective_max = std::min(effective_max, static_cast<int>(incumbent.size()) - 1);
-    const bool probe_enabled =
-        options.use_direction_probe && !searching_inverse && incumbent.size() >= 18 && effective_max >= 17;
-    const int probe_depth = probe_enabled ? std::max(lower_bound, std::min(16, effective_max - 2)) : -1;
     bool direction_probed = false;
     int thread_count = std::clamp(
         options.threads > 0 ? options.threads : static_cast<int>(std::max(1U, std::thread::hardware_concurrency())), 1,
@@ -959,6 +1071,96 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
     int completed_depth = std::max(lower_bound - 1, options.completed_depth);
     auto cancelled = [&] {
         return options.cancel_requested && options.cancel_requested->load(std::memory_order_relaxed);
+    };
+    auto check_external_stop = [&] {
+        if (cancelled()) {
+            control.request_stop(StopReason::cancelled);
+        } else if (std::chrono::steady_clock::now() >= control.deadline) {
+            control.timed_out.store(true, std::memory_order_relaxed);
+            control.request_stop(StopReason::deadline);
+        }
+        return cancelled() || control.timed_out.load(std::memory_order_relaxed);
+    };
+    auto adopt_incumbent = [&] {
+        if (!options.incumbent_callback || check_external_stop())
+            return false;
+        auto updated = options.incumbent_callback();
+        if (updated.empty() || (!incumbent.empty() && updated.size() >= incumbent.size()))
+            return false;
+        validate_incumbent(updated);
+        if (check_external_stop())
+            return false;
+        incumbent = std::move(updated);
+        effective_max = std::min(options.max_depth, static_cast<int>(incumbent.size()) - 1);
+        ++result.incumbent_adoptions;
+        if (options.incumbent_adopted_callback)
+            options.incumbent_adopted_callback(static_cast<int>(incumbent.size()));
+        return true;
+    };
+    // A bounded sample selects a traversal only. Its partial work never enters
+    // completed_depth or the proof counters, and shares the request deadline.
+    auto choose_direction = [&](int depth) {
+        if (!options.use_direction_probe || options.inverse_direction || direction_probed || depth < 16)
+            return;
+        direction_probed = true;
+        const auto probe_started = std::chrono::steady_clock::now();
+        const auto inverse = tables_->from_cube(cube.inverse(), features);
+        const int inverse_lower =
+            tables_->heuristic(inverse, phase1_pdb_.get(), corner_pdb_.get(), edge_pdb_views, 255, features);
+        if (inverse_lower > lower_bound) {
+            active_initial = inverse;
+            searching_inverse = true;
+            lower_bound = inverse_lower;
+            completed_depth = std::max(completed_depth, inverse_lower - 1);
+        } else {
+            struct Sample {
+                std::uint64_t generated{}, accepted{};
+                bool complete{true};
+            };
+            const auto probe_deadline = std::min(control.deadline, probe_started + std::chrono::milliseconds(12));
+            auto sample = [&](const CoordinateState &initial) {
+                Sample value;
+                SearchCounters counters;
+                auto visit = [&](auto &&self, const CoordinateState &state, int remaining, int last_face) -> void {
+                    if (remaining == 0)
+                        return;
+                    for (int move = 0; move < 18; ++move) {
+                        if (should_skip_face(last_face, move / 3))
+                            continue;
+                        if (counters.generated >= 100'000 ||
+                            ((counters.generated & 255U) == 0 &&
+                             (cancelled() || std::chrono::steady_clock::now() >= probe_deadline))) {
+                            value.complete = false;
+                            return;
+                        }
+                        CoordinateState child;
+                        const auto bound =
+                            tables_->expand(state, move, child, phase1_pdb_.get(), corner_pdb_.get(), edge_pdb_views,
+                                            static_cast<std::uint8_t>(remaining - 1), features, counters);
+                        if (bound < remaining) {
+                            ++value.accepted;
+                            self(self, child, remaining - 1, move / 3);
+                            if (!value.complete)
+                                return;
+                        }
+                    }
+                };
+                visit(visit, initial, depth, -1);
+                value.generated = counters.generated;
+                result.direction_probe_generated += counters.generated;
+                return value;
+            };
+            const auto forward_sample = sample(active_initial);
+            const auto inverse_sample = sample(inverse);
+            // Require equal budgets and a material difference before switching.
+            if (forward_sample.generated == 100'000 && inverse_sample.generated == 100'000 &&
+                inverse_sample.accepted * 100U < forward_sample.accepted * 95U) {
+                active_initial = inverse;
+                searching_inverse = true;
+            }
+        }
+        result.direction_probe_seconds +=
+            std::chrono::duration<double>(std::chrono::steady_clock::now() - probe_started).count();
     };
     auto report = [&](int depth, std::uint64_t nodes_before, std::uint64_t split_before,
                       std::chrono::steady_clock::time_point iteration_started, bool found = false) {
@@ -997,59 +1199,49 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
     for (int depth = completed_depth + 1; depth <= effective_max; ++depth) {
         if (options.thread_count_callback)
             thread_count = std::clamp(options.thread_count_callback(), 1, 64);
-        if (options.incumbent_callback) {
-            auto updated = options.incumbent_callback();
-            if (!updated.empty() && (incumbent.empty() || updated.size() < incumbent.size())) {
-                validate_incumbent(updated);
-                incumbent = std::move(updated);
-                effective_max = std::min(options.max_depth, static_cast<int>(incumbent.size()) - 1);
-                if (depth > effective_max)
-                    break;
-            }
-        }
+        adopt_incumbent();
+        if (check_external_stop() || depth > effective_max)
+            break;
+        choose_direction(depth);
+        if (check_external_stop())
+            break;
+        if (depth <= completed_depth)
+            continue;
         const auto iteration_started = std::chrono::steady_clock::now();
         const auto nodes_before = control.nodes.load(std::memory_order_relaxed);
         const auto split_before = control.split_nodes.load(std::memory_order_relaxed);
         control.stop.store(false);
+        control.reason.store(StopReason::none);
         control.timed_out.store(false);
         control.solution.clear();
-        auto snapshot = [&] { report(depth, nodes_before, split_before, iteration_started); };
+        auto last_report = iteration_started;
+        auto snapshot = [&] {
+            const bool adopted = adopt_incumbent();
+            if (!check_external_stop() && !incumbent.empty() &&
+                completed_depth >= static_cast<int>(incumbent.size()) - 1)
+                control.request_stop(StopReason::bound_met);
+            const auto now = std::chrono::steady_clock::now();
+            if (adopted || now - last_report >= std::chrono::milliseconds(250)) {
+                report(depth, nodes_before, split_before, iteration_started);
+                last_report = now;
+            }
+        };
         auto solution =
             parallel_depth_search(*tables_, phase1_pdb_.get(), corner_pdb_.get(), edge_pdb_views, tail_database_.get(),
                                   features, active_initial, depth, options, thread_count, control, snapshot);
-        const auto primary_nodes = control.nodes.load() - nodes_before;
-        if (!solution && !control.timed_out.load() && !cancelled() && !direction_probed && depth == probe_depth) {
-            direction_probed = true;
-            const auto inverse_initial = tables_->from_cube(cube.inverse(), features);
-            const int inverse_lower = tables_->heuristic(inverse_initial, phase1_pdb_.get(), corner_pdb_.get(),
-                                                         edge_pdb_views, 255, features);
-            const auto inverse_before = control.nodes.load();
-            control.stop.store(false);
-            if (inverse_lower <= depth) {
-                auto inverse_solution = parallel_depth_search(
-                    *tables_, phase1_pdb_.get(), corner_pdb_.get(), edge_pdb_views, tail_database_.get(), features,
-                    inverse_initial, depth, options, thread_count, control, snapshot);
-                if (inverse_solution)
-                    solution = invert_moves(*inverse_solution);
-                else if (control.nodes.load() - inverse_before < primary_nodes) {
-                    active_initial = inverse_initial;
-                    searching_inverse = true;
-                }
-            } else {
-                active_initial = inverse_initial;
-                searching_inverse = true;
-            }
-        } else if (solution && searching_inverse) {
+        if (!solution && control.reason.load() == StopReason::none && !check_external_stop())
+            completed_depth = depth;
+        if (solution && searching_inverse) {
             solution = invert_moves(*solution);
         }
-        const bool stopped = control.timed_out.load() || cancelled();
-        if (!solution && !stopped)
-            completed_depth = depth;
+        const bool stopped = check_external_stop();
         report(depth, nodes_before, split_before, iteration_started, solution.has_value());
         if (solution) {
             result.moves = *solution;
             result.depth = static_cast<int>(result.moves.size());
-            result.optimal = true;
+            result.optimal = !stopped;
+            result.cancelled = cancelled();
+            result.timed_out = control.timed_out.load();
             break;
         }
         if (stopped) {
@@ -1057,7 +1249,14 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
             result.timed_out = control.timed_out.load();
             break;
         }
+        if (control.reason.load() == StopReason::bound_met)
+            break;
     }
+    check_external_stop();
+    result.cancelled = cancelled();
+    result.timed_out = control.timed_out.load();
+    if (result.cancelled || result.timed_out)
+        result.optimal = false;
     if (result.depth < 0 && !incumbent.empty()) {
         if (!result.timed_out && !result.cancelled && completed_depth < static_cast<int>(incumbent.size()) - 1)
             throw std::runtime_error("no solution found within max depth");
@@ -1079,6 +1278,11 @@ NativeSolveResult NativeOptimalSolver::solve(const CubieCube &cube, const Solver
     result.counters = control.counters;
     result.workers = control.workers;
     result.inverse_direction = searching_inverse;
+    result.stop_reason = result.cancelled                                 ? "cancelled"
+                         : result.timed_out                               ? "deadline"
+                         : control.reason.load() == StopReason::bound_met ? "bound_met"
+                         : result.optimal                                 ? "solution"
+                                                                          : "exhausted";
     result.elapsed_seconds = std::chrono::duration<double>(std::chrono::steady_clock::now() - started).count();
     return result;
 }

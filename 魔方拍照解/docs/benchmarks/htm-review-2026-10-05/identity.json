@@ -1,0 +1,140 @@
+{
+  "review_date": "2026-10-05",
+  "timezone": "Asia/Shanghai",
+  "head": "0079d26be7f1a73a42a247987b5cad0d5b4f9b5a",
+  "cpu": "AMD Ryzen 7 9700X, 8 physical cores, 16 logical processors",
+  "build": {
+    "compiler": "g++.exe (Rev5, Built by MSYS2 project) 16.1.0",
+    "flags": "-std=c++20 -O3 -march=x86-64 -mtune=generic -flto -DNDEBUG -Wall -Wextra -Wpedantic -pthread -static -municode",
+    "portable": true,
+    "profile_guided": false,
+    "built_at": "2026-10-03T05:17:52.5806240Z",
+    "binary_sha256": "47C7DC03A96F9C2529A6F301E285AF8477B01461747928C8223F12861D423011",
+    "source_sha256": {
+      "solver.hpp": "D13F212CD2E507D3B8D54D4922E9003D0163C1CC4CC6A951207A4DA6B663C3AE",
+      "main.cpp": "EC902EF529D1443D5DEC535D9E8E532BAC8A14DD56C3782D1A5DE8608BC7D5C4",
+      "pdb.cpp": "03FB90E8F656C26974E59FF6FCB8EDB4DF999025E1FF88528688BC3D97B4793A",
+      "cube.cpp": "3C7501A3E18BACE61CAB5690C99B7C0B85967C51E946F61C982D41C25A7D6B4A",
+      "symmetry.cpp": "A350071E2187A539BFC3028C0147EB63AB95EC8827B3F421EE6F7866A6F94BCF",
+      "solver.cpp": "4D5BA38A2A5F1420C7B656C3224B67283FDF2C04D2165821C1FCF1BBC32492CA",
+      "paths.hpp": "567C2D959576F77D234DF379130B4DB20C0BBE91A45088590158D9A4F05B845F",
+      "tail.hpp": "5095E0E59025D44DD9D9C05A8D104DF180A90C3993DB18C4153B56840CD94F2A",
+      "cube.hpp": "1F98383CB71CB16E5B0B8C0BC52CD221F9CA3A02A31CFCFEAC33DCDDE805B83E",
+      "tail.cpp": "EC479533CF48E61E58857B184142B8B2AABBDC134E3E719A32746EE69522135B",
+      "symmetry.hpp": "25EA953FC6A8FD7AA91CEE2456116419348135F8BC2205FDC825711306C37FE4",
+      "pdb.hpp": "5CBD76D0125E1F2510EC536E16468804A3D7AC9AB752853FB5B4919C66274428"
+    }
+  },
+  "files": {
+    "native\\htm\\build\\cube_solver_htm.exe": {
+      "sha256": "47c7dc03a96f9c2529a6f301e285af8477b01461747928c8223f12861d423011",
+      "bytes": 3835111
+    },
+    "native\\htm\\build\\build-info.json": {
+      "sha256": "c20d7a5912a59d69c441491336bdbd22650a69e5f6597d598e5b287364d1c3fd",
+      "bytes": 1437
+    },
+    "tests\\initial_solver_cases.json": {
+      "sha256": "66498141a0c672342ad2af8197fbeddc0b433118301765d943f227c8d9cd089a",
+      "bytes": 25957
+    },
+    "tests\\benchmark_next_speed_pair.py": {
+      "sha256": "287e3990af5dac3b7a6489c52e1e4b88fb41011e355cca3183c7ebca04b06fa8",
+      "bytes": 10030
+    },
+    "tests\\benchmark_isolation_short.py": {
+      "sha256": "061fd6cfa76060d3e7705bd198fe22e0a7fc950abf674d7d8571bbc23ec97f66",
+      "bytes": 10587
+    },
+    "cube_app\\solvers\\htm\\fast.py": {
+      "sha256": "361765c502a86d22576b484b9c50c36f159ea2c563eefc5dd67f12858fea281e",
+      "bytes": 14741
+    },
+    "server.py": {
+      "sha256": "4c841bd804f9da687e0830facc918592d54e24cdf8e951daa454c481f4647325",
+      "bytes": 45370
+    },
+    "native\\htm\\src\\cube.cpp": {
+      "sha256": "3c7501a3e18bace61cab5690c99b7c0b85967c51e946f61c982d41c25a7d6b4a",
+      "bytes": 19343
+    },
+    "native\\htm\\src\\main.cpp": {
+      "sha256": "ec902ef529d1443d5dec535d9e8e532bac8a14dd56c3782d1a5de8608bc7d5c4",
+      "bytes": 35634
+    },
+    "native\\htm\\src\\pdb.cpp": {
+      "sha256": "03fb90e8f656c26974e59ff6fcb8edb4df999025e1ff88528688bc3d97b4793a",
+      "bytes": 38001
+    },
+    "native\\htm\\src\\solver.cpp": {
+      "sha256": "4d5ba38a2a5f1420c7b656c3224b67283fdf2c04d2165821c1fcf1bbc32492ca",
+      "bytes": 50964
+    },
+    "native\\htm\\src\\symmetry.cpp": {
+      "sha256": "a350071e2187a539bfc3028c0147eb63ab95ec8827b3f421ee6f7866a6f94bcf",
+      "bytes": 19593
+    },
+    "native\\htm\\src\\tail.cpp": {
+      "sha256": "ec479533cf48e61e58857b184142b8b2aabbdc134e3e719a32746ee69522135b",
+      "bytes": 29863
+    },
+    "native\\htm\\include\\cube.hpp": {
+      "sha256": "1f98383cb71cb16e5b0b8c0bc52cd221f9ca3a02a31cfcfeac33dcdde805b83e",
+      "bytes": 3361
+    },
+    "native\\htm\\include\\paths.hpp": {
+      "sha256": "567c2d959576f77d234df379130b4db20c0bbe91a45088590158d9a4f05b845f",
+      "bytes": 448
+    },
+    "native\\htm\\include\\pdb.hpp": {
+      "sha256": "5cbd76d0125e1f2510ec536e16468804a3d7ac9ab752853fb5b4919c66274428",
+      "bytes": 3168
+    },
+    "native\\htm\\include\\solver.hpp": {
+      "sha256": "d13f212cd2e507d3b8d54d4922e9003d0163c1cc4cc6a951207a4da6b663c3ae",
+      "bytes": 8075
+    },
+    "native\\htm\\include\\symmetry.hpp": {
+      "sha256": "25ea953fc6a8fd7aa91cee2456116419348135f8bc2205fdc825711306c37fe4",
+      "bytes": 2614
+    },
+    "native\\htm\\include\\tail.hpp": {
+      "sha256": "5095e0e59025d44dd9d9c05a8d104df180a90c3993db18c4153b56840cd94f2a",
+      "bytes": 1517
+    },
+    "assets\\htm\\v1\\corner_htm_v2.pdb": {
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb",
+      "bytes": 44089988
+    },
+    "assets\\htm\\v1\\phase1_sym_htm_v2.pdb": {
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f",
+      "bytes": 70454273
+    },
+    "assets\\htm\\v1\\tail_depth6_v4.pdb": {
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74",
+      "bytes": 209715264
+    },
+    ".codex\\htm-audit-2026-10-05\\diagnose.py": {
+      "sha256": "abd3663f484c896d9ec345e7ed9d8f0bdfe26eb63883d105ea41e4b8cd39edc2",
+      "bytes": 5866
+    },
+    ".codex\\htm-audit-2026-10-05\\incumbent_probe.py": {
+      "sha256": "45941585efd80b9bca7d5118094175cb108185885893ac6a4f144e70e6514a2e",
+      "bytes": 3029
+    },
+    ".codex\\htm-audit-2026-10-05\\summarize.py": {
+      "sha256": "39a78270907fb1f63880a2498e2902a83884770253a64cfb1e6151edb6e97b05",
+      "bytes": 3855
+    },
+    "docs\\benchmarks\\htm-review-2026-10-05\\diagnose.py": {
+      "sha256": "319837357239ad082e60b9a9231044b7485ef292afc6e5df6a53df5332c1e05b",
+      "bytes": 6179
+    },
+    "docs\\benchmarks\\htm-review-2026-10-05\\incumbent_probe.py": {
+      "sha256": "6a7287384aaa3a9c846e25bc3db80e23c5a08e04ebaa8b96282627d0a0b25618",
+      "bytes": 3305
+    }
+  },
+  "scope": "Unmodified source/binary diagnostic. No optimization variant compiled; no HTTP default-request matrix run. 15 startup observations, 20 complete-bound native requests, six warm candidate requests, three framed incumbent protocol requests. No simultaneous solver benchmarks.",
+  "archived_runner_note": "Saved runners differ from the original executed scripts only in root location and requiring a fresh explicit output path. Original executed script hashes are also retained."
+}

@@ -1,4 +1,5 @@
 #include "cube.hpp"
+#include "fast.hpp"
 #include "paths.hpp"
 #include "pdb.hpp"
 #include "solver.hpp"
@@ -34,6 +35,9 @@ void print_usage() {
               << "  cube_solver validate FACELETS\n"
               << "  cube_solver apply FACELETS [MOVES...]\n"
               << "  cube_solver symmetry-info\n"
+              << "  cube_solver check-symmetry\n"
+              << "  cube_solver candidate FACELETS [--timeout S] [--directions 1|6]\n"
+              << "  cube_solver candidate-serve\n"
               << "  cube_solver solve FACELETS [--max-depth N] [--timeout S] [--threads N]\n"
               << "                    [--pdb PATH] [--incumbent \"MOVES\"] [--transposition]\n"
               << "  cube_solver serve [--pdb PATH] [--phase1-pdb PATH] [--tail-pdb PATH]\n"
@@ -129,6 +133,10 @@ void print_result_json(std::ostream &output, const cube::NativeSolveResult &resu
            << "\",\"inverse_direction\":" << (result.inverse_direction ? "true" : "false") << ",\"moves\":";
     print_moves_json(output, result.moves);
     output << ",\"solution\":\"" << moves_text(result.moves) << "\",\"depth\":" << result.depth
+           << ",\"stop_reason\":" << std::quoted(result.stop_reason)
+           << ",\"incumbent_adoptions\":" << result.incumbent_adoptions
+           << ",\"direction_probe_generated\":" << result.direction_probe_generated
+           << ",\"direction_probe_seconds\":" << result.direction_probe_seconds
            << ",\"metric\":\"HTM\",\"optimal\":" << (result.optimal ? "true" : "false")
            << ",\"elapsed_seconds\":" << std::fixed << std::setprecision(6) << result.elapsed_seconds
            << ",\"nodes\":" << result.nodes << ",\"split_nodes\":" << result.split_nodes
@@ -168,6 +176,8 @@ bool tuning_option(const std::string &option, cube::SolverOptions &options) {
         options.omit_covered_small_tables = false;
     else if (option == "--no-staged-expansion")
         options.staged_expansion = false;
+    else if (option == "--no-specialized-expansion")
+        options.specialized_expansion = false;
     else if (option == "--no-direction-probe")
         options.use_direction_probe = false;
     else if (option == "--inverse-direction")
@@ -239,6 +249,18 @@ void check_heuristic(int argc, char **argv) {
                 if ((bound <= cutoff) != (full_bound <= cutoff) ||
                     (bound <= cutoff && tables.materialize(child) != child_cube))
                     throw std::runtime_error("staged expansion differs from full evaluation");
+                if (phase1 && corner && phase1->complete() && corner->complete()) {
+                    cube::CoordinateState specialized;
+                    cube::SearchCounters specialized_counters;
+                    const auto specialized_bound = tables.expand_full_htm(coordinates, move, specialized, *phase1,
+                                                                          *corner, cutoff, specialized_counters);
+                    if (specialized_bound != bound ||
+                        (bound <= cutoff && (tables.materialize(specialized) != child_cube ||
+                                             specialized.axis_twist != expected.axis_twist ||
+                                             specialized.axis_flip != expected.axis_flip ||
+                                             specialized.axis_slice != expected.axis_slice)))
+                        throw std::runtime_error("specialized HTM expansion differs from generic evaluation");
+                }
             }
             if (depth < depth_limit && seen.insert(cube::to_facelets(child_cube)).second)
                 queue.emplace_back(child_cube, depth + 1);
@@ -249,6 +271,92 @@ void check_heuristic(int argc, char **argv) {
         throw std::runtime_error("complete PDB path queried covered small tables");
     std::cout << "{\"ok\":true,\"checked\":" << checked << ",\"depth\":" << depth_limit
               << ",\"small_pdb_queries\":" << counters.small_queries << "}\n";
+}
+
+void print_candidate(std::ostream &output, const std::string &id, const std::vector<int> &moves, double seconds,
+                     int direction) {
+    output << "{\"ok\":true,\"type\":\"candidate\",\"request_id\":" << std::quoted(id)
+           << ",\"metric\":\"HTM\",\"optimal\":false,\"moves\":";
+    print_moves_json(output, moves);
+    output << ",\"depth\":" << moves.size() << ",\"direction\":" << direction << ",\"elapsed_seconds\":" << std::fixed
+           << std::setprecision(6) << seconds << "}\n"
+           << std::flush;
+}
+
+void print_candidate_result(std::ostream &output, const std::string &id, const cube::HtmCandidateResult &result) {
+    output << "{\"ok\":true,\"type\":\"result\",\"request_id\":" << std::quoted(id)
+           << ",\"metric\":\"HTM\",\"optimal\":false,\"status\":\"" << (result.cancelled ? "cancelled" : "complete")
+           << "\",\"moves\":";
+    print_moves_json(output, result.moves);
+    output << ",\"depth\":" << (result.solution_found ? static_cast<int>(result.moves.size()) : -1)
+           << ",\"phase1_nodes\":" << result.phase1_nodes << ",\"phase2_nodes\":" << result.phase2_nodes
+           << ",\"improvements\":" << result.improvements << ",\"elapsed_seconds\":" << std::fixed
+           << std::setprecision(6) << result.elapsed_seconds << "}\n"
+           << std::flush;
+}
+
+void serve_candidates() {
+    cube::CoordinateTables tables;
+    cube::prepare_htm_candidate_tables(tables);
+    std::cout << "{\"ok\":true,\"type\":\"ready\",\"protocol_version\":1,\"metric\":\"HTM\"}\n" << std::flush;
+    std::thread worker;
+    std::atomic<bool> running{false}, cancel{false};
+    std::mutex output_mutex;
+    std::string active_id, line;
+    while (std::getline(std::cin, line)) {
+        std::string id;
+        try {
+            const auto fields = split_tabs(line);
+            if (fields.size() == 2 && fields[0] == "cancel") {
+                if (fields[1] == active_id)
+                    cancel.store(true);
+                continue;
+            }
+            if (fields.size() != 7 || fields[0] != "candidate")
+                throw std::invalid_argument("invalid HTM candidate request");
+            id = fields[1];
+            if (running.load())
+                throw std::invalid_argument("HTM candidate service is busy");
+            if (worker.joinable())
+                worker.join();
+            const auto state = cube::from_facelets(fields[2]);
+            cube::HtmCandidateOptions options;
+            options.timeout_seconds = std::stod(fields[3]);
+            options.directions = std::stoi(fields[4]);
+            options.max_phase1_depth = std::stoi(fields[5]);
+            options.max_phase2_depth = std::stoi(fields[6]);
+            cancel.store(false);
+            active_id = id;
+            options.cancel_requested = &cancel;
+            options.on_improved = [&, id](const auto &moves, double seconds, int direction) {
+                std::lock_guard lock(output_mutex);
+                print_candidate(std::cout, id, moves, seconds, direction);
+            };
+            running.store(true);
+            worker = std::thread([&, options, state, id] {
+                try {
+                    const auto result = cube::find_htm_candidate(state, tables, options);
+                    std::lock_guard lock(output_mutex);
+                    running.store(false);
+                    print_candidate_result(std::cout, id, result);
+                } catch (const std::exception &error) {
+                    std::lock_guard lock(output_mutex);
+                    running.store(false);
+                    std::cout << "{\"ok\":false,\"type\":\"error\",\"request_id\":" << std::quoted(id)
+                              << ",\"error\":" << std::quoted(error.what()) << "}\n"
+                              << std::flush;
+                }
+            });
+        } catch (const std::exception &error) {
+            std::lock_guard lock(output_mutex);
+            std::cout << "{\"ok\":false,\"type\":\"error\",\"request_id\":" << std::quoted(id)
+                      << ",\"error\":" << std::quoted(error.what()) << "}\n"
+                      << std::flush;
+        }
+    }
+    cancel.store(true);
+    if (worker.joinable())
+        worker.join();
 }
 
 } // namespace
@@ -279,13 +387,68 @@ int wmain(int argc, wchar_t **wide_argv) {
             return 2;
         }
         const std::string command = argv[1];
+        if (command == "candidate-serve") {
+            serve_candidates();
+            return 0;
+        }
+        if (command == "candidate") {
+            if (argc < 3)
+                throw std::invalid_argument("candidate requires facelets");
+            cube::HtmCandidateOptions options;
+            for (int i = 3; i < argc; ++i) {
+                const std::string flag = argv[i];
+                if (flag == "--timeout" && i + 1 < argc)
+                    options.timeout_seconds = std::stod(argv[++i]);
+                else if (flag == "--directions" && i + 1 < argc)
+                    options.directions = std::stoi(argv[++i]);
+                else
+                    throw std::invalid_argument("unknown HTM candidate option");
+            }
+            cube::CoordinateTables tables;
+            cube::prepare_htm_candidate_tables(tables);
+            options.on_improved = [](const auto &moves, double seconds, int direction) {
+                print_candidate(std::cout, "", moves, seconds, direction);
+            };
+            print_candidate_result(std::cout, "",
+                                   cube::find_htm_candidate(cube::from_facelets(argv[2]), tables, options));
+            return 0;
+        }
         if (command == "check-heuristic") {
             check_heuristic(argc, argv);
             return 0;
         }
         if (command == "symmetry-info") {
             cube::Phase1Symmetry symmetry;
-            std::cout << "{\"ok\":true,\"symmetries\":16,\"flip_slice_classes\":" << symmetry.class_count() << "}\n";
+            std::cout << "{\"ok\":true,\"symmetries\":16,\"flip_slice_classes\":" << symmetry.class_count()
+                      << ",\"cache_loaded\":" << (symmetry.cache_loaded() ? "true" : "false") << "}\n";
+            return 0;
+        }
+        if (command == "check-symmetry") {
+            cube::Phase1Symmetry symmetry;
+            std::uint64_t digest = 1469598103934665603ULL;
+            for (std::uint32_t raw = 0; raw < cube::kFlipSliceRawCount; ++raw) {
+                std::uint32_t representative = raw;
+                std::uint8_t expected_symmetry = 0;
+                for (int s = 1; s < 16; ++s) {
+                    const auto transformed = symmetry.flip_slice_conjugate(raw, s);
+                    if (transformed < representative) {
+                        representative = transformed;
+                        expected_symmetry = static_cast<std::uint8_t>(s);
+                    }
+                }
+                if (symmetry.representative(symmetry.class_index(raw)) != representative ||
+                    symmetry.symmetry_to_representative(raw) != expected_symmetry)
+                    throw std::runtime_error("packed symmetry mapping disagrees with exhaustive reference");
+                const auto twist = static_cast<std::uint16_t>(raw % 2187U);
+                const auto expected =
+                    symmetry.class_index(raw) * 2187U + symmetry.twist_conjugate(twist, expected_symmetry);
+                const auto actual = symmetry.canonical_index(twist, static_cast<std::uint16_t>(raw / 495U),
+                                                             static_cast<std::uint16_t>(raw % 495U));
+                if (expected != actual)
+                    throw std::runtime_error("packed canonical index differs");
+                digest = (digest ^ actual) * 1099511628211ULL;
+            }
+            std::cout << "{\"ok\":true,\"checked\":" << cube::kFlipSliceRawCount << ",\"digest\":" << digest << "}\n";
             return 0;
         }
         if (command == "build-corner-pdb") {
@@ -444,6 +607,12 @@ int wmain(int argc, wchar_t **wide_argv) {
             std::atomic<int> requested_threads{1};
             std::mutex output_mutex;
             std::mutex incumbent_mutex;
+            auto incumbent_event = [&](const std::string &id, const char *stage, int cost) {
+                std::lock_guard lock(output_mutex);
+                std::cout << "{\"ok\":true,\"type\":\"incumbent\",\"request_id\":" << std::quoted(id)
+                          << ",\"stage\":" << std::quoted(stage) << ",\"cost\":" << cost << "}\n"
+                          << std::flush;
+            };
             std::vector<int> incumbent;
             std::string active_id;
             cube::CubieCube active_state;
@@ -470,12 +639,14 @@ int wmain(int argc, wchar_t **wide_argv) {
                     }
                     if (fields.size() == 3 && fields[0] == "incumbent") {
                         if (fields[1] == active_id && running.load()) {
+                            incumbent_event(active_id, "received", -1);
                             auto moves = parse_moves(fields[2]);
                             auto candidate = active_state;
                             for (int move : moves)
                                 candidate = candidate.apply_move(move);
                             if (!candidate.solved())
                                 throw std::invalid_argument("updated incumbent does not solve the cube");
+                            incumbent_event(active_id, "validated", static_cast<int>(moves.size()));
                             std::lock_guard lock(incumbent_mutex);
                             if (incumbent.empty() || moves.size() < incumbent.size())
                                 incumbent = std::move(moves);
@@ -515,6 +686,7 @@ int wmain(int argc, wchar_t **wide_argv) {
                         std::lock_guard lock(incumbent_mutex);
                         return incumbent;
                     };
+                    options.incumbent_adopted_callback = [&, id](int cost) { incumbent_event(id, "adopted", cost); };
                     running.store(true);
                     search = std::thread([&, options, id, key, framed, state = active_state]() mutable {
                         int completed = options.completed_depth;

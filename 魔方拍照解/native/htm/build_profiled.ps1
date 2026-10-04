@@ -48,6 +48,7 @@ $common = @(
     "-Wpedantic",
     "-I", "include",
     "src\cube.cpp",
+    "src\fast.cpp",
     "src\pdb.cpp",
     "src\solver.cpp",
     "src\symmetry.cpp",

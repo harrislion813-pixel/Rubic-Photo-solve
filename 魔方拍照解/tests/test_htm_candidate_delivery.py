@@ -68,7 +68,7 @@ def test_default_delivery_waits_for_best_candidate(jobs, monkeypatch):
     try:
         assert found.wait(1)
         assert job.get("candidate_result") is None
-        assert job["_incumbent_moves"] is None
+        assert job["_incumbent_moves"] == ["R'", "U", "U'"]
         assert not job["_delivery_ready"].is_set()
     finally:
         finish.set()

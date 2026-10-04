@@ -30,16 +30,16 @@ def main() -> None:
         root = Path(directory)
         venv.EnvBuilder(with_pip=True).create(root / "venv")
         python = root / "venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
-        subprocess.run([str(python), "-m", "pip", "install", "--no-index", "--no-deps", str(wheel)],
-                       check=True, capture_output=True, text=True)
+        subprocess.run([str(python), "-X", "utf8", "-m", "pip", "install", "--no-index", "--no-deps", str(wheel)],
+                       check=True, capture_output=True, text=True, encoding="utf-8")
         code = (
             "import json,pathlib,cube_app; "
-            "import cube_app.solvers.htm.native,cube_app.solvers.qtm.native; "
+            "import cube_app.solvers.htm.native,cube_app.solvers.htm.native_fast,cube_app.solvers.qtm.native; "
             "import cube_app.solvers.qtm.backend,cube_app.solvers.resource_broker; "
             "print(json.dumps({'version':cube_app.__version__,'module':cube_app.__file__}))"
         )
-        completed = subprocess.run([str(python), "-I", "-c", code], cwd=root, check=True,
-                                   capture_output=True, text=True)
+        completed = subprocess.run([str(python), "-I", "-X", "utf8", "-c", code], cwd=root, check=True,
+                                   capture_output=True, text=True, encoding="utf-8")
         installed = json.loads(completed.stdout)
         if not Path(installed["module"]).resolve().is_relative_to(root):
             raise AssertionError("imports escaped the isolated installation")

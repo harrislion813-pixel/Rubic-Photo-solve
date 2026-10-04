@@ -1,0 +1,1015 @@
+{
+  "version": "1.11.0",
+  "application_sources": {
+    "cube_app/__init__.py": "393df458a02a84169c0bc6933a0774c4ff8558788a5180145cb48d221597f592",
+    "cube_app/coords.py": "8dbf9feb2d0f0f0990e7b63e6f07417646d6b65c2e582dc7879cdc6b1c09864e",
+    "cube_app/cubie.py": "e1563bb79f4511f377c90273330f5d3e0bc170c82fa9990cb1472bb81ec52635",
+    "cube_app/detection.py": "ec871cf2cd44c9941d3186bea98e10426ca793b7c2b7f62abb413ef6f99b411b",
+    "cube_app/fast.py": "1a6e05d1dbffef27ce624d677cfed41c7e5b098b14134cd62b1aaddefc860d2e",
+    "cube_app/metrics.py": "80e5c2af6f415119870760a8799edb9a1544b6ab7da030e37f5078438cb2dd94",
+    "cube_app/native.py": "d935b3a6549a2c7f179f9e1fa435cf09bfeb8023798e1639595337aec5f83204",
+    "cube_app/optimal.py": "1c3abe5911d3cf06b1e81f195d1b45d90a331008e984c58df8f2ec1499111c6d",
+    "cube_app/runtime.py": "8bb4d64175e85768b4c6803fe3a785d56085e9102bd7097f0823501b6b374781",
+    "cube_app/solvers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cube_app/solvers/htm/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cube_app/solvers/htm/coords.py": "36a20e2444aa9805a3cdb92ff84c193482efb8cc161140692baab248a092fafa",
+    "cube_app/solvers/htm/fast.py": "6b0e12c41624478526b3a162c046aa4c98ba10e7d8b9ec90efcfae09954c9983",
+    "cube_app/solvers/htm/native.py": "5622c4e75a7db487353c7befeaa9ec7731c3843190d146bd41cdfaa8faad0b50",
+    "cube_app/solvers/htm/native_fast.py": "03c5fdb80abc088cb179f7e2209d02f0edde8377a09dae38b88956c2b5e957c3",
+    "cube_app/solvers/htm/optimal.py": "291e1085b10c82a792b65807915e29667625cb284c699546a6542068ff7b5340",
+    "cube_app/solvers/htm/tables.py": "4ded5140b02209a749fd427ca331b8236afc69682ee9fb6476859d038ab1a5da",
+    "cube_app/solvers/htm/two_by_two.py": "b900c8fcf81c3432e578c7eba9037bb4d07d5d8e0a49681dfbe93215dccd1177",
+    "cube_app/solvers/htm/two_by_two_tables.py": "08d2d00c9504ea80fd07ef118834e9cb4c1ff1efb01b36aadf20413a63f52ab1",
+    "cube_app/solvers/qtm/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cube_app/solvers/qtm/backend.py": "004e7bda04dcad83940b7028fd18d1fece23bfb9061b6f8ffd074ad059344f71",
+    "cube_app/solvers/qtm/coords.py": "36a20e2444aa9805a3cdb92ff84c193482efb8cc161140692baab248a092fafa",
+    "cube_app/solvers/qtm/fast.py": "b3ed073108585468c9488358a5b4009d27454df0137f8c4fc2572c71ef8b5f07",
+    "cube_app/solvers/qtm/memory.py": "f7b97f6284b26f139064bfb08d973058b307f1ace03166799fca87a550bc6665",
+    "cube_app/solvers/qtm/native.py": "a27ca7197a429ae2288086aecdb46127ee3b464552c00ab15ca7b6ad3552eeaf",
+    "cube_app/solvers/qtm/optimal.py": "699c6991dc592dff9f8368152cc0fdc3f260d041714a85835d38743cf145ee6b",
+    "cube_app/solvers/qtm/qtm_small.py": "91d6cb39a84fb29e14a4d9eddf588547e940cce7a9b5851a0c4d4622fbd32325",
+    "cube_app/solvers/qtm/tables.py": "5d182f08dbff2c55a67231d23a3fd1da6a6a8e2ff3e23aa9e7a4ce38b518aeff",
+    "cube_app/solvers/qtm/two_by_two.py": "6e0a239595dae0d6fb3baf388ed2face14f02c9fb95643f1c2c654372ca053b6",
+    "cube_app/solvers/qtm/two_by_two_tables.py": "80b66385df684678975015d147522627f5a17ec853270946f6f448e196b0ddb7",
+    "cube_app/solvers/resource_broker.py": "1d44c1af5b7d91cc193449980897585eb87986ad0c02d5ce076f7cee905538c4",
+    "cube_app/tables.py": "03e56aa312eba6e01e451df9f67e270e4a4392ee0911fedb899c8b49f7fbfd3e",
+    "cube_app/two_by_two.py": "8325e56c9a6edd53a353c7c4ba089d877a7411e1de229c2362cdc0a2c0199406",
+    "cube_app/two_by_two_tables.py": "18550744ccd796c2f6c450707cea9ea72b67d3f436cd1eebfece533b09984db3",
+    "cube_app/vision.py": "b44361ca6b0408ec38257d3eb8bdd78de384959e3d62eb7aa58d8d1c209bde66",
+    "web/app.js": "6ffcb5148d6316c9527b8d54e02ec823edc5954ba196fc0b3803832c98f60c99",
+    "web/color.js": "31c731b930a6db3a6b3e66c19bc46d54e1a16813d96c7794091bf7c901125e9a",
+    "web/index.html": "64bad5f8e571195716c5040222703a5db0a5679baf5cb271494ce0a2df06e044",
+    "web/solver-client.js": "0eaa92338ba59135806abe69aea5ac42a8e715982c7322a6472067a542e64fb6",
+    "web/styles.css": "cf90571d670430f56090fa8c5cd9fe2b66fd37b4666ed9bc49f375f1e025053a",
+    "server.py": "c42bee88d1276db67a1424206baa811d838f9ea1bfa06cfdeee35ed3b4057c95",
+    "windows_launcher.py": "a05e1fe24162fe050865e93ce0d65911fde12d3f919e7a061c53dbbe49c97d99",
+    "pyproject.toml": "f5386300d3a2f4a6e822205c9974aa729f72d32f5fed94d7b2b71def1879a337"
+  },
+  "native_builds": {
+    "htm": {
+      "binary_sha256": "12b448fa214370e3bd9f38e81e39c670e2a17e25a3c56ed1c2b3d0dbf6de44e9",
+      "source_files_verified": 14,
+      "portable": true,
+      "profile_guided": false
+    },
+    "qtm": {
+      "binary_sha256": "8d97208f6f9b7aa1681cd4f634fab13c6d6047b3893f584157010988c49c9f9a",
+      "source_files_verified": 20,
+      "portable": true,
+      "profile_guided": false
+    }
+  },
+  "module_origins": {
+    "server": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\server.py",
+    "cube_app.solvers.qtm.backend": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\cube_app\\solvers\\qtm\\backend.py",
+    "cube_app.solvers.qtm.native": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\cube_app\\solvers\\qtm\\native.py",
+    "cube_app.solvers.htm.native": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\cube_app\\solvers\\htm\\native.py",
+    "cube_app.solvers.htm.fast": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\cube_app\\solvers\\htm\\fast.py",
+    "cube_app.solvers.htm.native_fast": "C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\魔方拍照解\\cube_app\\solvers\\htm\\native_fast.py"
+  },
+  "unchanged_previous_asset_and_cache_files": 17,
+  "archive": {
+    "bytes": 2312163138,
+    "sha256": "631e6e19c03d61b3ad0d92bd5ee89ea7d9ffc218e023bd777c6c0ee80b43852a",
+    "files": 155
+  },
+  "archive_inventory": [
+    {
+      "path": ".cache/htm/coordinates_htm_v1.bin",
+      "bytes": 8237445,
+      "sha256": "7d46f7519a1c68dd27118ecaca9a94e458ca4506215cb2cc83c7efb86e6bee08"
+    },
+    {
+      "path": ".cache/htm/phase1_symmetry_htm_v1.bin",
+      "bytes": 4464200,
+      "sha256": "660a770824753bd62b819d99a19311ac1194068d0e6a272ff63cbf0092b0f73c"
+    },
+    {
+      "path": ".cache/htm/phase2_htm_v1.bin",
+      "bytes": 2742056,
+      "sha256": "94b62a868fc3a8ae45b57fda5362e95b15636a6e6718465ba31ec155cd1cef6f"
+    },
+    {
+      "path": ".cache/htm/solver_tables_v3.pkl",
+      "bytes": 13798733,
+      "sha256": "ef5cbf1656bcdda4f787de52566c2f063244b2164c8c71e2e1daa445a51efb69"
+    },
+    {
+      "path": ".cache/htm/two_by_two_htm_v1.bin",
+      "bytes": 3778042,
+      "sha256": "4ebf9e7ee3cfb76bab4b5e0703d608bcdfabe758661d23fd041a4cb90eeb399d"
+    },
+    {
+      "path": ".cache/qtm/coordinates_dual_v2.bin",
+      "bytes": 14853066,
+      "sha256": "c7be40e38ad69a04381238da1c181e8251bbe226d00aa05efc024cc6b11a1b2c"
+    },
+    {
+      "path": ".cache/qtm/qtm_small_v1.bin",
+      "bytes": 6615677,
+      "sha256": "adb2bbbe97a1e785b22177e67141c151c55f8fe9093c20afa3da8c6cb3468235"
+    },
+    {
+      "path": ".cache/qtm/solver_tables_v3.pkl",
+      "bytes": 13798733,
+      "sha256": "09a12511502237bdb1a7cd65425c226cffd2811eac511c7e3ba6a2721953c110"
+    },
+    {
+      "path": ".cache/qtm/two_by_two_qtm_v1.bin",
+      "bytes": 3778042,
+      "sha256": "e46414ad7c8bd46e2e4827766f6015890eda6a39ffdc4309296c5fa15fdd5b01"
+    },
+    {
+      "path": "_internal/_asyncio.pyd",
+      "bytes": 75056,
+      "sha256": "c2e0c067978777262762c91cd5643a32ab568ee0f876fd064f49d9ac5415e017"
+    },
+    {
+      "path": "_internal/_bz2.pyd",
+      "bytes": 88880,
+      "sha256": "7fcd7f848275ff5e0e812dddf6f261090b964cddedba2bb4735fd22649434d98"
+    },
+    {
+      "path": "_internal/_ctypes.pyd",
+      "bytes": 131888,
+      "sha256": "fd451a63f12b489e7aa3b26cfddc9a57c592cd59c574c5eaafcdb51ad253ec86"
+    },
+    {
+      "path": "_internal/_decimal.pyd",
+      "bytes": 263984,
+      "sha256": "4d548372def612cd690d4937b901a470edb1c2bc9b7c4cb53b60895d7ac4dc13"
+    },
+    {
+      "path": "_internal/_hashlib.pyd",
+      "bytes": 70448,
+      "sha256": "9de9423dc0f8f4851bf5805b838d442f1af495f8d0a65b8cfe6398fcbdb1b78d"
+    },
+    {
+      "path": "_internal/_lzma.pyd",
+      "bytes": 168240,
+      "sha256": "76134831cd8001a4128696aeb08c2e577c63555b84d8adb7dd05bc69ec219175"
+    },
+    {
+      "path": "_internal/_multiprocessing.pyd",
+      "bytes": 39728,
+      "sha256": "aac4597e3241ba3552e59ca728373a1ac920eb26ce4a3829fd8db9b3d4cbcee9"
+    },
+    {
+      "path": "_internal/_overlapped.pyd",
+      "bytes": 59696,
+      "sha256": "8b4bf5063a102b5ecb735f1d9ea45ffe972196ffb634c1d3a49aa7b4850efd1f"
+    },
+    {
+      "path": "_internal/_queue.pyd",
+      "bytes": 36144,
+      "sha256": "a0fa7203b5254ce82ecef18b0058e60fec5f452e110c19064ef086e77062a4d5"
+    },
+    {
+      "path": "_internal/_socket.pyd",
+      "bytes": 87344,
+      "sha256": "305381b417a114d3fc35d5ff70b67b191d0d6300d522ddb28b98f6f65d4653ef"
+    },
+    {
+      "path": "_internal/_ssl.pyd",
+      "bytes": 180528,
+      "sha256": "2201a6a37c659eb07715692607b4c752a70b276cd624b5e8cb24404b90692a30"
+    },
+    {
+      "path": "_internal/_uuid.pyd",
+      "bytes": 29488,
+      "sha256": "2ad90ffe4050f3db9a840da40f4ee8cd2c0d48ade55824ede744ea1789f341be"
+    },
+    {
+      "path": "_internal/_wmi.pyd",
+      "bytes": 41264,
+      "sha256": "309cdf0edeb1b0b755f5896de064938ab64a12592dd3b3da325cc6065c4e9eed"
+    },
+    {
+      "path": "_internal/api-ms-win-core-console-l1-1-0.dll",
+      "bytes": 22872,
+      "sha256": "015bd08815c7b934a8952c3a7578e9ce59f21136e8a880d42bbd414bec2c6058"
+    },
+    {
+      "path": "_internal/api-ms-win-core-datetime-l1-1-0.dll",
+      "bytes": 22896,
+      "sha256": "5534812cdbdae94ba45cb216e5eb9af686b853948df54365103555abbbaf9d9a"
+    },
+    {
+      "path": "_internal/api-ms-win-core-debug-l1-1-0.dll",
+      "bytes": 22872,
+      "sha256": "837d2b1b2cd03e03fc6ccb050698b6b5763af17c201304872342a5eae9e0a2d2"
+    },
+    {
+      "path": "_internal/api-ms-win-core-errorhandling-l1-1-0.dll",
+      "bytes": 22872,
+      "sha256": "de43b165f568c276c00e95acd454e3092f352a18e95874595f4f4658c06d2ec7"
+    },
+    {
+      "path": "_internal/api-ms-win-core-fibers-l1-1-0.dll",
+      "bytes": 22872,
+      "sha256": "3cebc45bf479ad74cfabf2c6bfd4994d7ad639ed1221025981d19cedf9ce0416"
+    },
+    {
+      "path": "_internal/api-ms-win-core-fibers-l1-1-1.dll",
+      "bytes": 22872,
+      "sha256": "5ef70308bcca628ce6b0e2856b15b1c7ae340c3f9bbbc4c1071d8c191a34a5c3"
+    },
+    {
+      "path": "_internal/api-ms-win-core-file-l1-1-0.dll",
+      "bytes": 27008,
+      "sha256": "250ac829f2617bcac1c6e5b8c4f630462e20765863ba573526a3e11bbfb94a9a"
+    },
+    {
+      "path": "_internal/api-ms-win-core-file-l1-2-0.dll",
+      "bytes": 22888,
+      "sha256": "ae14079a114733f60ce87b92cba42acd8083c2cd67594e53bc37dc0b97a4b465"
+    },
+    {
+      "path": "_internal/api-ms-win-core-file-l2-1-0.dll",
+      "bytes": 22912,
+      "sha256": "914bf26a298713119477ea0a8e7bd43171b91344ebe24fb47ad77c49686e3d87"
+    },
+    {
+      "path": "_internal/api-ms-win-core-handle-l1-1-0.dll",
+      "bytes": 22896,
+      "sha256": "ab5489955e371b15f77906c08ec3c7affe2c7a46a08c514ca628768b4478974b"
+    },
+    {
+      "path": "_internal/api-ms-win-core-heap-l1-1-0.dll",
+      "bytes": 22872,
+      "sha256": "c70f9644d8377fa39c5b71f2e9734c1400d7598904fdeb772e8502099982dcb7"
+    },
+    {
+      "path": "_internal/api-ms-win-core-interlocked-l1-1-0.dll",
+      "bytes": 22888,
+      "sha256": "f8129710188e407bb0e6f46d30aeba277d67b947ece5fe09e883fde2323f3ae6"
+    },
+    {
+      "path": "_internal/api-ms-win-core-kernel32-legacy-l1-1-1.dll",
+      "bytes": 22888,
+      "sha256": "5200b16cb2ddc61cfc07373a9a84aa85a3ab50806ca96c879c883275832944c1"
+    },
+    {
+      "path": "_internal/api-ms-win-core-libraryloader-l1-1-0.dll",
+      "bytes": 22872,
+      "sha256": "48786fb88b001dcd1f63acea903d3ca9cc0b3060d5a325e3f2f3cbc3bfd53166"
+    },
+    {
+      "path": "_internal/api-ms-win-core-localization-l1-2-0.dll",
+      "bytes": 22872,
+      "sha256": "9ec3898f7eba91faa28b51616c211a2689e3a13aeef8de6e13cb674e49d689eb"
+    },
+    {
+      "path": "_internal/api-ms-win-core-memory-l1-1-0.dll",
+      "bytes": 22896,
+      "sha256": "3a6cbc524c99e1cd80d5368f5601402a37ad602528b1ab628093573ef638eb3b"
+    },
+    {
+      "path": "_internal/api-ms-win-core-namedpipe-l1-1-0.dll",
+      "bytes": 22888,
+      "sha256": "97145ef89c44949fcf0f04ac834a8bc7d687ef49ee73ae9fc32f3c11136b7201"
+    },
+    {
+      "path": "_internal/api-ms-win-core-processenvironment-l1-1-0.dll",
+      "bytes": 22872,
+      "sha256": "8bc7c10b1851aea644e9c9f381cdb935e091fee6b0be3d3aedc6fffaac96adb7"
+    },
+    {
+      "path": "_internal/api-ms-win-core-processthreads-l1-1-0.dll",
+      "bytes": 22912,
+      "sha256": "d8030b777617c71f0f94564607699dbf7561487d779db9756aed378c5675213f"
+    },
+    {
+      "path": "_internal/api-ms-win-core-processthreads-l1-1-1.dll",
+      "bytes": 22872,
+      "sha256": "f5e676713340f73a03a3d41a6ec9883b431da7d16c7f07bd0a920fb80e6c0753"
+    },
+    {
+      "path": "_internal/api-ms-win-core-profile-l1-1-0.dll",
+      "bytes": 22872,
+      "sha256": "f023d47e44d3eea6b0743580f57e8c6ba81e79d5ebfa7da26250076c647b980e"
+    },
+    {
+      "path": "_internal/api-ms-win-core-rtlsupport-l1-1-0.dll",
+      "bytes": 22888,
+      "sha256": "9746d8930704153578a628c010638a5f818ffe5a927e25591b108e256dc6afca"
+    },
+    {
+      "path": "_internal/api-ms-win-core-string-l1-1-0.dll",
+      "bytes": 22896,
+      "sha256": "7c53ae24c982d16ffd1bf7f918d115b11b7f30e57bc7feaa18cb9781e4abb926"
+    },
+    {
+      "path": "_internal/api-ms-win-core-synch-l1-1-0.dll",
+      "bytes": 22896,
+      "sha256": "56d9d62ca5dba79a6581b8d574a7d8b2a64a5ecb71e47dcf06ed0285708b1859"
+    },
+    {
+      "path": "_internal/api-ms-win-core-synch-l1-2-0.dll",
+      "bytes": 22888,
+      "sha256": "f6482bbec5612c39ecb4822787a333f2b7570f7a5f922a4059be41ba957bb372"
+    },
+    {
+      "path": "_internal/api-ms-win-core-sysinfo-l1-1-0.dll",
+      "bytes": 22896,
+      "sha256": "272d02765fdd3582618236c2d309abba069642f9bc1062ede069d0c144e17007"
+    },
+    {
+      "path": "_internal/api-ms-win-core-sysinfo-l1-2-0.dll",
+      "bytes": 22912,
+      "sha256": "8a0900788859d0eb51c2f48f50cc6ed376a120b518100fa20e11d7702ccde260"
+    },
+    {
+      "path": "_internal/api-ms-win-core-timezone-l1-1-0.dll",
+      "bytes": 22896,
+      "sha256": "ff35de6c03812b332e140f17dade25c5dd4775156da9eeb1eaae3fddd27236ec"
+    },
+    {
+      "path": "_internal/api-ms-win-core-util-l1-1-0.dll",
+      "bytes": 22896,
+      "sha256": "191ef3e98641a57296f19d572d8eb62489470ff1ef6030d136af170c2f835173"
+    },
+    {
+      "path": "_internal/api-ms-win-crt-conio-l1-1-0.dll",
+      "bytes": 22872,
+      "sha256": "54ee5ec719a051496ff60aa00dbeaa94b9a7d2cdac27fe9b7317f1a666b6a2aa"
+    },
+    {
+      "path": "_internal/api-ms-win-crt-convert-l1-1-0.dll",
+      "bytes": 26992,
+      "sha256": "8b94662429171019fcd63c70bbf2095a075170599704a5e7dcdbe3da13f3a429"
+    },
+    {
+      "path": "_internal/api-ms-win-crt-environment-l1-1-0.dll",
+      "bytes": 22912,
+      "sha256": "39e5929593709e8af3bc9e0a75ec1155778d6f4a247f4cdfc58928ad6db88434"
+    },
+    {
+      "path": "_internal/api-ms-win-crt-filesystem-l1-1-0.dll",
+      "bytes": 22872,
+      "sha256": "5a8ecebac32edf4e1f3c5c6c1c8ea1a1add6cda4f9c9cb26f752fb295bea6865"
+    },
+    {
+      "path": "_internal/api-ms-win-crt-heap-l1-1-0.dll",
+      "bytes": 22872,
+      "sha256": "c71080cbcb43bf1f8f3e391deb12a582eb0abefc80946f340675a2c616e4feb4"
+    },
+    {
+      "path": "_internal/api-ms-win-crt-locale-l1-1-0.dll",
+      "bytes": 22896,
+      "sha256": "6c68648e524187e03c4ad9aaa4a99113c6ee9f29fb39cc0ed93f951975138e63"
+    },
+    {
+      "path": "_internal/api-ms-win-crt-math-l1-1-0.dll",
+      "bytes": 31064,
+      "sha256": "d4fbcccbe29371cbce431e43b2eb4f7ba9a6f04a3d740a071f02457a505e9dc8"
+    },
+    {
+      "path": "_internal/api-ms-win-crt-private-l1-1-0.dll",
+      "bytes": 76120,
+      "sha256": "29bf3d90617d3781d19b332d6ceb9f20ba5ce082ec74bf6c34d5d4aee56e48a1"
+    },
+    {
+      "path": "_internal/api-ms-win-crt-process-l1-1-0.dll",
+      "bytes": 22896,
+      "sha256": "47c1935942e3ac0812e4dcf18c0e265e565f0194a3349111c299712f5565f7ac"
+    },
+    {
+      "path": "_internal/api-ms-win-crt-runtime-l1-1-0.dll",
+      "bytes": 26968,
+      "sha256": "72adc1b3677e0814d9c4ebf0964000e84bb2acf67336c8963061665e44f78029"
+    },
+    {
+      "path": "_internal/api-ms-win-crt-stdio-l1-1-0.dll",
+      "bytes": 26968,
+      "sha256": "900afc3989673c9bb1a687ed38c192f46db9e6ba6d11a668898a539e7fc23798"
+    },
+    {
+      "path": "_internal/api-ms-win-crt-string-l1-1-0.dll",
+      "bytes": 26968,
+      "sha256": "fcf12466cc12fd3b73611fc0763a5a1f9d44e90349513c34a0c83b0f36421793"
+    },
+    {
+      "path": "_internal/api-ms-win-crt-time-l1-1-0.dll",
+      "bytes": 22912,
+      "sha256": "886e57c4a6adb299b38f02945369f590a67da4e79a798359fc60aaa067212d7c"
+    },
+    {
+      "path": "_internal/api-ms-win-crt-utility-l1-1-0.dll",
+      "bytes": 22912,
+      "sha256": "5f8f26b216ade615b67a41f6fbbb910972fc6153315a65bb8f09912be50215b1"
+    },
+    {
+      "path": "_internal/base_library.zip",
+      "bytes": 1333490,
+      "sha256": "8d3a6d965b9193d12aa3f248f2324760800e141a5dbc70a279d7a785528c3be1"
+    },
+    {
+      "path": "_internal/cv2/__init__.py",
+      "bytes": 6811,
+      "sha256": "674817e87409bc589608ef9f4dd4c1a49f600b5e85ca8b106b3b0a9eab5c46cc"
+    },
+    {
+      "path": "_internal/cv2/config-3.py",
+      "bytes": 748,
+      "sha256": "de28c7b5213cca148f09469916584611b3d66c1c8c432880259d6a3a92380213"
+    },
+    {
+      "path": "_internal/cv2/config.py",
+      "bytes": 123,
+      "sha256": "6c6367abce55995ae4a8d3c199420ec53afab287cb17dfc2f430378af75dd301"
+    },
+    {
+      "path": "_internal/cv2/cv2.pyd",
+      "bytes": 86293504,
+      "sha256": "f1e76ab01cf4d33af780adf8ada1a26c5eaeecc55d2cbe8a5e288195e8f9b0dd"
+    },
+    {
+      "path": "_internal/cv2/data/__init__.py",
+      "bytes": 73,
+      "sha256": "f4ce16721ed7f623a4dcc443ba600d1856db610cb2c3d53c13a8ca028cc68f6d"
+    },
+    {
+      "path": "_internal/cv2/load_config_py3.py",
+      "bytes": 253,
+      "sha256": "074dfaf20ac94f2ca3815393de3a394944470334c51a85b9521f452e0e17bb85"
+    },
+    {
+      "path": "_internal/cv2/mat_wrapper/__init__.py",
+      "bytes": 1164,
+      "sha256": "c44707ea1c76f35518ae572b6c1989d76c2ada7e850432e41805dfe112d4e306"
+    },
+    {
+      "path": "_internal/cv2/misc/__init__.py",
+      "bytes": 38,
+      "sha256": "495bd79594cce174673e372c85c4dd8f4ffdf2b3a73fd4623955b0d55de0d462"
+    },
+    {
+      "path": "_internal/cv2/misc/version.py",
+      "bytes": 95,
+      "sha256": "c93a418793fcb15b9b4316c0741b8336740e490e94f3b7d1ebe8cd5f6f23815c"
+    },
+    {
+      "path": "_internal/cv2/opencv_videoio_ffmpeg500_64.dll",
+      "bytes": 30876160,
+      "sha256": "7aabff029d1fa47cf56ede4dbbe05dc62da3208f07cd16471d4c966a33f9aa31"
+    },
+    {
+      "path": "_internal/cv2/typing/__init__.py",
+      "bytes": 4465,
+      "sha256": "f8a066f22a98b56641a69200f0aaf9c3b5832b2f59f57862e56289cced8d9179"
+    },
+    {
+      "path": "_internal/cv2/utils/__init__.py",
+      "bytes": 344,
+      "sha256": "2b16990b35b569af1ca7239dc10f7b24ec62f27a46626b1e2f1271d2e1aa3554"
+    },
+    {
+      "path": "_internal/cv2/version.py",
+      "bytes": 96,
+      "sha256": "fc17efee9203c23cac641981068621e80d3b0bbabe459f4133c9b2b4d91957fb"
+    },
+    {
+      "path": "_internal/libcrypto-3-x64.dll",
+      "bytes": 8003376,
+      "sha256": "2b8856299abd19508b1484d492adb6ee3ef4cc6632327a992c4a5856d8602c49"
+    },
+    {
+      "path": "_internal/libffi-8.dll",
+      "bytes": 43824,
+      "sha256": "48d14a4a21db8792c20e1c8be252cc38a772e0e4114c6605eb00ec150a09e2f0"
+    },
+    {
+      "path": "_internal/libssl-3-x64.dll",
+      "bytes": 1599280,
+      "sha256": "569d270ed1a619227209979dd18ac4597246cf708a0b828435e58d407f74748a"
+    },
+    {
+      "path": "_internal/numpy/_core/_multiarray_umath.cp312-win_amd64.pyd",
+      "bytes": 3894784,
+      "sha256": "a764477b092cead9514d848d68a302966038c6735a0c746b940a2adc422589cb"
+    },
+    {
+      "path": "_internal/numpy/fft/_pocketfft_umath.cp312-win_amd64.pyd",
+      "bytes": 276480,
+      "sha256": "2c82437aa10d0647f5ccbf27cfd93b062f06bad64d1bed5c96abeec60b078e48"
+    },
+    {
+      "path": "_internal/numpy/linalg/_umath_linalg.cp312-win_amd64.pyd",
+      "bytes": 112128,
+      "sha256": "99b8aabee0f2b5bb857cb2f15046680a40ed12cd39599a075cd0ae0d17dc1dc5"
+    },
+    {
+      "path": "_internal/numpy/random/_bounded_integers.cp312-win_amd64.pyd",
+      "bytes": 207360,
+      "sha256": "01b3e2ad35f0d6695396690a7d41c378fbb15de9ea0504ada340a300eb9d1721"
+    },
+    {
+      "path": "_internal/numpy/random/_common.cp312-win_amd64.pyd",
+      "bytes": 167424,
+      "sha256": "b14fd8e85b26eb0246f4eaa91b470b1f8e4d48eaca399212c290460391be5baa"
+    },
+    {
+      "path": "_internal/numpy/random/_generator.cp312-win_amd64.pyd",
+      "bytes": 587264,
+      "sha256": "f054f21f924e2b176f376c52b921d8742497e900639fb3a0d4e91fe6a796e461"
+    },
+    {
+      "path": "_internal/numpy/random/_mt19937.cp312-win_amd64.pyd",
+      "bytes": 85504,
+      "sha256": "21dce5ec93e81e513c743a038bf80f7592e535ac56ed0cac1e70a81d9da43b55"
+    },
+    {
+      "path": "_internal/numpy/random/_pcg64.cp312-win_amd64.pyd",
+      "bytes": 96256,
+      "sha256": "d601e321609b25c0a023b16148b17cc69ac7d379635d4485d1ae93e5e18984f5"
+    },
+    {
+      "path": "_internal/numpy/random/_philox.cp312-win_amd64.pyd",
+      "bytes": 79872,
+      "sha256": "4489180aead91920f59001b3219600668a9533273b98be46f426e986c57b9f67"
+    },
+    {
+      "path": "_internal/numpy/random/_sfc64.cp312-win_amd64.pyd",
+      "bytes": 61440,
+      "sha256": "a4ed6791cb365afa297acf562587e94a3eb448330a02bd86a112606a6f2e272b"
+    },
+    {
+      "path": "_internal/numpy/random/bit_generator.cp312-win_amd64.pyd",
+      "bytes": 165888,
+      "sha256": "23dd33798ccc76e896c0361b0712b9944d87d96ef21a8568d86bc0daf300a8d8"
+    },
+    {
+      "path": "_internal/numpy/random/mtrand.cp312-win_amd64.pyd",
+      "bytes": 493056,
+      "sha256": "73239d2ff22f632bfc948087b10a3088918d25fb1f62dff76f52d8bed3878819"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/DELVEWHEEL",
+      "bytes": 462,
+      "sha256": "9bf3b195dcc33fb97f2e4f55de7bf6ada810769d2a65e259496e89ea388ea3b1"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/entry_points.txt",
+      "bytes": 220,
+      "sha256": "ec26fade0c8bdac211a6c1dd003a65eb16885b925395423e93fcaa115af4052c"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/INSTALLER",
+      "bytes": 4,
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/LICENSE.txt",
+      "bytes": 45831,
+      "sha256": "a804dff0ead9fadc5293456410bcbfc32bf024be9c4513459663fb7b442d2341"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/_core/include/numpy/libdivide/LICENSE.txt",
+      "bytes": 1039,
+      "sha256": "d544761558b510866c21f7e8a2d5716fca76e0b98117e3b6b86314db7244d150"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat/COPYING",
+      "bytes": 704,
+      "sha256": "aea41976c720f91bd19725c16916a1ace40eb1ea42620d340e587a5de4bbcea0"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/_core/src/highway/LICENSE",
+      "bytes": 21155,
+      "sha256": "d208152e2777ffd0126eacc1bd21c0320d69e4e6b622d21a2a12a47e8ef73763"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/_core/src/multiarray/dragon4_LICENSE.txt",
+      "bytes": 1441,
+      "sha256": "b0fd592d4ead563148e3977e7b589169d46a5ef2ff133c755a81af880a3fc919"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort/LICENSE.md",
+      "bytes": 1542,
+      "sha256": "a732977853530066790c42817087f4829b518dd98d340c916acbfd227e39d3cb"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/_core/src/umath/svml/LICENSE",
+      "bytes": 1573,
+      "sha256": "585483905b13d4b42f800c55ba99e89d6e2e33ccd5f503e201c07531d148ff41"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/fft/pocketfft/LICENSE.md",
+      "bytes": 1523,
+      "sha256": "8db000e158c162e7249787852d8c69764706502ccee725c06641b31c1e95c8af"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/linalg/lapack_lite/LICENSE.txt",
+      "bytes": 2314,
+      "sha256": "19060ef465e1797d682ee0fc3081bd25ab1395e995e43d25c9d13c95d9a3cd6b"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/ma/LICENSE",
+      "bytes": 1616,
+      "sha256": "d78dbb208b80d92b4d333e41a4baae50d12444f46e53199fa7726a91de6e2da7"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/random/LICENSE.md",
+      "bytes": 3582,
+      "sha256": "b4bc2f4fa1c95778f1ed3dd8f14706bece399475b978f9f34b5d3cd72521b48a"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/random/src/distributions/LICENSE.md",
+      "bytes": 2805,
+      "sha256": "cf5619f25b112d5ce7c896efffc8e610bcb345dfadcc19f2c1460aa48fff2c9e"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/random/src/mt19937/LICENSE.md",
+      "bytes": 2986,
+      "sha256": "92c10699884321f1c2947fe2a70ab23b0fbf1507f756d89dd08f38c61fc3d4fa"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/random/src/pcg64/LICENSE.md",
+      "bytes": 1176,
+      "sha256": "41190663b77bee5302386495a07b7eabfbfa571aa0ae2f11da6764162062fc4f"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/random/src/philox/LICENSE.md",
+      "bytes": 1540,
+      "sha256": "322ac46d870c8aeead6c53adcccc839296fb3c8e456eae155081297daf7f8013"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/random/src/sfc64/LICENSE.md",
+      "bytes": 1253,
+      "sha256": "28cad82ce1379dc529df30da78ec012d7d0d1d576b03ddcb93388aee53659f59"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/licenses/numpy/random/src/splitmix64/LICENSE.md",
+      "bytes": 340,
+      "sha256": "454ec7350e478e037061850b67395753b425b1cb0a34bbc26290b020bf89d763"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/METADATA",
+      "bytes": 6584,
+      "sha256": "6ae45122ee97050e48849438320430d05f01814f72e66e69cbeed027d2c6a1e8"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/RECORD",
+      "bytes": 113582,
+      "sha256": "32fedd9af97080a4f888e61771453e5d81a1d24961d4bfc2404a5d99495e1198"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/REQUESTED",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "_internal/numpy-2.5.1.dist-info/WHEEL",
+      "bytes": 85,
+      "sha256": "e743de01ba6503a3e4234858398a1e69c07d512d51e8482ec9f3a7b1c707d165"
+    },
+    {
+      "path": "_internal/numpy.libs/libscipy_openblas64_-b788215d9d47792bcba3a2e2a7114320.dll",
+      "bytes": 20405760,
+      "sha256": "b788215d9d47792bcba3a2e2a71143205a57282828a483f1fb071ca2c159f616"
+    },
+    {
+      "path": "_internal/numpy.libs/msvcp140-a4c2229bdc2a2a630acdc095b4d86008.dll",
+      "bytes": 575056,
+      "sha256": "a4c2229bdc2a2a630acdc095b4d86008e5c3e3bc7773174354f3da4f5beb9cde"
+    },
+    {
+      "path": "_internal/pyexpat.pyd",
+      "bytes": 226096,
+      "sha256": "02d4b5d94684270e072c020de5c28fe6772221dea37c4e1502d369c44cc4e97a"
+    },
+    {
+      "path": "_internal/python3.dll",
+      "bytes": 71984,
+      "sha256": "acf401d19e1df67c80df6956033aa57a099580af178c2b3e6d6fad8fab718a2d"
+    },
+    {
+      "path": "_internal/python312.dll",
+      "bytes": 6985520,
+      "sha256": "9facb5f5da91b1d61f2bf84037e9dbc6c914455da53dc6629543952aa7433a33"
+    },
+    {
+      "path": "_internal/select.pyd",
+      "bytes": 34608,
+      "sha256": "6069111f8bc779571f834b0b4bfcfd5e5fe00a250fcaed9ce586668a144e49a5"
+    },
+    {
+      "path": "_internal/ucrtbase.dll",
+      "bytes": 1362264,
+      "sha256": "3239227d27667ba20d10a880751924e5719de0078f9fce232d149d383f7681f6"
+    },
+    {
+      "path": "_internal/unicodedata.pyd",
+      "bytes": 1143600,
+      "sha256": "1b26b48166f9d2db2bf87694bec47503b53c22d54f4a2835d2c0f2cb4cf5e188"
+    },
+    {
+      "path": "_internal/VCRUNTIME140.dll",
+      "bytes": 124544,
+      "sha256": "d5e4d9a3e835fa679450145d6a7d94e36573a509317111904d9b3712c30d9066"
+    },
+    {
+      "path": "_internal/VCRUNTIME140_1.dll",
+      "bytes": 49792,
+      "sha256": "1f2d41c4aa5db0bc33ebf7b66d72943a817d7ce6cbe880502a9403823633093f"
+    },
+    {
+      "path": "asset-manifest.json",
+      "bytes": 12982,
+      "sha256": "63d6e56e8c0a793fbea457bd477162dce1b6094c0721e19d4dd5a23ef97ec79c"
+    },
+    {
+      "path": "assets/htm/v1/corner_htm_v2.pdb",
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb"
+    },
+    {
+      "path": "assets/htm/v1/phase1_sym_htm_v2.pdb",
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f"
+    },
+    {
+      "path": "assets/htm/v1/tail_depth6_v4.pdb",
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74"
+    },
+    {
+      "path": "assets/qtm/v1/corner_htm_v2.pdb",
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb"
+    },
+    {
+      "path": "assets/qtm/v1/corner_qtm_v3.pdb",
+      "bytes": 88179920,
+      "sha256": "070f1314a7b68955ed3e84a3de5b6e2ede20385f0775a334ec9f1d470f0e08d0"
+    },
+    {
+      "path": "assets/qtm/v1/phase1_qtm_v3.pdb",
+      "bytes": 140908490,
+      "sha256": "7606158cd7ccb4c1d49db7aab45fe25fbad21580aab8742648ae3e29567e6a11"
+    },
+    {
+      "path": "assets/qtm/v1/phase1_sym_htm_v2.pdb",
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f"
+    },
+    {
+      "path": "assets/qtm/v1/strong_qtm_v4_nibble.pdb",
+      "bytes": 1764716840,
+      "sha256": "12de7580c0b59728fdb559bc0eb1c50adf9e724ec681b1bfb144efe392829e9c"
+    },
+    {
+      "path": "assets/qtm/v1/tail_depth6_v4.pdb",
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74"
+    },
+    {
+      "path": "assets/qtm/v1/tail_qtm_depth8_v5.pdb",
+      "bytes": 1677721664,
+      "sha256": "35e3d345cd16e3efa16ceecb398b583f825d66a4e42dbc1856466338353a1687"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 11768,
+      "sha256": "357d7c5c4bb9f8a4df64da5bd5e0c81cf182343af039de1fcb30b60ad9cc770f"
+    },
+    {
+      "path": "native/htm/build/cube_solver_htm.exe",
+      "bytes": 3955091,
+      "sha256": "12b448fa214370e3bd9f38e81e39c670e2a17e25a3c56ed1c2b3d0dbf6de44e9"
+    },
+    {
+      "path": "native/qtm/build/cube_solver_qtm.exe",
+      "bytes": 4264034,
+      "sha256": "8d97208f6f9b7aa1681cd4f634fab13c6d6047b3893f584157010988c49c9f9a"
+    },
+    {
+      "path": "README-Windows.txt",
+      "bytes": 1610,
+      "sha256": "b669ebed1283950f9367e3de558ac6cf9b0254dcfbdd08306c2fc2d043835b17"
+    },
+    {
+      "path": "README.md",
+      "bytes": 12877,
+      "sha256": "22791c468fdd9564840daad51b33c2a843b9b93ea83f4c52669d2dc6ee4feb26"
+    },
+    {
+      "path": "RubicPhotoSolve.exe",
+      "bytes": 4666404,
+      "sha256": "f26d717f2b71586dd86efd137cda75f00b2bf4f1d2848569d8413e7920f9df37"
+    },
+    {
+      "path": "verify_installation.ps1",
+      "bytes": 1652,
+      "sha256": "51590e6bff21734e3871bf9ab8d0c506d99fe3f63eaffdd0e15b10340dde703b"
+    },
+    {
+      "path": "VERSION.txt",
+      "bytes": 8,
+      "sha256": "c13e4772e64cd7a1c4f9135d2725733e1e6e71ee3248ca1820f43e7ce52b5a1c"
+    },
+    {
+      "path": "web/app.js",
+      "bytes": 50350,
+      "sha256": "6ffcb5148d6316c9527b8d54e02ec823edc5954ba196fc0b3803832c98f60c99"
+    },
+    {
+      "path": "web/color.js",
+      "bytes": 16430,
+      "sha256": "31c731b930a6db3a6b3e66c19bc46d54e1a16813d96c7794091bf7c901125e9a"
+    },
+    {
+      "path": "web/index.html",
+      "bytes": 10080,
+      "sha256": "64bad5f8e571195716c5040222703a5db0a5679baf5cb271494ce0a2df06e044"
+    },
+    {
+      "path": "web/solver-client.js",
+      "bytes": 2233,
+      "sha256": "0eaa92338ba59135806abe69aea5ac42a8e715982c7322a6472067a542e64fb6"
+    },
+    {
+      "path": "web/styles.css",
+      "bytes": 22622,
+      "sha256": "cf90571d670430f56090fa8c5cd9fe2b66fd37b4666ed9bc49f375f1e025053a"
+    },
+    {
+      "path": "启动QTM完整强表.cmd",
+      "bytes": 295,
+      "sha256": "f19dceb4ab7e1c449710e5f0123fced3249bfde879c5e722b01a4f8706c1991f"
+    },
+    {
+      "path": "启动魔方求解器.cmd",
+      "bytes": 191,
+      "sha256": "553ff0441d9e0627a97f414ee994bc7c1de5c29323250a9b6724c340a7d7fb1c"
+    },
+    {
+      "path": "校验安装.cmd",
+      "bytes": 209,
+      "sha256": "7632639e21fb9909aae9c66a7a4f4a3c2fe1702cbfb161c47fe08c99c2823069"
+    }
+  ],
+  "runtime_assets": {
+    "native/htm/build/cube_solver_htm.exe": {
+      "bytes": 3955091,
+      "sha256": "12b448fa214370e3bd9f38e81e39c670e2a17e25a3c56ed1c2b3d0dbf6de44e9"
+    },
+    "assets/htm/v1/corner_htm_v2.pdb": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb",
+      "metric": "HTM",
+      "format_version": 2,
+      "complete": true
+    },
+    "assets/htm/v1/phase1_sym_htm_v2.pdb": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f",
+      "metric": "HTM",
+      "format_version": 2,
+      "complete": true
+    },
+    "assets/htm/v1/tail_depth6_v4.pdb": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74",
+      "metric": "HTM",
+      "depth": 6,
+      "format_version": 4
+    },
+    ".cache/htm/solver_tables_v3.pkl": {
+      "bytes": 13798733,
+      "sha256": "ef5cbf1656bcdda4f787de52566c2f063244b2164c8c71e2e1daa445a51efb69"
+    },
+    ".cache/htm/two_by_two_htm_v1.bin": {
+      "bytes": 3778042,
+      "sha256": "4ebf9e7ee3cfb76bab4b5e0703d608bcdfabe758661d23fd041a4cb90eeb399d"
+    },
+    ".cache/htm/coordinates_htm_v1.bin": {
+      "bytes": 8237445,
+      "sha256": "7d46f7519a1c68dd27118ecaca9a94e458ca4506215cb2cc83c7efb86e6bee08"
+    },
+    ".cache/htm/phase1_symmetry_htm_v1.bin": {
+      "bytes": 4464200,
+      "sha256": "660a770824753bd62b819d99a19311ac1194068d0e6a272ff63cbf0092b0f73c"
+    },
+    ".cache/htm/phase2_htm_v1.bin": {
+      "bytes": 2742056,
+      "sha256": "94b62a868fc3a8ae45b57fda5362e95b15636a6e6718465ba31ec155cd1cef6f"
+    },
+    "native/qtm/build/cube_solver_qtm.exe": {
+      "bytes": 4264034,
+      "sha256": "8d97208f6f9b7aa1681cd4f634fab13c6d6047b3893f584157010988c49c9f9a"
+    },
+    "assets/qtm/v1/corner_htm_v2.pdb": {
+      "bytes": 44089988,
+      "sha256": "0cbd93f278c5dad680d766a22d542997456647c9869812eb879e63d5fab3c2fb",
+      "metric": "HTM",
+      "format_version": 2,
+      "complete": true
+    },
+    "assets/qtm/v1/phase1_sym_htm_v2.pdb": {
+      "bytes": 70454273,
+      "sha256": "2cb2231899333601401d3cc04c91fb47752850132d98007a3ffef6e78aba130f",
+      "metric": "HTM",
+      "format_version": 2,
+      "complete": true
+    },
+    "assets/qtm/v1/tail_depth6_v4.pdb": {
+      "bytes": 209715264,
+      "sha256": "01989f9dfdca1857ab75b578e76ef383a2dcfa3f72bfe29e0a76516a6eed2d74",
+      "metric": "HTM",
+      "depth": 6,
+      "format_version": 4
+    },
+    "assets/qtm/v1/corner_qtm_v3.pdb": {
+      "bytes": 88179920,
+      "sha256": "070f1314a7b68955ed3e84a3de5b6e2ede20385f0775a334ec9f1d470f0e08d0",
+      "metric": "QTM",
+      "format_version": 3,
+      "complete": true,
+      "coordinate_version": 1,
+      "coverage_depth": 14
+    },
+    "assets/qtm/v1/phase1_qtm_v3.pdb": {
+      "bytes": 140908490,
+      "sha256": "7606158cd7ccb4c1d49db7aab45fe25fbad21580aab8742648ae3e29567e6a11",
+      "metric": "QTM",
+      "format_version": 3,
+      "complete": true,
+      "coordinate_version": 1,
+      "coverage_depth": 13
+    },
+    "assets/qtm/v1/strong_qtm_v4_nibble.pdb": {
+      "bytes": 1764716840,
+      "sha256": "12de7580c0b59728fdb559bc0eb1c50adf9e724ec681b1bfb144efe392829e9c",
+      "metric": "QTM",
+      "format_version": 4,
+      "complete": true,
+      "coordinate_version": 2,
+      "coverage_depth": 14
+    },
+    "assets/qtm/v1/tail_qtm_depth8_v5.pdb": {
+      "bytes": 1677721664,
+      "sha256": "35e3d345cd16e3efa16ceecb398b583f825d66a4e42dbc1856466338353a1687",
+      "metric": "QTM",
+      "depth": 8,
+      "format_version": 5
+    },
+    ".cache/qtm/solver_tables_v3.pkl": {
+      "bytes": 13798733,
+      "sha256": "09a12511502237bdb1a7cd65425c226cffd2811eac511c7e3ba6a2721953c110"
+    },
+    ".cache/qtm/qtm_small_v1.bin": {
+      "bytes": 6615677,
+      "sha256": "adb2bbbe97a1e785b22177e67141c151c55f8fe9093c20afa3da8c6cb3468235"
+    },
+    ".cache/qtm/two_by_two_qtm_v1.bin": {
+      "bytes": 3778042,
+      "sha256": "e46414ad7c8bd46e2e4827766f6015890eda6a39ffdc4309296c5fa15fdd5b01"
+    },
+    ".cache/qtm/coordinates_dual_v2.bin": {
+      "bytes": 14853066,
+      "sha256": "c7be40e38ad69a04381238da1c181e8251bbe226d00aa05efc024cc6b11a1b2c"
+    }
+  },
+  "merge_helper_executed": true,
+  "merged_archive_sha256": "631e6e19c03d61b3ad0d92bd5ee89ea7d9ffc218e023bd777c6c0ee80b43852a",
+  "upload_files": [
+    {
+      "name": "QTM.cmd",
+      "bytes": 4723,
+      "sha256": "e4a33533244112d24a1577389e5b9c421423aa65f61186c420c32542caa305bb"
+    },
+    {
+      "name": "RubicPhotoSolve-1.11.0-QtmStrong-windows-x64.zip.001",
+      "bytes": 1610612736,
+      "sha256": "998cb8a4b7f9a3de85111876c9a8645e3f24e15fa7003d09e027ea3e6351580a"
+    },
+    {
+      "name": "RubicPhotoSolve-1.11.0-QtmStrong-windows-x64.zip.002",
+      "bytes": 701550402,
+      "sha256": "ebc9527e6b5067d7ed65e99896735425e6202cfaeb3ded7b0847396203aa0894"
+    },
+    {
+      "name": "RubicPhotoSolve-1.11.0-source.zip",
+      "bytes": 284982,
+      "sha256": "3217904097f2899fd2a4956cdbddbf3d800b182cd293100066164e53a0daa8d7"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 416,
+      "sha256": "7906c2ad66afee2a97d95dd868ee0c453957072b4dc81caf38e921dd69003664"
+    }
+  ],
+  "test_reports": [
+    {
+      "file": "local-tests-final.xml",
+      "passed": 172
+    },
+    {
+      "file": "coverage-tests-final.xml",
+      "passed": 118
+    }
+  ],
+  "distinct_passing_testcases": 182
+}

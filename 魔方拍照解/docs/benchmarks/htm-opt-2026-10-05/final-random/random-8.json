@@ -1,0 +1,1473 @@
+{
+  "request": {
+    "facelets": "BBRBURFFFRBBFRDLLUUUDLFDLFBBRDFDDLRLDDRULUDLUULRRBBFUF",
+    "cube_size": 3,
+    "metric": "HTM",
+    "max_depth": 20,
+    "timeout_seconds": 30
+  },
+  "native_candidate_policy": "six",
+  "initial": {
+    "ok": true,
+    "job_id": "8beee1a6a8594793b9a4992f021d198f",
+    "proof_status": "complete",
+    "optimal": true,
+    "engine": "native-cpp",
+    "solution_generation_seconds": 0.0,
+    "request_elapsed_seconds": 0.203,
+    "resource_wait_seconds": 0.0,
+    "timing_events": [
+      {
+        "event": "request_created",
+        "monotonic": 145910.312,
+        "elapsed_seconds": 0.0
+      },
+      {
+        "event": "proof_started",
+        "monotonic": 145910.312,
+        "elapsed_seconds": 0.0,
+        "threads": 14
+      },
+      {
+        "event": "native_startup_started",
+        "monotonic": 145910.312,
+        "elapsed_seconds": 0.0
+      },
+      {
+        "event": "native_ready",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "reused": false,
+        "dynamic_threads": true,
+        "native_pid": 31016,
+        "peak_working_set_bytes": 342589440,
+        "memory_scope": "native_process_lifetime_peak"
+      },
+      {
+        "event": "native_request_sent",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "threads": 14
+      },
+      {
+        "event": "proof_progress",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "progress": {
+          "type": "progress",
+          "threads": 14,
+          "lower_bound": 7,
+          "upper_bound": 20,
+          "current_depth": 7,
+          "completed_depth": 6,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.8e-05,
+          "elapsed_seconds": 1.8e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "616738f72d064ac3956109e93cc6215e",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [],
+          "engine": "native-cpp"
+        }
+      },
+      {
+        "event": "proof_progress",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "progress": {
+          "type": "progress",
+          "threads": 14,
+          "lower_bound": 7,
+          "upper_bound": 20,
+          "current_depth": 7,
+          "completed_depth": 7,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 18,
+          "nodes": 0,
+          "split_nodes": 18,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000739,
+          "elapsed_seconds": 0.000846,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "616738f72d064ac3956109e93cc6215e",
+          "generated_candidates": 18,
+          "small_pdb_queries": 0,
+          "phase1_queries": 22,
+          "corner_queries": 1,
+          "edge_queries": 0,
+          "axis_rejects": [
+            15,
+            2,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 18,
+              "busy_seconds": 9.5e-05,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 5.8e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 1.7e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ],
+          "engine": "native-cpp"
+        }
+      },
+      {
+        "event": "proof_progress",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "progress": {
+          "type": "progress",
+          "threads": 14,
+          "lower_bound": 7,
+          "upper_bound": 20,
+          "current_depth": 8,
+          "completed_depth": 7,
+          "iteration_nodes": 1,
+          "iteration_split_nodes": 63,
+          "nodes": 1,
+          "split_nodes": 81,
+          "transposition_hits": 0,
+          "tail_queries": 1,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 1,
+          "tail_probes": 2,
+          "tail_hits": 1,
+          "iteration_seconds": 0.000709,
+          "elapsed_seconds": 0.001587,
+          "found": true,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "616738f72d064ac3956109e93cc6215e",
+          "generated_candidates": 81,
+          "small_pdb_queries": 0,
+          "phase1_queries": 127,
+          "corner_queries": 8,
+          "edge_queries": 0,
+          "axis_rejects": [
+            45,
+            29,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1,
+              "generated": 63,
+              "busy_seconds": 2.4e-05,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ],
+          "engine": "native-cpp"
+        }
+      },
+      {
+        "event": "native_result_received",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "result": {
+          "ok": true,
+          "type": "result",
+          "request_id": "616738f72d064ac3956109e93cc6215e",
+          "status": "complete",
+          "inverse_direction": false,
+          "moves": [
+            "U'",
+            "B",
+            "R'",
+            "B2",
+            "F'",
+            "L",
+            "D'",
+            "L2"
+          ],
+          "solution": "U' B R' B2 F' L D' L2",
+          "depth": 8,
+          "stop_reason": "solution",
+          "incumbent_adoptions": 0,
+          "direction_probe_generated": 0,
+          "direction_probe_seconds": 0.0,
+          "metric": "HTM",
+          "optimal": true,
+          "elapsed_seconds": 0.001618,
+          "nodes": 1,
+          "split_nodes": 81,
+          "transposition_hits": 0,
+          "tail_queries": 1,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 1,
+          "tail_probes": 2,
+          "tail_hits": 1,
+          "corner_pdb": true,
+          "phase1_pdb": true,
+          "edge_pdbs": false,
+          "extra_edge_pdbs": false,
+          "edge_pdb_count": 0,
+          "tail_pdb": true,
+          "completed_depth": 7,
+          "generated_candidates": 81,
+          "small_pdb_queries": 0,
+          "phase1_queries": 127,
+          "corner_queries": 8,
+          "edge_queries": 0,
+          "axis_rejects": [
+            45,
+            29,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1,
+              "generated": 63,
+              "busy_seconds": 2.4e-05,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        "native_pid": 31016,
+        "peak_working_set_bytes": 343060480,
+        "memory_scope": "native_process_lifetime_peak"
+      },
+      {
+        "event": "native_request_finished",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "native_pid": 31016,
+        "peak_working_set_bytes": 343060480,
+        "memory_scope": "native_process_lifetime_peak"
+      },
+      {
+        "event": "terminal",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "status": "complete",
+        "result": {
+          "moves": [
+            "U'",
+            "B",
+            "R'",
+            "B2",
+            "F'",
+            "L",
+            "D'",
+            "L2"
+          ],
+          "solution": "U' B R' B2 F' L D' L2",
+          "depth": 8,
+          "metric": "HTM",
+          "optimal": true,
+          "inverse_direction": false,
+          "elapsed_seconds": 0.002,
+          "nodes": 1,
+          "split_nodes": 81,
+          "tail_queries": 1,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 1,
+          "tail_probes": 2,
+          "tail_hits": 1,
+          "completed_depth": 7,
+          "generated_candidates": 81,
+          "phase1_queries": 127,
+          "corner_queries": 8,
+          "engine": "native-cpp"
+        },
+        "native_pid": 31016,
+        "peak_working_set_bytes": 343060480,
+        "memory_scope": "native_process_lifetime_peak"
+      }
+    ],
+    "timings": {
+      "request_created_seconds": 0.0,
+      "proof_started_seconds": 0.0,
+      "native_startup_started_seconds": 0.0,
+      "native_ready_seconds": 0.20300000000861473,
+      "native_request_sent_seconds": 0.20300000000861473,
+      "proof_progress_seconds": 0.20300000000861473,
+      "native_result_received_seconds": 0.20300000000861473,
+      "native_request_finished_seconds": 0.20300000000861473,
+      "terminal_seconds": 0.20300000000861473
+    },
+    "thread_quota": 15,
+    "proof_threads": 14,
+    "moves": [
+      "U'",
+      "B",
+      "R'",
+      "B2",
+      "F'",
+      "L",
+      "D'",
+      "L2"
+    ],
+    "solution": "U' B R' B2 F' L D' L2",
+    "depth": 8,
+    "metric": "HTM",
+    "inverse_direction": false,
+    "elapsed_seconds": 0.002,
+    "nodes": 1,
+    "split_nodes": 81,
+    "tail_queries": 1,
+    "tail_bloom_rejects": 0,
+    "tail_exact_queries": 1,
+    "tail_probes": 2,
+    "tail_hits": 1,
+    "completed_depth": 7,
+    "generated_candidates": 81,
+    "phase1_queries": 127,
+    "corner_queries": 8,
+    "proof_elapsed_seconds": 0.203
+  },
+  "initial_http_seconds": 0.21900000001187436,
+  "terminal": {
+    "job_id": "8beee1a6a8594793b9a4992f021d198f",
+    "status": "complete",
+    "incumbent_depth": null,
+    "engine": "native-cpp",
+    "solution_generation_seconds": 0.0,
+    "timing_events": [
+      {
+        "event": "request_created",
+        "monotonic": 145910.312,
+        "elapsed_seconds": 0.0
+      },
+      {
+        "event": "proof_started",
+        "monotonic": 145910.312,
+        "elapsed_seconds": 0.0,
+        "threads": 14
+      },
+      {
+        "event": "native_startup_started",
+        "monotonic": 145910.312,
+        "elapsed_seconds": 0.0
+      },
+      {
+        "event": "native_ready",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "reused": false,
+        "dynamic_threads": true,
+        "native_pid": 31016,
+        "peak_working_set_bytes": 342589440,
+        "memory_scope": "native_process_lifetime_peak"
+      },
+      {
+        "event": "native_request_sent",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "threads": 14
+      },
+      {
+        "event": "proof_progress",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "progress": {
+          "type": "progress",
+          "threads": 14,
+          "lower_bound": 7,
+          "upper_bound": 20,
+          "current_depth": 7,
+          "completed_depth": 6,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 0,
+          "nodes": 0,
+          "split_nodes": 0,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 1.8e-05,
+          "elapsed_seconds": 1.8e-05,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "616738f72d064ac3956109e93cc6215e",
+          "generated_candidates": 0,
+          "small_pdb_queries": 0,
+          "phase1_queries": 0,
+          "corner_queries": 0,
+          "edge_queries": 0,
+          "axis_rejects": [
+            0,
+            0,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 0,
+          "edge_rejects": 0,
+          "workers": [],
+          "engine": "native-cpp"
+        }
+      },
+      {
+        "event": "proof_progress",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "progress": {
+          "type": "progress",
+          "threads": 14,
+          "lower_bound": 7,
+          "upper_bound": 20,
+          "current_depth": 7,
+          "completed_depth": 7,
+          "iteration_nodes": 0,
+          "iteration_split_nodes": 18,
+          "nodes": 0,
+          "split_nodes": 18,
+          "transposition_hits": 0,
+          "tail_queries": 0,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 0,
+          "tail_probes": 0,
+          "tail_hits": 0,
+          "iteration_seconds": 0.000739,
+          "elapsed_seconds": 0.000846,
+          "found": false,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "616738f72d064ac3956109e93cc6215e",
+          "generated_candidates": 18,
+          "small_pdb_queries": 0,
+          "phase1_queries": 22,
+          "corner_queries": 1,
+          "edge_queries": 0,
+          "axis_rejects": [
+            15,
+            2,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 0,
+              "generated": 18,
+              "busy_seconds": 9.5e-05,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 5.8e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 1.7e-05
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ],
+          "engine": "native-cpp"
+        }
+      },
+      {
+        "event": "proof_progress",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "progress": {
+          "type": "progress",
+          "threads": 14,
+          "lower_bound": 7,
+          "upper_bound": 20,
+          "current_depth": 8,
+          "completed_depth": 7,
+          "iteration_nodes": 1,
+          "iteration_split_nodes": 63,
+          "nodes": 1,
+          "split_nodes": 81,
+          "transposition_hits": 0,
+          "tail_queries": 1,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 1,
+          "tail_probes": 2,
+          "tail_hits": 1,
+          "iteration_seconds": 0.000709,
+          "elapsed_seconds": 0.001587,
+          "found": true,
+          "timed_out": false,
+          "cancelled": false,
+          "request_id": "616738f72d064ac3956109e93cc6215e",
+          "generated_candidates": 81,
+          "small_pdb_queries": 0,
+          "phase1_queries": 127,
+          "corner_queries": 8,
+          "edge_queries": 0,
+          "axis_rejects": [
+            45,
+            29,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1,
+              "generated": 63,
+              "busy_seconds": 2.4e-05,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ],
+          "engine": "native-cpp"
+        }
+      },
+      {
+        "event": "native_result_received",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "result": {
+          "ok": true,
+          "type": "result",
+          "request_id": "616738f72d064ac3956109e93cc6215e",
+          "status": "complete",
+          "inverse_direction": false,
+          "moves": [
+            "U'",
+            "B",
+            "R'",
+            "B2",
+            "F'",
+            "L",
+            "D'",
+            "L2"
+          ],
+          "solution": "U' B R' B2 F' L D' L2",
+          "depth": 8,
+          "stop_reason": "solution",
+          "incumbent_adoptions": 0,
+          "direction_probe_generated": 0,
+          "direction_probe_seconds": 0.0,
+          "metric": "HTM",
+          "optimal": true,
+          "elapsed_seconds": 0.001618,
+          "nodes": 1,
+          "split_nodes": 81,
+          "transposition_hits": 0,
+          "tail_queries": 1,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 1,
+          "tail_probes": 2,
+          "tail_hits": 1,
+          "corner_pdb": true,
+          "phase1_pdb": true,
+          "edge_pdbs": false,
+          "extra_edge_pdbs": false,
+          "edge_pdb_count": 0,
+          "tail_pdb": true,
+          "completed_depth": 7,
+          "generated_candidates": 81,
+          "small_pdb_queries": 0,
+          "phase1_queries": 127,
+          "corner_queries": 8,
+          "edge_queries": 0,
+          "axis_rejects": [
+            45,
+            29,
+            0
+          ],
+          "equality_rejects": 0,
+          "corner_rejects": 1,
+          "edge_rejects": 0,
+          "workers": [
+            {
+              "nodes": 1,
+              "generated": 63,
+              "busy_seconds": 2.4e-05,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            },
+            {
+              "nodes": 0,
+              "generated": 0,
+              "busy_seconds": 0.0,
+              "idle_seconds": 0.0
+            }
+          ]
+        },
+        "native_pid": 31016,
+        "peak_working_set_bytes": 343060480,
+        "memory_scope": "native_process_lifetime_peak"
+      },
+      {
+        "event": "native_request_finished",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "native_pid": 31016,
+        "peak_working_set_bytes": 343060480,
+        "memory_scope": "native_process_lifetime_peak"
+      },
+      {
+        "event": "terminal",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "status": "complete",
+        "result": {
+          "moves": [
+            "U'",
+            "B",
+            "R'",
+            "B2",
+            "F'",
+            "L",
+            "D'",
+            "L2"
+          ],
+          "solution": "U' B R' B2 F' L D' L2",
+          "depth": 8,
+          "metric": "HTM",
+          "optimal": true,
+          "inverse_direction": false,
+          "elapsed_seconds": 0.002,
+          "nodes": 1,
+          "split_nodes": 81,
+          "tail_queries": 1,
+          "tail_bloom_rejects": 0,
+          "tail_exact_queries": 1,
+          "tail_probes": 2,
+          "tail_hits": 1,
+          "completed_depth": 7,
+          "generated_candidates": 81,
+          "phase1_queries": 127,
+          "corner_queries": 8,
+          "engine": "native-cpp"
+        },
+        "native_pid": 31016,
+        "peak_working_set_bytes": 343060480,
+        "memory_scope": "native_process_lifetime_peak"
+      },
+      {
+        "event": "http_initial_return",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "candidate_included": true
+      },
+      {
+        "event": "http_poll_return",
+        "monotonic": 145910.515,
+        "elapsed_seconds": 0.20300000000861473,
+        "candidate_included": true
+      }
+    ],
+    "timings": {
+      "request_created_seconds": 0.0,
+      "proof_started_seconds": 0.0,
+      "native_startup_started_seconds": 0.0,
+      "native_ready_seconds": 0.20300000000861473,
+      "native_request_sent_seconds": 0.20300000000861473,
+      "proof_progress_seconds": 0.20300000000861473,
+      "native_result_received_seconds": 0.20300000000861473,
+      "native_request_finished_seconds": 0.20300000000861473,
+      "terminal_seconds": 0.20300000000861473,
+      "http_initial_return_seconds": 0.20300000000861473,
+      "first_candidate_http_seconds": 0.20300000000861473,
+      "http_poll_return_seconds": 0.20300000000861473
+    },
+    "thread_quota": 15,
+    "candidate_thread_quota": 1,
+    "candidate_search_running": false,
+    "early_candidate_delivery": false,
+    "proof_threads": 14,
+    "native_pid": 31016,
+    "peak_working_set_bytes": 343060480,
+    "memory_scope": "native_process_lifetime_peak",
+    "progress": {
+      "type": "progress",
+      "threads": 14,
+      "lower_bound": 7,
+      "upper_bound": 20,
+      "current_depth": 8,
+      "completed_depth": 7,
+      "iteration_nodes": 1,
+      "iteration_split_nodes": 63,
+      "nodes": 1,
+      "split_nodes": 81,
+      "transposition_hits": 0,
+      "tail_queries": 1,
+      "tail_bloom_rejects": 0,
+      "tail_exact_queries": 1,
+      "tail_probes": 2,
+      "tail_hits": 1,
+      "iteration_seconds": 0.000709,
+      "elapsed_seconds": 0.001587,
+      "found": true,
+      "timed_out": false,
+      "cancelled": false,
+      "request_id": "616738f72d064ac3956109e93cc6215e",
+      "generated_candidates": 81,
+      "small_pdb_queries": 0,
+      "phase1_queries": 127,
+      "corner_queries": 8,
+      "edge_queries": 0,
+      "axis_rejects": [
+        45,
+        29,
+        0
+      ],
+      "equality_rejects": 0,
+      "corner_rejects": 1,
+      "edge_rejects": 0,
+      "workers": [
+        {
+          "nodes": 1,
+          "generated": 63,
+          "busy_seconds": 2.4e-05,
+          "idle_seconds": 0.0
+        },
+        {
+          "nodes": 0,
+          "generated": 0,
+          "busy_seconds": 0.0,
+          "idle_seconds": 0.0
+        },
+        {
+          "nodes": 0,
+          "generated": 0,
+          "busy_seconds": 0.0,
+          "idle_seconds": 0.0
+        },
+        {
+          "nodes": 0,
+          "generated": 0,
+          "busy_seconds": 0.0,
+          "idle_seconds": 0.0
+        },
+        {
+          "nodes": 0,
+          "generated": 0,
+          "busy_seconds": 0.0,
+          "idle_seconds": 0.0
+        },
+        {
+          "nodes": 0,
+          "generated": 0,
+          "busy_seconds": 0.0,
+          "idle_seconds": 0.0
+        },
+        {
+          "nodes": 0,
+          "generated": 0,
+          "busy_seconds": 0.0,
+          "idle_seconds": 0.0
+        },
+        {
+          "nodes": 0,
+          "generated": 0,
+          "busy_seconds": 0.0,
+          "idle_seconds": 0.0
+        },
+        {
+          "nodes": 0,
+          "generated": 0,
+          "busy_seconds": 0.0,
+          "idle_seconds": 0.0
+        },
+        {
+          "nodes": 0,
+          "generated": 0,
+          "busy_seconds": 0.0,
+          "idle_seconds": 0.0
+        },
+        {
+          "nodes": 0,
+          "generated": 0,
+          "busy_seconds": 0.0,
+          "idle_seconds": 0.0
+        },
+        {
+          "nodes": 0,
+          "generated": 0,
+          "busy_seconds": 0.0,
+          "idle_seconds": 0.0
+        },
+        {
+          "nodes": 0,
+          "generated": 0,
+          "busy_seconds": 0.0,
+          "idle_seconds": 0.0
+        },
+        {
+          "nodes": 0,
+          "generated": 0,
+          "busy_seconds": 0.0,
+          "idle_seconds": 0.0
+        }
+      ],
+      "engine": "native-cpp"
+    },
+    "result": {
+      "moves": [
+        "U'",
+        "B",
+        "R'",
+        "B2",
+        "F'",
+        "L",
+        "D'",
+        "L2"
+      ],
+      "solution": "U' B R' B2 F' L D' L2",
+      "depth": 8,
+      "metric": "HTM",
+      "optimal": true,
+      "inverse_direction": false,
+      "elapsed_seconds": 0.002,
+      "nodes": 1,
+      "split_nodes": 81,
+      "tail_queries": 1,
+      "tail_bloom_rejects": 0,
+      "tail_exact_queries": 1,
+      "tail_probes": 2,
+      "tail_hits": 1,
+      "completed_depth": 7,
+      "generated_candidates": 81,
+      "phase1_queries": 127,
+      "corner_queries": 8,
+      "engine": "native-cpp"
+    },
+    "proof_elapsed_seconds": 0.203
+  },
+  "polls": [
+    {
+      "seconds": 0.21900000001187436,
+      "status": "complete",
+      "progress": {
+        "type": "progress",
+        "threads": 14,
+        "lower_bound": 7,
+        "upper_bound": 20,
+        "current_depth": 8,
+        "completed_depth": 7,
+        "iteration_nodes": 1,
+        "iteration_split_nodes": 63,
+        "nodes": 1,
+        "split_nodes": 81,
+        "transposition_hits": 0,
+        "tail_queries": 1,
+        "tail_bloom_rejects": 0,
+        "tail_exact_queries": 1,
+        "tail_probes": 2,
+        "tail_hits": 1,
+        "iteration_seconds": 0.000709,
+        "elapsed_seconds": 0.001587,
+        "found": true,
+        "timed_out": false,
+        "cancelled": false,
+        "request_id": "616738f72d064ac3956109e93cc6215e",
+        "generated_candidates": 81,
+        "small_pdb_queries": 0,
+        "phase1_queries": 127,
+        "corner_queries": 8,
+        "edge_queries": 0,
+        "axis_rejects": [
+          45,
+          29,
+          0
+        ],
+        "equality_rejects": 0,
+        "corner_rejects": 1,
+        "edge_rejects": 0,
+        "workers": [
+          {
+            "nodes": 1,
+            "generated": 63,
+            "busy_seconds": 2.4e-05,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          },
+          {
+            "nodes": 0,
+            "generated": 0,
+            "busy_seconds": 0.0,
+            "idle_seconds": 0.0
+          }
+        ],
+        "engine": "native-cpp"
+      }
+    }
+  ],
+  "wall_seconds": 0.21900000001187436,
+  "replayed_formulas": 2,
+  "resources": {
+    "proof": {
+      "native_pid": 31016,
+      "peak_working_set_bytes": 343060480,
+      "memory_scope": "native_process_lifetime_peak",
+      "cpu_seconds": 0.421875
+    },
+    "python": {
+      "native_pid": 37908,
+      "peak_working_set_bytes": 50798592,
+      "memory_scope": "native_process_lifetime_peak",
+      "cpu_seconds": 0.21875
+    }
+  },
+  "broker_after_cleanup": {
+    "threads": 15,
+    "htm_holders": 0,
+    "qtm_active": false,
+    "qtm_resident": false,
+    "last_yield_seconds": 0.0,
+    "yield_faults": 0
+  }
+}

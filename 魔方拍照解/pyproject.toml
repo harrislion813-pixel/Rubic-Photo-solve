@@ -58,6 +58,9 @@ select = ["E4", "E7", "E9", "F"]
 "tests/test_hybrid_api.py" = ["E402"]
 "tests/test_solver.py" = ["E402"]
 "tests/test_two_by_two.py" = ["E402"]
+# Frozen review scripts retain the exact bytes used to collect their evidence.
+"docs/benchmarks/htm-review-2026-10-05/diagnose.py" = ["E402", "E701", "F401"]
+"docs/benchmarks/htm-review-2026-10-05/incumbent_probe.py" = ["E402", "E701", "E702"]
 
 [tool.coverage.run]
 branch = true

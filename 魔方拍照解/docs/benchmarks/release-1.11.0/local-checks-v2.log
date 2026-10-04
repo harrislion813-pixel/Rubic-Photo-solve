@@ -1,0 +1,120 @@
+1.11.0
+recognition tests passed
+color tests passed
+two_by_two_color.test.js: all tests passed
+solver UI tests passed
+All checks passed!
+============================= test session starts =============================
+platform win32 -- Python 3.12.14, pytest-8.4.2, pluggy-1.6.0
+rootdir: C:\Users\harriron\Desktop\Rubic-Photo-solve\ħ�����ս�
+configfile: pyproject.toml
+testpaths: tests
+plugins: cov-6.3.0
+collected 172 items
+
+tests\test_detection_pipeline.py ..                                      [  1%]
+tests\test_htm_candidate_delivery.py ....................                [ 12%]
+tests\test_htm_review_optimization.py .......                            [ 16%]
+tests\test_hybrid_api.py ...                                             [ 18%]
+tests\test_isolation_contract.py ...................                     [ 29%]
+tests\test_native_qtm.py ...................                             [ 40%]
+tests\test_native_solver.py .............                                [ 48%]
+tests\test_next_speed_defaults.py .                                      [ 48%]
+tests\test_next_speed_summary.py ..........                              [ 54%]
+tests\test_qtm_backend.py ......                                         [ 58%]
+tests\test_qtm_candidates_next.py ....E                                  [ 61%]
+tests\test_qtm_hotpath.py ................                               [ 70%]
+tests\test_qtm_loader_next.py E..                                        [ 72%]
+tests\test_qtm_speed_contract.py .......                                 [ 76%]
+tests\test_real_images.py ...                                            [ 77%]
+tests\test_release_package.py ....                                       [ 80%]
+tests\test_runtime.py ..                                                 [ 81%]
+tests\test_search_lifecycle.py ...........                               [ 87%]
+tests\test_solver.py .......                                             [ 91%]
+tests\test_tables.py .                                                   [ 92%]
+tests\test_two_by_two.py ......                                          [ 95%]
+tests\test_version.py ...                                                [ 97%]
+tests\test_vision.py ....                                                [100%]
+
+=================================== ERRORS ====================================
+_ ERROR at setup of test_real_late_tail_replacement_quota_cancellation_and_deadline _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x000001D755632330>, _basetemp=Wi...top/Rubic-Photo-solve/ħ�����ս�/.cache/test-tmp/pytest-of-harriron/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def tail_gate_binary(tmp_path_factory):
+        compiler = shutil.which(os.environ.get("CXX", "g++")) or r"C:\msys64\ucrt64\bin\g++.exe"
+        assert Path(compiler).is_file(), "the real Tail gate requires its portable C++ harness compiler"
+        target = tmp_path_factory.mktemp("qtm-tail-gate") / "tail_gate.exe"
+        command = [compiler, "-std=c++20", "-O0", "-march=x86-64", "-mtune=generic", "-I", "include",
+                   "../../tests/qtm_tail_gate.cpp", *[f"src/{name}.cpp" for name in
+                    ("cube", "fast", "pdb", "solver", "symmetry", "strong_coords", "strong_pdb", "tail")],
+                   "-pthread", "-static", "-municode", "-o", os.path.relpath(target, ROOT / "native/qtm")]
+        compiled = subprocess.run(command, cwd=ROOT / "native/qtm", capture_output=True, text=True,
+                                  encoding="utf-8", errors="replace", timeout=180)
+>       assert compiled.returncode == 0, compiled.stdout + compiled.stderr
+E       AssertionError: Assembler messages:
+E         Fatal error: can't create C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\.cache\\test-tmp\\ccRaLqtW.o: No such file or directory
+E         Assembler messages:
+E         Fatal error: can't create C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\.cache\\test-tmp\\cc2r4ji1.o: No such file or directory
+E         Assembler messages:
+E         Fatal error: can't create C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\.cache\\test-tmp\\ccGdcDT1.o: No such file or directory
+E         Assembler messages:
+E         Fatal error: can't create C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\.cache\\test-tmp\\ccPCipLT.o: No such file or directory
+E         Assembler messages:
+E         Fatal error: can't create C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\.cache\\test-tmp\\ccwoE4jR.o: No such file or directory
+E         Assembler messages:
+E         Fatal error: can't create C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\.cache\\test-tmp\\cce2Rp3c.o: No such file or directory
+E         Assembler messages:
+E         Fatal error: can't create C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\.cache\\test-tmp\\cc2ySwdZ.o: No such file or directory
+E         Assembler messages:
+E         Fatal error: can't create C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\.cache\\test-tmp\\ccu5Mk56.o: No such file or directory
+E         Assembler messages:
+E         Fatal error: can't create C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\.cache\\test-tmp\\cchG8v5E.o: No such file or directory
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\\\msys64\\\\ucrt64\\\\bin\\\\g++.EXE', '-std=c++20', '-O0', '-march=x86-64', '-mtune=generic', '-I... C:\\\\Users\\\\harriron\\\\Desktop\\\\Rubic-Photo-solve\\\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\\\.cache\\\\test-tmp\\\\cchG8v5E.o: No such file or directory\\n").returncode
+
+tests\test_qtm_candidates_next.py:87: AssertionError
+_ ERROR at setup of test_real_member_initialization_pause_resume_and_equivalence _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x000001D755632330>, _basetemp=Wi...top/Rubic-Photo-solve/ħ�����ս�/.cache/test-tmp/pytest-of-harriron/pytest-0'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def loader_gate_binary(tmp_path_factory):
+        compiler = shutil.which(os.environ.get("CXX", "g++")) or r"C:\msys64\ucrt64\bin\g++.exe"
+        assert Path(compiler).is_file(), "real constructor gate requires a compiler"
+        target = tmp_path_factory.mktemp("qtm-loader-gate") / "loader_gate.exe"
+        command = [compiler, "-std=c++20", "-O3", "-march=x86-64", "-mtune=generic", "-I", "include",
+                   "../../tests/qtm_loader_gate.cpp", "src/cube.cpp", "src/symmetry.cpp", "src/strong_coords.cpp",
+                   "-pthread", "-static", "-o", os.path.relpath(target, ROOT / "native/qtm")]
+        compiled = subprocess.run(command, cwd=ROOT / "native/qtm", capture_output=True, text=True,
+                                  encoding="utf-8", errors="replace", timeout=120)
+>       assert compiled.returncode == 0, compiled.stdout + compiled.stderr
+E       AssertionError: Assembler messages:
+E         Fatal error: can't create C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\.cache\\test-tmp\\cc9jxbgl.o: No such file or directory
+E         Assembler messages:
+E         Fatal error: can't create C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\.cache\\test-tmp\\ccy89aX2.o: No such file or directory
+E         Assembler messages:
+E         Fatal error: can't create C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\.cache\\test-tmp\\cc2KflIy.o: No such file or directory
+E         Assembler messages:
+E         Fatal error: can't create C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\.cache\\test-tmp\\ccAPer6C.o: No such file or directory
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\\\msys64\\\\ucrt64\\\\bin\\\\g++.EXE', '-std=c++20', '-O3', '-march=x86-64', '-mtune=generic', '-I... C:\\\\Users\\\\harriron\\\\Desktop\\\\Rubic-Photo-solve\\\\\u0127\ufffd\ufffd\ufffd\ufffd\ufffd\u057d\ufffd\\\\.cache\\\\test-tmp\\\\ccAPer6C.o: No such file or directory\\n").returncode
+
+tests\test_qtm_loader_next.py:30: AssertionError
+============================== warnings summary ===============================
+.venv\Lib\site-packages\_pytest\cacheprovider.py:475
+  C:\Users\harriron\Desktop\Rubic-Photo-solve\ħ�����ս�\.venv\Lib\site-packages\_pytest\cacheprovider.py:475: PytestCacheWarning: could not create cache path C:\Users\harriron\Desktop\Rubic-Photo-solve\ħ�����ս�\.pytest_cache\v\cache\nodeids: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\ħ�����ս�\\.pytest_cache\\v\\cache'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+.venv\Lib\site-packages\_pytest\cacheprovider.py:429
+  C:\Users\harriron\Desktop\Rubic-Photo-solve\ħ�����ս�\.venv\Lib\site-packages\_pytest\cacheprovider.py:429: PytestCacheWarning: could not create cache path C:\Users\harriron\Desktop\Rubic-Photo-solve\ħ�����ս�\.pytest_cache\v\cache\lastfailed: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\harriron\\Desktop\\Rubic-Photo-solve\\ħ�����ս�\\.pytest_cache\\v\\cache'
+    config.cache.set("cache/lastfailed", self.lastfailed)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+ERROR tests/test_qtm_candidates_next.py::test_real_late_tail_replacement_quota_cancellation_and_deadline
+ERROR tests/test_qtm_loader_next.py::test_real_member_initialization_pause_resume_and_equivalence
+============ 170 passed, 2 warnings, 2 errors in 153.89s (0:02:33) ============

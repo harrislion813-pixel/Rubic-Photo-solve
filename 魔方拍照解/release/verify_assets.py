@@ -17,6 +17,8 @@ HTM = (
     ".cache/htm/solver_tables_v3.pkl",
     ".cache/htm/two_by_two_htm_v1.bin",
     ".cache/htm/coordinates_htm_v1.bin",
+    ".cache/htm/phase1_symmetry_htm_v1.bin",
+    ".cache/htm/phase2_htm_v1.bin",
 )
 QTM = (
     "native/qtm/build/cube_solver_qtm.exe",

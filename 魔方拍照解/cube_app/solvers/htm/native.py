@@ -336,6 +336,10 @@ class _PersistentNativeSolver:
                     raise NativeSolverError("native solver service returned invalid JSON") from exc
                 if event.get("request_id") != request_id:
                     continue
+                if event.get("type") == "incumbent":
+                    if event_callback is not None:
+                        event_callback({**event, "type": "native_incumbent_" + str(event.get("stage"))})
+                    continue
                 if event.get("type") == "progress":
                     if progress_callback is not None:
                         progress_callback({**event, "engine": "native-cpp"})

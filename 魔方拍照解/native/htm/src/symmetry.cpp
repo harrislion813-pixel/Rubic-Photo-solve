@@ -2,10 +2,19 @@
 
 #include <algorithm>
 #include <array>
+#include <cstdlib>
+#include <cstring>
+#include <fstream>
 #include <limits>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
+
+#define WIN32_LEAN_AND_MEAN
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
 
 namespace cube {
 namespace {
@@ -222,79 +231,93 @@ Phase1Symmetry::Phase1Symmetry() {
         return from_facelets(new_facelets);
     };
 
-    // Cache each 54-facelet permutation as a transformed cubie operation by using
-    // the matrix routine while the small coordinate conjugation tables are built.
-    twist_conjugates_.resize(2187U * kPhase1SymmetryCount);
-    for (std::uint16_t coordinate = 0; coordinate < 2187; ++coordinate) {
-        const CubieCube cube = cube_from_twist(coordinate);
-        for (int symmetry = 0; symmetry < kPhase1SymmetryCount; ++symmetry) {
-            twist_conjugates_[static_cast<std::size_t>(coordinate) * kPhase1SymmetryCount + symmetry] =
-                twist_coord(conjugate_with_matrix(cube, matrices_[symmetry]));
-        }
-    }
-
-    flip_conjugates_.resize(2048U * kPhase1SymmetryCount);
-    for (std::uint16_t coordinate = 0; coordinate < 2048; ++coordinate) {
-        const CubieCube cube = cube_from_flip(coordinate);
-        for (int symmetry = 0; symmetry < kPhase1SymmetryCount; ++symmetry) {
-            flip_conjugates_[static_cast<std::size_t>(coordinate) * kPhase1SymmetryCount + symmetry] =
-                flip_coord(conjugate_with_matrix(cube, matrices_[symmetry]));
-        }
-    }
-
-    slice_conjugates_.resize(495U * kPhase1SymmetryCount);
-    for (std::uint16_t coordinate = 0; coordinate < 495; ++coordinate) {
-        CubieCube cube = cube_from_slice_comb(coordinate);
-        if (permutation_parity(cube.ep) != 0)
-            std::swap(cube.cp[0], cube.cp[1]);
-        for (int symmetry = 0; symmetry < kPhase1SymmetryCount; ++symmetry) {
-            slice_conjugates_[static_cast<std::size_t>(coordinate) * kPhase1SymmetryCount + symmetry] =
-                slice_comb_coord(conjugate_with_matrix(cube, matrices_[symmetry]));
-        }
-    }
-
-    const auto conjugate_flip_slice_cube = [&](const CubieCube &cube, int symmetry) {
-        CubieCube transformed;
-        for (int old_position = 0; old_position < 12; ++old_position) {
-            const int old_edge = cube.ep[old_position];
-            const int new_position = edge_position_[symmetry][old_position];
-            transformed.ep[new_position] = edge_position_[symmetry][old_edge];
-            transformed.eo[new_position] = static_cast<std::uint8_t>(
-                cube.eo[old_position] ^ edge_frame_[symmetry][old_position] ^ edge_frame_[symmetry][old_edge]);
-        }
-        return static_cast<std::uint32_t>(flip_coord(transformed)) * 495U + slice_comb_coord(transformed);
-    };
-
-    raw_to_class_.resize(kFlipSliceRawCount, std::numeric_limits<std::uint32_t>::max());
-    raw_to_symmetry_.resize(kFlipSliceRawCount);
-    representatives_.reserve(kFlipSliceClassCount);
-    for (std::uint32_t raw = 0; raw < kFlipSliceRawCount; ++raw) {
-        CubieCube raw_cube = cube_from_slice_comb(static_cast<std::uint16_t>(raw % 495U));
-        const CubieCube flip_cube = cube_from_flip(static_cast<std::uint16_t>(raw / 495U));
-        raw_cube.eo = flip_cube.eo;
-        std::uint32_t representative_raw = raw;
-        std::uint8_t symmetry_to_rep = 0;
-        for (int symmetry = 1; symmetry < kPhase1SymmetryCount; ++symmetry) {
-            const std::uint32_t transformed = conjugate_flip_slice_cube(raw_cube, symmetry);
-            if (transformed < representative_raw) {
-                representative_raw = transformed;
-                symmetry_to_rep = static_cast<std::uint8_t>(symmetry);
+    const wchar_t *configured = _wgetenv(L"CUBE_HTM_SYMMETRY_CACHE");
+    const wchar_t *coordinate_cache = _wgetenv(L"CUBE_NATIVE_COORDINATE_CACHE");
+    const std::filesystem::path cache =
+        configured ? std::filesystem::path(configured)
+        : coordinate_cache && *coordinate_cache
+            ? std::filesystem::path(coordinate_cache).parent_path() / L"phase1_symmetry_htm_v1.bin"
+            : std::filesystem::path(L".cache/htm/phase1_symmetry_htm_v1.bin");
+    cache_loaded_ = !cache.empty() && load_cache(cache);
+    if (!cache_loaded_) {
+        representatives_.clear();
+        // Cache each 54-facelet permutation as a transformed cubie operation by using
+        // the matrix routine while the small coordinate conjugation tables are built.
+        twist_conjugates_.resize(2187U * kPhase1SymmetryCount);
+        for (std::uint16_t coordinate = 0; coordinate < 2187; ++coordinate) {
+            const CubieCube cube = cube_from_twist(coordinate);
+            for (int symmetry = 0; symmetry < kPhase1SymmetryCount; ++symmetry) {
+                twist_conjugates_[static_cast<std::size_t>(coordinate) * kPhase1SymmetryCount + symmetry] =
+                    twist_coord(conjugate_with_matrix(cube, matrices_[symmetry]));
             }
         }
-        if (representative_raw == raw) {
-            raw_to_class_[raw] = static_cast<std::uint32_t>(representatives_.size());
-            representatives_.push_back(raw);
-        } else {
-            if (raw_to_class_[representative_raw] == std::numeric_limits<std::uint32_t>::max()) {
-                throw std::runtime_error("phase-1 symmetry representative ordering is inconsistent");
+
+        flip_conjugates_.resize(2048U * kPhase1SymmetryCount);
+        for (std::uint16_t coordinate = 0; coordinate < 2048; ++coordinate) {
+            const CubieCube cube = cube_from_flip(coordinate);
+            for (int symmetry = 0; symmetry < kPhase1SymmetryCount; ++symmetry) {
+                flip_conjugates_[static_cast<std::size_t>(coordinate) * kPhase1SymmetryCount + symmetry] =
+                    flip_coord(conjugate_with_matrix(cube, matrices_[symmetry]));
             }
-            raw_to_class_[raw] = raw_to_class_[representative_raw];
         }
-        raw_to_symmetry_[raw] = symmetry_to_rep;
-    }
-    if (representatives_.size() != kFlipSliceClassCount) {
-        throw std::runtime_error("phase-1 symmetry class count mismatch: got " +
-                                 std::to_string(representatives_.size()));
+
+        slice_conjugates_.resize(495U * kPhase1SymmetryCount);
+        for (std::uint16_t coordinate = 0; coordinate < 495; ++coordinate) {
+            CubieCube cube = cube_from_slice_comb(coordinate);
+            if (permutation_parity(cube.ep) != 0)
+                std::swap(cube.cp[0], cube.cp[1]);
+            for (int symmetry = 0; symmetry < kPhase1SymmetryCount; ++symmetry) {
+                slice_conjugates_[static_cast<std::size_t>(coordinate) * kPhase1SymmetryCount + symmetry] =
+                    slice_comb_coord(conjugate_with_matrix(cube, matrices_[symmetry]));
+            }
+        }
+
+        const auto conjugate_flip_slice_cube = [&](const CubieCube &cube, int symmetry) {
+            CubieCube transformed;
+            for (int old_position = 0; old_position < 12; ++old_position) {
+                const int old_edge = cube.ep[old_position];
+                const int new_position = edge_position_[symmetry][old_position];
+                transformed.ep[new_position] = edge_position_[symmetry][old_edge];
+                transformed.eo[new_position] = static_cast<std::uint8_t>(
+                    cube.eo[old_position] ^ edge_frame_[symmetry][old_position] ^ edge_frame_[symmetry][old_edge]);
+            }
+            return static_cast<std::uint32_t>(flip_coord(transformed)) * 495U + slice_comb_coord(transformed);
+        };
+
+        static_assert((static_cast<std::uint64_t>(kFlipSliceClassCount - 1) * 2187U << 4U) + 15U <=
+                      std::numeric_limits<std::uint32_t>::max());
+        raw_to_packed_.assign(kFlipSliceRawCount, std::numeric_limits<std::uint32_t>::max());
+        representatives_.reserve(kFlipSliceClassCount);
+        for (std::uint32_t raw = 0; raw < kFlipSliceRawCount; ++raw) {
+            CubieCube raw_cube = cube_from_slice_comb(static_cast<std::uint16_t>(raw % 495U));
+            const CubieCube flip_cube = cube_from_flip(static_cast<std::uint16_t>(raw / 495U));
+            raw_cube.eo = flip_cube.eo;
+            std::uint32_t representative_raw = raw;
+            std::uint8_t symmetry_to_rep = 0;
+            for (int symmetry = 1; symmetry < kPhase1SymmetryCount; ++symmetry) {
+                const std::uint32_t transformed = conjugate_flip_slice_cube(raw_cube, symmetry);
+                if (transformed < representative_raw) {
+                    representative_raw = transformed;
+                    symmetry_to_rep = static_cast<std::uint8_t>(symmetry);
+                }
+            }
+            if (representative_raw == raw) {
+                raw_to_packed_[raw] = (static_cast<std::uint32_t>(representatives_.size()) * 2187U) << 4U;
+                representatives_.push_back(raw);
+            } else {
+                if (raw_to_packed_[representative_raw] == std::numeric_limits<std::uint32_t>::max()) {
+                    throw std::runtime_error("phase-1 symmetry representative ordering is inconsistent");
+                }
+                raw_to_packed_[raw] = raw_to_packed_[representative_raw] & ~15U;
+            }
+            raw_to_packed_[raw] |= symmetry_to_rep;
+        }
+        if (representatives_.size() != kFlipSliceClassCount) {
+            throw std::runtime_error("phase-1 symmetry class count mismatch: got " +
+                                     std::to_string(representatives_.size()));
+        }
+        if (!cache.empty())
+            save_cache(cache);
     }
 
     // A projected symmetry table is useful for pruning only if it agrees with
@@ -312,10 +335,121 @@ Phase1Symmetry::Phase1Symmetry() {
             const std::uint32_t transformed_raw =
                 static_cast<std::uint32_t>(flip_coord(transformed)) * 495U + slice_comb_coord(transformed);
             if (twist_coord(transformed) != twist_conjugate(probe_twist, symmetry) ||
-                transformed_raw != conjugate_flip_slice_cube(probe, symmetry) ||
                 transformed_raw != flip_slice_conjugate(probe_raw, symmetry)) {
                 throw std::runtime_error("projected phase-1 symmetry table failed full-cube validation");
             }
+        }
+    }
+}
+
+namespace {
+constexpr std::uint64_t kSymmetryCacheVersion = 0x314D544859534850ULL;
+constexpr std::size_t kSymmetryCacheBytes = (2187U + 2048U + 495U) * 16U * sizeof(std::uint16_t) +
+                                            (kFlipSliceRawCount + kFlipSliceClassCount) * sizeof(std::uint32_t);
+
+std::uint64_t symmetry_checksum(const std::vector<std::uint8_t> &data) {
+    std::uint64_t result = 1469598103934665603ULL;
+    for (auto value : data) {
+        result ^= value;
+        result *= 1099511628211ULL;
+    }
+    return result;
+}
+} // namespace
+
+bool Phase1Symmetry::load_cache(const std::filesystem::path &path) {
+    std::ifstream input(path, std::ios::binary | std::ios::ate);
+    std::array<std::uint64_t, 10> header{};
+    if (!input || input.tellg() != static_cast<std::streamoff>(sizeof(header) + kSymmetryCacheBytes))
+        return false;
+    input.seekg(0);
+    std::vector<std::uint8_t> data(kSymmetryCacheBytes);
+    input.read(reinterpret_cast<char *>(header.data()), sizeof(header));
+    input.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+    const std::array<std::uint64_t, 10> expected{
+        kSymmetryCacheVersion, 0x0102030405060708ULL,  1, 2187, 2048, 495, kFlipSliceRawCount, kFlipSliceClassCount,
+        kPhase1SymmetryCount,  symmetry_checksum(data)};
+    if (!input || header != expected)
+        return false;
+    std::size_t offset = 0;
+    auto read = [&](auto &values, std::size_t count) {
+        values.resize(count);
+        const auto bytes = count * sizeof(values[0]);
+        std::memcpy(values.data(), data.data() + offset, bytes);
+        offset += bytes;
+    };
+    read(twist_conjugates_, 2187U * 16U);
+    read(flip_conjugates_, 2048U * 16U);
+    read(slice_conjugates_, 495U * 16U);
+    read(raw_to_packed_, kFlipSliceRawCount);
+    read(representatives_, kFlipSliceClassCount);
+    for (std::uint32_t raw = 0; raw < kFlipSliceRawCount; ++raw) {
+        const auto base = raw_to_packed_[raw] >> 4U;
+        if (base % 2187U != 0 || base / 2187U >= kFlipSliceClassCount || representatives_[base / 2187U] > raw)
+            return false;
+    }
+    for (std::uint32_t i = 0; i < kFlipSliceClassCount; ++i) {
+        const auto raw = representatives_[i];
+        if (raw >= kFlipSliceRawCount || (i && raw <= representatives_[i - 1]) ||
+            raw_to_packed_[raw] != (i * 2187U << 4U))
+            return false;
+    }
+    if (!std::all_of(twist_conjugates_.begin(), twist_conjugates_.end(), [](auto v) { return v < 2187; }) ||
+        !std::all_of(flip_conjugates_.begin(), flip_conjugates_.end(), [](auto v) { return v < 2048; }) ||
+        !std::all_of(slice_conjugates_.begin(), slice_conjugates_.end(), [](auto v) { return v < 495; }))
+        return false;
+    CubieCube probe;
+    std::uint32_t random = 0x6D2B79F5U;
+    for (int sample = 0; sample < 128; ++sample) {
+        random = random * 1664525U + 1013904223U;
+        probe = probe.apply_move(static_cast<int>(random % 18U));
+        const auto raw = static_cast<std::uint32_t>(flip_coord(probe)) * 495U + slice_comb_coord(probe);
+        for (int s = 0; s < 16; ++s) {
+            const auto transformed = conjugate(probe, s);
+            if (twist_coord(transformed) != twist_conjugate(twist_coord(probe), s) ||
+                static_cast<std::uint32_t>(flip_coord(transformed)) * 495U + slice_comb_coord(transformed) !=
+                    flip_slice_conjugate(raw, s))
+                return false;
+        }
+        if (flip_slice_conjugate(raw, symmetry_to_representative(raw)) != representative(class_index(raw)))
+            return false;
+    }
+    return true;
+}
+
+void Phase1Symmetry::save_cache(const std::filesystem::path &path) const {
+    std::filesystem::path temporary;
+    try {
+        if (!path.parent_path().empty())
+            std::filesystem::create_directories(path.parent_path());
+        std::vector<std::uint8_t> data;
+        data.reserve(kSymmetryCacheBytes);
+        auto append = [&](const auto &values) {
+            const auto *bytes = reinterpret_cast<const std::uint8_t *>(values.data());
+            data.insert(data.end(), bytes, bytes + values.size() * sizeof(values[0]));
+        };
+        append(twist_conjugates_);
+        append(flip_conjugates_);
+        append(slice_conjugates_);
+        append(raw_to_packed_);
+        append(representatives_);
+        const std::array<std::uint64_t, 10> header{
+            kSymmetryCacheVersion, 0x0102030405060708ULL,  1, 2187, 2048, 495, kFlipSliceRawCount, kFlipSliceClassCount,
+            kPhase1SymmetryCount,  symmetry_checksum(data)};
+        temporary = path;
+        temporary +=
+            L"." + std::to_wstring(GetCurrentProcessId()) + L"." + std::to_wstring(GetCurrentThreadId()) + L".tmp";
+        std::ofstream output(temporary, std::ios::binary | std::ios::trunc);
+        output.write(reinterpret_cast<const char *>(header.data()), sizeof(header));
+        output.write(reinterpret_cast<const char *>(data.data()), static_cast<std::streamsize>(data.size()));
+        output.close();
+        if (!output ||
+            !MoveFileExW(temporary.c_str(), path.c_str(), MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH))
+            throw std::runtime_error("could not publish optional HTM symmetry cache");
+    } catch (...) {
+        if (!temporary.empty()) {
+            std::error_code ignored;
+            std::filesystem::remove(temporary, ignored);
         }
     }
 }
@@ -388,10 +522,12 @@ std::uint32_t Phase1Symmetry::class_count() const noexcept {
     return static_cast<std::uint32_t>(representatives_.size());
 }
 
-std::uint32_t Phase1Symmetry::class_index(std::uint32_t raw) const noexcept { return raw_to_class_[raw]; }
+std::uint32_t Phase1Symmetry::class_index(std::uint32_t raw) const noexcept {
+    return (raw_to_packed_[raw] >> 4U) / 2187U;
+}
 
 std::uint8_t Phase1Symmetry::symmetry_to_representative(std::uint32_t raw) const noexcept {
-    return raw_to_symmetry_[raw];
+    return static_cast<std::uint8_t>(raw_to_packed_[raw] & 15U);
 }
 
 std::uint32_t Phase1Symmetry::representative(std::uint32_t class_index_value) const noexcept {
@@ -401,13 +537,12 @@ std::uint32_t Phase1Symmetry::representative(std::uint32_t class_index_value) co
 std::uint32_t Phase1Symmetry::canonical_index(std::uint16_t twist, std::uint16_t flip,
                                               std::uint16_t slice) const noexcept {
     const std::uint32_t raw = static_cast<std::uint32_t>(flip) * 495U + slice;
-    const std::uint8_t symmetry = raw_to_symmetry_[raw];
-    return raw_to_class_[raw] * 2187U + twist_conjugate(twist, symmetry);
+    const std::uint32_t packed = raw_to_packed_[raw];
+    return (packed >> 4U) + twist_conjugate(twist, static_cast<int>(packed & 15U));
 }
 
 const std::vector<std::uint16_t> &Phase1Symmetry::twist_table() const noexcept { return twist_conjugates_; }
-const std::vector<std::uint32_t> &Phase1Symmetry::raw_to_class_table() const noexcept { return raw_to_class_; }
-const std::vector<std::uint8_t> &Phase1Symmetry::raw_to_symmetry_table() const noexcept { return raw_to_symmetry_; }
+const std::vector<std::uint32_t> &Phase1Symmetry::raw_to_packed_table() const noexcept { return raw_to_packed_; }
 const std::vector<std::uint32_t> &Phase1Symmetry::representatives() const noexcept { return representatives_; }
 
 } // namespace cube

@@ -1,0 +1,61 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.14, pytest-8.4.2, pluggy-1.6.0
+rootdir: C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解
+configfile: pyproject.toml
+testpaths: tests
+plugins: cov-6.3.0
+collected 182 items / 64 deselected / 118 selected
+
+tests\test_detection_pipeline.py ..                                      [  1%]
+tests\test_htm_candidate_delivery.py ....................                [ 18%]
+tests\test_htm_candidate_protocol.py ..........                          [ 27%]
+tests\test_hybrid_api.py ..                                              [ 28%]
+tests\test_isolation_contract.py ...................                     [ 44%]
+tests\test_next_speed_defaults.py .                                      [ 45%]
+tests\test_next_speed_summary.py ..........                              [ 54%]
+tests\test_qtm_backend.py ......                                         [ 59%]
+tests\test_qtm_candidates_next.py ..                                     [ 61%]
+tests\test_qtm_loader_next.py .                                          [ 61%]
+tests\test_qtm_speed_contract.py .......                                 [ 67%]
+tests\test_release_package.py ....                                       [ 71%]
+tests\test_runtime.py ..                                                 [ 72%]
+tests\test_search_lifecycle.py ...........                               [ 82%]
+tests\test_solver.py .......                                             [ 88%]
+tests\test_tables.py .                                                   [ 88%]
+tests\test_two_by_two.py ......                                          [ 94%]
+tests\test_version.py ...                                                [ 96%]
+tests\test_vision.py ....                                                [100%]
+
+============================== warnings summary ===============================
+tests/test_qtm_loader_next.py::test_real_member_initialization_pause_resume_and_equivalence
+  tests\test_qtm_loader_next.py:34: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+    def test_real_member_initialization_pause_resume_and_equivalence(loader_gate_binary, record_property):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\docs\benchmarks\release-1.11.0\coverage-tests-final.xml -
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.12.14-final-0 _______________
+
+Name                                        Stmts   Miss Branch BrPart  Cover   Missing
+---------------------------------------------------------------------------------------
+cube_app\cubie.py                             202     18    104     15  87.9%   119, 123-124, 127, 140->145, 146, 150->155, 156, 161->170, 171, 196, 198, 200, 202, 204, 218-222, 314
+cube_app\detection.py                          33      3      8      2  87.8%   42, 59, 62
+cube_app\metrics.py                            37     10     14      6  64.7%   19, 27-31, 37, 44, 53, 58
+cube_app\solvers\htm\coords.py                 87     36     16      0  57.3%   28-35, 46-53, 62-73, 81, 85, 89-91, 95, 99-101
+cube_app\solvers\htm\fast.py                  186      8     82     18  90.3%   53->55, 66, 79->82, 99->105, 118->138, 138->164, 142->162, 168, 190, 198->223, 220->222, 223->225, 272->exit, 274->exit, 309, 312, 333, 383, 387
+cube_app\solvers\htm\native.py                303     77    132     41  67.8%   65->67, 90->92, 92->94, 109, 144, 148->exit, 149-151, 160-161, 163-166, 173-175, 178-180, 182-183, 185-186, 192, 197-211, 218-220, 240-243, 247, 249, 256->259, 267->269, 275->281, 284->292, 286, 288, 290-291, 293-294, 299-302, 317, 318->322, 320->322, 327-331, 334-336, 338, 340-342, 344->346, 348, 349->283, 350->353, 354, 363-364, 377, 379, 385-386, 388, 428
+cube_app\solvers\htm\native_fast.py           134      4     48      4  95.6%   33->40, 41->40, 113-114, 120-121
+cube_app\solvers\htm\optimal.py               387     85    148     32  73.6%   217-218, 240->242, 245, 254-255, 257, 259, 261, 266, 292->299, 305-310, 312->323, 363-364, 382-383, 389, 435, 442->444, 450, 453, 462-467, 526, 531, 549->552, 553-555, 579, 599, 605, 616, 619, 622, 625, 627, 674-680, 723, 726-754, 760, 764, 768-776, 784-785, 791-803
+cube_app\solvers\htm\tables.py                145     64     42      8  52.9%   66->65, 71, 80, 90, 115, 118, 123-178, 210-212, 225-246, 256-273
+cube_app\solvers\htm\two_by_two.py            138     17     56     14  84.0%   51, 57, 60-61, 72, 75->80, 81-82, 85, 87, 122, 157, 163, 172, 176, 180, 189, 194
+cube_app\solvers\htm\two_by_two_tables.py     120     14     40      5  88.1%   29, 39, 94, 109, 127-129, 137-145
+cube_app\solvers\resource_broker.py           114     15     30      2  84.0%   58-67, 79, 128-131
+cube_app\vision.py                            539    186    230     30  61.8%   24-47, 59-73, 88, 90, 95, 159, 162, 177-178, 186, 196-197, 201-203, 207->183, 215->225, 218, 267, 270, 272, 284, 285->291, 302, 351, 379->376, 399, 419, 422, 431, 458->450, 475-512, 519-582, 586, 598-624, 661, 680, 729-752, 775, 790->784
+server.py                                     640    161    232     60  70.8%   37-40, 65-66, 76-77, 130-139, 141, 175-176, 193->exit, 195->exit, 211-213, 216, 237->exit, 245, 257, 271, 309, 322, 327->330, 340-344, 347->353, 353->exit, 366, 391, 411, 416-418, 424->426, 433, 442->449, 469-470, 498, 504, 508, 526-527, 540, 549->554, 554->556, 560->exit, 569->571, 584-588, 592-604, 616->619, 620-625, 630, 639-646, 653-662, 666, 669->680, 671->673, 681, 686-727, 729-730, 738, 741, 745, 751, 755-757, 763-765, 803-828, 851, 863-866, 879, 881, 884, 887, 898-899, 905, 908, 909->911, 919-920, 924-944, 948-954, 958-960, 964
+---------------------------------------------------------------------------------------
+TOTAL                                        3072    698   1184    237  73.5%
+
+2 files skipped due to complete coverage.
+Coverage JSON written to file docs/benchmarks/release-1.11.0/coverage-final.json
+Required test coverage of 70.0% reached. Total coverage: 73.47%
+=============== 118 passed, 64 deselected, 1 warning in 20.81s ================

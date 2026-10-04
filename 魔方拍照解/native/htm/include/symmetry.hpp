@@ -4,6 +4,7 @@
 
 #include <array>
 #include <cstdint>
+#include <filesystem>
 #include <vector>
 
 namespace cube {
@@ -34,9 +35,9 @@ class Phase1Symmetry {
                                                 std::uint16_t slice) const noexcept;
 
     [[nodiscard]] const std::vector<std::uint16_t> &twist_table() const noexcept;
-    [[nodiscard]] const std::vector<std::uint32_t> &raw_to_class_table() const noexcept;
-    [[nodiscard]] const std::vector<std::uint8_t> &raw_to_symmetry_table() const noexcept;
+    [[nodiscard]] const std::vector<std::uint32_t> &raw_to_packed_table() const noexcept;
     [[nodiscard]] const std::vector<std::uint32_t> &representatives() const noexcept;
+    [[nodiscard]] bool cache_loaded() const noexcept { return cache_loaded_; }
 
   private:
     struct Matrix {
@@ -50,9 +51,12 @@ class Phase1Symmetry {
     std::vector<std::uint16_t> twist_conjugates_;
     std::vector<std::uint16_t> flip_conjugates_;
     std::vector<std::uint16_t> slice_conjugates_;
-    std::vector<std::uint32_t> raw_to_class_;
-    std::vector<std::uint8_t> raw_to_symmetry_;
+    // Upper bits: class * 2187; low four bits: symmetry to that representative.
+    std::vector<std::uint32_t> raw_to_packed_;
     std::vector<std::uint32_t> representatives_;
+    bool cache_loaded_{false};
+    [[nodiscard]] bool load_cache(const std::filesystem::path &path);
+    void save_cache(const std::filesystem::path &path) const;
 };
 
 } // namespace cube

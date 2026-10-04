@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import time
 import threading
+import os
 from collections.abc import Callable
 from pathlib import Path
 
@@ -39,11 +40,13 @@ class FastTwoPhaseSolver:
         tables: SolverTables | None = None,
         max_phase1_depth: int = 12,
         max_phase2_depth: int = 14,
+        native_policy: str = "off",
     ) -> None:
         self.cache_dir = Path(cache_dir)
         self._tables = tables
         self.max_phase1_depth = max_phase1_depth
         self.max_phase2_depth = max_phase2_depth
+        self.native_policy = native_policy
 
     @property
     def tables(self) -> SolverTables:
@@ -88,6 +91,16 @@ class FastTwoPhaseSolver:
 
         if cube.is_solved():
             return publish([], True)
+
+        native_policy = os.environ.get("CUBE_HTM_NATIVE_CANDIDATE", self.native_policy).lower()
+        if native_policy in {"1", "true", "on", "single", "six"}:
+            from .native_fast import NATIVE_CANDIDATE
+            from .native import NATIVE_EXE
+            if NATIVE_EXE.is_file():
+                return NATIVE_CANDIDATE.solve(cube, timeout_seconds=timeout_seconds,
+                    candidate_callback=candidate_callback, cancel_event=cancel_event, deadline=deadline,
+                    directions=6 if native_policy == "six" else 1,
+                    max_phase1_depth=self.max_phase1_depth, max_phase2_depth=self.max_phase2_depth)
 
         if self._tables is None:
             self._tables = load_or_build_tables(

@@ -1,0 +1,34 @@
+{
+  "scope": "Real HTTP handler, fresh application and native processes, warm OS and disk caches; no external moves or proofs",
+  "deadline_seconds": 30,
+  "threads": 15,
+  "candidate_threads": 1,
+  "runs": [],
+  "identity": {
+    "baseline": {
+      "server.py": "23b50674e79aa015fe7143b708dc80b6806d1ed73888431d029696f135c3a3f5",
+      "native\\htm\\build\\cube_solver_htm.exe": "47c7dc03a96f9c2529a6f301e285af8477b01461747928c8223f12861d423011",
+      "cube_app\\solvers\\htm\\__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cube_app\\solvers\\htm\\coords.py": "ddd6e2f604f19fd826fd4cb4e405b9e0935c56c6b7b56d44ae620affb8a37264",
+      "cube_app\\solvers\\htm\\fast.py": "13e326f94fab6d02bc24e8fc8f1fd75cbf775a6b0ce0ca2a5bdbc6dd52fb4b88",
+      "cube_app\\solvers\\htm\\native.py": "0418cf4df82167c1bbf2f8a4dbad0c0b06eab83cce9f4a0d7b9dcb3e0635aaef",
+      "cube_app\\solvers\\htm\\optimal.py": "2088139a1f3321a35ec31b3096cfc49b08747bb94c1cb6c711cccca9e892ecbf",
+      "cube_app\\solvers\\htm\\tables.py": "ef2577ed610f61a8a2785866943ba972182f5d1ccd4ca729d91af331bf8f6ff7",
+      "cube_app\\solvers\\htm\\two_by_two.py": "392e8aabd985c2cdd6340e822d252a4f4b627bccd7cc471cea47e9bd4ef6729d",
+      "cube_app\\solvers\\htm\\two_by_two_tables.py": "6d58ebf7eb62bd1ec164e52934c7fd5675e75458ea6a79b569a687872dba8edd"
+    },
+    "current": {
+      "server.py": "2d39fe0728d04a2ee22c99fb409c977840b82a21ba1fd1daa2e8ef08ac3769c6",
+      "native\\htm\\build\\cube_solver_htm.exe": "da415908a0e217b6db427de5c9f5f2bcf5de2719a10929e11716a260ddbe43ec",
+      "cube_app\\solvers\\htm\\__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cube_app\\solvers\\htm\\coords.py": "36a20e2444aa9805a3cdb92ff84c193482efb8cc161140692baab248a092fafa",
+      "cube_app\\solvers\\htm\\fast.py": "6b0e12c41624478526b3a162c046aa4c98ba10e7d8b9ec90efcfae09954c9983",
+      "cube_app\\solvers\\htm\\native.py": "5622c4e75a7db487353c7befeaa9ec7731c3843190d146bd41cdfaa8faad0b50",
+      "cube_app\\solvers\\htm\\native_fast.py": "03c5fdb80abc088cb179f7e2209d02f0edde8377a09dae38b88956c2b5e957c3",
+      "cube_app\\solvers\\htm\\optimal.py": "291e1085b10c82a792b65807915e29667625cb284c699546a6542068ff7b5340",
+      "cube_app\\solvers\\htm\\tables.py": "4ded5140b02209a749fd427ca331b8236afc69682ee9fb6476859d038ab1a5da",
+      "cube_app\\solvers\\htm\\two_by_two.py": "b900c8fcf81c3432e578c7eba9037bb4d07d5d8e0a49681dfbe93215dccd1177",
+      "cube_app\\solvers\\htm\\two_by_two_tables.py": "08d2d00c9504ea80fd07ef118834e9cb4c1ff1efb01b36aadf20413a63f52ab1"
+    }
+  }
+}

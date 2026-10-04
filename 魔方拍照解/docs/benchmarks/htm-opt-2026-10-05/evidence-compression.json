@@ -1,0 +1,365 @@
+{
+  "method": "gzip level 9, mtime 0; decompressed bytes checked against original before replacement",
+  "files": [
+    {
+      "original": "final-default.json",
+      "compressed": "final-default.json.gz",
+      "original_bytes": 690599,
+      "compressed_bytes": 42022,
+      "original_sha256": "75e6f439983536d9122bc42ff115e1bdca04b4efce55ff6e24dd3326908ac5fa",
+      "compressed_sha256": "6ec529e35ab00ff9171a338b4449b0ecd3baf19b22b106a0c674ebdc560d70dc"
+    },
+    {
+      "original": "final-random.json",
+      "compressed": "final-random.json.gz",
+      "original_bytes": 359833,
+      "compressed_bytes": 14776,
+      "original_sha256": "fad83de4da60b9faa472ab02c834e05bf11b7fa5334b56923432e695d78ee21d",
+      "compressed_sha256": "a463f07703ce7d205f34ec36f51392e94fadc26bb2014cbe74f1d1565644a3b0"
+    },
+    {
+      "original": "final-same-tree-pair.json",
+      "compressed": "final-same-tree-pair.json.gz",
+      "original_bytes": 454789,
+      "compressed_bytes": 37099,
+      "original_sha256": "69178b1c9581a4bee806e5e0ba699dae3bd218ec4e8386108b0cc74b25d2f1ad",
+      "compressed_sha256": "2140de77b3f54f8a07206891b478e27a8d975b77f1929866bb4d90b33700962f"
+    },
+    {
+      "original": "http-matrix-v2/0-initial-1-baseline.json",
+      "compressed": "http-matrix-v2/0-initial-1-baseline.json.gz",
+      "original_bytes": 1518909,
+      "compressed_bytes": 82945,
+      "original_sha256": "6737ec54f0ac82192b590ed34850a1769f9e55e65ae3b19d5d3f8ce8564188c1",
+      "compressed_sha256": "a931d7fcc7fcaa3add37a474c3a1f84ef73f8f81bc4ab62cef9927f2ff48ccd1"
+    },
+    {
+      "original": "http-matrix-v2/0-initial-1-current.json",
+      "compressed": "http-matrix-v2/0-initial-1-current.json.gz",
+      "original_bytes": 692085,
+      "compressed_bytes": 42247,
+      "original_sha256": "ce666e518d710095bef9ca72467384663c129edc090309dc9adcdf73ca35a668",
+      "compressed_sha256": "d1d16c8b3b23a873f81d8232e04ec58270ae6fc8a05dc0b9b84769e3bc84b77e"
+    },
+    {
+      "original": "http-matrix-v2/0-initial-12-baseline.json",
+      "compressed": "http-matrix-v2/0-initial-12-baseline.json.gz",
+      "original_bytes": 861846,
+      "compressed_bytes": 51177,
+      "original_sha256": "9214d32cd39c62e9228bd009c32936f1ccf0242dfa0962b6846fe62b7a286ff2",
+      "compressed_sha256": "a596d4d60659dba1a3f02cd8a5559cc9ee746628911cae51e76333e107257772"
+    },
+    {
+      "original": "http-matrix-v2/0-initial-12-current.json",
+      "compressed": "http-matrix-v2/0-initial-12-current.json.gz",
+      "original_bytes": 766411,
+      "compressed_bytes": 45633,
+      "original_sha256": "b7d0c07a87c63015c01347b5ddb8dbecae297d66c2b1c9c3292b227cc5b75728",
+      "compressed_sha256": "25d216d076632f527ffc430270c38eccc101d6ddc0d6734777a288d6f3349a7f"
+    },
+    {
+      "original": "http-matrix-v2/0-initial-16-baseline.json",
+      "compressed": "http-matrix-v2/0-initial-16-baseline.json.gz",
+      "original_bytes": 1521801,
+      "compressed_bytes": 83371,
+      "original_sha256": "fce4c210aebe9095f5cd28e988285872ad4aea703d65ab02640f325dacc28e68",
+      "compressed_sha256": "e284f0cb54d5f25b5595b1fa07e62402d5bacfc1239ccf144f5852192d54e4e6"
+    },
+    {
+      "original": "http-matrix-v2/0-initial-16-current.json",
+      "compressed": "http-matrix-v2/0-initial-16-current.json.gz",
+      "original_bytes": 1558536,
+      "compressed_bytes": 82446,
+      "original_sha256": "9d95fc5e47a991614a57d905941e28ac19aa4e4b572f78481594e887c65fc08f",
+      "compressed_sha256": "8e6324366dd99eacdac899847b72e4f7841b2bed3cb169879e2f9ecd04765d8c"
+    },
+    {
+      "original": "http-matrix-v2/0-initial-2-baseline.json",
+      "compressed": "http-matrix-v2/0-initial-2-baseline.json.gz",
+      "original_bytes": 307419,
+      "compressed_bytes": 21175,
+      "original_sha256": "c5cf282344b1e9ea3b4821e1df5fde58fdfd527857ce905400e10a979de586ff",
+      "compressed_sha256": "95ad6341a5a555be39301759d3860ce90a68238da24527842556caa29f68ce12"
+    },
+    {
+      "original": "http-matrix-v2/0-initial-2-current.json",
+      "compressed": "http-matrix-v2/0-initial-2-current.json.gz",
+      "original_bytes": 283939,
+      "compressed_bytes": 20218,
+      "original_sha256": "ee8dd15eb9fed5fe19b636588c92c487612d5c60e91aa4884e363e5556028fbe",
+      "compressed_sha256": "63ac70d801e3049f11960a43d3f930aa35b74af220630f92ea90c870da900853"
+    },
+    {
+      "original": "http-matrix-v2/0-initial-5-baseline.json",
+      "compressed": "http-matrix-v2/0-initial-5-baseline.json.gz",
+      "original_bytes": 719658,
+      "compressed_bytes": 42709,
+      "original_sha256": "9b7a2142e5a42c4ef2a8d5030a7b5b35c1696788ef60026376840205ab9e4e20",
+      "compressed_sha256": "7fb6392a9e953b0952ce0886461e061934fb0e6abd16efb804ef29b150739959"
+    },
+    {
+      "original": "http-matrix-v2/0-initial-5-current.json",
+      "compressed": "http-matrix-v2/0-initial-5-current.json.gz",
+      "original_bytes": 653533,
+      "compressed_bytes": 40073,
+      "original_sha256": "1af8db1ae2a9cf2ce3a5fd585dde9facbef2aa86f8bd66d5aa22cb12f922fdd7",
+      "compressed_sha256": "a18c31fe714f4119c90f426e79a1a22eae1634275b87e260fd943fbf6aae8cbd"
+    },
+    {
+      "original": "http-matrix-v2/0-initial-8-baseline.json",
+      "compressed": "http-matrix-v2/0-initial-8-baseline.json.gz",
+      "original_bytes": 1512671,
+      "compressed_bytes": 83087,
+      "original_sha256": "1e71b437353e281a480f0e283be4eb561bd1fcee11d96c38013a5d7efd356d6f",
+      "compressed_sha256": "e9109636e3fcb7392d7a29a8bdc0e388b38c5b71eada81a6fe816e6922dec6b8"
+    },
+    {
+      "original": "http-matrix-v2/0-initial-8-current.json",
+      "compressed": "http-matrix-v2/0-initial-8-current.json.gz",
+      "original_bytes": 776117,
+      "compressed_bytes": 45740,
+      "original_sha256": "cc40faf2952fbba3134d48dd5b1fe262fbb28c2b16a61c8e25b7cbac310eabd0",
+      "compressed_sha256": "0354c7f23a63b7268b95bda7379d53fd7b6eb93a0b597a7d9bc0dee1bf52e798"
+    },
+    {
+      "original": "http-matrix-v2/1-initial-1-baseline.json",
+      "compressed": "http-matrix-v2/1-initial-1-baseline.json.gz",
+      "original_bytes": 1280231,
+      "compressed_bytes": 71751,
+      "original_sha256": "56dddf3e7000440d4ff7f2860040818bc9e0cafe5f4796286f8f89a711e3a9c9",
+      "compressed_sha256": "398bd90fa79cddd74aab7042f6c3045823218f74062830ff75410b70e640d749"
+    },
+    {
+      "original": "http-matrix-v2/1-initial-1-current.json",
+      "compressed": "http-matrix-v2/1-initial-1-current.json.gz",
+      "original_bytes": 669269,
+      "compressed_bytes": 40519,
+      "original_sha256": "7c4d398ab8b821de8d54619de54c6136129f53bfcd575dfc7bbf576974343fd3",
+      "compressed_sha256": "e1e31de53c68d3be06563cdfff9458eec9d9f222ff9dee8c84706a6c366b040a"
+    },
+    {
+      "original": "http-matrix-v2/1-initial-12-baseline.json",
+      "compressed": "http-matrix-v2/1-initial-12-baseline.json.gz",
+      "original_bytes": 856005,
+      "compressed_bytes": 50305,
+      "original_sha256": "6c5e9b2392246df9601acb372b991e9c89339b85640fc15d4afea0b06d88bcc2",
+      "compressed_sha256": "b0136566e79bfb00e35c1f187825c3294fc9385caaf38ab76cabe043ae2f1016"
+    },
+    {
+      "original": "http-matrix-v2/1-initial-12-current.json",
+      "compressed": "http-matrix-v2/1-initial-12-current.json.gz",
+      "original_bytes": 750605,
+      "compressed_bytes": 45003,
+      "original_sha256": "5a78b1f50211191d732d26b8b2e5f07601a4810e2e9f65018aad2d5a857ef67f",
+      "compressed_sha256": "0d1e066b11ebd3338620edc87ea6203856a8261bf8067c3fa99cc1cbefe858d6"
+    },
+    {
+      "original": "http-matrix-v2/1-initial-16-baseline.json",
+      "compressed": "http-matrix-v2/1-initial-16-baseline.json.gz",
+      "original_bytes": 1522872,
+      "compressed_bytes": 82652,
+      "original_sha256": "af591ccc552e0b7271d44db6e7abb09a36276c3b4a9f25a6c254728905e9e3cd",
+      "compressed_sha256": "83e60264f72bdea5fc78e80ff0975359c741d286f053b4422d1be16952656054"
+    },
+    {
+      "original": "http-matrix-v2/1-initial-16-current.json",
+      "compressed": "http-matrix-v2/1-initial-16-current.json.gz",
+      "original_bytes": 1547891,
+      "compressed_bytes": 82998,
+      "original_sha256": "b65bfb985d5d85670f7d0f03b5a6fed03fbc77ee83795e754b925b730fbbed10",
+      "compressed_sha256": "b64970a62e4ea700063f2f73410b71c31d61f427bae7e20e816ee5e492849519"
+    },
+    {
+      "original": "http-matrix-v2/1-initial-2-baseline.json",
+      "compressed": "http-matrix-v2/1-initial-2-baseline.json.gz",
+      "original_bytes": 303618,
+      "compressed_bytes": 20343,
+      "original_sha256": "09f4c61640742fc3087b7e73b729ad05c68694d87d897be65681f3567d57a76b",
+      "compressed_sha256": "101a7a709d93e9a615fefee78e0feb4b9d656c8ee5a11e0ad0a733dd6ea7e394"
+    },
+    {
+      "original": "http-matrix-v2/1-initial-2-current.json",
+      "compressed": "http-matrix-v2/1-initial-2-current.json.gz",
+      "original_bytes": 295355,
+      "compressed_bytes": 20865,
+      "original_sha256": "cba2873452b08e658757a46a834ef3a37fd97c7240bfa576671547e18601bcf0",
+      "compressed_sha256": "0324975a5136680a525edab32335028ed1e56cd9e1360656624c210cd428bded"
+    },
+    {
+      "original": "http-matrix-v2/1-initial-5-baseline.json",
+      "compressed": "http-matrix-v2/1-initial-5-baseline.json.gz",
+      "original_bytes": 698870,
+      "compressed_bytes": 41602,
+      "original_sha256": "5da7c82580ee602badd0691d35bf99514908ca473426c038c8222429b23a0807",
+      "compressed_sha256": "059cbcd9eb34b2cfb964355a2b9eb8efe5074d8d7597b5969766889fc6cdce3e"
+    },
+    {
+      "original": "http-matrix-v2/1-initial-5-current.json",
+      "compressed": "http-matrix-v2/1-initial-5-current.json.gz",
+      "original_bytes": 617694,
+      "compressed_bytes": 37788,
+      "original_sha256": "65a8442e1707d98cd2fb6de806c793e3f6bdcce3a42256af7c3d4f381f6580b1",
+      "compressed_sha256": "6e0ca22ff8991a0190ea2066e1948022766384abd9039e41ae23199d5936cc35"
+    },
+    {
+      "original": "http-matrix-v2/1-initial-8-baseline.json",
+      "compressed": "http-matrix-v2/1-initial-8-baseline.json.gz",
+      "original_bytes": 1517086,
+      "compressed_bytes": 83469,
+      "original_sha256": "b2a293d316a93dfa1aaf6fc385a802d8368a982e565b751c492ea82cb12be1f1",
+      "compressed_sha256": "b3f68f39dd91b489124cee8cb32b10ac73a2beef035bc25d6bff82a5d225e3b3"
+    },
+    {
+      "original": "http-matrix-v2/1-initial-8-current.json",
+      "compressed": "http-matrix-v2/1-initial-8-current.json.gz",
+      "original_bytes": 783455,
+      "compressed_bytes": 46619,
+      "original_sha256": "12789a94f09bd3775428fff8d93a64a5b70a14f207b74514edb7bf27616f5a1d",
+      "compressed_sha256": "b23e04bcf1dd2a8f0d85ffef3bb631f24bc35e6a35c50f1cbabb89716b7e99dd"
+    },
+    {
+      "original": "http-matrix-v2/2-initial-1-baseline.json",
+      "compressed": "http-matrix-v2/2-initial-1-baseline.json.gz",
+      "original_bytes": 1299063,
+      "compressed_bytes": 72419,
+      "original_sha256": "d21c2959860b0087d344f757a0b4ac0a2b9d7de04bebab87f491c7b586cd1565",
+      "compressed_sha256": "7e31a328f6830362405ec15c73276964ad6f8dce5fb20684cc9e972d6f099dae"
+    },
+    {
+      "original": "http-matrix-v2/2-initial-1-current.json",
+      "compressed": "http-matrix-v2/2-initial-1-current.json.gz",
+      "original_bytes": 675487,
+      "compressed_bytes": 40883,
+      "original_sha256": "d0504864d9795c2cb33ecc14f5c6e71a449d139f96d4ad21b21dbb2689700e52",
+      "compressed_sha256": "4f3540653034bf76e315667c6fc8374a0f8bb48a12ba65a7448e2c1192957105"
+    },
+    {
+      "original": "http-matrix-v2/2-initial-12-baseline.json",
+      "compressed": "http-matrix-v2/2-initial-12-baseline.json.gz",
+      "original_bytes": 846271,
+      "compressed_bytes": 50344,
+      "original_sha256": "9e190d115ca8a69fef3b47ac3101c78a2070cb2924d0b59b148d46c8c24538c8",
+      "compressed_sha256": "84689d9c553abd4d0c2076dee175d1ed53543e53459d8a8d1e37ab3c3114f84d"
+    },
+    {
+      "original": "http-matrix-v2/2-initial-12-current.json",
+      "compressed": "http-matrix-v2/2-initial-12-current.json.gz",
+      "original_bytes": 732045,
+      "compressed_bytes": 43690,
+      "original_sha256": "5f823f1205547347d228c5736fa7b808330ed0f5a30455a670c0a6d4f3f6c35c",
+      "compressed_sha256": "658e41a5553873f285baa6ba107cadbb0274c69e39140319d1afc1c6d7855816"
+    },
+    {
+      "original": "http-matrix-v2/2-initial-16-baseline.json",
+      "compressed": "http-matrix-v2/2-initial-16-baseline.json.gz",
+      "original_bytes": 1518448,
+      "compressed_bytes": 83090,
+      "original_sha256": "b8fdbb8e49a4cd8b7e322e1fc1580bc15018825f048973e7b070dffbaace4586",
+      "compressed_sha256": "1c9b095d08a92394970f84922315a032be7db4bc0d5f2909495255493ef5f051"
+    },
+    {
+      "original": "http-matrix-v2/2-initial-16-current.json",
+      "compressed": "http-matrix-v2/2-initial-16-current.json.gz",
+      "original_bytes": 1546750,
+      "compressed_bytes": 82337,
+      "original_sha256": "4832a9323bffdcd6db4db21bd9a7e383ee5323a09d6451f65af36f07e9fb52a1",
+      "compressed_sha256": "266f1f7d0eece5c1cbd823a58af3a45f6ea7812f546d2d439db593ffc3afd3c1"
+    },
+    {
+      "original": "http-matrix-v2/2-initial-2-baseline.json",
+      "compressed": "http-matrix-v2/2-initial-2-baseline.json.gz",
+      "original_bytes": 280667,
+      "compressed_bytes": 19537,
+      "original_sha256": "1b5e670d5098f1b6d87f8ff344037647ad2e4c315b2dd32a6779645c207f9091",
+      "compressed_sha256": "05e183e66da102aa0ac9364a1cbcc6b7ee3801c5dd78dc8f4d7b723688578687"
+    },
+    {
+      "original": "http-matrix-v2/2-initial-2-current.json",
+      "compressed": "http-matrix-v2/2-initial-2-current.json.gz",
+      "original_bytes": 299065,
+      "compressed_bytes": 20450,
+      "original_sha256": "4a035a84444e848146862a6802d5a150cecab4eb0da2345766f52d8310bdb09e",
+      "compressed_sha256": "be0f636fd39b43e6131e99f7effe042fb304b7e20bafad84ef6fbdbae538c8db"
+    },
+    {
+      "original": "http-matrix-v2/2-initial-5-baseline.json",
+      "compressed": "http-matrix-v2/2-initial-5-baseline.json.gz",
+      "original_bytes": 708927,
+      "compressed_bytes": 41883,
+      "original_sha256": "c0bb2c9ad250d143453a28421427fcfe3c37e75fac6af7a915acbc86691fe826",
+      "compressed_sha256": "9afd5a58dda1f97a8ad6f2fae2400a077b408a79b7770a0bf27aa495deb142bb"
+    },
+    {
+      "original": "http-matrix-v2/2-initial-5-current.json",
+      "compressed": "http-matrix-v2/2-initial-5-current.json.gz",
+      "original_bytes": 609597,
+      "compressed_bytes": 37071,
+      "original_sha256": "1a36f758c758dbbb3df947cafa19f44b78f8cba3e2cfa9c7c05d964c1f7f76cd",
+      "compressed_sha256": "20a2f6b110afd047c6cb5d35a911d27ef01fea24d3300a9ee937e9ddb9f14e39"
+    },
+    {
+      "original": "http-matrix-v2/2-initial-8-baseline.json",
+      "compressed": "http-matrix-v2/2-initial-8-baseline.json.gz",
+      "original_bytes": 1528840,
+      "compressed_bytes": 83837,
+      "original_sha256": "7efbd7cea0406e48c2647d1a10f47555b9373e7486e45b060da804b9d6bee231",
+      "compressed_sha256": "50b68ad857391f9ca06eb837ffa2de6da02e964cafa1a8240c23e71ba01d87fb"
+    },
+    {
+      "original": "http-matrix-v2/2-initial-8-current.json",
+      "compressed": "http-matrix-v2/2-initial-8-current.json.gz",
+      "original_bytes": 785895,
+      "compressed_bytes": 47188,
+      "original_sha256": "96f6678ea4398926b9b3eb2fd136d0b72b544148130b13db4e9ab01e7c03ea71",
+      "compressed_sha256": "d25413137afbd06774b1940522a75538a4dade2ed76ad2d2a26a0aecf50bdecb"
+    },
+    {
+      "original": "http-matrix-v2.json",
+      "compressed": "http-matrix-v2.json.gz",
+      "original_bytes": 37414760,
+      "compressed_bytes": 1919673,
+      "original_sha256": "9187bf8c4b845921527075584823e08b1f8df60fc1e9e87023dbe8ada3b15e99",
+      "compressed_sha256": "1bdab0428f8710633204af0c82faf51667f0d4cc66fe5744fc40d63492520fe8"
+    },
+    {
+      "original": "http-smoke.json",
+      "compressed": "http-smoke.json.gz",
+      "original_bytes": 681497,
+      "compressed_bytes": 41997,
+      "original_sha256": "a9a831404cfd843e990726ed5b81e77eee21157bba2b958c39ae76625967ee71",
+      "compressed_sha256": "2fd6f7fd6c9955f21276e0539152e7b41a1c65a99f3fe705a15b850df564affa"
+    },
+    {
+      "original": "p0-incumbent.json",
+      "compressed": "p0-incumbent.json.gz",
+      "original_bytes": 482217,
+      "compressed_bytes": 31017,
+      "original_sha256": "8e3b32096583b138273b863eb6a35246f75dc213e4db22eed09540ba0b01e042",
+      "compressed_sha256": "e56f8812f3b00e66535b8b8effe12b4ebc2fc317515f62aeabb4ad167d84a8af"
+    },
+    {
+      "original": "p1-packed-pair.json",
+      "compressed": "p1-packed-pair.json.gz",
+      "original_bytes": 462226,
+      "compressed_bytes": 37966,
+      "original_sha256": "ebb98a27e14c7c76c32014f3679931281262f85abf9cc1e91c0575afa6fffee0",
+      "compressed_sha256": "5571051e73150798bc4296385b10f5e8d7bb66a00c2ba8e9bf5ca7966e5e21eb"
+    },
+    {
+      "original": "p1-specialized-pair.json",
+      "compressed": "p1-specialized-pair.json.gz",
+      "original_bytes": 454779,
+      "compressed_bytes": 36904,
+      "original_sha256": "fbad1ccd145187d904997a535b364eace867daa358cf09ee278220ff238e5f7c",
+      "compressed_sha256": "828ec0614d71c7176248ec57d574a45c366b976146187139dbce2ac024775f23"
+    },
+    {
+      "original": "p2-candidates.json",
+      "compressed": "p2-candidates.json.gz",
+      "original_bytes": 125628,
+      "compressed_bytes": 4913,
+      "original_sha256": "704537eb36ea75695f931ed9d57c53f91a0b2e6d3193f5abc30c6acef0b4c353",
+      "compressed_sha256": "bc8120cb4799ba321127871dc9daee3709c5f43cc16fbcc3ceb645758f6ca2e5"
+    }
+  ]
+}

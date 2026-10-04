@@ -42,3 +42,11 @@
 /魔方拍照解/docs/benchmarks/next-speed-2026-10-02/controlled-baseline.patch -whitespace
 /魔方拍照解/docs/benchmarks/release-1.10.1/**/*.log -whitespace
 /魔方拍照解/docs/benchmarks/release-1.10.1/**/*.xml -whitespace
+
+# Preserve the 1.11.0 HTM review, optimization and release evidence.
+/魔方拍照解/docs/benchmarks/htm-review-2026-10-05/** -text whitespace=cr-at-eol
+/魔方拍照解/docs/benchmarks/htm-opt-2026-10-05/** -text whitespace=cr-at-eol
+/魔方拍照解/docs/benchmarks/htm-opt-2026-10-05/**/*.xml -whitespace
+/魔方拍照解/docs/benchmarks/release-1.11.0/** -text whitespace=cr-at-eol
+/魔方拍照解/docs/benchmarks/release-1.11.0/**/*.log -whitespace
+/魔方拍照解/docs/benchmarks/release-1.11.0/**/*.xml -whitespace

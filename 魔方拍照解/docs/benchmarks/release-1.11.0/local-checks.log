@@ -1,0 +1,236 @@
+1.11.0
+recognition tests passed
+color tests passed
+two_by_two_color.test.js: all tests passed
+solver UI tests passed
+F401 [*] `statistics` imported but unused
+  --> docs\benchmarks\htm-review-2026-10-05\diagnose.py:9:8
+   |
+ 7 | from pathlib import Path
+ 8 | import queue
+ 9 | import statistics
+   |        ^^^^^^^^^^
+10 | import subprocess
+11 | import sys
+   |
+help: Remove unused import: `statistics`
+
+E402 Module level import not at top of file
+  --> docs\benchmarks\htm-review-2026-10-05\diagnose.py:17:1
+   |
+15 | ROOT = Path(__file__).resolve().parents[3]
+16 | sys.path[:0] = [str(ROOT), str(ROOT / "tests")]
+17 | from benchmark_next_speed_pair import Service
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+18 | from benchmark_isolation_short import fixed_layer
+19 | from cube_app.cubie import from_facelets
+   |
+
+E402 Module level import not at top of file
+  --> docs\benchmarks\htm-review-2026-10-05\diagnose.py:18:1
+   |
+16 | sys.path[:0] = [str(ROOT), str(ROOT / "tests")]
+17 | from benchmark_next_speed_pair import Service
+18 | from benchmark_isolation_short import fixed_layer
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+19 | from cube_app.cubie import from_facelets
+20 | from cube_app.solvers.htm.fast import FastTwoPhaseSolver
+   |
+
+E402 Module level import not at top of file
+  --> docs\benchmarks\htm-review-2026-10-05\diagnose.py:19:1
+   |
+17 | from benchmark_next_speed_pair import Service
+18 | from benchmark_isolation_short import fixed_layer
+19 | from cube_app.cubie import from_facelets
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+20 | from cube_app.solvers.htm.fast import FastTwoPhaseSolver
+21 | from cube_app.solvers.htm.tables import load_or_build_tables
+   |
+
+E402 Module level import not at top of file
+  --> docs\benchmarks\htm-review-2026-10-05\diagnose.py:20:1
+   |
+18 | from benchmark_isolation_short import fixed_layer
+19 | from cube_app.cubie import from_facelets
+20 | from cube_app.solvers.htm.fast import FastTwoPhaseSolver
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+21 | from cube_app.solvers.htm.tables import load_or_build_tables
+   |
+
+E402 Module level import not at top of file
+  --> docs\benchmarks\htm-review-2026-10-05\diagnose.py:21:1
+   |
+19 | from cube_app.cubie import from_facelets
+20 | from cube_app.solvers.htm.fast import FastTwoPhaseSolver
+21 | from cube_app.solvers.htm.tables import load_or_build_tables
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+22 |
+23 | if len(sys.argv) != 2:
+   |
+
+E701 Multiple statements on one line (colon)
+  --> docs\benchmarks\htm-review-2026-10-05\diagnose.py:57:12
+   |
+55 |     finally:
+56 |         process.terminate()
+57 |         try: process.wait(timeout=3)
+   |            ^
+58 |         except subprocess.TimeoutExpired:
+59 |             process.kill()
+   |
+
+E701 Multiple statements on one line (colon)
+  --> docs\benchmarks\htm-review-2026-10-05\diagnose.py:61:70
+   |
+59 |             process.kill()
+60 |             process.wait()
+61 |         for stream in (process.stdin, process.stdout, process.stderr): stream.close()
+   |                                                                      ^
+62 |         save()
+   |
+
+E701 Multiple statements on one line (colon)
+  --> docs\benchmarks\htm-review-2026-10-05\diagnose.py:81:20
+   |
+79 |                 run.update(case=name, direction=direction, repeat=repeat, threads=15)
+80 |                 report["layers"].append(run)
+81 |                 try: run["fixed_layer"] = fixed_layer(run)
+   |                    ^
+82 |                 except AssertionError as exc: run["incomplete"] = str(exc)
+83 |                 save()
+   |
+
+E701 Multiple statements on one line (colon)
+  --> docs\benchmarks\htm-review-2026-10-05\diagnose.py:82:45
+   |
+80 |                 report["layers"].append(run)
+81 |                 try: run["fixed_layer"] = fixed_layer(run)
+82 |                 except AssertionError as exc: run["incomplete"] = str(exc)
+   |                                             ^
+83 |                 save()
+84 |                 frame = run["progress"][-1] if run["result"].get("type") == "error" else run["result"]
+   |
+
+E701 Multiple statements on one line (colon)
+  --> docs\benchmarks\htm-review-2026-10-05\diagnose.py:94:24
+   |
+92 |                     run.update(case="initial-1", direction=direction, repeat=repeat, threads=threads, scaling=True)
+93 |                     report["layers"].append(run)
+94 |                     try: run["fixed_layer"] = fixed_layer(run)
+   |                        ^
+95 |                     except AssertionError as exc: run["incomplete"] = str(exc)
+96 |                     save()
+   |
+
+E701 Multiple statements on one line (colon)
+  --> docs\benchmarks\htm-review-2026-10-05\diagnose.py:95:49
+   |
+93 |                     report["layers"].append(run)
+94 |                     try: run["fixed_layer"] = fixed_layer(run)
+95 |                     except AssertionError as exc: run["incomplete"] = str(exc)
+   |                                                 ^
+96 |                     save()
+97 |                     print(json.dumps({"scaling_threads": threads, "repeat": repeat, "wall": run["wall_seconds"]}), flush=True)
+   |
+
+E701 Multiple statements on one line (colon)
+   --> docs\benchmarks\htm-review-2026-10-05\diagnose.py:98:12
+    |
+ 96 |                     save()
+ 97 |                     print(json.dumps({"scaling_threads": threads, "repeat": repeat, "wall": run["wall_seconds"]}), flush=True)
+ 98 |     finally: service.close()
+    |            ^
+ 99 |
+100 | start = time.perf_counter()
+    |
+
+E402 Module level import not at top of file
+  --> docs\benchmarks\htm-review-2026-10-05\incumbent_probe.py:13:1
+   |
+11 | ROOT=Path(__file__).resolve().parents[3]
+12 | sys.path[:0]=[str(ROOT),str(ROOT/'tests')]
+13 | from benchmark_next_speed_pair import Service
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+14 | from cube_app.cubie import from_facelets, MOVE_INDEX
+   |
+
+E402 Module level import not at top of file
+  --> docs\benchmarks\htm-review-2026-10-05\incumbent_probe.py:14:1
+   |
+12 | sys.path[:0]=[str(ROOT),str(ROOT/'tests')]
+13 | from benchmark_next_speed_pair import Service
+14 | from cube_app.cubie import from_facelets, MOVE_INDEX
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+15 |
+16 | if len(sys.argv) != 2:
+   |
+
+E701 Multiple statements on one line (colon)
+  --> docs\benchmarks\htm-review-2026-10-05\incumbent_probe.py:28:15
+   |
+26 | moves=next(r['terminal']['result']['moves'] for r in historical if r['metric']=='HTM' and r['label']=='baseline')
+27 | cube=from_facelets(facelets)
+28 | for m in moves: cube=cube.apply_move_index(MOVE_INDEX[m])
+   |               ^
+29 | assert cube.is_solved() and len(moves)==17
+30 | service=Service(ROOT/'native/htm/build/cube_solver_htm.exe','HTM',['--no-direction-probe'])
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> docs\benchmarks\htm-review-2026-10-05\incumbent_probe.py:36:60
+   |
+34 |         fields=['solve',request_id,facelets,'20',str(timeout),str(threads),' '.join(initial)]
+35 |         start=time.perf_counter()
+36 |         service.process.stdin.write('\t'.join(fields)+'\n');service.process.stdin.flush()
+   |                                                            ^
+37 |         row={'request_id':request_id,'initial_incumbent':initial,'threads':threads,'timeout':timeout,'events':[]}
+38 |         out['runs'].append(row)
+   |
+
+E701 Multiple statements on one line (colon)
+  --> docs\benchmarks\htm-review-2026-10-05\incumbent_probe.py:42:51
+   |
+40 | …     while True:
+41 | …         event=service.event(timeout+10)
+42 | …         if event.get('request_id')!=request_id:continue
+   |                                                 ^
+43 | …         row['events'].append({'received_seconds':time.perf_counter()-start,**event})
+44 | …         if late and not sent and event.get('type')=='progress' and event.get('current_depth')==17 and event.get('elapsed_seconds',0)…
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> docs\benchmarks\htm-review-2026-10-05\incumbent_probe.py:46:102
+   |
+44 | …     if late and not sent and event.get('type')=='progress' and event.get('current_depth')==17 and event.get('elapsed_seconds',0)>0.2…
+45 | …         assert event['completed_depth']==16
+46 | …         service.process.stdin.write('\t'.join(['incumbent',request_id,' '.join(moves)])+'\n');service.process.stdin.flush()
+   |                                                                                                ^
+47 | …         row['sent_incumbent_seconds']=time.perf_counter()-start
+48 | …         sent=True
+   |
+
+E701 Multiple statements on one line (colon)
+  --> docs\benchmarks\htm-review-2026-10-05\incumbent_probe.py:54:36
+   |
+52 |                 print(json.dumps({k:v for k,v in row.items() if k!='events'},ensure_ascii=False),flush=True)
+53 |                 break
+54 |         if request_id=='seed-proof':assert row['result'].get('optimal') and row['result']['completed_depth']==16
+   |                                    ^
+55 |         if late:assert sent
+56 | finally:
+   |
+
+E701 Multiple statements on one line (colon)
+  --> docs\benchmarks\htm-review-2026-10-05\incumbent_probe.py:55:16
+   |
+53 |                 break
+54 |         if request_id=='seed-proof':assert row['result'].get('optimal') and row['result']['completed_depth']==16
+55 |         if late:assert sent
+   |                ^
+56 | finally:
+57 |     service.close()
+   |
+
+Found 21 errors.
+[*] 1 fixable with the `--fix` option.

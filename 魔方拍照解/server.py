@@ -48,7 +48,7 @@ APP_VERSION = __version__
 
 SOLVER = OptimalSolver(ROOT / ".cache" / "htm", parallel=True)
 PROBE_SOLVER = OptimalSolver(ROOT / ".cache" / "htm", parallel=False)
-FAST_SOLVER = FastTwoPhaseSolver(ROOT / ".cache" / "htm")
+FAST_SOLVER = FastTwoPhaseSolver(ROOT / ".cache" / "htm", native_policy="six")
 TWO_BY_TWO_SOLVER = TwoByTwoSolver(ROOT / ".cache" / "htm")
 QUICK_OPTIMAL_PROBE_SECONDS = 0.75
 QUICK_SOLVE_SECONDS = 1.5
@@ -284,13 +284,16 @@ def publish_htm_candidate(job_id: str, expected_job: dict, cube: CubieCube, resu
         if record_generated:
             _record_job_event_locked(job, "candidate_generated", at=generated_at, cost=len(moves), moves=moves,
                                      solver_elapsed_seconds=result.elapsed_seconds)
+        internal = job.get("_incumbent_moves")
+        if internal is None or len(moves) < len(internal):
+            job["_incumbent_moves"] = moves
+            job["incumbent_depth"] = len(moves)
+            _record_job_event_locked(job, "candidate_upper_bound_available", cost=len(moves), moves=moves)
         if not publish:
             return True
-        previous = job.get("incumbent_depth")
+        previous = (job.get("candidate_result") or {}).get("depth")
         if previous is not None and len(moves) >= previous:
             return False
-        job["_incumbent_moves"] = moves
-        job["incumbent_depth"] = len(moves)
         job["candidate_result"] = {**result_payload(result), "moves": moves}
         job["solution_generation_seconds"] = round(generated_at - job.get("_candidate_started_at", generated_at), 3)
         job["updated_at"] = time.time()

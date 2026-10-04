@@ -1,0 +1,64 @@
+1.11.0
+recognition tests passed
+color tests passed
+two_by_two_color.test.js: all tests passed
+solver UI tests passed
+All checks passed!
+============================= test session starts =============================
+platform win32 -- Python 3.12.14, pytest-8.4.2, pluggy-1.6.0
+rootdir: C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解
+configfile: pyproject.toml
+testpaths: tests
+plugins: cov-6.3.0
+collected 172 items
+
+tests\test_detection_pipeline.py ..                                      [  1%]
+tests\test_htm_candidate_delivery.py ....................                [ 12%]
+tests\test_htm_review_optimization.py .......                            [ 16%]
+tests\test_hybrid_api.py ...                                             [ 18%]
+tests\test_isolation_contract.py ...................                     [ 29%]
+tests\test_native_qtm.py ...................                             [ 40%]
+tests\test_native_solver.py .............                                [ 48%]
+tests\test_next_speed_defaults.py .                                      [ 48%]
+tests\test_next_speed_summary.py ..........                              [ 54%]
+tests\test_qtm_backend.py ......                                         [ 58%]
+tests\test_qtm_candidates_next.py .....                                  [ 61%]
+tests\test_qtm_hotpath.py ................                               [ 70%]
+tests\test_qtm_loader_next.py ...                                        [ 72%]
+tests\test_qtm_speed_contract.py .......                                 [ 76%]
+tests\test_real_images.py ...                                            [ 77%]
+tests\test_release_package.py ....                                       [ 80%]
+tests\test_runtime.py ..                                                 [ 81%]
+tests\test_search_lifecycle.py ...........                               [ 87%]
+tests\test_solver.py .......                                             [ 91%]
+tests\test_tables.py .                                                   [ 92%]
+tests\test_two_by_two.py ......                                          [ 95%]
+tests\test_version.py ...                                                [ 97%]
+tests\test_vision.py ....                                                [100%]
+
+============================== warnings summary ===============================
+tests/test_qtm_loader_next.py::test_real_member_initialization_pause_resume_and_equivalence
+  tests\test_qtm_loader_next.py:34: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+    def test_real_member_initialization_pause_resume_and_equivalence(loader_gate_binary, record_property):
+
+tests/test_qtm_loader_next.py::test_real_managed_loader_pause_cancel_resume_and_eof
+  tests\test_qtm_loader_next.py:71: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+    @pytest.mark.qtm_native
+
+tests/test_qtm_loader_next.py::test_real_eof_releases_paused_initialization
+  tests\test_qtm_loader_next.py:109: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+    @pytest.mark.qtm_native
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\docs\benchmarks\release-1.11.0\local-tests-final.xml -
+================= 172 passed, 3 warnings in 156.64s (0:02:36) =================
+Listing 'cube_app'...
+Compiling 'cube_app\\fast.py'...
+Compiling 'cube_app\\native.py'...
+Listing 'cube_app\\solvers'...
+Listing 'cube_app\\solvers\\htm'...
+Listing 'cube_app\\solvers\\qtm'...
+Compiling 'cube_app\\solvers\\qtm\\fast.py'...
+Compiling 'cube_app\\two_by_two.py'...
+Compiling 'cube_app\\two_by_two_tables.py'...
+Compiling 'windows_launcher.py'...

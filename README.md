@@ -1,8 +1,8 @@
 # Cube Lens · 魔方拍照求解
 
-当前版本 **1.10.0**：在本机浏览器上传二阶或三阶魔方的六面照片，校正颜色，再生成复原公式。**HTM 和 QTM 均为正式功能。**
+当前版本 **1.11.0**：在本机浏览器上传二阶或三阶魔方的六面照片，校正颜色，再生成复原公式。**HTM 和 QTM 均为正式功能。** 本版优化 HTM 候选质量、证明热路径和启动缓存。
 
-- [下载 1.10.0](https://github.com/harrislion813-pixel/Rubic-Photo-solve/releases/tag/v1.10.0)：Windows 默认便携包集成 HTM、QTM 和全部运行表；下载两个分段及 `QTM.cmd`，合并后解压启动。
+- [下载 1.11.0](https://github.com/harrislion813-pixel/Rubic-Photo-solve/releases/tag/v1.11.0)：Windows 默认便携包集成 HTM、QTM 和全部运行表；下载两个分段及 `QTM.cmd`，合并后解压启动。
 - [详细使用与源码生成步骤](魔方拍照解/README.md)：环境安装、原生编译、各类表与缓存生成、完整校验和拍照朝向。
 
 `source.zip` 只含基本代码和生成工具。源码用户按 README 在本地生成全部运行表，无需再下载便携包或表文件。GitHub 自动源码包也排除测试、照片与性能报告。

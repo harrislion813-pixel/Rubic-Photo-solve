@@ -1,0 +1,16 @@
+verified: 1.11.0 / QtmStrong / 21 assets
+Traceback (most recent call last):
+  File "C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\tests\verify_release_smoke.py", line 154, in <module>
+    main()
+  File "C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\tests\verify_release_smoke.py", line 140, in main
+    assert ps.returncode == 0, ps.stdout + ps.stderr
+           ^^^^^^^^^^^^^^^^^^
+AssertionError: Incomplete runtime manifest.
+At C:\Users\harriron\Desktop\Rubic-Photo-solve\魔方拍照解\.codex\release-1.11.0\portable-acceptance\RubicPhotoSolve\verify_i
+nstallation.ps1:13 char:72
++ ... s).Count -ne $expectedCount) { throw "Incomplete runtime manifest." }
++                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Incomplete runtime manifest.:String) [], RuntimeException
+    + FullyQualifiedErrorId : Incomplete runtime manifest.
+ 
+

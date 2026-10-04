@@ -56,14 +56,33 @@ def incumbent_gate(binary, report, save):
             for threads in (1, 2, 3, 15):
                 for mode in ("bound_met", "cancel_race", "deadline_race", "unproved"):
                     sent = False
+                    adopted = False
+                    continued = False
+                    adoption_progress = None
                     name = f"late-{inverse}-{threads}-{mode}"
                     candidate = moves if mode != "unproved" else [*moves, "U", "U'"]
-                    timeout = 0.005 if mode == "deadline_race" else 0.6 if mode == "unproved" else 2
+                    timeout = 0.005 if mode == "deadline_race" else 5 if mode == "unproved" else 2
 
                     def update(event):
-                        nonlocal sent
+                        nonlocal sent, adopted, continued, adoption_progress
+                        if mode == "unproved" and event.get("type") == "incumbent" and event.get("stage") == "adopted":
+                            adopted = True
+                        if mode == "unproved" and adopted and event.get("type") == "progress":
+                            assert event["completed_depth"] == 16 and not event["found"], event
+                            if adoption_progress is None:
+                                adoption_progress = event
+                            elif (event["elapsed_seconds"] - adoption_progress["elapsed_seconds"] >= 0.15 and
+                                  event["iteration_nodes"] > adoption_progress["iteration_nodes"] and not continued):
+                                # Observe actual continued search, then cancel. A fixed 0.6s
+                                # request can expire while a hosted runner is still creating
+                                # its 15 workers, before this test's adoption precondition.
+                                continued = True
+                                service.process.stdin.write(f"cancel\t{name}\n")
+                                service.process.stdin.flush()
                         if not sent and event.get("type") == "progress" and event["current_depth"] == 17:
                             if mode in {"bound_met", "cancel_race"} and event["elapsed_seconds"] < 0.20:
+                                return
+                            if mode == "unproved" and (not event.get("workers") or event["iteration_nodes"] == 0):
                                 return
                             sent = True
                             commands = f"incumbent\t{name}\t{' '.join(candidate)}\n"
@@ -86,8 +105,9 @@ def incumbent_gate(binary, report, save):
                         replay(facelets, result["moves"])
                     else:
                         assert not result["optimal"], row
-                        assert result["status"] == ("cancelled" if mode == "cancel_race" else "timeout"), row
+                        assert result["status"] == ("cancelled" if mode in {"cancel_race", "unproved"} else "timeout"), row
                         if mode == "unproved":
+                            assert adopted and continued, row
                             assert result["incumbent_adoptions"] == 1 and result["depth"] == 19, row
                             replay(facelets, result["moves"])
                     report["runs"].append({"kind": mode, "inverse": inverse, "threads": threads, **row})

@@ -38,3 +38,9 @@ HTM 默认原生六方向候选，一份候选额度、至多 1.5 秒总预算�
 [包身份、完整 ZIP 与合并散列](benchmarks/release-1.11.0/package-identity.json)、[实际便携包 HTTP](benchmarks/release-1.11.0/portable-http-final.json)、[源码构建与浅层检查](benchmarks/release-1.11.0/source-build-checks.json)、[最终覆盖率](benchmarks/release-1.11.0/coverage-final.json)分别记录对应范围。基准及发布证据使用 Git `-text` 属性保留原字节。
 
 发布顺序为提交来源与验收、推送 `v1.11.0`、上传已校验附件到草稿、确认标签 CI 和远端附件散列后再标为正式发布。[发布页](https://github.com/harrislion813-pixel/Rubic-Photo-solve/releases/tag/v1.11.0)及 [Actions](https://github.com/harrislion813-pixel/Rubic-Photo-solve/actions)为远端状态的依据。
+
+首个提交的 [主分支 CI](https://github.com/harrislion813-pixel/Rubic-Photo-solve/actions/runs/37230116261)全部通过；[首轮标签 CI](https://github.com/harrislion813-pixel/Rubic-Photo-solve/actions/runs/37230130015)及其一次重跑在 15 线程的未证明上界测试失败。原 harness 在初始进度就发送候选，并要求在 0.6 秒内采用；该虚拟机在此期限内仍在创建线程，没有到达活动监督阶段。测试改为等待真实工作线程进度、确认候选采用后至少 0.15 秒内仍有搜索节点增加，再主动取消，检查保留的 19 步候选、16 层证书和非最优终态。超时与取消竞争用例及最优上界采用后的 0.25 秒退出检查保持原判定。5 秒仅是此同步测试的安全上限，生产请求期限和已冻结性能矩阵没有改动。
+
+此修正仅影响验收 harness 与记录，应用、原生二进制、源码 ZIP 和五个发布附件内容未改变；尚未正式发布的标签在修正验证后更新到包含该验收修正的提交。两次初始失败的远端记录完整保留。
+
+修正后的本地原生回归 [7 项全部通过，24.16 秒](benchmarks/release-1.11.0/incumbent-sync-regression.log)，包括上述 32 组方向/线程/停止场景及两组额外校验；[JUnit](benchmarks/release-1.11.0/incumbent-sync-regression.xml)记录通过状态。Ruff 与 Git 空白检查亦通过。

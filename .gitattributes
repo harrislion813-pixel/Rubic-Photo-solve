@@ -2,6 +2,7 @@
 /.github export-ignore
 /.gitattributes export-ignore
 /魔方拍照解/docs export-ignore
+/魔方拍照解/AGENTS.md export-ignore
 /魔方拍照解/tests export-ignore
 /魔方拍照解/initial export-ignore
 /魔方拍照解/result export-ignore
@@ -9,6 +10,10 @@
 /魔方拍照解/requirements-dev.txt export-ignore
 /魔方拍照解/requirements-release.txt export-ignore
 /魔方拍照解/setup-dev.ps1 export-ignore
+/魔方拍照解/package.json export-ignore
+/魔方拍照解/package-lock.json export-ignore
+# Defense in depth: keep these historical paths excluded even after removal.
+# The explicit source allowlist in release/source_layout.py is checked independently.
 /魔方拍照解/cube_app/coords.py export-ignore
 /魔方拍照解/cube_app/fast.py export-ignore
 /魔方拍照解/cube_app/native.py export-ignore

@@ -1,3 +1,5 @@
+param([string]$PlaywrightPath = "playwright")
+
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
 $python = Join-Path $root ".venv\Scripts\python.exe"
@@ -23,6 +25,8 @@ try {
     if (-not (Get-Command node -CommandType Application -ErrorAction SilentlyContinue)) {
         throw "Node.js is required for frontend tests. Install Node.js 20 or newer."
     }
+    & $python -X utf8 tests\check_environment.py --output artifacts\maintenance\environment.json
+    if ($LASTEXITCODE -ne 0) { throw "Development environment differs from the lock." }
     & $python release\check_version.py
     if ($LASTEXITCODE -ne 0) { throw "Version consistency check failed with exit code $LASTEXITCODE" }
     node tests\recognition.test.js
@@ -37,6 +41,10 @@ try {
     if ($LASTEXITCODE -ne 0) { throw "Ruff failed with exit code $LASTEXITCODE" }
     & $python -m pytest -ra -p no:cacheprovider
     if ($LASTEXITCODE -ne 0) { throw "Python tests failed with exit code $LASTEXITCODE" }
+    node tests\verify_next_speed_photos.cjs artifacts\vision\e2e.json $PlaywrightPath $python --mode=e2e --manifest=tests/fixtures/vision/manifest.json
+    if ($LASTEXITCODE -ne 0) { throw "Real photo recognition/solve/replay gate failed. Run npm ci and npx playwright install chromium, and prepare HTM assets." }
+    & $python -X utf8 tests\check_repository_size.py --output artifacts\maintenance\repository-size.json
+    if ($LASTEXITCODE -ne 0) { throw "Repository size gate failed." }
     & $python -m compileall cube_app server.py windows_launcher.py
     if ($LASTEXITCODE -ne 0) { throw "Python compilation check failed with exit code $LASTEXITCODE" }
 } finally {

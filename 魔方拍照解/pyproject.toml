@@ -25,7 +25,7 @@ release = [
 ]
 
 [tool.setuptools.packages.find]
-include = ["cube_app*"]
+include = ["cube_app", "cube_app.solvers", "cube_app.solvers.htm", "cube_app.solvers.qtm", "cube_app.service"]
 
 [tool.setuptools.dynamic]
 version = {attr = "cube_app.__version__"}
@@ -36,17 +36,15 @@ addopts = "-ra --strict-markers"
 markers = [
     "native_binary: requires the compiled native solver executable",
     "native_pdb: requires the native solver plus the corner and phase-1 PDBs",
-    "native_slow: requires large optional PDBs or a long-running native search",
     "qtm_native: requires the independently compiled QTM solver; bounded fixtures only",
     "qtm_full_assets: requires the verified complete QTM strong release assets",
-    "vision_real: uses tracked real-image fixtures",
-    "slow: long-running integration or performance test",
+    "vision_real: uses tracked photo fixtures or optional original-photo collections",
 ]
 
 [tool.ruff]
 target-version = "py310"
 line-length = 120
-extend-exclude = ["initial", "native/build"]
+extend-exclude = ["initial", "artifacts"]
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F"]
@@ -65,11 +63,11 @@ select = ["E4", "E7", "E9", "F"]
 [tool.coverage.run]
 branch = true
 # HTM and shared production path; QTM correctness and lifecycle
-# are checked separately. Historical top-level solver copies are not active engines.
+# are checked separately. Include extracted server implementation modules.
 source = [
     "cube_app.solvers.htm", "cube_app.solvers.resource_broker",
     "cube_app.cubie", "cube_app.detection", "cube_app.vision",
-    "cube_app.runtime", "cube_app.metrics", "server",
+    "cube_app.runtime", "cube_app.metrics", "cube_app.service", "server",
 ]
 
 [tool.coverage.report]

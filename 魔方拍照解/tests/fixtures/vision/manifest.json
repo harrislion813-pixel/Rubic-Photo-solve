@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "processing": "Full-frame, unchanged orientation; longest edge at most 1600, OpenCV INTER_AREA and JPEG quality 95. Recognition equality is checked through the actual browser before any correction.",
+  "cases": [
+    {
+      "name": "initial-1",
+      "cube_size": 3,
+      "face_order": "URFDLB",
+      "facelets": "FBBBUDURRFBRFRDUFDLUUFFDUURFLBBDLDDRDLBRLULULDRLRBFFLB",
+      "reference_source": "tests/real_color.test.js existing group 1, visually rechecked against initial-1-reference-grid.png",
+      "facelets_sha256": "624a95d8bb8cf582727219bb04781b79db7a8e5645884f27ea8a72afe7863882",
+      "image_paths": [
+        "tests/fixtures/vision/initial-1/U.jpg",
+        "tests/fixtures/vision/initial-1/R.jpg",
+        "tests/fixtures/vision/initial-1/F.jpg",
+        "tests/fixtures/vision/initial-1/D.jpg",
+        "tests/fixtures/vision/initial-1/L.jpg",
+        "tests/fixtures/vision/initial-1/B.jpg"
+      ],
+      "images": {
+        "U": {
+          "path": "tests/fixtures/vision/initial-1/U.jpg",
+          "sha256": "76f48584fe2e00fbaaa63d81465895d7c6ec244ed462e4c80083a0d009b218a3",
+          "bytes": 191719,
+          "source_sha256": "0468f18dee7213c7454ab88a0089ebd654d2fd81f9d28adbc44aabe4f4f9e5a9"
+        },
+        "R": {
+          "path": "tests/fixtures/vision/initial-1/R.jpg",
+          "sha256": "137ae5ffcb0b2d63a2d5c97f9ae5976ca4bb20a837dc61e7a7b454a70ada60ce",
+          "bytes": 179237,
+          "source_sha256": "ea51eb086c43d53c1e6c71a0267968501dec6c5977405e49ca6a1b190317d1cc"
+        },
+        "F": {
+          "path": "tests/fixtures/vision/initial-1/F.jpg",
+          "sha256": "520375fb3287e6001f30d52cc660e894e1f8aafd7f8f15611f74cf9561d64e93",
+          "bytes": 172407,
+          "source_sha256": "39cf975edb912b2340617929b32adc05d713215c6583fc5356483edb49c36f96"
+        },
+        "D": {
+          "path": "tests/fixtures/vision/initial-1/D.jpg",
+          "sha256": "4c55dc626903ec71cb75ff87c62bde781de8c189642f1fb77ab0874687016859",
+          "bytes": 233016,
+          "source_sha256": "8765adda42e38cae78ec2813ac97bf6e4c9875156f26a92edd333a4fc05a0947"
+        },
+        "L": {
+          "path": "tests/fixtures/vision/initial-1/L.jpg",
+          "sha256": "5d6d42b7c2dfb7d39a9170040d5813f252831868a7801b168199843226fca1dd",
+          "bytes": 185779,
+          "source_sha256": "4cfad774df7f1376df7c272096d1ffb60824e44d5469aa87526f34390ef8a8d7"
+        },
+        "B": {
+          "path": "tests/fixtures/vision/initial-1/B.jpg",
+          "sha256": "61855058d8ecfbed5c2852b4ff54afb3ddabbb40a3b66bc56f1aa84de64590af",
+          "bytes": 217620,
+          "source_sha256": "b2036e6435e14b915be9aa37ea01a18711bdf39c269eaf05fcc991fcaef5a9ea"
+        }
+      }
+    },
+    {
+      "name": "initial-3",
+      "cube_size": 2,
+      "face_order": "URFDLB",
+      "facelets": "LDULUBBRRFBDRLLFBFDURUDF",
+      "reference_source": "Human-reviewed physical color labels in tests/real_color.test.js, group 3",
+      "facelets_sha256": "ac9ca9aaccc516fbe6e7727d3933f3d11fcfc2a43fc4be2ff2560dd5bf8efa0f",
+      "image_paths": [
+        "tests/fixtures/vision/initial-3/U.jpg",
+        "tests/fixtures/vision/initial-3/R.jpg",
+        "tests/fixtures/vision/initial-3/F.jpg",
+        "tests/fixtures/vision/initial-3/D.jpg",
+        "tests/fixtures/vision/initial-3/L.jpg",
+        "tests/fixtures/vision/initial-3/B.jpg"
+      ],
+      "images": {
+        "U": {
+          "path": "tests/fixtures/vision/initial-3/U.jpg",
+          "sha256": "bbfbaa6abb29442c84c38313803a9555188f929416cbb5434347d0ce372c0d19",
+          "bytes": 214699,
+          "source_sha256": "fff5ce09834f49f8c435893ad915f78e9c579738bd3544ce781474841052d9df"
+        },
+        "R": {
+          "path": "tests/fixtures/vision/initial-3/R.jpg",
+          "sha256": "e8c654f8107f863105282056aeffeb5c551707124575637badeb43a23ef4f06a",
+          "bytes": 244829,
+          "source_sha256": "5d1db8cfd2696b2cd7584c149d4f16c96e7e38f770a5b951b22b8702db6766e4"
+        },
+        "F": {
+          "path": "tests/fixtures/vision/initial-3/F.jpg",
+          "sha256": "cef93ae1351e0eca4237b8466a3cbf403bb11d5246ebb6c48e31f22a05311b63",
+          "bytes": 247240,
+          "source_sha256": "2718bcb5f5ba88c9aef2e7942a4a77ea792da5cdf7faed1c71deb19ae7303db5"
+        },
+        "D": {
+          "path": "tests/fixtures/vision/initial-3/D.jpg",
+          "sha256": "480c25d4b13a7abe88c740326ebe55839b01e0901255963d021ce119c1325c79",
+          "bytes": 212375,
+          "source_sha256": "bca12909c71e02c205df37ff6a65fb4317f88921f4bc253dd56cf54c6f81033a"
+        },
+        "L": {
+          "path": "tests/fixtures/vision/initial-3/L.jpg",
+          "sha256": "698678875da427fcf59829b082c57f3d8544d8801ba39e223dad4275cbec1778",
+          "bytes": 246685,
+          "source_sha256": "8a0175dd922ce614ef72e280b0ddc3893df932dfb49f6e5ecf758cd163f53e41"
+        },
+        "B": {
+          "path": "tests/fixtures/vision/initial-3/B.jpg",
+          "sha256": "056c972b5a9f2b272394624f7db3020424e0fd27e499a3d2f39b4dde1b19c079",
+          "bytes": 211645,
+          "source_sha256": "cb9d53064019e03f54cd125f62b71850ebe3ff6801b135520cd89c42cd96ad52"
+        }
+      }
+    }
+  ]
+}

@@ -12,10 +12,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from cube_app import __version__  # noqa: E402
+from source_layout import SHARED_MODULES, WEB, application_sources  # noqa: E402, F401
 
-WEB = ("index.html", "app.js", "color.js", "solver-client.js", "styles.css")
-USER_SCRIPTS = ("prepare_runtime_caches.py", "verify_assets.py", "verify_installation.py")
-SHARED_MODULES = ("__init__.py", "cubie.py", "detection.py", "metrics.py", "runtime.py", "vision.py")
+USER_SCRIPTS = ("prepare_runtime_caches.py", "verify_assets.py", "verify_installation.py", "source_layout.py")
 
 
 def digest(path):
@@ -28,11 +27,8 @@ def digest(path):
 
 def source_archive(output):
     name = f"RubicPhotoSolve-{__version__}-source"
-    paths = [ROOT / p for p in ("README.md", "CHANGELOG.md", "requirements.txt", "pyproject.toml",
-                                "server.py", "windows_launcher.py")]
-    paths += [ROOT / "cube_app" / p for p in SHARED_MODULES]
-    paths += sorted((ROOT / "cube_app" / "solvers").rglob("*.py"))
-    paths += [ROOT / "web" / p for p in WEB]
+    paths = application_sources(ROOT)
+    paths += [ROOT / p for p in ("README.md", "CHANGELOG.md", "requirements.txt")]
     paths += [ROOT / "release" / p for p in USER_SCRIPTS]
     for engine in ("htm", "qtm"):
         native = ROOT / "native" / engine

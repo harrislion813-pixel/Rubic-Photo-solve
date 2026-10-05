@@ -1,0 +1,13 @@
+{
+  "name": "cube-lens-development",
+  "private": true,
+  "scripts": {
+    "test:photos": "node tests/verify_next_speed_photos.cjs artifacts/vision/e2e.json playwright .venv/Scripts/python.exe --mode=e2e --manifest=tests/fixtures/vision/manifest.json"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

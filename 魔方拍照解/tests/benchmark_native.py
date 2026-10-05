@@ -19,7 +19,7 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from cube_app.cubie import CubieCube, MOVE_INDEX, from_facelets, to_facelets
-from cube_app.optimal import invert_moves
+from cube_app.solvers.htm.optimal import invert_moves
 
 
 def legal_state(seed: int) -> CubieCube:

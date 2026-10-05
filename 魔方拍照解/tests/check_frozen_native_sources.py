@@ -36,11 +36,13 @@ def compare(reference: Path, migrated: Path) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--q0", type=Path, required=True)
+    parser.add_argument("--h0", type=Path, required=True, help="Explicit historical H0 checkout or extracted source archive")
+    parser.add_argument("--h1", type=Path, help="Historical H1 native tree; defaults to the current HTM tree")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     output = {
-        "H0_to_H1": compare(root / "native", root / "native" / "htm"),
+        "H0_to_H1": compare(args.h0.resolve() / "native", args.h1.resolve() if args.h1 else root / "native" / "htm"),
         "Q0_to_Q1": compare(args.q0.resolve() / "native", root / "native" / "qtm"),
     }
     if not all(item["identical"] for item in output["H0_to_H1"].values()):

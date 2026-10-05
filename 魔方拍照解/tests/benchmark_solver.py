@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from cube_app.cubie import CubieCube, MOVE_INDEX
-from cube_app.optimal import OptimalSolver, SearchTimeout
+from cube_app.solvers.htm.optimal import OptimalSolver, SearchTimeout
 
 
 CASES = (
@@ -26,7 +26,9 @@ def main() -> None:
     parser.add_argument("--workers", type=int, default=None, help="Parallel worker count.")
     args = parser.parse_args()
 
-    solver = OptimalSolver(ROOT / ".cache", parallel=not args.serial, max_workers=args.workers)
+    print(f"engine=cube_app.solvers.htm.optimal (Python HTM); cache={ROOT / '.cache' / 'htm'}", flush=True)
+
+    solver = OptimalSolver(ROOT / ".cache" / "htm", parallel=not args.serial, max_workers=args.workers)
     _ = solver.tables
     for sequence in CASES:
         cube = CubieCube()

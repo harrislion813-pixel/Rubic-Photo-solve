@@ -94,9 +94,9 @@ QTM 解的成本奇偶性由角块排列奇偶性确定，本项目因此以 2 �
 
 ## 4. 数据与复现
 
-- 本次原始进程信息、启动时间、全部完成层事件、动作与重放验证：[`htm-qtm-theoretical-timing-2026-10-01.json`](benchmarks/htm-qtm-theoretical-timing-2026-10-01.json)。该文件另保存精确规范序列递推和理论比较表。
-- 历史完整求解：[`htm-h1-real-release.json`](benchmarks/htm-h1-real-release.json)、[`qtm-q1-real-release.json`](benchmarks/qtm-q1-real-release.json)。
-- 1.10.0 默认网页请求：[`package-page.json`](benchmarks/release-1.10.0/package-page.json)。
+- 本次原始进程信息、启动时间、全部完成层事件、动作与重放验证：[`htm-qtm-theoretical-timing-2026-10-01.json`（归档）](evidence-archive-2026-10-06.md#file-d54430a38e95)。该文件另保存精确规范序列递推和理论比较表。
+- 历史完整求解：[`htm-h1-real-release.json`（归档）](evidence-archive-2026-10-06.md#file-0887516df3ad)、[`qtm-q1-real-release.json`（归档）](evidence-archive-2026-10-06.md#file-83fb8e9e8477)。
+- 1.10.0 默认网页请求：[`package-page.json`（归档）](evidence-archive-2026-10-06.md#file-6de9215357a7)。
 - 本次有界校准脚本保存在 `.cache/htm-qtm-theoretical-2026-10-01/run_comparison.py`，使用仓库 `.venv/Scripts/python.exe` 运行；再运行同目录 `summarize.py` 补充理论递推和历史记录。两者只生成诊断数据，不修改应用。
 
 这是两个固定状态的单次校准和条件模型，没有扩展为总体平均、p95、冷磁盘时间或最坏情况秒数。

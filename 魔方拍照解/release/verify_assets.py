@@ -9,6 +9,8 @@ import struct
 import sys
 from pathlib import Path
 
+from source_layout import application_sources
+
 HTM = (
     "native/htm/build/cube_solver_htm.exe",
     "assets/htm/v1/corner_htm_v2.pdb",
@@ -102,13 +104,13 @@ def main() -> None:
     for engine, info in builds.items():
         if not info.get('portable') or info['binary_sha256'].lower() != files[f'native/{engine}/build/cube_solver_{engine}.exe']['sha256']:
             raise ValueError(f'{engine} build-info does not match executable')
-    sources = sorted((root/'cube_app').rglob('*.py')) + sorted((root/'web').glob('*'))
-    sources += [root/'server.py', root/'windows_launcher.py', root/'pyproject.toml']
+    sources = application_sources(root, args.profile)
     manifest = {
         "profile": args.profile,
         "app_version": __version__,
         "native_builds": builds,
         "application_source_sha256": {p.relative_to(root).as_posix():metadata(p)["sha256"] for p in sources if p.is_file()},
+        "application_source_scope": "Selected profile's application build inputs; excludes development tools and historical engines. Frozen Python inputs need not exist as loose files in the portable installation.",
         "htm_frozen_origin": "ae73ca81af1ed077c059f3345377190bf0ce2882",
         "qtm_frozen_origin": "c01d90dcbc449faf3b6128020e71655a0a47960b" if args.profile == "QtmStrong" else None,
         "files": files,

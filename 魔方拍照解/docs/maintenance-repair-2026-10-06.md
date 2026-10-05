@@ -32,6 +32,14 @@
 | 发布实拍状态 | initial-1 精确最短 18，12.66 秒，回放 20 条公式；initial-12 精确最短 17，5.19 秒，回放 14 条公式。测试使用原生候选与完整资产。 |
 | 归档恢复 | Release 下载 ZIP 的 SHA-256 与库存一致；586 个唯一内容对象恢复 594 个原路径，再逐文件重算哈希通过。 |
 
-完整本地日志、环境记录、覆盖率 XML、浏览器截图与请求/回放记录、wheel 验证、源码检查、便携包和全新解压的 acceptance.json 位于 `artifacts/maintenance/` 与 `artifacts/vision/`，不纳入版本库。CI Windows 原生任务已经接入相同的必跑实拍门禁并上传其证据；远端运行结果以对应维护分支的 CI 状态为准。
+完整本地日志、环境记录、覆盖率 XML、浏览器截图与请求/回放记录、wheel 验证、源码检查和便携 ZIP 位于 `artifacts/maintenance/` 与 `artifacts/vision/`，不纳入版本库。全新解压目录的完整记录保存为 `artifacts/maintenance/portable-acceptance.json`。验收完成后清理构建、解压、归档下载和恢复验证临时副本，交付 ZIP 与必要记录继续保留。CI Windows 原生任务已经接入相同的必跑实拍门禁并上传其证据；远端运行结果以对应维护分支的 CI 状态为准。
 
 历史资料下载、逐文件库存、原路径和恢复命令见[归档索引](evidence-archive-2026-10-06.md)。日常开发与复核命令见[开发与维护门禁](development.md)。
+
+## 收尾清理补记
+
+验收时曾保留两套完整便携程序、归档生成/下载/恢复副本和构建中间目录，使本地磁盘额外占用约 9 GiB。这些文件被 Git 忽略，之前的 docs 瘦身数字没有体现这部分本地占用。
+
+已清理本次任务的 9 个临时目标，删除文件合计 9,631,686,107 bytes，实际可用空间增加约 8.97 GiB。完整 acceptance.json 已保存到 `artifacts/maintenance/portable-acceptance.json`；保留交付 ZIP、最终源码包/wheel、校验信息、日志、浏览器及 CI 证据。交付 ZIP SHA-256 清理前后相同，根目录 21 项运行资产再次校验通过。原始输入、开发环境、运行资产、可复用缓存和先前发布交付物保留。
+
+本次新增的大文件只保留 2.15 GiB 的交付 ZIP。具体清理路径、保留文件 SHA-256 和空间变化记录在 `artifacts/maintenance/cleanup-report.json`。项目 AGENTS.md 与开发文档已将清理本次临时副本写入任务完成条件，后续报告必须分别说明版本化内容与本地生成物的体积。

@@ -2,6 +2,7 @@
 /.github export-ignore
 /.gitattributes export-ignore
 /魔方拍照解/docs export-ignore
+/魔方拍照解/AGENTS.md export-ignore
 /魔方拍照解/tests export-ignore
 /魔方拍照解/initial export-ignore
 /魔方拍照解/result export-ignore

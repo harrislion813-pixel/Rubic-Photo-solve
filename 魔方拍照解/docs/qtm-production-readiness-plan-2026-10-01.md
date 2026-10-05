@@ -74,7 +74,7 @@ HTM 使用自己的 Python 模块、原生源码、EXE、资产与缓存。QTM �
 
 全部完整排除，生成量与历史固定层一致。最后一列包含 QTM 奇偶性排除的不可能成本，不能解释为额外搜索了一层。没有用 known18 成本 20 的“找到解即停止”运行充当固定树吞吐基准。
 
-这组结果用于建立**当前构建**的复现入口；没有同场旧 EXE 配对，不据此确认历史约 6% 退化是否仍然存在。原始数据：[fixed-layers.json](benchmarks/qtm-production-review-2026-10-01/fixed-layers.json)。
+这组结果用于建立**当前构建**的复现入口；没有同场旧 EXE 配对，不据此确认历史约 6% 退化是否仍然存在。原始数据：[fixed-layers.json（归档）](evidence-archive-2026-10-06.md#file-db1a3d7428c9)。
 
 ### 2.3 当前 HTTP 加载方式对照
 
@@ -96,7 +96,7 @@ HTM 使用自己的 Python 模块、原生源码、EXE、资产与缓存。QTM �
 
 本例 eager 的请求时间少约 36.9%，同时首候选晚约 8 秒。这只是一个状态、一次顺序对照。加载方式同时改变有效校验并发、方向决策、资源竞争和找到解前的搜索树；不能把它写成“强表单独带来固定倍数提升”或“单位节点速度提高”。
 
-与历史两个 staged 页面请求超时不同，本次 staged 完成了证明；但**已校验强表在长层中一直未被使用**的问题仍然直接复现。证据：[staged](benchmarks/qtm-production-review-2026-10-01/http-staged.json)、[eager](benchmarks/qtm-production-review-2026-10-01/http-eager.json)。
+与历史两个 staged 页面请求超时不同，本次 staged 完成了证明；但**已校验强表在长层中一直未被使用**的问题仍然直接复现。证据：[staged（归档）](evidence-archive-2026-10-06.md#file-417605aa2fdc)、[eager](benchmarks/qtm-production-review-2026-10-01/http-eager.json)。
 
 ## 3. 需要处理的具体问题
 
@@ -303,7 +303,7 @@ GCC 的 profile-use 会启用基于实际运行信息的优化，它不自动保
 ## 11. 本次证据与复现入口
 
 - [summary.json](benchmarks/qtm-production-review-2026-10-01/summary.json)：来源、资产核对、六次完整层、两次 HTTP 摘要、失败测试与限制。
-- [完整层原始帧](benchmarks/qtm-production-review-2026-10-01/fixed-layers.json)、[staged 原始帧](benchmarks/qtm-production-review-2026-10-01/http-staged.json)、[eager 原始帧](benchmarks/qtm-production-review-2026-10-01/http-eager.json)。
+- [完整层原始帧（归档）](evidence-archive-2026-10-06.md#file-db1a3d7428c9)、[staged 原始帧（归档）](evidence-archive-2026-10-06.md#file-417605aa2fdc)、[eager 原始帧](benchmarks/qtm-production-review-2026-10-01/http-eager.json)。
 - [测试 XML](benchmarks/qtm-production-review-2026-10-01/contracts.xml)、[HTTP 诊断脚本](benchmarks/qtm-production-review-2026-10-01/http_probe.py)。脚本保存时调整了根目录定位，并添加静态检查注释，便于在此处复现；测试行为未改变。
 
 以下命令在项目根执行；它们是复现入口，开发中按受影响项选择，不要求反复全跑：

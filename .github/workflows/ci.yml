@@ -42,7 +42,7 @@ jobs:
         id: version
         shell: bash
         env:
-          RELEASE_TAG: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
+          RELEASE_TAG: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || '' }}
         run: |
           args=()
           if [[ -n "$RELEASE_TAG" ]]; then args=(--tag "$RELEASE_TAG"); fi
@@ -72,6 +72,11 @@ jobs:
       - name: Run Ruff lint
         run: ruff check .
 
+      - name: Verify environment and evidence budgets
+        run: |
+          python tests/check_environment.py --output artifacts/maintenance/environment.json
+          python tests/check_repository_size.py --output artifacts/maintenance/repository-size.json
+
   python-tests:
     name: Python ${{ matrix.python-version }}
     needs: version-check
@@ -98,13 +103,13 @@ jobs:
 
       - name: Run Python tests and report skips
         if: matrix.python-version != '3.12'
-        run: python -m pytest -ra -m "not native_pdb and not native_slow and not qtm_native and not qtm_full_assets"
+        run: python -m pytest -ra -m "not native_pdb and not qtm_native and not qtm_full_assets"
 
       - name: Run stable HTM and shared branch coverage gate
         if: matrix.python-version == '3.12'
         run: >-
           python -m pytest -ra
-          -m "not native_binary and not native_pdb and not native_slow and not qtm_native and not qtm_full_assets and not vision_real"
+          -m "not native_binary and not native_pdb and not qtm_native and not qtm_full_assets and not vision_real"
           --cov --cov-branch --cov-report=term-missing
 
       - name: Compile Python sources
@@ -168,6 +173,19 @@ jobs:
       - name: Install Python and release dependencies
         run: python -m pip install --upgrade pip -e ".[dev,release]"
 
+      - name: Set up locked photo browser dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: 魔方拍照解/package-lock.json
+
+      - name: Install photo browser
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npx playwright install chromium
+          python tests/check_environment.py --output artifacts/maintenance/environment.json
+
       - name: Check C++ formatting
         run: |
           $clangFormat = "${{ steps.msys2.outputs.msys2-location }}\ucrt64\bin\clang-format.exe"
@@ -222,6 +240,24 @@ jobs:
         env:
           REQUIRE_NATIVE_PDB: "1"
         run: python -m pytest -ra -m native_pdb
+
+      - name: Require uncorrected real photo recognition, solve and replay
+        env:
+          REQUIRE_VISION_REAL: "1"
+          REQUIRE_NATIVE_PDB: "1"
+        run: >-
+          node tests/verify_next_speed_photos.cjs artifacts/vision/e2e.json playwright python
+          --mode=e2e --manifest=tests/fixtures/vision/manifest.json
+
+      - name: Upload photo gate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: real-photo-gate
+          path: |
+            魔方拍照解/artifacts/vision
+            魔方拍照解/artifacts/maintenance/environment.json
+          if-no-files-found: error
 
       - name: Build Windows portable package
         run: .\release\build_windows.ps1 -Profile HtmFull -Python python -SkipNativeBuild -SkipTableBuild

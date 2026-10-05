@@ -31,7 +31,7 @@ HTM 提前交付默认关闭；QTM 使用 generic 展开、legacy 候选调度�
 
 [压缩包及合并核对](benchmarks/release-1.10.1/archive-verification.json)、[实际包身份](benchmarks/release-1.10.1/package-identity.json)、[页面公式验证](benchmarks/release-1.10.1/page-validation.json)分别记录对应范围。构建前源码身份快照记录当时的未提交状态，实际包按内容散列核对；远端提交、标签、CI 和附件状态以 GitHub 验证为准。
 
-原性能矩阵另有[无损 gzip 归档](benchmarks/next-speed-2026-10-02/formal-final/formal-matrix.json.gz)和[散列记录](benchmarks/next-speed-2026-10-02/formal-final/formal-matrix-archive.json)，解压字节与原始记录完全相同，避免 GitHub 单文件容量限制。
+原性能矩阵另有[无损 gzip 归档（归档）](evidence-archive-2026-10-06.md#file-d2b4557ffd6f)和[散列记录](benchmarks/next-speed-2026-10-02/formal-final/formal-matrix-archive.json)，解压字节与原始记录完全相同，避免 GitHub 单文件容量限制。
 
 本轮基准与发布证据使用 Git `-text` 属性保存原始字节，避免跨平台换行转换改变已冻结的散列。
 

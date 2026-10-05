@@ -100,8 +100,12 @@ def test_terminal_diagnostics_have_bounded_retention(monkeypatch):
     monkeypatch.setattr(qtm, "BROKER", ResourceBroker(1))
     release = qtm.BROKER.release_qtm
 
+    release_started = threading.Event()
+    finish_release = threading.Event()
+
     def delayed_release():
-        time.sleep(.03)
+        release_started.set()
+        assert finish_release.wait(2)
         release()
 
     monkeypatch.setattr(qtm.BROKER, "release_qtm", delayed_release)
@@ -115,11 +119,17 @@ def test_terminal_diagnostics_have_bounded_retention(monkeypatch):
         "moves": ["R2"], "solution": "R2", "depth": 2, "optimal": True, "metric": "QTM", "asset_profile": "base",
     })
     response = instance.submit(STATE, 3, 26, 1)
-    assert instance._jobs[response["job_id"]]["_done"].wait(1)
+    try:
+        assert release_started.wait(1)
+        assert not instance._jobs[response["job_id"]]["_done"].is_set()
+        assert qtm.BROKER.snapshot()["qtm_active"]
+    finally:
+        finish_release.set()
+    assert instance._jobs[response["job_id"]]["_done"].wait(2)
     residency = instance.snapshot(response["job_id"])["residency"]
     assert len(residency["service_events"]) == len(residency["memory_samples"]) == qtm.MAX_DIAGNOSTIC_ITEMS
     assert not qtm.BROKER.snapshot()["qtm_active"]
-    assert instance.snapshot(response["job_id"])["resource_hold_seconds"] >= .03
+    assert instance.snapshot(response["job_id"])["resource_hold_seconds"] >= 0
     snapshot = instance.snapshot(response["job_id"])
     assert snapshot["terminal_seconds"] == snapshot["strict_confirmed_seconds"]
     assert snapshot["request_elapsed_seconds"] - snapshot["terminal_seconds"] >= .025

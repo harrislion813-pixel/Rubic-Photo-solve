@@ -68,7 +68,7 @@ QTM 新版账本显示两次请求的队列时间均为 0，强表 ready 约 8.9
 - 冻结和构建：[基线清单](benchmarks/htm-qtm-isolation-baseline-manifest.json)、[源码审计](benchmarks/frozen-native-source-audit.json)、[线程更正](benchmarks/acceptance-config-correction.json)、[资产比对](benchmarks/packages-same-assets.json)、`benchmarks/{h0,h1,q0,q1}-build-info.json`、`benchmarks/{htm,qtm}-final-package-build.log`。
 - 照片与浅层：`benchmarks/{htm-h0,htm-h1,qtm-q0,qtm-q1}-{photos,shallow}.json`；第 12 组参考保存在 `../tests/initial_solver_cases.json`。
 - 15 线程短诊断：`benchmarks/{htm-h0,htm-h1,qtm-q0,qtm-q1}-short-15.json`；定点复测分别为 `htm-{h0,h1}-pgo15-retest.json`、`qtm-{q0,q1}-known15-retest.json`。早期 4 线程文件、校准和其余定点记录原样保留，判定以本节指定文件为准。
-- 最终实拍：[H0](benchmarks/htm-h0-real.json)、[H0 严格验证补记](benchmarks/htm-h0-real-verification.json)、[H1 最终包](benchmarks/htm-h1-real-release.json)、[Q0](benchmarks/qtm-q0-real.json)、[Q1 最终包](benchmarks/qtm-q1-real-release.json)。中途 H1/Q1 包记录保留作异常调查史，不用于最终对照。
+- 最终实拍：[H0（归档）](evidence-archive-2026-10-06.md#file-a21a7fa56ecd)、[H0 严格验证补记](benchmarks/htm-h0-real-verification.json)、[H1 最终包（归档）](evidence-archive-2026-10-06.md#file-0887516df3ad)、[Q0（归档）](evidence-archive-2026-10-06.md#file-bb894e74406d)、[Q1 最终包（归档）](evidence-archive-2026-10-06.md#file-83fb8e9e8477)。中途 H1/Q1 包记录保留作异常调查史，不用于最终对照。
 - 生命周期：[仅 HTM 包](benchmarks/htm-only-lifecycle.json)、[QTM 包按需进程](benchmarks/qtm-package-lifecycle.json)、[API 取消与故障](benchmarks/isolation-api-lifecycle.json)。运行脚本在 `tests/accept_*.py`、`tests/benchmark_isolation_short.py`、`tests/check_isolation_api.py` 等文件中；包构建及资产检查在 `release/`。
 
 静态检查、Python 编译、页面 Node 测试、原生二进制测试 6 项、Python 求解与二阶测试 13 项及 PowerShell 脚本解析已通过。验收没有运行旧 48+32 集合、额外随机集、全部 16 组照片、多线程矩阵或重复长测试。

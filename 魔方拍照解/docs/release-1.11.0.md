@@ -35,7 +35,7 @@ HTM 默认原生六方向候选，一份候选额度、至多 1.5 秒总预算�
 
 下载两个分段与 `QTM.cmd` 到同一目录，双击合并并校验，完整解压后运行 `启动魔方求解器.cmd`。源码用户按 [README](../README.md) 在本机编译并生成表。更新时解压到新目录。
 
-[包身份、完整 ZIP 与合并散列](benchmarks/release-1.11.0/package-identity.json)、[实际便携包 HTTP](benchmarks/release-1.11.0/portable-http-final.json)、[源码构建与浅层检查](benchmarks/release-1.11.0/source-build-checks.json)、[最终覆盖率](benchmarks/release-1.11.0/coverage-final.json)分别记录对应范围。基准及发布证据使用 Git `-text` 属性保留原字节。
+[包身份、完整 ZIP 与合并散列](benchmarks/release-1.11.0/package-identity.json)、[实际便携包 HTTP（归档）](evidence-archive-2026-10-06.md#file-c8d77d1cca2f)、[源码构建与浅层检查](benchmarks/release-1.11.0/source-build-checks.json)、[最终覆盖率](benchmarks/release-1.11.0/coverage-final.json)分别记录对应范围。基准及发布证据使用 Git `-text` 属性保留原字节。
 
 发布顺序为提交来源与验收、推送 `v1.11.0`、上传已校验附件到草稿、确认标签 CI 和远端附件散列后再标为正式发布。[发布页](https://github.com/harrislion813-pixel/Rubic-Photo-solve/releases/tag/v1.11.0)及 [Actions](https://github.com/harrislion813-pixel/Rubic-Photo-solve/actions)为远端状态的依据。
 

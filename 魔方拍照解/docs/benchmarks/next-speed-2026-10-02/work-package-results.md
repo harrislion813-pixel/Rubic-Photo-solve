@@ -29,9 +29,9 @@
 
 后续[受控实际包身份与浅状态烟测](controlled-baseline-package-identity.json)实际验证 HTM/QTM 各一个新进程的 R 单步请求，均严格完成成本 1、独立回放正确，并确认 packaged terminal/events/15 总额度字段。HTM 复用全部 12 个 C++ 源 SHA 与受控副本相符的 Portable 普通 O3/LTO EXE `f85a87aca23957fdca40e5c677b366d8713dc943612dd6cdb4df891ba587338f`，QTM 保留原冻结 EXE，五个关键 Python 模块均打包自 observed；原冻结副本不动。这是后续 Symmetry 初始化暂停 checkpoint 修复之前的包证据，不能替代修复后 native 资源门禁、重新构建身份或最终 72 请求验收。复现见[受控基线验证说明](controlled-baseline-verification.md)。
 
-该阶段[Python 契约](final-python-contracts.xml)为 78 项通过、0 fail/skip、1 个 pytest cache 写入权限警告（[原日志](final-python-contracts.log)，5.98 秒；XML 开始时间 `2026-10-03 01:41:37 +08:00`），只代表当时的 Python/桥接源码范围。后续 Symmetry checkpoint 修复已有[3 项真实 loader 门禁](qtm-loader-repaired-gates-final.xml)、[19 项资产/期限门禁](qtm-loader-repaired-assets.xml)及[bounded reuse](qtm-bounded-reuse-repaired.json)，均通过；不能把旧 Python 结果冒称为新原生资源门禁。
+该阶段[Python 契约](final-python-contracts.xml)为 78 项通过、0 fail/skip、1 个 pytest cache 写入权限警告（[原日志](final-python-contracts.log)，5.98 秒；XML 开始时间 `2026-10-03 01:41:37 +08:00`），只代表当时的 Python/桥接源码范围。后续 Symmetry checkpoint 修复已有[3 项真实 loader 门禁](qtm-loader-repaired-gates-final.xml)、[19 项资产/期限门禁](qtm-loader-repaired-assets.xml)及[bounded reuse（归档）](../../evidence-archive-2026-10-06.md#file-d7430d098f6a)，均通过；不能把旧 Python 结果冒称为新原生资源门禁。
 
-H1 的[53 项合约结果](htm-h1-final-contracts.xml)与[真实原生动态额度记录](htm-h1-dynamic-gates.json)提供功能证据。后者实际使用 HTM EXE SHA `f85a87aca23957fdca40e5c677b366d8713dc943612dd6cdb4df891ba587338f`，覆盖 1/2/3 额度、取消及浅状态复用，其等待和取消耗时不是性能收益。完整交付与严格确认分别由[有效矩阵](formal-final/formal-matrix.json.gz)和[独立汇总](formal-final/summary-with-bounds.json)确定；最终默认回退后的[80 项合约](default-python-contracts-final.xml)另行通过。
+H1 的[53 项合约结果](htm-h1-final-contracts.xml)与[真实原生动态额度记录](htm-h1-dynamic-gates.json)提供功能证据。后者实际使用 HTM EXE SHA `f85a87aca23957fdca40e5c677b366d8713dc943612dd6cdb4df891ba587338f`，覆盖 1/2/3 额度、取消及浅状态复用，其等待和取消耗时不是性能收益。完整交付与严格确认分别由[有效矩阵（归档）](../../evidence-archive-2026-10-06.md#file-d2b4557ffd6f)和[独立汇总（归档）](../../evidence-archive-2026-10-06.md#file-f89b30c39b6b)确定；最终默认回退后的[80 项合约](default-python-contracts-final.xml)另行通过。
 
 ## H2：两种排序消融均拒绝
 
@@ -44,9 +44,9 @@ H1 的[53 项合约结果](htm-h1-final-contracts.xml)与[真实原生动态额�
 | 固定数组 + 稳定插入排序 | legal-20260927-0 | 1.534990 | 1.562112 | +1.77% |
 | 固定数组 + 稳定插入排序 | known18 | 1.489930 | 1.515139 | +1.69% |
 
-[h2-fixed-stable.json](h2-fixed-stable.json) 必须保留原失败：`AssertionError: same-tree counter changed: legal-20260927-0/phase1_queries`，原 `summary` 为空，原文件没有 `adopt` 字段。表中该变体两项中位数来自这份失败记录已保存的 12 次原始墙钟静态汇总，未为此重跑求解，也没有把原失败改写成通过。
+[h2-fixed-stable.json（归档）](../../evidence-archive-2026-10-06.md#file-0d7ba6a644c1) 必须保留原失败：`AssertionError: same-tree counter changed: legal-20260927-0/phase1_queries`，原 `summary` 为空，原文件没有 `adopt` 字段。表中该变体两项中位数来自这份失败记录已保存的 12 次原始墙钟静态汇总，未为此重跑求解，也没有把原失败改写成通过。
 
-复核发现六次完成帧的生成量和各类拒绝量完全一致：两状态生成量分别为 `194928936`、`201407415`。查询计数包含动态任务重检，不能与唯一展开/拒绝量混为同树判据。例如 legal 层的 phase1 查询范围为 `332588149..332588944`，known18 层为 `325120288..325121701`。这是原检查把查询量也要求逐项完全一致导致的失败；当前比较脚本保留查询范围，使用生成和拒绝计数核对树覆盖。固定数组 + 插入排序的[原始记录](h2-fixed-insertion.json)采用该判据、无失败，`adopt=false`。两个变体均未达到至少 5% 改善，因此无需依靠查询计数解释来采用它们。
+复核发现六次完成帧的生成量和各类拒绝量完全一致：两状态生成量分别为 `194928936`、`201407415`。查询计数包含动态任务重检，不能与唯一展开/拒绝量混为同树判据。例如 legal 层的 phase1 查询范围为 `332588149..332588944`，known18 层为 `325120288..325121701`。这是原检查把查询量也要求逐项完全一致导致的失败；当前比较脚本保留查询范围，使用生成和拒绝计数核对树覆盖。固定数组 + 插入排序的[原始记录（归档）](../../evidence-archive-2026-10-06.md#file-687362091c50)采用该判据、无失败，`adopt=false`。两个变体均未达到至少 5% 改善，因此无需依靠查询计数解释来采用它们。
 
 两变体共用消融源 SHA `3C3E2BD95B21D44AA2B10EA50BC68F164C01B05318DF3EDD9A712058CE76EB02`，通过编译宏分别选择排序。原 EXE SHA 为 stable `6a2056d127fd9ef5fdc873dec196c782d3b8f2a0d765cdcc05fdae24fd2ab29e`、insertion `4863b0ed3034c7c2ccee3781d51f32f3a3b9eabb8d09d8ea2ce807239df952ba`；冻结基线为 `e6c0574cdecce36a30cfe572bb6a13a47228247c1fe05f520e77992d5f107797`。
 
@@ -62,7 +62,7 @@ H1 的[53 项合约结果](htm-h1-final-contracts.xml)与[真实原生动态额�
 
 ## Q1：完整层通过，完整请求失败后关闭默认
 
-[q1-pair.json](q1-pair.json)记录 15 线程、eager 完整资产、关闭候选/证明缓存/方向变化、相同完整层、AB、BA、AB 共 12 次请求。专用路径的两项墙钟改善均超过单项门槛；原 `adopt` 仅按暖缓存完整排除层判断，不代替完整请求验收。正式矩阵发现 initial-2 可重复退化，因此最终默认为 generic，专用代码仅由 `CUBE_QTM_EXPANSION=full-strong` 或原生同名参数显式启用。
+[q1-pair.json（归档）](../../evidence-archive-2026-10-06.md#file-6bce614bc8c2)记录 15 线程、eager 完整资产、关闭候选/证明缓存/方向变化、相同完整层、AB、BA、AB 共 12 次请求。专用路径的两项墙钟改善均超过单项门槛；原 `adopt` 仅按暖缓存完整排除层判断，不代替完整请求验收。正式矩阵发现 initial-2 可重复退化，因此最终默认为 generic，专用代码仅由 `CUBE_QTM_EXPANSION=full-strong` 或原生同名参数显式启用。
 
 | 状态 / 成本界 | 基线中位数 / 秒 | full-strong 中位数 / 秒 | 耗时下降 | 相同生成量 |
 | --- | ---: | ---: | ---: | ---: |
@@ -102,7 +102,7 @@ $env:REQUIRE_QTM_STRONG = '1'
 
 实现仅在层边界复用候选额度，捕获不可变 Tail 快照并持有到线程 join，预算至多 0.2 秒且受原请求 deadline 限制；发布前检查内部取消、请求取消和期限。默认 `CUBE_QTM_LATE_TAIL_IMPROVEMENT=off`。
 
-[q2-late-tail-production.json](q2-late-tail-production.json)与[原始日志](q2-late-tail-production.log)已完成独立生产桥接 AB：两个状态 × off/on × 三次，共 12 请求，固定 AB、BA、AB 顺序、15 总额度、默认 staged 配置，每次新建原生进程、无注入 incumbent、不复用证明。实际 EXE SHA 为 `9f71a1b72b4fb43f3079f4027435253872c741bff6b57ac62530303d3eb5795f`。12 次全部在原 30 秒期限内严格完成，`failures=[]`，无新超时；initial-1 的最终成本均为 22，initial-12 均为 20。
+[q2-late-tail-production.json（归档）](../../evidence-archive-2026-10-06.md#file-3576f55937fc)与[原始日志](q2-late-tail-production.log)已完成独立生产桥接 AB：两个状态 × off/on × 三次，共 12 请求，固定 AB、BA、AB 顺序、15 总额度、默认 staged 配置，每次新建原生进程、无注入 incumbent、不复用证明。实际 EXE SHA 为 `9f71a1b72b4fb43f3079f4027435253872c741bff6b57ac62530303d3eb5795f`。12 次全部在原 30 秒期限内严格完成，`failures=[]`，无新超时；initial-1 的最终成本均为 22，initial-12 均为 20。
 
 | 状态 | off 三次完整请求耗时 / 秒 | on 三次完整请求耗时 / 秒 | off / on 中位数 / 秒 | on/off 中位数比 | on 尝试 / 改进次数 |
 | --- | --- | --- | --- | ---: | --- |
@@ -115,7 +115,7 @@ $env:REQUIRE_QTM_STRONG = '1'
 
 **本轮拒绝默认启用 late Tail。** initial-1 虽每次真实尝试一次，但都未降低候选上界，局部改进实际耗时仅 `0.000034 / 0.000076 / 0.000046` 秒；initial-12 的三次 on 根本未执行 late Tail，却出现近似的中位数比。因此不能把约 28% 的表面中位数下降归因于 Tail 改进。原始耗时离散明显，staged 完整请求的资产采用时点和展开量也不同；这组记录不是同树吞吐实验。保留全部三次、相同终态和零改进事实，采用决定维持 off，不宣称已取得该变体的完整求解提速。
 
-此前[q2-late-tail-unmanaged-loader-attempt.json](q2-late-tail-unmanaged-loader-attempt.json)保留原样，由[invalid-attempt-methodology.json](invalid-attempt-methodology.json)单独说明方法无效：薄协议客户端复制了 `--loader-managed` 参数却没有执行生产准入/resume 握手，5 条已保存请求均长期等待 strong、未采用 strong/Tail、late Tail 尝试也为 0。该部分失败记录未并入以上 12 次生产 AB 的中位数、均值、PAR-2 或后续正式矩阵。
+此前[q2-late-tail-unmanaged-loader-attempt.json（归档）](../../evidence-archive-2026-10-06.md#file-264003b794ba)保留原样，由[invalid-attempt-methodology.json](invalid-attempt-methodology.json)单独说明方法无效：薄协议客户端复制了 `--loader-managed` 参数却没有执行生产准入/resume 握手，5 条已保存请求均长期等待 strong、未采用 strong/Tail、late Tail 尝试也为 0。该部分失败记录未并入以上 12 次生产 AB 的中位数、均值、PAR-2 或后续正式矩阵。
 
 ```powershell
 .venv\Scripts\python.exe -m pytest tests/test_qtm_candidates_next.py -k 'pgo_training or real_late_tail' -q -p no:cacheprovider --junitxml=.codex/next-speed/qtm-tail-gates-repro.xml
@@ -139,10 +139,10 @@ P2 本轮没有扩展逆状态下界、任务粒度、新 PDB/Tail 或 GPU 路�
 
 ## 正式矩阵与保守默认交付
 
-[有效矩阵](formal-final/formal-matrix.json.gz)共 72 条，固定顺序、每条新进程及一次实际页面请求，无方法失败。独立回放 10,641 条公式声明无错误；HTM 严格成功数为 baseline/current 9/10，QTM 为 18/18。HTM PAR-2 均值 34.605111→33.313333 秒（−3.733%），QTM 11.380278→8.909611 秒（−21.710%）。HTM initial-12 配对比 `0.355561/2.770323/3.260260`，QTM initial-2 为 `1.706813/0.469221/1.497900`，均违反重复退化门槛，两个速度方案都不改默认。
+[有效矩阵（归档）](../../evidence-archive-2026-10-06.md#file-d2b4557ffd6f)共 72 条，固定顺序、每条新进程及一次实际页面请求，无方法失败。独立回放 10,641 条公式声明无错误；HTM 严格成功数为 baseline/current 9/10，QTM 为 18/18。HTM PAR-2 均值 34.605111→33.313333 秒（−3.733%），QTM 11.380278→8.909611 秒（−21.710%）。HTM initial-12 配对比 `0.355561/2.770323/3.260260`，QTM initial-2 为 `1.706813/0.469221/1.497900`，均违反重复退化门槛，两个速度方案都不改默认。
 
-[summary-with-bounds.json](formal-final/summary-with-bounds.json)只补齐原始 progress 中的完整层/合法下界/gap，[审计](formal-final/bounds-analysis-audit.json)确认原主指标和门槛完全不变，原 summary 保留。HTM 超时 initial-1 为候选20/下界18/gap2，initial-8、16 为22/18/4。72 条同口径 OS 峰值与逐状态中位数均未超过 5% 增长，无同次配对新增超时；[资源事件审计](formal-final/resource-event-audit.json)确认全部 QTM managed-loader 准入/采用、15 总额度和零照片修正。上述性能仅属于冻结的实验包。
+[summary-with-bounds.json（归档）](../../evidence-archive-2026-10-06.md#file-f89b30c39b6b)只补齐原始 progress 中的完整层/合法下界/gap，[审计](formal-final/bounds-analysis-audit.json)确认原主指标和门槛完全不变，原 summary 保留。HTM 超时 initial-1 为候选20/下界18/gap2，initial-8、16 为22/18/4。72 条同口径 OS 峰值与逐状态中位数均未超过 5% 增长，无同次配对新增超时；[资源事件审计](formal-final/resource-event-audit.json)确认全部 QTM managed-loader 准入/采用、15 总额度和零照片修正。上述性能仅属于冻结的实验包。
 
 保守默认包位于 `dist/next-speed-2026-10-03-defaults/RubicPhotoSolve`，ZIP 153 文件、2,307,011,998 字节，SHA `af0fba39fdbac43ee8b9c22d7ff57be1f433733a166afe84b33271efe7f446bc`。默认 HTM early off、QTM generic、候选 legacy、late Tail off，保留资源修复；[源码身份](current-defaults-identity.json)、[实际包身份](current-defaults-package-identity.json)和[构建日志](default-package-build.log)单独保存。包内 QTM EXE SHA 为 `68b6e269893fec8ccd10f1d4d86fe4c126e1ab6797459e56ae271579bb9ab0ce`，实际 EXE 的[3 项最终 oracle 门禁](default-native-oracle.xml)通过、0 skip，覆盖默认 generic、显式 full-strong及 1/2/3 额度。
 
-[8 次页面功能检查](default-functional/page.json)与[1,107 条公式回放](default-functional/validation.json)通过配置、合法性、照片及布局核对。current HTM initial-1 超时，保留20步合法候选/18下界/2差值，其余七条严格完成；没有覆盖或重算正式性能结论。该包是保守默认和资源修复的本地工作交付，不宣称已通过六状态速度门槛或普遍30秒成功保证。
+[8 次页面功能检查（归档）](../../evidence-archive-2026-10-06.md#file-26aa80f412da)与[1,107 条公式回放](default-functional/validation.json)通过配置、合法性、照片及布局核对。current HTM initial-1 超时，保留20步合法候选/18下界/2差值，其余七条严格完成；没有覆盖或重算正式性能结论。该包是保守默认和资源修复的本地工作交付，不宣称已通过六状态速度门槛或普遍30秒成功保证。

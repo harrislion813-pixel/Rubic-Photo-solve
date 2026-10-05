@@ -23,7 +23,15 @@ def main() -> None:
         parser.error("expected exactly one application wheel")
     wheel = wheels[0].resolve()
     with zipfile.ZipFile(wheel) as archive:
-        entries = [name for name in archive.namelist() if name.startswith("cube_app/solvers/")]
+        names = archive.namelist()
+        entries = [name for name in names if name.startswith("cube_app/solvers/")]
+        historical = {f"cube_app/{name}.py" for name in ("coords", "fast", "native", "optimal", "tables",
+                                                       "two_by_two", "two_by_two_tables")}
+        if historical.intersection(names):
+            raise AssertionError("wheel contains historical solver modules")
+        required_services = {f"cube_app/service/{name}.py" for name in ("dependencies", "http_api", "jobs", "solving")}
+        if not required_services.issubset(names):
+            raise AssertionError("wheel omitted the extracted server implementation")
     if not entries:
         raise AssertionError("wheel omitted the isolated solver packages")
     with tempfile.TemporaryDirectory(prefix="cube-wheel-") as directory:
@@ -36,6 +44,7 @@ def main() -> None:
             "import json,pathlib,cube_app; "
             "import cube_app.solvers.htm.native,cube_app.solvers.htm.native_fast,cube_app.solvers.qtm.native; "
             "import cube_app.solvers.qtm.backend,cube_app.solvers.resource_broker; "
+            "import cube_app.service.dependencies,cube_app.service.http_api,cube_app.service.jobs,cube_app.service.solving; "
             "print(json.dumps({'version':cube_app.__version__,'module':cube_app.__file__}))"
         )
         completed = subprocess.run([str(python), "-I", "-X", "utf8", "-c", code], cwd=root, check=True,

@@ -17,9 +17,13 @@ asset-manifest.json
 initial/
 result/
 dist/
+artifacts/
 .release-build/
 build/
 .codex/
 .agents/
-# The byte-identical gzip archive is tracked for this oversized benchmark.
-docs/benchmarks/next-speed-2026-10-02/formal-final/formal-matrix.json
+# Raw benchmark output is archived as Release assets; keep new runs in artifacts/.
+# Existing tracked summaries and manual references remain versioned.
+docs/benchmarks/**/*.json
+docs/benchmarks/**/*.png
+docs/benchmarks/**/*.gz

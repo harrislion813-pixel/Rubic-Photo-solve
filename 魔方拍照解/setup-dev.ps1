@@ -20,6 +20,12 @@ try {
     if ($LASTEXITCODE -ne 0) { throw "Development dependency installation failed with exit code $LASTEXITCODE" }
     & $venvPython -m pip install --no-deps -e .
     if ($LASTEXITCODE -ne 0) { throw "Editable project installation failed with exit code $LASTEXITCODE" }
+    & $venvPython -X utf8 tests\check_environment.py --output artifacts\maintenance\environment.json
+    if ($LASTEXITCODE -ne 0) { throw "Development environment verification failed." }
+    npm ci --ignore-scripts --no-audit --no-fund
+    if ($LASTEXITCODE -ne 0) { throw "Locked browser dependencies could not be installed. Node.js 20 or newer is required." }
+    npx playwright install chromium
+    if ($LASTEXITCODE -ne 0) { throw "Chromium installation failed." }
 } finally {
     Pop-Location
 }

@@ -62,7 +62,7 @@ QTM jobs 上限 100，清理完成的终态保留最多 600 秒，诊断事件�
 
 首原型仅改善强表采用时点，没有改善总请求时间，原始结果保留，没有当作成功。扫描版本的 4/8 线程运行使用同一 EXE，但 Tail 是否及时采用、证明额度和找到解前的树也发生变化；不能把全部差值归因于校验线程数，不能宣称单位节点速度固定提升。
 
-两次扫描 HTTP 使用中间 EXE `9b178d4d…`，不是最终 EXE。最终 EXE 增补可选损坏资产回退和小额度处理，其实际包结果见下一节，不拼接成一个加速比例。原始数据：[基线](benchmarks/qtm-production-upgrade-2026-10-01/baseline-http.json)、[失败首原型](benchmarks/qtm-production-upgrade-2026-10-01/strong-first-http.json)、[4 线程](benchmarks/qtm-production-upgrade-2026-10-01/scanned-strong-first-http.json)、[8 线程](benchmarks/qtm-production-upgrade-2026-10-01/scanned-strong-first-8-http.json)。
+两次扫描 HTTP 使用中间 EXE `9b178d4d…`，不是最终 EXE。最终 EXE 增补可选损坏资产回退和小额度处理，其实际包结果见下一节，不拼接成一个加速比例。原始数据：[基线（归档）](evidence-archive-2026-10-06.md#file-06cc3d449bc1)、[失败首原型（归档）](evidence-archive-2026-10-06.md#file-a81ca1e7b020)、[4 线程（归档）](evidence-archive-2026-10-06.md#file-5b4d729db039)、[8 线程](benchmarks/qtm-production-upgrade-2026-10-01/scanned-strong-first-8-http.json)。
 
 ### 最终 EXE 的交错完整层
 
@@ -94,7 +94,7 @@ QTM jobs 上限 100，清理完成的终态保留最多 600 秒，诊断事件�
 
 最终默认 bounded reuse 允许已暂停 resident 短暂保留，因此“租约释放”不等于全部映射已经解除。页面采用原有约 1 秒轮询，交付时间与后台生成时间分列；没有用额外高频 API 轮询取代真实页面。
 
-Playwright 验证 1440×1000 和 390×844 两个视口：没有横向溢出、求解文本裁切或重叠，六个照片 canvas 均有非空多色像素，未发生页面 JS 错误。测试结束只关闭本次启动的进程树。详见 [页面原始事件](benchmarks/qtm-production-upgrade-2026-10-01/package-page.json)、[桌面截图](benchmarks/qtm-production-upgrade-2026-10-01/initial-12-desktop.png)和 [手机截图](benchmarks/qtm-production-upgrade-2026-10-01/initial-1-mobile.png)。
+Playwright 验证 1440×1000 和 390×844 两个视口：没有横向溢出、求解文本裁切或重叠，六个照片 canvas 均有非空多色像素，未发生页面 JS 错误。测试结束只关闭本次启动的进程树。详见 [页面原始事件（归档）](evidence-archive-2026-10-06.md#file-560817a6310f)、[桌面截图（归档）](evidence-archive-2026-10-06.md#file-92876ce15013)和 [手机截图（归档）](evidence-archive-2026-10-06.md#file-f387a295c34d)。
 
 ## 5. 正确性、隔离与 CI
 

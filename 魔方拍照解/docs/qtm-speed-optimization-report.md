@@ -41,7 +41,7 @@ HEAD 为 `b68da781fd3c2296e9aad0f9496c5786b6b834c5`，**它仅标识祖先提交
 
 最终 pgo16 成本 17 的浅回归中位数 0.016901 s；此前报告的 0.016059 s 仅作历史参考，不充当本轮重新冻结的同场对照。最终热层测量有轻量回归测试并行干扰，不能据此精确归因 6% 的变化，但结果不满足提速门槛，且两例超过 5% 退化警戒线。没有以节点变化或噪声解释为收益，也没有追加长测试图翻转结果。
 
-证据：[冻结完整层](benchmarks/qtm-speed-fixed-baseline.json)、[最终完整层](benchmarks/qtm-speed-final-fixed-layer.json)、[浅回归](benchmarks/qtm-speed-final-short-layer.json)。
+证据：[冻结完整层（归档）](evidence-archive-2026-10-06.md#file-0f82cb0881e6)、[最终完整层（归档）](evidence-archive-2026-10-06.md#file-35eb566890ca)、[浅回归](benchmarks/qtm-speed-final-short-layer.json)。
 
 ## 3. S1：staged 强表采用与加载额度
 
@@ -66,7 +66,7 @@ initial-1 基线和变体各运行一次 15 秒：
 
 这是**机制有效但性能未过门槛**：完成成本没有提高，丢弃工作很大，不把首次采用等同于首次严格证明加速。重启开关保留，默认仍 `boundary`。加载额度与完整校验控制默认启用；由于此对照同时加入额度与重启，不能将性能差异归因到 loader 线程数。本轮未额外展开线程数消融。
 
-证据：[staged 基线](benchmarks/qtm-speed-staged-baseline.json)、[staged 重启变体及全部帧](benchmarks/qtm-speed-staged-final.json)。这些脚本 50 ms 轮询的交付时间没有代替生产页面指标。
+证据：[staged 基线（归档）](evidence-archive-2026-10-06.md#file-aec7e85af74c)、[staged 重启变体及全部帧（归档）](evidence-archive-2026-10-06.md#file-8c5edb579b5e)。这些脚本 50 ms 轮询的交付时间没有代替生产页面指标。
 
 ## 4. S2：完整 strong 热路径独立消融
 
@@ -83,7 +83,7 @@ initial-1 基线和变体各运行一次 15 秒：
 
 没有合并两个变体掩盖单项收益，也没有继续扩大试验。最终 EXE 的独立四分之一转 BFS oracle 深度 3 检查 1,195 状态，所有 cutoff 0..30 对比 keep/omit 的合法下界和接受后 materialize，通过。实现期间还检查了 base/partial Phase-1 的后备路径；最终可重放记录为完整 strong oracle。
 
-证据：[slice 消融](benchmarks/qtm-speed-slice-paired.json)、[有效预取消融](benchmarks/qtm-speed-prefetch-paired.json)、[最终 oracle](benchmarks/qtm-speed-final-oracle.json)。
+证据：[slice 消融（归档）](evidence-archive-2026-10-06.md#file-940b73f11bb7)、[有效预取消融（归档）](evidence-archive-2026-10-06.md#file-621fc7f09108)、[最终 oracle](benchmarks/qtm-speed-final-oracle.json)。
 
 ## 5. S3：有界复用、内存与 HTM 优先
 
@@ -132,7 +132,7 @@ initial-12：startup 1.515 s，strong/Tail ready 9.031/9.500 s，生成 2,686,17
 
 冻结 dirty 基线的 initial-1/12 页面也各运行了一次 30 秒，均有成本 24 的有效候选、排除到 19、未证明严格最短。但辅助脚本日志缓冲/观察结束采集失败，缺失完整 HTTP 账本；首候选观察分别 3.091/2.071 s，终态观察过晚，均只能视为上界。保留原始失败和观察证据，**不用于跨版本页面提速比较，不重复这两次长请求**。
 
-证据：[新包实际页面账本与传输记录](benchmarks/qtm-speed-package-page-acceptance.json)、[两组照片识别](benchmarks/qtm-speed-package-photo-acceptance.json)、[冻结基线页面观察与候选重放](benchmarks/qtm-speed-baseline-page-observations.json)。
+证据：[新包实际页面账本与传输记录（归档）](evidence-archive-2026-10-06.md#file-3f752c5ab7ac)、[两组照片识别](benchmarks/qtm-speed-package-photo-acceptance.json)、[冻结基线页面观察与候选重放](benchmarks/qtm-speed-baseline-page-observations.json)。
 
 ## 7. 生产参数、停止项与验证边界
 

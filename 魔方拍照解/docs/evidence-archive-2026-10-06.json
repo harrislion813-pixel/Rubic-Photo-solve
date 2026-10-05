@@ -1,0 +1,2982 @@
+{
+  "schema": 1,
+  "source_commit": "3ef0720421b880692c5a07e16d2fbc2cd448751c",
+  "files": [
+    {
+      "path": "docs/ai-htm-rollback-qtm-isolation-plan.md",
+      "bytes": 29051,
+      "sha256": "ab0de35d594716b826486936f678790679e96cce32ef2668750c876cab5171e5"
+    },
+    {
+      "path": "docs/ai-qtm-speed-optimization-plan-2026-09-30.md",
+      "bytes": 18546,
+      "sha256": "174c71a7ae91023dc543aee7b075509a4a67565038ecc3726a192e0866baaed1"
+    },
+    {
+      "path": "docs/benchmarks/acceptance-config-correction.json",
+      "bytes": 1080,
+      "sha256": "73de769732bfb0a377c52ccbd58488521c2436ff63177197387b3f09e38e5b57"
+    },
+    {
+      "path": "docs/benchmarks/frozen-native-source-audit.json",
+      "bytes": 8675,
+      "sha256": "3fb1000d8f9f4cbcc1b3fcbdf28de0ea3896e6bd77d9d300232e510312f915ff"
+    },
+    {
+      "path": "docs/benchmarks/h0-build-info.json",
+      "bytes": 1415,
+      "sha256": "3fcd7b5e27d77ec26bf009f472acb1b68ff7e9db055d02a2bec1e2edd8a2f9da"
+    },
+    {
+      "path": "docs/benchmarks/h1-build-info.json",
+      "bytes": 1415,
+      "sha256": "92b70b38ca1b3d37ca3d04e98bae9989a1ad26ecac7a4d4fb5dbcdab18791ec2"
+    },
+    {
+      "path": "docs/benchmarks/htm-final-package-build.log",
+      "bytes": 9247,
+      "sha256": "31499a955ed1bd6f9ae993bfb2d30ff088a7f02f26ef785e4fd081db0db94629"
+    },
+    {
+      "path": "docs/benchmarks/htm-h0-calibration.json",
+      "bytes": 18284,
+      "sha256": "20b6a0d807356ff10840eec02f230207af100a1bf9c11e763dcbee524f6ad1bc"
+    },
+    {
+      "path": "docs/benchmarks/htm-h0-calibration16.json",
+      "bytes": 59954,
+      "sha256": "b05c1b832d35a6287ac2cd5cc809d44e0e66dfef614f171bca08c868f58d5aa3"
+    },
+    {
+      "path": "docs/benchmarks/htm-h0-pgo15-retest.json",
+      "bytes": 50332,
+      "sha256": "4a24587bf96a9cf10a5f2d48176c33b45eea41a1f1d724c7e4a2d63d89ebaabe"
+    },
+    {
+      "path": "docs/benchmarks/htm-h0-photos.json",
+      "bytes": 66875,
+      "sha256": "5f3da9d091d54bb0efa881b9dc115648078d2702a8012dd25ba302fc5466010b"
+    },
+    {
+      "path": "docs/benchmarks/htm-h0-portable-review.json",
+      "bytes": 198518,
+      "sha256": "adb852469d43afaba28dc7311292d4779c44c1726782ff4cb0e0eca6e71bd0d7"
+    },
+    {
+      "path": "docs/benchmarks/htm-h0-real-verification.json",
+      "bytes": 461,
+      "sha256": "da8b62275b745b19d21ee39cbdd6cacdafad5fd76465feeaf2134f392678cba3"
+    },
+    {
+      "path": "docs/benchmarks/htm-h0-real.json",
+      "bytes": 353756,
+      "sha256": "dc415541321373216eb9f6deabc93651df51c72bfe83c9cf4dec2819981434e2"
+    },
+    {
+      "path": "docs/benchmarks/htm-h0-shallow.json",
+      "bytes": 59083,
+      "sha256": "7a6c3da1ef4299b2ac01bfd5afc4a0630929c8eed869ab6a57646bd9c8259baf"
+    },
+    {
+      "path": "docs/benchmarks/htm-h0-short-15.json",
+      "bytes": 182713,
+      "sha256": "3dea594172c71194add4be98ea181a900f99dcc0bad3ef7d3a7e59c217a691f5"
+    },
+    {
+      "path": "docs/benchmarks/htm-h0-short.json",
+      "bytes": 155601,
+      "sha256": "e9c5ff92e94eea29754532011e4555fadef48bc19ec455176113966d785ae824"
+    },
+    {
+      "path": "docs/benchmarks/htm-h1-pgo15-retest.json",
+      "bytes": 50336,
+      "sha256": "7d4664e5b064fbc800fd43cc5fb260c10a376ab30309b03276c27a101f59d077"
+    },
+    {
+      "path": "docs/benchmarks/htm-h1-photos.json",
+      "bytes": 66878,
+      "sha256": "87812142b75ca3617adb85411514521b9d6c3de556d4239210d1a8ef59de74ed"
+    },
+    {
+      "path": "docs/benchmarks/htm-h1-portable-review.json",
+      "bytes": 194636,
+      "sha256": "82381b1a847646e4b389e833568441e1c8f6dc8f0d3100f3ee06fadbd1a5c947"
+    },
+    {
+      "path": "docs/benchmarks/htm-h1-real-15.json",
+      "bytes": 359688,
+      "sha256": "c785ccc64fe8447217b07e3f62361792671e9a6453bd6ac7b07deffe25f4ebfe"
+    },
+    {
+      "path": "docs/benchmarks/htm-h1-real-final.json",
+      "bytes": 270628,
+      "sha256": "88a0d4e98f868184f324854a9a34a4010c3b0fb89110e47d11a48dd9893b4405"
+    },
+    {
+      "path": "docs/benchmarks/htm-h1-real-release.json",
+      "bytes": 265581,
+      "sha256": "728ea8a7aa1e8872fe06dafc6e57b9c475bce04589606e8ec8b8c32892c7834d"
+    },
+    {
+      "path": "docs/benchmarks/htm-h1-real.json",
+      "bytes": 265023,
+      "sha256": "45a3dd3b815dbd3e86d0238da479ff8de8e354df3ea9540eab359ee89364d06d"
+    },
+    {
+      "path": "docs/benchmarks/htm-h1-shallow.json",
+      "bytes": 59085,
+      "sha256": "a8ce1d5eea06b4210fcceb45eef2a378fb863e473591d5dcf2218f34bbdc004f"
+    },
+    {
+      "path": "docs/benchmarks/htm-h1-short-15.json",
+      "bytes": 182753,
+      "sha256": "c4ac757ef5bf43a22e599b4425f68a8e29a0f2706c8512801852e022f34745b3"
+    },
+    {
+      "path": "docs/benchmarks/htm-h1-short.json",
+      "bytes": 155595,
+      "sha256": "be7ef891ac537a33b0b8f8018da253fe6315e59eaba0ff76968eda08be7e8a00"
+    },
+    {
+      "path": "docs/benchmarks/htm-only-lifecycle.json",
+      "bytes": 2364,
+      "sha256": "afacc88068421edfade4506de277f9781b645efd059e653f24f4612def143178"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/acceptance-summary.json",
+      "bytes": 374081,
+      "sha256": "adddcf37cf03e5dd1f2b308cf65abd65ec520d90f760d21bed7f2bf1de66dfc1"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/contracts-final.xml",
+      "bytes": 14581,
+      "sha256": "eb5195bbd8f43718f78219fc8a94604be3327386206a71d6d2094fd819fcfe60"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/contracts.xml",
+      "bytes": 11322,
+      "sha256": "d88e4d2a27579d8e8b459b245501709eb5b643b66daf8c9e2962539cc509d034"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/evidence-compression.json",
+      "bytes": 17841,
+      "sha256": "573f90401b660b1c51d50b8467cede05e16a6248c720d0ca607af06e11dbefa9"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/final-build-equivalence.json",
+      "bytes": 3386,
+      "sha256": "7cec07050bd811570941dcca3b7c0a50ec48284c950e71c2946f034b08dd4b60"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/final-default.json.gz",
+      "bytes": 42022,
+      "sha256": "6ec529e35ab00ff9171a338b4449b0ecd3baf19b22b106a0c674ebdc560d70dc"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/final-random/random-10.json",
+      "bytes": 41014,
+      "sha256": "45191477a15b3981f9b9d19de760f11cf786268c91160d424ad988b47f24197a"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/final-random/random-11.json",
+      "bytes": 40961,
+      "sha256": "8697d2dfe5654d3c9773cd8d0809da68aceb19838ee5b10703fd9dd446f281e3"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/final-random/random-12.json",
+      "bytes": 49403,
+      "sha256": "82fced2110a9ae2cfef1cda111302af8b3f854a3c4e34fb7e1830c90b5ac08cd"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/final-random/random-5.json",
+      "bytes": 32964,
+      "sha256": "70fae79f523be5d9f76804b4f64b60e4ba9aaee0dde6d8e72cf0a187cd2344eb"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/final-random/random-6.json",
+      "bytes": 33066,
+      "sha256": "a3bf82c6a3a8179b9a5b3cc65acf639b0d15acdf8d93991b2d6ccbd7ddeebfc0"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/final-random/random-7.json",
+      "bytes": 33327,
+      "sha256": "b4466f78ff3338db08e11808da675f80e3b378950676a8e45642ee71d7e1111a"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/final-random/random-8.json",
+      "bytes": 40572,
+      "sha256": "62d7d55e4d59e2c5a579d9dbbda2806cba1c0b8dd08f3e70d7ab3bbce16494d5"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/final-random/random-9.json",
+      "bytes": 40717,
+      "sha256": "9e0b83e8be61b781fd5d7fcbb5df4b430d7b628f5bb9289b4f59acf0a86f2a3c"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/final-random.json.gz",
+      "bytes": 14776,
+      "sha256": "a463f07703ce7d205f34ec36f51392e94fadc26bb2014cbe74f1d1565644a3b0"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/final-same-tree-pair.json.gz",
+      "bytes": 37099,
+      "sha256": "2140de77b3f54f8a07206891b478e27a8d975b77f1929866bb4d90b33700962f"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/0-initial-1-baseline.json.gz",
+      "bytes": 82945,
+      "sha256": "a931d7fcc7fcaa3add37a474c3a1f84ef73f8f81bc4ab62cef9927f2ff48ccd1"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/0-initial-1-current.json.gz",
+      "bytes": 42247,
+      "sha256": "d1d16c8b3b23a873f81d8232e04ec58270ae6fc8a05dc0b9b84769e3bc84b77e"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/0-initial-12-baseline.json.gz",
+      "bytes": 51177,
+      "sha256": "a596d4d60659dba1a3f02cd8a5559cc9ee746628911cae51e76333e107257772"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/0-initial-12-current.json.gz",
+      "bytes": 45633,
+      "sha256": "25d216d076632f527ffc430270c38eccc101d6ddc0d6734777a288d6f3349a7f"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/0-initial-16-baseline.json.gz",
+      "bytes": 83371,
+      "sha256": "e284f0cb54d5f25b5595b1fa07e62402d5bacfc1239ccf144f5852192d54e4e6"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/0-initial-16-current.json.gz",
+      "bytes": 82446,
+      "sha256": "8e6324366dd99eacdac899847b72e4f7841b2bed3cb169879e2f9ecd04765d8c"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/0-initial-2-baseline.json.gz",
+      "bytes": 21175,
+      "sha256": "95ad6341a5a555be39301759d3860ce90a68238da24527842556caa29f68ce12"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/0-initial-2-current.json.gz",
+      "bytes": 20218,
+      "sha256": "63ac70d801e3049f11960a43d3f930aa35b74af220630f92ea90c870da900853"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/0-initial-5-baseline.json.gz",
+      "bytes": 42709,
+      "sha256": "7fb6392a9e953b0952ce0886461e061934fb0e6abd16efb804ef29b150739959"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/0-initial-5-current.json.gz",
+      "bytes": 40073,
+      "sha256": "a18c31fe714f4119c90f426e79a1a22eae1634275b87e260fd943fbf6aae8cbd"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/0-initial-8-baseline.json.gz",
+      "bytes": 83087,
+      "sha256": "e9109636e3fcb7392d7a29a8bdc0e388b38c5b71eada81a6fe816e6922dec6b8"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/0-initial-8-current.json.gz",
+      "bytes": 45740,
+      "sha256": "0354c7f23a63b7268b95bda7379d53fd7b6eb93a0b597a7d9bc0dee1bf52e798"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/1-initial-1-baseline.json.gz",
+      "bytes": 71751,
+      "sha256": "398bd90fa79cddd74aab7042f6c3045823218f74062830ff75410b70e640d749"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/1-initial-1-current.json.gz",
+      "bytes": 40519,
+      "sha256": "e1e31de53c68d3be06563cdfff9458eec9d9f222ff9dee8c84706a6c366b040a"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/1-initial-12-baseline.json.gz",
+      "bytes": 50305,
+      "sha256": "b0136566e79bfb00e35c1f187825c3294fc9385caaf38ab76cabe043ae2f1016"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/1-initial-12-current.json.gz",
+      "bytes": 45003,
+      "sha256": "0d1e066b11ebd3338620edc87ea6203856a8261bf8067c3fa99cc1cbefe858d6"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/1-initial-16-baseline.json.gz",
+      "bytes": 82652,
+      "sha256": "83e60264f72bdea5fc78e80ff0975359c741d286f053b4422d1be16952656054"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/1-initial-16-current.json.gz",
+      "bytes": 82998,
+      "sha256": "b64970a62e4ea700063f2f73410b71c31d61f427bae7e20e816ee5e492849519"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/1-initial-2-baseline.json.gz",
+      "bytes": 20343,
+      "sha256": "101a7a709d93e9a615fefee78e0feb4b9d656c8ee5a11e0ad0a733dd6ea7e394"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/1-initial-2-current.json.gz",
+      "bytes": 20865,
+      "sha256": "0324975a5136680a525edab32335028ed1e56cd9e1360656624c210cd428bded"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/1-initial-5-baseline.json.gz",
+      "bytes": 41602,
+      "sha256": "059cbcd9eb34b2cfb964355a2b9eb8efe5074d8d7597b5969766889fc6cdce3e"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/1-initial-5-current.json.gz",
+      "bytes": 37788,
+      "sha256": "6e0ca22ff8991a0190ea2066e1948022766384abd9039e41ae23199d5936cc35"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/1-initial-8-baseline.json.gz",
+      "bytes": 83469,
+      "sha256": "b3f68f39dd91b489124cee8cb32b10ac73a2beef035bc25d6bff82a5d225e3b3"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/1-initial-8-current.json.gz",
+      "bytes": 46619,
+      "sha256": "b23e04bcf1dd2a8f0d85ffef3bb631f24bc35e6a35c50f1cbabb89716b7e99dd"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/2-initial-1-baseline.json.gz",
+      "bytes": 72419,
+      "sha256": "7e31a328f6830362405ec15c73276964ad6f8dce5fb20684cc9e972d6f099dae"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/2-initial-1-current.json.gz",
+      "bytes": 40883,
+      "sha256": "4f3540653034bf76e315667c6fc8374a0f8bb48a12ba65a7448e2c1192957105"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/2-initial-12-baseline.json.gz",
+      "bytes": 50344,
+      "sha256": "84689d9c553abd4d0c2076dee175d1ed53543e53459d8a8d1e37ab3c3114f84d"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/2-initial-12-current.json.gz",
+      "bytes": 43690,
+      "sha256": "658e41a5553873f285baa6ba107cadbb0274c69e39140319d1afc1c6d7855816"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/2-initial-16-baseline.json.gz",
+      "bytes": 83090,
+      "sha256": "1c9b095d08a92394970f84922315a032be7db4bc0d5f2909495255493ef5f051"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/2-initial-16-current.json.gz",
+      "bytes": 82337,
+      "sha256": "266f1f7d0eece5c1cbd823a58af3a45f6ea7812f546d2d439db593ffc3afd3c1"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/2-initial-2-baseline.json.gz",
+      "bytes": 19537,
+      "sha256": "05e183e66da102aa0ac9364a1cbcc6b7ee3801c5dd78dc8f4d7b723688578687"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/2-initial-2-current.json.gz",
+      "bytes": 20450,
+      "sha256": "be0f636fd39b43e6131e99f7effe042fb304b7e20bafad84ef6fbdbae538c8db"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/2-initial-5-baseline.json.gz",
+      "bytes": 41883,
+      "sha256": "9afd5a58dda1f97a8ad6f2fae2400a077b408a79b7770a0bf27aa495deb142bb"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/2-initial-5-current.json.gz",
+      "bytes": 37071,
+      "sha256": "20a2f6b110afd047c6cb5d35a911d27ef01fea24d3300a9ee937e9ddb9f14e39"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/2-initial-8-baseline.json.gz",
+      "bytes": 83837,
+      "sha256": "50b68ad857391f9ca06eb837ffa2de6da02e964cafa1a8240c23e71ba01d87fb"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2/2-initial-8-current.json.gz",
+      "bytes": 47188,
+      "sha256": "d25413137afbd06774b1940522a75538a4dade2ed76ad2d2a26a0aecf50bdecb"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix-v2.json.gz",
+      "bytes": 1919673,
+      "sha256": "1bdab0428f8710633204af0c82faf51667f0d4cc66fe5744fc40d63492520fe8"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-matrix.json",
+      "bytes": 2643,
+      "sha256": "aa111ea3261cb06c289addd5d342da851d2902c248a7bb0165853d7df90bd579"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-smoke.json.gz",
+      "bytes": 41997,
+      "sha256": "2fd6f7fd6c9955f21276e0539152e7b41a1c65a99f3fe705a15b850df564affa"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/http-summary.json",
+      "bytes": 1960,
+      "sha256": "2aec974412148ef46585023533880829f07bd966ed69f9088c82890b922b0a64"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/p0-incumbent.json.gz",
+      "bytes": 31017,
+      "sha256": "e56f8812f3b00e66535b8b8effe12b4ebc2fc317515f62aeabb4ad167d84a8af"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/p1-packed-pair.json.gz",
+      "bytes": 37966,
+      "sha256": "5571051e73150798bc4296385b10f5e8d7bb66a00c2ba8e9bf5ca7966e5e21eb"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/p1-reference-equivalence.json",
+      "bytes": 243,
+      "sha256": "3edd74961d2ef877bf8973d6cf0d2aac77f85264ef1957d8e6d30814a844ef9d"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/p1-specialized-pair.json.gz",
+      "bytes": 36904,
+      "sha256": "828ec0614d71c7176248ec57d574a45c366b976146187139dbce2ac024775f23"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/p1-startup.json",
+      "bytes": 588,
+      "sha256": "5aba693cada7d839da2e5172213297916a727d468f3ddc6f3b098810ab2c247e"
+    },
+    {
+      "path": "docs/benchmarks/htm-opt-2026-10-05/p2-candidates.json.gz",
+      "bytes": 4913,
+      "sha256": "bc8120cb4799ba321127871dc9daee3709c5f43cc16fbcc3ceb645758f6ca2e5"
+    },
+    {
+      "path": "docs/benchmarks/htm-portable-build-review.json",
+      "bytes": 1437,
+      "sha256": "9b52ee7ff538a76b0a39263889a01f88c671092504b54d927e64c5472fffcc61"
+    },
+    {
+      "path": "docs/benchmarks/htm-portable-source-audit.json",
+      "bytes": 4723,
+      "sha256": "2534560e029ba0a4cbcb3736193d4e0302bcaddca27e0d971f580b104f25b974"
+    },
+    {
+      "path": "docs/benchmarks/htm-qtm-initial-inventory-2026-09-30.json",
+      "bytes": 23388,
+      "sha256": "8bf2f66573ef25d07f4c4f94bad058a30c41d5ba140cae307ebd4a7b24bce985"
+    },
+    {
+      "path": "docs/benchmarks/htm-qtm-isolation-baseline-manifest.json",
+      "bytes": 3740,
+      "sha256": "7d36843a42897bb3cb5e4f205880d0db0018abf5eef803470f35853087592189"
+    },
+    {
+      "path": "docs/benchmarks/htm-qtm-theoretical-timing-2026-10-01.json",
+      "bytes": 678355,
+      "sha256": "778090d2f73e16ff0162708da121b30353dd2fc7089c013ba7708c7caccf32e6"
+    },
+    {
+      "path": "docs/benchmarks/htm-review-2026-10-05/diagnose.py",
+      "bytes": 6179,
+      "sha256": "319837357239ad082e60b9a9231044b7485ef292afc6e5df6a53df5332c1e05b"
+    },
+    {
+      "path": "docs/benchmarks/htm-review-2026-10-05/diagnostic.json",
+      "bytes": 611419,
+      "sha256": "350559e65f49c4f428b6980a58bf4c78028e38df04eb27086a3122bf0e8ec0aa"
+    },
+    {
+      "path": "docs/benchmarks/htm-review-2026-10-05/identity.json",
+      "bytes": 6508,
+      "sha256": "b8fbe5909185704a2441105983fda0f442aca256c9d990a464a40f70f01e9f77"
+    },
+    {
+      "path": "docs/benchmarks/htm-review-2026-10-05/incumbent-probe.json",
+      "bytes": 70404,
+      "sha256": "5734219c706d7efc5d256f7e47ce2146355e59ca629553c42fb94a8810649a07"
+    },
+    {
+      "path": "docs/benchmarks/htm-review-2026-10-05/incumbent_probe.py",
+      "bytes": 3305,
+      "sha256": "6a7287384aaa3a9c846e25bc3db80e23c5a08e04ebaa8b96282627d0a0b25618"
+    },
+    {
+      "path": "docs/benchmarks/htm-review-2026-10-05/summary.json",
+      "bytes": 7655,
+      "sha256": "56ab7977729077881ac3714e6a08c49f49c6a44a94f76939c7a357d483058e2c"
+    },
+    {
+      "path": "docs/benchmarks/HtmFull-asset-manifest.json",
+      "bytes": 1514,
+      "sha256": "60d0ac5286c1f34fc9eae2afbf78c030fe90dfceb3e5f8321e0775ba9ef951f5"
+    },
+    {
+      "path": "docs/benchmarks/initial12-reference-grid.png",
+      "bytes": 819629,
+      "sha256": "e7b53067ad8ce133401d280012101f61f37b764ddf05a3ab7290e1efeda82197"
+    },
+    {
+      "path": "docs/benchmarks/isolation-api-lifecycle.json",
+      "bytes": 11241,
+      "sha256": "63c3555c7b533e85704848d380bb3968e0493b2a9be30a7aef3da239e9d6a4ff"
+    },
+    {
+      "path": "docs/benchmarks/isolation-targeted-tests-review.xml",
+      "bytes": 5695,
+      "sha256": "2dd964f655397118b2f814731f57cba6e0f919a966180fbcf6643e1552458e12"
+    },
+    {
+      "path": "docs/benchmarks/isolation-wheel-install-review.json",
+      "bytes": 502,
+      "sha256": "e11e8ca2a306552673c668cbe761272838cf69f9cb4f5a76112041648ad8937f"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/baseline-HTM-initial-1-0-memory.json",
+      "bytes": 7794,
+      "sha256": "e5aa1d897edd0d1d1f937913955c44ddb680e38c54b055cd79edfef1af612044"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/baseline-HTM-initial-1-desktop.png",
+      "bytes": 483496,
+      "sha256": "7e02dbe607bbd87cd5e0b50322134087e1ae33398f17e8a46420f2591ddfbd28"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/baseline-HTM-initial-1-mobile.png",
+      "bytes": 333562,
+      "sha256": "d8b9618c0057bc4f1662f09a52bd9bf3d2139e3d927abef6a078625077357700"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/baseline-HTM-initial-12-0-memory.json",
+      "bytes": 3634,
+      "sha256": "d4ee5b44bbd35414870b1e46a66db2be15bd6725aa909e63865e2d9601d0d234"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/baseline-HTM-initial-12-desktop.png",
+      "bytes": 543467,
+      "sha256": "ca102690d2f5a22b93d66775aa7416c905a4f4a1e68b763f26b1686145dad8de"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/baseline-HTM-initial-12-mobile.png",
+      "bytes": 357136,
+      "sha256": "744d5ac9c9444e458f9b715de952195a6d9f1e70d83a20ce73b9114e47dd5c4a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/baseline-identity.json",
+      "bytes": 58161,
+      "sha256": "998a1b9e595503652a5c438fe11fb911afaf831d8cb1b548092ea631d8e3ac3e"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/baseline-package-build.log",
+      "bytes": 8900,
+      "sha256": "9f73bb9b433f0d7ce429b98efd14cb0df3c6ee70322b0c32b6f54f92cebd089e"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/baseline-QTM-initial-1-0-memory.json",
+      "bytes": 6770,
+      "sha256": "ea46475782991917a13bb1012753e6a78798b048be56a312bcab1e7830f2c4c5"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/baseline-QTM-initial-1-desktop.png",
+      "bytes": 484383,
+      "sha256": "f4ca117ef0048e2382a3c8b698898db91c3afec8e1eb3637b8ab83d6f7ae948a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/baseline-QTM-initial-1-mobile.png",
+      "bytes": 333920,
+      "sha256": "0fd3521bf32467c2fc760c9543635f2e8268860e8361b20624b1281a26c88d31"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/browser-patch-color-regression.json",
+      "bytes": 31973,
+      "sha256": "191bcbfaffbaa04389f10387055ae9ceecb2dc49a6355e54fb3ecf13da76190d"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/browser-patch-prototype-diagnostic.json",
+      "bytes": 4795,
+      "sha256": "26ad13e6715f68e74d101ed0b5c8cdb5892682f03e85889e3a51627f5ac8cbbb"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/controlled-baseline-contracts.xml",
+      "bytes": 3016,
+      "sha256": "9f02a9d9de30a00b15eff84371b009f8b8729878ce68a246608743bd3831b3e6"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/controlled-baseline-identity.json",
+      "bytes": 5422,
+      "sha256": "073b32f24fd4ec57e1959b19ce7627dd6073f44e56c4b016b6c578e68220521f"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/controlled-baseline-package-identity.json",
+      "bytes": 66114,
+      "sha256": "e7d9fa7534be580b6d2288ec5e0e57fe30aad1f30d42cb7656a4ffddd1698885"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/controlled-baseline-verification.md",
+      "bytes": 6006,
+      "sha256": "d579f262d357cc6289160066b55ed580604ed96154bb8373cd2ee10341057013"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/controlled-baseline.patch",
+      "bytes": 67878,
+      "sha256": "d43d69478dcecb32d28f9fea76d7c25d1c6d2a5df08823bcd586af964ba5b9c9"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/current-defaults-identity.json",
+      "bytes": 60191,
+      "sha256": "68d842c21e5bc5eac47f77ee9ad23e5f6afa3da72c306f99a775463af56c7a55"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/current-defaults-package-identity.json",
+      "bytes": 20351,
+      "sha256": "c2384907855b27e8abdd333d3e329989420d43f6d0f1e6136d38964e39012d6f"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/current-final-identity.json",
+      "bytes": 60110,
+      "sha256": "b08165d4d41d04eec3f026c4ea8ca12f6ab4b7887da42123ed0c6c46c61b1c95"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/current-HTM-initial-1-0-memory.json",
+      "bytes": 7628,
+      "sha256": "cf1dfbe92879d3d76013739efbb1946073ee27c11bdf7af6649f224f1ab7e182"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/current-HTM-initial-1-desktop.png",
+      "bytes": 487290,
+      "sha256": "f782f9119f32e029312af4419aeba760df7011f4cbdd5b96c6bc6b131aa7a7ac"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/current-HTM-initial-1-mobile.png",
+      "bytes": 335880,
+      "sha256": "c4ce3ebb32ab8dde6b47c680dcd98a6964679031bd47d18f3ea05218ebe331ae"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/current-loader-repaired-package-build.log",
+      "bytes": 8643,
+      "sha256": "f6a12adf8f42741c23909ed1afcd33edde5f969bf3f9c1841749f83f0ebc83c9"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/current-package-build.log",
+      "bytes": 8588,
+      "sha256": "b2b1e29de42e9ef3ad2288494970a74c737513e3884545dba41e6746113a0d34"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/current-QTM-initial-1-0-memory.json",
+      "bytes": 4577,
+      "sha256": "46d89ed8e4ad4baecaf225652246676bf32fdfb0601e3d311fd9bb36e25665a9"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/current-QTM-initial-1-desktop.png",
+      "bytes": 484377,
+      "sha256": "07da863d3511564edadccd10f2e14b5fe6818874f738064a00abf3fcef55a179"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/current-QTM-initial-1-mobile.png",
+      "bytes": 333845,
+      "sha256": "b50ed5f33f524e5c8a7d410510de631aac6a7081f7572c78fc06391a70e3fccc"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/baseline-HTM-initial-1-0-memory.json",
+      "bytes": 6542,
+      "sha256": "ecc10c85bec52edb3c66f5da62116660ea8cae2c45e78181f6954f7f9d71d789"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/baseline-HTM-initial-1-desktop.png",
+      "bytes": 483762,
+      "sha256": "b4f0934e0c2495aae3f4f1a15bddfed36220ff922221bc0357c7c37fe66b3bf0"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/baseline-HTM-initial-1-mobile.png",
+      "bytes": 333834,
+      "sha256": "842c5a2ab96fb5b68369ff90681061d67ba79ae8be4354c2d621384c1fa839e1"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/baseline-HTM-initial-12-0-memory.json",
+      "bytes": 5366,
+      "sha256": "97315bf383cd5996914d76dc8d04969faef083b6cded013229266cc6a4502af4"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/baseline-HTM-initial-12-desktop.png",
+      "bytes": 543745,
+      "sha256": "26af4152eade73ee3297e2f56512cebe69318522d211ff117dc2ce28cf1dd044"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/baseline-HTM-initial-12-mobile.png",
+      "bytes": 357374,
+      "sha256": "4f405375defa25f5a38c899b335b6c74769b251533622064bbbb1320e3af1e54"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/baseline-QTM-initial-1-0-memory.json",
+      "bytes": 5494,
+      "sha256": "0f07c38edc3dc05279dce7b2e1de32025f2441d62d4c328f6425ec8123f6763b"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/baseline-QTM-initial-1-desktop.png",
+      "bytes": 484397,
+      "sha256": "30d87d335ec5465ec10b305495e7de98049345f49769209af2f89cd6238412bc"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/baseline-QTM-initial-1-mobile.png",
+      "bytes": 334338,
+      "sha256": "ec3a9588815c6e0328c12f6c84d4ed5ef9eecdab85b9b4e611f4900bdadee0ad"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/baseline-QTM-initial-12-0-memory.json",
+      "bytes": 3470,
+      "sha256": "0db080eba089d0de70d271e1243d16b0933cbd7b1ae00b16227af82d0e8392e1"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/baseline-QTM-initial-12-desktop.png",
+      "bytes": 544505,
+      "sha256": "2f2d7f3d81485530427631ec98d30dcf24ca8d6f9a06c8efa9b30403a8bc2d92"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/baseline-QTM-initial-12-mobile.png",
+      "bytes": 357822,
+      "sha256": "c3e8b716f990978f2839dad0c4f81902e1986bd8e6bb61c7c784c826062754b6"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/current-HTM-initial-1-0-memory.json",
+      "bytes": 7615,
+      "sha256": "5399fd568ab318743346dcfeb7faa27b13f295f46fba81ae515b399302a40871"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/current-HTM-initial-1-desktop.png",
+      "bytes": 483516,
+      "sha256": "a9c08a6ea98ff64c7ffbff6de1592f953c9bf81566f597e8ed74391e6498142a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/current-HTM-initial-1-mobile.png",
+      "bytes": 334072,
+      "sha256": "2e9804b206a464cd67edcc24f038f955d5c0f7985b0c499ce193a65e8820f232"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/current-HTM-initial-12-0-memory.json",
+      "bytes": 3550,
+      "sha256": "681738482124b4d4e2faefc0f1451967f550d2d690322f0ff335d49f35b80ef4"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/current-HTM-initial-12-desktop.png",
+      "bytes": 543696,
+      "sha256": "9db9b80ae4b6a56aca9c2539fae94df926403b9b3e6b4d901456a2cfa19d286b"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/current-HTM-initial-12-mobile.png",
+      "bytes": 357367,
+      "sha256": "ddc017140b2d6bac48a85c4b19dfccb48b35fba5809f48889a661274cf60099f"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/current-QTM-initial-1-0-memory.json",
+      "bytes": 5675,
+      "sha256": "55951a9eb8bf4a5dc3f9481e18954708586c9015a1b25e5997eda61b66b8603c"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/current-QTM-initial-1-desktop.png",
+      "bytes": 484441,
+      "sha256": "74f6f79fec29b53373f56270774e632110044c2dfb26b4d476f538d2691efee2"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/current-QTM-initial-1-mobile.png",
+      "bytes": 333890,
+      "sha256": "d750eef657229348e5ce2b64a9455bd7fc5614dcab795109c80146a4678b9976"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/current-QTM-initial-12-0-memory.json",
+      "bytes": 3192,
+      "sha256": "30a7239fa8eff564fd09e37348f52822e8c669bba5de7b5d4bc5cbacd5624fee"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/current-QTM-initial-12-desktop.png",
+      "bytes": 544395,
+      "sha256": "f52e7f7515fefc2d101bb5f26c24a301940332b2eee66c53684cedf056648ed9"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/current-QTM-initial-12-mobile.png",
+      "bytes": 357767,
+      "sha256": "49582236129a80a41a8a24f690dd843dd0042b6f9e01b76bb4920b6b072d9cde"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/page.json",
+      "bytes": 39175297,
+      "sha256": "94fe2fd0fa3ac7e81e693464c0a6a697f1f22f96b5fa91ad17cf8c85c1afc90e"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional/validation.json",
+      "bytes": 5870,
+      "sha256": "1bc399b0e6c4aab5a00eb883dc3503902c2667120f04f4fe79f16388b175c502"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional-config.json",
+      "bytes": 682,
+      "sha256": "1476d7e296793d61a9429d348bc6cd87ea3eda854a7eb4aaf62682052f6b2c61"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-functional.log",
+      "bytes": 2121,
+      "sha256": "9238542b258adbf3f4b834c297eb7c88b01fa2efa71737dd4b78eaa140f193d8"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-native-oracle.log",
+      "bytes": 271,
+      "sha256": "0633c84630164e86138fe7cb2b7813a2f5339ef56c67b6410bd90572225781ce"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-native-oracle.xml",
+      "bytes": 666,
+      "sha256": "181fad48cd04211ab64b9b00408e3486f9dbd796a1ad356fa9782597a5b52415"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-package-build.log",
+      "bytes": 8592,
+      "sha256": "c179e6e4ecbd0673d87f1d1ccd3c6c41a9b7f5bd027e68a666456bb0906f3e9a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-package-identity.log",
+      "bytes": 543,
+      "sha256": "b8620fb7ce829bd8b8275adbde56085dc14eed200a5f83a09978ced60990fc80"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-python-contracts-final.log",
+      "bytes": 347,
+      "sha256": "7b3bf118a0ec89323af7f02398912bea0749d0845b8465acef1143ce9c55caf0"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-python-contracts-final.xml",
+      "bytes": 10733,
+      "sha256": "ebddba021d13ba46ed2da35c5913c2c87cd7bced598065bfb95c94e6fe0513c3"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-python-contracts.log",
+      "bytes": 80060,
+      "sha256": "f3b3b45eb56c2df5a13d2060b583a0f80ee3ee2bd449226c96220f9a8e4f5db8"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/default-python-contracts.xml",
+      "bytes": 88065,
+      "sha256": "004e3cd905173e98febc630e8dc901535baf5de9a53131acb4895f02d1315dec"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/file-sharing-attempt-methodology.json",
+      "bytes": 2089,
+      "sha256": "e9e3f0e6399a79634f6064c05d4561aa1c1bf8518b398d39c241c93adb4b71f7"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/final-analysis-contracts.log",
+      "bytes": 260,
+      "sha256": "5e4ffa2e09c6c0cbb97f4b9549a80edbc9d958d79f9ced8536908e150c4be023"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/final-analysis-contracts.xml",
+      "bytes": 1745,
+      "sha256": "735b516775d3c32dd29c91e01dfe3e43bb112b95e2b57a50425c75a0df3815a5"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/final-python-contracts.log",
+      "bytes": 1034,
+      "sha256": "589e59852b19b9a74090f3a07de312069242a25935b9a31ded675822ea648d7a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/final-python-contracts.xml",
+      "bytes": 10483,
+      "sha256": "c654546a198b808140e694a0ac8d99f9ba4657176d808cf9b6fe7c344537bf49"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-1-0-memory.json",
+      "bytes": 7760,
+      "sha256": "463ad2b0d709113125fcee0598f0d70d174632512033df43cc4f1867abc84c2d"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-1-1-memory.json",
+      "bytes": 7608,
+      "sha256": "a32155862b6d764e4471f100127474f308fbae9a12b724425fa1939d213a7402"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-1-2-memory.json",
+      "bytes": 7599,
+      "sha256": "316b628f861020e0a51722753508d2714a8c83f426b99ab44ba0697c09adfc66"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-1-desktop.png",
+      "bytes": 488329,
+      "sha256": "63dd5c6599a2fd2722840a120079412266c06d51bba24ab0cf8b375f4ce07ee9"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-1-mobile.png",
+      "bytes": 337076,
+      "sha256": "eb871396ae3957d9c44da4a33ffadcf69edca616fe05691e20b6a7edf57d8c36"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-12-0-memory.json",
+      "bytes": 5345,
+      "sha256": "77e1e987cb4977f7a49544ea31a38b394dd7454bb38562c8549e245a6b966894"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-12-1-memory.json",
+      "bytes": 3640,
+      "sha256": "ecdcb2486396bd6fb2265d8be45fb478a6b55887ed5bd3cc7b270aebd1a6f328"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-12-2-memory.json",
+      "bytes": 3357,
+      "sha256": "70d6f87751f262e5f4c7dde2e805e7f5104558440712a71e6e23bd364a040d41"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-12-desktop.png",
+      "bytes": 543722,
+      "sha256": "4d62ccb8a70984530e998d6ebaa7f1ae8a578812ede36061f3c1c7af6c4a8bef"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-12-mobile.png",
+      "bytes": 356903,
+      "sha256": "1c68e7ae3a501dae8844f75aefc0583f3edd1f68be0cb50b7d8079fcb428bdf7"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-16-0-memory.json",
+      "bytes": 7606,
+      "sha256": "e1465c51fbd7f794a27aa3350c3108c5c45a13e183494b537a2f2616c29a49dd"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-16-1-memory.json",
+      "bytes": 7607,
+      "sha256": "91932f7623e8ec91be652553cd075aaaa85700420768a75f9c804df418ee41db"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-16-2-memory.json",
+      "bytes": 7611,
+      "sha256": "bea793e58c40bec85b0b4e7bbc39c19047ff5edc1511254996658dbce5f54306"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-16-desktop.png",
+      "bytes": 577091,
+      "sha256": "a62f9d68899b8e0b8bc6728235f235b370a9f9ff59a082d119a33bf9ae45dbe9"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-16-mobile.png",
+      "bytes": 372819,
+      "sha256": "e713ef78a018b1ae0dc0a2701012cd1d4a7c86d2985f296f193e8be143fa1ff0"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-2-0-memory.json",
+      "bytes": 3371,
+      "sha256": "2b07d182e7dee43556d3c0bbb9d208eb39bc876c8c9790524fe5c0f18f8df85a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-2-1-memory.json",
+      "bytes": 3353,
+      "sha256": "41c3dc196c7b2af28f6c4ba888d40e0f34a189cd093bc996d7460d222e2a4835"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-2-2-memory.json",
+      "bytes": 3271,
+      "sha256": "95c855e12c9acc553ccfc87d9f9821d0fa600e77df9d5315562c9e7d8702f5f8"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-2-desktop.png",
+      "bytes": 540087,
+      "sha256": "a82b15af6d39c9987f292b14a6ffd6a92b441ee08efd6b310f819216a2151ffc"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-2-mobile.png",
+      "bytes": 356295,
+      "sha256": "226ee1c505ab3bb3c56057d10f48e2720db9d1b50fc766e17cdb50e06529b386"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-5-0-memory.json",
+      "bytes": 5007,
+      "sha256": "40cdc7b5c2328e20485d2b6ac3204729acd8834e69f99a23c04761da7269b951"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-5-1-memory.json",
+      "bytes": 4998,
+      "sha256": "b329598cf2b23b5b83afdd3ce7526264c4d94aa9414a470ed5d295beb8a21615"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-5-2-memory.json",
+      "bytes": 4990,
+      "sha256": "62572ad7cc6f16f7ad8e8f77492c7463bbe149d58fb66db10424a3c979e174b1"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-5-desktop.png",
+      "bytes": 499084,
+      "sha256": "a2c73d33d48cace97e5acaca66f9e846c1d53627850e795bbfa8c844994c883e"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-5-mobile.png",
+      "bytes": 336997,
+      "sha256": "f7eda18e5bf00eea4203ebc3ce304d301be8ed5bf60a7111cdc986fa1e257055"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-8-0-memory.json",
+      "bytes": 7875,
+      "sha256": "a4792749bccde618f21fad0d2bcfbe74a1584f2d35add315035a2965c744f9a6"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-8-1-memory.json",
+      "bytes": 7887,
+      "sha256": "1e5f3803f039a9b1fc4c99dcf12718e0c77b5df80f9bbd1aeaae54f4e94fc712"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-8-2-memory.json",
+      "bytes": 7901,
+      "sha256": "2073f4558d91491f47bb74de6ce4471552608d726215f3d3659d143fcd64e376"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-8-desktop.png",
+      "bytes": 532873,
+      "sha256": "685230a748d4ac060a0fda1ab724deacb8c16b74befed70a7248f3180223c6a1"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-HTM-initial-8-mobile.png",
+      "bytes": 354882,
+      "sha256": "78d5cc6d38f435d2eaccaf5c802b80e1c57bbf1e5382cbc832e6e855e6c34be8"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-1-0-memory.json",
+      "bytes": 5487,
+      "sha256": "d78ff0201b8424cb1f29a4bef369ef0fc6528ebbce490a1783856bb055416ea0"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-1-1-memory.json",
+      "bytes": 6594,
+      "sha256": "314b1b168fb1f16de01d0592df00c004b677049a0741f450741ed7cd84a04659"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-1-2-memory.json",
+      "bytes": 5212,
+      "sha256": "c5eac4cbbc1d93a5a9779029823ecf7d2b910c9f6ec82551cd0e4d1650828124"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-1-desktop.png",
+      "bytes": 484648,
+      "sha256": "9985f4afc105eb979e3215c781f0b43867861e92c4b8f3d489ec342b85deff37"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-1-mobile.png",
+      "bytes": 334160,
+      "sha256": "0f038c5d09ec6213b2c207ed55b691faffc305a6150b11e1367aba5b05081844"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-12-0-memory.json",
+      "bytes": 4385,
+      "sha256": "7aec2890ae458cb4a36acab78af2e9c2df4ea941a83f2662cd34add464643fe1"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-12-1-memory.json",
+      "bytes": 4737,
+      "sha256": "676521b9e6f5a0fc031d77a3c7d70fbc9cba5cd3428a1a37e1ac1362468d7b7b"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-12-2-memory.json",
+      "bytes": 3839,
+      "sha256": "4aff718c7ba6e59fb5f0bd89bb56797a856f173aca57d482c5ccd19ef3f1ceed"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-12-desktop.png",
+      "bytes": 544559,
+      "sha256": "37a72793555cf121e77431788f9cbba05b13369092bcf5c6a002b5cda7d03741"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-12-mobile.png",
+      "bytes": 357832,
+      "sha256": "d4895fbab4e6997dbac4055bb66ed4044942b27143598127e53a067a062351c5"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-16-0-memory.json",
+      "bytes": 3845,
+      "sha256": "bc53ae9b5e3ffa015651d780094ce05d8efbbf88f91457d6abad24b3f39a5d69"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-16-1-memory.json",
+      "bytes": 3468,
+      "sha256": "6b2b4221ba618b0d29dc7143db72b971fc6e77a4e5e36d41d5c82b41cbe1b84f"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-16-2-memory.json",
+      "bytes": 5942,
+      "sha256": "669e4a27974ace8dd8bff09926269095f4a7289686de62dc7a55ca6a984b90c8"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-16-desktop.png",
+      "bytes": 574077,
+      "sha256": "1d8cd7aa8c2da52b7c927cc87d4e2a90a0594c0de80dd1bcc25681aa7281ad85"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-16-mobile.png",
+      "bytes": 370868,
+      "sha256": "7e948d779866a0179b9ec3746a6de40fcf5ade52c84c63405a1dc0b730216f69"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-2-0-memory.json",
+      "bytes": 3107,
+      "sha256": "b402fb2f1a3b1e184f8299d4c0ab8d007b3cb0b24b8268364021cf76005fa291"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-2-1-memory.json",
+      "bytes": 3563,
+      "sha256": "317c73fb3e560bf7093b5254b42400008760fa19bb3393aa97b217ed7f0e270c"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-2-2-memory.json",
+      "bytes": 3100,
+      "sha256": "9609d4d1dd1a8d4ebf1a72b626b288f42abd350af39c7696b98fadd80a3ebdf7"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-2-desktop.png",
+      "bytes": 541264,
+      "sha256": "cdf5d23b3f2209b67da2ff8251c145ebe53caf37d0ad1ffb68c1741ed2089686"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-2-mobile.png",
+      "bytes": 356734,
+      "sha256": "d944c430f6f6b4eae3837ed2cd1321bd1daa19968e135f0687e9d4d95675ac25"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-5-0-memory.json",
+      "bytes": 5481,
+      "sha256": "cd586acba7b08c4a8ce03d8e1085589518b5268e57a2bea6d01b118a48839144"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-5-1-memory.json",
+      "bytes": 5486,
+      "sha256": "bcc3210d305f651a376c77104644e3622fb7b54466dc592fbfc81c10330200ce"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-5-2-memory.json",
+      "bytes": 5482,
+      "sha256": "3fd3b119ca2fe78e130b1f7322ab6adc1c5709b73e578fadcbd534d3d5c37d4a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-5-desktop.png",
+      "bytes": 501295,
+      "sha256": "704c5dc179def94841c848559e725281bf456391d9ddf2884dab33f0426df109"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-5-mobile.png",
+      "bytes": 338665,
+      "sha256": "b52d263eed1686a811e238c178309fcad75c05bf575a6866e4f2103bc756850b"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-8-0-memory.json",
+      "bytes": 4101,
+      "sha256": "7d886ef7de451d0bcef3ee432b316888032d76cb8db80a86dc8877ea08b26d30"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-8-1-memory.json",
+      "bytes": 3740,
+      "sha256": "d068fdc1db62e909b8a59c69ca49efbf7f34efa6bcdb7ea74c9c248bc20ef950"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-8-2-memory.json",
+      "bytes": 3744,
+      "sha256": "b3834ebe8e4d8e3bd8f11ad28f8e594e42bd8b0ff32f407a44858bccb745e052"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-8-desktop.png",
+      "bytes": 528727,
+      "sha256": "942c94a0c082ac70019e0248a0c51465ed5b66728fb6436e09b2452609c74e81"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/baseline-QTM-initial-8-mobile.png",
+      "bytes": 352436,
+      "sha256": "8027e26e40fbb967406c641bdac9b3cc0890ba916803f8c02b00da2efa9f44fa"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/bounds-analysis-audit.json",
+      "bytes": 4529,
+      "sha256": "302cc7dc28401b98fe6773978e6feb5cf57550b43940f8c0c6861151f183c25a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-1-0-memory.json",
+      "bytes": 7617,
+      "sha256": "41ead0740ca8a88aadd95b822720d408deefe71dee69da3f0741108e565d5931"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-1-1-memory.json",
+      "bytes": 6717,
+      "sha256": "67e1ad8bfaac57aea0e9af6b2962e30351f1a54d1bb44220e6292f90faa621fb"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-1-2-memory.json",
+      "bytes": 7620,
+      "sha256": "1e9a20bf65f289b2811af180a44a15c63ec900ed3ac2a3bf76d4fa948646e5fd"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-1-desktop.png",
+      "bytes": 487309,
+      "sha256": "4448f33f806115b050c726db783414912bdfdb5863838db9e0780633dc4df773"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-1-mobile.png",
+      "bytes": 336442,
+      "sha256": "3e6ce7d174b560c1182e56f62949b8a651b08c79de397fe119ac2e92fe547d92"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-12-0-memory.json",
+      "bytes": 3546,
+      "sha256": "e2ef09a0fbe33e1f7db958f4920fc714015e8e0ae7181055aca7684b00fa5716"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-12-1-memory.json",
+      "bytes": 5358,
+      "sha256": "2fcc7c94ababeea938c1beb7bb0db9983a8e09a7a44b3b5c53b1ca42aa78b5da"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-12-2-memory.json",
+      "bytes": 5278,
+      "sha256": "38d87ef045ffeef79386fd46339bb04309754a280584a1b6cf6a05a65161b09f"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-12-desktop.png",
+      "bytes": 543722,
+      "sha256": "f49d9455ae837235f2a4ca52d8ccdd1e9650dbc30278e49396e0bf2fd25bff6b"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-12-mobile.png",
+      "bytes": 357340,
+      "sha256": "f2f75628057c280d1287bf2a102a76a8eb8a610e06aafdadd57755da76657e10"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-16-0-memory.json",
+      "bytes": 7596,
+      "sha256": "03708def83c2da93bddc9a4c5649632be5830020bbce9adb9d10870749666e9a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-16-1-memory.json",
+      "bytes": 7628,
+      "sha256": "6a45dbd25c5a9e1ec4d20390ce3861725b44e10ec4ddd2d9e0180d288b13c9af"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-16-2-memory.json",
+      "bytes": 7539,
+      "sha256": "de784952fa28ffc0f1513ea9e2735fc50347e6ca2b24ec6bc39bd5d9ada4edad"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-16-desktop.png",
+      "bytes": 573500,
+      "sha256": "8e4c094c8b34ddf2a15c931de515a9eb4e6d9a523800d192372567df9f46719d"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-16-mobile.png",
+      "bytes": 370628,
+      "sha256": "7581502f1270d737da8fcb9cf64b1c47b2b68113c7ca0ca1973ea0ecea7d4a2c"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-2-0-memory.json",
+      "bytes": 3359,
+      "sha256": "2f4e3dcf41772ee5fcb491cffd83ff7c9fc75772e82df8a7782b91edb5f0438e"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-2-1-memory.json",
+      "bytes": 3362,
+      "sha256": "cf353e1c6e523ba7789051a9cbe44aeaca9fae123641f4f43fa39eac3c23ddd2"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-2-2-memory.json",
+      "bytes": 3268,
+      "sha256": "2b19ec104b7e1caf6fc6b738cddb2c786e2955e5b5d811540101f471db5317ed"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-2-desktop.png",
+      "bytes": 543586,
+      "sha256": "0cfd0a04bd4aa501f0ed6e46516912f8fbdf61066d189e43046f62921bd23b1b"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-2-mobile.png",
+      "bytes": 358715,
+      "sha256": "2b48d7afdc347616d7947100cbac3b2d40576d71f7297874194da53f4a790784"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-5-0-memory.json",
+      "bytes": 5164,
+      "sha256": "975a4f8e6b387a419a4a5a29c58e86955946dd45c5d651bab6a7307ddbf70cdf"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-5-1-memory.json",
+      "bytes": 5182,
+      "sha256": "84e399daf9c9f7d40bfa05f4fefdcc84fb13a576a243055b9606b29983a95e9b"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-5-2-memory.json",
+      "bytes": 4904,
+      "sha256": "76deb482f27eb3b4894bb545dc89807170ef10053edf7d71e37b0782d524a124"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-5-desktop.png",
+      "bytes": 498974,
+      "sha256": "c875653bd8144cc5755e95df9be6e1b5a2fb1e96211a694404ebd3bea7b0f072"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-5-mobile.png",
+      "bytes": 337347,
+      "sha256": "d429f2265bfd56d545fa29d746ea7a7cdf1dab94c39ba47c7cb84874a1be5101"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-8-0-memory.json",
+      "bytes": 7984,
+      "sha256": "6d301fc230fcddd3441e7228d197739af7a304f010461cd79b2f3d64a17b09fa"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-8-1-memory.json",
+      "bytes": 7894,
+      "sha256": "7a064996d89fe4d0ed7573a84c980518dc9463b7ee81dc406bef35e354503d4b"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-8-2-memory.json",
+      "bytes": 7882,
+      "sha256": "5e4cb82273ba2fc5234e35465ce29f6a181abd19bde06d1878361d534772dc7b"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-8-desktop.png",
+      "bytes": 532925,
+      "sha256": "bc0d6f73a798eb2998ef2b1be5ca7d4955aa07e796f7f2317028345b83375c2c"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-HTM-initial-8-mobile.png",
+      "bytes": 354522,
+      "sha256": "818e5762cf453af8532c6ca0ce7caeae913cad8f074d0ba8df5cbb0a25049474"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-1-0-memory.json",
+      "bytes": 26710,
+      "sha256": "7b932e9fc790f9d67ea0b748f7751d8cc520dc926f827f92fe9cb3ec4d22fdb2"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-1-1-memory.json",
+      "bytes": 5574,
+      "sha256": "3d4efffa98edae7d996d8babfb55b58f3f28e1b48bfb7788ff5d0f54dc294c3d"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-1-2-memory.json",
+      "bytes": 4396,
+      "sha256": "332e9f4dc41f9b8910a5a9742d8c072c27f6434492852726d57f321d71dea001"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-1-desktop.png",
+      "bytes": 484450,
+      "sha256": "a32594ab612a632c14a07eceb99cecaa5bc225298c3bda63c3b224c70454589c"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-1-mobile.png",
+      "bytes": 334489,
+      "sha256": "f1989b3b4c726eef3069fe2e529b507cd33d154a705dfd75ace82275a86e99f1"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-12-0-memory.json",
+      "bytes": 3844,
+      "sha256": "0b30c53f68254300a61abca4f581d6549ed5aa8ab905919175efc4f5621d743a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-12-1-memory.json",
+      "bytes": 4025,
+      "sha256": "3fa068dbd8e1f23faad95dd78d4d237c834e130d1b36ad74e58c57e6825a744d"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-12-2-memory.json",
+      "bytes": 2908,
+      "sha256": "7a616dd010b1d95d2afd8741b921a314d117db57bb4d606f2bd910cea715e747"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-12-desktop.png",
+      "bytes": 544471,
+      "sha256": "3256bee55b010be0af0a7339148ca24b4d586bcbcae5b3bed4309bf761efef1c"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-12-mobile.png",
+      "bytes": 357831,
+      "sha256": "b756cdd570dcbf43efedc54b08d47b16c6437e741b2e8a7f11bcc011c594f719"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-16-0-memory.json",
+      "bytes": 3286,
+      "sha256": "8bc45591691e10afd731895f3cd2f50ee78c782c323c53edb503ea3d812cd12a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-16-1-memory.json",
+      "bytes": 3568,
+      "sha256": "15449bcdf02c9541ffdbd1b826c95fae14924482fecf9d722101e3fd45614bad"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-16-2-memory.json",
+      "bytes": 4478,
+      "sha256": "7e8ffae4faffeb64d58064885b5fd305c960528cfd9144a86aa8866a276b0055"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-16-desktop.png",
+      "bytes": 574051,
+      "sha256": "c9251dd0981df9551616fa80ea32f405e6716ea83864c16f2510d6013b50155f"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-16-mobile.png",
+      "bytes": 370463,
+      "sha256": "1ca3740a862c5065bb04d70c8805f7b10af8baf2a33d0bfea8e8eda2b6a40685"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-2-0-memory.json",
+      "bytes": 3649,
+      "sha256": "159f81cefdf4810ba828d720a575d751c8f1b37cbeefc5f6522bd969654b8d87"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-2-1-memory.json",
+      "bytes": 2916,
+      "sha256": "f6691b4c7e2cc7f811dab65b05b0cf950c785c74f58437afbe01bf0cef4b1d9c"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-2-2-memory.json",
+      "bytes": 3474,
+      "sha256": "65e2dace7b47bc7c82a7493de94203ad238a8aaa11eaed1eb8e67dcd3afce61a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-2-desktop.png",
+      "bytes": 541888,
+      "sha256": "2ff18008d4c061d6298e29e54c4780eb2614c3de15376783c95038663f906c7d"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-2-mobile.png",
+      "bytes": 356466,
+      "sha256": "be2945a4d98f33585d48a1709774e1573521250c9c15218901477e7a71aeea81"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-5-0-memory.json",
+      "bytes": 4829,
+      "sha256": "0c43af14c85a82b00db77788a4ceec209fbc98e2b760f8d9ac8cb644e2f97dc4"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-5-1-memory.json",
+      "bytes": 4752,
+      "sha256": "56c13c03027992366fa30c4a9a563adb5ce37e2a3e15383b14c1a3c02744a1ee"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-5-2-memory.json",
+      "bytes": 4751,
+      "sha256": "f9a666a7fbc01246a7178116226bba8de12d61b2de9c0cc434196503d9f21878"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-5-desktop.png",
+      "bytes": 501131,
+      "sha256": "ea3e519c86d9188f0b8236bf2bde250b8534e46348a2416b703d3b5d61ab3fe3"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-5-mobile.png",
+      "bytes": 338537,
+      "sha256": "a8e0ee56ed39589f37036a3bcc969d4fe932d4c55e85eb13f4a1d82cf51e150a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-8-0-memory.json",
+      "bytes": 3462,
+      "sha256": "8549edaf9fe295c3307a308a205eb7894835ad50435601d3fd336f3a86f60dfa"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-8-1-memory.json",
+      "bytes": 3192,
+      "sha256": "14be92f227740e8b7a1fcc1d839f64fcd86aaadd5f1dcbcfc8473dfb48d7bedc"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-8-2-memory.json",
+      "bytes": 3003,
+      "sha256": "cb112bde00a625f75e83866ef35f2e9a6b9b7411a0373b10d500aa063a276e2d"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-8-desktop.png",
+      "bytes": 528612,
+      "sha256": "2c929bceae920189a9918967dfa69533ad40944171ba561a0b89d051e51950cf"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/current-QTM-initial-8-mobile.png",
+      "bytes": 351768,
+      "sha256": "d0c0f0b614f9b9ea4c5337dbbc5aa28b07451c0353952a935c2debcb83333eb4"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/formal-matrix-archive.json",
+      "bytes": 642,
+      "sha256": "e1476af824a3938a955c74b03037273543373faad6ed44461b74caf086d2d812"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/formal-matrix.json.gz",
+      "bytes": 24509651,
+      "sha256": "1c56c7ecdf9b9fd326e4d4052c18cf5b5fbdac73007446f6d9dd6517a48010b9"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/resource-event-audit.json",
+      "bytes": 33223,
+      "sha256": "b0361bdc25bd345512590681e12a6ed18509ed3d40e844441b4ab1d0cfe0b4e1"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/summary-with-bounds.json",
+      "bytes": 17042136,
+      "sha256": "e9172c36d3e8da5feb0c40d861a596900d9d42fd1dc4b48a86614958414b361a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-final/summary.json",
+      "bytes": 17015468,
+      "sha256": "61fa84b6a025f2cf50669d8e97d2f3df288f6092894df864f5bf518068675be3"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-matrix-config.json",
+      "bytes": 659,
+      "sha256": "73811c22a3c4a41f9b4205226ab1f71d1d54b290013bb5e7458c47f850afc8da"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-matrix-file-sharing-attempt.json",
+      "bytes": 38712692,
+      "sha256": "8b7cbf1f5dcf291c9b07cd3fde1d8b8e56afb0d6b4c34fd5b0f2465166800859"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-matrix-file-sharing-attempt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-matrix-final-config.json",
+      "bytes": 1114,
+      "sha256": "d007375219c1e098ecbc97e8951b4b349393aae43762dc1ae7332e1aafcde8d1"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-matrix-final.log",
+      "bytes": 19161,
+      "sha256": "1354ec8c888d34e164bbf61bc30d6cab2c4c7ba2d0b758fe1b0c8c7428b8d85f"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-matrix.json",
+      "bytes": 38712692,
+      "sha256": "8b7cbf1f5dcf291c9b07cd3fde1d8b8e56afb0d6b4c34fd5b0f2465166800859"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-matrix.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-summary-with-bounds.log",
+      "bytes": 1509,
+      "sha256": "a1f7e95dbb0dbac6385ab5a1eda4fdd8b10919faadb91f8814adb1bc9e62af78"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/formal-summary.log",
+      "bytes": 1509,
+      "sha256": "a1f7e95dbb0dbac6385ab5a1eda4fdd8b10919faadb91f8814adb1bc9e62af78"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/h2-fixed-insertion.json",
+      "bytes": 564759,
+      "sha256": "d553f03b2bc8cc6b21089a080acbf47f434974a822489024169d740d6f0f376a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/h2-fixed-stable.json",
+      "bytes": 547672,
+      "sha256": "c56b251cd7731efe2b728557ea0a5de15a33f4d17d27f97469555ba53bd3f970"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/htm-calibration-extra.json",
+      "bytes": 93613,
+      "sha256": "13d93d098977bc15e51c6d8956091c3a8f716c8430c0d96027208c054ff6c67f"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/htm-calibration.json",
+      "bytes": 68030,
+      "sha256": "5658246d5b01809356ad2938cd5f31c620c4a84f6592347a2035aff3a2f14738"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/htm-contracts.xml",
+      "bytes": 5753,
+      "sha256": "282104e0b99c21765335e02a61ba3ad17663ae47c4a9c79f48ed16b2774c53b4"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/htm-h1-dynamic-gates.json",
+      "bytes": 40931,
+      "sha256": "7cd62aa74c3a3b6d41f4160e9bd71ad5fc39ee13692aa141544ba1473098d240"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/htm-h1-final-contracts.xml",
+      "bytes": 7206,
+      "sha256": "5903b6fa13552d38fd7a922e70d3b56e9ca668db93b0014f4ac2762e8c1ee711"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-1-B-browser-preview.png",
+      "bytes": 96413,
+      "sha256": "18889627a133cd9b3ff656fd3565dbf78b8df07c601a263c95ea75dab14d73ee"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-1-D-browser-preview.png",
+      "bytes": 102925,
+      "sha256": "8f5eb5a51ff979aa05746f9f343df25b5535630f9101a6bd85f076a015814b98"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-1-F-browser-preview.png",
+      "bytes": 69384,
+      "sha256": "9b62a38b4f76b8d0e38b58ff93620e4180b3a42194054cff559a90ba1b8b2bdb"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-1-L-browser-preview.png",
+      "bytes": 78295,
+      "sha256": "82da67c36016fe9eeef251d6920580133b3b602aa969fd6a648c184850aaba92"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-1-photo-overview.png",
+      "bytes": 731479,
+      "sha256": "bd9a22a267b8ffe4a855d61351b1a7942ff7792720909e3bffdf76c4bb0f09ce"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-1-photo-page.png",
+      "bytes": 476951,
+      "sha256": "deb6788d063c4602e9846de98e75ddcf62251e6fd3a317391016aa7b2982e211"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-1-R-browser-preview.png",
+      "bytes": 74502,
+      "sha256": "ffa92eaf8952f2e0b9025acd5c6710703afca365531afd30c3ffdfb140b897c6"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-1-reference-grid.png",
+      "bytes": 606101,
+      "sha256": "f07c16a40249291f540ff132051bb86b0c570e4842bc25a91424ce4c7a480593"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-1-U-browser-preview.png",
+      "bytes": 84073,
+      "sha256": "e6a216f70497db52e75145f08dd152b3f681a240d47c835f97320ff1ae3e4eb0"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-12-B-browser-preview.png",
+      "bytes": 100812,
+      "sha256": "4ec2fd6917a0ad2325f20444726ea94a3bd9350aaea550e67fa2dbe1ad12ad8e"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-12-D-browser-preview.png",
+      "bytes": 108919,
+      "sha256": "5f0529381190f6f7fdfb18d636483483281bf73c1f40d3b25b646fb6f9292125"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-12-F-browser-preview.png",
+      "bytes": 101607,
+      "sha256": "7aab44b217b4de187b22e7b374629eadcbcc0f8af3ea1735dbc14c2c81a45864"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-12-L-browser-preview.png",
+      "bytes": 108685,
+      "sha256": "ea0a400ebe7934e617c17524647af600f6175aa4076b4b01d09cad188bb394e2"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-12-photo-overview.png",
+      "bytes": 851307,
+      "sha256": "6913070833c3c793ec41f005bf7121390f5e8cdaa7b091c379a555c097f23e8e"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-12-photo-page.png",
+      "bytes": 537435,
+      "sha256": "10789482b0c10cb11a7d21e1711fafc7ebae952587cdcb8f71d53bb23140a387"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-12-R-browser-preview.png",
+      "bytes": 108190,
+      "sha256": "4fe1ca22415ac94a11da825dcd9e5617063d3e79478202fd96075d4ca5ab2440"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-12-reference-grid.png",
+      "bytes": 788332,
+      "sha256": "befdbe4009a2fff4f4ead39175516b0838b8beea96be567380fe6d977b87a444"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-12-U-browser-preview.png",
+      "bytes": 106569,
+      "sha256": "85594bec8dabf0484570a5eed64f904604331421b72f1e0d77299ef1d868a9c3"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-16-B-browser-preview.png",
+      "bytes": 104693,
+      "sha256": "1f166c9e5ee154b409bc4885b64a53ddb5fe33dd8e24fe1feecfe12d0cec1f03"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-16-D-browser-preview.png",
+      "bytes": 105294,
+      "sha256": "ff28c20c3b4924c459fa670f65df3e83646f32139243d99b26d1cef5d39aa79c"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-16-F-browser-preview.png",
+      "bytes": 113898,
+      "sha256": "59b42dbd0daacf27787bf7a6490cbc520226d1748b8db22356bdf2749db6a869"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-16-L-browser-preview.png",
+      "bytes": 111402,
+      "sha256": "b992254b9bad3791b36ecec8e04c72eff277b4a1580bb8f9e209f4e3245d8261"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-16-photo-overview.png",
+      "bytes": 802633,
+      "sha256": "3f003addf2ae82e340d44ae208d6faa64b351abcdf25632d0709c1d8d8d4dff6"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-16-photo-page.png",
+      "bytes": 563832,
+      "sha256": "adedfd12b50af8d1dd9162cb024861f5798bc3ae3ce901c327b29baedfb21b6b"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-16-R-browser-preview.png",
+      "bytes": 115288,
+      "sha256": "4c4f417691de6838f5a5b8cb7ebab6e53a3b0311f7cc3339e7ffa9c57e3897e4"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-16-reference-grid.png",
+      "bytes": 809572,
+      "sha256": "af305b6c78b1706b64f70018cb2b7431b4cc71f615b3b7042c63b60f39c52eb1"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-16-U-browser-preview.png",
+      "bytes": 112227,
+      "sha256": "95dfb3ed42f031114ec6ca0178692d8963ca3cb82f8a30af0a1308df217ad123"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-2-B-browser-preview.png",
+      "bytes": 111524,
+      "sha256": "d78adce309ec110f2085fa722e41d665fbb006ca8beb0b332e05381aedd845bc"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-2-D-browser-preview.png",
+      "bytes": 102369,
+      "sha256": "6661fabeb8d796f253a07feb11209f5dc4727aa011837e78bfaff868a1544d38"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-2-F-browser-preview.png",
+      "bytes": 110938,
+      "sha256": "74c9ec3c92b6beca01ab375758c6d5f221842dd1e47fe535da9d24bd41ea2279"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-2-L-browser-preview.png",
+      "bytes": 108536,
+      "sha256": "759cc423cc6e47234c8fb502e211d87b4f651c328ed631884ea2147b2a64aee2"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-2-photo-overview.png",
+      "bytes": 713967,
+      "sha256": "a474393acac2563b7698d5d7208854c50abeb759200b24526e3d9911f3e57ab0"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-2-photo-page.png",
+      "bytes": 538267,
+      "sha256": "c8ed38eafae371f93c697017c71941f25b4ff6a17964c8dcaa15dafb6d9f638f"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-2-R-browser-preview.png",
+      "bytes": 104017,
+      "sha256": "aa67e788f779ec8e8944e286f675c0500523b4106d9a6dc127e5a4808929a5d0"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-2-reference-grid.png",
+      "bytes": 708867,
+      "sha256": "0ee34cedfcc6b46481102b405ea6d5f33ef04e20f1f591b4145eae0fe6d19503"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-2-U-browser-preview.png",
+      "bytes": 99359,
+      "sha256": "9acba069cd1263558bb8e38c7ff4f8292ec827b8fdabc1967e8581f3f4cf1c86"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-5-B-browser-preview.png",
+      "bytes": 95835,
+      "sha256": "766cf4557d19f24f772b86a6bb251045e35a1db1b9203fc72710b521bd1cac1a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-5-D-browser-preview.png",
+      "bytes": 90678,
+      "sha256": "4dab668beb869477ef6c316c97fa8241627cddd5779d6070a41f5583d48c5a6a"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-5-F-browser-preview.png",
+      "bytes": 96260,
+      "sha256": "d34a5d50a8f80444d8fc9a1e7c8b1cc8b36a5f04a4a1a7004acc92cf67b675e6"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-5-L-browser-preview.png",
+      "bytes": 101533,
+      "sha256": "a2d06b551978398742cbf9e1d9f98753b42cf0c0e945bec10041b72202ffa491"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-5-photo-overview.png",
+      "bytes": 832041,
+      "sha256": "165331bdf7d3f2fe2cf2851bd0b91e7deb5a900c6f57a319d7c978ee2c1c7ab9"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-5-photo-page.png",
+      "bytes": 493720,
+      "sha256": "dd68d1b91cf4ff41ba6b7de23bd28862a94ed39aa7c1368bc20d656323588386"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-5-R-browser-preview.png",
+      "bytes": 94599,
+      "sha256": "27b8e5b7725b2929313dd8b0a51a467a4d847ca907e6ddcde718a3145be1dba0"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-5-reference-grid.png",
+      "bytes": 616226,
+      "sha256": "e1a20bc44a0502e3cb9428d71906640cecc24b99c16cd17cc03beb5ec02c286b"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-5-U-browser-preview.png",
+      "bytes": 104637,
+      "sha256": "e31555613ba2eb29f5eeb0a61b360cae6d60c1aa0e748eae320cdddd33a87495"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-8-B-browser-preview.png",
+      "bytes": 89689,
+      "sha256": "0e666adbfa2e2cc65d8186990924dc118eb879a5601de32e9949a9e9469d5694"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-8-D-browser-preview.png",
+      "bytes": 98620,
+      "sha256": "4337241526fa9f2e13284153014f9e1ea18f18c80f45fde2972c6e8335ac76fc"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-8-F-browser-preview.png",
+      "bytes": 104300,
+      "sha256": "b25146429fc77b0e858e4ead50cd26146b320d12ad47a53d1cc6fb7cf69135af"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-8-L-browser-preview.png",
+      "bytes": 113162,
+      "sha256": "6ee5bc73067875a3c61283938e0b402dbc14bebad90436b9d0bb29ab0dcb29f6"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-8-photo-overview.png",
+      "bytes": 829637,
+      "sha256": "7e8b45c1d575bb6cde96bbafbf2465b60b4329da766807e1b880cf500ef82a2c"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-8-photo-page.png",
+      "bytes": 524148,
+      "sha256": "f286afb0f76322ed56297e409123641730c6186846760057b01ef06320dd812b"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-8-R-browser-preview.png",
+      "bytes": 115350,
+      "sha256": "1b478626e2ad589847166cf72c2dfd0254aa4abb9b53f338d70b99fa41e1a51c"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-8-reference-grid.png",
+      "bytes": 702626,
+      "sha256": "4fe9b503b5f1d325038939e7f07aa6b79ce078b8b1c1d800105eceac3f4b4f12"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/initial-8-U-browser-preview.png",
+      "bytes": 84637,
+      "sha256": "526e7cceafd4f5a0f25fc14b1b785d854a2bc6475a258574df206dcde4959e39"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/invalid-attempt-methodology.json",
+      "bytes": 3914,
+      "sha256": "f05420cea4e1f29325ab2088fff07bf54a1652239a72c58f549f650b988410e2"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/machine.json",
+      "bytes": 590,
+      "sha256": "767524c8df924477c86b1a45c780d4aa3ea9c7c5b6b733621dcb33c83758461f"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/manual-photo-reference.json",
+      "bytes": 3601,
+      "sha256": "80224a4fe7be054655699910a67f235962563d0f641ec7db1b27cbb78a425d26"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/matrix-file-sharing-fix-checks.json",
+      "bytes": 915,
+      "sha256": "389d34c738607062c40d15b6dfc12ef6dadc6fd73567025ce279664f0595748d"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/matrix-harness-checks.json",
+      "bytes": 1047,
+      "sha256": "6d26658099deda94ede8287ed63c39b28105806591b922156d41ac64e3efc36e"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/opencv-color-regression.json",
+      "bytes": 9616,
+      "sha256": "3beae1f12d73c64e0a4daecc780617d8cd58604b7a9b4fc4c5588060af8862d7"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/photo-legality.json",
+      "bytes": 6998,
+      "sha256": "bf64a87d5af69096c94d7146c3670066fbac5832bdc9cacd1c7e80592290e4ee"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/photo-recognition.json",
+      "bytes": 176061,
+      "sha256": "1ce21d571efe13f5f95789e9b4b0532d54bf1f4d36a924f5054e00750561423c"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/photo-reference-notes.md",
+      "bytes": 6415,
+      "sha256": "008c9a152a20b38bd7585fc123d281666168bc06e461f36a3e9d7e6ab1e5e4df"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/python-regression.xml",
+      "bytes": 6091,
+      "sha256": "50b8badbda328323a80777680b2167c2b40bf37750dc6f450db1edee3df855db"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/q1-gates-final.xml",
+      "bytes": 2316,
+      "sha256": "8d0d068fad3683fdbd2dfbca5ab8c045758c4de3b116ae394869aeaf80cf5931"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/q1-gates.xml",
+      "bytes": 3439,
+      "sha256": "b87f2e2a719e962aa73e044d941eb91c02f2418389bbbe211427f9a431ca3974"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/q1-pair.json",
+      "bytes": 635703,
+      "sha256": "63308ea8a5e0ad1a294017a5c81bf8943d972094d85848ed528d153d2528ca46"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/q2-candidate-schedule.json",
+      "bytes": 85536,
+      "sha256": "90619ed7242814172710d9425a44a0acc25acd9f6a72a144cb182083c63f3206"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/q2-late-tail-production.json",
+      "bytes": 5687813,
+      "sha256": "75685985bc7232cf412e3439918c0abaaef889363aaaed6054464ef756a0d075"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/q2-late-tail-production.log",
+      "bytes": 3146,
+      "sha256": "e84120e2860d5e721dceddc96d714495b3aa078218c4c6bb32877cc305f2666c"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/q2-late-tail-unmanaged-loader-attempt.json",
+      "bytes": 4151576,
+      "sha256": "5bc65cb97e7d66757654b78a5ff68de5fa6adb09c3689b359018fc8f9ce8270e"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/q2-late-tail.json",
+      "bytes": 4151576,
+      "sha256": "5bc65cb97e7d66757654b78a5ff68de5fa6adb09c3689b359018fc8f9ce8270e"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/qtm-bounded-reuse-final.json",
+      "bytes": 335,
+      "sha256": "8fc4d6fd3aef0d61fca1949d6f953fa5a2ed25b4979d9506ae367adc4f754f0c"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/qtm-bounded-reuse-final.log",
+      "bytes": 23374,
+      "sha256": "d5a2e4acbbd22265bcd4d69ada857fdc2862a8d7a5060f4603d7ac969b2b0bb0"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/qtm-bounded-reuse-repaired.json",
+      "bytes": 412801,
+      "sha256": "f5935f3fd6a83596932bb85c00949e8e447141604cade39fa0a6ba303abec8b2"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/qtm-bounded-reuse-repaired.log",
+      "bytes": 125,
+      "sha256": "d8dd8374da2686e305dc6bf06b18755858aca4291ed93f1115dbf229d12b576e"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/qtm-default-generic-build.log",
+      "bytes": 299,
+      "sha256": "772920961e77716aa903f45a198c00dc695e32cc3513c0e0b34babb824aa90cd"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/qtm-final-gates.xml",
+      "bytes": 5103,
+      "sha256": "1b579f0a7b83000c7bbd5ae146ab9f1b9ec85869e927fc3b49518937c35316ce"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/qtm-loader-repaired-assets.log",
+      "bytes": 263,
+      "sha256": "9c0a083defbdc88aa2ad0fde691e1767fdd017ffa9c3202176c8c4e0baac2e7d"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/qtm-loader-repaired-assets.xml",
+      "bytes": 2492,
+      "sha256": "b4d6d53b707e3e32668cc505a9f0b976e57c361d1b0f370ad8726c9c2da611d7"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/qtm-loader-repaired-build.log",
+      "bytes": 299,
+      "sha256": "772920961e77716aa903f45a198c00dc695e32cc3513c0e0b34babb824aa90cd"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/qtm-loader-repaired-gates-final.log",
+      "bytes": 266,
+      "sha256": "1e05fc6c1b8c943f7bf4ee2ba2bc6bea12e94114b75eda04c0f2fe5ab293d8e2"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/qtm-loader-repaired-gates-final.xml",
+      "bytes": 2277,
+      "sha256": "09bf1509bd20ae42f2ad9999ede3157b5b4dc2762c9fef5277a7031dc4abeefb"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/qtm-loader-repaired-gates.log",
+      "bytes": 2287,
+      "sha256": "129d852e7dc191373117739fa19377ad12ecab1aa30eb3df395c4f585ddad8c3"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/qtm-loader-repaired-gates.xml",
+      "bytes": 2022,
+      "sha256": "a82ccd14992ff6b9f95bbb7aa38629099613eff58bfe3612b1aff9cdbe7c317b"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/qtm-tail-gates.xml",
+      "bytes": 524,
+      "sha256": "8e43d72318991d0cbe7c701a08f334b7f38dfe22bfbcbcf1d90e4d9c9de749a5"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/regression-details.json",
+      "bytes": 1253906,
+      "sha256": "f27e6d8157752c0bd155fb7ac4280713937774219db130997b6b2fe60b8db643"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/summary-bounds-contracts.xml",
+      "bytes": 1613,
+      "sha256": "a570957aa9510cc438860e919a3a8fbe44502080bd822134b8927732feabd554"
+    },
+    {
+      "path": "docs/benchmarks/next-speed-2026-10-02/work-package-results.md",
+      "bytes": 22113,
+      "sha256": "62dc1784c147edfdb0d29ce6b1809be33cbfc3475da5a04e05aaeb7498234467"
+    },
+    {
+      "path": "docs/benchmarks/packages-same-assets.json",
+      "bytes": 6051,
+      "sha256": "296c10245d68fe8cffb57f3c02ee049dab0ed800e106eb82c756e4a85d4d1850"
+    },
+    {
+      "path": "docs/benchmarks/pre-isolation-readme.patch",
+      "bytes": 46362,
+      "sha256": "f17c8b2391911116fd8607682d9197a5212cdfcf3723182714ba790908c8c3d1"
+    },
+    {
+      "path": "docs/benchmarks/q0-build-info.json",
+      "bytes": 2064,
+      "sha256": "4d30b5bc087b2da3a07b1851de7e079e1ddbedc1ef4d8ef80c15c0682b93e979"
+    },
+    {
+      "path": "docs/benchmarks/q1-build-info.json",
+      "bytes": 2064,
+      "sha256": "953e763b8af069a440da00b6ff6e91faf8640a2927fcd030734ae896f904b1b7"
+    },
+    {
+      "path": "docs/benchmarks/qtm-direction-bounded-review.json",
+      "bytes": 182682,
+      "sha256": "edb37955720c09b6e8d9d861d57ee3f644eb4bd57ff144a200183e8468f47658"
+    },
+    {
+      "path": "docs/benchmarks/qtm-dual-root-review.json",
+      "bytes": 182753,
+      "sha256": "9c7d883ace28ae4c976cccacbb2433fe9a1aada07a5e331d270c7ee1b234605f"
+    },
+    {
+      "path": "docs/benchmarks/qtm-final-package-build.log",
+      "bytes": 9412,
+      "sha256": "73491c2fd6ac661a7b6e0771b5e03c43ecd904e5003371e4e2d1d453d4decc1f"
+    },
+    {
+      "path": "docs/benchmarks/qtm-isolation-review-summary.json",
+      "bytes": 10224,
+      "sha256": "fcc4805d7c26f50d91599a2dfde9a53c56d86394536b2e3cd7bff3822f57ca7f"
+    },
+    {
+      "path": "docs/benchmarks/qtm-package-lifecycle.json",
+      "bytes": 7348,
+      "sha256": "8006054b8b1f761267f9b8b57d8d25832b5e79b87cadbc8b008559e634ee2049"
+    },
+    {
+      "path": "docs/benchmarks/qtm-portable-build-review.json",
+      "bytes": 2064,
+      "sha256": "70d849c5374ec14e596ebede686eb399948a7d2660a21c230fe72cef84c76e65"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-review-2026-10-01/contracts.xml",
+      "bytes": 5887,
+      "sha256": "2b70957ed84749afdac438ec51e1421a70f0d2d4817856bf9064b08a6bc53cc7"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-review-2026-10-01/fixed-layers.json",
+      "bytes": 310112,
+      "sha256": "c15e5347e60980c4e0d033728f02084a148a81690a94b5c59a3deb007fb2f8b0"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-review-2026-10-01/http-eager.json",
+      "bytes": 228433,
+      "sha256": "b82453dfe8438c27d8aa88356d65fe150d78c8c28bb0d98f6a37d8d2356792b2"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-review-2026-10-01/http-staged.json",
+      "bytes": 670461,
+      "sha256": "b779ba32dbbb9fee75693d1f78f78de4def746d6cc90dc3f2e9718c1f48dcaef"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-review-2026-10-01/http_probe.py",
+      "bytes": 4626,
+      "sha256": "bce92ef0fe3cc53a8c39b052cedb9618acba260ff822e714590f1f82cd023cff"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-review-2026-10-01/summary.json",
+      "bytes": 24667,
+      "sha256": "7be28cf5181d2b870b87286d12ce4a65d7a42cf97f2fd855ce8f5856df6bdc33"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/baseline-contracts.xml",
+      "bytes": 6716,
+      "sha256": "bcb1ab3fba64bbc8d243d6bdce6804764c45a1913a647764ebc4cf06e6206bff"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/baseline-fixed.json",
+      "bytes": 310214,
+      "sha256": "8dfd1e1b40e29158ff461fe00208bf756f1f953d5d46736fca8ff08c4a08ef65"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/baseline-http.json",
+      "bytes": 427173,
+      "sha256": "5943729520f8b97373e3fcd4cfa8f19453feca3b99f47342bb1e426fd578f3b8"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/baseline-identity.json",
+      "bytes": 5108,
+      "sha256": "53069b8ba6ef16ba20843cb1f57f71d737c36b59a669187e861f072160857662"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/contracts.xml",
+      "bytes": 6029,
+      "sha256": "08ff1cd02facc6ff0f866cd491855ba56d47c052b4134478021153afe50ef239"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/current-fixed.json",
+      "bytes": 313746,
+      "sha256": "7dfb160b0081a298f75a86867446999c6e17183ad98ba3abf9e36d2cd511954a"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/final-fixed-pair-preflight.json",
+      "bytes": 5795,
+      "sha256": "afbd2523023c4887d0354503723a11ba672c3c5e5cf5fd319b161ec1be3ffb2d"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/final-fixed-pair.json",
+      "bytes": 92772,
+      "sha256": "5bae022b62d4a41f8bbfbc94fef318ca24d5060ff1d88330493015785ab57c78"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/final-identity.json",
+      "bytes": 7956,
+      "sha256": "c7aa340594c08aa38463fa199d9a12e06d49d0d21d5e947eb5171b1f8b7a9a2d"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/final-native-bounded.xml",
+      "bytes": 1795,
+      "sha256": "b7d2a17cd0dd47028ae9b79597ee77ab486434b18c26a9395e81550711b90585"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/final-native-gates.xml",
+      "bytes": 2492,
+      "sha256": "bd17c380c639015837cb86010f5f9a90725f2bda4f4a8c4a345557ea6a95d87b"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/final-python-coverage.xml",
+      "bytes": 9660,
+      "sha256": "3c92bbe2c133dd29fa8bd28f003661d76a9d716fa67fd6acf01399fb26ca8ea4"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/htm-bounded-gates.xml",
+      "bytes": 1760,
+      "sha256": "8884048b416f89e400d2c015e2cbf0c82fa91a435d79d1f830fa85031cff03ed"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/initial-1-mobile.png",
+      "bytes": 336776,
+      "sha256": "db4a7d53a47d1cf154938f816cf51838f81e7d601cf9be0977697e9c2678f129"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/initial-12-desktop.png",
+      "bytes": 545653,
+      "sha256": "a65691746f76068b64b4ea6913127dc757db0ae7ae9f0527ebd9fd0744eb4916"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/lifecycle-first-attempt.json",
+      "bytes": 146435,
+      "sha256": "fda55cdd7bf4fa9900931b87e121d57dfc04d5f7fb7ecbfd280aeea863280e1c"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/lifecycle.json",
+      "bytes": 178221,
+      "sha256": "b098f8aecae1eee8bc31f44a935e67011d6ff721ffad1cde155115f473a8e3dd"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/loading-scans.json",
+      "bytes": 7639,
+      "sha256": "0ae6e3c8e9fbbc9cfc20b15a7dba127b303fa4274b7f870a04a9eadc3027dec5"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/native-full-gates.xml",
+      "bytes": 2998,
+      "sha256": "282b8e23794a01cfb61b7995b04794f2c62fc402b10180f9b3c4191e6f006064"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/native-gates.xml",
+      "bytes": 1067,
+      "sha256": "75cf39f0611c197fd1a371f7fcee1b50581b1d6aff6bd7396c5c4772121378e2"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/package-identity.json",
+      "bytes": 4543,
+      "sha256": "afb54cd7b7944b0c05984fa226459a39a7cf3f3b9310c4d003ab98e366243cf0"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/package-page.json",
+      "bytes": 422438,
+      "sha256": "61d44e0f8a0ba353da7c8d2e8a0b0bce193586b26ff0688f8ffc3fb970f20541"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/package-source-manifest.json",
+      "bytes": 12370,
+      "sha256": "e6da559cfe317c7b5f9aae79c51c3090c1dee549eec2c9f944b90486d974c277"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/pre-package-identity.json",
+      "bytes": 7846,
+      "sha256": "4a836916f04803b0a6104580b21de551f64886336598b749d2e8c7d48aed54cf"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/python-tests.xml",
+      "bytes": 10096,
+      "sha256": "42a7a188b06aa2646b155e363cbc55d71c8f1fa7740a598bddc0631835f9bed5"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/scanned-strong-first-8-http.json",
+      "bytes": 254398,
+      "sha256": "7a007b49ffacd29d3c29580f7d70285c19283f408e4c55f4d887425eb0bf7fbb"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/scanned-strong-first-http.json",
+      "bytes": 377988,
+      "sha256": "072c53d8a3117bc8fd007be5539131f837cba5a1a666a817f8efd3996a26bc28"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/strong-first-http.json",
+      "bytes": 469970,
+      "sha256": "eda01cb2d9e9195217ba26284ecb8ff3691b749f7d3f1232249973cf78981010"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/strong-gate.xml",
+      "bytes": 339,
+      "sha256": "9852445ec0bbe71b743ad7c20327368d504c41965b7efc8f3f872bac9b01c36b"
+    },
+    {
+      "path": "docs/benchmarks/qtm-production-upgrade-2026-10-01/summary.json",
+      "bytes": 8283,
+      "sha256": "c8d71316d7e181855276bec82928267b7821b44aa09cbaaf3c1bfb8e627d33ec"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q0-calibration18.json",
+      "bytes": 43024,
+      "sha256": "c81e1f9f1a4a26731696c343e0a9b2ac6c2fffe5435baf8af96e9a28bce7df17"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q0-calibration19.json",
+      "bytes": 88944,
+      "sha256": "81922bc20cd0d2e118814061b34415751ac3e6e208f5f84f60c0d97ff3437954"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q0-calibration20-known.json",
+      "bytes": 53687,
+      "sha256": "ae543bce7680c6e1b718d5d96c9515a55b10fead92b102b6192367d3325428cc"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q0-fixed-layer-review.json",
+      "bytes": 178159,
+      "sha256": "16b6b87db7ff0ee6da79da5b584b7875266a8de80eeb0c5943339a4f0e0ec999"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q0-known15-retest.json",
+      "bytes": 168098,
+      "sha256": "91cc6853cf2a258bc0f80c438e8c8f537a9a01793a3331ff89a32a24dbf51c09"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q0-known18-retest.json",
+      "bytes": 185418,
+      "sha256": "8e2b7653a04b72700dcafc319d1741af972a243a45829a94c09da9afd49f5a33"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q0-photos.json",
+      "bytes": 66875,
+      "sha256": "7d758234517c7f9a2e562eb55cedb053b769fd5e59e36cf3bb231240bc47eb06"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q0-real.json",
+      "bytes": 342388,
+      "sha256": "5ed94c1f02b700d2d09dba496f6bdb86502158fd3b7900cfb78069bd37d464c7"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q0-shallow.json",
+      "bytes": 99154,
+      "sha256": "9571194a1b2f9eaac8d1d43de472f4a3b7d06a5d4677cedfc3131629983bb330"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q0-short-15.json",
+      "bytes": 426527,
+      "sha256": "5bd689d3b662de99284bce75429eb9910a1b7a0298fe73501964e917900be532"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q0-short.json",
+      "bytes": 363889,
+      "sha256": "a3de918735e3908b208e54b9cc68ace471348eb8b2a1203153deaedc17701953"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q1-fixed-layer-review.json",
+      "bytes": 180720,
+      "sha256": "ee6c572dbe77f12dc6a6313d7256dcd4f414dc3ef797363ed2949976adf93257"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q1-known15-retest.json",
+      "bytes": 265652,
+      "sha256": "1e1e610d43d9f849753ef6c563d0b6e9af8835a04852d77f3d27c2aaf6e5fe38"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q1-known18-retest.json",
+      "bytes": 155313,
+      "sha256": "349cbc99ba84a98bf70727efe2c7582cb376d5b1c97d53d1a9b299f75c9ee85c"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q1-photos.json",
+      "bytes": 66878,
+      "sha256": "eaa3fc63d568a55d47119b4783fab7ff8ca9bb680ca1a305fac9e00d5e2d4e38"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q1-real-release.json",
+      "bytes": 556488,
+      "sha256": "66a7fc0939f48abb1f4604f691d088dda7afc5822f41ccafa69cda96b3e783ba"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q1-real.json",
+      "bytes": 431760,
+      "sha256": "a025a5d95e8a66482b7b582ada23ec9294786f9d2332d45fb857d0d0f02371db"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q1-shallow.json",
+      "bytes": 99237,
+      "sha256": "80e9f711af357f6bc4e5352a9ce64f680fcb8b672425c7bbc88dcc423da2d5a2"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q1-short-15.json",
+      "bytes": 438202,
+      "sha256": "1c777ede780c04a1e87b219e71183a178aaf1eb2d497da2c615e899d1ebad330"
+    },
+    {
+      "path": "docs/benchmarks/qtm-q1-short.json",
+      "bytes": 376703,
+      "sha256": "bb5e670e230cc048fe0d96ab4bd5599c8a9b1bcfd38ea415d4833b67e3f168d8"
+    },
+    {
+      "path": "docs/benchmarks/qtm-query-order-legacy-review.json",
+      "bytes": 183278,
+      "sha256": "2897acb7c3b8cf10df86fb88de26dfef1323ff2c5e4f7f028ad739ec8cbf37fb"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-baseline-freeze.json",
+      "bytes": 49434,
+      "sha256": "087d81eaf6cd7a0f026ac41e770799687a3a4ec0c49374dc34a65ddf2c735ebc"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-baseline-page-observations.json",
+      "bytes": 1434,
+      "sha256": "0a8d615763548bfb6e5effde8072d53e1ca3837eb1edbd0da6476bc4b0141562"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-baseline-page-observer-timeout.json",
+      "bytes": 738,
+      "sha256": "d27b877e703f12e792f0b8629649c9b6d44dc35be95155409a4f4f5e8a305f25"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-baseline12-page-acceptance.json",
+      "bytes": 739,
+      "sha256": "34522a159f6fe199d5a395961a823c8251bd992a9128283bae75e9618fc0ed08"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-calibration.json",
+      "bytes": 67862,
+      "sha256": "9148d9d0af994d679349a08bb88fa6e23e5ed3b8328f3281001abdc1a615f58c"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-contract-tests.xml",
+      "bytes": 5667,
+      "sha256": "d751840878409689ba2b057bd3eaeeb8e1c90acd4cd558b2293e67902ff2f88a"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-final-fixed-layer-protocol-first-attempt.json",
+      "bytes": 7112,
+      "sha256": "ff2cc9f390964c671161a7a9166ee50d17d72c0439b1c563e8423247eeeb6b9b"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-final-fixed-layer.json",
+      "bytes": 310337,
+      "sha256": "07728d477aa64dfb6197f0022b4f0890995c3790add46f3e5005f75aaeb71dd7"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-final-freeze.json",
+      "bytes": 50801,
+      "sha256": "e880fd5186dbdce866053b24092cd6329469638bfe91bc8692b6fa5da82f57de"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-final-oracle.json",
+      "bytes": 1145,
+      "sha256": "35847490c6f8c7fee501ffa08fa07e1c93a871a59ff8872fabf82788a4f392bd"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-final-short-layer.json",
+      "bytes": 89599,
+      "sha256": "22a850faab19d4e0f6f916a3a06d523d9255a71db1592fa6ed1a4ce746b19d43"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-fixed-baseline.json",
+      "bytes": 286891,
+      "sha256": "b070dd94d8fd2cf2f632be77d457a1427d06d5defac061f35b71c176e141bded"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-package-build.log",
+      "bytes": 9271,
+      "sha256": "8c8e03802b70fb903f19663c089c5749d9acc1f5e645ef05eb30ab5ddda2d693"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-package-collector-before-solve.json",
+      "bytes": 820,
+      "sha256": "b012a87df5a47dc9594fcf155c28c91935fbe29e51f684dd21c2c36bfb262682"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-package-page-acceptance.json",
+      "bytes": 635692,
+      "sha256": "cdd1c597e38c03ae040b05a0afade4979b63c679a26f088ded230c95bb0da088"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-package-page.jpg",
+      "bytes": 7693,
+      "sha256": "e4ac476fb43d4cfc034ce1b7bc276a896e02a280cf9d3079d84d7528b96785ec"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-package-photo-acceptance.json",
+      "bytes": 66980,
+      "sha256": "88e52656140145170bbd8cd45f8432560ae228eb1a9c4ad273007a4ce414e578"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-prefetch-paired.json",
+      "bytes": 609433,
+      "sha256": "62318b464c0a3341f4d24ca39e225251bad940f3771f08b4745cefa20937faa8"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-reuse-first-attempt.json",
+      "bytes": 335,
+      "sha256": "8fc4d6fd3aef0d61fca1949d6f953fa5a2ed25b4979d9506ae367adc4f754f0c"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-reuse-lifecycle.json",
+      "bytes": 191755,
+      "sha256": "3757c968becf7ee7164a89b2e4cca2eda62d3496be265d78978cf9f0d401f724"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-slice-paired.json",
+      "bytes": 609070,
+      "sha256": "c287020f10889b3475a8853ddc327b073d646ea797c9f39018d756a5703eb800"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-staged-baseline.json",
+      "bytes": 326470,
+      "sha256": "5e7c037647d7400c2ada9f8559b9674e8f8d375e6d1d149a6718fa67a012e9e0"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-staged-final.json",
+      "bytes": 381617,
+      "sha256": "1a4fcecd0f05bfa61023e902f68fca0a1596f9697d0cefbf4f5b202ee6d8b7f9"
+    },
+    {
+      "path": "docs/benchmarks/qtm-speed-summary.json",
+      "bytes": 33001,
+      "sha256": "b8db31ba2fc32e026371ebcb92c61c1641392459d7baf428a6834b7735b82b59"
+    },
+    {
+      "path": "docs/benchmarks/qtm-staged-lifecycle-review.json",
+      "bytes": 167446,
+      "sha256": "e19c8c1d4fe56ea9ce802924a951b48bfeac95b8354b9a8c1b0aa9e0b56201e8"
+    },
+    {
+      "path": "docs/benchmarks/qtm-staged-lifecycle-timing-review.json",
+      "bytes": 147231,
+      "sha256": "7bbee5ec71129f479486e39734e454fcdc546f402bf8575694a20096126b677f"
+    },
+    {
+      "path": "docs/benchmarks/qtm-staged-preemption-ready-review.json",
+      "bytes": 163344,
+      "sha256": "23999f35565b74eb86979c342e680d2847c156404adc0d4a2d9395e507a157b8"
+    },
+    {
+      "path": "docs/benchmarks/qtm-staged-preemption-review.json",
+      "bytes": 149133,
+      "sha256": "3497c662f12696ff3d1b596f3d87e53f9bba8d684bcb6b92b1905cdcc74e6dff"
+    },
+    {
+      "path": "docs/benchmarks/QtmStrong-asset-manifest.json",
+      "bytes": 4209,
+      "sha256": "b423704ceeaf8497cd2eb0ae3a9ac6ad684de2b9e3d4b4df905baf7ca15058c5"
+    },
+    {
+      "path": "docs/benchmarks/real-thread-audit.json",
+      "bytes": 1098,
+      "sha256": "714797f1c8bb611f132d193fde16b1d629a7e3cc7dd1bc335c70d40a3c192ff1"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.0/acceptance.json",
+      "bytes": 1041,
+      "sha256": "5fe99918dcf7602caf152a8167902694bf7a5cbb907f2d85b80f5685b8ceb52b"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.0/all-tests.xml",
+      "bytes": 14254,
+      "sha256": "49ef0362508297a73452d74fc9b53b3a868cb3fa3ade4c24f4fe254ea785ea74"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.0/contracts.xml",
+      "bytes": 5181,
+      "sha256": "731d6cf4622a86e24bcef158549cca495eee06a06bdd17417de937e083f5ae75"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.0/coverage.xml",
+      "bytes": 9660,
+      "sha256": "db02b2112d110d2945f64c8ebb24bb9e381e67a25ae467d6704feabaa6587bb2"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.0/package-identity.json",
+      "bytes": 4533,
+      "sha256": "c86aa86d1684b72792f9eac25d799bed83cfb78c007b76828bbd2ee0449b4d3a"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.0/package-page.json",
+      "bytes": 432147,
+      "sha256": "804e461bd8b7c0138a98f80ff71a488d487dccd1604ebb50585d8f5d136b4b83"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.0/qtm-native.xml",
+      "bytes": 2492,
+      "sha256": "3705b0dbfb2a73c844687a530321dc72fdaaee819c0066b9c2dad6db35316181"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.0/source-http.json",
+      "bytes": 825,
+      "sha256": "78bb3fefbc70e167388d5aa5a8a866fb532122a9f1db755afc99a0e7886cbe04"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/archive-verification.json",
+      "bytes": 27230,
+      "sha256": "2fa9b7d48c997079d7b746edc94d0c17fd23541fcf36aafece4ac1996786c355"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/archive-verification.log",
+      "bytes": 464,
+      "sha256": "1af6d1c7f4672e1869d85d7948b164413150e3ec150906698339895ae1851774"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/benchmark-archive-verification.log",
+      "bytes": 1509,
+      "sha256": "a1f7e95dbb0dbac6385ab5a1eda4fdd8b10919faadb91f8814adb1bc9e62af78"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/htm-build.log",
+      "bytes": 299,
+      "sha256": "7f2e66599a5365dcccaaccf6f832a72f9d516690247f4f2a1799bb73da793990"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/initial-1-desktop.png",
+      "bytes": 486100,
+      "sha256": "30be5c910d82b7af06c82d07367cf75ad92a765211e66dc83bbf04b88d5d87e8"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/initial-1-mobile.png",
+      "bytes": 335391,
+      "sha256": "a3f30ac37863f3b486db488d55547a0c9113b858dc35990f2f2cf1f9801d569a"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/initial-12-desktop.png",
+      "bytes": 544436,
+      "sha256": "3863522bd4c7934d084c89af56541993a8971dbb461e838a0fa68a09f19362b0"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/initial-12-mobile.png",
+      "bytes": 357708,
+      "sha256": "318e67e9fd2f1e44674a355aacf9f1c9311db220405453852ce04a10b39dbb52"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/metadata.log",
+      "bytes": 402,
+      "sha256": "fc0516c9b9dca64d262692050ec12ba0fef1e9b134395cc79a3709a6b56f0d10"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/native-and-photo-tests.log",
+      "bytes": 939,
+      "sha256": "6912f10dbe9330ebf4354ad15398a9ed82eb71646e53f0a7966c2878e8064b6c"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/native-and-photo-tests.xml",
+      "bytes": 8717,
+      "sha256": "cb1dad0e1b580aaeeac46a1b4a1aece0233a0a7d9a7f566a9bb3848e6b5f9414"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/package-http-script-error.json",
+      "bytes": 30017,
+      "sha256": "131bca7bd8952207d883791af46da7c1d348d0c65b0131ddda9db5154e35f721"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/package-http-script-error.log",
+      "bytes": 1807,
+      "sha256": "65512f81d348cf29f4fd490017f15dbb721488303fd3f3618c8a59533f338a2a"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/package-http.json",
+      "bytes": 74813,
+      "sha256": "a4219d9c169fff1fee499da9e460ab57a66c25d62aad82ab5ebcac2db4d4eb26"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/package-http.log",
+      "bytes": 47,
+      "sha256": "a8fa0e857f42e9929b835fa05491e29b78c3507096917e5348b84e457bf472e2"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/package-identity.json",
+      "bytes": 20297,
+      "sha256": "ced9a0a1b90bfec78b8e4de72cf4eeb082394bba50f5988abc6177e22c50b448"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/package-page.json",
+      "bytes": 20742650,
+      "sha256": "e18d39fed31c7c6d501054aab6aa8e9b7c778cfbc07ce618a1d221bc481a84e8"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/package-page.log",
+      "bytes": 366,
+      "sha256": "a385b7874bec324d534072f11c5f9bd14122f8afd00a5771c9af18d02c4bc885"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/package-products.log",
+      "bytes": 307,
+      "sha256": "3d272b9c864d6f3852c6e42f23ff2904da0eb046835e06d28c4664f5d1439e5f"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/page-validation.json",
+      "bytes": 436,
+      "sha256": "8d4027c695985b2bac75259276ca144d91cecbf99cf54c56279f90b7e7b47c2e"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/python-coverage-setup-error.log",
+      "bytes": 23950,
+      "sha256": "e6d370faef0e910fe96c35bbed7b47bd579009aaeae184dc1039f57ce4821414"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/python-coverage-setup-error.xml",
+      "bytes": 33852,
+      "sha256": "e8ee091a7328f5e73eab2994144747ae3d04966eb5163d23e0b176808234470b"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/python-coverage-unicode-error.log",
+      "bytes": 7357,
+      "sha256": "ddc275d0d68681b58386d9364f907972d8a06522b00179c2e5c97e4e0aad99df"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/python-coverage-unicode-error.xml",
+      "bytes": 16990,
+      "sha256": "f69ce1364098029962936744f1901389dba16e3e32ee4cfef41d65202aa5fb56"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/python-coverage.log",
+      "bytes": 4434,
+      "sha256": "372b600faef3f47c2ee1985963791aadf8885e800f039fda89098bc5186b900f"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/python-coverage.xml",
+      "bytes": 14877,
+      "sha256": "8150e7d05a588a513e0576b8bb6ce01095a4d6ab4ab72112c3d9a6fef2b5ffa6"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/qtm-build.log",
+      "bytes": 299,
+      "sha256": "772920961e77716aa903f45a198c00dc695e32cc3513c0e0b34babb824aa90cd"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/source-build-htm.log",
+      "bytes": 368,
+      "sha256": "8c06a3abe78aaef4118d3becc7079538ce97b722edfdb7261433ac1805002672"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/source-build-qtm.log",
+      "bytes": 368,
+      "sha256": "f706dc41837f2a8da68ea2f67f8573591bb23e00bbf24c6077d3b1619fd43a66"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/source-htm-oracle.json",
+      "bytes": 63,
+      "sha256": "c9b2ec447438ca0a9b4aca4629321e01a8886cac111f819e8575187c3f92dbfc"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/source-identity.json",
+      "bytes": 60381,
+      "sha256": "3a82ecf3e203d9bf7d0985ee3a5b0d6da510f07b76c6fe3c5e5e4cd9eb397ba9"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/source-qtm-oracle.json",
+      "bytes": 103,
+      "sha256": "8259e046d72b68e151e67c70cadf02437637c4655e9ab5f99caee05312e559d1"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/wheel-identity.json",
+      "bytes": 475,
+      "sha256": "c1fbc54e657d145c836f3a85a0b54704f9fc76a34d21eca1a2d2471692b8eb43"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/wheel.log",
+      "bytes": 975,
+      "sha256": "6b849ee410687f5f3fa0a7adf0782460fe689e78e5424de699aa1cfda7d1c3cc"
+    },
+    {
+      "path": "docs/benchmarks/release-1.10.1/windows-build.log",
+      "bytes": 8552,
+      "sha256": "7dc77e906e0015f84e1854d6a23d186c573c1b423742dccc9e94d53940459173"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/coverage-final.json",
+      "bytes": 232560,
+      "sha256": "ab27799236e1768117157d625fd45486440af693857dbda999caabc0f70f35f9"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/coverage-final.log",
+      "bytes": 6398,
+      "sha256": "4a356e706d1b4093bc367c84d2a7cd54c9188955161246ea2a3ae8088926ae9d"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/coverage-tests-final.xml",
+      "bytes": 16324,
+      "sha256": "e946fc21062679f1082156d2fdd4a323d1677d82d090c782ebec712f4f33d92e"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/coverage-tests.xml",
+      "bytes": 14877,
+      "sha256": "b4a50d93b0214caeb1a5f51fa7c9420d95017e08b4dee82023669f934f547e80"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/coverage.json",
+      "bytes": 232482,
+      "sha256": "206519dd8620c37dca4f972b3aeb0640abd620d980477cb6d44645b9fb242137"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/coverage.log",
+      "bytes": 6416,
+      "sha256": "95a6f7e02244fe58f9306e74b5fb529a8c493759c75bc66a60fb080bdaab8f9e"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/incumbent-sync-regression.log",
+      "bytes": 247,
+      "sha256": "77f3ef5c46aa234c1d5eddc9d224760c93253755060da9e4df0096e64c532935"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/incumbent-sync-regression.xml",
+      "bytes": 1245,
+      "sha256": "7a36a98be3c702f47dfa9fe48165b038f9e49f42f8c1c1cf02172bab7923941f"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/local-checks-final.log",
+      "bytes": 3894,
+      "sha256": "91ab0ca413d12fef9eac4fe50f3cef972e06ffbed6a68331ef3fd661d30e5c9d"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/local-checks-v2.log",
+      "bytes": 10444,
+      "sha256": "5cd72be269c9f93294a9b238d055ccc2463fec331669e3059a749fa36b7cdc74"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/local-checks.log",
+      "bytes": 9753,
+      "sha256": "89e8619faf6cf059a25cdf7ab0811500f0288df5d7e9909dd58cb0f08e21d861"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/local-tests-final.xml",
+      "bytes": 24332,
+      "sha256": "332d5743c2f39ea27f944fa084f2510b4154eea20e9fe132d3371d5b43438917"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/merge-verification.log",
+      "bytes": 90,
+      "sha256": "3bfb181a82d73d85ff13de866732743d241b7d03914b9f295d351653505e5509"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/package-identity.json",
+      "bytes": 39568,
+      "sha256": "2c7db5373eb215364c496c1caa2db8ed54adf2f03e55fd92bba952894c465b46"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/package-products-final.log",
+      "bytes": 307,
+      "sha256": "3b1720dca8b1987d737b3ef67c8f84a8e7a37fa73559d71a02c4a7c1e69d63e2"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/package-products.log",
+      "bytes": 307,
+      "sha256": "8fe1c8528f19542e4c4267641dbc6af0aa54914a12557590cd5533c7835d9d87"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/portable-http-final.json",
+      "bytes": 788654,
+      "sha256": "025d69b3be0edcd7ec24dba7d885f77598f9df871b1a7eb40fc9912b32eceb41"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/portable-http-final.log",
+      "bytes": 896,
+      "sha256": "930f59aa9c43d58a4a04fa25ede997caaf3f2dd4b809c63520fb1423269b7b3f"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/portable-http.log",
+      "bytes": 947,
+      "sha256": "bcca23695e07f72f2f4f50852cf1d694dcf1e0645507a68af3711832d87bd07a"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/source-build-checks.json",
+      "bytes": 4327,
+      "sha256": "319cc0f3c94904040e4a21c064aef48f14f239f8f84ec955cf5b74cf4be274b7"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/source-htm-build.log",
+      "bytes": 369,
+      "sha256": "f558f74d4e264186a74eefa9de45e211e5ee65c5020446854330d1cc64e311ff"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/source-identity.json",
+      "bytes": 211,
+      "sha256": "bdabe9659917ee0c401c05bb9eb6be3b8e80f1deaff84f1d6cb90b4c6bc8476c"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/source-qtm-build.log",
+      "bytes": 369,
+      "sha256": "035591b8eafef9375595df2928f9d583547c76422e7f7cb459ea6d8868d30f78"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/wheel-install-final.json",
+      "bytes": 475,
+      "sha256": "e835355602e0482a6b094c547751193d9ec8e97f0eedda9f6bb4935bab9dfb83"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/wheel-install.json",
+      "bytes": 475,
+      "sha256": "2189be7449b5e5f70fe418b150309b694fab0299ab89b9ecb020e1549bba7396"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/windows-build-final.log",
+      "bytes": 8857,
+      "sha256": "7fcf6454507d59a071caaaa3fe77699e9f6c8351235a77ed6b28fa3cfed0993f"
+    },
+    {
+      "path": "docs/benchmarks/release-1.11.0/windows-build.log",
+      "bytes": 8869,
+      "sha256": "45e14f366fbafb4675e16f7c9bdf58f831993954327269b809a2c37875f68d55"
+    },
+    {
+      "path": "docs/htm-qtm-isolation-followup-report.md",
+      "bytes": 9541,
+      "sha256": "ba2fb7080de7d7db4a225d2f7890f1a25bdf6bdc8e64b5cf00b0592dc446018e"
+    },
+    {
+      "path": "docs/htm-qtm-next-speed-harness-review.md",
+      "bytes": 5067,
+      "sha256": "e9ce5bba67bbe614a17740fef63639386f6471efb8cef0a3dcb5ffabff56e6d4"
+    },
+    {
+      "path": "docs/htm-qtm-next-speed-plan-2026-10-02.md",
+      "bytes": 17556,
+      "sha256": "d19fb3901170fb316dc493946ef9cceeb7e379507fe7ea83a5eb9a1efcb65904"
+    },
+    {
+      "path": "docs/htm-qtm-next-speed-report-2026-10-03.md",
+      "bytes": 31640,
+      "sha256": "6db1e5fe56edefba88e9c03d9646adcf6cb5d0c90aaf6d8ac3fefc087467086d"
+    },
+    {
+      "path": "docs/htm-qtm-theoretical-timing-2026-10-01.md",
+      "bytes": 8108,
+      "sha256": "383d7c627dc9599e6e8fc57ed41ad3fa258f83418d6840723217aaa3c285327f"
+    },
+    {
+      "path": "docs/htm-rollback-qtm-isolation-report.md",
+      "bytes": 10859,
+      "sha256": "2f5c6c07e502f9c10be4dc7b9386531ccd949fac2588dfad3801643428830941"
+    },
+    {
+      "path": "docs/htm-speed-optimization-report-2026-10-05.md",
+      "bytes": 15101,
+      "sha256": "c1ec22b57295fb002e93e88ea008b0ef0e301f516f110cbd815e6f7b7cf57553"
+    },
+    {
+      "path": "docs/htm-speed-review-2026-10-05.md",
+      "bytes": 18982,
+      "sha256": "dcca9f3118a88e62321f76905d0c36be941a8bc8c1d338ec17ca333b5490bd07"
+    },
+    {
+      "path": "docs/htm-strong-table-design-2026-10-05.md",
+      "bytes": 5176,
+      "sha256": "8fd7661cb259f02a223a3c645dc782e94898e8b800a5182ccc3962b0c913da7b"
+    },
+    {
+      "path": "docs/performance-refactor-2026-09-27.md",
+      "bytes": 7950,
+      "sha256": "a53f6f4435f77f9b8e42cbb058721f38fdd5838cb3b074e639c98d1bb748df6f"
+    },
+    {
+      "path": "docs/performance-refactor-benchmark-2026-09-27.json",
+      "bytes": 17083,
+      "sha256": "03c02f0a8efca1c394670b6d15629a29aa0b734b3b3d1423d516abcc408b2b5f"
+    },
+    {
+      "path": "docs/performance-review-2026-09-27.md",
+      "bytes": 19721,
+      "sha256": "34a462203d798e9d31d9049024c7300b666b5f0b58639e598cdf57559b102593"
+    },
+    {
+      "path": "docs/qtm-isolation-review-2026-09-30.md",
+      "bytes": 11979,
+      "sha256": "e4fe33a4b0b405ee40b75c08735aaef59421f5e729b51f647626ab480aa422eb"
+    },
+    {
+      "path": "docs/qtm-optimization-review-2026-09-30.md",
+      "bytes": 14078,
+      "sha256": "7faa1afa5802b1527f9c3f5865dfe23e2eaa1352900b3e25bddfbdc9e8835c7c"
+    },
+    {
+      "path": "docs/qtm-production-readiness-plan-2026-10-01.md",
+      "bytes": 30933,
+      "sha256": "525b5c04b680cf394745a601d50c900ae37a8d8816b57f0b81de88cdc69d8c6a"
+    },
+    {
+      "path": "docs/qtm-production-upgrade-report-2026-10-01.md",
+      "bytes": 15418,
+      "sha256": "57273d7ffb3c4ff02f6f0a002d220ae8f6f2b7f73bbfd79dd69e994dcc7cbf22"
+    },
+    {
+      "path": "docs/qtm-speed-optimization-report.md",
+      "bytes": 16562,
+      "sha256": "2916d0770388b538f37dd17937f95da578a1e3e24498e7df9d01afc276a3dc6f"
+    },
+    {
+      "path": "docs/release-1.10.0.md",
+      "bytes": 3571,
+      "sha256": "538e77af462cbcfc8466f8f470414d6efed2617712cef4652ace9ce930c6578c"
+    },
+    {
+      "path": "docs/release-1.10.1.md",
+      "bytes": 4502,
+      "sha256": "3d38d9a4a3484d588f36f853712bde04a7524ff4538f56bf1f3307f3d80d73a4"
+    },
+    {
+      "path": "docs/release-1.11.0.md",
+      "bytes": 6733,
+      "sha256": "5dfcd3649e6eb2ec0f5c3aebac59c9e4f991f5771d8750db44b1778f67bcd0ad"
+    }
+  ],
+  "archive": {
+    "name": "CubeLens-evidence-through-1.11.0-2026-10-06.zip",
+    "bytes": 87473020,
+    "sha256": "d7a4787bcb6535914b1da3828acde6cb3c074a3364af033a9f57aa8644be7d59",
+    "url": "https://github.com/harrislion813-pixel/Rubic-Photo-solve/releases/download/evidence-2026-10-06/CubeLens-evidence-through-1.11.0-2026-10-06.zip"
+  }
+}

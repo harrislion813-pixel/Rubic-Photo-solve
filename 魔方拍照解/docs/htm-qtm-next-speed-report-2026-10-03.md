@@ -4,7 +4,7 @@
 
 已构建独立的保守默认包：HTM 在候选预算结束后发布最佳结果，QTM 使用 generic，保留观测、取消/额度保护和 QTM 初始化暂停修复。该包完成 8 次正常页面功能检查与公式回放；其中 current 的 HTM initial-1 仍超时，不能宣称它已通过完整速度门槛。72 次性能数字属于另行冻结的 H1/Q1 实验包，不能移植为保守默认包的收益。Portable PGO 仅补齐构建与训练支持，本轮未训练或测试；P2 未展开。
 
-以下数字来自[有效原始矩阵](benchmarks/next-speed-2026-10-02/formal-final/formal-matrix.json.gz)、[原汇总](benchmarks/next-speed-2026-10-02/formal-final/summary.json)、[补齐下界的独立汇总](benchmarks/next-speed-2026-10-02/formal-final/summary-with-bounds.json)和[工作包记录](benchmarks/next-speed-2026-10-02/work-package-results.md)。中断、方法无效和测试配置失败的原始记录均保留。
+以下数字来自[有效原始矩阵（归档）](evidence-archive-2026-10-06.md#file-d2b4557ffd6f)、[原汇总（归档）](evidence-archive-2026-10-06.md#file-cb61cda79c85)、[补齐下界的独立汇总（归档）](evidence-archive-2026-10-06.md#file-f89b30c39b6b)和[工作包记录](benchmarks/next-speed-2026-10-02/work-package-results.md)。中断、方法无效和测试配置失败的原始记录均保留。
 
 | 工作包 | 已完成范围 | 最终决定 |
 | --- | --- | --- |
@@ -50,7 +50,7 @@ Python HTM 候选器发现首次解和更短解后立即回调；H1 实验模式
 
 **H2 拒绝、Q1 单项通过但不采用默认**
 
-完整排除层实验固定相同度量、资产、方向、15 线程、成本界和无候选/无证明缓存条件，每版本每状态三次，顺序 AB、BA、AB。原始数据分别见 [H2 stable](benchmarks/next-speed-2026-10-02/h2-fixed-stable.json)、[H2 insertion](benchmarks/next-speed-2026-10-02/h2-fixed-insertion.json)、[Q1](benchmarks/next-speed-2026-10-02/q1-pair.json)。
+完整排除层实验固定相同度量、资产、方向、15 线程、成本界和无候选/无证明缓存条件，每版本每状态三次，顺序 AB、BA、AB。原始数据分别见 [H2 stable（归档）](evidence-archive-2026-10-06.md#file-0d7ba6a644c1)、[H2 insertion（归档）](evidence-archive-2026-10-06.md#file-687362091c50)、[Q1（归档）](evidence-archive-2026-10-06.md#file-6bce614bc8c2)。
 
 | 变体与状态 / 成本界 | 原基线墙钟中位数 / 秒 | 变体 / 秒 | 相对变化 | 判定 |
 | --- | ---: | ---: | ---: | --- |
@@ -71,7 +71,7 @@ Q1 在层入口持有不可变资产快照，完整 QTM strong + 默认 strong-f
 
 [方向短片实验](benchmarks/next-speed-2026-10-02/q2-candidate-schedule.json) 为两状态 × 两调度 × 三次，共 12 请求，每次候选总预算 3 秒、候选额度 1。initial-1 的 legacy / short-slices 首候选中位数为 0.0545003 / 0.0489799 秒，initial-12 为 0.0423706 / 0.0422331 秒；两个版本全部最终成本 24，没有改善上界，也没有完整请求收益证据，保留 `legacy` 默认。
 
-late Tail 通过[真实 C++ harness 门禁](benchmarks/next-speed-2026-10-02/qtm-tail-gates.xml)，验证一次尝试、真实替换、1/2/3 额度、取消和原 deadline，但 harness 的测试协调等待不能作为产品速度。[生产桥接 12 次 AB 原始记录](benchmarks/next-speed-2026-10-02/q2-late-tail-production.json) 与[固定日志](benchmarks/next-speed-2026-10-02/q2-late-tail-production.log) 使用 EXE `9f71a1b72b4fb43f3079f4027435253872c741bff6b57ac62530303d3eb5795f`、新原生进程、真实 managed-loader 准入、15 总额度、默认 staged、原 30 秒期限，无已知 incumbent 注入。
+late Tail 通过[真实 C++ harness 门禁](benchmarks/next-speed-2026-10-02/qtm-tail-gates.xml)，验证一次尝试、真实替换、1/2/3 额度、取消和原 deadline，但 harness 的测试协调等待不能作为产品速度。[生产桥接 12 次 AB 原始记录（归档）](evidence-archive-2026-10-06.md#file-3576f55937fc) 与[固定日志](benchmarks/next-speed-2026-10-02/q2-late-tail-production.log) 使用 EXE `9f71a1b72b4fb43f3079f4027435253872c741bff6b57ac62530303d3eb5795f`、新原生进程、真实 managed-loader 准入、15 总额度、默认 staged、原 30 秒期限，无已知 incumbent 注入。
 
 | 状态 | off / on 请求中位数 / 秒 | on/off | on 尝试次数 | 实际改进 |
 | --- | --- | ---: | --- | --- |
@@ -88,11 +88,11 @@ QTM 在原冻结基线中已有 Symmetry 初始化缺少暂停 checkpoint 的问
 
 资源修复只进入 current；受控 baseline 继续使用原 QTM EXE，原冻结副本不变。[修复后的 3 项真实门禁](benchmarks/next-speed-2026-10-02/qtm-loader-repaired-gates-final.xml)通过、无 skip：实际成员初始化暂停、执行数归零、恢复完成、回调与无回调坐标等价、暂停中取消不签证明、EOF 恢复并 join。[19 项资产/期限门禁](benchmarks/next-speed-2026-10-02/qtm-loader-repaired-assets.xml)通过、无 skip，覆盖完整/部分/损坏/缺失资产和 1/2/3 额度。最初协议测试遗漏 base 资产的配置失败另保留在 `qtm-loader-repaired-gates.xml`，修正配置没有改变生产代码。
 
-[修复后的 bounded reuse 原始结果](benchmarks/next-speed-2026-10-02/qtm-bounded-reuse-repaired.json)及[日志](benchmarks/next-speed-2026-10-02/qtm-bounded-reuse-repaired.log)通过未完成加载的两个不同浅状态复用及真实 20 秒 TTL、完整 strong/Tail 的 20 秒 TTL、旧 generation/idle epoch 保护、HTM 优先抢占、强制内存回收和故障进程替换。最后 broker 的 active/resident 均清空。这些实证晚于 78 项 Python 契约，覆盖新 C++ 修复。
+[修复后的 bounded reuse 原始结果（归档）](evidence-archive-2026-10-06.md#file-d7430d098f6a)及[日志](benchmarks/next-speed-2026-10-02/qtm-bounded-reuse-repaired.log)通过未完成加载的两个不同浅状态复用及真实 20 秒 TTL、完整 strong/Tail 的 20 秒 TTL、旧 generation/idle epoch 保护、HTM 优先抢占、强制内存回收和故障进程替换。最后 broker 的 active/resident 均清空。这些实证晚于 78 项 Python 契约，覆盖新 C++ 修复。
 
 资源修复后的 H1/Q1 实验 `QtmStrong` 包位于 `dist/next-speed-2026-10-03-loader-repaired/RubicPhotoSolve`，ZIP 含 153 文件、2,307,013,732 字节，旧包保留。构建日志为[实验包日志](benchmarks/next-speed-2026-10-02/current-loader-repaired-package-build.log)。[实验源码/EXE/资产身份](benchmarks/next-speed-2026-10-02/current-final-identity.json)记录 QTM EXE SHA `38ee262a42246265dc40e5430057c279c60d156b5bcb82286a2727d78fe41ca8`，HTM 为 `f85a87aca23957fdca40e5c677b366d8713dc943612dd6cdb4df891ba587338f`；两者均 Portable O3/LTO、非 PGO。17 个资产/缓存文件与原冻结相同。这是正式 72 请求所测的实验身份，最终保守默认包另有独立身份，不能覆盖或混用。
 
-Windows 文件共享影响了第一次正式初始试跑：普通 `Get-Content` 读句柄可能阻止原地 JSON 写入，响应监听器保存失败被误记为页面错误。已停该尝试并保留[原始 JSON](benchmarks/next-speed-2026-10-02/formal-matrix-file-sharing-attempt.json)、[日志](benchmarks/next-speed-2026-10-02/formal-matrix-file-sharing-attempt.log) 与[方法说明](benchmarks/next-speed-2026-10-02/file-sharing-attempt-methodology.json)，其中两个 HTM 超时和原公式/终态仍保留，没有按速度删掉慢记录。
+Windows 文件共享影响了第一次正式初始试跑：普通 `Get-Content` 读句柄可能阻止原地 JSON 写入，响应监听器保存失败被误记为页面错误。已停该尝试并保留[原始 JSON（归档）](evidence-archive-2026-10-06.md#file-f34325f4a042)、[日志](benchmarks/next-speed-2026-10-02/formal-matrix-file-sharing-attempt.log) 与[方法说明](benchmarks/next-speed-2026-10-02/file-sharing-attempt-methodology.json)，其中两个 HTM 超时和原公式/终态仍保留，没有按速度删掉慢记录。
 
 验收脚本改为完整临时 JSON + 异步原子替换，仅在 case 边界保存，临时共享锁有界重试，持久化异常与页面异常分开；最终无法提交时保留完整 uncommitted checkpoint 并失败。正常页面一秒轮询、已采集响应时间和原 deadline 不因脚本修复改变。参见[验收脚本说明](htm-qtm-next-speed-harness-review.md)。这次有记录的复测用于已声明的外部干扰；不可反复复测直到结果好看。
 
@@ -106,7 +106,7 @@ Windows 文件共享影响了第一次正式初始试跑：普通 `Get-Content` 
 - Q1 第一版测试漏载 Tail，却要求 `strong` profile，实际 `strong-no-tail` 正确；修正期望后才有 final 门禁。
 - OpenCV 近似图像处理在 initial-8 的 U1/U3 互换；真实浏览器像素正确，不修改人工参考迎合近似输出。GBK 诊断读取问题的原尝试与后续 UTF-8 诊断均保留。
 - 历史单原型色距诊断把 initial-1 D9 红块判为橙，而均衡分类器正确；诊断失败不改写成“所有块最近原型都正确”。
-- Tail [无准入握手的薄客户端尝试](benchmarks/next-speed-2026-10-02/q2-late-tail-unmanaged-loader-attempt.json) 复制了 managed-loader 参数却没有 resume/admission：5 条保存请求全部超时、未采用 strong/Tail、未运行 late Tail。依[无效方法说明](benchmarks/next-speed-2026-10-02/invalid-attempt-methodology.json) 排除出有效性能汇总，原数据不动；空 failures 数组不代表有效通过。
+- Tail [无准入握手的薄客户端尝试（归档）](evidence-archive-2026-10-06.md#file-264003b794ba) 复制了 managed-loader 参数却没有 resume/admission：5 条保存请求全部超时、未采用 strong/Tail、未运行 late Tail。依[无效方法说明](benchmarks/next-speed-2026-10-02/invalid-attempt-methodology.json) 排除出有效性能汇总，原数据不动；空 failures 数组不代表有效通过。
 - 受控包浅状态 smoke 的 console 日志发生 GBK/UTF-8 解码差异，HTTP JSON 与断言正常；日志脚本改为 replacement 解码，没有为此重跑或挑选性能数据。
 - 默认开关补丁初版漏导入 `os`，19 项合约失败的[原记录](benchmarks/next-speed-2026-10-02/default-python-contracts.xml)和[日志](benchmarks/next-speed-2026-10-02/default-python-contracts.log)保留；打包前修复，再获得 80 项通过的 final 记录。
 
@@ -149,7 +149,7 @@ QTM 训练脚本默认 `--expansion generic`，要求原生候选与实际 stron
 | initial-8 | — / — | 新旧各三次超时 | 6.281 / 2.890 | −53.99% |
 | initial-16 | — / — | 新旧各三次超时 | 8.781 / 7.594 | −13.52% |
 
-HTM initial-12 三次 current/baseline 比为 `0.355561 / 2.770323 / 3.260260`，QTM initial-2 为 `1.706813 / 0.469221 / 1.497900`。两者均是三次配对中两次退化超过 5%，且中位数比超过 1.05。所有原始慢记录均保留，没有重测筛选。相应[退化事件摘录](benchmarks/next-speed-2026-10-02/regression-details.json)显示慢重复在找到最短解的部分层展开量更大；两版候选上界一致，QTM 两版在该层前均已采用完整 Tail。不能据此把原因定为 Tail 漏载，也不能将部分层展开差异当作完整同树吞吐比较；调度/上界到达与实际找到解位置的影响仍需独立调查。
+HTM initial-12 三次 current/baseline 比为 `0.355561 / 2.770323 / 3.260260`，QTM initial-2 为 `1.706813 / 0.469221 / 1.497900`。两者均是三次配对中两次退化超过 5%，且中位数比超过 1.05。所有原始慢记录均保留，没有重测筛选。相应[退化事件摘录（归档）](evidence-archive-2026-10-06.md#file-a60475766495)显示慢重复在找到最短解的部分层展开量更大；两版候选上界一致，QTM 两版在该层前均已采用完整 Tail。不能据此把原因定为 Tail 漏载，也不能将部分层展开差异当作完整同树吞吐比较；调度/上界到达与实际找到解位置的影响仍需独立调查。
 
 [资源事件复核](benchmarks/next-speed-2026-10-02/formal-final/resource-event-audit.json)包含全部 72 请求。QTM 1,452 条原生额度帧的 loader_reserved + candidate + proof 均不超过 15，candidate 不超过 1；36 次均真实准入并采用 strong/Tail，新进程 `warm_reused=false`。baseline/current strong adopted 中位数为 1.774 / 1.766 秒，Tail adopted 为 2.133 / 2.078 秒。HTM 两版记录的初始证明额度均为 14，实验版候选活跃的页面快照中证明不超过 14；结束后最多 15。实际每请求均清理自有进程树，72 次照片参考差异和人工修正均为 0。
 
@@ -173,7 +173,7 @@ H1 的交付目标与严格确认分开判断，Q1 的单项收益也不免除�
 
 [最终 Python 合约](benchmarks/next-speed-2026-10-02/default-python-contracts-final.xml)为 80 项通过、0 fail/skip；新增默认策略合约验证首次内部候选不会发布或注入，上述预算结束后只交付最佳候选。实际包 QTM EXE 的[最终 oracle 门禁](benchmarks/next-speed-2026-10-02/default-native-oracle.xml)为 3 项通过、0 skip，覆盖全部 cutoff/接受坐标等价、默认 generic 与显式 full-strong 的独立浅层 oracle及 1/2/3 额度；新旧资源修复前后门禁的源码范围仍按前文区分。
 
-[正常页面 8 次原始回归](benchmarks/next-speed-2026-10-02/default-functional/page.json)使用 initial-1 / 12 × HTM/QTM × baseline/保守默认 current × 一次，各条新进程，原 30 秒 deadline，照片与 Facelets 不变。这是功能/配置验收，未作为第二次性能采用矩阵，也未覆盖、替代正式三重复数据。[独立验证](benchmarks/next-speed-2026-10-02/default-functional/validation.json)回放 1,107 条公式声明无错误：两次 current HTM 均 early=false且只发布最佳候选；两次 current QTM 专用展开量为 0，仍真实采用完整 strong/Tail。页面无错误、照片差异/人工修正为 0，桌面和移动布局无溢出/遮挡；另人工查看 current QTM initial-12 两种截图正常。
+[正常页面 8 次原始回归（归档）](evidence-archive-2026-10-06.md#file-26aa80f412da)使用 initial-1 / 12 × HTM/QTM × baseline/保守默认 current × 一次，各条新进程，原 30 秒 deadline，照片与 Facelets 不变。这是功能/配置验收，未作为第二次性能采用矩阵，也未覆盖、替代正式三重复数据。[独立验证](benchmarks/next-speed-2026-10-02/default-functional/validation.json)回放 1,107 条公式声明无错误：两次 current HTM 均 early=false且只发布最佳候选；两次 current QTM 专用展开量为 0，仍真实采用完整 strong/Tail。页面无错误、照片差异/人工修正为 0，桌面和移动布局无溢出/遮挡；另人工查看 current QTM initial-12 两种截图正常。
 
 这 8 条中 baseline 的 HTM initial-1 严格完成 18 步，current HTM initial-1 到 30 秒仍超时，合法候选 20、已证下界 18、gap=2；其余七条严格完成，其中 HTM initial-12 为 17、QTM initial-1 / 12 为 22 / 20。全部状态保留，未重新跑到成功。这份包提供保守默认、正确候选与资源修复的可审查交付，不宣布已通过六状态速度提升或无新超时的最终门槛。
 

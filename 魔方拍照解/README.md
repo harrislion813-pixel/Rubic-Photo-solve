@@ -195,3 +195,5 @@ $env:CUBE_NATIVE_ASSET_LOADING = "eager"
 - **下载校验**：在下载目录运行 `Get-FileHash .\文件名 -Algorithm SHA256`，与 `SHA256SUMS.txt` 中的值比较。
 
 版本可在页面或 `/api/version` 查看；历史变化见 [CHANGELOG.md](CHANGELOG.md)。
+
+仓库开发、实拍回归与验收资料恢复见[开发与维护门禁](docs/development.md)。

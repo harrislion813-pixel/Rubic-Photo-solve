@@ -19,6 +19,7 @@ from cube_app.metrics import solution_cost  # noqa: E402
 from cube_app.solvers.htm.two_by_two import is_solved_2x2, to_facelets_2x2  # noqa: E402
 from verify_installation import verify  # noqa: E402
 from package_release import inspect_portable  # noqa: E402
+from check_environment import check as check_environment  # noqa: E402
 
 
 def request(base, endpoint, body=None):
@@ -127,6 +128,9 @@ def main():
     parser.add_argument("destination", type=Path)
     parser.add_argument("--htm-photos", action="store_true", help="Verify the default native candidate on two frozen photo states")
     args = parser.parse_args()
+    environment = check_environment()
+    if environment["mismatches"]:
+        parser.error("release acceptance environment differs from lock: " + "; ".join(environment["mismatches"]))
     inspect_portable(args.archive)
     if args.destination.exists():
         parser.error("acceptance destination must be new")
@@ -138,7 +142,7 @@ def main():
                          str(root / "verify_installation.ps1"), "-Root", str(root)],
                         capture_output=True, text=True, encoding="utf-8", errors="replace")
     assert ps.returncode == 0, ps.stdout + ps.stderr
-    result = {"profile": manifest["profile"], "version": manifest["app_version"],
+    result = {"environment": environment, "profile": manifest["profile"], "version": manifest["app_version"],
               "asset_count": len(manifest["files"]), "powershell_verification": "passed",
               "http": run(root, [str(root / "RubicPhotoSolve.exe")], manifest["profile"] == "QtmStrong",
                           htm_photos=args.htm_photos)}
